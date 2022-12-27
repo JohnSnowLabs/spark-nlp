@@ -17,7 +17,9 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-General model for table detection inspired by https://arxiv.org/abs/2004.12629
+For table detection it is proposed the use of CascadeTabNet. It is a Cascade mask Region-based CNN High-Resolution Network (Cascade mask R-CNN HRNet) based model that detects tables on input images. The model is evaluated on ICDAR 2013, ICDAR 2019 and TableBank public datasets. It achieved 3rd rank in ICDAR 2019 post-competition results for table detection while attaining the best accuracy results for the ICDAR 2013 and TableBank dataset.
+
+Here it is used the CascadeTabNet general model for table detection inspired by https://arxiv.org/abs/2004.12629
 
 ## Predicted Entities
 
@@ -25,31 +27,49 @@ General model for table detection inspired by https://arxiv.org/abs/2004.12629
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/tutorials/Certification_Trainings/others/SparkOcrImageTableDetection.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/ocr/ocr_table_detection_general_model_en_3.0.0_3.0_1630757579641.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
-This modes is used by ImageTableDetector
-
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-binary_to_image = BinaryToImage()
-binary_to_image.setImageType(ImageType.TYPE_3BYTE_BGR)
 
-table_detector = ImageTableDetector
-.pretrained("general_model_table_detection_v2", "en", "clinical/ocr")
-.setInputCol("image")
-.setOutputCol("table_regions")
+    from pyspark.ml import PipelineModel
+    from sparkocr.transformers import *
+    
+    imagePath = "path to image"
+    image_df = spark.read.format("binaryFile").load(imagePath)
 
-pipeline = PipelineModel(stages=[
-    binary_to_image,
-    table_detector
-])
+    binary_to_image = BinaryToImage() 
+    binary_to_image.setImageType(ImageType.TYPE_3BYTE_BGR)
+    
+    table_detector = ImageTableDetector.pretrained("general_model_table_detection_v2", "en", "clinical/ocr")
+    table_detector.setInputCol("image")
+    table_detector.setOutputCol("table_regions")
+    
+    draw_regions = ImageDrawRegions()
+    draw_regions.setInputCol("image")
+    draw_regions.setInputRegionsCol("table_regions")
+    draw_regions.setOutputCol("image_with_regions")
+    draw_regions.setRectColor(Color.red)
+    
+    pipeline = PipelineModel(stages=[
+        binary_to_image,
+        table_detector,
+        draw_regions
+    ])
+
+    result = pipeline.transform(image_df)
 ```
 ```scala
+import com.johnsnowlabs.ocr.transformers.*
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
 var imgDf = spark.read.format("binaryFile").load(imagePath)
+
 var bin2imTransformer = new BinaryToImage()
 bin2imTransformer.setImageType(ImageType.TYPE_3BYTE_BGR)
 
@@ -58,8 +78,15 @@ val tableDetector = ImageTableDetector
 .pretrained("general_model_table_detection_v2", "en", "clinical/ocr")
 .setInputCol("image")
 .setOutputCol("table regions")
+
+val results = pipeline
+  .fit(imgDf)
+  .transform(imgDf)
+  .select("label", "exception")
+  .cache()
 ```
 </div>
+
 
 {:.model-param}
 ## Model Information
@@ -73,3 +100,10 @@ val tableDetector = ImageTableDetector
 |Edition:|Official|
 |Output Labels:|[table regions]|
 |Language:|en|
+
+## Benchmarking
+
+```bash
+3rd rank in ICDAR 2019 post-competition
+1st rank in  ICDAR 2013 and TableBank dataset
+```

@@ -18,7 +18,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model uses LayoutLMv2 to classify documents. It was trained on subset of RVL-CDIP dataset.
+This model uses LayoutLMv2 to classify documents using text and layout data. Currently available pretrained model on the RVL-CDIP dataset, that contains 400K images belonging to 16 different classes (advertisement, budget, email, file_folder, form, handwritten, invoice, letter, memo, news_article, presentation, questionnaire, resume, scientific_publication, scientific_report, specification)
 
 ## Predicted Entities
 
@@ -26,7 +26,7 @@ This model uses LayoutLMv2 to classify documents. It was trained on subset of RV
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/tutorials/Certification_Trainings/5.1.Visual_Document_Classifier_v2.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/ocr/layoutlmv2_rvl_cdip_40k_en_3.14.0_3.0_1658336853162.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -36,59 +36,94 @@ This model uses LayoutLMv2 to classify documents. It was trained on subset of RV
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-        binary_to_image = BinaryToImage() \
-            .setOutputCol("image") \
-            .setImageType(ImageType.TYPE_3BYTE_BGR)
-
-        img_to_hocr = ImageToHocr() \
-            .setInputCol("image") \
-            .setOutputCol("hocr") \
-            .setIgnoreResolution(False) \
-            .setOcrParams(["preserve_interword_spaces=0"])
-
-        tokenizer = HocrTokenizer() \
-            .setInputCol("hocr") \
-            .setOutputCol("token")
-
-        doc_class = VisualDocumentClassifierV2() \
-            .pretrained("layoutlmv2_rvl_cdip_40k", "en", "clinical/ocr") \
-            .setInputCols(["token", "image"]) \
-            .setOutputCol("label")
-
-        pipeline = PipelineModel(stages=[
-            binary_to_image,
-            img_to_hocr,
-            tokenizer,
-            doc_class,
-        ])
+    
+    from pyspark.ml import PipelineModel
+    from sparkocr.transformers import *
+    
+    imagePath = "path to image"
+    bin_df = spark.read.format("binaryFile").load(imagePath)
+    
+    binary_to_image = BinaryToImage()\
+        .setOutputCol("image") \
+        .setImageType(ImageType.TYPE_3BYTE_BGR)
+    
+    img_to_hocr = ImageToHocr()\
+        .setInputCol("image")\
+        .setOutputCol("hocr")\
+        .setIgnoreResolution(False)\
+        .setOcrParams(["preserve_interword_spaces=0"])
+    
+    tokenizer = HocrTokenizer()\
+        .setInputCol("hocr")\
+        .setOutputCol("token")
+    
+    doc_class = VisualDocumentClassifierV2() \
+        .pretrained("layoutlmv2_rvl_cdip_40k", "en", "clinical/ocr") \
+        .setInputCols(["token", "image"]) \
+        .setOutputCol("label")
+    
+    # OCR pipeline
+    pipeline = PipelineModel(stages=[
+        binary_to_image,
+        img_to_hocr,
+        tokenizer,
+        doc_class
+    ])
+    
+    results = pipeline.transform(bin_df).cache()
+    results.select(["label"]).show(50, truncate=False)
 ```
 ```scala
-    var bin2imTransformer = new BinaryToImage()
-    bin2imTransformer.setImageType(ImageType.TYPE_3BYTE_BGR)
+import com.johnsnowlabs.ocr.transformers.*
+import com.johnsnowlabs.ocr.OcrContext.implicits._
 
-    val ocr = new ImageToHocr()
-      .setInputCol("image")
-      .setOutputCol("hocr")
-      .setIgnoreResolution(false)
-      .setOcrParams(Array("preserve_interword_spaces=0"))
+val imagePath = "path to image"
+var dataFrame = spark.read.format("binaryFile").load(imagePath)
 
-    val tokenizer = new HocrTokenizer()
-      .setInputCol("hocr")
-      .setOutputCol("token")
+var bin2imTransformer = new BinaryToImage()
+bin2imTransformer.setImageType(ImageType.TYPE_3BYTE_BGR)
 
-    val visualDocumentClassifier = VisualDocumentClassifierv2
-        .pretrained("layoutlmv2_rvl_cdip_40k", "en", "clinical/ocr")
-        .setInputCols(Array("token", "image"))
+val ocr = new ImageToHocr()
+  .setInputCol("image")
+  .setOutputCol("hocr")
+  .setIgnoreResolution(false)
+  .setOcrParams(Array("preserve_interword_spaces=0"))
 
-    val pipeline = new Pipeline()
-      .setStages(Array(
-        bin2imTransformer,
-        ocr,
-        tokenizer,
-        visualDocumentClassifier
-      ))
+val tokenizer = new HocrTokenizer()
+  .setInputCol("hocr")
+  .setOutputCol("token")
+
+val visualDocumentClassifier = VisualDocumentClassifierv2
+    .pretrained("layoutlmv2_rvl_cdip_40k", "en", "clinical/ocr")
+    .setInputCols(Array("token", "image"))
+
+val pipeline = new Pipeline()
+  .setStages(Array(
+    bin2imTransformer,
+    ocr,
+    tokenizer,
+    visualDocumentClassifier
+  ))
+
+val results = pipeline
+  .fit(dataFrame)
+  .transform(dataFrame)
+  .select("label", "exception")
+  .cache()
+
+
 ```
 </div>
+
+## Results
+
+```bash
++-------+
+|label  |
++-------+
+|invoice|
++-------+
+```
 
 {:.model-param}
 ## Model Information

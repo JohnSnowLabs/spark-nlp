@@ -25,19 +25,76 @@ CRAFT: Character-Region Awareness For Text detection, is designed with a convolu
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/tutorials/Certification_Trainings/others/SparkOcrImageTextDetection.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/ocr/text_detection_v1_en_3.0.0_3.0_1639033905025.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
 
-
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-text_detector = ImageTextDetector.pretrained("text_detection_v", "en", "clinical/ocr")
-text_detector.setInputCol("image")
-text_detector.setOutputCol("text_regions")
+
+    from pyspark.ml import PipelineModel
+    from sparkocr.transformers import *
+    
+    imagePath = "path to image"
+    image_df = spark.read.format("binaryFile").load(imagePath)
+
+    binary_to_image = BinaryToImage() 
+    binary_to_image.setImageType(ImageType.TYPE_3BYTE_BGR)
+    
+    text_detector = ImageTextDetectorV2 \
+        .pretrained("image_text_detector_v2", "en", "clinical/ocr") \
+        .setInputCol("image") \
+        .setOutputCol("text_regions") \
+        .setScoreThreshold(0.5) \
+        .setTextThreshold(0.2) \
+        .setSizeThreshold(10) \
+        .setWithRefiner(True)
+    
+    draw_regions = ImageDrawRegions() \
+        .setInputCol("image") \
+        .setInputRegionsCol("text_regions") \
+        .setOutputCol("image_with_regions") \
+        .setRectColor(Color.green) \
+        .setRotated(True)
+    
+    pipeline = PipelineModel(stages=[
+        binary_to_image,
+        text_detector,
+        draw_regions
+    ])
+
+    result = pipeline.transform(image_df)
+```
+```scala
+import com.johnsnowlabs.ocr.transformers.*
+import com.johnsnowlabs.ocr.OcrContext.implicits._
+
+val imagePath = "path to image"
+var dataFrame = spark.read.format("binaryFile").load(imagePath)
+
+var bin2imTransformer = new BinaryToImage()
+bin2imTransformer.setImageType(ImageType.TYPE_3BYTE_BGR)
+
+val detector = ImageTextDetectorV2.pretrained("image_text_detector_v2", "en", "clinical/ocr")
+      .setInputCol("image")
+      .setOutputCol("table_regions")
+      
+val pipeline = new Pipeline()
+  .setStages(Array(
+    bin2imTransformer,
+    detector
+  ))
+
+val results = pipeline
+  .fit(dataFrame)
+  .transform(dataFrame)
+  .select("label", "exception")
+  .cache()
+
+
 ```
 
 </div>
@@ -54,3 +111,4 @@ text_detector.setOutputCol("text_regions")
 |Edition:|Official|
 |Output Labels:|[text_regions]|
 |Language:|en|
+
