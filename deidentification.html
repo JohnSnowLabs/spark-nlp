@@ -496,6 +496,9 @@
           <li      >
             <a href="/mental_health">Mental Health</a>
           </li>
+          <li      >
+            <a href="/risk_and_factors">Risk and Factors</a>
+          </li>
         </ul> 
         <ul class="acc-top"><li class="acc-top-item">Biomedical NLP<i class="fas fa-chevron-down"></i></li></ul>
         <ul class="acc-body">          
@@ -616,19 +619,27 @@
 <h1 class="subtitle">De-Identification - Live Demos & Notebooks</h1><div class="grid--container main-big" id="panels"><div class="tab-wrapper-inner"><div class="tab-item ">
               <div class="tab-item-inner">
                 <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
+                        <img src="/assets/images/Detect_demographic_information.svg" />
+                      </figure><div class="tab-item-title">Classify Patient Demographics</div>
+                  </div><div class="tab-description"><div class="tab-description-inner">Automatically identify demographic information such as <b>Date, Doctor, Hospital, ID number, Medical record, Patient, Age, Profession, Organization, State, City, Country, Street, Username, Zip code, Phone number</b> in clinical documents using three of our pretrained Spark NLP models. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="detect_demographic_information" class="btn button--normal button--pill button--lg"
+                        href="https://demo.johnsnowlabs.com/healthcare/NER_DEMOGRAPHICS/">Live Demo</a></li><li><a id="detect_demographic_information" class="btn button--blue_btn button--pill button--lg"
+                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_DEMOGRAPHICS.ipynb">Colab</a></li></ul></div> 
+            </div><div class="tab-item ">
+              <div class="tab-item-inner">
+                <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
+                        <img src="/assets/images/Deidentify_free_text_documents.svg" />
+                      </figure><div class="tab-item-title">Deidentify Clinical Notes in Different Languages</div>
+                  </div><div class="tab-description"><div class="tab-description-inner">This demo shows how to deidentify protected health information in English, Spanish, French, Italian, Portuguese, Romanian, and German texts. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="deidentify_clinical_notes_different_languages" class="btn button--normal button--pill button--lg"
+                        href="https://demo.johnsnowlabs.com/healthcare/DEID_PHI_TEXT_MULTI/">Live Demo</a></li><li><a id="deidentify_clinical_notes_different_languages" class="btn button--blue_btn button--pill button--lg"
+                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/DEID_PHI_TEXT_MULTI.ipynb">Colab</a></li></ul></div> 
+            </div><div class="tab-item ">
+              <div class="tab-item-inner">
+                <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
                         <img src="/assets/images/Deidentify_structured_data.svg" />
                       </figure><div class="tab-item-title">Deidentify structured data</div>
                   </div><div class="tab-description"><div class="tab-description-inner">Deidentify PHI information from structured datasets using out of the box Spark NLP functionality that enforces GDPR and HIPPA compliance, while maintaining linkage of clinical data across files. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="deidentify_structured_data" class="btn button--normal button--pill button--lg"
                         href="https://demo.johnsnowlabs.com/healthcare/DEID_EHR_DATA">Live Demo</a></li><li><a id="deidentify_structured_data" class="btn button--blue_btn button--pill button--lg"
                         href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/DEID_EHR_DATA.ipynb">Colab</a></li></ul></div> 
-            </div><div class="tab-item ">
-              <div class="tab-item-inner">
-                <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
-                        <img src="/assets/images/Deidentify_free_text_documents.svg" />
-                      </figure><div class="tab-item-title">Deidentify free text documents</div>
-                  </div><div class="tab-description"><div class="tab-description-inner">Deidentify free text documents by either masking or obfuscating PHI information using out of the box Spark NLP models that enforce GDPR and HIPPA compliance. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="deidentify_free_text_documents" class="btn button--normal button--pill button--lg"
-                        href="https://demo.johnsnowlabs.com/healthcare/DEID_PHI_TEXT">Live Demo</a></li><li><a id="deidentify_free_text_documents" class="btn button--blue_btn button--pill button--lg"
-                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/DEID_PHI_TEXT.ipynb">Colab</a></li></ul></div> 
             </div><div class="tab-item ">
               <div class="tab-item-inner">
                 <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
@@ -665,10 +676,10 @@
               <div class="tab-item-inner">
                 <div class="tab-item-wrapper"><div class="tab-item-top"><figure class="tab_fig_blue">
                         <img src="/assets/images/Deidentify_free_text_documents.svg" />
-                      </figure><div class="tab-item-title">Deidentify Clinical Notes in Different Languages</div>
-                  </div><div class="tab-description"><div class="tab-description-inner">This demo shows how to deidentify protected health information in English, Spanish, French, Italian, Portuguese, Romanian, and German texts. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="deidentify_clinical_notes_different_languages" class="btn button--normal button--pill button--lg"
-                        href="https://demo.johnsnowlabs.com/healthcare/DEID_PHI_TEXT_MULTI/">Live Demo</a></li><li><a id="deidentify_clinical_notes_different_languages" class="btn button--blue_btn button--pill button--lg"
-                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/DEID_PHI_TEXT_MULTI.ipynb">Colab</a></li></ul></div> 
+                      </figure><div class="tab-item-title">Deidentify free text documents</div>
+                  </div><div class="tab-description"><div class="tab-description-inner">Deidentify free text documents by either masking or obfuscating PHI information using out of the box Spark NLP models that enforce GDPR and HIPPA compliance. <a href="#" class="show_more">(...)</a></div></div></div><ul class="tab-menu"><li><a id="deidentify_free_text_documents" class="btn button--normal button--pill button--lg"
+                        href="https://demo.johnsnowlabs.com/healthcare/DEID_PHI_TEXT/">Live Demo</a></li><li><a id="deidentify_free_text_documents" class="btn button--blue_btn button--pill button--lg"
+                        href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/DEID_PHI_TEXT.ipynb">Colab</a></li></ul></div> 
             </div></div></div></div> </section></div>
 </div>
 
