@@ -96,16 +96,12 @@ An in-house augmented version of [this dataset](https://zenodo.org/record/393649
 ## Benchmarking
 
 ```bash
-
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
   conclusion       0.74      0.79      0.76       189
   definition       0.91      0.88      0.90       160
        other       0.85      0.82      0.83       163
  subsumption       0.71      0.70      0.70       159
-
-    accuracy                           0.80       671
-   macro avg       0.80      0.80      0.80       671
-weighted avg       0.80      0.80      0.80       671
-
+    accuracy          -         -      0.80       671
+   macro-avg       0.80      0.80      0.80       671
+weighted-avg       0.80      0.80      0.80       671
 ```

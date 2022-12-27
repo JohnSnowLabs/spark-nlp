@@ -39,6 +39,7 @@ If not, let us know and we can carry out another approach for you: getting chunk
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  
 documentAssembler = nlp.DocumentAssembler() \
@@ -112,15 +113,10 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 ## Benchmarking
 
 ```bash
-
-                          precision    recall  f1-score   support
-
+                   label  precision    recall  f1-score   support
                    other       0.93      0.93      0.93        73
 share-exchange-agreement       0.87      0.87      0.87        39
-
-                accuracy                           0.91       112
-               macro avg       0.90      0.90      0.90       112
-            weighted avg       0.91      0.91      0.91       112
-
-
+                accuracy          -         -      0.91       112
+               macro-avg       0.90      0.90      0.90       112
+            weighted-avg       0.91      0.91      0.91       112
 ```

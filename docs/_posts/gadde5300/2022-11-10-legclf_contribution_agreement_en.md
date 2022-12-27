@@ -39,6 +39,7 @@ If not, let us know and we can carry out another approach for you: getting chunk
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  
 documentAssembler = nlp.DocumentAssembler() \
