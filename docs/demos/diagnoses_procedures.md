@@ -31,19 +31,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/ASSERTION/
           - text: Colab
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ASSERTION.ipynb
-        - title: Calculate Medicare HCC Risk Score
-          id: calculate_medicare_risk_score 
-          image: 
-              src: /assets/images/Calculate_Medicare_Risk_Score.svg
-          excerpt: This demos shows how to calculate medical risk adjustment scores automatically using ICD codes of diseases.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/HCC_RISK_SCORE/
-          - text: Colab
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.1.Calculate_Medicare_Risk_Adjustment_Score.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ASSERTION.ipynb        
         - title: Detect clinical entities in text
           id: detect_clinical_entities_in_text
           image: 
