@@ -98,14 +98,10 @@ An in-house augmented version of [this dataset](https://www.kaggle.com/datasets/
 ## Benchmarking
 
 ```bash
-
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
     NEGATIVE       0.85      0.86      0.86     10848
     POSITIVE       0.83      0.83      0.83      9202
-
-    accuracy                           0.84     20050
-   macro avg       0.84      0.84      0.84     20050
-weighted avg       0.84      0.84      0.84     20050
-
+    accuracy        -         -        0.84     20050
+   macro-avg       0.84      0.84      0.84     20050
+weighted-avg       0.84      0.84      0.84     20050
 ```
