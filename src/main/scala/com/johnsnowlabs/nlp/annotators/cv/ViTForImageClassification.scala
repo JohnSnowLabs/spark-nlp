@@ -325,10 +325,7 @@ trait ReadViTForImageDLModel extends ReadTensorflowModel {
 
   override val tfFile: String = "image_classification_tensorflow"
 
-  def readModel(
-      instance: ViTForImageClassification,
-      path: String,
-      spark: SparkSession): Unit = {
+  def readModel(instance: ViTForImageClassification, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_image_classification_tf", initAllTables = false)
     instance.setModelIfNotSet(

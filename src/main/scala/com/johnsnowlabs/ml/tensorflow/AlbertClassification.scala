@@ -35,7 +35,7 @@ import scala.collection.JavaConverters._
   * @param signatures
   *   TF v2 signatures in Spark NLP
   */
-class TensorflowAlbertClassification(
+class AlbertClassification(
     val tensorflowWrapper: TensorflowWrapper,
     val spp: SentencePieceWrapper,
     configProtoBytes: Option[Array[Byte]] = None,

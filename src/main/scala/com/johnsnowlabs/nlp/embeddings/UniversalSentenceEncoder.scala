@@ -330,10 +330,7 @@ trait ReadUSEDLModel extends ReadTensorflowModel {
   /*Needs to point to an actual folder rather than a .pb file*/
   override val tfFile: String = "use_tensorflow"
 
-  def readModel(
-      instance: UniversalSentenceEncoder,
-      path: String,
-      spark: SparkSession): Unit = {
+  def readModel(instance: UniversalSentenceEncoder, path: String, spark: SparkSession): Unit = {
     val loadSP = instance.getLoadSP
     val tf =
       readTensorflowWithSPModel(path, spark, "_use_tf", initAllTables = true, loadSP = loadSP)
