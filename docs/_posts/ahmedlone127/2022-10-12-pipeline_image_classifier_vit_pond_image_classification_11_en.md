@@ -25,6 +25,8 @@ Pretrained VIT  model, adapted from Hugging Face and curated to provide scalabil
 
 `NormalCement0`, `Boiling0`, `NormalNight0`, `Algae0`, `BoilingNight0`, `NormalRain0`, `Normal0`
 
+
+
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>

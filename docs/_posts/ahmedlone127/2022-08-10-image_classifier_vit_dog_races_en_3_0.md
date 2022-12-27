@@ -25,6 +25,8 @@ Pretrained VIT  model, adapted from Hugging Face and curated to provide scalabil
 
 `Rottweiler`, `Shiba Inu`, `Chow Chow dog`, `Siberian Husky`, `German Shepherd`, `Pug`, `Border Collie`, `Golden Retriever`, `Tibetan Mastiff`
 
+
+
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>

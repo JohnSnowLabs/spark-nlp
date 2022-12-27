@@ -26,9 +26,6 @@ Pretrained VIT  model, adapted from Hugging Face and curated to provide scalabil
 `office`, `balcony`, `restaurant`, `hospital`, `inside apartment`, `airport`, `hallway`, `inside coffee house`
 
 
-## Predicted Entities
-
-`coffee house indoors`, `balcony`, `hospital`, `airport`, `hallway`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

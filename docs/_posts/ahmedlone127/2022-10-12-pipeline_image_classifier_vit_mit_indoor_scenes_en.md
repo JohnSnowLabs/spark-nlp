@@ -25,6 +25,8 @@ Pretrained VIT  model, adapted from Hugging Face and curated to provide scalabil
 
 `airport_inside`, `bowling`, `buffet`, `movietheater`, `clothingstore`, `inside_bus`, `fastfood_restaurant`, `operating_room`, `corridor`, `cloister`, `stairscase`, `auditorium`, `meeting_room`, `livingroom`, `videostore`, `bathroom`, `inside_subway`, `bedroom`, `casino`, `tv_studio`, `classroom`, `laboratorywet`, `nursery`, `office`, `deli`, `prisoncell`, `dentaloffice`, `restaurant_kitchen`, `studiomusic`, `locker_room`, `restaurant`, `laundromat`, `dining_room`, `subway`, `gameroom`, `museum`, `mall`, `garage`, `elevator`, `jewelleryshop`, `kindergarden`, `toystore`, `concert_hall`, `artstudio`, `kitchen`, `florist`, `waitingroom`, `grocerystore`, `library`, `bar`, `computerroom`, `trainstation`, `lobby`, `church_inside`, `pantry`, `closet`, `children_room`, `hairsalon`, `shoeshop`, `greenhouse`, `bookstore`, `bakery`, `poolinside`, `warehouse`, `winecellar`, `hospitalroom`, `gym`
 
+
+
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>

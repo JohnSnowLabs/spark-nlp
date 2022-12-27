@@ -25,6 +25,8 @@ Pretrained VIT  model, adapted from Hugging Face and curated to provide scalabil
 
 `E`, `del`, `X`, `N`, `T`, `Y`, `J`, `U`, `F`, `A`, `M`, `I`, `G`, `nothing`, `V`, `Q`, `L`, `space`, `B`, `P`, `C`, `H`, `W`, `K`, `R`, `O`, `D`, `Z`, `S`
 
+
+
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
