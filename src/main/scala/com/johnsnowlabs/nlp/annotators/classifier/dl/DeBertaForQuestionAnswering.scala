@@ -289,7 +289,9 @@ trait ReadablePretrainedDeBertaForQAModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadDeBertaForQuestionAnsweringDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
+trait ReadDeBertaForQuestionAnsweringDLModel
+    extends ReadTensorflowModel
+    with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[DeBertaForQuestionAnswering] =>
 
   override val tfFile: String = "deberta_classification_tensorflow"

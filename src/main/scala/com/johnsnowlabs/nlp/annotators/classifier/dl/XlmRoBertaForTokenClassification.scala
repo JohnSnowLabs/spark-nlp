@@ -314,9 +314,7 @@ trait ReadablePretrainedXlmRoBertaForTokenModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadXlmRoBertaForTokenDLModel
-    extends ReadTensorflowModel
-    with ReadSentencePieceModel {
+trait ReadXlmRoBertaForTokenDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[XlmRoBertaForTokenClassification] =>
 
   override val tfFile: String = "xlm_roberta_classification_tensorflow"

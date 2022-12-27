@@ -211,7 +211,7 @@ class AlbertForTokenClassification(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowAlbertClassification]] = None
+  private var _model: Option[Broadcast[AlbertClassification]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
@@ -221,7 +221,7 @@ class AlbertForTokenClassification(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowAlbertClassification(
+          new AlbertClassification(
             tensorflowWrapper,
             spp,
             configProtoBytes = getConfigProtoBytes,
@@ -233,7 +233,7 @@ class AlbertForTokenClassification(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowAlbertClassification = _model.get.value
+  def getModelIfNotSet: AlbertClassification = _model.get.value
 
   /** Whether to lowercase tokens or not
     *

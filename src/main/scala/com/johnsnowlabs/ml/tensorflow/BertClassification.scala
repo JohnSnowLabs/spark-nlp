@@ -37,7 +37,7 @@ import scala.collection.JavaConverters._
   * @param signatures
   *   TF v2 signatures in Spark NLP
   */
-class TensorflowBertClassification(
+class BertClassification(
     val tensorflowWrapper: TensorflowWrapper,
     val sentenceStartTokenId: Int,
     val sentenceEndTokenId: Int,

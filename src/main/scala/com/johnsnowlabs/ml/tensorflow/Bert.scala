@@ -45,7 +45,7 @@ import scala.collection.JavaConverters._
   *
   * Source: [[https://github.com/google-research/bert]]
   */
-class TensorflowBert(
+class Bert(
     val tensorflowWrapper: TensorflowWrapper,
     sentenceStartTokenId: Int,
     sentenceEndTokenId: Int,
@@ -372,6 +372,6 @@ class TensorflowBert(
 
 }
 
-object TensorflowBert {
-  private[TensorflowBert] val logger: Logger = LoggerFactory.getLogger("TensorflowBert")
+object Bert {
+  private[Bert] val logger: Logger = LoggerFactory.getLogger("TensorflowBert")
 }

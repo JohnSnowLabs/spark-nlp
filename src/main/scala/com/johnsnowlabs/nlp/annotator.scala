@@ -403,9 +403,7 @@ package object annotator {
 
   type LongformerEmbeddings = com.johnsnowlabs.nlp.embeddings.LongformerEmbeddings
 
-  object LongformerEmbeddings
-      extends ReadablePretrainedLongformerModel
-      with ReadLongformerDLModel
+  object LongformerEmbeddings extends ReadablePretrainedLongformerModel with ReadLongformerDLModel
 
   type RoBertaSentenceEmbeddings = com.johnsnowlabs.nlp.embeddings.RoBertaSentenceEmbeddings
 
