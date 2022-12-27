@@ -102,17 +102,5 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/ER_ICDO/
           - text: Colab
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICDO.ipynb 
-        - title: Detect Smoking Status Entities
-          id: detect_smoking_status_entities
-          image: 
-              src: /assets/images/Detect_Smoking_Status.svg
-          excerpt: This model detects the NER and assertion status of the related entities.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/SMOKING_STATUS/
-          - text: Colab
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/SMOKING_STATUS.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ER_ICDO.ipynb         
 ---
