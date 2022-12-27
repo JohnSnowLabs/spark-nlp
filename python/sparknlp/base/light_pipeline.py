@@ -93,7 +93,8 @@ class LightPipeline:
                 for output_col in output_cols:
                     annotator_types[output_col] = stage.outputAnnotatorType
             else:
-                annotator_types[stage.getOutputCol()] = stage.outputAnnotatorType
+                if stage.outputAnnotatorType is not None:
+                    annotator_types[stage.getOutputCol()] = stage.outputAnnotatorType
         return annotator_types
 
     def _annotationFromJava(self, java_annotations):
