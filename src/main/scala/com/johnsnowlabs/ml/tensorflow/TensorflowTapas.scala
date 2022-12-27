@@ -33,7 +33,7 @@ class TensorflowTapas(
     tags: Map[String, Int],
     signatures: Option[Map[String, String]] = None,
     vocabulary: Map[String, Int])
-    extends TensorflowBertClassification(
+    extends BertClassification(
       tensorflowWrapper = tensorflowWrapper,
       sentenceStartTokenId = sentenceStartTokenId,
       sentenceEndTokenId = sentenceEndTokenId,

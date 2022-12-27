@@ -233,7 +233,7 @@ class AlbertForSequenceClassification(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowAlbertClassification]] = None
+  private var _model: Option[Broadcast[AlbertClassification]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
@@ -243,7 +243,7 @@ class AlbertForSequenceClassification(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowAlbertClassification(
+          new AlbertClassification(
             tensorflowWrapper,
             spp,
             configProtoBytes = getConfigProtoBytes,
@@ -255,7 +255,7 @@ class AlbertForSequenceClassification(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowAlbertClassification = _model.get.value
+  def getModelIfNotSet: AlbertClassification = _model.get.value
 
   /** Whether to lowercase tokens or not (Default: `false`).
     *
@@ -341,9 +341,7 @@ trait ReadablePretrainedAlbertForSequenceModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadAlbertForSequenceDLModel
-    extends ReadTensorflowModel
-    with ReadSentencePieceModel {
+trait ReadAlbertForSequenceDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[AlbertForSequenceClassification] =>
 
   override val tfFile: String = "albert_classification_tensorflow"

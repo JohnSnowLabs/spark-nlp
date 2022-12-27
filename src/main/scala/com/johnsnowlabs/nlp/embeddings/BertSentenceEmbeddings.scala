@@ -302,10 +302,10 @@ class BertSentenceEmbeddings(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowBert]] = None
+  private var _model: Option[Broadcast[Bert]] = None
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowBert = _model.get.value
+  def getModelIfNotSet: Bert = _model.get.value
 
   /** @group setParam */
   def setModelIfNotSet(spark: SparkSession, tensorflow: TensorflowWrapper): this.type = {
@@ -313,7 +313,7 @@ class BertSentenceEmbeddings(override val uid: String)
 
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowBert(
+          new Bert(
             tensorflow,
             sentenceStartTokenId,
             sentenceEndTokenId,
@@ -428,10 +428,7 @@ trait ReadBertSentenceDLModel extends ReadTensorflowModel {
 
   override val tfFile: String = "bert_sentence_tensorflow"
 
-  def readModel(
-      instance: BertSentenceEmbeddings,
-      path: String,
-      spark: SparkSession): Unit = {
+  def readModel(instance: BertSentenceEmbeddings, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_bert_sentence_tf", initAllTables = false)
     instance.setModelIfNotSet(spark, tf)

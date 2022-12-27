@@ -402,10 +402,7 @@ trait ReadRobertaSentenceDLModel extends ReadTensorflowModel {
 
   override val tfFile: String = "roberta_tensorflow"
 
-  def readModel(
-      instance: RoBertaSentenceEmbeddings,
-      path: String,
-      spark: SparkSession): Unit = {
+  def readModel(instance: RoBertaSentenceEmbeddings, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_roberta_tf", initAllTables = false)
     instance.setModelIfNotSet(spark, tf)

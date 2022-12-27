@@ -243,10 +243,7 @@ trait ReadTapasForQuestionAnsweringDLModel extends ReadTensorflowModel {
 
   override val tfFile: String = "bert_classification_tensorflow"
 
-  def readModel(
-      instance: TapasForQuestionAnswering,
-      path: String,
-      spark: SparkSession): Unit = {
+  def readModel(instance: TapasForQuestionAnswering, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_bert_classification_tf", initAllTables = false)
     instance.setModelIfNotSet(spark, tf)

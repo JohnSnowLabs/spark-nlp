@@ -223,7 +223,7 @@ class BertForTokenClassification(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowBertClassification]] = None
+  private var _model: Option[Broadcast[BertClassification]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
@@ -232,7 +232,7 @@ class BertForTokenClassification(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowBertClassification(
+          new BertClassification(
             tensorflowWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
@@ -246,7 +246,7 @@ class BertForTokenClassification(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowBertClassification = _model.get.value
+  def getModelIfNotSet: BertClassification = _model.get.value
 
   /** Whether to lowercase tokens or not
     *
@@ -325,10 +325,7 @@ trait ReadBertForTokenDLModel extends ReadTensorflowModel {
 
   override val tfFile: String = "bert_classification_tensorflow"
 
-  def readModel(
-      instance: BertForTokenClassification,
-      path: String,
-      spark: SparkSession): Unit = {
+  def readModel(instance: BertForTokenClassification, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_bert_classification_tf", initAllTables = false)
     instance.setModelIfNotSet(spark, tf)

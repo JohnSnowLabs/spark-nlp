@@ -340,9 +340,7 @@ trait ReadablePretrainedXlnetForSequenceModel
       remoteLoc: String): XlnetForSequenceClassification = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadXlnetForSequenceDLModel
-    extends ReadTensorflowModel
-    with ReadSentencePieceModel {
+trait ReadXlnetForSequenceDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[XlnetForSequenceClassification] =>
 
   override val tfFile: String = "xlnet_classification_tensorflow"

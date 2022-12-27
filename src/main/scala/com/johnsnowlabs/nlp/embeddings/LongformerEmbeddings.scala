@@ -470,6 +470,4 @@ trait ReadLongformerDLModel extends ReadTensorflowModel {
 /** This is the companion object of [[LongformerEmbeddings]]. Please refer to that class for the
   * documentation.
   */
-object LongformerEmbeddings
-    extends ReadablePretrainedLongformerModel
-    with ReadLongformerDLModel
+object LongformerEmbeddings extends ReadablePretrainedLongformerModel with ReadLongformerDLModel

@@ -341,9 +341,7 @@ trait ReadablePretrainedXlmRoBertaForSequenceModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadXlmRoBertaForSequenceDLModel
-    extends ReadTensorflowModel
-    with ReadSentencePieceModel {
+trait ReadXlmRoBertaForSequenceDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[XlmRoBertaForSequenceClassification] =>
 
   override val tfFile: String = "xlm_roberta_classification_tensorflow"

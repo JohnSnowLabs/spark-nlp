@@ -258,7 +258,7 @@ class AlbertEmbeddings(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowAlbert]] = None
+  private var _model: Option[Broadcast[Albert]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
@@ -269,7 +269,7 @@ class AlbertEmbeddings(override val uid: String)
 
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowAlbert(
+          new Albert(
             tensorflowWrapper,
             spp,
             batchSize = $(batchSize),
@@ -280,7 +280,7 @@ class AlbertEmbeddings(override val uid: String)
     this
   }
 
-  def getModelIfNotSet: TensorflowAlbert = _model.get.value
+  def getModelIfNotSet: Albert = _model.get.value
 
   setDefault(batchSize -> 32, dimension -> 768, maxSentenceLength -> 128, caseSensitive -> false)
 

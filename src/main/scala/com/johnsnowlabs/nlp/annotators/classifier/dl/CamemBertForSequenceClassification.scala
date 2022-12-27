@@ -344,9 +344,7 @@ trait ReadablePretrainedCamemBertForSequenceModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadCamemBertForSequenceDLModel
-    extends ReadTensorflowModel
-    with ReadSentencePieceModel {
+trait ReadCamemBertForSequenceDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[CamemBertForSequenceClassification] =>
 
   override val tfFile: String = "camembert_classification_tensorflow"

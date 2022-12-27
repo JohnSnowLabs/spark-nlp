@@ -63,7 +63,7 @@ import scala.collection.JavaConverters._
   * @param configProtoBytes
   *   Configuration for TensorFlow session
   */
-class TensorflowAlbert(
+class Albert(
     val tensorflow: TensorflowWrapper,
     val spp: SentencePieceWrapper,
     batchSize: Int,
