@@ -19,19 +19,7 @@ data:
         - subtitle: Labs, Tests, and Vitals - Live Demos & Notebooks
           activemenu: labs_tests_and_vitals
       source: yes
-      source:           
-        - title: Classify Patient Demographics
-          id: detect_demographic_information
-          image: 
-              src: /assets/images/Detect_demographic_information.svg
-          excerpt: Automatically identify demographic information such as <b>Date, Doctor, Hospital, ID number, Medical record, Patient, Age, Profession, Organization, State, City, Country, Street, Username, Zip code, Phone number</b> in clinical documents using three of our pretrained Spark NLP models.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/NER_DEMOGRAPHICS/
-          - text: Colab
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_DEMOGRAPHICS.ipynb
+      source:    
         - title: Detect demographics and vital signs using rules
           id: detect_demographics_and_vital_signs_using_rules
           image: 
@@ -55,19 +43,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_LAB/
           - text: Colab
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_LAB.ipynb
-        - title: Detect risk factors
-          id: detect_risk_factors
-          image: 
-              src: /assets/images/Detect_risk_factors.svg
-          excerpt: Automatically identify risk factors such as <b>Coronary artery disease, Diabetes, Family history, Hyperlipidemia, Hypertension, Medications, Obesity, PHI, Smoking habits</b> in clinical documents using our pretrained Spark NLP model.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/NER_RISK_FACTORS/
-          - text: Colab
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_RISK_FACTORS.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_LAB.ipynb        
         - title: Detect clinical events
           id: detect_clinical_events
           image: 
