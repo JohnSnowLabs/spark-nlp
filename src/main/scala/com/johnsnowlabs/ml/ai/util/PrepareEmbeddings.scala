@@ -38,7 +38,7 @@ private[johnsnowlabs] object PrepareEmbeddings {
     *   id for token piece used for padding
     * @return
     */
-  def prepareBatchWithPadding(
+  def prepareBatchInputsWithPadding(
       sentences: Seq[(WordpieceTokenizedSentence, Int)],
       maxSequenceLength: Int,
       sentenceStartTokenId: Int,
@@ -61,7 +61,34 @@ private[johnsnowlabs] object PrepareEmbeddings {
       }
   }
 
-  def prepareTFBertLikeBatchTensors(
+  def prepareBatchTensors(
+      tensors: TensorResources,
+      batch: Seq[Array[Int]],
+      maxSentenceLength: Int,
+      batchLength: Int,
+      sentencePadTokenId: Int = 0): (Tensor, Tensor) = {
+
+    val tokenBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
+    val maskBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
+
+    batch.zipWithIndex
+      .foreach { case (sentence, idx) =>
+        val offset = idx * maxSentenceLength
+        tokenBuffers.offset(offset).write(sentence)
+        maskBuffers.offset(offset).write(sentence.map(x => if (x == sentencePadTokenId) 0 else 1))
+      }
+
+    // [nb of encoded sentences , maxSentenceLength]
+    val shape = Array(batch.length.toLong, maxSentenceLength)
+
+    val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
+    val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
+
+    (tokenTensors, maskTensors)
+
+  }
+
+  def prepareBatchTensorsWithSegment(
       tensors: TensorResources,
       batch: Seq[Array[Int]],
       maxSentenceLength: Int,
@@ -97,12 +124,12 @@ private[johnsnowlabs] object PrepareEmbeddings {
       maxSentenceLength: Int,
       batchLength: Int): Seq[Array[Array[Float]]] = {
     val dim = embeddings.length / (batchLength * maxSentenceLength)
-    val shrinkedEmbeddings: Array[Array[Array[Float]]] =
+    val batchEmbeddings: Array[Array[Array[Float]]] =
       embeddings.grouped(dim).toArray.grouped(maxSentenceLength).toArray
 
     val emptyVector = Array.fill(dim)(0f)
 
-    batch.zip(shrinkedEmbeddings).map { case (ids, embeddings) =>
+    batch.zip(batchEmbeddings).map { case (ids, embeddings) =>
       if (ids.length > embeddings.length) {
         embeddings.take(embeddings.length - 1) ++
           Array.fill(embeddings.length - ids.length)(emptyVector) ++

@@ -17,7 +17,7 @@
 package com.johnsnowlabs.ml.ai
 
 import com.johnsnowlabs.ml.ai.util.PrepareEmbeddings
-import com.johnsnowlabs.ml.ai.util.sentencepiece.{SentencePieceWrapper, SentencepieceEncoder}
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{SentencePieceWrapper, SentencepieceEncoder}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.common._
@@ -59,11 +59,12 @@ class DeBerta(
     val tensors = new TensorResources()
 
     val (tokenTensors, maskTensors, segmentTensors) =
-      PrepareEmbeddings.prepareTFBertLikeBatchTensors(
-        tensors,
-        batch,
-        maxSentenceLength,
-        batchLength)
+      PrepareEmbeddings.prepareBatchTensorsWithSegment(
+        tensors = tensors,
+        batch = batch,
+        maxSentenceLength = maxSentenceLength,
+        batchLength = batchLength,
+        sentencePadTokenId = SentencePadTokenId)
 
     val runner = tensorflowWrapper
       .getTFSessionWithSignature(
@@ -116,7 +117,7 @@ class DeBerta(
     wordPieceTokenizedSentences.zipWithIndex
       .grouped(batchSize)
       .flatMap { batch =>
-        val encoded = PrepareEmbeddings.prepareBatchWithPadding(
+        val encoded = PrepareEmbeddings.prepareBatchInputsWithPadding(
           batch,
           maxSentenceLength,
           SentenceStartTokenId,
