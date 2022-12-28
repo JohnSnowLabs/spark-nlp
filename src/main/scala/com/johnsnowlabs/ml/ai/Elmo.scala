@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.ml.tensorflow
+package com.johnsnowlabs.ml.ai
 
+import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.common._
 
 import scala.collection.JavaConverters._
@@ -54,7 +55,7 @@ import scala.collection.JavaConverters._
   *
   * [[https://arxiv.org/abs/1802.05365]]
   */
-class TensorflowElmo(
+class Elmo(
     val tensorflow: TensorflowWrapper,
     batchSize: Int,
     configProtoBytes: Option[Array[Byte]] = None)

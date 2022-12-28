@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.ml.tensorflow
+package com.johnsnowlabs.ml.ai
 
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
+import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
 import com.johnsnowlabs.nlp.{ActivationFunction, Annotation}
@@ -37,7 +38,7 @@ import scala.collection.JavaConverters._
   * @param signatures
   *   TF v2 signatures in Spark NLP
   */
-class BertClassification(
+class DistilBertClassification(
     val tensorflowWrapper: TensorflowWrapper,
     val sentenceStartTokenId: Int,
     val sentenceEndTokenId: Int,
@@ -46,9 +47,10 @@ class BertClassification(
     signatures: Option[Map[String, String]] = None,
     vocabulary: Map[String, Int])
     extends Serializable
-    with TensorflowForClassification {
+    with XXXForClassification {
 
-  val _tfBertSignatures: Map[String, String] = signatures.getOrElse(ModelSignatureManager.apply())
+  val _tfDistilBertSignatures: Map[String, String] =
+    signatures.getOrElse(ModelSignatureManager.apply())
 
   protected val sentencePadTokenId = 0
 
@@ -121,7 +123,6 @@ class BertClassification(
 
     val tokenBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
     val maskBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
-    val segmentBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
 
     // [nb of encoded sentences , maxSentenceLength]
     val shape = Array(batch.length.toLong, maxSentenceLength)
@@ -131,7 +132,6 @@ class BertClassification(
         val offset = idx * maxSentenceLength
         tokenBuffers.offset(offset).write(sentence)
         maskBuffers.offset(offset).write(sentence.map(x => if (x == 0) 0 else 1))
-        segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
       }
 
     val session = tensorflowWrapper.getTFSessionWithSignature(
@@ -142,21 +142,17 @@ class BertClassification(
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
     val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
-    val segmentTensors = tensors.createIntBufferTensor(shape, segmentBuffers)
 
     runner
       .feed(
-        _tfBertSignatures.getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"),
+        _tfDistilBertSignatures
+          .getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"),
         tokenTensors)
       .feed(
-        _tfBertSignatures
+        _tfDistilBertSignatures
           .getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"),
         maskTensors)
-      .feed(
-        _tfBertSignatures
-          .getOrElse(ModelSignatureConstants.TokenTypeIds.key, "missing_segment_ids_key"),
-        segmentTensors)
-      .fetch(_tfBertSignatures
+      .fetch(_tfDistilBertSignatures
         .getOrElse(ModelSignatureConstants.LogitsOutput.key, "missing_logits_key"))
 
     val outs = runner.run().asScala
@@ -185,7 +181,6 @@ class BertClassification(
 
     val tokenBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
     val maskBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
-    val segmentBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
 
     // [nb of encoded sentences , maxSentenceLength]
     val shape = Array(batch.length.toLong, maxSentenceLength)
@@ -195,7 +190,6 @@ class BertClassification(
         val offset = idx * maxSentenceLength
         tokenBuffers.offset(offset).write(sentence)
         maskBuffers.offset(offset).write(sentence.map(x => if (x == 0) 0 else 1))
-        segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
       }
 
     val session = tensorflowWrapper.getTFSessionWithSignature(
@@ -206,21 +200,17 @@ class BertClassification(
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
     val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
-    val segmentTensors = tensors.createIntBufferTensor(shape, segmentBuffers)
 
     runner
       .feed(
-        _tfBertSignatures.getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"),
+        _tfDistilBertSignatures
+          .getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"),
         tokenTensors)
       .feed(
-        _tfBertSignatures
+        _tfDistilBertSignatures
           .getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"),
         maskTensors)
-      .feed(
-        _tfBertSignatures
-          .getOrElse(ModelSignatureConstants.TokenTypeIds.key, "missing_segment_ids_key"),
-        segmentTensors)
-      .fetch(_tfBertSignatures
+      .fetch(_tfDistilBertSignatures
         .getOrElse(ModelSignatureConstants.LogitsOutput.key, "missing_logits_key"))
 
     val outs = runner.run().asScala
@@ -253,7 +243,6 @@ class BertClassification(
 
     val tokenBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
     val maskBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
-    val segmentBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
 
     // [nb of encoded sentences , maxSentenceLength]
     val shape = Array(batch.length.toLong, maxSentenceLength)
@@ -263,19 +252,6 @@ class BertClassification(
         val offset = idx * maxSentenceLength
         tokenBuffers.offset(offset).write(sentence)
         maskBuffers.offset(offset).write(sentence.map(x => if (x == 0) 0 else 1))
-        var firstSeq = true
-        segmentBuffers
-          .offset(offset)
-          .write(sentence.map { x =>
-            if (firstSeq) {
-              if (x == sentenceEndTokenId) {
-                firstSeq = false
-                1
-              } else {
-                0
-              }
-            } else 1
-          })
       }
 
     val session = tensorflowWrapper.getTFSessionWithSignature(
@@ -286,25 +262,21 @@ class BertClassification(
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
     val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
-    val segmentTensors = tensors.createIntBufferTensor(shape, segmentBuffers)
 
     runner
       .feed(
-        _tfBertSignatures.getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"),
+        _tfDistilBertSignatures.getOrElse(
+          ModelSignatureConstants.InputIds.key,
+          "missing_input_id_key"),
         tokenTensors)
       .feed(
-        _tfBertSignatures.getOrElse(
+        _tfDistilBertSignatures.getOrElse(
           ModelSignatureConstants.AttentionMask.key,
           "missing_input_mask_key"),
         maskTensors)
-      .feed(
-        _tfBertSignatures.getOrElse(
-          ModelSignatureConstants.TokenTypeIds.key,
-          "missing_segment_ids_key"),
-        segmentTensors)
-      .fetch(_tfBertSignatures
+      .fetch(_tfDistilBertSignatures
         .getOrElse(ModelSignatureConstants.EndLogitsOutput.key, "missing_end_logits_key"))
-      .fetch(_tfBertSignatures
+      .fetch(_tfDistilBertSignatures
         .getOrElse(ModelSignatureConstants.StartLogitsOutput.key, "missing_start_logits_key"))
 
     val outs = runner.run().asScala

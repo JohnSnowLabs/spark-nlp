@@ -15,9 +15,9 @@
  */
 package com.johnsnowlabs.nlp.annotators.coref
 
+import com.johnsnowlabs.ml.ai.SpanBertCoref
 import com.johnsnowlabs.ml.tensorflow.{
   ReadTensorflowModel,
-  TensorflowSpanBertCoref,
   TensorflowWrapper,
   WriteTensorflowModel
 }
@@ -265,7 +265,7 @@ class SpanBertCorefModel(override val uid: String)
   /** @group getParam */
   def getMaxSegmentLength: Int = $(maxSegmentLength)
 
-  private var _model: Option[Broadcast[TensorflowSpanBertCoref]] = None
+  private var _model: Option[Broadcast[SpanBertCoref]] = None
 
   setDefault(
     maxSentenceLength -> 512,
@@ -280,7 +280,7 @@ class SpanBertCorefModel(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowSpanBertCoref(
+          new SpanBertCoref(
             tensorflowWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
@@ -291,7 +291,7 @@ class SpanBertCorefModel(override val uid: String)
     this
   }
 
-  def getModelIfNotSet: TensorflowSpanBertCoref = _model.get.value
+  def getModelIfNotSet: SpanBertCoref = _model.get.value
 
   def tokenizeSentence(tokens: Seq[TokenizedSentence]): Seq[WordpieceTokenizedSentence] = {
     val basicTokenizer = new BasicTokenizer($(caseSensitive))

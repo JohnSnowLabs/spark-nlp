@@ -14,39 +14,47 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.ml.tensorflow
+package com.johnsnowlabs.ml.ai
 
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
+import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
+import org.slf4j.{Logger, LoggerFactory}
 import org.tensorflow.ndarray.buffer.IntDataBuffer
 
 import scala.collection.JavaConverters._
 
-/** TensorFlow backend for '''RoBERTa''' and '''Longformer'''
+/** BERT (Bidirectional Encoder Representations from Transformers) provides dense vector
+  * representations for natural language by using a deep, pre-trained neural network with the
+  * Transformer architecture
+  *
+  * See
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertEmbeddingsTestSpec.scala]]
+  * for further reference on how to use this API. Sources:
   *
   * @param tensorflowWrapper
-  *   tensorflowWrapper class
+  *   Bert Model wrapper with TensorFlow Wrapper
   * @param sentenceStartTokenId
-  *   special token id for `<s>`
+  *   Id of sentence start Token
   * @param sentenceEndTokenId
-  *   special token id for `</s>`
+  *   Id of sentence end Token.
   * @param configProtoBytes
-  *   ProtoBytes for TensorFlow session config
-  * @param signatures
-  *   Model's inputs and output(s) signatures
+  *   Configuration for TensorFlow session
+  *
+  * Paper: [[https://arxiv.org/abs/1810.04805]]
+  *
+  * Source: [[https://github.com/google-research/bert]]
   */
-class TensorflowRoBerta(
+class Bert(
     val tensorflowWrapper: TensorflowWrapper,
     sentenceStartTokenId: Int,
     sentenceEndTokenId: Int,
-    padTokenId: Int,
     configProtoBytes: Option[Array[Byte]] = None,
     signatures: Option[Map[String, String]] = None)
     extends Serializable {
 
-  val _tfRoBertaSignatures: Map[String, String] =
-    signatures.getOrElse(ModelSignatureManager.apply())
+  val _tfBertSignatures: Map[String, String] = signatures.getOrElse(ModelSignatureManager.apply())
 
   /** Encode the input sequence to indexes IDs adding padding where necessary */
   def encode(
@@ -62,7 +70,7 @@ class TensorflowRoBerta(
     sentences
       .map { case (wpTokSentence, _) =>
         val tokenPieceIds = wpTokSentence.tokens.map(t => t.pieceId)
-        val padding = Array.fill(maxSentenceLength - tokenPieceIds.length)(padTokenId)
+        val padding = Array.fill(maxSentenceLength - tokenPieceIds.length)(0)
 
         Array(sentenceStartTokenId) ++ tokenPieceIds.take(maxSentenceLength) ++ Array(
           sentenceEndTokenId) ++ padding
@@ -77,6 +85,7 @@ class TensorflowRoBerta(
 
     val tokenBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
     val maskBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
+    val segmentBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
 
     // [nb of encoded sentences , maxSentenceLength]
     val shape = Array(batch.length.toLong, maxSentenceLength)
@@ -85,32 +94,41 @@ class TensorflowRoBerta(
       .foreach { case (sentence, idx) =>
         val offset = idx * maxSentenceLength
         tokenBuffers.offset(offset).write(sentence)
-        maskBuffers.offset(offset).write(sentence.map(x => if (x == padTokenId) 0 else 1))
+        maskBuffers.offset(offset).write(sentence.map(x => if (x == 0) 0 else 1))
+        segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
       }
 
     val runner = tensorflowWrapper
-      .getTFSessionWithSignature(configProtoBytes = configProtoBytes, initAllTables = false)
+      .getTFSessionWithSignature(
+        configProtoBytes = configProtoBytes,
+        savedSignatures = signatures,
+        initAllTables = false)
       .runner
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
     val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
+    val segmentTensors = tensors.createIntBufferTensor(shape, segmentBuffers)
 
     runner
       .feed(
-        _tfRoBertaSignatures
-          .getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"),
+        _tfBertSignatures.getOrElse(
+          ModelSignatureConstants.InputIdsV1.key,
+          "missing_input_id_key"),
         tokenTensors)
       .feed(
-        _tfRoBertaSignatures
-          .getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"),
+        _tfBertSignatures
+          .getOrElse(ModelSignatureConstants.AttentionMaskV1.key, "missing_input_mask_key"),
         maskTensors)
-      .fetch(_tfRoBertaSignatures
-        .getOrElse(ModelSignatureConstants.LastHiddenState.key, "missing_sequence_output_key"))
+      .feed(
+        _tfBertSignatures
+          .getOrElse(ModelSignatureConstants.TokenTypeIdsV1.key, "missing_segment_ids_key"),
+        segmentTensors)
+      .fetch(_tfBertSignatures
+        .getOrElse(ModelSignatureConstants.LastHiddenStateV1.key, "missing_sequence_output_key"))
 
     val outs = runner.run().asScala
     val embeddings = TensorResources.extractFloats(outs.head)
 
-    outs.foreach(_.close())
     tensors.clearSession(outs)
     tensors.clearTensors()
 
@@ -132,20 +150,17 @@ class TensorflowRoBerta(
 
   }
 
-  /** @param batch
-    *   batches of sentences
-    * @return
-    *   batches of vectors for each sentence
-    */
   def tagSequence(batch: Seq[Array[Int]]): Array[Array[Float]] = {
     val tensors = new TensorResources()
     val tensorsMasks = new TensorResources()
+    val tensorsSegments = new TensorResources()
 
     val maxSentenceLength = batch.map(x => x.length).max
     val batchLength = batch.length
 
     val tokenBuffers = tensors.createIntBuffer(batchLength * maxSentenceLength)
     val maskBuffers = tensorsMasks.createIntBuffer(batchLength * maxSentenceLength)
+    val segmentBuffers = tensorsSegments.createIntBuffer(batchLength * maxSentenceLength)
 
     val shape = Array(batchLength.toLong, maxSentenceLength)
 
@@ -154,6 +169,7 @@ class TensorflowRoBerta(
 
       tokenBuffers.offset(offset).write(sentence)
       maskBuffers.offset(offset).write(sentence.map(x => if (x == 0) 0 else 1))
+      segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
     }
 
     val runner = tensorflowWrapper
@@ -165,17 +181,23 @@ class TensorflowRoBerta(
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
     val maskTensors = tensorsMasks.createIntBufferTensor(shape, maskBuffers)
+    val segmentTensors = tensorsSegments.createIntBufferTensor(shape, segmentBuffers)
 
     runner
       .feed(
-        _tfRoBertaSignatures
-          .getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"),
+        _tfBertSignatures.getOrElse(
+          ModelSignatureConstants.InputIdsV1.key,
+          "missing_input_id_key"),
         tokenTensors)
       .feed(
-        _tfRoBertaSignatures
-          .getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"),
+        _tfBertSignatures
+          .getOrElse(ModelSignatureConstants.AttentionMaskV1.key, "missing_input_mask_key"),
         maskTensors)
-      .fetch(_tfRoBertaSignatures
+      .feed(
+        _tfBertSignatures
+          .getOrElse(ModelSignatureConstants.TokenTypeIdsV1.key, "missing_segment_ids_key"),
+        segmentTensors)
+      .fetch(_tfBertSignatures
         .getOrElse(ModelSignatureConstants.PoolerOutput.key, "missing_pooled_output_key"))
 
     val outs = runner.run().asScala
@@ -187,6 +209,63 @@ class TensorflowRoBerta(
     val dim = embeddings.length / batchLength
     embeddings.grouped(dim).toArray
 
+  }
+
+  def tagSequenceSBert(batch: Seq[Array[Int]]): Array[Array[Float]] = {
+    val tensors = new TensorResources()
+
+    val maxSentenceLength = batch.map(x => x.length).max
+    val batchLength = batch.length
+
+    val tokenBuffers = tensors.createLongBuffer(batchLength * maxSentenceLength)
+    val maskBuffers = tensors.createLongBuffer(batchLength * maxSentenceLength)
+    val segmentBuffers = tensors.createLongBuffer(batchLength * maxSentenceLength)
+
+    val shape = Array(batchLength.toLong, maxSentenceLength)
+
+    batch.zipWithIndex.foreach { case (sentence, idx) =>
+      val offset = idx * maxSentenceLength
+      tokenBuffers.offset(offset).write(sentence.map(_.toLong))
+      maskBuffers.offset(offset).write(sentence.map(x => if (x == 0L) 0L else 1L))
+      segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0L))
+    }
+
+    val runner = tensorflowWrapper
+      .getTFSessionWithSignature(
+        configProtoBytes = configProtoBytes,
+        savedSignatures = signatures,
+        initAllTables = false)
+      .runner
+
+    val tokenTensors = tensors.createLongBufferTensor(shape, tokenBuffers)
+    val maskTensors = tensors.createLongBufferTensor(shape, maskBuffers)
+    val segmentTensors = tensors.createLongBufferTensor(shape, segmentBuffers)
+
+    runner
+      .feed(
+        _tfBertSignatures.getOrElse(
+          ModelSignatureConstants.InputIdsV1.key,
+          "missing_input_id_key"),
+        tokenTensors)
+      .feed(
+        _tfBertSignatures
+          .getOrElse(ModelSignatureConstants.AttentionMaskV1.key, "missing_input_mask_key"),
+        maskTensors)
+      .feed(
+        _tfBertSignatures
+          .getOrElse(ModelSignatureConstants.TokenTypeIdsV1.key, "missing_segment_ids_key"),
+        segmentTensors)
+      .fetch(_tfBertSignatures
+        .getOrElse(ModelSignatureConstants.PoolerOutput.key, "missing_pooled_output_key"))
+
+    val outs = runner.run().asScala
+    val embeddings = TensorResources.extractFloats(outs.head)
+
+    tensors.clearSession(outs)
+    tensors.clearTensors()
+
+    val dim = embeddings.length / batchLength
+    embeddings.grouped(dim).toArray
   }
 
   def predict(
@@ -210,7 +289,6 @@ class TensorflowRoBerta(
           /*All wordpiece embeddings*/
           val tokenEmbeddings = tokenVectors.slice(1, tokenLength + 1)
           val originalIndexedTokens = originalTokenSentences(sentence._2)
-
           /*Word-level and span-level alignment with Tokenizer
         https://github.com/google-research/bert#tokenization
 
@@ -225,7 +303,8 @@ class TensorflowRoBerta(
             sentence._1.tokens.zip(tokenEmbeddings).flatMap { case (token, tokenEmbedding) =>
               val tokenWithEmbeddings = TokenPieceEmbeddings(token, tokenEmbedding)
               val originalTokensWithEmbeddings = originalIndexedTokens.indexedTokens
-                .find(p => p.begin == tokenWithEmbeddings.begin)
+                .find(p =>
+                  p.begin == tokenWithEmbeddings.begin && tokenWithEmbeddings.isWordStart)
                 .map { token =>
                   val originalTokenWithEmbedding = TokenPieceEmbeddings(
                     TokenPiece(
@@ -251,7 +330,8 @@ class TensorflowRoBerta(
       tokens: Seq[WordpieceTokenizedSentence],
       sentences: Seq[Sentence],
       batchSize: Int,
-      maxSentenceLength: Int): Seq[Annotation] = {
+      maxSentenceLength: Int,
+      isLong: Boolean = false): Seq[Annotation] = {
 
     /*Run embeddings calculation by batches*/
     tokens
@@ -262,23 +342,37 @@ class TensorflowRoBerta(
         val tokensBatch = batch.map(x => (x._1._1, x._2))
         val sentencesBatch = batch.map(x => x._1._2)
         val encoded = encode(tokensBatch, maxSentenceLength)
-        val embeddings = tagSequence(encoded)
+        val embeddings = if (isLong) {
+          tagSequenceSBert(encoded)
+        } else {
+          tagSequence(encoded)
+        }
 
         sentencesBatch.zip(embeddings).map { case (sentence, vectors) =>
+          val metadata = Map(
+            "sentence" -> sentence.index.toString,
+            "token" -> sentence.content,
+            "pieceId" -> "-1",
+            "isWordStart" -> "true")
+          val finalMetadata = if (sentence.metadata.isDefined) {
+            sentence.metadata.getOrElse(Map.empty) ++ metadata
+          } else {
+            metadata
+          }
           Annotation(
             annotatorType = AnnotatorType.SENTENCE_EMBEDDINGS,
             begin = sentence.start,
             end = sentence.end,
             result = sentence.content,
-            metadata = Map(
-              "sentence" -> sentence.index.toString,
-              "token" -> sentence.content,
-              "pieceId" -> "-1",
-              "isWordStart" -> "true"),
+            metadata = finalMetadata,
             embeddings = vectors)
         }
       }
       .toSeq
   }
 
+}
+
+object Bert {
+  private[Bert] val logger: Logger = LoggerFactory.getLogger("TensorflowBert")
 }

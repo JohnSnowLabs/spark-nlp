@@ -14,23 +14,46 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.ml.tensorflow
+package com.johnsnowlabs.ml.ai
 
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
+import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
-import org.slf4j.{Logger, LoggerFactory}
 import org.tensorflow.ndarray.buffer.IntDataBuffer
 
 import scala.collection.JavaConverters._
 
-/** BERT (Bidirectional Encoder Representations from Transformers) provides dense vector
-  * representations for natural language by using a deep, pre-trained neural network with the
-  * Transformer architecture
+/** The DistilBERT model was proposed in the paper '''DistilBERT, a distilled version of BERT:
+  * smaller, faster, cheaper and lighter''' [[https://arxiv.org/abs/1910.01108]]. DistilBERT is a
+  * small, fast, cheap and light Transformer model trained by distilling BERT base. It has 40%
+  * less parameters than `bert-base-uncased`, runs 60% faster while preserving over 95% of BERT's
+  * performances as measured on the GLUE language understanding benchmark.
   *
-  * See
-  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertEmbeddingsTestSpec.scala]]
-  * for further reference on how to use this API. Sources:
+  * The abstract from the paper is the following:
+  *
+  * As Transfer Learning from large-scale pre-trained models becomes more prevalent in Natural
+  * Language Processing (NLP), operating these large models in on-the-edge and/or under
+  * constrained computational training or inference budgets remains challenging. In this work, we
+  * propose a method to pre-train a smaller general-purpose language representation model, called
+  * DistilBERT, which can then be fine-tuned with good performances on a wide range of tasks like
+  * its larger counterparts. While most prior work investigated the use of distillation for
+  * building task-specific models, we leverage knowledge distillation during the pretraining phase
+  * and show that it is possible to reduce the size of a BERT model by 40%, while retaining 97% of
+  * its language understanding capabilities and being 60% faster. To leverage the inductive biases
+  * learned by larger models during pretraining, we introduce a triple loss combining language
+  * modeling, distillation and cosine-distance losses. Our smaller, faster and lighter model is
+  * cheaper to pre-train and we demonstrate its capabilities for on-device computations in a
+  * proof-of-concept experiment and a comparative on-device study.
+  *
+  * Tips:
+  *
+  *   - DistilBERT doesn't have :obj:`token_type_ids`, you don't need to indicate which token
+  *     belongs to which segment. Just separate your segments with the separation token
+  *     :obj:`tokenizer.sep_token` (or :obj:`[SEP]`).
+  *
+  *   - DistilBERT doesn't have options to select the input positions (:obj:`position_ids` input).
+  *     This could be added if necessary though, just let us know if you need this option.
   *
   * @param tensorflowWrapper
   *   Bert Model wrapper with TensorFlow Wrapper
@@ -40,12 +63,8 @@ import scala.collection.JavaConverters._
   *   Id of sentence end Token.
   * @param configProtoBytes
   *   Configuration for TensorFlow session
-  *
-  * Paper: [[https://arxiv.org/abs/1810.04805]]
-  *
-  * Source: [[https://github.com/google-research/bert]]
   */
-class Bert(
+class DistilBert(
     val tensorflowWrapper: TensorflowWrapper,
     sentenceStartTokenId: Int,
     sentenceEndTokenId: Int,
@@ -84,7 +103,6 @@ class Bert(
 
     val tokenBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
     val maskBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
-    val segmentBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
 
     // [nb of encoded sentences , maxSentenceLength]
     val shape = Array(batch.length.toLong, maxSentenceLength)
@@ -94,7 +112,6 @@ class Bert(
         val offset = idx * maxSentenceLength
         tokenBuffers.offset(offset).write(sentence)
         maskBuffers.offset(offset).write(sentence.map(x => if (x == 0) 0 else 1))
-        segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
       }
 
     val runner = tensorflowWrapper
@@ -106,28 +123,22 @@ class Bert(
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
     val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
-    val segmentTensors = tensors.createIntBufferTensor(shape, segmentBuffers)
 
     runner
       .feed(
-        _tfBertSignatures.getOrElse(
-          ModelSignatureConstants.InputIdsV1.key,
-          "missing_input_id_key"),
+        _tfBertSignatures.getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"),
         tokenTensors)
       .feed(
         _tfBertSignatures
-          .getOrElse(ModelSignatureConstants.AttentionMaskV1.key, "missing_input_mask_key"),
+          .getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"),
         maskTensors)
-      .feed(
-        _tfBertSignatures
-          .getOrElse(ModelSignatureConstants.TokenTypeIdsV1.key, "missing_segment_ids_key"),
-        segmentTensors)
       .fetch(_tfBertSignatures
-        .getOrElse(ModelSignatureConstants.LastHiddenStateV1.key, "missing_sequence_output_key"))
+        .getOrElse(ModelSignatureConstants.LastHiddenState.key, "missing_sequence_output_key"))
 
     val outs = runner.run().asScala
     val embeddings = TensorResources.extractFloats(outs.head)
 
+    outs.foreach(_.close())
     tensors.clearSession(outs)
     tensors.clearTensors()
 
@@ -149,17 +160,20 @@ class Bert(
 
   }
 
+  /** @param batch
+    *   batches of sentences
+    * @return
+    *   batches of vectors for each sentence
+    */
   def tagSequence(batch: Seq[Array[Int]]): Array[Array[Float]] = {
     val tensors = new TensorResources()
     val tensorsMasks = new TensorResources()
-    val tensorsSegments = new TensorResources()
 
     val maxSentenceLength = batch.map(x => x.length).max
     val batchLength = batch.length
 
     val tokenBuffers = tensors.createIntBuffer(batchLength * maxSentenceLength)
     val maskBuffers = tensorsMasks.createIntBuffer(batchLength * maxSentenceLength)
-    val segmentBuffers = tensorsSegments.createIntBuffer(batchLength * maxSentenceLength)
 
     val shape = Array(batchLength.toLong, maxSentenceLength)
 
@@ -168,34 +182,23 @@ class Bert(
 
       tokenBuffers.offset(offset).write(sentence)
       maskBuffers.offset(offset).write(sentence.map(x => if (x == 0) 0 else 1))
-      segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
     }
 
     val runner = tensorflowWrapper
-      .getTFSessionWithSignature(
-        configProtoBytes = configProtoBytes,
-        savedSignatures = signatures,
-        initAllTables = false)
+      .getTFSessionWithSignature(configProtoBytes = configProtoBytes, initAllTables = false)
       .runner
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
     val maskTensors = tensorsMasks.createIntBufferTensor(shape, maskBuffers)
-    val segmentTensors = tensorsSegments.createIntBufferTensor(shape, segmentBuffers)
 
     runner
       .feed(
-        _tfBertSignatures.getOrElse(
-          ModelSignatureConstants.InputIdsV1.key,
-          "missing_input_id_key"),
+        _tfBertSignatures.getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"),
         tokenTensors)
       .feed(
         _tfBertSignatures
-          .getOrElse(ModelSignatureConstants.AttentionMaskV1.key, "missing_input_mask_key"),
+          .getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"),
         maskTensors)
-      .feed(
-        _tfBertSignatures
-          .getOrElse(ModelSignatureConstants.TokenTypeIdsV1.key, "missing_segment_ids_key"),
-        segmentTensors)
       .fetch(_tfBertSignatures
         .getOrElse(ModelSignatureConstants.PoolerOutput.key, "missing_pooled_output_key"))
 
@@ -208,63 +211,6 @@ class Bert(
     val dim = embeddings.length / batchLength
     embeddings.grouped(dim).toArray
 
-  }
-
-  def tagSequenceSBert(batch: Seq[Array[Int]]): Array[Array[Float]] = {
-    val tensors = new TensorResources()
-
-    val maxSentenceLength = batch.map(x => x.length).max
-    val batchLength = batch.length
-
-    val tokenBuffers = tensors.createLongBuffer(batchLength * maxSentenceLength)
-    val maskBuffers = tensors.createLongBuffer(batchLength * maxSentenceLength)
-    val segmentBuffers = tensors.createLongBuffer(batchLength * maxSentenceLength)
-
-    val shape = Array(batchLength.toLong, maxSentenceLength)
-
-    batch.zipWithIndex.foreach { case (sentence, idx) =>
-      val offset = idx * maxSentenceLength
-      tokenBuffers.offset(offset).write(sentence.map(_.toLong))
-      maskBuffers.offset(offset).write(sentence.map(x => if (x == 0L) 0L else 1L))
-      segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0L))
-    }
-
-    val runner = tensorflowWrapper
-      .getTFSessionWithSignature(
-        configProtoBytes = configProtoBytes,
-        savedSignatures = signatures,
-        initAllTables = false)
-      .runner
-
-    val tokenTensors = tensors.createLongBufferTensor(shape, tokenBuffers)
-    val maskTensors = tensors.createLongBufferTensor(shape, maskBuffers)
-    val segmentTensors = tensors.createLongBufferTensor(shape, segmentBuffers)
-
-    runner
-      .feed(
-        _tfBertSignatures.getOrElse(
-          ModelSignatureConstants.InputIdsV1.key,
-          "missing_input_id_key"),
-        tokenTensors)
-      .feed(
-        _tfBertSignatures
-          .getOrElse(ModelSignatureConstants.AttentionMaskV1.key, "missing_input_mask_key"),
-        maskTensors)
-      .feed(
-        _tfBertSignatures
-          .getOrElse(ModelSignatureConstants.TokenTypeIdsV1.key, "missing_segment_ids_key"),
-        segmentTensors)
-      .fetch(_tfBertSignatures
-        .getOrElse(ModelSignatureConstants.PoolerOutput.key, "missing_pooled_output_key"))
-
-    val outs = runner.run().asScala
-    val embeddings = TensorResources.extractFloats(outs.head)
-
-    tensors.clearSession(outs)
-    tensors.clearTensors()
-
-    val dim = embeddings.length / batchLength
-    embeddings.grouped(dim).toArray
   }
 
   def predict(
@@ -288,6 +234,7 @@ class Bert(
           /*All wordpiece embeddings*/
           val tokenEmbeddings = tokenVectors.slice(1, tokenLength + 1)
           val originalIndexedTokens = originalTokenSentences(sentence._2)
+
           /*Word-level and span-level alignment with Tokenizer
         https://github.com/google-research/bert#tokenization
 
@@ -302,8 +249,7 @@ class Bert(
             sentence._1.tokens.zip(tokenEmbeddings).flatMap { case (token, tokenEmbedding) =>
               val tokenWithEmbeddings = TokenPieceEmbeddings(token, tokenEmbedding)
               val originalTokensWithEmbeddings = originalIndexedTokens.indexedTokens
-                .find(p =>
-                  p.begin == tokenWithEmbeddings.begin && tokenWithEmbeddings.isWordStart)
+                .find(p => p.begin == tokenWithEmbeddings.begin)
                 .map { token =>
                   val originalTokenWithEmbedding = TokenPieceEmbeddings(
                     TokenPiece(
@@ -329,8 +275,7 @@ class Bert(
       tokens: Seq[WordpieceTokenizedSentence],
       sentences: Seq[Sentence],
       batchSize: Int,
-      maxSentenceLength: Int,
-      isLong: Boolean = false): Seq[Annotation] = {
+      maxSentenceLength: Int): Seq[Annotation] = {
 
     /*Run embeddings calculation by batches*/
     tokens
@@ -341,37 +286,23 @@ class Bert(
         val tokensBatch = batch.map(x => (x._1._1, x._2))
         val sentencesBatch = batch.map(x => x._1._2)
         val encoded = encode(tokensBatch, maxSentenceLength)
-        val embeddings = if (isLong) {
-          tagSequenceSBert(encoded)
-        } else {
-          tagSequence(encoded)
-        }
+        val embeddings = tagSequence(encoded)
 
         sentencesBatch.zip(embeddings).map { case (sentence, vectors) =>
-          val metadata = Map(
-            "sentence" -> sentence.index.toString,
-            "token" -> sentence.content,
-            "pieceId" -> "-1",
-            "isWordStart" -> "true")
-          val finalMetadata = if (sentence.metadata.isDefined) {
-            sentence.metadata.getOrElse(Map.empty) ++ metadata
-          } else {
-            metadata
-          }
           Annotation(
             annotatorType = AnnotatorType.SENTENCE_EMBEDDINGS,
             begin = sentence.start,
             end = sentence.end,
             result = sentence.content,
-            metadata = finalMetadata,
+            metadata = Map(
+              "sentence" -> sentence.index.toString,
+              "token" -> sentence.content,
+              "pieceId" -> "-1",
+              "isWordStart" -> "true"),
             embeddings = vectors)
         }
       }
       .toSeq
   }
 
-}
-
-object Bert {
-  private[Bert] val logger: Logger = LoggerFactory.getLogger("TensorflowBert")
 }

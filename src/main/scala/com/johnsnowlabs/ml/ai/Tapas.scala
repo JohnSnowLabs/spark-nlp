@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.ml.tensorflow
+package com.johnsnowlabs.ml.ai
 
 import com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureConstants
+import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.common.TableData
 import com.johnsnowlabs.nlp.annotators.tapas.{TapasEncoder, TapasInputData}
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.WordpieceEncoder
@@ -25,7 +26,7 @@ import org.tensorflow.ndarray.buffer.IntDataBuffer
 
 import scala.collection.JavaConverters._
 
-class TensorflowTapas(
+class Tapas(
     override val tensorflowWrapper: TensorflowWrapper,
     override val sentenceStartTokenId: Int,
     override val sentenceEndTokenId: Int,

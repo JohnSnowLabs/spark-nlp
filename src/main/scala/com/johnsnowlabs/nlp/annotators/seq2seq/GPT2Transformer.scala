@@ -16,9 +16,9 @@
 
 package com.johnsnowlabs.nlp.annotators.seq2seq
 
+import com.johnsnowlabs.ml.ai.GPT2
 import com.johnsnowlabs.ml.tensorflow.{
   ReadTensorflowModel,
-  TensorflowGPT2,
   TensorflowWrapper,
   WriteTensorflowModel
 }
@@ -374,7 +374,7 @@ class GPT2Transformer(override val uid: String)
   /** @group getParam */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
-  private var _tfModel: Option[Broadcast[TensorflowGPT2]] = None
+  private var _tfModel: Option[Broadcast[GPT2]] = None
 
   /** Vocabulary used to encode the words to ids with bpeTokenizer.encode
     *
@@ -408,13 +408,13 @@ class GPT2Transformer(override val uid: String)
 
       _tfModel = Some(
         spark.sparkContext.broadcast(
-          new TensorflowGPT2(tfWrapper, bpeTokenizer, configProtoBytes = getConfigProtoBytes)))
+          new GPT2(tfWrapper, bpeTokenizer, configProtoBytes = getConfigProtoBytes)))
     }
     this
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowGPT2 = _tfModel.get.value
+  def getModelIfNotSet: GPT2 = _tfModel.get.value
 
   setDefault(
     task -> "",

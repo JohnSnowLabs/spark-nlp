@@ -14,64 +14,34 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.ml.tensorflow
+package com.johnsnowlabs.ml.ai
 
-import com.johnsnowlabs.ml.tensorflow.sentencepiece._
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
+import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
-import org.tensorflow.ndarray.buffer.DataBuffers
+import org.tensorflow.ndarray.buffer.IntDataBuffer
 
 import scala.collection.JavaConverters._
 
-/** Sentence-level embeddings using XLM-RoBERTa. The XLM-RoBERTa model was proposed in
-  * '''Unsupervised Cross-lingual Representation Learning at Scale'''
-  * [[https://arxiv.org/abs/1911.02116]] by Alexis Conneau, Kartikay Khandelwal, Naman Goyal,
-  * Vishrav Chaudhary, Guillaume Wenzek, Francisco GuzmÃ¡n, Edouard Grave, Myle Ott, Luke
-  * Zettlemoyer and Veselin Stoyanov. It is based on Facebook's RoBERTa model released in 2019. It
-  * is a large multi-lingual language model, trained on 2.5TB of filtered CommonCrawl data.
-  *
-  * The abstract from the paper is the following:
-  *
-  * This paper shows that pretraining multilingual language models at scale leads to significant
-  * performance gains for a wide range of cross-lingual transfer tasks. We train a
-  * Transformer-based masked language model on one hundred languages, using more than two
-  * terabytes of filtered CommonCrawl data. Our model, dubbed XLM-R, significantly outperforms
-  * multilingual BERT (mBERT) on a variety of cross-lingual benchmarks, including +13.8% average
-  * accuracy on XNLI, +12.3% average F1 score on MLQA, and +2.1% average F1 score on NER. XLM-R
-  * performs particularly well on low-resource languages, improving 11.8% in XNLI accuracy for
-  * Swahili and 9.2% for Urdu over the previous XLM model. We also present a detailed empirical
-  * evaluation of the key factors that are required to achieve these gains, including the
-  * trade-offs between (1) positive transfer and capacity dilution and (2) the performance of high
-  * and low resource languages at scale. Finally, we show, for the first time, the possibility of
-  * multilingual modeling without sacrificing per-language performance; XLM-Ris very competitive
-  * with strong monolingual models on the GLUE and XNLI benchmarks. We will make XLM-R code, data,
-  * and models publicly available.
-  *
-  * Tips:
-  *
-  *   - XLM-RoBERTa is a multilingual model trained on 100 different languages. Unlike some XLM
-  *     multilingual models, it does not require '''lang''' parameter to understand which language
-  *     is used, and should be able to determine the correct language from the input ids.
-  *   - This implementation is the same as RoBERTa. Refer to the
-  *     [[com.johnsnowlabs.nlp.embeddings.RoBertaEmbeddings]] for usage examples as well as the
-  *     information relative to the inputs and outputs.
+/** TensorFlow backend for '''RoBERTa''' and '''Longformer'''
   *
   * @param tensorflowWrapper
-  *   XlmRoberta Model wrapper with TensorFlowWrapper
-  * @param spp
-  *   XlmRoberta SentencePiece model with SentencePieceWrapper
-  * @param caseSensitive
-  *   Whether or not the tokenizer should be lowercase
+  *   tensorflowWrapper class
+  * @param sentenceStartTokenId
+  *   special token id for `<s>`
+  * @param sentenceEndTokenId
+  *   special token id for `</s>`
   * @param configProtoBytes
-  *   Configuration for TensorFlow session
+  *   ProtoBytes for TensorFlow session config
   * @param signatures
   *   Model's inputs and output(s) signatures
   */
-class TensorflowXlmRoberta(
+class RoBerta(
     val tensorflowWrapper: TensorflowWrapper,
-    val spp: SentencePieceWrapper,
-    caseSensitive: Boolean = true,
+    sentenceStartTokenId: Int,
+    sentenceEndTokenId: Int,
+    padTokenId: Int,
     configProtoBytes: Option[Array[Byte]] = None,
     signatures: Option[Map[String, String]] = None)
     extends Serializable {
@@ -79,11 +49,7 @@ class TensorflowXlmRoberta(
   val _tfRoBertaSignatures: Map[String, String] =
     signatures.getOrElse(ModelSignatureManager.apply())
 
-  private val SentenceStartTokenId = 0
-  private val SentenceEndTokenId = 2
-  private val SentencePadTokenId = 1
-  private val SentencePieceDelimiterId = spp.getSppModel.pieceToId("▁")
-
+  /** Encode the input sequence to indexes IDs adding padding where necessary */
   def encode(
       sentences: Seq[(WordpieceTokenizedSentence, Int)],
       maxSequenceLength: Int): Seq[Array[Int]] = {
@@ -97,50 +63,38 @@ class TensorflowXlmRoberta(
     sentences
       .map { case (wpTokSentence, _) =>
         val tokenPieceIds = wpTokSentence.tokens.map(t => t.pieceId)
-        val padding = Array.fill(maxSentenceLength - tokenPieceIds.length)(SentencePadTokenId)
+        val padding = Array.fill(maxSentenceLength - tokenPieceIds.length)(padTokenId)
 
-        Array(SentenceStartTokenId) ++ tokenPieceIds.take(maxSentenceLength) ++ Array(
-          SentenceEndTokenId) ++ padding
+        Array(sentenceStartTokenId) ++ tokenPieceIds.take(maxSentenceLength) ++ Array(
+          sentenceEndTokenId) ++ padding
       }
   }
 
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
-
     val tensors = new TensorResources()
-    val tensorsMasks = new TensorResources()
 
-    /* Actual size of each sentence to skip padding in the TF model */
-    val sequencesLength = batch.map(x => x.length).toArray
-    val maxSentenceLength = sequencesLength.max
+    val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
+    val batchLength = batch.length
 
-    val tokenBuffers = DataBuffers.ofInts(batch.length * maxSentenceLength)
-    val maskBuffers = DataBuffers.ofInts(batch.length * maxSentenceLength)
+    val tokenBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
+    val maskBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
 
+    // [nb of encoded sentences , maxSentenceLength]
     val shape = Array(batch.length.toLong, maxSentenceLength)
 
     batch.zipWithIndex
-      .foreach { case (tokenIds, idx) =>
+      .foreach { case (sentence, idx) =>
         val offset = idx * maxSentenceLength
-        val diff = maxSentenceLength - tokenIds.length
-
-        val padding = Array.fill(diff)(SentencePadTokenId)
-        val newTokenIds = tokenIds ++ padding
-
-        tokenBuffers.offset(offset).write(newTokenIds)
-        maskBuffers
-          .offset(offset)
-          .write(newTokenIds.map(x => if (x == SentencePadTokenId) 0 else 1))
+        tokenBuffers.offset(offset).write(sentence)
+        maskBuffers.offset(offset).write(sentence.map(x => if (x == padTokenId) 0 else 1))
       }
 
-    val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
-    val maskTensors = tensorsMasks.createIntBufferTensor(shape, maskBuffers)
-
     val runner = tensorflowWrapper
-      .getTFSessionWithSignature(
-        configProtoBytes = configProtoBytes,
-        savedSignatures = signatures,
-        initAllTables = false)
+      .getTFSessionWithSignature(configProtoBytes = configProtoBytes, initAllTables = false)
       .runner
+
+    val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
+    val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
 
     runner
       .feed(
@@ -157,16 +111,13 @@ class TensorflowXlmRoberta(
     val outs = runner.run().asScala
     val embeddings = TensorResources.extractFloats(outs.head)
 
+    outs.foreach(_.close())
     tensors.clearSession(outs)
     tensors.clearTensors()
 
-    val dim = embeddings.length / (batch.length * maxSentenceLength)
+    val dim = embeddings.length / (batchLength * maxSentenceLength)
     val shrinkedEmbeddings: Array[Array[Array[Float]]] =
-      embeddings
-        .grouped(dim)
-        .toArray
-        .grouped(maxSentenceLength)
-        .toArray
+      embeddings.grouped(dim).toArray.grouped(maxSentenceLength).toArray
 
     val emptyVector = Array.fill(dim)(0f)
 
@@ -179,8 +130,14 @@ class TensorflowXlmRoberta(
         embeddings
       }
     }
+
   }
 
+  /** @param batch
+    *   batches of sentences
+    * @return
+    *   batches of vectors for each sentence
+    */
   def tagSequence(batch: Seq[Array[Int]]): Array[Array[Float]] = {
     val tensors = new TensorResources()
     val tensorsMasks = new TensorResources()
@@ -234,12 +191,14 @@ class TensorflowXlmRoberta(
   }
 
   def predict(
-      tokenizedSentences: Seq[TokenizedSentence],
+      sentences: Seq[WordpieceTokenizedSentence],
+      originalTokenSentences: Seq[TokenizedSentence],
       batchSize: Int,
-      maxSentenceLength: Int): Seq[WordpieceEmbeddingsSentence] = {
+      maxSentenceLength: Int,
+      caseSensitive: Boolean): Seq[WordpieceEmbeddingsSentence] = {
 
-    val wordPieceTokenizedSentences = tokenizeWithAlignment(tokenizedSentences, maxSentenceLength)
-    wordPieceTokenizedSentences.zipWithIndex
+    /*Run embeddings calculation by batches*/
+    sentences.zipWithIndex
       .grouped(batchSize)
       .flatMap { batch =>
         val encoded = encode(batch, maxSentenceLength)
@@ -251,14 +210,23 @@ class TensorflowXlmRoberta(
 
           /*All wordpiece embeddings*/
           val tokenEmbeddings = tokenVectors.slice(1, tokenLength + 1)
-          val originalIndexedTokens = tokenizedSentences(sentence._2)
+          val originalIndexedTokens = originalTokenSentences(sentence._2)
+
+          /*Word-level and span-level alignment with Tokenizer
+        https://github.com/google-research/bert#tokenization
+
+        ### Input
+        orig_tokens = ["John", "Johanson", "'s",  "house"]
+        labels      = ["NNP",  "NNP",      "POS", "NN"]
+
+        # bert_tokens == ["[CLS]", "john", "johan", "##son", "'", "s", "house", "[SEP]"]
+        # orig_to_tok_map == [1, 2, 4, 6]*/
 
           val tokensWithEmbeddings =
             sentence._1.tokens.zip(tokenEmbeddings).flatMap { case (token, tokenEmbedding) =>
               val tokenWithEmbeddings = TokenPieceEmbeddings(token, tokenEmbedding)
               val originalTokensWithEmbeddings = originalIndexedTokens.indexedTokens
-                .find(p =>
-                  p.begin == tokenWithEmbeddings.begin && tokenWithEmbeddings.isWordStart)
+                .find(p => p.begin == tokenWithEmbeddings.begin)
                 .map { token =>
                   val originalTokenWithEmbedding = TokenPieceEmbeddings(
                     TokenPiece(
@@ -281,19 +249,13 @@ class TensorflowXlmRoberta(
   }
 
   def predictSequence(
+      tokens: Seq[WordpieceTokenizedSentence],
       sentences: Seq[Sentence],
       batchSize: Int,
       maxSentenceLength: Int): Seq[Annotation] = {
 
-    val wordPieceTokenizedSentences = sentences
-      .grouped(batchSize)
-      .flatMap { batch =>
-        tokenizeSentence(batch, maxSentenceLength)
-      }
-      .toSeq
-
     /*Run embeddings calculation by batches*/
-    wordPieceTokenizedSentences
+    tokens
       .zip(sentences)
       .zipWithIndex
       .grouped(batchSize)
@@ -318,34 +280,6 @@ class TensorflowXlmRoberta(
         }
       }
       .toSeq
-  }
-
-  def tokenizeWithAlignment(
-      sentences: Seq[TokenizedSentence],
-      maxSeqLength: Int): Seq[WordpieceTokenizedSentence] = {
-    val encoder =
-      new SentencepieceEncoder(spp, caseSensitive, SentencePieceDelimiterId, pieceIdOffset = 1)
-
-    val sentenceTokenPieces = sentences.map { s =>
-      val trimmedSentence = s.indexedTokens.take(maxSeqLength - 2)
-      val wordpieceTokens =
-        trimmedSentence.flatMap(token => encoder.encode(token)).take(maxSeqLength)
-      WordpieceTokenizedSentence(wordpieceTokens)
-    }
-    sentenceTokenPieces
-  }
-
-  def tokenizeSentence(
-      sentences: Seq[Sentence],
-      maxSeqLength: Int): Seq[WordpieceTokenizedSentence] = {
-    val encoder =
-      new SentencepieceEncoder(spp, caseSensitive, SentencePieceDelimiterId, pieceIdOffset = 1)
-
-    val sentenceTokenPieces = sentences.map { s =>
-      val wordpieceTokens = encoder.encodeSentence(s, maxLength = maxSeqLength).take(maxSeqLength)
-      WordpieceTokenizedSentence(wordpieceTokens)
-    }
-    sentenceTokenPieces
   }
 
 }
