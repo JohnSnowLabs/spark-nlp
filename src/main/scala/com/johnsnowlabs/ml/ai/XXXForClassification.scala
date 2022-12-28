@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.ml.tensorflow
+package com.johnsnowlabs.ml.ai
 
 import com.johnsnowlabs.nlp.annotators.common._
-import com.johnsnowlabs.nlp.{AnnotatorType, ActivationFunction, Annotation}
+import com.johnsnowlabs.nlp.{ActivationFunction, Annotation, AnnotatorType}
 
-trait TensorflowForClassification {
+trait XXXForClassification {
 
   protected val sentencePadTokenId: Int
   protected val sentenceStartTokenId: Int

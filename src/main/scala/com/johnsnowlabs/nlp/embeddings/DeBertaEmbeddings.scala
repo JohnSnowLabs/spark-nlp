@@ -16,13 +16,10 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
+import com.johnsnowlabs.ml.ai.DeBerta
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece._
-import com.johnsnowlabs.ml.util.LoadExternalModel.{
-  loadSentencePieceAsset,
-  modelSanityCheck,
-  notSupportedEngineError
-}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{loadSentencePieceAsset, modelSanityCheck, notSupportedEngineError}
 import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
@@ -239,7 +236,7 @@ class DeBertaEmbeddings(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowDeBerta]] = None
+  private var _model: Option[Broadcast[DeBerta]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
@@ -250,7 +247,7 @@ class DeBertaEmbeddings(override val uid: String)
 
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowDeBerta(
+          new DeBerta(
             tensorflowWrapper,
             spp,
             batchSize = $(batchSize),
@@ -261,7 +258,7 @@ class DeBertaEmbeddings(override val uid: String)
     this
   }
 
-  def getModelIfNotSet: TensorflowDeBerta = _model.get.value
+  def getModelIfNotSet: DeBerta = _model.get.value
 
   setDefault(batchSize -> 8, dimension -> 768, maxSentenceLength -> 128, caseSensitive -> true)
 

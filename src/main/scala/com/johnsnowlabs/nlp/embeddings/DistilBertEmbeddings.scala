@@ -16,12 +16,9 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
+import com.johnsnowlabs.ml.ai.DistilBert
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.util.LoadExternalModel.{
-  loadTextAsset,
-  modelSanityCheck,
-  notSupportedEngineError
-}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{loadTextAsset, modelSanityCheck, notSupportedEngineError}
 import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
@@ -241,7 +238,7 @@ class DistilBertEmbeddings(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowDistilBert]] = None
+  private var _model: Option[Broadcast[DistilBert]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
@@ -250,7 +247,7 @@ class DistilBertEmbeddings(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowDistilBert(
+          new DistilBert(
             tensorflowWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
@@ -262,7 +259,7 @@ class DistilBertEmbeddings(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowDistilBert = _model.get.value
+  def getModelIfNotSet: DistilBert = _model.get.value
 
   /** Set Embeddings dimensions for the DistilBERT model. Only possible to set this when the first
     * time is saved dimension is not changeable, it comes from DistilBERT config file.

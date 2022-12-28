@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.ml.tensorflow
+package com.johnsnowlabs.ml.ai
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece._
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
+import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.tokenizer.normalizer.MosesPunctNormalizer
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 
@@ -48,7 +49,7 @@ import scala.collection.JavaConverters._
   * @param sppTrg
   *   Contains the vocabulary for the source language
   */
-class TensorflowMarian(
+class Marian(
     val tensorflow: TensorflowWrapper,
     val sppSrc: SentencePieceWrapper,
     val sppTrg: SentencePieceWrapper,

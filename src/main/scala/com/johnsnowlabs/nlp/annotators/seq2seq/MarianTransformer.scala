@@ -16,14 +16,10 @@
 
 package com.johnsnowlabs.nlp.annotators.seq2seq
 
+import com.johnsnowlabs.ml.ai.Marian
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece._
-import com.johnsnowlabs.ml.util.LoadExternalModel.{
-  loadSentencePieceAsset,
-  loadTextAsset,
-  modelSanityCheck,
-  notSupportedEngineError
-}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{loadSentencePieceAsset, loadTextAsset, modelSanityCheck, notSupportedEngineError}
 import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -285,7 +281,7 @@ class MarianTransformer(override val uid: String)
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
   /** The Tensorflow Marian Model */
-  private var _model: Option[Broadcast[TensorflowMarian]] = None
+  private var _model: Option[Broadcast[Marian]] = None
 
   /** @group setParam * */
   def setModelIfNotSet(
@@ -296,7 +292,7 @@ class MarianTransformer(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowMarian(
+          new Marian(
             tensorflow,
             sppSrc,
             sppTrg,
@@ -307,7 +303,7 @@ class MarianTransformer(override val uid: String)
   }
 
   /** @group setParam * */
-  def getModelIfNotSet: TensorflowMarian = _model.get.value
+  def getModelIfNotSet: Marian = _model.get.value
 
   setDefault(
     maxInputLength -> 40,

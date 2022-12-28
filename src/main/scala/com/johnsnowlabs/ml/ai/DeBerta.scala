@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.ml.tensorflow
+package com.johnsnowlabs.ml.ai
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece._
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
+import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.common._
 import org.tensorflow.ndarray.buffer.DataBuffers
 
@@ -32,7 +33,7 @@ import scala.collection.JavaConverters._
   * @param configProtoBytes
   *   Configuration for TensorFlow session
   */
-class TensorflowDeBerta(
+class DeBerta(
     val tensorflow: TensorflowWrapper,
     val spp: SentencePieceWrapper,
     batchSize: Int,

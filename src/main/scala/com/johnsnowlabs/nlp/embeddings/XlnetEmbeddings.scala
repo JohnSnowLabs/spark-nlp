@@ -16,13 +16,10 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
+import com.johnsnowlabs.ml.ai.Xlnet
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece._
-import com.johnsnowlabs.ml.util.LoadExternalModel.{
-  loadSentencePieceAsset,
-  modelSanityCheck,
-  notSupportedEngineError
-}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{loadSentencePieceAsset, modelSanityCheck, notSupportedEngineError}
 import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
@@ -259,7 +256,7 @@ class XlnetEmbeddings(override val uid: String)
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
   /** The Tensorflow XLNet Model */
-  private var _model: Option[Broadcast[TensorflowXlnet]] = None
+  private var _model: Option[Broadcast[Xlnet]] = None
 
   /** Sets XLNet tensorflow Model */
   def setModelIfNotSet(
@@ -270,7 +267,7 @@ class XlnetEmbeddings(override val uid: String)
 
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowXlnet(
+          new Xlnet(
             tensorflow,
             spp,
             configProtoBytes = getConfigProtoBytes,
@@ -281,7 +278,7 @@ class XlnetEmbeddings(override val uid: String)
   }
 
   /** Gets XLNet tensorflow Model */
-  def getModelIfNotSet: TensorflowXlnet = _model.get.value
+  def getModelIfNotSet: Xlnet = _model.get.value
 
   setDefault(batchSize -> 8, dimension -> 768, maxSentenceLength -> 128, caseSensitive -> true)
 
