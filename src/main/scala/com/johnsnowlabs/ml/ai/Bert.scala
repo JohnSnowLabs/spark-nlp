@@ -56,27 +56,6 @@ private[johnsnowlabs] class Bert(
 
   val _tfBertSignatures: Map[String, String] = signatures.getOrElse(ModelSignatureManager.apply())
 
-  /** Encode the input sequence to indexes IDs adding padding where necessary */
-  def encode(
-      sentences: Seq[(WordpieceTokenizedSentence, Int)],
-      maxSequenceLength: Int): Seq[Array[Int]] = {
-    val maxSentenceLength =
-      Array(
-        maxSequenceLength - 2,
-        sentences.map { case (wpTokSentence, _) =>
-          wpTokSentence.tokens.length
-        }.max).min
-
-    sentences
-      .map { case (wpTokSentence, _) =>
-        val tokenPieceIds = wpTokSentence.tokens.map(t => t.pieceId)
-        val padding = Array.fill(maxSentenceLength - tokenPieceIds.length)(0)
-
-        Array(sentenceStartTokenId) ++ tokenPieceIds.take(maxSentenceLength) ++ Array(
-          sentenceEndTokenId) ++ padding
-      }
-  }
-
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
     val maxSentenceLength = batch.map(pieceIds => pieceIds.length).max
     val batchLength = batch.length
@@ -252,7 +231,12 @@ private[johnsnowlabs] class Bert(
     sentences.zipWithIndex
       .grouped(batchSize)
       .flatMap { batch =>
-        val encoded = encode(batch, maxSentenceLength)
+        val encoded = PrepareEmbeddings.prepareBatchWithPadding(
+          batch,
+          maxSentenceLength,
+          sentenceStartTokenId,
+          sentenceEndTokenId)
+
         val vectors = tag(encoded)
 
         /*Combine tokens and calculated embeddings*/
@@ -314,7 +298,12 @@ private[johnsnowlabs] class Bert(
       .flatMap { batch =>
         val tokensBatch = batch.map(x => (x._1._1, x._2))
         val sentencesBatch = batch.map(x => x._1._2)
-        val encoded = encode(tokensBatch, maxSentenceLength)
+        val encoded = PrepareEmbeddings.prepareBatchWithPadding(
+          tokensBatch,
+          maxSentenceLength,
+          sentenceStartTokenId,
+          sentenceEndTokenId)
+
         val embeddings = if (isLong) {
           tagSequenceSBert(encoded)
         } else {
@@ -344,8 +333,4 @@ private[johnsnowlabs] class Bert(
       .toSeq
   }
 
-}
-
-object Bert {
-  private[Bert] val logger: Logger = LoggerFactory.getLogger("TensorflowBert")
 }
