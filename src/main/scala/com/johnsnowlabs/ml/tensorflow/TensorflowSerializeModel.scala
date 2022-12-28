@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.ml.tensorflow
 
-import com.johnsnowlabs.ml.ai.util.sentencepiece.LoadSentencepiece
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.LoadSentencepiece
 import com.johnsnowlabs.nlp.annotators.ner.dl.LoadsContrib
 import com.johnsnowlabs.util.FileHelper
 import org.apache.commons.io.FileUtils
