@@ -634,4 +634,11 @@ package object annotator {
       extends ReadablePretrainedCamemBertForSequenceModel
       with ReadCamemBertForSequenceDLModel
 
+  type CamemBertForQuestionAnswering =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForQuestionAnswering
+
+  object CamemBertForQuestionAnswering
+      extends ReadablePretrainedCamemBertForQAModel
+      with ReadCamemBertForQADLModel
+
 }
