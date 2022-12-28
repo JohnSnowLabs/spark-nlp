@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.ml.util
 
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper
+import com.johnsnowlabs.ml.ai.util.sentencepiece.SentencePieceWrapper
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 
 import java.io.File

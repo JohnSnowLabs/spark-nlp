@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.ml.tensorflow.sentencepiece
+package com.johnsnowlabs.ml.ai.util.sentencepiece
 
 import org.apache.commons.io.FileUtils
 import org.apache.hadoop.fs.{FileSystem, Path}
@@ -24,7 +24,7 @@ import java.io.File
 import java.nio.file.{Files, Paths}
 import java.util.UUID
 
-class SentencePieceWrapper(var sppModel: Array[Byte]) extends Serializable {
+private[johnsnowlabs] class SentencePieceWrapper(var sppModel: Array[Byte]) extends Serializable {
 
   @transient private var mspp: SentencePieceProcessor = _
 

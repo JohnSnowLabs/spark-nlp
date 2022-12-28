@@ -17,8 +17,12 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.ml.ai.XlmRoberta
+import com.johnsnowlabs.ml.ai.util.sentencepiece.{
+  ReadSentencePieceModel,
+  SentencePieceWrapper,
+  WriteSentencePieceModel
+}
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.tensorflow.sentencepiece._
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadSentencePieceAsset,
   modelSanityCheck,

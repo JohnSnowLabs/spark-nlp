@@ -24,7 +24,7 @@ import com.johnsnowlabs.nlp.annotators.audio.feature_extractor.Preprocessor
 import scala.collection.JavaConverters._
 import scala.collection.mutable.ArrayBuffer
 
-class Wav2Vec2(
+private[johnsnowlabs] class Wav2Vec2(
     val tensorflowWrapper: TensorflowWrapper,
     configProtoBytes: Option[Array[Byte]] = None,
     vocabs: Map[String, BigInt],
