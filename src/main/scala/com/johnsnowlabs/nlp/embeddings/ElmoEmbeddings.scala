@@ -280,10 +280,7 @@ class ElmoEmbeddings(override val uid: String)
 
       _model = Some(
         spark.sparkContext.broadcast(
-          new Elmo(
-            tensorflow,
-            batchSize = $(batchSize),
-            configProtoBytes = getConfigProtoBytes)))
+          new Elmo(tensorflow, batchSize = $(batchSize), configProtoBytes = getConfigProtoBytes)))
     }
 
     this
