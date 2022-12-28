@@ -50,26 +50,6 @@ class DeBerta(
   private val SentencePadTokenId = spp.getSppModel.pieceToId("[PAD]")
   private val SentencePieceDelimiterId = spp.getSppModel.pieceToId("▁")
 
-  def encode(
-      sentences: Seq[(WordpieceTokenizedSentence, Int)],
-      maxSequenceLength: Int): Seq[Array[Int]] = {
-    val maxSentenceLength =
-      Array(
-        maxSequenceLength - 2,
-        sentences.map { case (wpTokSentence, _) =>
-          wpTokSentence.tokens.length
-        }.max).min
-
-    sentences
-      .map { case (wpTokSentence, _) =>
-        val tokenPieceIds = wpTokSentence.tokens.map(t => t.pieceId)
-        val padding = Array.fill(maxSentenceLength - tokenPieceIds.length)(SentencePadTokenId)
-
-        Array(SentenceStartTokenId) ++ tokenPieceIds.take(maxSentenceLength) ++ Array(
-          SentenceEndTokenId) ++ padding
-      }
-  }
-
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
 
     /* Actual size of each sentence to skip padding in the TF model */
@@ -136,7 +116,11 @@ class DeBerta(
     wordPieceTokenizedSentences.zipWithIndex
       .grouped(batchSize)
       .flatMap { batch =>
-        val encoded = encode(batch, maxSentenceLength)
+        val encoded = PrepareEmbeddings.prepareBatchWithPadding(
+          batch,
+          maxSentenceLength,
+          SentenceStartTokenId,
+          SentenceEndTokenId)
         val vectors = tag(encoded)
 
         /*Combine tokens and calculated embeddings*/
