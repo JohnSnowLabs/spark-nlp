@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.ml.tensorflow
+package com.johnsnowlabs.ml.ai
 
+import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 
@@ -39,7 +40,7 @@ import scala.collection.JavaConverters._
   *
   * [[https://tfhub.dev/google/universal-sentence-encoder/2]]
   */
-class TensorflowUSE(
+class USE(
     val tensorflow: TensorflowWrapper,
     configProtoBytes: Option[Array[Byte]] = None,
     loadSP: Boolean = false)

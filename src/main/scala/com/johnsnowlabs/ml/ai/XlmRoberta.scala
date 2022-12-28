@@ -14,66 +14,77 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.ml.tensorflow
+package com.johnsnowlabs.ml.ai
 
+import com.johnsnowlabs.ml.tensorflow.sentencepiece._
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
+import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
-import org.tensorflow.ndarray.buffer.IntDataBuffer
+import org.tensorflow.ndarray.buffer.DataBuffers
 
 import scala.collection.JavaConverters._
 
-/** The DistilBERT model was proposed in the paper '''DistilBERT, a distilled version of BERT:
-  * smaller, faster, cheaper and lighter''' [[https://arxiv.org/abs/1910.01108]]. DistilBERT is a
-  * small, fast, cheap and light Transformer model trained by distilling BERT base. It has 40%
-  * less parameters than `bert-base-uncased`, runs 60% faster while preserving over 95% of BERT's
-  * performances as measured on the GLUE language understanding benchmark.
+/** Sentence-level embeddings using XLM-RoBERTa. The XLM-RoBERTa model was proposed in
+  * '''Unsupervised Cross-lingual Representation Learning at Scale'''
+  * [[https://arxiv.org/abs/1911.02116]] by Alexis Conneau, Kartikay Khandelwal, Naman Goyal,
+  * Vishrav Chaudhary, Guillaume Wenzek, Francisco GuzmÃ¡n, Edouard Grave, Myle Ott, Luke
+  * Zettlemoyer and Veselin Stoyanov. It is based on Facebook's RoBERTa model released in 2019. It
+  * is a large multi-lingual language model, trained on 2.5TB of filtered CommonCrawl data.
   *
   * The abstract from the paper is the following:
   *
-  * As Transfer Learning from large-scale pre-trained models becomes more prevalent in Natural
-  * Language Processing (NLP), operating these large models in on-the-edge and/or under
-  * constrained computational training or inference budgets remains challenging. In this work, we
-  * propose a method to pre-train a smaller general-purpose language representation model, called
-  * DistilBERT, which can then be fine-tuned with good performances on a wide range of tasks like
-  * its larger counterparts. While most prior work investigated the use of distillation for
-  * building task-specific models, we leverage knowledge distillation during the pretraining phase
-  * and show that it is possible to reduce the size of a BERT model by 40%, while retaining 97% of
-  * its language understanding capabilities and being 60% faster. To leverage the inductive biases
-  * learned by larger models during pretraining, we introduce a triple loss combining language
-  * modeling, distillation and cosine-distance losses. Our smaller, faster and lighter model is
-  * cheaper to pre-train and we demonstrate its capabilities for on-device computations in a
-  * proof-of-concept experiment and a comparative on-device study.
+  * This paper shows that pretraining multilingual language models at scale leads to significant
+  * performance gains for a wide range of cross-lingual transfer tasks. We train a
+  * Transformer-based masked language model on one hundred languages, using more than two
+  * terabytes of filtered CommonCrawl data. Our model, dubbed XLM-R, significantly outperforms
+  * multilingual BERT (mBERT) on a variety of cross-lingual benchmarks, including +13.8% average
+  * accuracy on XNLI, +12.3% average F1 score on MLQA, and +2.1% average F1 score on NER. XLM-R
+  * performs particularly well on low-resource languages, improving 11.8% in XNLI accuracy for
+  * Swahili and 9.2% for Urdu over the previous XLM model. We also present a detailed empirical
+  * evaluation of the key factors that are required to achieve these gains, including the
+  * trade-offs between (1) positive transfer and capacity dilution and (2) the performance of high
+  * and low resource languages at scale. Finally, we show, for the first time, the possibility of
+  * multilingual modeling without sacrificing per-language performance; XLM-Ris very competitive
+  * with strong monolingual models on the GLUE and XNLI benchmarks. We will make XLM-R code, data,
+  * and models publicly available.
   *
   * Tips:
   *
-  *   - DistilBERT doesn't have :obj:`token_type_ids`, you don't need to indicate which token
-  *     belongs to which segment. Just separate your segments with the separation token
-  *     :obj:`tokenizer.sep_token` (or :obj:`[SEP]`).
-  *
-  *   - DistilBERT doesn't have options to select the input positions (:obj:`position_ids` input).
-  *     This could be added if necessary though, just let us know if you need this option.
+  *   - XLM-RoBERTa is a multilingual model trained on 100 different languages. Unlike some XLM
+  *     multilingual models, it does not require '''lang''' parameter to understand which language
+  *     is used, and should be able to determine the correct language from the input ids.
+  *   - This implementation is the same as RoBERTa. Refer to the
+  *     [[com.johnsnowlabs.nlp.embeddings.RoBertaEmbeddings]] for usage examples as well as the
+  *     information relative to the inputs and outputs.
   *
   * @param tensorflowWrapper
-  *   Bert Model wrapper with TensorFlow Wrapper
-  * @param sentenceStartTokenId
-  *   Id of sentence start Token
-  * @param sentenceEndTokenId
-  *   Id of sentence end Token.
+  *   XlmRoberta Model wrapper with TensorFlowWrapper
+  * @param spp
+  *   XlmRoberta SentencePiece model with SentencePieceWrapper
+  * @param caseSensitive
+  *   Whether or not the tokenizer should be lowercase
   * @param configProtoBytes
   *   Configuration for TensorFlow session
+  * @param signatures
+  *   Model's inputs and output(s) signatures
   */
-class TensorflowDistilBert(
+class XlmRoberta(
     val tensorflowWrapper: TensorflowWrapper,
-    sentenceStartTokenId: Int,
-    sentenceEndTokenId: Int,
+    val spp: SentencePieceWrapper,
+    caseSensitive: Boolean = true,
     configProtoBytes: Option[Array[Byte]] = None,
     signatures: Option[Map[String, String]] = None)
     extends Serializable {
 
-  val _tfBertSignatures: Map[String, String] = signatures.getOrElse(ModelSignatureManager.apply())
+  val _tfRoBertaSignatures: Map[String, String] =
+    signatures.getOrElse(ModelSignatureManager.apply())
 
-  /** Encode the input sequence to indexes IDs adding padding where necessary */
+  private val SentenceStartTokenId = 0
+  private val SentenceEndTokenId = 2
+  private val SentencePadTokenId = 1
+  private val SentencePieceDelimiterId = spp.getSppModel.pieceToId("▁")
+
   def encode(
       sentences: Seq[(WordpieceTokenizedSentence, Int)],
       maxSequenceLength: Int): Seq[Array[Int]] = {
@@ -87,31 +98,43 @@ class TensorflowDistilBert(
     sentences
       .map { case (wpTokSentence, _) =>
         val tokenPieceIds = wpTokSentence.tokens.map(t => t.pieceId)
-        val padding = Array.fill(maxSentenceLength - tokenPieceIds.length)(0)
+        val padding = Array.fill(maxSentenceLength - tokenPieceIds.length)(SentencePadTokenId)
 
-        Array(sentenceStartTokenId) ++ tokenPieceIds.take(maxSentenceLength) ++ Array(
-          sentenceEndTokenId) ++ padding
+        Array(SentenceStartTokenId) ++ tokenPieceIds.take(maxSentenceLength) ++ Array(
+          SentenceEndTokenId) ++ padding
       }
   }
 
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
+
     val tensors = new TensorResources()
+    val tensorsMasks = new TensorResources()
 
-    val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
-    val batchLength = batch.length
+    /* Actual size of each sentence to skip padding in the TF model */
+    val sequencesLength = batch.map(x => x.length).toArray
+    val maxSentenceLength = sequencesLength.max
 
-    val tokenBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
-    val maskBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
+    val tokenBuffers = DataBuffers.ofInts(batch.length * maxSentenceLength)
+    val maskBuffers = DataBuffers.ofInts(batch.length * maxSentenceLength)
 
-    // [nb of encoded sentences , maxSentenceLength]
     val shape = Array(batch.length.toLong, maxSentenceLength)
 
     batch.zipWithIndex
-      .foreach { case (sentence, idx) =>
+      .foreach { case (tokenIds, idx) =>
         val offset = idx * maxSentenceLength
-        tokenBuffers.offset(offset).write(sentence)
-        maskBuffers.offset(offset).write(sentence.map(x => if (x == 0) 0 else 1))
+        val diff = maxSentenceLength - tokenIds.length
+
+        val padding = Array.fill(diff)(SentencePadTokenId)
+        val newTokenIds = tokenIds ++ padding
+
+        tokenBuffers.offset(offset).write(newTokenIds)
+        maskBuffers
+          .offset(offset)
+          .write(newTokenIds.map(x => if (x == SentencePadTokenId) 0 else 1))
       }
+
+    val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
+    val maskTensors = tensorsMasks.createIntBufferTensor(shape, maskBuffers)
 
     val runner = tensorflowWrapper
       .getTFSessionWithSignature(
@@ -120,30 +143,31 @@ class TensorflowDistilBert(
         initAllTables = false)
       .runner
 
-    val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
-    val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
-
     runner
       .feed(
-        _tfBertSignatures.getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"),
+        _tfRoBertaSignatures
+          .getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"),
         tokenTensors)
       .feed(
-        _tfBertSignatures
+        _tfRoBertaSignatures
           .getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"),
         maskTensors)
-      .fetch(_tfBertSignatures
+      .fetch(_tfRoBertaSignatures
         .getOrElse(ModelSignatureConstants.LastHiddenState.key, "missing_sequence_output_key"))
 
     val outs = runner.run().asScala
     val embeddings = TensorResources.extractFloats(outs.head)
 
-    outs.foreach(_.close())
     tensors.clearSession(outs)
     tensors.clearTensors()
 
-    val dim = embeddings.length / (batchLength * maxSentenceLength)
+    val dim = embeddings.length / (batch.length * maxSentenceLength)
     val shrinkedEmbeddings: Array[Array[Array[Float]]] =
-      embeddings.grouped(dim).toArray.grouped(maxSentenceLength).toArray
+      embeddings
+        .grouped(dim)
+        .toArray
+        .grouped(maxSentenceLength)
+        .toArray
 
     val emptyVector = Array.fill(dim)(0f)
 
@@ -156,14 +180,8 @@ class TensorflowDistilBert(
         embeddings
       }
     }
-
   }
 
-  /** @param batch
-    *   batches of sentences
-    * @return
-    *   batches of vectors for each sentence
-    */
   def tagSequence(batch: Seq[Array[Int]]): Array[Array[Float]] = {
     val tensors = new TensorResources()
     val tensorsMasks = new TensorResources()
@@ -184,7 +202,10 @@ class TensorflowDistilBert(
     }
 
     val runner = tensorflowWrapper
-      .getTFSessionWithSignature(configProtoBytes = configProtoBytes, initAllTables = false)
+      .getTFSessionWithSignature(
+        configProtoBytes = configProtoBytes,
+        savedSignatures = signatures,
+        initAllTables = false)
       .runner
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
@@ -192,13 +213,14 @@ class TensorflowDistilBert(
 
     runner
       .feed(
-        _tfBertSignatures.getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"),
+        _tfRoBertaSignatures
+          .getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"),
         tokenTensors)
       .feed(
-        _tfBertSignatures
+        _tfRoBertaSignatures
           .getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"),
         maskTensors)
-      .fetch(_tfBertSignatures
+      .fetch(_tfRoBertaSignatures
         .getOrElse(ModelSignatureConstants.PoolerOutput.key, "missing_pooled_output_key"))
 
     val outs = runner.run().asScala
@@ -213,14 +235,12 @@ class TensorflowDistilBert(
   }
 
   def predict(
-      sentences: Seq[WordpieceTokenizedSentence],
-      originalTokenSentences: Seq[TokenizedSentence],
+      tokenizedSentences: Seq[TokenizedSentence],
       batchSize: Int,
-      maxSentenceLength: Int,
-      caseSensitive: Boolean): Seq[WordpieceEmbeddingsSentence] = {
+      maxSentenceLength: Int): Seq[WordpieceEmbeddingsSentence] = {
 
-    /*Run embeddings calculation by batches*/
-    sentences.zipWithIndex
+    val wordPieceTokenizedSentences = tokenizeWithAlignment(tokenizedSentences, maxSentenceLength)
+    wordPieceTokenizedSentences.zipWithIndex
       .grouped(batchSize)
       .flatMap { batch =>
         val encoded = encode(batch, maxSentenceLength)
@@ -232,23 +252,14 @@ class TensorflowDistilBert(
 
           /*All wordpiece embeddings*/
           val tokenEmbeddings = tokenVectors.slice(1, tokenLength + 1)
-          val originalIndexedTokens = originalTokenSentences(sentence._2)
-
-          /*Word-level and span-level alignment with Tokenizer
-        https://github.com/google-research/bert#tokenization
-
-        ### Input
-        orig_tokens = ["John", "Johanson", "'s",  "house"]
-        labels      = ["NNP",  "NNP",      "POS", "NN"]
-
-        # bert_tokens == ["[CLS]", "john", "johan", "##son", "'", "s", "house", "[SEP]"]
-        # orig_to_tok_map == [1, 2, 4, 6]*/
+          val originalIndexedTokens = tokenizedSentences(sentence._2)
 
           val tokensWithEmbeddings =
             sentence._1.tokens.zip(tokenEmbeddings).flatMap { case (token, tokenEmbedding) =>
               val tokenWithEmbeddings = TokenPieceEmbeddings(token, tokenEmbedding)
               val originalTokensWithEmbeddings = originalIndexedTokens.indexedTokens
-                .find(p => p.begin == tokenWithEmbeddings.begin)
+                .find(p =>
+                  p.begin == tokenWithEmbeddings.begin && tokenWithEmbeddings.isWordStart)
                 .map { token =>
                   val originalTokenWithEmbedding = TokenPieceEmbeddings(
                     TokenPiece(
@@ -271,13 +282,19 @@ class TensorflowDistilBert(
   }
 
   def predictSequence(
-      tokens: Seq[WordpieceTokenizedSentence],
       sentences: Seq[Sentence],
       batchSize: Int,
       maxSentenceLength: Int): Seq[Annotation] = {
 
+    val wordPieceTokenizedSentences = sentences
+      .grouped(batchSize)
+      .flatMap { batch =>
+        tokenizeSentence(batch, maxSentenceLength)
+      }
+      .toSeq
+
     /*Run embeddings calculation by batches*/
-    tokens
+    wordPieceTokenizedSentences
       .zip(sentences)
       .zipWithIndex
       .grouped(batchSize)
@@ -302,6 +319,34 @@ class TensorflowDistilBert(
         }
       }
       .toSeq
+  }
+
+  def tokenizeWithAlignment(
+      sentences: Seq[TokenizedSentence],
+      maxSeqLength: Int): Seq[WordpieceTokenizedSentence] = {
+    val encoder =
+      new SentencepieceEncoder(spp, caseSensitive, SentencePieceDelimiterId, pieceIdOffset = 1)
+
+    val sentenceTokenPieces = sentences.map { s =>
+      val trimmedSentence = s.indexedTokens.take(maxSeqLength - 2)
+      val wordpieceTokens =
+        trimmedSentence.flatMap(token => encoder.encode(token)).take(maxSeqLength)
+      WordpieceTokenizedSentence(wordpieceTokens)
+    }
+    sentenceTokenPieces
+  }
+
+  def tokenizeSentence(
+      sentences: Seq[Sentence],
+      maxSeqLength: Int): Seq[WordpieceTokenizedSentence] = {
+    val encoder =
+      new SentencepieceEncoder(spp, caseSensitive, SentencePieceDelimiterId, pieceIdOffset = 1)
+
+    val sentenceTokenPieces = sentences.map { s =>
+      val wordpieceTokens = encoder.encodeSentence(s, maxLength = maxSeqLength).take(maxSeqLength)
+      WordpieceTokenizedSentence(wordpieceTokens)
+    }
+    sentenceTokenPieces
   }
 
 }

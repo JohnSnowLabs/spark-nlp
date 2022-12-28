@@ -1,12 +1,9 @@
 package com.johnsnowlabs.nlp.embeddings
 
+import com.johnsnowlabs.ml.ai.CamemBert
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece._
-import com.johnsnowlabs.ml.util.LoadExternalModel.{
-  loadSentencePieceAsset,
-  modelSanityCheck,
-  notSupportedEngineError
-}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{loadSentencePieceAsset, modelSanityCheck, notSupportedEngineError}
 import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
@@ -194,7 +191,7 @@ class CamemBertEmbeddings(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowCamemBert]] = None
+  private var _model: Option[Broadcast[CamemBert]] = None
 
   def setModelIfNotSet(
       spark: SparkSession,
@@ -203,7 +200,7 @@ class CamemBertEmbeddings(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowCamemBert(
+          new CamemBert(
             tensorflowWrapper,
             spp,
             configProtoBytes = getConfigProtoBytes,
@@ -214,7 +211,7 @@ class CamemBertEmbeddings(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowCamemBert = _model.get.value
+  def getModelIfNotSet: CamemBert = _model.get.value
 
   /** Set Embeddings dimensions for the CamemBERT model Only possible to set this when the first
     * time is saved dimension is not changeable, it comes from CamemBERT config file

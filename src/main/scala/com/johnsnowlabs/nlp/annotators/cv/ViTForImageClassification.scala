@@ -16,9 +16,9 @@
 
 package com.johnsnowlabs.nlp.annotators.cv
 
+import com.johnsnowlabs.ml.ai.ViTClassifier
 import com.johnsnowlabs.ml.tensorflow.{
   ReadTensorflowModel,
-  TensorflowViTClassifier,
   TensorflowWrapper,
   WriteTensorflowModel
 }
@@ -203,10 +203,10 @@ class ViTForImageClassification(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowViTClassifier]] = None
+  private var _model: Option[Broadcast[ViTClassifier]] = None
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowViTClassifier = _model.get.value
+  def getModelIfNotSet: ViTClassifier = _model.get.value
 
   /** @group setParam */
   def setModelIfNotSet(
@@ -220,7 +220,7 @@ class ViTForImageClassification(override val uid: String)
 
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowViTClassifier(
+          new ViTClassifier(
             tensorflow,
             configProtoBytes = getConfigProtoBytes,
             tags = $$(labels),

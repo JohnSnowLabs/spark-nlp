@@ -14,20 +14,21 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.ml.tensorflow
+package com.johnsnowlabs.ml.ai
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{SentencePieceWrapper, SentencepieceEncoder}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
+import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{ActivationFunction, Annotation}
-import org.tensorflow.ndarray.buffer.{IntDataBuffer, LongDataBuffer}
+import org.tensorflow.ndarray.buffer.IntDataBuffer
 
 import scala.collection.JavaConverters._
 
 /** @param tensorflowWrapper
-  *   CamemBERT Model wrapper with TensorFlow Wrapper
+  *   DeBERTa Model v2 & v3 wrapper with TensorFlow Wrapper
   * @param spp
-  *   XlmRoberta SentencePiece model with SentencePieceWrapper
+  *   DeBERTa SentencePiece model with SentencePieceWrapper
   * @param configProtoBytes
   *   Configuration for TensorFlow session
   * @param tags
@@ -35,39 +36,31 @@ import scala.collection.JavaConverters._
   * @param signatures
   *   TF v2 signatures in Spark NLP
   */
-class TensorflowCamemBertClassification(
+class DeBertaClassification(
     val tensorflowWrapper: TensorflowWrapper,
     val spp: SentencePieceWrapper,
     configProtoBytes: Option[Array[Byte]] = None,
     tags: Map[String, Int],
     signatures: Option[Map[String, String]] = None)
     extends Serializable
-    with TensorflowForClassification {
+    with XXXForClassification {
 
-  val _tfCamemBertSignatures: Map[String, String] =
+  val _tfDeBertaSignatures: Map[String, String] =
     signatures.getOrElse(ModelSignatureManager.apply())
 
-  /** HACK: These tokens were added by fairseq but don't seem to be actually used when duplicated
-    * in the actual # sentencepiece vocabulary (this is the case for '''<s>''' and '''</s>''')
-    * '''<s>NOTUSED": 0''','''"<pad>": 1''', '''"</s>NOTUSED": 2''', '''"<unk>": 3'''
-    */
-  private val pieceIdOffset: Int = 4
-  protected val sentenceStartTokenId: Int = spp.getSppModel.pieceToId("<s>") + pieceIdOffset
-  protected val sentenceEndTokenId: Int = spp.getSppModel.pieceToId("</s>") + pieceIdOffset
-  protected val sentencePadTokenId: Int = spp.getSppModel.pieceToId("<pad>") + pieceIdOffset
-  protected val sentencePieceDelimiterId: Int = spp.getSppModel.pieceToId("▁") + pieceIdOffset
+  // keys representing the input and output tensors of the DeBERTa model
+  protected val sentencePadTokenId: Int = spp.getSppModel.pieceToId("[PAD]")
+  protected val sentenceStartTokenId: Int = spp.getSppModel.pieceToId("[CLS]")
+  protected val sentenceEndTokenId: Int = spp.getSppModel.pieceToId("[SEP]")
+
+  private val sentencePieceDelimiterId: Int = spp.getSppModel.pieceToId("▁")
 
   def tokenizeWithAlignment(
       sentences: Seq[TokenizedSentence],
       maxSeqLength: Int,
       caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
 
-    val encoder =
-      new SentencepieceEncoder(
-        spp,
-        caseSensitive,
-        sentencePieceDelimiterId,
-        pieceIdOffset = pieceIdOffset)
+    val encoder = new SentencepieceEncoder(spp, caseSensitive, sentencePieceDelimiterId)
 
     val sentenceTokenPieces = sentences.map { s =>
       val trimmedSentence = s.indexedTokens.take(maxSeqLength - 2)
@@ -82,13 +75,8 @@ class TensorflowCamemBertClassification(
       docs: Seq[Annotation],
       maxSeqLength: Int,
       caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
-
     val encoder =
-      new SentencepieceEncoder(
-        spp,
-        caseSensitive,
-        sentencePieceDelimiterId - 1,
-        pieceIdOffset = 1)
+      new SentencepieceEncoder(spp, caseSensitive, sentencePieceDelimiterId, pieceIdOffset = 0)
 
     val sentences = docs.map { s => Sentence(s.result, s.begin, s.end, 0) }
 
@@ -107,6 +95,7 @@ class TensorflowCamemBertClassification(
 
     val tokenBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
     val maskBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
+    val segmentBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
 
     // [nb of encoded sentences , maxSentenceLength]
     val shape = Array(batch.length.toLong, maxSentenceLength)
@@ -118,6 +107,7 @@ class TensorflowCamemBertClassification(
         maskBuffers
           .offset(offset)
           .write(sentence.map(x => if (x == sentencePadTokenId) 0 else 1))
+        segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
       }
 
     val runner = tensorflowWrapper
@@ -126,17 +116,23 @@ class TensorflowCamemBertClassification(
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
     val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
+    val segmentTensors = tensors.createIntBufferTensor(shape, segmentBuffers)
 
     runner
       .feed(
-        _tfCamemBertSignatures
-          .getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"),
+        _tfDeBertaSignatures.getOrElse(
+          ModelSignatureConstants.InputIds.key,
+          "missing_input_id_key"),
         tokenTensors)
       .feed(
-        _tfCamemBertSignatures
+        _tfDeBertaSignatures
           .getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"),
         maskTensors)
-      .fetch(_tfCamemBertSignatures
+      .feed(
+        _tfDeBertaSignatures
+          .getOrElse(ModelSignatureConstants.TokenTypeIds.key, "missing_segment_ids_key"),
+        segmentTensors)
+      .fetch(_tfDeBertaSignatures
         .getOrElse(ModelSignatureConstants.LogitsOutput.key, "missing_logits_key"))
 
     val outs = runner.run().asScala
@@ -163,39 +159,46 @@ class TensorflowCamemBertClassification(
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
     val batchLength = batch.length
 
-    val tokenBuffers: LongDataBuffer = tensors.createLongBuffer(batchLength * maxSentenceLength)
-    val maskBuffers: LongDataBuffer = tensors.createLongBuffer(batchLength * maxSentenceLength)
+    val tokenBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
+    val maskBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
+    val segmentBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
 
     // [nb of encoded sentences , maxSentenceLength]
     val shape = Array(batch.length.toLong, maxSentenceLength)
 
     batch.zipWithIndex
       .foreach { case (sentence, idx) =>
-        val sentenceLong = sentence.map(x => x.toLong)
         val offset = idx * maxSentenceLength
-        tokenBuffers.offset(offset).write(sentenceLong)
+        tokenBuffers.offset(offset).write(sentence)
         maskBuffers
           .offset(offset)
-          .write(sentence.map(x => if (x == sentencePadTokenId) 0L else 1L))
+          .write(sentence.map(x => if (x == sentencePadTokenId) 0 else 1))
+        segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
       }
 
     val runner = tensorflowWrapper
       .getTFSessionWithSignature(configProtoBytes = configProtoBytes, initAllTables = false)
       .runner
 
-    val tokenTensors = tensors.createLongBufferTensor(shape, tokenBuffers)
-    val maskTensors = tensors.createLongBufferTensor(shape, maskBuffers)
+    val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
+    val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
+    val segmentTensors = tensors.createIntBufferTensor(shape, segmentBuffers)
 
     runner
       .feed(
-        _tfCamemBertSignatures
-          .getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"),
+        _tfDeBertaSignatures.getOrElse(
+          ModelSignatureConstants.InputIds.key,
+          "missing_input_id_key"),
         tokenTensors)
       .feed(
-        _tfCamemBertSignatures
+        _tfDeBertaSignatures
           .getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"),
         maskTensors)
-      .fetch(_tfCamemBertSignatures
+      .feed(
+        _tfDeBertaSignatures
+          .getOrElse(ModelSignatureConstants.TokenTypeIds.key, "missing_segment_ids_key"),
+        segmentTensors)
+      .fetch(_tfDeBertaSignatures
         .getOrElse(ModelSignatureConstants.LogitsOutput.key, "missing_logits_key"))
 
     val outs = runner.run().asScala
@@ -250,16 +253,16 @@ class TensorflowCamemBertClassification(
 
     runner
       .feed(
-        _tfCamemBertSignatures
+        _tfDeBertaSignatures
           .getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"),
         tokenTensors)
       .feed(
-        _tfCamemBertSignatures
+        _tfDeBertaSignatures
           .getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"),
         maskTensors)
-      .fetch(_tfCamemBertSignatures
+      .fetch(_tfDeBertaSignatures
         .getOrElse(ModelSignatureConstants.EndLogitsOutput.key, "missing_end_logits_key"))
-      .fetch(_tfCamemBertSignatures
+      .fetch(_tfDeBertaSignatures
         .getOrElse(ModelSignatureConstants.StartLogitsOutput.key, "missing_start_logits_key"))
 
     val outs = runner.run().asScala
@@ -285,6 +288,7 @@ class TensorflowCamemBertClassification(
       tokenizedSentences: Seq[TokenizedSentence],
       sentence: (WordpieceTokenizedSentence, Int),
       tokenPiece: TokenPiece): Option[IndexedToken] = {
+
     tokenizedSentences(sentence._2).indexedTokens.find(p =>
       p.begin == tokenPiece.begin && tokenPiece.isWordStart)
   }

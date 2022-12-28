@@ -14,58 +14,98 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.ml.tensorflow
+package com.johnsnowlabs.ml.ai
 
-import com.johnsnowlabs.ml.tensorflow.sentencepiece._
-import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
+import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
+import com.johnsnowlabs.nlp.annotators.common.{Sentence, SentenceSplit}
+import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.Gpt2Tokenizer
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
-import org.tensorflow.{Session, Tensor}
+import org.tensorflow.Session
 
 import scala.collection.JavaConverters._
 import scala.collection.mutable
-import scala.math._
+import scala.math.exp
 
-/** This class is used to run T5 model for For Sequence Batches of WordpieceTokenizedSentence.
-  * Input for this model must be tokenized with a SentencePieceModel,
-  *
-  * @param tensorflow
-  *   Albert Model wrapper with TensorFlowWrapper
-  * @param spp
-  *   Albert SentencePiece model with SentencePieceWrapper
-  * @param configProtoBytes
-  *   Configuration for TensorFlow session
-  */
-
-class TensorflowT5(
+class GPT2(
     val tensorflow: TensorflowWrapper,
-    val spp: SentencePieceWrapper,
-    configProtoBytes: Option[Array[Byte]] = None,
-    signatures: Option[Map[String, String]] = None)
+    val bpeTokenizer: Gpt2Tokenizer,
+    configProtoBytes: Option[Array[Byte]] = None)
     extends Serializable {
 
-  private val _tfT5Signatures: Map[String, String] =
-    signatures.getOrElse(ModelSignatureManager.apply())
-  private val paddingTokenId = 0
-  private val eosTokenId = 1
-  private val pieceSize = spp.getSppModel.getPieceSize
+  // keys representing the input and output tensors of the GPT2 model
+  private val inputIdsKey = "serving1_serving1_input_ids:0"
+  private val attentionMaskKey = "serving1_serving1_attention_mask:0"
+  private val outputLogitsKey = "StatefulPartitionedCall:0"
+
+  private val paddingTokenId = 50256
+  private val eosTokenId = 50256
 
   private def sessionWarmup(): Unit = {
-    val dummyInput = Array.fill(1)(0) ++ Array(eosTokenId)
+    val dummyInput = Array.fill(128)(0) ++ Array(eosTokenId)
     tag(
       Seq(dummyInput),
-      minOutputLength = 0,
-      maxOutputLength = 1,
+      minOutputLength = 1,
+      maxOutputLength = 5,
       doSample = false,
       temperature = 0f,
       topK = 0,
       topP = 0f,
       repetitionPenalty = 0f,
       noRepeatNgramSize = 0,
-      randomSeed = Option(0L),
-      ignoreTokenIds = Array(0))
+      randomSeed = Option(0),
+      ignoreTokenIds = Array(paddingTokenId))
   }
 
   sessionWarmup()
+
+  def predict(
+      sentences: Seq[Annotation],
+      batchSize: Int,
+      minOutputLength: Int,
+      maxOutputLength: Int,
+      doSample: Boolean,
+      temperature: Double,
+      topK: Int,
+      topP: Double,
+      repetitionPenalty: Double,
+      noRepeatNgramSize: Int,
+      task: String,
+      randomSeed: Option[Int] = None,
+      ignoreTokenIds: Array[Int] = Array()): Seq[Annotation] = {
+
+    val batchDecoder = sentences.grouped(batchSize).toArray.flatMap { batch =>
+      val batchSP = encode(batch, task)
+
+      val spIds = tag(
+        batchSP,
+        minOutputLength,
+        maxOutputLength,
+        doSample,
+        temperature,
+        topK,
+        topP,
+        repetitionPenalty,
+        noRepeatNgramSize,
+        randomSeed,
+        ignoreTokenIds)
+      decode(spIds)
+    }
+
+    var sentBegin, nextSentEnd = 0
+
+    batchDecoder.zip(sentences).map { case (content, sent) =>
+      nextSentEnd += content.length - 1
+      val annots = new Annotation(
+        annotatorType = AnnotatorType.DOCUMENT,
+        begin = sentBegin,
+        end = nextSentEnd,
+        result = content,
+        metadata = sent.metadata)
+      sentBegin += nextSentEnd + 1
+      annots
+    }
+
+  }
 
   def tag(
       batch: Seq[Array[Int]],
@@ -77,100 +117,33 @@ class TensorflowT5(
       topP: Double,
       repetitionPenalty: Double,
       noRepeatNgramSize: Int,
-      randomSeed: Option[Long],
+      randomSeed: Option[Int],
       ignoreTokenIds: Array[Int] = Array()): Array[Array[Int]] = {
-
-    /* Actual size of each sentence to skip padding in the TF model */
-    val sequencesLength = batch.map(x => x.length).toArray
-    val maxSentenceLength = sequencesLength.max // - curLen
 
     val numReturn_sequences = 1
     // from config
-    val vocab_size = 32128
+    val vocab_size = 50257
 
     var effectiveBatch_size = 1
-    var effectiveBatch_mult = 1
 
     // set effective batch size and effective batch multiplier according to do_sample
     if (doSample) {
       effectiveBatch_size = batch.length * numReturn_sequences
-      effectiveBatch_mult = numReturn_sequences
     } else {
       effectiveBatch_size = batch.length
-      effectiveBatch_mult = 1
     }
 
-    // Run encoder
-    val tensorEncoder = new TensorResources()
-    val inputDim = batch.length * maxSentenceLength
+    val session = tensorflow.getTFSessionWithSignature(configProtoBytes = configProtoBytes)
 
-    val encoderInputBuffers = tensorEncoder.createIntBuffer(inputDim)
-    val encoderAttentionMaskBuffers = tensorEncoder.createIntBuffer(inputDim)
+    val maxSentenceLength = batch.map(_.length).max
 
-    val shape = Array(batch.length.toLong, maxSentenceLength)
-
-    batch.zipWithIndex.foreach { case (tokenIds, idx) =>
-      val offset = idx * maxSentenceLength
+    val paddedBatch = batch.map { tokenIds =>
       val diff = maxSentenceLength - tokenIds.length
-
-      val s = tokenIds.take(maxSentenceLength) ++ Array.fill[Int](diff)(this.paddingTokenId)
-      encoderInputBuffers.offset(offset).write(s)
-      val mask = s.map(x => if (x != this.paddingTokenId) 1 else 0)
-      encoderAttentionMaskBuffers.offset(offset).write(mask)
+      Array.fill[Int](diff)(this.paddingTokenId) ++ tokenIds.take(maxSentenceLength)
     }
 
-    val encoderInputTensors = tensorEncoder.createIntBufferTensor(shape, encoderInputBuffers)
-    val encoderAttentionMaskTensors =
-      tensorEncoder.createIntBufferTensor(shape, encoderAttentionMaskBuffers)
-
-    val session = tensorflow.getTFSessionWithSignature(
-      configProtoBytes = configProtoBytes,
-      initAllTables = false,
-      savedSignatures = signatures)
-    val runner = session.runner
-
-    runner
-      .feed(
-        _tfT5Signatures.getOrElse(
-          ModelSignatureConstants.EncoderInputIds.key,
-          "missing_encoder_input_ids"),
-        encoderInputTensors)
-      .feed(
-        _tfT5Signatures.getOrElse(
-          ModelSignatureConstants.EncoderAttentionMask.key,
-          "missing_encoder_attention_mask"),
-        encoderAttentionMaskTensors)
-      .fetch(_tfT5Signatures
-        .getOrElse(ModelSignatureConstants.EncoderOutput.key, "missing_last_hidden_state"))
-
-    val encoderOuts = runner.run().asScala
-    val encoderOutsFloats = TensorResources.extractFloats(encoderOuts.head)
-    val dim = encoderOutsFloats.length / inputDim
-    val encoderOutsBatch =
-      encoderOutsFloats.grouped(dim).toArray.grouped(maxSentenceLength).toArray
-
-    encoderOuts.foreach(_.close())
-
-    // Run decoder
-    val decoderEncoderStateTensorResources = new TensorResources()
-    val decoderEncoderStateBuffers =
-      decoderEncoderStateTensorResources.createFloatBuffer(batch.length * maxSentenceLength * dim)
-    batch.zipWithIndex.foreach { case (_, index) =>
-      var offset = index * maxSentenceLength * dim
-      encoderOutsBatch(index).foreach(encoderOutput => {
-        decoderEncoderStateBuffers.offset(offset).write(encoderOutput)
-        offset += dim
-      })
-    }
-
-    val decoderEncoderStateTensors = tensorEncoder.createFloatBufferTensor(
-      Array(batch.length.toLong, maxSentenceLength, dim),
-      decoderEncoderStateBuffers)
-
-    val modelOutputs = generateNoBeamSearch(
-      batch,
-      decoderEncoderStateTensors,
-      encoderAttentionMaskTensors,
+    generateNoBeamSearch(
+      paddedBatch,
       maxOutputLength,
       minOutputLength,
       doSample,
@@ -184,17 +157,10 @@ class TensorflowT5(
       randomSeed,
       session,
       ignoreTokenIds)
-
-    tensorEncoder.clearTensors()
-    tensorEncoder.clearSession(encoderOuts)
-    modelOutputs
-
   }
 
   def generateNoBeamSearch(
       inputIds: Seq[Array[Int]],
-      decoderEncoderStateTensors: Tensor,
-      encoderAttentionMaskTensors: Tensor,
       maxOutputLength: Int,
       minOutputLength: Int,
       doSample: Boolean,
@@ -205,14 +171,14 @@ class TensorflowT5(
       noRepeatNgramSize: Int,
       batch_size: Int,
       vocab_size: Int,
-      randomSeed: Option[Long],
+      randomSeed: Option[Int],
       session: Session,
       ignoreTokenIds: Array[Int] = Array()): Array[Array[Int]] = {
 
     /** Generate sequences for each example without beam search (numBeams == 1). All returned
       * sequence are generated independently.
       */
-    var decoderInputs = inputIds.map(_ => Array(this.paddingTokenId)).toArray
+    var decoderInputs = inputIds.toArray
 
     var curLen = decoderInputs(0).length
 
@@ -238,38 +204,19 @@ class TensorflowT5(
         decoderAttentionBuffers.offset(offset).write(paddingMasks)
       }
 
-      val decoderInputTensors = tensorDecoder.createIntBufferTensor(
+      val inputIdTensors = tensorDecoder.createIntBufferTensor(
         Array(decoderInputs.length.toLong, decoderInputLength),
         decoderInputBuffers)
-      val decoderAttentionMaskTensors = tensorDecoder.createIntBufferTensor(
+      val attentionMaskTensors = tensorDecoder.createIntBufferTensor(
         Array(decoderInputs.length.toLong, decoderInputLength),
         decoderAttentionBuffers)
       val runner = session.runner
 
       // TODO add past to the model and use cache
       runner
-        .feed(
-          _tfT5Signatures.getOrElse(
-            ModelSignatureConstants.DecoderInputIds.key,
-            "missing_decoder_input_ids"),
-          decoderInputTensors)
-        .feed(
-          _tfT5Signatures.getOrElse(
-            ModelSignatureConstants.DecoderAttentionMask.key,
-            "missing_encoder_attention_mask"),
-          decoderAttentionMaskTensors)
-        .feed(
-          _tfT5Signatures.getOrElse(
-            ModelSignatureConstants.DecoderEncoderInputIds.key,
-            "missing_encoder_state"),
-          decoderEncoderStateTensors)
-        .feed(
-          _tfT5Signatures.getOrElse(
-            ModelSignatureConstants.DecoderEncoderAttentionMask.key,
-            "missing_decoder_encoder_attention_mask"),
-          encoderAttentionMaskTensors)
-        .fetch(_tfT5Signatures
-          .getOrElse(ModelSignatureConstants.DecoderOutput.key, "missing_output_0"))
+        .feed(inputIdsKey, inputIdTensors)
+        .feed(attentionMaskKey, attentionMaskTensors)
+        .fetch(outputLogitsKey)
 
       val decoderOuts = runner.run().asScala
       val decoderOutputs = TensorResources
@@ -306,7 +253,7 @@ class TensorflowT5(
             (for (token <- 0 until vocab_size)
               yield if (bannedTokensSlice.contains(token)) true else false)
         }
-        if (!bannedTokensIndicesMask.isEmpty)
+        if (!bannedTokensIndicesMask.isEmpty) {
           nextTokenLogits =
             for ((nextTokenLogit, bannedTokensIndexMask) <- nextTokenLogits.zip(
                 bannedTokensIndicesMask))
@@ -314,6 +261,7 @@ class TensorflowT5(
                 nextTokenLogit,
                 bannedTokensIndexMask,
                 Float.NegativeInfinity)
+        }
       }
 
       // set eos token prob to zero if minLength is not reached
@@ -337,8 +285,8 @@ class TensorflowT5(
       var nextToken = Array.ofDim[Int](decoderInputs.length)
 
       if (doSample) {
-        // Temperature (higher temperature => more likely to sample low probability tokens)
-        if (temperature != 1.0)
+        // Temperature (higher temperature => more likely to sample low probability tokens). May not be 0
+        if (temperature != 1.0 && temperature > 0)
           nextTokenLogits =
             for (nextTokenLogit <- nextTokenLogits)
               yield nextTokenLogit.map(_ / temperature.toFloat)
@@ -386,11 +334,11 @@ class TensorflowT5(
 
       tensorDecoder.clearTensors()
       tensorDecoder.clearSession(decoderOuts)
-      decoderInputTensors.close()
+      inputIdTensors.close()
 
       // stop when there is a eos in each sentence, or if we exceed the maximum length
       //      stopDecoder = curLen < maxOutputLength || unfinishedSents.max == 0
-      stopDecoder = (!decoderInputs.exists(o => !o.contains(this.eosTokenId))
+      stopDecoder = (!decoderInputs.exists(o => o.last != this.eosTokenId)
         || (decoderInputs.head.length > maxOutputLength))
 
     }
@@ -407,9 +355,9 @@ class TensorflowT5(
     for (i <- logits.indices) {
       var nextTokenLogit = logits(i)
       val prevInputIds = inputIds.head.distinct
-      for ((prevInputId, _) <- prevInputIds.zipWithIndex) {
+      for ((prevInputId, j) <- prevInputIds.zipWithIndex) {
         var logitPenalty = 1.0
-        if (logits(i)(prevInputId) < 0) {
+        if (logits(i)(prevInputId.toInt) < 0) {
           logitPenalty = repetitionPenalty
         } else {
           logitPenalty = 1 / repetitionPenalty
@@ -560,7 +508,7 @@ class TensorflowT5(
     for ((inputId, index) <- prevInputIds.zip(indices)) yield if (index) value else inputId
   }
 
-  private def categoricalSample(dist: Array[Float], randomSeed: Option[Long]): Int = {
+  private def categoricalSample(dist: Array[Float], randomSeed: Option[Int]): Int = {
     val (distFiltered, indices) =
       dist.zipWithIndex.filter { case (elem, index) => !elem.isInfinite }.sorted.unzip
 
@@ -585,71 +533,33 @@ class TensorflowT5(
         return i
       }
     }
+    if (distFiltered.length == 0) {
+      // TODO should distFiltered.length == 0 happen (?)
+      //  Can we something better than 0?
+      return 0
+    }
     indices(0)
   }
 
   def decode(sentences: Array[Array[Int]]): Seq[String] = {
-
-    sentences.map { s =>
-      val filteredPieceIds = s.filter(x => x <= pieceSize)
-      spp.getSppModel.decodeIds(filteredPieceIds.map(_.toInt): _*)
-    }
-
+    sentences.map(s => bpeTokenizer.decodeTokens(s))
   }
 
   def encode(sentences: Seq[Annotation], task: String): Seq[Array[Int]] = {
-    sentences.map(s => {
-      val sentWithTask = if (task.nonEmpty) task.concat(" ").concat(s.result) else s.result
-      spp.getSppModel.encodeAsIds(sentWithTask) ++ Array(this.eosTokenId)
-    })
-  }
-
-  def predict(
-      sentences: Seq[Annotation],
-      batchSize: Int,
-      minOutputLength: Int,
-      maxOutputLength: Int,
-      doSample: Boolean,
-      temperature: Double,
-      topK: Int,
-      topP: Double,
-      repetitionPenalty: Double,
-      noRepeatNgramSize: Int,
-      task: String,
-      randomSeed: Option[Long] = None,
-      ignoreTokenIds: Array[Int] = Array()): Seq[Annotation] = {
-
-    val batchDecoder = sentences.grouped(batchSize).toArray.flatMap { batch =>
-      val batchSP = encode(batch, task)
-      val spIds = tag(
-        batchSP,
-        minOutputLength,
-        maxOutputLength,
-        doSample,
-        temperature,
-        topK,
-        topP,
-        repetitionPenalty,
-        noRepeatNgramSize,
-        randomSeed,
-        ignoreTokenIds)
-
-      decode(spIds)
-
-    }
-
-    var sentBegin, nextSentEnd = 0
-    batchDecoder.zip(sentences).map { case (content, sent) =>
-      nextSentEnd += content.length - 1
-      val annots = new Annotation(
-        annotatorType = AnnotatorType.DOCUMENT,
-        begin = sentBegin,
-        end = nextSentEnd,
-        result = content,
-        metadata = sent.metadata)
-      sentBegin += nextSentEnd + 1
-      annots
-    }
+    SentenceSplit
+      .unpack(sentences)
+      .map(s => {
+        val sentWithTask =
+          if (task.nonEmpty)
+            new Sentence(
+              content = task.concat(" ").concat(s.content),
+              start = s.start,
+              end = s.end + task.length + 1,
+              index = s.index,
+              metadata = s.metadata)
+          else s
+        bpeTokenizer.tokenize(sentWithTask).map(bpeTokenizer.encode).flatMap(_.map(_.pieceId))
+      })
   }
 
 }

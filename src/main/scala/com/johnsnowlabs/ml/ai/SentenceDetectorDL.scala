@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.ml.tensorflow
+package com.johnsnowlabs.ml.ai
 
+import com.johnsnowlabs.ml.tensorflow.{Logging, TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.util.io.OutputHelper
 import org.apache.spark.ml.util.Identifiable
@@ -25,7 +26,7 @@ import org.tensorflow.proto.framework.GraphDef
 import scala.collection.JavaConverters._
 import scala.util.Random
 
-class TensorflowSentenceDetectorDL(
+class SentenceDetectorDL(
     val model: TensorflowWrapper,
     val verboseLevel: Verbose.Value = Verbose.All,
     val outputLogsPath: Option[String] = None)

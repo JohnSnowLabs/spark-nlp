@@ -16,9 +16,9 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
+import com.johnsnowlabs.ml.ai.USE
 import com.johnsnowlabs.ml.tensorflow.{
   ReadTensorflowModel,
-  TensorflowUSE,
   TensorflowWrapper,
   WriteTensorflowModel
 }
@@ -223,10 +223,10 @@ class UniversalSentenceEncoder(override val uid: String)
   def getConfigProtoBytes: Option[Array[Byte]] =
     get(this.configProtoBytes).map(_.map(_.toByte))
 
-  private var _model: Option[Broadcast[TensorflowUSE]] = None
+  private var _model: Option[Broadcast[USE]] = None
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowUSE = _model.get.value
+  def getModelIfNotSet: USE = _model.get.value
 
   /** @group setParam */
   def setModelIfNotSet(spark: SparkSession, tensorflow: TensorflowWrapper): this.type = {
@@ -234,7 +234,7 @@ class UniversalSentenceEncoder(override val uid: String)
 
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowUSE(
+          new USE(
             tensorflow,
             configProtoBytes = getConfigProtoBytes,
             loadSP = getLoadSP)))

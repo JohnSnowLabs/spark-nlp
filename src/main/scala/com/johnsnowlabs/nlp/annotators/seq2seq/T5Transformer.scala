@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.seq2seq
 
+import com.johnsnowlabs.ml.ai.T5
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
   ReadSentencePieceModel,
   SentencePieceWrapper,
@@ -23,7 +24,6 @@ import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
 }
 import com.johnsnowlabs.ml.tensorflow.{
   ReadTensorflowModel,
-  TensorflowT5,
   TensorflowWrapper,
   WriteTensorflowModel
 }
@@ -394,7 +394,7 @@ class T5Transformer(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowT5]] = None
+  private var _model: Option[Broadcast[T5]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
@@ -404,7 +404,7 @@ class T5Transformer(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowT5(
+          new T5(
             tfWrapper,
             spp,
             configProtoBytes = getConfigProtoBytes,
@@ -414,7 +414,7 @@ class T5Transformer(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowT5 = _model.get.value
+  def getModelIfNotSet: T5 = _model.get.value
 
   setDefault(
     task -> "",

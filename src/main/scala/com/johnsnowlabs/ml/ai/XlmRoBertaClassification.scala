@@ -14,20 +14,21 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.ml.tensorflow
+package com.johnsnowlabs.ml.ai
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{SentencePieceWrapper, SentencepieceEncoder}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
-import com.johnsnowlabs.nlp.{ActivationFunction, Annotation}
+import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.common._
+import com.johnsnowlabs.nlp.{ActivationFunction, Annotation}
 import org.tensorflow.ndarray.buffer.IntDataBuffer
 
 import scala.collection.JavaConverters._
 
 /** @param tensorflowWrapper
-  *   XLNet Model wrapper with TensorFlow Wrapper
+  *   XLM-RoBERTa Model wrapper with TensorFlow Wrapper
   * @param spp
-  *   XLNet SentencePiece model with SentencePieceWrapper
+  *   XlmRoberta SentencePiece model with SentencePieceWrapper
   * @param configProtoBytes
   *   Configuration for TensorFlow session
   * @param tags
@@ -35,22 +36,21 @@ import scala.collection.JavaConverters._
   * @param signatures
   *   TF v2 signatures in Spark NLP
   */
-class TensorflowXlnetClassification(
+class XlmRoBertaClassification(
     val tensorflowWrapper: TensorflowWrapper,
     val spp: SentencePieceWrapper,
     configProtoBytes: Option[Array[Byte]] = None,
     tags: Map[String, Int],
     signatures: Option[Map[String, String]] = None)
     extends Serializable
-    with TensorflowForClassification {
+    with XXXForClassification {
 
-  val _tfXlnetSignatures: Map[String, String] =
+  val _tfXlmRoBertaSignatures: Map[String, String] =
     signatures.getOrElse(ModelSignatureManager.apply())
 
-  // keys representing the input and output tensors of the XLNet model
-  override protected val sentenceStartTokenId: Int = spp.getSppModel.pieceToId("<cls>")
-  override protected val sentenceEndTokenId: Int = spp.getSppModel.pieceToId("<sep>")
-  override protected val sentencePadTokenId: Int = spp.getSppModel.pieceToId("<pad>")
+  protected val sentenceStartTokenId: Int = 0
+  protected val sentenceEndTokenId: Int = 2
+  protected val sentencePadTokenId: Int = 1
 
   private val sentencePieceDelimiterId = spp.getSppModel.pieceToId("▁")
 
@@ -60,7 +60,7 @@ class TensorflowXlnetClassification(
       caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
 
     val encoder =
-      new SentencepieceEncoder(spp, caseSensitive, delimiterId = sentencePieceDelimiterId)
+      new SentencepieceEncoder(spp, caseSensitive, sentencePieceDelimiterId, pieceIdOffset = 1)
 
     val sentenceTokenPieces = sentences.map { s =>
       val trimmedSentence = s.indexedTokens.take(maxSeqLength - 2)
@@ -75,7 +75,21 @@ class TensorflowXlnetClassification(
       docs: Seq[Annotation],
       maxSeqLength: Int,
       caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
-    Seq.empty[WordpieceTokenizedSentence]
+
+    val encoder =
+      new SentencepieceEncoder(
+        spp,
+        caseSensitive,
+        sentencePieceDelimiterId - 1,
+        pieceIdOffset = 1)
+
+    val sentences = docs.map { s => Sentence(s.result, s.begin, s.end, 0) }
+
+    val sentenceTokenPieces = sentences.map { s =>
+      val wordpieceTokens = encoder.encodeSentence(s, maxLength = maxSeqLength).take(maxSeqLength)
+      WordpieceTokenizedSentence(wordpieceTokens)
+    }
+    sentenceTokenPieces
   }
 
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
@@ -86,7 +100,6 @@ class TensorflowXlnetClassification(
 
     val tokenBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
     val maskBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
-    val segmentBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
 
     // [nb of encoded sentences , maxSentenceLength]
     val shape = Array(batch.length.toLong, maxSentenceLength)
@@ -98,7 +111,6 @@ class TensorflowXlnetClassification(
         maskBuffers
           .offset(offset)
           .write(sentence.map(x => if (x == sentencePadTokenId) 0 else 1))
-        segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
       }
 
     val runner = tensorflowWrapper
@@ -107,23 +119,17 @@ class TensorflowXlnetClassification(
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
     val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
-    val segmentTensors = tensors.createIntBufferTensor(shape, segmentBuffers)
 
     runner
       .feed(
-        _tfXlnetSignatures.getOrElse(
-          ModelSignatureConstants.InputIds.key,
-          "missing_input_id_key"),
+        _tfXlmRoBertaSignatures
+          .getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"),
         tokenTensors)
       .feed(
-        _tfXlnetSignatures
+        _tfXlmRoBertaSignatures
           .getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"),
         maskTensors)
-      .feed(
-        _tfXlnetSignatures
-          .getOrElse(ModelSignatureConstants.TokenTypeIds.key, "missing_segment_ids_key"),
-        segmentTensors)
-      .fetch(_tfXlnetSignatures
+      .fetch(_tfXlmRoBertaSignatures
         .getOrElse(ModelSignatureConstants.LogitsOutput.key, "missing_logits_key"))
 
     val outs = runner.run().asScala
@@ -132,9 +138,6 @@ class TensorflowXlnetClassification(
     outs.foreach(_.close())
     tensors.clearSession(outs)
     tensors.clearTensors()
-    tokenTensors.close()
-    maskTensors.close()
-    segmentTensors.close()
 
     val dim = rawScores.length / (batchLength * maxSentenceLength)
     val batchScores: Array[Array[Array[Float]]] = rawScores
@@ -155,7 +158,6 @@ class TensorflowXlnetClassification(
 
     val tokenBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
     val maskBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
-    val segmentBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
 
     // [nb of encoded sentences , maxSentenceLength]
     val shape = Array(batch.length.toLong, maxSentenceLength)
@@ -167,7 +169,6 @@ class TensorflowXlnetClassification(
         maskBuffers
           .offset(offset)
           .write(sentence.map(x => if (x == sentencePadTokenId) 0 else 1))
-        segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
       }
 
     val runner = tensorflowWrapper
@@ -176,23 +177,17 @@ class TensorflowXlnetClassification(
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
     val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
-    val segmentTensors = tensors.createIntBufferTensor(shape, segmentBuffers)
 
     runner
       .feed(
-        _tfXlnetSignatures.getOrElse(
-          ModelSignatureConstants.InputIds.key,
-          "missing_input_id_key"),
+        _tfXlmRoBertaSignatures
+          .getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"),
         tokenTensors)
       .feed(
-        _tfXlnetSignatures
+        _tfXlmRoBertaSignatures
           .getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"),
         maskTensors)
-      .feed(
-        _tfXlnetSignatures
-          .getOrElse(ModelSignatureConstants.TokenTypeIds.key, "missing_segment_ids_key"),
-        segmentTensors)
-      .fetch(_tfXlnetSignatures
+      .fetch(_tfXlmRoBertaSignatures
         .getOrElse(ModelSignatureConstants.LogitsOutput.key, "missing_logits_key"))
 
     val outs = runner.run().asScala
@@ -201,9 +196,6 @@ class TensorflowXlnetClassification(
     outs.foreach(_.close())
     tensors.clearSession(outs)
     tensors.clearTensors()
-    tokenTensors.close()
-    maskTensors.close()
-    segmentTensors.close()
 
     val dim = rawScores.length / batchLength
     val batchScores: Array[Array[Float]] =
@@ -221,7 +213,64 @@ class TensorflowXlnetClassification(
   }
 
   def tagSpan(batch: Seq[Array[Int]]): (Array[Array[Float]], Array[Array[Float]]) = {
-    (Array.empty[Array[Float]], Array.empty[Array[Float]])
+    val tensors = new TensorResources()
+
+    val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
+    val batchLength = batch.length
+
+    val tokenBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
+    val maskBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
+
+    // [nb of encoded sentences , maxSentenceLength]
+    val shape = Array(batch.length.toLong, maxSentenceLength)
+
+    batch.zipWithIndex
+      .foreach { case (sentence, idx) =>
+        val offset = idx * maxSentenceLength
+        tokenBuffers.offset(offset).write(sentence)
+        maskBuffers
+          .offset(offset)
+          .write(sentence.map(x => if (x == sentencePadTokenId) 0 else 1))
+      }
+
+    val runner = tensorflowWrapper
+      .getTFSessionWithSignature(configProtoBytes = configProtoBytes, initAllTables = false)
+      .runner
+
+    val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
+    val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
+
+    runner
+      .feed(
+        _tfXlmRoBertaSignatures
+          .getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"),
+        tokenTensors)
+      .feed(
+        _tfXlmRoBertaSignatures
+          .getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"),
+        maskTensors)
+      .fetch(_tfXlmRoBertaSignatures
+        .getOrElse(ModelSignatureConstants.EndLogitsOutput.key, "missing_end_logits_key"))
+      .fetch(_tfXlmRoBertaSignatures
+        .getOrElse(ModelSignatureConstants.StartLogitsOutput.key, "missing_start_logits_key"))
+
+    val outs = runner.run().asScala
+    val endLogits = TensorResources.extractFloats(outs.head)
+    val startLogits = TensorResources.extractFloats(outs.last)
+
+    outs.foreach(_.close())
+    tensors.clearSession(outs)
+    tensors.clearTensors()
+
+    val endDim = endLogits.length / batchLength
+    val endScores: Array[Array[Float]] =
+      endLogits.grouped(endDim).map(scores => calculateSoftmax(scores)).toArray
+
+    val startDim = startLogits.length / batchLength
+    val startScores: Array[Array[Float]] =
+      startLogits.grouped(startDim).map(scores => calculateSoftmax(scores)).toArray
+
+    (startScores, endScores)
   }
 
   def findIndexedToken(
