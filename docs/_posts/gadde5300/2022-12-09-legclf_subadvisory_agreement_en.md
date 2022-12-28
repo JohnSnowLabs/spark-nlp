@@ -39,6 +39,7 @@ If not, let us know and we can carry out another approach for you: getting chunk
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  
 document_assembler = nlp.DocumentAssembler()\
@@ -105,5 +106,4 @@ subadvisory-agreement      0.87   0.80      0.83       25
              accuracy         -      -      0.92      101
             macro-avg      0.90   0.88      0.89      101
          weighted-avg      0.92   0.92      0.92      101
-
 ```
