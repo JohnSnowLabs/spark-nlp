@@ -21,7 +21,6 @@ import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignat
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
-import org.slf4j.{Logger, LoggerFactory}
 
 import scala.collection.JavaConverters._
 
@@ -63,11 +62,11 @@ private[johnsnowlabs] class Bert(
     val tensors = new TensorResources()
 
     val (tokenTensors, maskTensors, segmentTensors) =
-      PrepareEmbeddings.prepareTFBertLikeBatchTensors(
-        tensors,
-        batch,
-        maxSentenceLength,
-        batchLength)
+      PrepareEmbeddings.prepareBatchTensorsWithSegment(
+        tensors = tensors,
+        batch = batch,
+        maxSentenceLength = maxSentenceLength,
+        batchLength = batchLength)
 
     val runner = tensorflowWrapper
       .getTFSessionWithSignature(
@@ -119,11 +118,11 @@ private[johnsnowlabs] class Bert(
     val tensors = new TensorResources()
 
     val (tokenTensors, maskTensors, segmentTensors) =
-      PrepareEmbeddings.prepareTFBertLikeBatchTensors(
-        tensors,
-        batch,
-        maxSentenceLength,
-        batchLength)
+      PrepareEmbeddings.prepareBatchTensorsWithSegment(
+        tensors = tensors,
+        batch = batch,
+        maxSentenceLength = maxSentenceLength,
+        batchLength = batchLength)
 
     val runner = tensorflowWrapper
       .getTFSessionWithSignature(
@@ -231,7 +230,7 @@ private[johnsnowlabs] class Bert(
     sentences.zipWithIndex
       .grouped(batchSize)
       .flatMap { batch =>
-        val encoded = PrepareEmbeddings.prepareBatchWithPadding(
+        val encoded = PrepareEmbeddings.prepareBatchInputsWithPadding(
           batch,
           maxSentenceLength,
           sentenceStartTokenId,
@@ -298,7 +297,7 @@ private[johnsnowlabs] class Bert(
       .flatMap { batch =>
         val tokensBatch = batch.map(x => (x._1._1, x._2))
         val sentencesBatch = batch.map(x => x._1._2)
-        val encoded = PrepareEmbeddings.prepareBatchWithPadding(
+        val encoded = PrepareEmbeddings.prepareBatchInputsWithPadding(
           tokensBatch,
           maxSentenceLength,
           sentenceStartTokenId,
