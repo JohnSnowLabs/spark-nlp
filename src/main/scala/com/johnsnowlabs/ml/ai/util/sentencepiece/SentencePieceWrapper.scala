@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.ml.tensorflow.sentencepiece
+package com.johnsnowlabs.ml.ai.util.sentencepiece
 
 import org.apache.commons.io.FileUtils
 import org.apache.hadoop.fs.{FileSystem, Path}

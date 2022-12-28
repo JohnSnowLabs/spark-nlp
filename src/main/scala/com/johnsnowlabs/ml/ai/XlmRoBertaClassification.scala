@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.ml.ai
 
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.{SentencePieceWrapper, SentencepieceEncoder}
+import com.johnsnowlabs.ml.ai.util.sentencepiece.{SentencePieceWrapper, SentencepieceEncoder}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.common._
