@@ -37,7 +37,7 @@ import scala.collection.JavaConverters._
   * @param signatures
   *   Model's inputs and output(s) signatures
   */
-class RoBerta(
+private[johnsnowlabs] class RoBerta(
     val tensorflowWrapper: TensorflowWrapper,
     sentenceStartTokenId: Int,
     sentenceEndTokenId: Int,

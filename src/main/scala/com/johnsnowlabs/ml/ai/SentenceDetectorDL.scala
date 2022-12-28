@@ -26,7 +26,7 @@ import org.tensorflow.proto.framework.GraphDef
 import scala.collection.JavaConverters._
 import scala.util.Random
 
-class SentenceDetectorDL(
+private[johnsnowlabs] class SentenceDetectorDL(
     val model: TensorflowWrapper,
     val verboseLevel: Verbose.Value = Verbose.All,
     val outputLogsPath: Option[String] = None)

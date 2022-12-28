@@ -22,7 +22,7 @@ import org.tensorflow.ndarray.buffer.IntDataBuffer
 
 import scala.collection.JavaConverters._
 
-class SpanBertCoref(
+private[johnsnowlabs] class SpanBertCoref(
     val tensorflowWrapper: TensorflowWrapper,
     sentenceStartTokenId: Int,
     sentenceEndTokenId: Int,

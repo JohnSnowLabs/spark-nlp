@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.ml.ai
 
-import com.johnsnowlabs.ml.tensorflow.sentencepiece._
+import com.johnsnowlabs.ml.ai.util.sentencepiece.SentencePieceWrapper
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
@@ -37,7 +37,7 @@ import scala.math._
   *   Configuration for TensorFlow session
   */
 
-class T5(
+private[johnsnowlabs] class T5(
     val tensorflow: TensorflowWrapper,
     val spp: SentencePieceWrapper,
     configProtoBytes: Option[Array[Byte]] = None,

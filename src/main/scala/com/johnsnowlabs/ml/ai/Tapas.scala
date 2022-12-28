@@ -26,7 +26,7 @@ import org.tensorflow.ndarray.buffer.IntDataBuffer
 
 import scala.collection.JavaConverters._
 
-class Tapas(
+private[johnsnowlabs] class Tapas(
     override val tensorflowWrapper: TensorflowWrapper,
     override val sentenceStartTokenId: Int,
     override val sentenceEndTokenId: Int,
