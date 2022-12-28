@@ -16,15 +16,15 @@
 
 package com.johnsnowlabs.ml.ai
 
+import com.johnsnowlabs.ml.ai.util.PrepareEmbeddings
 import com.johnsnowlabs.ml.tensorflow.sentencepiece._
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.common._
-import org.tensorflow.ndarray.buffer.DataBuffers
 
 import scala.collection.JavaConverters._
 
-/** @param tensorflow
+/** @param tensorflowWrapper
   *   DeBERTa Model wrapper with TensorFlowWrapper
   * @param spp
   *   DeBERTa SentencePiece model with SentencePieceWrapper
@@ -34,7 +34,7 @@ import scala.collection.JavaConverters._
   *   Configuration for TensorFlow session
   */
 class DeBerta(
-    val tensorflow: TensorflowWrapper,
+    val tensorflowWrapper: TensorflowWrapper,
     val spp: SentencePieceWrapper,
     batchSize: Int,
     configProtoBytes: Option[Array[Byte]] = None,
@@ -72,40 +72,20 @@ class DeBerta(
 
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
 
-    val tensors = new TensorResources()
-    val tensorsMasks = new TensorResources()
-    val tensorsSegments = new TensorResources()
-
     /* Actual size of each sentence to skip padding in the TF model */
-    val sequencesLength = batch.map(x => x.length).toArray
-    val maxSentenceLength = sequencesLength.max
+    val maxSentenceLength = batch.map(pieceIds => pieceIds.length).max
+    val batchLength = batch.length
 
-    val tokenBuffers = DataBuffers.ofInts(batch.length * maxSentenceLength)
-    val maskBuffers = DataBuffers.ofInts(batch.length * maxSentenceLength)
-    val segmentBuffers = DataBuffers.ofInts(batch.length * maxSentenceLength)
+    val tensors = new TensorResources()
 
-    val shape = Array(batch.length.toLong, maxSentenceLength)
+    val (tokenTensors, maskTensors, segmentTensors) =
+      PrepareEmbeddings.prepareTFBertLikeBatchTensors(
+        tensors,
+        batch,
+        maxSentenceLength,
+        batchLength)
 
-    batch.zipWithIndex.foreach { case (tokenIds, idx) =>
-      // this one marks the beginning of each sentence in the flatten structure
-      val offset = idx * maxSentenceLength
-      val diff = maxSentenceLength - tokenIds.length
-      segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
-
-      val padding = Array.fill(diff)(SentencePadTokenId)
-      val newTokenIds = tokenIds ++ padding
-
-      tokenBuffers.offset(offset).write(newTokenIds)
-      maskBuffers
-        .offset(offset)
-        .write(newTokenIds.map(x => if (x == SentencePadTokenId) 0 else 1))
-    }
-
-    val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
-    val maskTensors = tensorsMasks.createIntBufferTensor(shape, maskBuffers)
-    val segmentTensors = tensorsSegments.createIntBufferTensor(shape, segmentBuffers)
-
-    val runner = tensorflow
+    val runner = tensorflowWrapper
       .getTFSessionWithSignature(
         configProtoBytes = configProtoBytes,
         savedSignatures = signatures,
@@ -126,34 +106,26 @@ class DeBerta(
         _tfDeBertaSignatures
           .getOrElse(ModelSignatureConstants.TokenTypeIds.key, "missing_segment_ids_key"),
         segmentTensors)
-      .fetch(_tfDeBertaSignatures
-        .getOrElse(ModelSignatureConstants.LastHiddenState.key, "missing_sequence_output_key"))
+      .fetch(
+        _tfDeBertaSignatures
+          .getOrElse(
+            ModelSignatureConstants.LastHiddenState.key,
+            "missing_sequence_output_key"))
 
     val outs = runner.run().asScala
     val embeddings = TensorResources.extractFloats(outs.head)
 
+    tokenTensors.close()
+    maskTensors.close()
+    segmentTensors.close()
     tensors.clearSession(outs)
     tensors.clearTensors()
 
-    val dim = embeddings.length / (batch.length * maxSentenceLength)
-    val shrinkedEmbeddings: Array[Array[Array[Float]]] =
-      embeddings
-        .grouped(dim)
-        .toArray
-        .grouped(maxSentenceLength)
-        .toArray
-
-    val emptyVector = Array.fill(dim)(0f)
-
-    batch.zip(shrinkedEmbeddings).map { case (ids, embeddings) =>
-      if (ids.length > embeddings.length) {
-        embeddings.take(embeddings.length - 1) ++
-          Array.fill(embeddings.length - ids.length)(emptyVector) ++
-          Array(embeddings.last)
-      } else {
-        embeddings
-      }
-    }
+    PrepareEmbeddings.prepareBatchWordEmbeddings(
+      batch,
+      embeddings,
+      maxSentenceLength,
+      batchLength)
   }
 
   def predict(
