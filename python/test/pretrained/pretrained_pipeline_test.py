@@ -122,4 +122,3 @@ class PretrainedPipelineAudioInputTest(unittest.TestCase):
         self.assertEqual(len(annotations_result), len(audios))
         for result in annotations_result:
             self.assertTrue(len(result) > 0)
-
