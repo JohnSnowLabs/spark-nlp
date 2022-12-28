@@ -16,8 +16,8 @@
 
 package com.johnsnowlabs.ml.tensorflow
 
-import com.johnsnowlabs.ml.ai.util.io.ChunkBytes
-import com.johnsnowlabs.ml.ai.util.sentencepiece.LoadSentencepiece
+import com.johnsnowlabs.ml.tensorflow.io.ChunkBytes
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.LoadSentencepiece
 import com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureManager
 import com.johnsnowlabs.nlp.annotators.ner.dl.LoadsContrib
 import com.johnsnowlabs.nlp.util.io.ResourceHelper

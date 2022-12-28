@@ -17,7 +17,7 @@
 package com.johnsnowlabs.nlp.annotators.seq2seq
 
 import com.johnsnowlabs.ml.ai.T5
-import com.johnsnowlabs.ml.ai.util.sentencepiece.{
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
   ReadSentencePieceModel,
   SentencePieceWrapper,
   WriteSentencePieceModel

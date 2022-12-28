@@ -1,12 +1,12 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.ml.ai.CamemBert
-import com.johnsnowlabs.ml.ai.util.sentencepiece.{
+import com.johnsnowlabs.ml.tensorflow._
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
   ReadSentencePieceModel,
   SentencePieceWrapper,
   WriteSentencePieceModel
 }
-import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadSentencePieceAsset,
   modelSanityCheck,
@@ -306,7 +306,7 @@ class CamemBertEmbeddings(override val uid: String)
     writeTensorflowModelV2(
       path,
       spark,
-      getModelIfNotSet.tensorflow,
+      getModelIfNotSet.tensorflowWrapper,
       "_camembert",
       CamemBertEmbeddings.tfFile,
       configProtoBytes = getConfigProtoBytes)
