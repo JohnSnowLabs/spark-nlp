@@ -26,7 +26,7 @@ import scala.collection.JavaConverters._
 import scala.collection.mutable
 import scala.math.exp
 
-class GPT2(
+private[johnsnowlabs] class GPT2(
     val tensorflow: TensorflowWrapper,
     val bpeTokenizer: Gpt2Tokenizer,
     configProtoBytes: Option[Array[Byte]] = None)

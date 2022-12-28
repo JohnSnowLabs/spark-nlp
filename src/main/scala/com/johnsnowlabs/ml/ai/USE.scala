@@ -40,7 +40,7 @@ import scala.collection.JavaConverters._
   *
   * [[https://tfhub.dev/google/universal-sentence-encoder/2]]
   */
-class USE(
+private[johnsnowlabs] class USE(
     val tensorflow: TensorflowWrapper,
     configProtoBytes: Option[Array[Byte]] = None,
     loadSP: Boolean = false)

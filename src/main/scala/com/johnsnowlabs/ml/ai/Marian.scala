@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.ml.ai
 
-import com.johnsnowlabs.ml.tensorflow.sentencepiece._
+import com.johnsnowlabs.ml.ai.util.sentencepiece.SentencePieceWrapper
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.tokenizer.normalizer.MosesPunctNormalizer
@@ -49,7 +49,7 @@ import scala.collection.JavaConverters._
   * @param sppTrg
   *   Contains the vocabulary for the source language
   */
-class Marian(
+private[johnsnowlabs] class Marian(
     val tensorflow: TensorflowWrapper,
     val sppSrc: SentencePieceWrapper,
     val sppTrg: SentencePieceWrapper,
