@@ -16,13 +16,12 @@
 
 package com.johnsnowlabs.ml.ai
 
+import com.johnsnowlabs.ml.ai.util.PrepareEmbeddings
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import org.slf4j.{Logger, LoggerFactory}
-import org.tensorflow.ndarray.buffer.IntDataBuffer
-import com.johnsnowlabs.ml.ai.util.PrepareEmbeddings
 
 import scala.collection.JavaConverters._
 
@@ -47,7 +46,7 @@ import scala.collection.JavaConverters._
   *
   * Source: [[https://github.com/google-research/bert]]
   */
-class Bert(
+private[johnsnowlabs] class Bert(
     val tensorflowWrapper: TensorflowWrapper,
     sentenceStartTokenId: Int,
     sentenceEndTokenId: Int,
@@ -112,11 +111,8 @@ class Bert(
         _tfBertSignatures
           .getOrElse(ModelSignatureConstants.TokenTypeIdsV1.key, "missing_segment_ids_key"),
         segmentTensors)
-      .fetch(
-        _tfBertSignatures
-          .getOrElse(
-            ModelSignatureConstants.LastHiddenStateV1.key,
-            "missing_sequence_output_key"))
+      .fetch(_tfBertSignatures
+        .getOrElse(ModelSignatureConstants.LastHiddenStateV1.key, "missing_sequence_output_key"))
 
     val outs = runner.run().asScala
     val embeddings = TensorResources.extractFloats(outs.head)
@@ -136,26 +132,19 @@ class Bert(
   }
 
   def tagSequence(batch: Seq[Array[Int]]): Array[Array[Float]] = {
-    val tensors = new TensorResources()
-    val tensorsMasks = new TensorResources()
-    val tensorsSegments = new TensorResources()
 
-    val maxSentenceLength = batch.map(x => x.length).max
+    /* Actual size of each sentence to skip padding in the TF model */
+    val maxSentenceLength = batch.map(pieceIds => pieceIds.length).max
     val batchLength = batch.length
 
-    val tokenBuffers = tensors.createIntBuffer(batchLength * maxSentenceLength)
-    val maskBuffers = tensorsMasks.createIntBuffer(batchLength * maxSentenceLength)
-    val segmentBuffers = tensorsSegments.createIntBuffer(batchLength * maxSentenceLength)
+    val tensors = new TensorResources()
 
-    val shape = Array(batchLength.toLong, maxSentenceLength)
-
-    batch.zipWithIndex.foreach { case (sentence, idx) =>
-      val offset = idx * maxSentenceLength
-
-      tokenBuffers.offset(offset).write(sentence)
-      maskBuffers.offset(offset).write(sentence.map(x => if (x == 0) 0 else 1))
-      segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
-    }
+    val (tokenTensors, maskTensors, segmentTensors) =
+      PrepareEmbeddings.prepareTFBertLikeBatchTensors(
+        tensors,
+        batch,
+        maxSentenceLength,
+        batchLength)
 
     val runner = tensorflowWrapper
       .getTFSessionWithSignature(
@@ -163,10 +152,6 @@ class Bert(
         savedSignatures = signatures,
         initAllTables = false)
       .runner
-
-    val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
-    val maskTensors = tensorsMasks.createIntBufferTensor(shape, maskBuffers)
-    val segmentTensors = tensorsSegments.createIntBufferTensor(shape, segmentBuffers)
 
     runner
       .feed(
@@ -188,6 +173,9 @@ class Bert(
     val outs = runner.run().asScala
     val embeddings = TensorResources.extractFloats(outs.head)
 
+    tokenTensors.close()
+    maskTensors.close()
+    segmentTensors.close()
     tensors.clearSession(outs)
     tensors.clearTensors()
 
