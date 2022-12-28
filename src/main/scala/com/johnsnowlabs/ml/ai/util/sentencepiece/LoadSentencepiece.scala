@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.ml.tensorflow.sentencepiece
+package com.johnsnowlabs.ml.ai.util.sentencepiece
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.commons.lang.SystemUtils
@@ -26,7 +26,7 @@ import java.io.{BufferedOutputStream, File, FileOutputStream}
 import java.nio.file.{Files, Paths}
 import java.util.UUID
 
-object LoadSentencepiece {
+private[johnsnowlabs] object LoadSentencepiece {
   @transient var loadedToCluster = false
   @transient var loadedToTensorflow = false
 

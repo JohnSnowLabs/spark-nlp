@@ -21,7 +21,7 @@ import com.johnsnowlabs.nlp.annotators.common._
 import org.tensorflow.Tensor
 import org.tensorflow.ndarray.buffer.IntDataBuffer
 
-object PrepareEmbeddings {
+private[johnsnowlabs] object PrepareEmbeddings {
 
   /** prepare batches of piece IDs while padding shorter sequences to the longest sequence length
     * and trim sequences longer than maxSequenceLength
@@ -39,11 +39,11 @@ object PrepareEmbeddings {
     * @return
     */
   def prepareBatchWithPadding(
-                               sentences: Seq[(WordpieceTokenizedSentence, Int)],
-                               maxSequenceLength: Int,
-                               sentenceStartTokenId: Int,
-                               sentenceEndTokenId: Int,
-                               sentencePadTokenId: Int = 0): Seq[Array[Int]] = {
+      sentences: Seq[(WordpieceTokenizedSentence, Int)],
+      maxSequenceLength: Int,
+      sentenceStartTokenId: Int,
+      sentenceEndTokenId: Int,
+      sentencePadTokenId: Int = 0): Seq[Array[Int]] = {
     val maxSentenceLength =
       Array(
         maxSequenceLength - 2,
@@ -62,11 +62,11 @@ object PrepareEmbeddings {
   }
 
   def prepareTFBertLikeBatchTensors(
-                                     tensors: TensorResources,
-                                     batch: Seq[Array[Int]],
-                                     maxSentenceLength: Int,
-                                     batchLength: Int,
-                                     sentencePadTokenId: Int = 0): (Tensor, Tensor, Tensor) = {
+      tensors: TensorResources,
+      batch: Seq[Array[Int]],
+      maxSentenceLength: Int,
+      batchLength: Int,
+      sentencePadTokenId: Int = 0): (Tensor, Tensor, Tensor) = {
 
     val tokenBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
     val maskBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
@@ -92,10 +92,10 @@ object PrepareEmbeddings {
   }
 
   def prepareBatchWordEmbeddings(
-                                  batch: Seq[Array[Int]],
-                                  embeddings: Array[Float],
-                                  maxSentenceLength: Int,
-                                  batchLength: Int): Seq[Array[Array[Float]]] = {
+      batch: Seq[Array[Int]],
+      embeddings: Array[Float],
+      maxSentenceLength: Int,
+      batchLength: Int): Seq[Array[Array[Float]]] = {
     val dim = embeddings.length / (batchLength * maxSentenceLength)
     val shrinkedEmbeddings: Array[Array[Array[Float]]] =
       embeddings.grouped(dim).toArray.grouped(maxSentenceLength).toArray

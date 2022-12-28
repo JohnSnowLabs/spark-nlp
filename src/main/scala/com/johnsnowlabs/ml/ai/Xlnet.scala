@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.ml.ai
 
-import com.johnsnowlabs.ml.tensorflow.sentencepiece._
+import com.johnsnowlabs.ml.ai.util.sentencepiece.{SentencePieceWrapper, SentencepieceEncoder}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.common._
@@ -80,7 +80,7 @@ import scala.collection.JavaConverters._
   *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
   *   parameter values through setters and getters, respectively.
   */
-class Xlnet(
+private[johnsnowlabs] class Xlnet(
     val tensorflow: TensorflowWrapper,
     val spp: SentencePieceWrapper,
     configProtoBytes: Option[Array[Byte]] = None,

@@ -19,7 +19,7 @@ package com.johnsnowlabs.ml.ai
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{ActivationFunction, Annotation, AnnotatorType}
 
-trait XXXForClassification {
+private[johnsnowlabs] trait XXXForClassification {
 
   protected val sentencePadTokenId: Int
   protected val sentenceStartTokenId: Int
