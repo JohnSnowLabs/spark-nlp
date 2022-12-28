@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.ml.ai
 
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.{SentencePieceWrapper, SentencepieceEncoder}
+import com.johnsnowlabs.ml.ai.util.sentencepiece.{SentencePieceWrapper, SentencepieceEncoder}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.common._
@@ -36,7 +36,7 @@ import scala.collection.JavaConverters._
   * @param signatures
   *   TF v2 signatures in Spark NLP
   */
-class XlmRoBertaClassification(
+private[johnsnowlabs] class XlmRoBertaClassification(
     val tensorflowWrapper: TensorflowWrapper,
     val spp: SentencePieceWrapper,
     configProtoBytes: Option[Array[Byte]] = None,

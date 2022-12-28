@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.ml.tensorflow.sentencepiece;
+package com.johnsnowlabs.ml.ai.util.sentencepiece;
 
 import java.util.Arrays;
 import java.util.List;

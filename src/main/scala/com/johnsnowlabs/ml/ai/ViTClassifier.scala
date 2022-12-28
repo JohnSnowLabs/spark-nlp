@@ -25,7 +25,7 @@ import com.johnsnowlabs.nlp.annotators.cv.util.transform.ImageResizeUtils
 
 import scala.collection.JavaConverters._
 
-class ViTClassifier(
+private[johnsnowlabs] class ViTClassifier(
     val tensorflowWrapper: TensorflowWrapper,
     configProtoBytes: Option[Array[Byte]] = None,
     tags: Map[String, BigInt],

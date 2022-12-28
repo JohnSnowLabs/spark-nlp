@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.ml.ai
 
-import com.johnsnowlabs.ml.tensorflow.sentencepiece._
+import com.johnsnowlabs.ml.ai.util.sentencepiece.{SentencePieceWrapper, SentencepieceEncoder}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.common._
@@ -69,7 +69,7 @@ import scala.collection.JavaConverters._
   * @param signatures
   *   Model's inputs and output(s) signatures
   */
-class XlmRoberta(
+private[johnsnowlabs] class XlmRoberta(
     val tensorflowWrapper: TensorflowWrapper,
     val spp: SentencePieceWrapper,
     caseSensitive: Boolean = true,

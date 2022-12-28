@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.ml.tensorflow.io
+package com.johnsnowlabs.ml.ai.util.io
 
 import java.io.{BufferedOutputStream, FileInputStream, FileOutputStream, IOException}
 import java.nio.file.{Files, Path}
 import scala.collection.mutable.ArrayBuffer
 
-object ChunkBytes {
+private[johnsnowlabs] object ChunkBytes {
 
   /** readFileInByteChunks will read a file by chuning the size of BufferSize and return array of
     * arrays of Byte
