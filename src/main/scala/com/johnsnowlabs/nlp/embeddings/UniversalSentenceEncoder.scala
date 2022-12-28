@@ -234,10 +234,7 @@ class UniversalSentenceEncoder(override val uid: String)
 
       _model = Some(
         spark.sparkContext.broadcast(
-          new USE(
-            tensorflow,
-            configProtoBytes = getConfigProtoBytes,
-            loadSP = getLoadSP)))
+          new USE(tensorflow, configProtoBytes = getConfigProtoBytes, loadSP = getLoadSP)))
     }
     this
   }
