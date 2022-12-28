@@ -39,7 +39,7 @@ class Wav2Vec2(
 
   private def sessionWarmup(): Unit = {
     val bufferedSource =
-      scala.io.Source.fromInputStream(getClass.getResourceAsStream( "/audio/audio_floats.csv"))
+      scala.io.Source.fromInputStream(getClass.getResourceAsStream("/audio/audio_floats.csv"))
 
     val rawFloats = bufferedSource
       .getLines()

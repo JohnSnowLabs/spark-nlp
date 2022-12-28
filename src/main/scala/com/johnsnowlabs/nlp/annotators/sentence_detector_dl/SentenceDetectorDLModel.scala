@@ -353,8 +353,7 @@ class SentenceDetectorDLModel(override val uid: String)
 
   def setupTFClassifier(spark: SparkSession, tfWrapper: TensorflowWrapper): this.type = {
     if (_tfClassifier.isEmpty) {
-      _tfClassifier = Some(
-        spark.sparkContext.broadcast(new SentenceDetectorDL(tfWrapper)))
+      _tfClassifier = Some(spark.sparkContext.broadcast(new SentenceDetectorDL(tfWrapper)))
     }
     this
   }
