@@ -55,7 +55,7 @@ import scala.collection.JavaConverters._
   *
   * [[https://arxiv.org/abs/1802.05365]]
   */
-class Elmo(
+private[johnsnowlabs] class Elmo(
     val tensorflow: TensorflowWrapper,
     batchSize: Int,
     configProtoBytes: Option[Array[Byte]] = None)

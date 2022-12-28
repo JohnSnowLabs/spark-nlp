@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.ml.ai
 
-import com.johnsnowlabs.ml.tensorflow.sentencepiece._
+import com.johnsnowlabs.ml.ai.util.sentencepiece.{SentencePieceWrapper, SentencepieceEncoder}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.common._
@@ -64,7 +64,7 @@ import scala.collection.JavaConverters._
   * @param configProtoBytes
   *   Configuration for TensorFlow session
   */
-class Albert(
+private[johnsnowlabs] class Albert(
     val tensorflow: TensorflowWrapper,
     val spp: SentencePieceWrapper,
     batchSize: Int,

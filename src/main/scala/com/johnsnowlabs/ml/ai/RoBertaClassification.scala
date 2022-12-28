@@ -38,7 +38,7 @@ import scala.collection.JavaConverters._
   * @param signatures
   *   TF v2 signatures in Spark NLP
   */
-class RoBertaClassification(
+private[johnsnowlabs] class RoBertaClassification(
     val tensorflowWrapper: TensorflowWrapper,
     val sentenceStartTokenId: Int,
     val sentenceEndTokenId: Int,

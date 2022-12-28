@@ -17,7 +17,7 @@
 package com.johnsnowlabs.ml.ai
 
 import com.johnsnowlabs.ml.ai.util.PrepareEmbeddings
-import com.johnsnowlabs.ml.tensorflow.sentencepiece._
+import com.johnsnowlabs.ml.ai.util.sentencepiece.{SentencePieceWrapper, SentencepieceEncoder}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.common._
@@ -106,11 +106,8 @@ class DeBerta(
         _tfDeBertaSignatures
           .getOrElse(ModelSignatureConstants.TokenTypeIds.key, "missing_segment_ids_key"),
         segmentTensors)
-      .fetch(
-        _tfDeBertaSignatures
-          .getOrElse(
-            ModelSignatureConstants.LastHiddenState.key,
-            "missing_sequence_output_key"))
+      .fetch(_tfDeBertaSignatures
+        .getOrElse(ModelSignatureConstants.LastHiddenState.key, "missing_sequence_output_key"))
 
     val outs = runner.run().asScala
     val embeddings = TensorResources.extractFloats(outs.head)

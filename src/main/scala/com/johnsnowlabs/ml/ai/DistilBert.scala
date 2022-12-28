@@ -64,7 +64,7 @@ import scala.collection.JavaConverters._
   * @param configProtoBytes
   *   Configuration for TensorFlow session
   */
-class DistilBert(
+private[johnsnowlabs] class DistilBert(
     val tensorflowWrapper: TensorflowWrapper,
     sentenceStartTokenId: Int,
     sentenceEndTokenId: Int,
