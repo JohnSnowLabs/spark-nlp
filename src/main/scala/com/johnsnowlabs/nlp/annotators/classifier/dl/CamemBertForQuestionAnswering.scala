@@ -17,12 +17,12 @@
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.ml.ai._
-import com.johnsnowlabs.ml.ai.util.sentencepiece.{
+import com.johnsnowlabs.ml.tensorflow._
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
   ReadSentencePieceModel,
   SentencePieceWrapper,
   WriteSentencePieceModel
 }
-import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadSentencePieceAsset,
   modelSanityCheck,

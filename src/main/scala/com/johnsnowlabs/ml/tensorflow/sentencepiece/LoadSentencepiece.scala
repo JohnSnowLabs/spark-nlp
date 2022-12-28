@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.ml.ai.util.sentencepiece
+package com.johnsnowlabs.ml.tensorflow.sentencepiece
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.commons.lang.SystemUtils

@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.nlp
 
-import com.johnsnowlabs.ml.ai.util.sentencepiece.ReadSentencePieceModel
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.ReadSentencePieceModel
 import com.johnsnowlabs.nlp.annotators.btm.ReadablePretrainedBigTextMatcher
 import com.johnsnowlabs.nlp.annotators.classifier.dl._
 import com.johnsnowlabs.nlp.annotators.coref.{

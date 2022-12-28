@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.ml.ai.util.io
+package com.johnsnowlabs.ml.tensorflow.io
 
 import java.io.{BufferedOutputStream, FileInputStream, FileOutputStream, IOException}
 import java.nio.file.{Files, Path}
