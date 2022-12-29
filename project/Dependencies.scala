@@ -70,7 +70,7 @@ object Dependencies {
 
   lazy val supportedScalaVersions: Seq[String] = List(scala212)
 
-  val scalaTestVersion = "3.2.9"
+  val scalaTestVersion = "3.2.14"
 
   /** ------- Scala version end ------- */
 
