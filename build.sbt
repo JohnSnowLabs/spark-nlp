@@ -32,7 +32,7 @@ Compile / doc / target := baseDirectory.value / "docs/api"
 
 // exclude memory-intensive modules from coverage
 coverageExcludedPackages := ".*nlp.embeddings.*;.*ml.tensorflow.*;.*nlp.annotators.classifier.dl.*;" +
-  ".*nlp.annotators.seq2seq.*"
+  ".*nlp.annotators.seq2seq.*;.*ml.*"
 
 licenses += "Apache-2.0" -> url("https://opensource.org/licenses/Apache-2.0")
 
