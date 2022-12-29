@@ -16,11 +16,11 @@
 
 package com.johnsnowlabs.ml.ai
 
+import com.johnsnowlabs.ml.ai.util.PrepareEmbeddings
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
-import org.tensorflow.ndarray.buffer.IntDataBuffer
 
 import scala.collection.JavaConverters._
 
@@ -74,45 +74,19 @@ private[johnsnowlabs] class DistilBert(
 
   val _tfBertSignatures: Map[String, String] = signatures.getOrElse(ModelSignatureManager.apply())
 
-  /** Encode the input sequence to indexes IDs adding padding where necessary */
-  def encode(
-      sentences: Seq[(WordpieceTokenizedSentence, Int)],
-      maxSequenceLength: Int): Seq[Array[Int]] = {
-    val maxSentenceLength =
-      Array(
-        maxSequenceLength - 2,
-        sentences.map { case (wpTokSentence, _) =>
-          wpTokSentence.tokens.length
-        }.max).min
-
-    sentences
-      .map { case (wpTokSentence, _) =>
-        val tokenPieceIds = wpTokSentence.tokens.map(t => t.pieceId)
-        val padding = Array.fill(maxSentenceLength - tokenPieceIds.length)(0)
-
-        Array(sentenceStartTokenId) ++ tokenPieceIds.take(maxSentenceLength) ++ Array(
-          sentenceEndTokenId) ++ padding
-      }
-  }
-
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
-    val tensors = new TensorResources()
 
-    val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
+    val maxSentenceLength = batch.map(pieceIds => pieceIds.length).max
     val batchLength = batch.length
 
-    val tokenBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
-    val maskBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
+    val tensors = new TensorResources()
 
-    // [nb of encoded sentences , maxSentenceLength]
-    val shape = Array(batch.length.toLong, maxSentenceLength)
-
-    batch.zipWithIndex
-      .foreach { case (sentence, idx) =>
-        val offset = idx * maxSentenceLength
-        tokenBuffers.offset(offset).write(sentence)
-        maskBuffers.offset(offset).write(sentence.map(x => if (x == 0) 0 else 1))
-      }
+    val (tokenTensors, maskTensors) =
+      PrepareEmbeddings.prepareBatchTensors(
+        tensors = tensors,
+        batch = batch,
+        maxSentenceLength = maxSentenceLength,
+        batchLength = batchLength)
 
     val runner = tensorflowWrapper
       .getTFSessionWithSignature(
@@ -120,9 +94,6 @@ private[johnsnowlabs] class DistilBert(
         savedSignatures = signatures,
         initAllTables = false)
       .runner
-
-    val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
-    val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
 
     runner
       .feed(
@@ -138,26 +109,16 @@ private[johnsnowlabs] class DistilBert(
     val outs = runner.run().asScala
     val embeddings = TensorResources.extractFloats(outs.head)
 
-    outs.foreach(_.close())
+    tokenTensors.close()
+    maskTensors.close()
     tensors.clearSession(outs)
     tensors.clearTensors()
 
-    val dim = embeddings.length / (batchLength * maxSentenceLength)
-    val shrinkedEmbeddings: Array[Array[Array[Float]]] =
-      embeddings.grouped(dim).toArray.grouped(maxSentenceLength).toArray
-
-    val emptyVector = Array.fill(dim)(0f)
-
-    batch.zip(shrinkedEmbeddings).map { case (ids, embeddings) =>
-      if (ids.length > embeddings.length) {
-        embeddings.take(embeddings.length - 1) ++
-          Array.fill(embeddings.length - ids.length)(emptyVector) ++
-          Array(embeddings.last)
-      } else {
-        embeddings
-      }
-    }
-
+    PrepareEmbeddings.prepareBatchWordEmbeddings(
+      batch,
+      embeddings,
+      maxSentenceLength,
+      batchLength)
   }
 
   /** @param batch
@@ -166,30 +127,25 @@ private[johnsnowlabs] class DistilBert(
     *   batches of vectors for each sentence
     */
   def tagSequence(batch: Seq[Array[Int]]): Array[Array[Float]] = {
-    val tensors = new TensorResources()
-    val tensorsMasks = new TensorResources()
 
-    val maxSentenceLength = batch.map(x => x.length).max
+    val maxSentenceLength = batch.map(pieceIds => pieceIds.length).max
     val batchLength = batch.length
 
-    val tokenBuffers = tensors.createIntBuffer(batchLength * maxSentenceLength)
-    val maskBuffers = tensorsMasks.createIntBuffer(batchLength * maxSentenceLength)
+    val tensors = new TensorResources()
 
-    val shape = Array(batchLength.toLong, maxSentenceLength)
-
-    batch.zipWithIndex.foreach { case (sentence, idx) =>
-      val offset = idx * maxSentenceLength
-
-      tokenBuffers.offset(offset).write(sentence)
-      maskBuffers.offset(offset).write(sentence.map(x => if (x == 0) 0 else 1))
-    }
+    val (tokenTensors, maskTensors) =
+      PrepareEmbeddings.prepareBatchTensors(
+        tensors = tensors,
+        batch = batch,
+        maxSentenceLength = maxSentenceLength,
+        batchLength = batchLength)
 
     val runner = tensorflowWrapper
-      .getTFSessionWithSignature(configProtoBytes = configProtoBytes, initAllTables = false)
+      .getTFSessionWithSignature(
+        configProtoBytes = configProtoBytes,
+        savedSignatures = signatures,
+        initAllTables = false)
       .runner
-
-    val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
-    val maskTensors = tensorsMasks.createIntBufferTensor(shape, maskBuffers)
 
     runner
       .feed(
@@ -205,6 +161,8 @@ private[johnsnowlabs] class DistilBert(
     val outs = runner.run().asScala
     val embeddings = TensorResources.extractFloats(outs.head)
 
+    tokenTensors.close()
+    maskTensors.close()
     tensors.clearSession(outs)
     tensors.clearTensors()
 
@@ -224,7 +182,11 @@ private[johnsnowlabs] class DistilBert(
     sentences.zipWithIndex
       .grouped(batchSize)
       .flatMap { batch =>
-        val encoded = encode(batch, maxSentenceLength)
+        val encoded = PrepareEmbeddings.prepareBatchInputsWithPadding(
+          batch,
+          maxSentenceLength,
+          sentenceStartTokenId,
+          sentenceEndTokenId)
         val vectors = tag(encoded)
 
         /*Combine tokens and calculated embeddings*/
@@ -285,7 +247,11 @@ private[johnsnowlabs] class DistilBert(
       .flatMap { batch =>
         val tokensBatch = batch.map(x => (x._1._1, x._2))
         val sentencesBatch = batch.map(x => x._1._2)
-        val encoded = encode(tokensBatch, maxSentenceLength)
+        val encoded = PrepareEmbeddings.prepareBatchInputsWithPadding(
+          tokensBatch,
+          maxSentenceLength,
+          sentenceStartTokenId,
+          sentenceEndTokenId)
         val embeddings = tagSequence(encoded)
 
         sentencesBatch.zip(embeddings).map { case (sentence, vectors) =>

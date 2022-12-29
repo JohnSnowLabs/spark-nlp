@@ -334,7 +334,7 @@ class AlbertEmbeddings(override val uid: String)
     writeTensorflowModelV2(
       path,
       spark,
-      getModelIfNotSet.tensorflow,
+      getModelIfNotSet.tensorflowWrapper,
       "_albert",
       AlbertEmbeddings.tfFile,
       configProtoBytes = getConfigProtoBytes)

@@ -52,7 +52,6 @@ class DeBerta(
 
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
 
-    /* Actual size of each sentence to skip padding in the TF model */
     val maxSentenceLength = batch.map(pieceIds => pieceIds.length).max
     val batchLength = batch.length
 
@@ -121,7 +120,8 @@ class DeBerta(
           batch,
           maxSentenceLength,
           SentenceStartTokenId,
-          SentenceEndTokenId)
+          SentenceEndTokenId,
+          SentencePadTokenId)
         val vectors = tag(encoded)
 
         /*Combine tokens and calculated embeddings*/
