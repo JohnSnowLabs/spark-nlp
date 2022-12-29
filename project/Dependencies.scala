@@ -4,11 +4,11 @@ object Dependencies {
 
   /** ------- Spark version start ------- */
   /* default spark version to base the APIS */
-  val spark32Ver = "3.2.3"
+  val spark33Ver = "3.3.1"
   /* only used in unit tests */
   val spark30Ver = "3.0.3"
   val spark31Ver = "3.1.3"
-  val spark33Ver = "3.3.1"
+  val spark32Ver = "3.2.3"
 
   /* required for different hardware */
   val is_gpu: String = System.getProperty("is_gpu", "false")
@@ -19,8 +19,8 @@ object Dependencies {
   /* only used for unit tests */
   val is_spark30: String = System.getProperty("is_spark30", "false")
   val is_spark31: String = System.getProperty("is_spark31", "false")
-  val is_spark32: String = System.getProperty("is_spark32", "true")
-  val is_spark33: String = System.getProperty("is_spark33", "false")
+  val is_spark32: String = System.getProperty("is_spark32", "false")
+  val is_spark33: String = System.getProperty("is_spark33", "true")
 
   val sparkVer: String = getSparkVersion(is_spark30, is_spark31, is_spark32, is_spark33)
 
@@ -48,16 +48,16 @@ object Dependencies {
       spark30Ver
     } else if (is_spark31.equals("true")) {
       spark31Ver
-    } else if (is_spark33.equals("true")) {
-      spark33Ver
+    } else if (is_spark32.equals("true")) {
+      spark32Ver
     } else {
       /* default spark version */
-      spark32Ver
+      spark33Ver
     }
   }
 
-  def getJavaTarget(is_spark32: String): String = {
-    if (is_spark32.equals("true")) {
+  def getJavaTarget(is_spark33: String): String = {
+    if (is_spark33.equals("true")) {
       "-target:jvm-1.8"
     } else {
       ""
@@ -103,7 +103,7 @@ object Dependencies {
   val tensorflowM1 = "com.johnsnowlabs.nlp" %% "tensorflow-m1" % tensorflowVersion
   val tensorflowLinuxAarch64 = "com.johnsnowlabs.nlp" %% "tensorflow-aarch64" % tensorflowVersion
 
-  val gcpStorageVersion = "2.15.0"
+  val gcpStorageVersion = "2.16.0"
   val gcpStorage = "com.google.cloud" % "google-cloud-storage" % gcpStorageVersion
 
   /** ------- Dependencies end  ------- */
