@@ -56,6 +56,7 @@ private[johnsnowlabs] class Bert(
   val _tfBertSignatures: Map[String, String] = signatures.getOrElse(ModelSignatureManager.apply())
 
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
+
     val maxSentenceLength = batch.map(pieceIds => pieceIds.length).max
     val batchLength = batch.length
 
@@ -111,7 +112,6 @@ private[johnsnowlabs] class Bert(
 
   def tagSequence(batch: Seq[Array[Int]]): Array[Array[Float]] = {
 
-    /* Actual size of each sentence to skip padding in the TF model */
     val maxSentenceLength = batch.map(pieceIds => pieceIds.length).max
     val batchLength = batch.length
 
@@ -163,6 +163,7 @@ private[johnsnowlabs] class Bert(
   }
 
   def tagSequenceSBert(batch: Seq[Array[Int]]): Array[Array[Float]] = {
+
     val tensors = new TensorResources()
 
     val maxSentenceLength = batch.map(x => x.length).max
@@ -212,6 +213,9 @@ private[johnsnowlabs] class Bert(
     val outs = runner.run().asScala
     val embeddings = TensorResources.extractFloats(outs.head)
 
+    tokenTensors.close()
+    maskTensors.close()
+    segmentTensors.close()
     tensors.clearSession(outs)
     tensors.clearTensors()
 

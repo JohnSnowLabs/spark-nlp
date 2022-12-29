@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.ml.ai
 
+import com.johnsnowlabs.ml.ai.util.PrepareEmbeddings
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{SentencePieceWrapper, SentencepieceEncoder}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
@@ -61,27 +62,20 @@ import scala.collection.JavaConverters._
   * Transformer-XL, the state-of-the-art autoregressive model, into pretraining. Empirically,
   * under comparable experiment settings, XLNet outperforms BERT on 20 tasks, often by a large
   * margin, including question answering, natural language inference, sentiment analysis, and
-  * document ranking.
+  * document ranking. A list of (hyper-)parameter keys this annotator can take. Users can set and
+  * get the parameter values through setters and getters, respectively.
   *
-  * @groupname anno Annotator types
-  * @groupdesc anno
-  *   Required input and expected output annotator types
-  * @groupname Ungrouped Members
-  * @groupname param Parameters
-  * @groupname setParam Parameter setters
-  * @groupname getParam Parameter getters
-  * @groupname Ungrouped Members
-  * @groupprio param  1
-  * @groupprio anno  2
-  * @groupprio Ungrouped 3
-  * @groupprio setParam  4
-  * @groupprio getParam  5
-  * @groupdesc param
-  *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
-  *   parameter values through setters and getters, respectively.
+  * @param tensorflowWrapper
+  *   XlmRoberta Model wrapper with TensorFlowWrapper
+  * @param spp
+  *   XlmRoberta SentencePiece model with SentencePieceWrapper
+  * @param configProtoBytes
+  *   Configuration for TensorFlow session
+  * @param signatures
+  *   Model's inputs and output(s) signatures
   */
 private[johnsnowlabs] class Xlnet(
-    val tensorflow: TensorflowWrapper,
+    val tensorflowWrapper: TensorflowWrapper,
     val spp: SentencePieceWrapper,
     configProtoBytes: Option[Array[Byte]] = None,
     signatures: Option[Map[String, String]] = None)
@@ -96,70 +90,27 @@ private[johnsnowlabs] class Xlnet(
   private val SentencePadTokenId = spp.getSppModel.pieceToId("<pad>")
   private val SentencePieceDelimiterId = spp.getSppModel.pieceToId("▁")
 
-  def getSpecialTokens(token: String): Array[Int] = {
-    spp.getSppModel.encodeAsIds(token)
-  }
-
-  def encode(
-      sentences: Seq[(WordpieceTokenizedSentence, Int)],
-      maxSequenceLength: Int): Seq[Array[Int]] = {
-    val maxSentenceLength =
-      Array(
-        maxSequenceLength - 2,
-        sentences.map { case (wpTokSentence, _) =>
-          wpTokSentence.tokens.length
-        }.max).min
-
-    sentences
-      .map { case (wpTokSentence, _) =>
-        val tokenPieceIds = wpTokSentence.tokens.map(t => t.pieceId)
-        val padding = Array.fill(maxSentenceLength - tokenPieceIds.length)(SentencePadTokenId)
-
-        tokenPieceIds.take(maxSentenceLength) ++ Array(
-          SentenceEndTokenId,
-          SentenceStartTokenId) ++ padding
-      }
-  }
-
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
+
+    val maxSentenceLength = batch.map(pieceIds => pieceIds.length).max
+    val batchLength = batch.length
 
     val tensors = new TensorResources()
 
-    /* Actual size of each sentence to skip padding in the TF model */
-    val sequencesLength = batch.map(x => x.length).toArray
-    val maxSentenceLength = sequencesLength.max
+    val (tokenTensors, maskTensors, segmentTensors) =
+      PrepareEmbeddings.prepareBatchTensorsWithSegment(
+        tensors = tensors,
+        batch = batch,
+        maxSentenceLength = maxSentenceLength,
+        batchLength = batchLength,
+        sentencePadTokenId = SentencePadTokenId)
 
-    val tokenBuffers = tensors.createIntBuffer(batch.length * maxSentenceLength)
-    val maskBuffers = tensors.createIntBuffer(batch.length * maxSentenceLength)
-    val segmentBuffers = tensors.createIntBuffer(batch.length * maxSentenceLength)
-
-    val shape = Array(batch.length.toLong, maxSentenceLength)
-
-    batch.zipWithIndex.foreach { case (tokenIds, idx) =>
-      val offset = idx * maxSentenceLength
-      val diff = maxSentenceLength - tokenIds.length
-      segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
-
-      val padding = Array.fill(diff)(SentencePadTokenId)
-      val newTokenIds = tokenIds ++ padding
-
-      tokenBuffers.offset(offset).write(newTokenIds)
-      maskBuffers
-        .offset(offset)
-        .write(newTokenIds.map(x => if (x == SentencePadTokenId) 0 else 1))
-    }
-
-    val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
-    val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
-    val segmentTensors = tensors.createIntBufferTensor(shape, segmentBuffers)
-
-    val runner = tensorflow
+    val runner = tensorflowWrapper
       .getTFSessionWithSignature(
         configProtoBytes = configProtoBytes,
         savedSignatures = signatures,
         initAllTables = false)
       .runner
-
     runner
       .feed(
         _tfXlnetSignatures.getOrElse(
@@ -180,27 +131,17 @@ private[johnsnowlabs] class Xlnet(
     val outs = runner.run().asScala
     val embeddings = TensorResources.extractFloats(outs.head)
 
-    tensors.clearSession(outs)
-    tensors.clearTensors()
     tokenTensors.close()
     maskTensors.close()
     segmentTensors.close()
+    tensors.clearSession(outs)
+    tensors.clearTensors()
 
-    val dim = embeddings.length / (batch.length * maxSentenceLength)
-    val shrinkedEmbeddings: Array[Array[Array[Float]]] =
-      embeddings.grouped(dim).toArray.grouped(maxSentenceLength).toArray
-
-    val emptyVector = Array.fill(dim)(0f)
-
-    batch.zip(shrinkedEmbeddings).map { case (ids, embeddings) =>
-      if (ids.length > embeddings.length) {
-        embeddings.take(embeddings.length - 1) ++
-          Array.fill(embeddings.length - ids.length)(emptyVector) ++
-          Array(embeddings.last)
-      } else {
-        embeddings
-      }
-    }
+    PrepareEmbeddings.prepareBatchWordEmbeddings(
+      batch,
+      embeddings,
+      maxSentenceLength,
+      batchLength)
 
   }
 
@@ -215,7 +156,12 @@ private[johnsnowlabs] class Xlnet(
     wordPieceTokenizedSentences.zipWithIndex
       .grouped(batchSize)
       .flatMap { batch =>
-        val encoded = encode(batch, maxSentenceLength)
+        val encoded = PrepareEmbeddings.prepareBatchInputsWithPadding(
+          batch,
+          maxSentenceLength,
+          SentenceStartTokenId,
+          SentenceEndTokenId,
+          SentencePadTokenId)
         val vectors = tag(encoded)
 
         /*Combine tokens and calculated embeddings*/

@@ -336,7 +336,7 @@ class XlnetEmbeddings(override val uid: String)
     writeTensorflowModelV2(
       path,
       spark,
-      getModelIfNotSet.tensorflow,
+      getModelIfNotSet.tensorflowWrapper,
       "_xlnet",
       XlnetEmbeddings.tfFile,
       configProtoBytes = getConfigProtoBytes)
