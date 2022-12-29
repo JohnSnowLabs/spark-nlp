@@ -74,6 +74,6 @@ class SymmetricDeleteModelTestSpec extends AnyFlatSpec with SymmetricDeleteBehav
 
     it should behave like trainSpellCheckerModelFromFit
 
-    it should behave like raiseErrorWhenWrongColumnIsSent
    */
+  it should behave like raiseErrorWhenWrongColumnIsSent
 }
