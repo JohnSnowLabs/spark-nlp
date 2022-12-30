@@ -65,12 +65,13 @@ class Annotation:
         return Annotation(self.annotatorType, self.begin, self.end, result, self.metadata, self.embeddings)
 
     def __str__(self):
-        return "Annotation(%s, %i, %i, %s, %s)" % (
+        return "Annotation(%s, %i, %i, %s, %s, %s)" % (
             self.annotatorType,
             self.begin,
             self.end,
             self.result,
-            str(self.metadata)
+            str(self.metadata),
+            str(self.embeddings)
         )
 
     def __repr__(self):

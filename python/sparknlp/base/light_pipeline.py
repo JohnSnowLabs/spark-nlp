@@ -68,6 +68,7 @@ class LightPipeline:
 
     def __init__(self, pipelineModel, parse_embeddings=False):
         self.pipeline_model = pipelineModel
+        self.parse_embeddings = parse_embeddings
         self._lightPipeline = _internal._LightPipeline(pipelineModel, parse_embeddings).apply()
 
     def _validateStagesInputCols(self):
@@ -127,13 +128,17 @@ class LightPipeline:
                                     annotation.metadata())
                 )
             else:
+                if self.parse_embeddings:
+                    embeddings = list(annotation.embeddings())
+                else:
+                    embeddings = []
                 annotations.append(
                     Annotation(annotation.annotatorType(),
                                annotation.begin(),
                                annotation.end(),
                                annotation.result(),
                                annotation.metadata(),
-                               [])
+                               embeddings)
                 )
         return annotations
 
