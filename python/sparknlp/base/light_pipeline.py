@@ -12,6 +12,8 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 """Contains classes for the LightPipeline."""
+
+from sparknlp.internal import AnnotatorTransformer
 from sparknlp.base.multi_document_assembler import MultiDocumentAssembler
 
 import sparknlp.internal as _internal
@@ -92,8 +94,10 @@ class LightPipeline:
                 output_cols = stage.getOutputCols()
                 for output_col in output_cols:
                     annotator_types[output_col] = stage.outputAnnotatorType
-            else:
-                annotator_types[stage.getOutputCol()] = stage.outputAnnotatorType
+            elif isinstance(stage, AnnotatorApproach) or isinstance(stage, AnnotatorModel) or\
+                    isinstance(stage, AnnotatorTransformer):
+                if stage.outputAnnotatorType is not None:
+                    annotator_types[stage.getOutputCol()] = stage.outputAnnotatorType
         return annotator_types
 
     def _annotationFromJava(self, java_annotations):
