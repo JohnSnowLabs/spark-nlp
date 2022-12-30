@@ -254,8 +254,10 @@ class TokenizerModel(override val uid: String)
   private val PROTECT_CHAR = "ↈ"
   private val BREAK_CHAR = "ↇ"
 
-  private lazy val BREAK_PATTERN = ("[^(?:" + $(targetPattern) + ")" + PROTECT_CHAR + "]").r
-  private lazy val SPLIT_PATTERN = ("[^" + BREAK_CHAR + "]+").r
+  private lazy val BREAK_PATTERN: Regex =
+    ("[^(?:" + $(targetPattern) + ")" + PROTECT_CHAR + "]").r
+  private lazy val SPLIT_PATTERN: Regex =
+    ("[^" + BREAK_CHAR + "]+").r
 
   private var compiledExceptions: Option[Regex] = None
 
@@ -349,21 +351,17 @@ class TokenizerModel(override val uid: String)
                       .length > 1)
                     val applyChars = isSet(splitChars) && splitCharsExists.exists(target.contains)
                     if (target.nonEmpty && (applyPattern || applyChars)) {
-                      try {
-                        val strs =
-                          if (applyPattern) target.split($(splitPattern))
-                          else target.split($(splitChars).mkString("|"))
-                        strs.map(str =>
-                          try {
-                            IndexedToken(
-                              str,
-                              text.start + candidate.start + curPos,
-                              text.start + candidate.start + curPos + str.length - 1)
-                          } finally {
-                            curPos += str.length + 1
-                          })
-                      } finally {
-                        curPos -= 1
+                      val strs =
+                        if (applyPattern) target.split($(splitPattern))
+                        else target.split($(splitChars).mkString("|"))
+                      strs.map { str =>
+                        curPos = m.content.matched.indexOf(str, curPos)
+                        val indexedToken = IndexedToken(
+                          str,
+                          text.start + candidate.start + curPos,
+                          text.start + candidate.start + curPos + str.length - 1)
+                        curPos += str.length
+                        indexedToken
                       }
                     } else {
                       val it = IndexedToken(
@@ -375,9 +373,9 @@ class TokenizerModel(override val uid: String)
                     }
                   })
 
-              /** Step 4, If rules didn't match, return whatever candidate we have and leave it as
-                * is
-                */
+                /** Step 4, If rules didn't match, return whatever candidate we have and leave it
+                  * as is
+                  */
               }
               .getOrElse(Seq(IndexedToken(
                 candidate.matched,
