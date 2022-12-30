@@ -22,6 +22,9 @@ from sparknlp.internal.annotator_java_ml import AnnotatorJavaMLReadable
 
 
 class AnnotatorTransformer(JavaTransformer, AnnotatorJavaMLReadable, JavaMLWritable, ParamsGettersSetters):
+
+    outputAnnotatorType = None
+
     @keyword_only
     def __init__(self, classname):
         super(AnnotatorTransformer, self).__init__()
