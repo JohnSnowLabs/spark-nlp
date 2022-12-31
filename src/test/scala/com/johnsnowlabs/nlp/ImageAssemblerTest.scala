@@ -18,7 +18,7 @@ package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.AnnotatorType.IMAGE
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
 import org.scalatest.flatspec.AnyFlatSpec
@@ -33,7 +33,7 @@ class ImageAssemblerTest extends AnyFlatSpec {
 
   val emptyDF: DataFrame = ResourceHelper.spark.emptyDataFrame
 
-  "ImageAssembler" should "assemble an image input" taggedAs FastTest in {
+  "ImageAssembler" should "assemble an image input" taggedAs SlowTest in {
 
     val imageAssembler = new ImageAssembler()
       .setInputCol("image")
