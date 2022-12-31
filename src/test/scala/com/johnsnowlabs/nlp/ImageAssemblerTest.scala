@@ -28,6 +28,7 @@ class ImageAssemblerTest extends AnyFlatSpec {
   val imagesPath = "src/test/resources/image/"
   val dataFrame: DataFrame = ResourceHelper.spark.read
     .format("image")
+    .option("dropInvalid", value = true)
     .load(imagesPath)
 
   val emptyDF: DataFrame = ResourceHelper.spark.emptyDataFrame
