@@ -383,9 +383,9 @@ class TokenizerModel(override val uid: String)
                     } else defaultCandidate
                   })
 
-                /** Step 4, If rules didn't match, return whatever candidate we have and leave it as
-                 * is
-                 */
+              /** Step 4, If rules didn't match, return whatever candidate we have and leave it as
+                * is
+                */
               }
               .getOrElse(Seq(IndexedToken(
                 candidate.matched,
