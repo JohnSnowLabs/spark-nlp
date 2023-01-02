@@ -141,7 +141,7 @@ An in-house modified version of https://huggingface.co/datasets/nlpaueb/finer-13
 
 ```bash
 
-label                                                                                                                                         precision    recall  f1-score   support
+label                                                                                                                                          precision    recall  f1-score   support
                                                                                                    B-AllocatedShareBasedCompensationExpense     0.9881    0.9743    0.9811      1869
                                                                                                              B-AmortizationOfFinancingCosts     0.9663    0.9053    0.9348       190
                                                                                                            B-AmortizationOfIntangibleAssets     0.9657    0.9857    0.9756      1256
@@ -199,9 +199,9 @@ B-ShareBasedCompensationArrangementByShareBasedPaymentAwardEquityInstrumentsOthe
                                                     I-SharebasedCompensationArrangementBySharebasedPaymentAwardAwardVestingRightsPercentage     1.0000    0.8571    0.9231         7
                                                                 I-SharebasedCompensationArrangementBySharebasedPaymentAwardExpirationPeriod     0.8590    0.8171    0.8375        82
                                                                                                                                           O     0.9989    0.9982    0.9985    414107
+                                                                                                                                   accuracy       -          -      0.9933    433593
+                                                                                                                                  macro-avg     0.8628    0.8357    0.8309    433593
+                                                                                                                               weighted-avg     0.9941    0.9933    0.9931    433593
 
-                                                                                                                                   accuracy                         0.9933    433593
-                                                                                                                                  macro avg     0.8628    0.8357    0.8309    433593
-                                                                                                                               weighted avg     0.9941    0.9933    0.9931    433593
 
 ```
