@@ -157,7 +157,7 @@ Manual annotations on CUAD dataset
 ## Benchmarking
 
 ```bash
-Label                 Recall  Precision  F1     Support 
+label                 Recall  Precision  F1     Support 
 dated_as              1.000   0.957      0.978  44      
 has_alias             0.950   0.974      0.962  40      
 has_collective_alias  0.667   1.000      0.800  3       
