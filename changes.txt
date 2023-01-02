@@ -1,6 +1,2 @@
-docs/_includes/docs-annotation-pagination.html
-docs/en/alab/annotation_labs_releases/release_notes_4_5_0.md
-docs/en/alab/release_notes.md
-docs/_includes/docs-annotation-pagination.html
-docs/en/alab/annotation_labs_releases/release_notes_4_5_0.md
-docs/en/alab/release_notes.md
+docs/en/licensed_install.md
+docs/en/licensed_install.md
