@@ -166,7 +166,6 @@ An in-house modified version of https://huggingface.co/datasets/nlpaueb/finer-13
 ```bash
 
 label                                                         precision    recall  f1-score   support
-
     B-ClassOfWarrantOrRightExercisePriceOfWarrantsOrRights1     0.9613    0.9613    0.9613       155
                              B-ConcentrationRiskPercentage1     0.9887    0.9990    0.9938      1049
                  B-DebtInstrumentBasisSpreadOnVariableRate1     0.9696    0.9761    0.9728      1926
