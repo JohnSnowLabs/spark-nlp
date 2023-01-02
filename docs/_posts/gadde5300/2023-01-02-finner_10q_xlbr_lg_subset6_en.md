@@ -178,7 +178,7 @@ B-DisposalGroupIncludingDiscontinuedOperationConsideration     0.9756    0.9479 
                                  B-IncomeTaxExpenseBenefit     0.9901    0.9832    0.9866       713
                                                          O     0.9993    0.9993    0.9993     43335
                                                   accuracy         -         -     0.9986     44933
-                                                 macro avg     0.9791    0.9810    0.9800     44933
-                                              weighted avg     0.9986    0.9986    0.9986     44933
+                                                 macro-avg     0.9791    0.9810    0.9800     44933
+                                              weighted-avg     0.9986    0.9986    0.9986     44933
 
 ```
