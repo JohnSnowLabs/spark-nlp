@@ -11,7 +11,7 @@
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
 <!-- End Google Tag Manager --><title>Financial Indian News Sentiment Analysis (Medium)</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis is a md version of Indian News Sentiment Analysis Text Classifier, which will retrieve if a text is either expression a Positive Emotion or a Negative one.Predicted EntitiesPOSITIVE, NEGATIVELive DemoOpen in ColabDownloadHow to use         PythonScalaNLU   document_assembler = nlp.DocumentAssembler()...">
+<meta name="description" content="DescriptionThis is a md version of Indian News Sentiment Analysis Text Classifier, which will retrieve if a text is either expression a Positive Emotion or a Negative one.Predicted EntitiesPOSITIVE, NEGATIVELive DemoOpen in ColabDownloadHow to use         PythonScalaNLU  document_assembler = nlp.DocumentAssembler() ...">
 <link rel="canonical" href="/2022/11/10/finclf_indian_news_sentiment_medium_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -435,8 +435,8 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 
 
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 <span class="n">document_assembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span> \
                 <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
                 <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
@@ -526,16 +526,12 @@
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-              precision    recall  f1-score   support
-
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>       label  precision    recall  f1-score   support
     NEGATIVE       0.85      0.86      0.86     10848
     POSITIVE       0.83      0.83      0.83      9202
-
-    accuracy                           0.84     20050
-   macro avg       0.84      0.84      0.84     20050
-weighted avg       0.84      0.84      0.84     20050
-
+    accuracy        -         -        0.84     20050
+   macro-avg       0.84      0.84      0.84     20050
+weighted-avg       0.84      0.84      0.84     20050
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-11-10T00:00:00+00:00"><!-- start custom article footer snippet -->
 

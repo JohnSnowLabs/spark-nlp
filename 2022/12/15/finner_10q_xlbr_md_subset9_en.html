@@ -437,6 +437,7 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 
 <span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span> \
    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
@@ -591,7 +592,7 @@
 <h2 id="benchmarking">Benchmarking</h2>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-label                                                        precision    recall  f1-score   support                                                
+label                                                              precision    recall  f1-score   support                                                
 B-PaymentsToAcquireBusinessesNetOfCashAcquired                        0.9801    0.9610    0.9705       154
 B-PreferredStockDividendRatePercentage                                0.9822    1.0000    0.9910       166
 B-PreferredStockSharesAuthorized                                      1.0000    1.0000    1.0000       113
@@ -610,7 +611,6 @@ O                                                                     0.9989    
 accuracy                                                                   -         -    0.9954     81288
 macro-avg                                                             0.9481    0.9177    0.9244     81288
 weighted-avg                                                          0.9957    0.9954    0.9952     81288
-
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-12-15T00:00:00+00:00"><!-- start custom article footer snippet -->
 

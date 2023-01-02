@@ -436,9 +436,7 @@
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
 
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">(</span> <span class="p">[[</span><span class="s">"Paracetamol can alleviate headache or sickness. An MRI test can be used to find cancer."</span><span class="p">]]</span> <span class="p">).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-
-<span class="n">documenter</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span> \
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documenter</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
@@ -455,34 +453,33 @@
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 
-<span class="n">pos_tagger</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">PerceptronModel</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"pos_clinical"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"pos_tags"</span><span class="p">)</span>
-
-<span class="n">ner_tagger</span> <span class="o">=</span> <span class="n">medical</span><span class="p">.</span><span class="n">NerModel</span><span class="p">()</span> \
+<span class="n">ner_clinical</span> <span class="o">=</span> <span class="n">medical</span><span class="p">.</span><span class="n">NerModel</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_clinical"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_tags"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_clinical"</span><span class="p">)</span>
 
-<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">NerConverter</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">,</span> <span class="s">"ner_tags"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunks"</span><span class="p">)</span>
+<span class="n">ner_clinical_converter</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">NerConverter</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">,</span> <span class="s">"ner_clinical"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_clinical_chunks"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setWhiteList</span><span class="p">([</span><span class="s">"PROBLEM"</span><span class="p">,</span> <span class="s">"TEST"</span><span class="p">])</span>      <span class="c1"># PROBLEM-TEST-TREATMENT
+</span>
+<span class="n">ner_posology</span> <span class="o">=</span> <span class="n">medical</span><span class="p">.</span><span class="n">NerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_posology"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_posology"</span><span class="p">)</span>           
 
-<span class="n">dependency_parser</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DependencyParserModel</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"dependency_conllu"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"pos_tags"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"dependencies"</span><span class="p">)</span>
+<span class="n">ner_posology_converter</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">NerConverter</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">,</span> <span class="s">"ner_posology"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_posology_chunks"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setWhiteList</span><span class="p">([</span><span class="s">"DRUG"</span><span class="p">])</span>                <span class="c1"># DRUG-FREQUENCY-DOSAGE-DURATION-FORM-ROUTE-STRENGTH
+</span>
+<span class="n">chunk_merger</span> <span class="o">=</span> <span class="n">medical</span><span class="p">.</span><span class="n">ChunkMergeApproach</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"ner_clinical_chunks"</span><span class="p">,</span> <span class="s">"ner_posology_chunks"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'merged_ner_chunks'</span><span class="p">)</span>
 
-<span class="n">re_ner_chunk_filter</span> <span class="o">=</span> <span class="n">medical</span><span class="p">.</span><span class="n">RENerChunksFilter</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setRelationPairs</span><span class="p">([</span><span class="s">"problem-test"</span><span class="p">,</span><span class="s">"problem-treatment"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setMaxSyntacticDistance</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setDocLevelRelations</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunks"</span><span class="p">,</span> <span class="s">"dependencies"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"re_ner_chunks"</span><span class="p">)</span>
-
+<span class="c1">## ZERO-SHOT RE Starting...
+</span>
 <span class="n">re_model</span> <span class="o">=</span> <span class="n">medical</span><span class="p">.</span><span class="n">ZeroShotRelationExtractionModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"re_zeroshot_biobert"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"re_ner_chunks"</span><span class="p">,</span> <span class="s">"sentences"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"merged_ner_chunks"</span><span class="p">,</span> <span class="s">"sentences"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"relations"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setMultiLabel</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
 
@@ -491,20 +488,21 @@
     <span class="s">"IMPROVE"</span><span class="p">:</span> <span class="p">[</span><span class="s">"{DRUG} improves {PROBLEM}."</span><span class="p">,</span> <span class="s">"{DRUG} cures {PROBLEM}."</span><span class="p">],</span>
     <span class="s">"REVEAL"</span><span class="p">:</span> <span class="p">[</span><span class="s">"{TEST} reveals {PROBLEM}."</span><span class="p">]})</span>
 
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span> \
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Pipeline</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setStages</span><span class="p">([</span><span class="n">documenter</span><span class="p">,</span> 
                 <span class="n">tokenizer</span><span class="p">,</span> 
                 <span class="n">sentencer</span><span class="p">,</span> 
                 <span class="n">words_embedder</span><span class="p">,</span> 
-                <span class="n">pos_tagger</span><span class="p">,</span> 
-                <span class="n">ner_tagger</span><span class="p">,</span> 
-                <span class="n">ner_converter</span><span class="p">,</span>
-                <span class="n">dependency_parser</span><span class="p">,</span> 
-                <span class="n">re_ner_chunk_filter</span><span class="p">,</span> 
+                <span class="n">ner_clinical</span><span class="p">,</span> 
+                <span class="n">ner_clinical_converter</span><span class="p">,</span>
+                <span class="n">ner_posology</span><span class="p">,</span>
+                <span class="n">ner_posology_converter</span><span class="p">,</span>
+                <span class="n">chunk_merger</span><span class="p">,</span>
                 <span class="n">re_model</span><span class="p">])</span>
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">(</span> <span class="p">[[</span><span class="s">"Paracetamol can alleviate headache or sickness. An MRI test can be used to find cancer."</span><span class="p">]]</span> <span class="p">).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
 <span class="n">results</span>\
 <span class="p">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s">"explode(relations) as relation"</span><span class="p">)</span>\
@@ -516,58 +514,49 @@
     <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
-
 <span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"tokens"</span><span class="o">)</span>
 
-
 <span class="k">val</span> <span class="nv">sentencer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">SentenceDetector</span><span class="o">()</span>
     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">)</span>
-
 
 <span class="k">val</span> <span class="nv">words_embedder</span> <span class="k">=</span> <span class="nc">WordEmbeddingsModel</span><span class="o">()</span>
     <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"embeddings_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">))</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
 
-
-<span class="k">val</span> <span class="nv">pos_tagger</span> <span class="k">=</span> <span class="nc">PerceptronModel</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"pos_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">))</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"pos_tags"</span><span class="o">)</span>
-
-
-<span class="k">val</span> <span class="nv">ner_tagger</span> <span class="k">=</span> <span class="nc">MedicalNerModel</span><span class="o">()</span>
+<span class="k">val</span> <span class="nv">ner_clinical</span> <span class="k">=</span> <span class="nc">MedicalNerModel</span><span class="o">()</span>
     <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">))</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_tags"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_clinical"</span><span class="o">)</span>
 
+<span class="k">val</span> <span class="nv">ner_clinical_converter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerConverter</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">,</span> <span class="s">"ner_clinical"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_clinical_chunks"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setWhiteList</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"PROBLEM"</span><span class="o">,</span> <span class="s">"TEST"</span><span class="o">))</span>      <span class="k">#</span> <span class="nc">PROBLEM</span><span class="o">-</span><span class="nc">TEST</span><span class="o">-</span><span class="nc">TREATMENT</span>
 
-<span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerConverter</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">,</span> <span class="s">"ner_tags"</span><span class="o">))</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunks"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">ner_posology</span> <span class="k">=</span> <span class="nc">MedicalNerModel</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_posology"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_posology"</span><span class="o">)</span>           
 
+<span class="k">val</span> <span class="nv">ner_posology_converter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerConverter</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">,</span> <span class="s">"ner_posology"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_posology_chunks"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setWhiteList</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"DRUG"</span><span class="o">))</span>                <span class="k">#</span> <span class="nc">DRUG</span><span class="o">-</span><span class="nc">FREQUENCY</span><span class="o">-</span><span class="nc">DOSAGE</span><span class="o">-</span><span class="nc">DURATION</span><span class="o">-</span><span class="nc">FORM</span><span class="o">-</span><span class="nc">ROUTE</span><span class="o">-</span><span class="nc">STRENGTH</span>
 
-<span class="k">val</span> <span class="nv">dependency_parser</span> <span class="k">=</span> <span class="nc">DependencyParserModel</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"dependency_conllu"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"pos_tags"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">))</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"dependencies"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">chunk_merger</span> <span class="k">=</span> <span class="nc">ChunkMergeApproach</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"ner_clinical_chunks"</span><span class="o">,</span> <span class="s">"ner_posology_chunks"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="ss">'merged_ner_chunk</span><span class="n">s</span><span class="o">')</span>
 
-
-<span class="k">val</span> <span class="nv">re_ner_chunk_filter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">RENerChunksFilter</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setRelationPairs</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"problem-test"</span><span class="o">,</span><span class="s">"problem-treatment"</span><span class="o">))</span>
-    <span class="o">.</span><span class="py">setMaxSyntacticDistance</span><span class="o">(</span><span class="mi">4</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setDocLevelRelations</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"ner_chunks"</span><span class="o">,</span> <span class="s">"dependencies"</span><span class="o">))</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"re_ner_chunks"</span><span class="o">)</span>
-
+<span class="o">#</span><span class="k">#</span> <span class="nc">ZERO</span><span class="o">-</span><span class="nc">SHOT</span> <span class="nc">RE</span> <span class="nc">Starting</span><span class="o">...</span>
 
 <span class="k">val</span> <span class="nv">re_model</span> <span class="k">=</span> <span class="nv">ZeroShotRelationExtractionModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"re_zeroshot_biobert"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"re_ner_chunks"</span><span class="o">,</span> <span class="s">"sentences"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"ner_chunks"</span><span class="o">,</span> <span class="s">"sentences"</span><span class="o">))</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"relations"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setMultiLabel</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setMultiLabel</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
 
 <span class="nv">re_model</span><span class="o">.</span><span class="py">setRelationalCategories</span><span class="o">({</span> <span class="nc">Map</span><span class="o">(</span>
     <span class="s">"CURE"</span> <span class="o">-&gt;</span> <span class="nc">Array</span><span class="o">(</span><span class="s">"{TREATMENT} cures {PROBLEM}."</span><span class="o">),</span>
@@ -576,15 +565,15 @@
 
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">()</span>
     <span class="o">.</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documenter</span><span class="o">,</span> 
-                    <span class="n">tokenizer</span><span class="o">,</span> 
-                    <span class="n">sentencer</span><span class="o">,</span> 
-                    <span class="n">words_embedder</span><span class="o">,</span> 
-                    <span class="n">pos_tagger</span><span class="o">,</span> 
-                    <span class="n">ner_tagger</span><span class="o">,</span> 
-                    <span class="n">ner_converter</span><span class="o">,</span>
-                    <span class="n">dependency_parser</span><span class="o">,</span> 
-                    <span class="n">re_ner_chunk_filter</span><span class="o">,</span> 
-                    <span class="n">re_model</span><span class="o">))</span>
+                     <span class="n">tokenizer</span><span class="o">,</span> 
+                     <span class="n">sentencer</span><span class="o">,</span> 
+                     <span class="n">words_embedder</span><span class="o">,</span> 
+                     <span class="n">ner_clinical</span><span class="o">,</span> 
+                     <span class="n">ner_clinical_converter</span><span class="o">,</span>
+                     <span class="n">ner_posology</span><span class="o">,</span>
+                     <span class="n">ner_posology_converter</span><span class="o">,</span>
+                     <span class="n">chunk_merger</span><span class="o">,</span>
+                     <span class="n">re_model</span><span class="o">))</span>
 
 <span class="k">val</span> <span class="nv">model</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">results</span> <span class="k">=</span> <span class="nv">model</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
@@ -598,13 +587,13 @@
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-|relation                                                                                                                                                                                                                                                                                                                                                              |
-+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-|<span class="o">{</span>category, 534, 613, REVEAL, <span class="o">{</span>entity1_begin -&gt; 48, relation -&gt; REVEAL, hypothesis -&gt; An MRI <span class="nb">test </span>reveals cancer., confidence -&gt; 0.9760039, nli_prediction -&gt; entail, entity1 -&gt; TEST, syntactic_distance -&gt; 4, chunk2 -&gt; cancer, entity2_end -&gt; 85, entity1_end -&gt; 58, entity2_begin -&gt; 80, entity2 -&gt; PROBLEM, chunk1 -&gt; An MRI <span class="nb">test</span>, sentence -&gt; 1<span class="o">}</span>, <span class="o">[]}</span>            |
-|<span class="o">{</span>category, 267, 357, IMPROVE, <span class="o">{</span>entity1_begin -&gt; 0, relation -&gt; IMPROVE, hypothesis -&gt; Paracetamol improves sickness., confidence -&gt; 0.98819494, nli_prediction -&gt; entail, entity1 -&gt; TREATMENT, syntactic_distance -&gt; 3, chunk2 -&gt; sickness, entity2_end -&gt; 45, entity1_end -&gt; 10, entity2_begin -&gt; 38, entity2 -&gt; PROBLEM, chunk1 -&gt; Paracetamol, sentence -&gt; 0<span class="o">}</span>, <span class="o">[]}</span>|
-|<span class="o">{</span>category, 0, 90, IMPROVE, <span class="o">{</span>entity1_begin -&gt; 0, relation -&gt; IMPROVE, hypothesis -&gt; Paracetamol improves headache., confidence -&gt; 0.9929625, nli_prediction -&gt; entail, entity1 -&gt; TREATMENT, syntactic_distance -&gt; 2, chunk2 -&gt; headache, entity2_end -&gt; 33, entity1_end -&gt; 10, entity2_begin -&gt; 26, entity2 -&gt; PROBLEM, chunk1 -&gt; Paracetamol, sentence -&gt; 0<span class="o">}</span>, <span class="o">[]}</span>    |
-+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|relation                                                                                                                                                                                                                                                                                                                                                                 |
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|<span class="o">{</span>category, 268, 358, IMPROVE, <span class="o">{</span>entity1_begin -&gt; 0, relation -&gt; IMPROVE, hypothesis -&gt; Paracetamol improves sickness., confidence -&gt; 0.98819494, nli_prediction -&gt; entail, entity1 -&gt; DRUG, syntactic_distance -&gt; undefined, chunk2 -&gt; sickness, entity2_end -&gt; 45, entity1_end -&gt; 10, entity2_begin -&gt; 38, entity2 -&gt; PROBLEM, chunk1 -&gt; Paracetamol, sentence -&gt; 0<span class="o">}</span>, <span class="o">[]}</span>|
+|<span class="o">{</span>category, 0, 90, IMPROVE, <span class="o">{</span>entity1_begin -&gt; 0, relation -&gt; IMPROVE, hypothesis -&gt; Paracetamol improves headache., confidence -&gt; 0.9929625, nli_prediction -&gt; entail, entity1 -&gt; DRUG, syntactic_distance -&gt; undefined, chunk2 -&gt; headache, entity2_end -&gt; 33, entity1_end -&gt; 10, entity2_begin -&gt; 26, entity2 -&gt; PROBLEM, chunk1 -&gt; Paracetamol, sentence -&gt; 0<span class="o">}</span>, <span class="o">[]}</span>    |
+|<span class="o">{</span>category, 536, 615, REVEAL, <span class="o">{</span>entity1_begin -&gt; 48, relation -&gt; REVEAL, hypothesis -&gt; An MRI <span class="nb">test </span>reveals cancer., confidence -&gt; 0.9760039, nli_prediction -&gt; entail, entity1 -&gt; TEST, syntactic_distance -&gt; undefined, chunk2 -&gt; cancer, entity2_end -&gt; 85, entity1_end -&gt; 58, entity2_begin -&gt; 80, entity2 -&gt; PROBLEM, chunk1 -&gt; An MRI <span class="nb">test</span>, sentence -&gt; 1<span class="o">}</span>, <span class="o">[]}</span>       |
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
