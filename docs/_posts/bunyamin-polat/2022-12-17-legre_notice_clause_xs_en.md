@@ -142,7 +142,7 @@ In-house dataset
 
 ```bash
 
-Relation          Recall  Precision  F1     Support 
+label             Recall  Precision  F1     Support 
 has_address       0.976   1.000      0.988  41      
 has_department    0.667   1.000      0.800  3       
 has_email         1.000   1.000      1.000  7       
