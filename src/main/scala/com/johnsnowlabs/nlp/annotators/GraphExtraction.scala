@@ -318,10 +318,10 @@ class GraphExtraction(override val uid: String)
 
   setDefault(
     entityTypes -> Array(),
-    explodeEntities -> false,
+    explodeEntities -> true,
     maxSentenceSize -> 1000,
     minSentenceSize -> 2,
-    mergeEntities -> false,
+    mergeEntities -> true,
     rootTokens -> Array(),
     relationshipTypes -> Array(),
     includeEdges -> true,

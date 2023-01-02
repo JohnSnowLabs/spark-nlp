@@ -33,8 +33,6 @@ import scala.collection.mutable
 
 class GraphExtractionTest extends AnyFlatSpec with SparkSessionTest with GraphExtractionFixture {
 
-  spark.conf.set("spark.sql.crossJoin.enabled", "true")
-
   "Graph Extraction" should "return dependency graphs between all entities" taggedAs FastTest in {
 
     val testDataSet = getUniqueEntitiesDataSet(spark, tokenizerWithSentencePipeline)
@@ -42,6 +40,7 @@ class GraphExtractionTest extends AnyFlatSpec with SparkSessionTest with GraphEx
       .setInputCols("sentence", "token", "entities")
       .setOutputCol("graph")
       .setExplodeEntities(true)
+      .setMergeEntities(false)
       .setIncludeEdges(false)
     val expectedGraph = Array(
       Seq(
@@ -87,6 +86,7 @@ class GraphExtractionTest extends AnyFlatSpec with SparkSessionTest with GraphEx
       .setExplodeEntities(true)
       .setEntityTypes(Array("ORG-LOC"))
       .setIncludeEdges(false)
+      .setMergeEntities(false)
     val expectedGraph = Array(
       Seq(
         Annotation(
@@ -113,6 +113,7 @@ class GraphExtractionTest extends AnyFlatSpec with SparkSessionTest with GraphEx
       .setExplodeEntities(true)
       .setEntityTypes(Array("ORG-LOC", "ORG-TIME"))
       .setIncludeEdges(false)
+      .setMergeEntities(false)
     val expectedGraph = Array(
       Seq(
         Annotation(
@@ -148,6 +149,7 @@ class GraphExtractionTest extends AnyFlatSpec with SparkSessionTest with GraphEx
       .setExplodeEntities(true)
       .setEntityTypes(Array("ORG-LOC"))
       .setIncludeEdges(false)
+      .setMergeEntities(false)
     val expectedGraph = Array(
       Seq(
         Annotation(
@@ -184,6 +186,7 @@ class GraphExtractionTest extends AnyFlatSpec with SparkSessionTest with GraphEx
       .setExplodeEntities(true)
       .setEntityTypes(Array("LOC-LOC"))
       .setIncludeEdges(false)
+      .setMergeEntities(false)
     val expectedGraph = Array(
       Seq(
         Annotation(
@@ -210,6 +213,7 @@ class GraphExtractionTest extends AnyFlatSpec with SparkSessionTest with GraphEx
       .setExplodeEntities(true)
       .setEntityTypes(Array("LOC-TIME"))
       .setIncludeEdges(false)
+      .setMergeEntities(false)
     val expectedGraph = Array(
       Seq(
         Annotation(
@@ -247,6 +251,7 @@ class GraphExtractionTest extends AnyFlatSpec with SparkSessionTest with GraphEx
       .setEntityTypes(Array("LOC-TIME"))
       .setMinSentenceSize(33)
       .setIncludeEdges(false)
+      .setMergeEntities(false)
     val expectedGraph = Array(
       Seq(
         Annotation(
@@ -274,6 +279,7 @@ class GraphExtractionTest extends AnyFlatSpec with SparkSessionTest with GraphEx
       .setEntityTypes(Array("ORG-LOC"))
       .setMaxSentenceSize(5)
       .setIncludeEdges(false)
+      .setMergeEntities(false)
     val expectedGraph = Array(Seq(Annotation(NODE, 0, 0, "", Map())))
 
     val graphDataSet = graphExtractor.transform(testDataSet)
@@ -289,6 +295,7 @@ class GraphExtractionTest extends AnyFlatSpec with SparkSessionTest with GraphEx
       .setOutputCol("graph")
       .setMergeEntities(true)
       .setRelationshipTypes(Array("person-PER", "person-LOC"))
+      .setMergeEntities(false)
 
     val graphDataSet = graphExtractor.transform(testDataSet)
     graphDataSet.show(false)
@@ -303,6 +310,7 @@ class GraphExtractionTest extends AnyFlatSpec with SparkSessionTest with GraphEx
       .setEntityTypes(Array("PER-LOC"))
       .setRootTokens(Array("goes"))
       .setIncludeEdges(false)
+      .setMergeEntities(false)
     val expectedGraph = Array(
       Seq(
         Annotation(
@@ -327,7 +335,8 @@ class GraphExtractionTest extends AnyFlatSpec with SparkSessionTest with GraphEx
       .setInputCols("document", "token", "entities")
       .setOutputCol("graph")
       .setRelationshipTypes(Array("sees-PER"))
-
+      .setExplodeEntities(false)
+      .setMergeEntities(false)
     val expectedGraph = Array(
       Seq(Annotation(
         NODE,
@@ -352,6 +361,8 @@ class GraphExtractionTest extends AnyFlatSpec with SparkSessionTest with GraphEx
       .setInputCols("document", "token", "entities")
       .setOutputCol("graph")
       .setRelationshipTypes(Array("whatever-PER"))
+      .setExplodeEntities(false)
+      .setMergeEntities(false)
 
     val graphDataSet = graphExtractor.transform(testDataSet)
 
@@ -371,6 +382,8 @@ class GraphExtractionTest extends AnyFlatSpec with SparkSessionTest with GraphEx
       .setOutputCol("graph")
       .setRelationshipTypes(Array("goes-PER", "goes-LOC"))
       .setIncludeEdges(false)
+      .setExplodeEntities(false)
+      .setMergeEntities(false)
     val expectedGraph = Array(
       Seq(
         Annotation(
@@ -398,6 +411,8 @@ class GraphExtractionTest extends AnyFlatSpec with SparkSessionTest with GraphEx
       .setInputCols("document", "token", "entities")
       .setOutputCol("graph")
       .setRelationshipTypes(Array("polymorphisms-GENE", "polymorphisms-DISEASE"))
+      .setExplodeEntities(false)
+      .setMergeEntities(false)
     val expectedGraph = Array(
       Seq(
         Annotation(
@@ -429,6 +444,7 @@ class GraphExtractionTest extends AnyFlatSpec with SparkSessionTest with GraphEx
       .setInputCols("sentence", "token", "entities")
       .setOutputCol("graph")
       .setExplodeEntities(true)
+      .setMergeEntities(false)
     val expectedGraph = Array(
       Seq(
         Annotation(
@@ -471,7 +487,6 @@ class GraphExtractionTest extends AnyFlatSpec with SparkSessionTest with GraphEx
       .setInputCols("sentence", "token", "entities")
       .setOutputCol("graph")
       .setExplodeEntities(true)
-      .setMergeEntities(true)
       .setMergeEntitiesIOBFormat("IOB")
       .setIncludeEdges(false)
     val expectedGraph = Array(
@@ -545,6 +560,7 @@ class GraphExtractionTest extends AnyFlatSpec with SparkSessionTest with GraphEx
       .setInputCols("document", "token", "ner")
       .setOutputCol("graph")
       .setRelationshipTypes(Array("lad-PER", "lad-LOC"))
+      .setMergeEntities(false)
 
     val graphFinisher = new GraphFinisher()
       .setInputCol("graph")
