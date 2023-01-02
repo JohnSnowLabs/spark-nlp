@@ -193,7 +193,7 @@ In-house annotations on Earning Calls.
 
 ```bash
 
-entity               precision   recall      f1         support 
+label                precision   recall      f1         support 
 AMOUNT               99.303136   99.650350   99.476440  574     
 ASSET                55.172414   47.058824   50.793651  29      
 ASSET_INCREASE       100.000000  33.333333   50.000000  1       
