@@ -250,14 +250,14 @@ unmanagedJars in Compile += file("lib/sparknlp-jsl.jar")
 ## Install on Databricks
 
 - List of [tested runtimes](/docs/en/install#databricks-support).
-- Recommended instance type `Standard_F8s_v2 (16 GB Memory, 8 Cores)` or better.
+- Recommended instance type `Standard_F8s_v2 (16 GB Memory, 8 Cores)` or higher.
 - The installation takes around 15 minutes.
 
 ### Connection via Databricks Partner connect
 
-Databricks has an integration of Spark NLP libraries via Partner connect. If you are [eligible](https://docs.databricks.com/integrations/partner-connect/index.html?#requirements-1), you can [connect](https://docs.databricks.com/integrations/partner-connect/index.html?#quickstart-connect-to-a-partner-solution-using-partner-connect) your Databricks workspace to John Snow Labs. You will be redirected to John Snow Labs portal. You can purchase a license, thereby filling in your credit card information. It will create a new Databricks cluster, and the license files are then directly installed there. 
+Databricks has an integration of Spark NLP libraries via Partner Connect. If you are [eligible](https://docs.databricks.com/integrations/partner-connect/index.html?#requirements-1), you can [connect](https://docs.databricks.com/integrations/partner-connect/index.html?#quickstart-connect-to-a-partner-solution-using-partner-connect) your Databricks workspace to John Snow Labs. The Partner Connect wizard  will redirect you to John Snow Labs portal. After you fill-in/validate your information a 30-day trial license will be automatically generated for you. A new Databricks cluster will also be created, and all necessary resources to run the library on your account will be installed on your new cluster. Furthermore, a set of ready to use notebooks will be copied to your workspace, so you can start experimenting on your data right away. The trial license file will also be deployed to your environment and made available to your cluster.  
 
-There is a 30-days free trial licensing period. You can use the trial period only once. After the trial period, we will contact you with a licensing offer.  
+The trial period is 30 days. You can use the trial period only once. After the trial period, we will contact you with a licensing offer.  
 
 - Start exploring preloaded notebooks `Workspace -> Shared -> John Snow Labs`
 
@@ -280,9 +280,9 @@ On the install form, provide an access token for this account and then select th
 
 ### Automatic deployment or upgrade from the Databricks workspace
 
-If you have already deployed the libraries in the past, you have script `Workspace -> Shared -> John Snow Labs -> Install JohnSnowLabs NLP`. If you run that, you get the new installation to the attached cluster. 
+If you have already deployed the libraries in the past, you have a script `Workspace -> Shared -> John Snow Labs -> Install JohnSnowLabs NLP`. If you attach it to any cluster and run it, it will reinstall the libraries on the respective cluster. 
 
-- This is also the recommended way to upgrade the version.
+- This is also the recommended way to upgrade to the latest versions of the libraries.
 
 ### Manual deployment of Enterprise Spark NLP
 Automatic deployment is the preferred option.
