@@ -116,12 +116,10 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 
 ```bash
 
-                        precision    recall  f1-score   support
-
+                 label   precision    recall  f1-score   support
                  other       0.97      1.00      0.99       111
 underwriting-agreement       1.00      0.93      0.96        43
-
-              accuracy                           0.98       154
+              accuracy         -         -       0.98       154
              macro-avg       0.99      0.97      0.98       154
           weighted-avg       0.98      0.98      0.98       154
 

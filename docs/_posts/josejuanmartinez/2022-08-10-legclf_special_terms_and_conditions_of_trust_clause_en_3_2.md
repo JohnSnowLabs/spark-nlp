@@ -106,7 +106,7 @@ Legal documents, scrapped from the Internet, and classified in-house
                                 label  precision    recall  f1-score   support
                                 other       1.00      1.00      1.00       132
 special-terms-and-conditions-of-trust       1.00      1.00      1.00        56
-                             accuracy         -         -       1.00       188
+                             accuracy          -         -      1.00       188
                             macro-avg       1.00      1.00      1.00       188
                          weighted-avg       1.00      1.00      1.00       188
 ```

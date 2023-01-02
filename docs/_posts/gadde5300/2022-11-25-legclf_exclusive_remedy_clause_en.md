@@ -44,6 +44,7 @@ This model is a Binary Classifier (True, False) for the `exclusive-remedy` claus
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  documentAssembler = nlp.DocumentAssembler() \
          .setInputCol("clause_text") \
@@ -90,15 +91,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-
-                  precision    recall  f1-score   support
-
+           label  precision    recall  f1-score   support
 exclusive-remedy       0.96      0.96      0.96        26
            other       0.97      0.97      0.97        39
-
-        accuracy                           0.97        65
-       macro avg       0.97      0.97      0.97        65
-    weighted avg       0.97      0.97      0.97        65
-
-
+        accuracy          -         -      0.97        65
+       macro-avg       0.97      0.97      0.97        65
+    weighted-avg       0.97      0.97      0.97        65
 ```

@@ -106,7 +106,7 @@ Legal documents, scrapped from the Internet, and classified in-house
        label  precision    recall  f1-score   support
   collateral       0.92      0.89      0.90        37
        other       0.94      0.96      0.95        69
-    accuracy        -         -        0.93       106
+    accuracy          -         -      0.93       106
    macro-avg       0.93      0.92      0.93       106
 weighted-avg       0.93      0.93      0.93       106
 ```

@@ -106,7 +106,7 @@ Legal documents, scrapped from the Internet, and classified in-house
              label  precision    recall  f1-score   support
 non-discrimination       1.00      0.85      0.92        41
              other       0.94      1.00      0.97       103
-          accuracy         -         -       0.96       144
+          accuracy          -         -      0.96       144
          macro-avg       0.97      0.93      0.95       144
       weighted-avg       0.96      0.96      0.96       144
 ```

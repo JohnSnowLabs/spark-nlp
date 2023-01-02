@@ -106,7 +106,7 @@ Legal documents, scrapped from the Internet, and classified in-house
        label  precision    recall  f1-score   support
        other       0.96      0.99      0.98        80
   sick-leave       0.97      0.93      0.95        42
-    accuracy         -         -       0.97       122
+    accuracy          -         -      0.97       122
    macro-avg       0.97      0.96      0.96       122
 weighted-avg       0.97      0.97      0.97       122
 ```

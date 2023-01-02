@@ -109,10 +109,10 @@ In-house annotated examples from CUAD legal dataset
 ## Benchmarking
 
 ```bash
-Relation                Recall    Precision F1          Support
-is_warranty_indobject   1.000     1.000     1.000        15
-is_warranty_object      1.000     1.000     1.000        44
-is_warranty_subject     1.000     1.000     1.000        29
-Avg.                    1.000     1.000     1.000
-Weighted Avg.           1.000     1.000     1.000
+                label   Recall Precision        F1   Support
+is_warranty_indobject    1.000     1.000     1.000        15
+   is_warranty_object    1.000     1.000     1.000        44
+  is_warranty_subject    1.000     1.000     1.000        29
+                  Avg    1.000     1.000     1.000        -
+         Weighted-Avg    1.000     1.000     1.000        -
 ```

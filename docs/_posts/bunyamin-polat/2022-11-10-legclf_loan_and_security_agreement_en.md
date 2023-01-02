@@ -115,13 +115,11 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 
 ```bash
 
-| label                       | precision | recall | f1-score | support |
-|-----------------------------|-----------|--------|----------|---------|
-| loan-and-security-agreement | 0.94      | 1.00   | 0.97     | 33      |
-| other                       | 1.00      | 0.98   | 0.99     | 85      |
-| accuracy                    | -         | -      | 0.98     | 118     |
-| macro-avg                   | 0.97      | 0.99   | 0.98     | 118     |
-| weighted-avg                | 0.98      | 0.98   | 0.98     | 118     |
-
+label                        precision  recall  f1-score  support 
+loan-and-security-agreement  0.94       1.00    0.97      33      
+other                        1.00       0.98    0.99      85      
+accuracy                     -          -       0.98      118     
+macro-avg                    0.97       0.99    0.98      118     
+weighted-avg                 0.98       0.98    0.98      118 
 
 ```

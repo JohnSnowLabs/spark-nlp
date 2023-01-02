@@ -43,6 +43,7 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler() \
      .setInputCol("clause_text") \
@@ -102,13 +103,10 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 ## Benchmarking
 
 ```bash
-                   precision    recall  f1-score   support
-
+            label  precision    recall  f1-score   support
             other       0.89      1.00      0.94        39
 power-of-attorney       1.00      0.79      0.88        24
-
-         accuracy                           0.92        63
-        macro avg       0.94      0.90      0.91        63
-     weighted avg       0.93      0.92      0.92        63
-
+         accuracy          -         -      0.92        63
+        macro-avg       0.94      0.90      0.91        63
+     weighted-avg       0.93      0.92      0.92        63
 ```

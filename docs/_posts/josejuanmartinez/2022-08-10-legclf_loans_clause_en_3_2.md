@@ -106,7 +106,7 @@ Legal documents, scrapped from the Internet, and classified in-house
        label  precision    recall  f1-score   support
        loans       0.86      0.88      0.87        41
        other       0.92      0.91      0.92        66
-    accuracy        -         -        0.90       107
+    accuracy          -         -      0.90       107
    macro-avg       0.89      0.89      0.89       107
 weighted-avg       0.90      0.90      0.90       107
 ```

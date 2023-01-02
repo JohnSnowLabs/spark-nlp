@@ -106,7 +106,7 @@ Legal documents, scrapped from the Internet, and classified in-house
        label  precision    recall  f1-score   support
      brokers       0.96      0.99      0.97        77
        other       1.00      0.99      0.99       219
-    accuracy        -         -        0.99       296
+    accuracy          -         -      0.99       296
    macro-avg       0.98      0.99      0.98       296
 weighted-avg       0.99      0.99      0.99       296
 ```

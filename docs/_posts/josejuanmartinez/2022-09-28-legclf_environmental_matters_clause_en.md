@@ -107,7 +107,7 @@ Legal documents, scrapped from the Internet, and classified in-house
                 label  precision    recall  f1-score   support
 environmental-matters       0.95      0.86      0.90        21
                 other       0.94      0.98      0.96        48
-             accuracy         -         -       0.94        69
+             accuracy          -         -      0.94        69
             macro-avg       0.94      0.92      0.93        69
          weighted-avg       0.94      0.94      0.94        69
 ```

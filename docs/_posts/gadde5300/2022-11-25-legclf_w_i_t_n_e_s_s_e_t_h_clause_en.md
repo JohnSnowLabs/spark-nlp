@@ -44,6 +44,7 @@ This model is a Binary Classifier (True, False) for the `w-i-t-n-e-s-s-e-t-h` cl
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  documentAssembler = nlp.DocumentAssembler() \
          .setInputCol("clause_text") \
@@ -90,15 +91,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-
-                     precision    recall  f1-score   support
-
+              label  precision    recall  f1-score   support
               other       0.95      0.97      0.96        39
 w-i-t-n-e-s-s-e-t-h       0.96      0.92      0.94        25
-
-           accuracy                           0.95        64
-          macro avg       0.95      0.95      0.95        64
-       weighted avg       0.95      0.95      0.95        64
-
-
+           accuracy          -         -      0.95        64
+          macro-avg       0.95      0.95      0.95        64
+       weighted-avg       0.95      0.95      0.95        64
 ```

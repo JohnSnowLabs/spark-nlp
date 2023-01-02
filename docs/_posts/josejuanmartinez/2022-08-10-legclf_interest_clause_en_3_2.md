@@ -106,7 +106,7 @@ Legal documents, scrapped from the Internet, and classified in-house
                label  precision    recall  f1-score   support
 conflict-of-interest       0.90      0.81      0.85        32
                other       0.95      0.97      0.96       108
-            accuracy         -         -       0.94       140
+            accuracy          -         -      0.94       140
            macro-avg       0.92      0.89      0.91       140
         weighted-avg       0.93      0.94      0.93       140
 ```

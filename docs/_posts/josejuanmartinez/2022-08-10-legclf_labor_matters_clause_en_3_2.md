@@ -106,7 +106,7 @@ Legal documents, scrapped from the Internet, and classified in-house
         label  precision    recall  f1-score   support
 labor-matters       0.94      0.97      0.95        30
         other       0.98      0.96      0.97        56
-     accuracy         -         -       0.97        86
+     accuracy          -         -      0.97        86
     macro-avg       0.96      0.97      0.96        86
  weighted-avg       0.97      0.97      0.97        86
 ```

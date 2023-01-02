@@ -101,13 +101,10 @@ Weak labelling on documents from Edgar database
 ## Benchmarking
 
 ```bash
-                 precision    recall  f1-score   support
-
-          other       0.94      0.98      0.96       432
-work_experience       0.91      0.79      0.85       130
-
-       accuracy                           0.93       562
-      macro avg       0.93      0.88      0.90       562
-   weighted avg       0.93      0.93      0.93       562
-
+          label   precision    recall  f1-score   support
+          other        0.94      0.98      0.96       432
+work_experience        0.91      0.79      0.85       130
+       accuracy           -         -      0.93       562
+      macro-avg        0.93      0.88      0.90       562
+   weighted-avg        0.93      0.93      0.93       562
 ```

@@ -106,7 +106,7 @@ Legal documents, scrapped from the Internet, and classified in-house
        label  precision    recall  f1-score   support
        liens       0.95      0.84      0.89        44
        other       0.93      0.98      0.96        99
-    accuracy         -         -       0.94       143
+    accuracy          -         -      0.94       143
    macro-avg       0.94      0.91      0.92       143
 weighted-avg       0.94      0.94      0.94       143
 ```

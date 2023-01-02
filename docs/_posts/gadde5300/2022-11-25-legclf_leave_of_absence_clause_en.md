@@ -44,6 +44,7 @@ This model is a Binary Classifier (True, False) for the `leave-of-absence` claus
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  documentAssembler = nlp.DocumentAssembler() \
          .setInputCol("clause_text") \
@@ -90,15 +91,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-
-                  precision    recall  f1-score   support
-
+           label  precision    recall  f1-score   support
 leave-of-absence       1.00      0.97      0.98        29
            other       0.97      1.00      0.99        39
-
-        accuracy                           0.99        68
-       macro avg       0.99      0.98      0.98        68
-    weighted avg       0.99      0.99      0.99        68
-
-
+        accuracy          -         -      0.99        68
+       macro-avg       0.99      0.98      0.98        68
+    weighted-avg       0.99      0.99      0.99        68
 ```

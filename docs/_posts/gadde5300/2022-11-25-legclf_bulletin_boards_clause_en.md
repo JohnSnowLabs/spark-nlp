@@ -44,6 +44,7 @@ This model is a Binary Classifier (True, False) for the `bulletin-boards` clause
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  documentAssembler = nlp.DocumentAssembler() \
          .setInputCol("clause_text") \
@@ -91,14 +92,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 
 ```bash
 
-                 precision    recall  f1-score   support
-
+          label  precision    recall  f1-score   support
 bulletin-boards       0.96      1.00      0.98        27
           other       1.00      0.97      0.99        39
-
-       accuracy                           0.98        66
-      macro avg       0.98      0.99      0.98        66
-   weighted avg       0.99      0.98      0.98        66
-
-
+       accuracy          -         -      0.98        66
+      macro-avg       0.98      0.99      0.98        66
+   weighted-avg       0.99      0.98      0.98        66
 ```
