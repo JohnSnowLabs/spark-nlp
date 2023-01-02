@@ -21,8 +21,11 @@ CHUNK
 
 {%- capture model_python_medical -%}
 from johnsnowlabs import *
+
 # Filtering POS tags
+
 # First pipeline stages to extract the POS tags are defined
+
 data = spark.createDataFrame([["Has a past history of gastroenteritis and stomach pain, however patient ..."]]).toDF("text")
 docAssembler = nlp.DocumentAssembler().setInputCol("text").setOutputCol("document")
 sentenceDetector = nlp.SentenceDetector().setInputCols(["document"]).setOutputCol("sentence")
@@ -76,7 +79,9 @@ result.selectExpr("explode(filtered)").show(truncate=False)
 
 {%- capture model_python_legal -%}
 from johnsnowlabs import *
+
 # Filtering POS tags
+
 # First pipeline stages to extract the POS tags are defined
 
 docAssembler = nlp.DocumentAssembler().setInputCol("text").setOutputCol("document")
@@ -267,9 +272,12 @@ val pipeline = new Pipeline().setStages(Array(
   chunkerFilter))
 {%- endcapture -%}
 
-
 {%- capture model_api_link -%}
 [ChunkFilterer](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/chunker/ChunkFilterer)
+{%- endcapture -%}
+
+{%- capture model_python_api_link -%}
+[ChunkFilterer](https://nlp.johnsnowlabs.com/licensed/api/python/reference/autosummary/sparknlp_jsl/annotator/chunker/chunker_filterer/index.html#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer)
 {%- endcapture -%}
 
 {% include templates/licensed_approach_model_medical_fin_leg_template.md
@@ -284,4 +292,6 @@ model_python_finance=model_python_finance
 model_scala_medical=model_scala_medical
 model_scala_legal=model_scala_legal
 model_scala_finance=model_scala_finance
-model_api_link=model_api_link%}
+model_api_link=model_api_link
+model_python_api_link=model_python_api_link
+%}

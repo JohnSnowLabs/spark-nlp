@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp_jsl.pretrained &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.pretrained &#8212; Spark NLP  documentation</title>
   
   
   
@@ -276,7 +276,7 @@
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.pretrained.InternalResourceDownloader" title="sparknlp_jsl.pretrained.InternalResourceDownloader"><code class="xref py py-obj docutils literal notranslate"><span class="pre">InternalResourceDownloader</span></code></a></p></td>
-<td><p></p></td>
+<td><p>Downlod internal resources from S3</p></td>
 </tr>
 </tbody>
 </table>
@@ -286,52 +286,101 @@
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.pretrained.printProgress" title="sparknlp_jsl.pretrained.printProgress"><code class="xref py py-obj docutils literal notranslate"><span class="pre">printProgress</span></code></a>(stop)</p></td>
-<td><p></p></td>
+<td><p>Prints a progress bar to the console every 2.5 seconds.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py function">
 <dt class="sig sig-object py" id="sparknlp_jsl.pretrained.printProgress">
 <span class="sig-name descname"><span class="pre">printProgress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stop</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp_jsl/pretrained.html#printProgress"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.pretrained.printProgress" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Prints a progress bar to the console every 2.5 seconds.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>stop (function): A function that returns True when the progress bar should stop.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp_jsl.pretrained.InternalResourceDownloader">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">InternalResourceDownloader</span></span><a class="reference internal" href="../../../../modules/sparknlp_jsl/pretrained.html#InternalResourceDownloader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.pretrained.InternalResourceDownloader" title="Permalink to this definition">#</a></dt>
-<dd><dl class="py method">
+<dd><p>Downlod internal resources from S3</p>
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.pretrained.InternalResourceDownloader.downloadModel">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">downloadModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">language</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j_dwn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'InternalsPythonResourceDownloader'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp_jsl/pretrained.html#InternalResourceDownloader.downloadModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.pretrained.InternalResourceDownloader.downloadModel" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Download a model from S3</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>reader (class): The reader class to use to load the model.
+name (str): The name of the model to download.
+language (str): The language of the model to download.
+remote_loc (str, optional): The remote location of the model. Defaults to None.
+j_dwn (str, optional): The Java downloader class to use. Defaults to ‘InternalsPythonResourceDownloader’.</p>
+</dd>
+<dt>Returns:</dt><dd><p>class: The reader class with the model loaded.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.pretrained.InternalResourceDownloader.showPrivateModels">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">showPrivateModels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">annotator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp_jsl/pretrained.html#InternalResourceDownloader.showPrivateModels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.pretrained.InternalResourceDownloader.showPrivateModels" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Show private models available for download</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>annotator (str, optional): The annotator to filter by. Defaults to None.
+lang (str, optional): The language to filter by. Defaults to None.
+version (str, optional): The version to filter by. Defaults to None.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.pretrained.InternalResourceDownloader.showPrivatePipelines">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">showPrivatePipelines</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp_jsl/pretrained.html#InternalResourceDownloader.showPrivatePipelines"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.pretrained.InternalResourceDownloader.showPrivatePipelines" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Show private pipelines available for download</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>lang (str, optional): The language to filter by. Defaults to None.
+version (str, optional): The version to filter by. Defaults to None.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.pretrained.InternalResourceDownloader.showUnCategorizedResources">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">showUnCategorizedResources</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp_jsl/pretrained.html#InternalResourceDownloader.showUnCategorizedResources"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.pretrained.InternalResourceDownloader.showUnCategorizedResources" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Show uncategorized resources available for download.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.pretrained.InternalResourceDownloader.showAvailableAnnotators">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">showAvailableAnnotators</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp_jsl/pretrained.html#InternalResourceDownloader.showAvailableAnnotators"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.pretrained.InternalResourceDownloader.showAvailableAnnotators" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Show available annotators.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.pretrained.InternalResourceDownloader.returnPrivateModels">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">returnPrivateModels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">annotator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp_jsl/pretrained.html#InternalResourceDownloader.returnPrivateModels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.pretrained.InternalResourceDownloader.returnPrivateModels" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Return private models available for download.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>annotator (str, optional): The annotator to filter by. Defaults to None.
+lang (str, optional): The language to filter by. Defaults to None.
+version (str, optional): The version to filter by. Defaults to None.</p>
+</dd>
+<dt>Returns:</dt><dd><p>list: A list of private models available for download.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.pretrained.InternalResourceDownloader.returnPrivatePipelines">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">returnPrivatePipelines</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp_jsl/pretrained.html#InternalResourceDownloader.returnPrivatePipelines"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.pretrained.InternalResourceDownloader.returnPrivatePipelines" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Return private pipelines available for download.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>lang (str, optional): The language to filter by. Defaults to None.
+version (str, optional): The version to filter by. Defaults to None.</p>
+</dd>
+<dt>Returns:</dt><dd><p>list: A list of private pipelines available for download.</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

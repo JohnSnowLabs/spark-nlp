@@ -102,11 +102,11 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 
 ```bash
 
-|        label |   precision |   recall |   f1-score |   support |
-|-------------:|------------:|---------:|-----------:|----------:|
-|    agreement |        0.75 |     0.71 |       0.73 |        90 |
-|        other |        0.88 |     0.90 |       0.89 |       204 |
-|     accuracy |           - |        - |       0.84 |       294 |
-|    macro-avg |        0.81 |     0.80 |       0.81 |       294 |
-| weighted-avg |        0.84 |     0.84 |       0.84 |       294 |
+        label    precision    recall    f1-score    support 
+    agreement         0.75      0.71        0.73         90 
+        other         0.88      0.90        0.89        204 
+     accuracy            -         -        0.84        294 
+    macro-avg         0.81      0.80        0.81        294 
+ weighted-avg         0.84      0.84        0.84        294 
+ 
 ```

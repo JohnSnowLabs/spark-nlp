@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.annotator.ner.iob_tagger &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.annotator.ner.iob_tagger &#8212; Spark NLP  documentation</title>
   
   
   
@@ -327,25 +327,27 @@
 
 <div class="viewcode-block" id="IOBTagger.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/iob_tagger/index.html#sparknlp_jsl.annotator.ner.iob_tagger.IOBTagger.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;IOBTaggerModel&quot;</span></div>
 
-<div class="viewcode-block" id="IOBTagger.scheme"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/iob_tagger/index.html#sparknlp_jsl.annotator.ner.iob_tagger.IOBTagger.scheme">[docs]</a>    <span class="n">scheme</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;scheme&quot;</span><span class="p">,</span> <span class="s2">&quot;Format of tags, either IOB or BIOES&quot;</span><span class="p">,</span>
-                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+<div class="viewcode-block" id="IOBTagger.scheme"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/iob_tagger/index.html#sparknlp_jsl.annotator.ner.iob_tagger.IOBTagger.scheme">[docs]</a>    <span class="n">scheme</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;scheme&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Format of tags, either IOB or BIOES&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">,</span></div>
+    <span class="p">)</span>
 
-<div class="viewcode-block" id="IOBTagger.setScheme"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/iob_tagger/index.html#sparknlp_jsl.annotator.ner.iob_tagger.IOBTagger.setScheme">[docs]</a>    <span class="k">def</span> <span class="nf">setScheme</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
+<div class="viewcode-block" id="IOBTagger.setScheme"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/iob_tagger/index.html#sparknlp_jsl.annotator.ner.iob_tagger.IOBTagger.setScheme">[docs]</a>    <span class="k">def</span> <span class="nf">setScheme</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scheme</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets format of tags, either IOB or BIOES</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        pairs : str</span>
+<span class="sd">        scheme : str</span>
 <span class="sd">            Format of tags, either IOB or BIOES</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">scheme</span><span class="o">=</span><span class="n">f</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">scheme</span><span class="o">=</span><span class="n">scheme</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.ner.IOBTagger&quot;</span><span class="p">,</span>
-                 <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">IOBTagger</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
-            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span></div>
-        <span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.ner.IOBTagger&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">IOBTagger</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span></div>
 </pre></div>
 
             </article>

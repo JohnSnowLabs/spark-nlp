@@ -31,6 +31,7 @@ Pretrained Financial BERT Sentence Embeddings model, adapted from Hugging Face a
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 sentence_embeddings = BertSentenceEmbeddings.pretrained("sbert_chinese_qmc_finance_v1_distill", "zh")\
   .setInputCols(["sentence"])\

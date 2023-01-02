@@ -106,7 +106,7 @@ Legal documents, scrapped from the Internet, and classified in-house
        label  precision    recall  f1-score   support
   illegality       0.95      0.95      0.95        22
        other       0.98      0.98      0.98        56
-    accuracy        -         -        0.97        78
+    accuracy          -         -      0.97        78
    macro-avg       0.97      0.97      0.97        78
 weighted-avg       0.97      0.97      0.97        78
 ```

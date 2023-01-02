@@ -104,7 +104,7 @@ Weak labelling on documents from Edgar database
                label  precision    recall  f1-score   support
 financial_statements       0.86      0.96      0.91      1204
                other       0.96      0.85      0.90      1254
-            accuracy        -         -        0.90      2458
+            accuracy          -         -      0.90      2458
            macro-avg       0.91      0.91      0.90      2458
         weighted-avg       0.91      0.90      0.90      2458
 ```

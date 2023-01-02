@@ -103,13 +103,11 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 
 ```bash
 
-                precision    recall  f1-score   support
-
-loan-agreement       0.72      0.97      0.82        29
-         other       0.97      0.73      0.83        41
-
-      accuracy                           0.83        70
-     macro-avg       0.84      0.85      0.83        70
-  weighted-avg       0.86      0.83      0.83        70
+         label precision recall  f1-score  support
+loan-agreement      0.72   0.97      0.82       29
+         other      0.97   0.73      0.83       41
+      accuracy         -      -      0.83       70
+     macro-avg      0.84   0.85      0.83       70
+  weighted-avg      0.86   0.83      0.83       70
 
 ```

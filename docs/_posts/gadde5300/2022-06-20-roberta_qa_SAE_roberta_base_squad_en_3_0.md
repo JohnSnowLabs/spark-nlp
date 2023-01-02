@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Sabanê RobertaForQuestionAnswering (from jgammack)
+title: Sabanï¿½ RobertaForQuestionAnswering (from jgammack)
 author: John Snow Labs
 name: roberta_qa_SAE_roberta_base_squad
 date: 2022-06-20
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `SAE-roberta-base-squad` is a Sabanê model originally trained by `jgammack`.
+Pretrained Question Answering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `SAE-roberta-base-squad` is a Saban model originally trained by `jgammack`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

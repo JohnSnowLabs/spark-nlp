@@ -133,15 +133,10 @@ Manual annotations on CUAD dataset
 ## Benchmarking
 
 ```bash
-
-Relation           Recall Precision        F1   Support
-
-has_object          0.974     0.991     0.983       116
-has_subject         0.977     0.986     0.981       213
-other               0.993     0.978     0.985       271
-
-Avg.                0.981     0.985     0.983
-
-Weighted Avg.       0.983     0.983     0.983
-
+       label    Recall Precision        F1   Support
+  has_object     0.974     0.991     0.983       116
+ has_subject     0.977     0.986     0.981       213
+       other     0.993     0.978     0.985       271
+         Avg     0.981     0.985     0.983       -
+Weighted-Avg     0.983     0.983     0.983       -
 ```

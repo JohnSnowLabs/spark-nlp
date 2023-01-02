@@ -99,7 +99,7 @@ class TypedDependencyParserApproach(AnnotatorApproach):
     >>> pipelineModel = pipeline.fit(emptyDataSet)
     """
 
-    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.POS, AnnotatorType.DEPENDENCY]
+    inputAnnotatorTypes = [AnnotatorType.TOKEN, AnnotatorType.POS, AnnotatorType.DEPENDENCY]
 
     outputAnnotatorType = AnnotatorType.LABELED_DEPENDENCY
 
@@ -264,7 +264,7 @@ class TypedDependencyParserModel(AnnotatorModel):
 
     name = "TypedDependencyParserModel"
 
-    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.POS, AnnotatorType.DEPENDENCY]
+    inputAnnotatorTypes = [AnnotatorType.TOKEN, AnnotatorType.POS, AnnotatorType.DEPENDENCY]
 
     outputAnnotatorType = AnnotatorType.LABELED_DEPENDENCY
 

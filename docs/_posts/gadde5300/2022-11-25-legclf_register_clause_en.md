@@ -44,6 +44,7 @@ This model is a Binary Classifier (True, False) for the `register` clause type. 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  documentAssembler = nlp.DocumentAssembler() \
          .setInputCol("clause_text") \
@@ -90,15 +91,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
        other       0.93      1.00      0.96        39
     register       1.00      0.91      0.95        32
-
-    accuracy                           0.96        71
-   macro avg       0.96      0.95      0.96        71
-weighted avg       0.96      0.96      0.96        71
-
-
+    accuracy          -         -      0.96        71
+   macro-avg       0.96      0.95      0.96        71
+weighted-avg       0.96      0.96      0.96        71
 ```
