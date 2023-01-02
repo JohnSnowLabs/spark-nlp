@@ -126,6 +126,6 @@ Manual annotations on CUAD dataset
        allows       1.000       1.000     1.000        32
 is_allowed_to       1.000       1.000     1.000        36
         other       1.000       1.000     1.000        32
-          Avg       1.000       1.000     1.000
- Weighted-Avg       1.000       1.000     1.000
+          Avg       1.000       1.000     1.000        -
+ Weighted-Avg       1.000       1.000     1.000        -
 ```
