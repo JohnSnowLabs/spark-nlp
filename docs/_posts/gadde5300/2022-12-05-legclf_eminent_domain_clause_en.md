@@ -43,6 +43,7 @@ This model is a Binary Classifier (True, False) for the `eminent-domain` clause 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  documentAssembler = nlp.DocumentAssembler() \
          .setInputCol("clause_text") \
@@ -89,14 +90,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-
-                precision    recall  f1-score   support
-
+         label  precision    recall  f1-score   support
 eminent-domain       1.00      0.93      0.97        30
          other       0.95      1.00      0.97        39
-
       accuracy          -         -      0.97        69
-     macro avg       0.98      0.97      0.97        69
-  weighted avg       0.97      0.97      0.97        69
-
+     macro-avg       0.98      0.97      0.97        69
+  weighted-avg       0.97      0.97      0.97        69
 ```

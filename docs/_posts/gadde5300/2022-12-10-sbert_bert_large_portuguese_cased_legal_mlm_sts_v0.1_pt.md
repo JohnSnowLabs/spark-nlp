@@ -30,6 +30,7 @@ Pretrained BERT Sentence Embedding model, adapted from Hugging Face and curated 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler() \
     .setInputCol("text") \

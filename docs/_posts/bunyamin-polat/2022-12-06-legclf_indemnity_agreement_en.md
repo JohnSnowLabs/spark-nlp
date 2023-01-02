@@ -116,12 +116,10 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 
 ```bash
 
-                     precision    recall  f1-score   support
-
+              label    precision   recall  f1-score   support
 indemnity-agreement       0.96      0.94      0.95        50
               other       0.97      0.98      0.98       111
-
-           accuracy                           0.97       161
+           accuracy         -         -       0.97       161
           macro-avg       0.97      0.96      0.96       161
        weighted-avg       0.97      0.97      0.97       161
 

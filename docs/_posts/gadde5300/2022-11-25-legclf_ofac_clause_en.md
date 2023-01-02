@@ -44,6 +44,7 @@ This model is a Binary Classifier (True, False) for the `ofac` clause type. To u
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  documentAssembler = nlp.DocumentAssembler() \
          .setInputCol("clause_text") \
@@ -90,15 +91,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
         ofac       1.00      0.96      0.98        28
        other       0.97      1.00      0.99        39
-
-    accuracy                           0.99        67
-   macro avg       0.99      0.98      0.98        67
-weighted avg       0.99      0.99      0.99        67
-
-
+    accuracy          -         -      0.99        67
+   macro-avg       0.99      0.98      0.98        67
+weighted-avg       0.99      0.99      0.99        67
 ```

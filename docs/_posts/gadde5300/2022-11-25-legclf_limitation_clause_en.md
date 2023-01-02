@@ -44,6 +44,7 @@ This model is a Binary Classifier (True, False) for the `limitation` clause type
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  documentAssembler = nlp.DocumentAssembler() \
              .setInputCol("clause_text") \
@@ -90,15 +91,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
   limitation       0.88      0.86      0.87        35
        other       0.88      0.90      0.89        39
-
-    accuracy                           0.88        74
-   macro avg       0.88      0.88      0.88        74
-weighted avg       0.88      0.88      0.88        74
-
-
+    accuracy          -         -      0.88        74
+   macro-avg       0.88      0.88      0.88        74
+weighted-avg       0.88      0.88      0.88        74
 ```

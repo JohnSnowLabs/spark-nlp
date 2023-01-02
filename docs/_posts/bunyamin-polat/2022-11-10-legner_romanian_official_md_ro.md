@@ -118,13 +118,13 @@ Dataset is available [here](https://zenodo.org/record/7025333#.Y2zsquxBx83).
 ## Benchmarking
 
 ```bash
-| label        | precision | recall | f1-score | support |
-| DATE         | 0.84      | 0.92   | 0.88     | 218     |
-| LEGAL        | 0.89      | 0.96   | 0.92     | 337     |
-| LOC          | 0.82      | 0.77   | 0.79     | 158     |
-| ORG          | 0.87      | 0.88   | 0.88     | 463     |
-| PER          | 0.97      | 0.97   | 0.97     | 87      |
-| micro-avg    | 0.87      | 0.90   | 0.89     | 1263    |
-| macro-avg    | 0.88      | 0.90   | 0.89     | 1263    |
-| weighted-avg | 0.87      | 0.90   | 0.89     | 1263    |
+label         precision  recall  f1-score  support
+DATE          0.84       0.92    0.88      218
+LEGAL         0.89       0.96    0.92      337
+LOC           0.82       0.77    0.79      158
+ORG           0.87       0.88    0.88      463
+PER           0.97       0.97    0.97      87
+micro-avg     0.87       0.90    0.89      1263
+macro-avg     0.88       0.90    0.89      1263
+weighted-avg  0.87       0.90    0.89      1263
 ```

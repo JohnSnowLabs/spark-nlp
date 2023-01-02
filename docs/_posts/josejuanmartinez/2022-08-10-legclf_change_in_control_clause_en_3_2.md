@@ -106,7 +106,7 @@ Legal documents, scrapped from the Internet, and classified in-house
             legal  precision    recall  f1-score   support
 change-in-control       0.89      0.96      0.92        25
             other       0.99      0.96      0.97        76
-         accuracy        -         -        0.96       101
+         accuracy          -         -      0.96       101
         macro-avg       0.94      0.96      0.95       101
      weighted-avg       0.96      0.96      0.96       101
 ```
