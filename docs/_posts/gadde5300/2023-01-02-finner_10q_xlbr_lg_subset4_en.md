@@ -164,7 +164,7 @@ B-CumulativeEffectOfNewAccountingPrincipleInPeriodOfAdoption     0.8588    0.964
                                  B-RevenueFromRelatedParties     0.9161    0.9192    0.9176       594
                                                            O     0.9998    0.9988    0.9993     80111
                                                     accuracy       -           -     0.9942     83411
-                                                   macro avg     0.8872    0.8451    0.8405     83411
-                                                weighted avg     0.9947    0.9942    0.9940     83411
+                                                   macro-avg     0.8872    0.8451    0.8405     83411
+                                                weighted-avg     0.9947    0.9942    0.9940     83411
 
 ```
