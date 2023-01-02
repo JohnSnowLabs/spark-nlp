@@ -122,7 +122,7 @@ Manual annotations on CUAD dataset
 ## Benchmarking
 
 ```bash
-Relation           Recall  Precision  F1     Support 
+label              Recall  Precision  F1     Support 
 is_obliged_object  0.989   0.994      0.992  177     
 is_obliged_to      0.995   1.000      0.998  202     
 is_obliged_with    1.000   0.961      0.980  49      
