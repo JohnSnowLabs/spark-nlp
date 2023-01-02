@@ -1,2 +1,2 @@
-docs/en/licensed_install.md
-docs/en/licensed_install.md
+docs/_posts/josejuanmartinez/2022-09-27-legassertion_time_en.md
+docs/_posts/josejuanmartinez/2022-09-27-legassertion_time_en.md
