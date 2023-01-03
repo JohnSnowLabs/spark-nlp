@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Finance Stock Equity NER (10Q, md)
+title: Finance Stock Equity NER (10Q, lg)
 author: John Snow Labs
 name: finner_10q_xlbr_lg_contra_stock_equity
 date: 2023-01-02
