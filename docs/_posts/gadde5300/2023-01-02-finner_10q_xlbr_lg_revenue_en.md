@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Finance Revenue NER (10Q, md)
+title: Finance Revenue NER (10Q, lg)
 author: John Snow Labs
 name: finner_10q_xlbr_lg_revenue
 date: 2023-01-02
