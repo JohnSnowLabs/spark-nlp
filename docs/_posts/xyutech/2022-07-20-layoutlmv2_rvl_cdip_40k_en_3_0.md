@@ -115,8 +115,12 @@ val results = pipeline
 ```
 </div>
 
-## Results
+## Example
 
+### Input:
+![Screenshot](docs/_examples_ocr/image1.png)
+
+### Output:
 ```bash
 +-------+
 |label  |

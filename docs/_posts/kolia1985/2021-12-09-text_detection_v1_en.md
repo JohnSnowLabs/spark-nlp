@@ -99,6 +99,17 @@ val results = pipeline
 
 </div>
 
+
+## Example
+
+### Input:
+![Screenshot](docs/_examples_ocr/image6.png)
+
+### Output:
+![Screenshot](docs/_examples_ocr/image6_out.png)
+
+
+
 {:.model-param}
 ## Model Information
 

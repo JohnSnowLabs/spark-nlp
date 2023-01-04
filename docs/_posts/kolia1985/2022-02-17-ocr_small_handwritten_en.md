@@ -83,7 +83,14 @@ The abstract from the paper is the following:  Text recognition is a long-standi
 </div>
 
 
-## Result
+## Example
+
+### Input:
+![Screenshot](docs/_examples_ocr/image3.png)
+
+### Output:
+![Screenshot](docs/_examples_ocr/image3_out2.png)
+
 
 ```bash
 This is an example of handwritten
