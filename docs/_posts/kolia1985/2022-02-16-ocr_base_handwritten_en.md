@@ -83,10 +83,10 @@ Ocr base model for recognise handwritten text based on TrOcr architecture.  The 
 ## Example
 
 ### Input:
-![Screenshot](docs/_examples_ocr/image3.png)
+![Screenshot](../../_examples_ocr/image3.png)
 
 ### Output:
-![Screenshot](docs/_examples_ocr/image3_out.png)
+![Screenshot](../../_examples_ocr/image3_out.png)
 
 ```bash
 This is an example of handwritten

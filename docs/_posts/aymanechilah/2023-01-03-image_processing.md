@@ -121,8 +121,8 @@ val reuslt = transformer.transform(dataFrame).select("image", "transformed_image
 ## Example
 
 ### Input:
-![Screenshot](docs/_examples_ocr/image2.png)
+![Screenshot](../../_examples_ocr/image2.png)
 
 ### Output:
-![Screenshot](docs/_examples_ocr/image2_out2.png)
+![Screenshot](../../_examples_ocr/image2_out2.png)
 

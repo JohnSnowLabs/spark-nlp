@@ -86,10 +86,10 @@ The abstract from the paper is the following:  Text recognition is a long-standi
 ## Example
 
 ### Input:
-![Screenshot](docs/_examples_ocr/image3.png)
+![Screenshot](../../_examples_ocr/image3.png)
 
 ### Output:
-![Screenshot](docs/_examples_ocr/image3_out2.png)
+![Screenshot](../../_examples_ocr/image3_out2.png)
 
 
 ```bash

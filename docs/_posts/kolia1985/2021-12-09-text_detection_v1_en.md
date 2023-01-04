@@ -103,10 +103,10 @@ val results = pipeline
 ## Example
 
 ### Input:
-![Screenshot](docs/_examples_ocr/image6.png)
+![Screenshot](../../_examples_ocr/image6.png)
 
 ### Output:
-![Screenshot](docs/_examples_ocr/image6_out.png)
+![Screenshot](../../_examples_ocr/image6_out.png)
 
 
 

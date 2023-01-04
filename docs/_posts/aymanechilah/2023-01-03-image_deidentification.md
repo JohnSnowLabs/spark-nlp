@@ -204,10 +204,10 @@ data.select("positions", "ner_chunk", "pagenum" ).write.parquet(path)
 ## Example
 
 ### Input:
-![Screenshot](docs/_examples_ocr/image8.png)
+![Screenshot](../../_examples_ocr/image8.png)
 
 ### Output:
-![Screenshot](docs/_examples_ocr/image8_out.png)
+![Screenshot](../../_examples_ocr/image8_out.png)
 ```bash
 +------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 |ner_chunk                                                                                                                                                                                                                                                                                                   |

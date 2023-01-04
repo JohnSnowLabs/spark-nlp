@@ -88,10 +88,10 @@ Ocr small model for recognise printed text based on TrOcr architecture. The TrOC
 ## Example
 
 ### Input:
-![Screenshot](docs/_examples_ocr/image2.png)
+![Screenshot](../../_examples_ocr/image2.png)
 
 ### Output:
-![Screenshot](docs/_examples_ocr/image2_out.png)
+![Screenshot](../../_examples_ocr/image2_out.png)
 ```bash
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

@@ -93,7 +93,7 @@ RestAPI pipeline implementation for the OCR task, using tesseract models. Tesser
 ## Example
 
 ### Input:
-![Screenshot](docs/_examples_ocr/image2.png)
+![Screenshot](../../_examples_ocr/image2.png)
 
 ### Output:
 

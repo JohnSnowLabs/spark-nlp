@@ -96,10 +96,10 @@ Model for cleaning image with text. It is based on text detection model with ext
 ## Example
 
 ### Input:
-![Screenshot](docs/_examples_ocr/image4.png)
+![Screenshot](../../_examples_ocr/image4.png)
 
 ### Output:
-![Screenshot](docs/_examples_ocr/image4_out.png)
+![Screenshot](../../_examples_ocr/image4_out.png)
 
 ```bash
 Detected text:

@@ -103,7 +103,7 @@ val result = transformer.transform(dataFrame).select("text", "transformed_image"
 ## Example
 
 ### Input:
-![Screenshot](docs/_examples_ocr/image7.png)
+![Screenshot](../../_examples_ocr/image7.png)
 
 ### Output:
 ```bash

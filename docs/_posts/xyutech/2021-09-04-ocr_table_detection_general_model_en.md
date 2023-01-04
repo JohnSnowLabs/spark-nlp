@@ -92,10 +92,10 @@ val results = pipeline
 ## Example
 
 ### Input:
-![Screenshot](docs/_examples_ocr/image5.png)
+![Screenshot](../../_examples_ocr/image5.png)
 
 ### Output:
-![Screenshot](docs/_examples_ocr/image5_out.png)
+![Screenshot](../../_examples_ocr/image5_out.png)
 
 
 {:.model-param}

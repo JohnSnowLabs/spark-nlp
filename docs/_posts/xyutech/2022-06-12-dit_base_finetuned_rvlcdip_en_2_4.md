@@ -94,7 +94,7 @@ val results = pipeline
 ## Example
 
 ### Input:
-![Screenshot](docs/_examples_ocr/image1.png)
+![Screenshot](../../_examples_ocr/image1.png)
 
 ### Output:
 ```bash
