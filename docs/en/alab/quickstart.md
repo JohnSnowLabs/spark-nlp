@@ -15,10 +15,8 @@ sidebar:
 
 <div class="main-docs" markdown="1">
 
-<div class="block-wrapper">
-
-<div class="block-box with_i" style="width: 100%!important" markdown="1">
-<div class="block-box-inner" style="width: 100%!important" markdown="1">
+<div class="alab-top-wrapper shadow">
+<div class="block-box-inner" markdown="1">
 
 ## The Free No-Code NLP Lab
 
@@ -38,11 +36,11 @@ All that **without writing a line of code**!
 [Install on Azure](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/johnsnowlabsinc1646051154808.annotation_lab?tab=Overview){:.button.button--primary.button--rounded.button--md}
 
 </div>
-
-<img class="image image--xl" src="/assets/images/annotation_lab/AnnotationLab.png" style="width:84%; float:right;"/>
-
+<div class="block-box-inner alab-top-image df">
+    <figure><img class="image image--xl" src="/assets/images/annotation_lab/flower_22.png"/></figure>
 </div>
 </div>
+
 </div>
 
 <div class="block-wrapper block-wrapper-top">
