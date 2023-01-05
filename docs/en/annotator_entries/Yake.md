@@ -163,11 +163,11 @@ scores.orderBy("score").show(5, truncate = false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[YakeKeywordExtraction](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/keyword/yake/YakeKeywordExtraction)
+[YakeKeywordExtraction](/api/com/johnsnowlabs/nlp/annotators/keyword/yake/YakeKeywordExtraction)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[YakeKeywordExtraction](/api/python/reference/autosummary/python/sparknlp/annotator/keyword_extraction/yake_keyword_extraction/index.html#sparknlp.annotator.keyword_extraction.yake_keyword_extraction.YakeKeywordExtraction)
+[YakeKeywordExtraction](/api/python/reference/autosummary/sparknlp/annotator/keyword_extraction/yake_keyword_extraction/index.html#sparknlp.annotator.keyword_extraction.yake_keyword_extraction.YakeKeywordExtraction)
 {%- endcapture -%}
 
 {%- capture source_link -%}
