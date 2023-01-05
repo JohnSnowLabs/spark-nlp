@@ -1,8 +1,8 @@
 ---
 layout: docs
 header: true
-seotitle: Annotation Lab | John Snow Labs
-title: Annotation Lab
+seotitle: NLP Lab | John Snow Labs
+title: NLP Lab (Annotation Lab)
 excerpt: A lightning fast tool for document annotation.
 permalink: /docs/en/alab/quickstart
 key: docs-quickstart
@@ -20,11 +20,15 @@ sidebar:
 <div class="block-box with_i" style="width: 100%!important" markdown="1">
 <div class="block-box-inner" style="width: 100%!important" markdown="1">
 
-## Lightning fast annotation - for FREE
+## The Free No-Code NLP Lab
 
-A highly efficient annotation tool for all enterprise teams who need to:
-- annotate text, PDF and image documents;
-- build NLP models & get them to production;
+A highly efficient End-to-End No Code NLP platform for all enterprise teams that need to:
+- Annotate Text & Images
+- Train & Tune NLP Models
+- Speedup with AI Assisted Annotation 
+- Test for Responsible AI
+- Manage Projects & Teams
+- Enterprise Security & Privacy
 
 All that **without writing a line of code**!
 
@@ -95,7 +99,7 @@ All that **without writing a line of code**!
 
 ## Quick Intro
 
-Annotation Lab is a Free End-to-End No-Code platform for document labeling and AI/ML model training. It enables domain experts (e.g. nurses, doctors, lawyers, accountants, investors, etc.) to extract meaningful facts from text documents, images or PDFs and train models that will automatically predict those facts on new documents. This is done by using state-of-the-art Spark NLP pre-trained models or by tuning models to better handle specific use cases.
+Annotation Lab evolved to become the NLP Lab. Annotation Lab is a Free End-to-End No-Code platform for document labeling and AI/ML model training. It enables domain experts (e.g. nurses, doctors, lawyers, accountants, investors, etc.) to extract meaningful facts from text documents, images or PDFs and train models that will automatically predict those facts on new documents. This is done by using state-of-the-art Spark NLP pre-trained models or by tuning models to better handle specific use cases.
 
 Based on an auto-scaling architecture powered by Kubernetes, it can scale to many teams and projects. Enterprise-grade security is provided for free including support for air-gap environments, zero data sharing, role-based access, full audit trails, MFA, and identity provider integrations. It allows powerful experiments for model training and finetuning, model testing, and model deployment as API endpoints.
 There is no limitation on the number of users, projects, tasks, models, or trainings that can be run with this subscription.
