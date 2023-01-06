@@ -126,11 +126,11 @@ result.selectExpr("explode(finished_embeddings) as result").show(1, 80)
 {%- endcapture -%}
 
 {%- capture model_api_link -%}
-[Word2VecModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/Word2VecModel)
+[Word2VecModel](/api/com/johnsnowlabs/nlp/embeddings/Word2VecModel)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[Word2VecModel](/api/python/reference/autosummary/python/sparknlp/annotator/embeddings/word2vec/index.html#sparknlp.annotator.embeddings.word2vec.Word2VecModel)
+[Word2VecModel](/api/python/reference/autosummary/sparknlp/annotator/embeddings/word2vec/index.html#sparknlp.annotator.embeddings.word2vec.Word2VecModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -230,11 +230,11 @@ val pipelineModel = pipeline.fit(dataset)
 {%- endcapture -%}
 
 {%- capture approach_api_link -%}
-[Word2VecApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/Word2VecApproach)
+[Word2VecApproach](/api/com/johnsnowlabs/nlp/embeddings/Word2VecApproach)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[Word2VecApproach](/api/python/reference/autosummary/python/sparknlp/annotator/embeddings/word2vec/index.html#sparknlp.annotator.embeddings.word2vec.Word2VecApproach)
+[Word2VecApproach](/api/python/reference/autosummary/sparknlp/annotator/embeddings/word2vec/index.html#sparknlp.annotator.embeddings.word2vec.Word2VecApproach)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}
