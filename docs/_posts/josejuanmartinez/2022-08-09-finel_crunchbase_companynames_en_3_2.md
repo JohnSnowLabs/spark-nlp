@@ -51,13 +51,13 @@ resolver = finance.SentenceEntityResolverModel.pretrained("finel_crunchbase_comp
       .setOutputCol("name")\
       .setDistanceFunction("EUCLIDEAN")
 
-pipelineModel = PipelineModel(
+pipelineModel = nlp.PipelineModel(
       stages = [
           documentAssembler,
           embeddings,
           resolver])
 
-lp = LightPipeline(pipelineModel)
+lp = nlp.LightPipeline(pipelineModel)
 
 lp.fullAnnotate("Shwrm")
 

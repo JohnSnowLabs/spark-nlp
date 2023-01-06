@@ -19,6 +19,8 @@ use_language_switcher: "Python-Scala-Java"
 
 This model allows you to, given an extracted name of a company, get information about that company (including category / sector, country, status, initial funding, etc), as stored in Crunchbase.
 
+It can be optionally combined with Entity Resolution to normalize first the name of the company.
+
 This model only contains information up to 2015.
 
 ## Predicted Entities
@@ -46,41 +48,57 @@ tokenizer = nlp.Tokenizer()\
       .setInputCols("document")\
       .setOutputCol("token")
 
-# This is a the lighter but less accurate wayto get companies. 
-# Check for much more accurate models in Models Hub / Finance.
-# ==========================================================
-embeddings = nlp.WordEmbeddingsModel.pretrained('glove_100d') \
-        .setInputCols(['document', 'token']) \
-        .setOutputCol('embeddings')
+embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
+        .setInputCols(["document", "token"]) \
+        .setOutputCol("embeddings")
 
-ner_model = nlp.NerDLModel.pretrained("onto_100", "en") \
-        .setInputCols(["document", "token", "embeddings"]) \
+ner_model = finance.NerModel.pretrained('finner_orgs_prods_alias', 'en', 'finance/models')\
+        .setInputCols(["document", "token", "embeddings"])\
         .setOutputCol("ner")
-# ==========================================================
  
-ner_converter = nlp.NerConverter()\
+ner_converter = nlp.NerConverterInternal()\
       .setInputCols(["document", "token", "ner"])\
-      .setOutputCol("ner_chunk")\
-      .setWhiteList(["ORG"])
+      .setOutputCol("ner_chunk")
+
+# Optional: We normalize the name of the company using Crunchbase data
+############################################################
+chunkToDoc = nlp.Chunk2Doc()\
+        .setInputCols("ner_chunk")\
+        .setOutputCol("ner_chunk_doc")
+
+chunk_embeddings = nlp.UniversalSentenceEncoder.pretrained("tfhub_use", "en") \
+      .setInputCols("ner_chunk_doc") \
+      .setOutputCol("sentence_embeddings")
+    
+resolver = finance.SentenceEntityResolverModel.pretrained("finel_crunchbase_companynames", "en", "finance/models") \
+      .setInputCols(["ner_chunk", "sentence_embeddings"]) \
+      .setOutputCol("normalized")\
+      .setDistanceFunction("EUCLIDEAN")
+############################################################
 
 CM = finance.ChunkMapperModel.pretrained("finmapper_crunchbase_companyname", "en", "finance/models")\
-      .setInputCols(["ner_chunk"])\
+      .setInputCols(["normalized"])\ # or ner_chunk if you don't use normalization
       .setOutputCol("mappings")\
       .setRel('category_code')
 
-pipeline = Pipeline().setStages([document_assembler,
+pipeline = nlp.Pipeline().setStages([document_assembler,
                                  tokenizer, 
                                  embeddings,
                                  ner_model, 
-                                 ner_converter, 
+                                 ner_converter,
+                                 chunkToDoc, # Optional (normalization)
+                                 chunk_embeddings, # Optional (normalization)
+                                 resolver, # Optional (normalization)
                                  CM])
                                  
-text = ["""Tokalas is a company which operates in the biopharmaceutical sector."""]
+text = """Tokalas is a company which operates in the biopharmaceutical sector."""
 
-test_data = spark.createDataFrame([text]).toDF("text")
+test_data = spark.createDataFrame([[text]]).toDF("text")
 
 model = pipeline.fit(test_data)
-res= model.transform(test_data)
+lp = nlp.LightPipeline(model)
+
+res= lp.fullAnnotate(text)
 ```
 
 </div>
