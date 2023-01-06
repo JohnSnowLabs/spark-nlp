@@ -468,7 +468,7 @@
       <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">])</span>\
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"mappings"</span><span class="p">)</span>
 
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">document_assembler</span><span class="p">,</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">document_assembler</span><span class="p">,</span>
                                  <span class="n">tokenizer</span><span class="p">,</span> 
                                  <span class="n">embeddings</span><span class="p">,</span>
                                  <span class="n">ner_model</span><span class="p">,</span> 

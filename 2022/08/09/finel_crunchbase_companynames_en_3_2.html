@@ -449,13 +449,13 @@
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"name"</span><span class="p">)</span>\
       <span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDEAN"</span><span class="p">)</span>
 
-<span class="n">pipelineModel</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="p">(</span>
+<span class="n">pipelineModel</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">PipelineModel</span><span class="p">(</span>
       <span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
           <span class="n">documentAssembler</span><span class="p">,</span>
           <span class="n">embeddings</span><span class="p">,</span>
           <span class="n">resolver</span><span class="p">])</span>
 
-<span class="n">lp</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">pipelineModel</span><span class="p">)</span>
+<span class="n">lp</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">LightPipeline</span><span class="p">(</span><span class="n">pipelineModel</span><span class="p">)</span>
 
 <span class="n">lp</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="s">"Shwrm"</span><span class="p">)</span>
 

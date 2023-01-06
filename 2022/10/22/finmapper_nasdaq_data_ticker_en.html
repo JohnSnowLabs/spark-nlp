@@ -447,7 +447,8 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span>\
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="n">document_assembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span>\
       <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span>\
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
 
@@ -456,22 +457,21 @@
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
 <span class="n">embeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_embeddings_sec_bert_base"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
-       <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
-       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 
-<span class="n">ner_model</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">NerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finner_orgs_prods_alias"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span><span class="s">"finance/models"</span><span class="p">)</span>\
-       <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
-       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
- 
-<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">NerConverter</span><span class="p">()</span>\
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span>\
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>\
-      <span class="p">.</span><span class="n">setWhiteList</span><span class="p">([</span><span class="s">"ORG"</span><span class="p">])</span>
+<span class="n">ner_model</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">NerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finner_ticker"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
 
-<span class="n">CM</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">ChunkMapperModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'finmapper_nasdaq_data_company_name'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'finance/models'</span><span class="p">)</span>\
+<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">NerConverterInternal</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
+
+<span class="n">CM</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">ChunkMapperModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'finmapper_nasdaq_data_ticker'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'finance/models'</span><span class="p">)</span>\
       <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">])</span>\
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"mappings"</span><span class="p">)</span>\
-      <span class="p">.</span><span class="n">setRel</span><span class="p">(</span><span class="s">'ticker'</span><span class="p">)</span>
+      <span class="p">.</span><span class="n">setRel</span><span class="p">(</span><span class="s">'company_name'</span><span class="p">)</span>
 
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">document_assembler</span><span class="p">,</span>
                                  <span class="n">tokenizer</span><span class="p">,</span> 
@@ -479,57 +479,21 @@
                                  <span class="n">ner_model</span><span class="p">,</span> 
                                  <span class="n">ner_converter</span><span class="p">,</span> 
                                  <span class="n">CM</span><span class="p">])</span>
-
-<span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s">"""GLEASON CORP is a company which ..."""</span><span class="p">]</span>
+                                 
+<span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s">"""There are some serious purchases and sales of GLE1 stock today."""</span><span class="p">]</span>
 
 <span class="n">test_data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([</span><span class="n">text</span><span class="p">]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
 <span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
-<span class="n">res</span><span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
+
+<span class="n">res</span><span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">test_data</span><span class="p">).</span><span class="n">select</span><span class="p">(</span><span class="s">'mappings'</span><span class="p">).</span><span class="n">collect</span><span class="p">()</span>
 </code></pre></div>  </div>
 
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>document_assembler <span class="o">=</span> nlp.DocumentAssembler<span class="o">()</span><span class="se">\</span>
-      .setInputCol<span class="o">(</span><span class="s1">'text'</span><span class="o">)</span><span class="se">\</span>
-      .setOutputCol<span class="o">(</span><span class="s1">'document'</span><span class="o">)</span>
-
-tokenizer <span class="o">=</span> nlp.Tokenizer<span class="o">()</span><span class="se">\</span>
-      .setInputCols<span class="o">(</span><span class="s2">"document"</span><span class="o">)</span><span class="se">\</span>
-      .setOutputCol<span class="o">(</span><span class="s2">"token"</span><span class="o">)</span>
-
-embeddings <span class="o">=</span> nlp.BertEmbeddings.pretrained<span class="o">(</span><span class="s2">"bert_embeddings_sec_bert_base"</span>,<span class="s2">"en"</span><span class="o">)</span> <span class="se">\</span>
-    .setInputCols<span class="o">([</span><span class="s2">"document"</span>, <span class="s2">"token"</span><span class="o">])</span> <span class="se">\</span>
-    .setOutputCol<span class="o">(</span><span class="s2">"embeddings"</span><span class="o">)</span>
-
-ner_model <span class="o">=</span> finance.NerModel.pretrained<span class="o">(</span><span class="s2">"finner_ticker"</span>, <span class="s2">"en"</span>, <span class="s2">"finance/models"</span><span class="o">)</span><span class="se">\</span>
-    .setInputCols<span class="o">([</span><span class="s2">"document"</span>, <span class="s2">"token"</span>, <span class="s2">"embeddings"</span><span class="o">])</span><span class="se">\</span>
-    .setOutputCol<span class="o">(</span><span class="s2">"ner"</span><span class="o">)</span>
-
-ner_converter <span class="o">=</span> nlp.NerConverter<span class="o">()</span><span class="se">\</span>
-    .setInputCols<span class="o">([</span><span class="s2">"document"</span>, <span class="s2">"token"</span>, <span class="s2">"ner"</span><span class="o">])</span><span class="se">\</span>
-    .setOutputCol<span class="o">(</span><span class="s2">"ner_chunk"</span><span class="o">)</span>
-
-CM <span class="o">=</span> finance.ChunkMapperModel.pretrained<span class="o">(</span><span class="s1">'finmapper_nasdaq_data_ticker'</span>, <span class="s1">'en'</span>, <span class="s1">'finance/models'</span><span class="o">)</span><span class="se">\</span>
-      .setInputCols<span class="o">([</span><span class="s2">"ner_chunk"</span><span class="o">])</span><span class="se">\</span>
-      .setOutputCol<span class="o">(</span><span class="s2">"mappings"</span><span class="o">)</span><span class="se">\</span>
-      .setRel<span class="o">(</span><span class="s1">'company_name'</span><span class="o">)</span>
-
-pipeline <span class="o">=</span> Pipeline<span class="o">()</span>.setStages<span class="o">([</span>document_assembler,
-                                 tokenizer, 
-                                 embeddings,
-                                 ner_model, 
-                                 ner_converter, 
-                                 CM]<span class="o">)</span>
-                                 
-text <span class="o">=</span> <span class="o">[</span><span class="s2">"""There are some serious purchases and sales of GLE1 stock today."""</span><span class="o">]</span>
-
-test_data <span class="o">=</span> spark.createDataFrame<span class="o">([</span>text]<span class="o">)</span>.toDF<span class="o">(</span><span class="s2">"text"</span><span class="o">)</span>
-
-model <span class="o">=</span> pipeline.fit<span class="o">(</span>test_data<span class="o">)</span>
-<span class="nv">res</span><span class="o">=</span> model.transform<span class="o">(</span>test_data<span class="o">)</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>Row<span class="o">(</span><span class="nv">mappings</span><span class="o">=[</span>Row<span class="o">(</span><span class="nv">annotatorType</span><span class="o">=</span><span class="s1">'labeled_dependency'</span>, <span class="nv">begin</span><span class="o">=</span>46, <span class="nv">end</span><span class="o">=</span>49, <span class="nv">result</span><span class="o">=</span><span class="s1">'AMZN'</span>, <span class="nv">metadata</span><span class="o">={</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span>, <span class="s1">'chunk'</span>: <span class="s1">'0'</span>, <span class="s1">'entity'</span>: <span class="s1">'AMZN'</span>, <span class="s1">'relation'</span>: <span class="s1">'ticker'</span>, <span class="s1">'all_relations'</span>: <span class="s1">''</span><span class="o">}</span>, <span class="nv">embeddings</span><span class="o">=[])</span>, Row<span class="o">(</span><span class="nv">annotatorType</span><span class="o">=</span><span class="s1">'labeled_dependency'</span>, <span class="nv">begin</span><span class="o">=</span>46, <span class="nv">end</span><span class="o">=</span>49, <span class="nv">result</span><span class="o">=</span><span class="s1">'Amazon.com Inc.'</span>, <span class="nv">metadata</span><span class="o">={</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span>, <span class="s1">'chunk'</span>: <span class="s1">'0'</span>, <span class="s1">'entity'</span>: <span class="s1">'AMZN'</span>, <span class="s1">'relation'</span>: <span class="s1">'company_name'</span>, <span class="s1">'all_relations'</span>: <span class="s1">''</span><span class="o">}</span>, <span class="nv">embeddings</span><span class="o">=[])</span>, Row<span class="o">(</span><span class="nv">annotatorType</span><span class="o">=</span><span class="s1">'labeled_dependency'</span>, <span class="nv">begin</span><span class="o">=</span>46, <span class="nv">end</span><span class="o">=</span>49, <span class="nv">result</span><span class="o">=</span><span class="s1">'Amazon.com'</span>, <span class="nv">metadata</span><span class="o">={</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span>, <span class="s1">'chunk'</span>: <span class="s1">'0'</span>, <span class="s1">'entity'</span>: <span class="s1">'AMZN'</span>, <span class="s1">'relation'</span>: <span class="s1">'short_name'</span>, <span class="s1">'all_relations'</span>: <span class="s1">''</span><span class="o">}</span>, <span class="nv">embeddings</span><span class="o">=[])</span>, Row<span class="o">(</span><span class="nv">annotatorType</span><span class="o">=</span><span class="s1">'labeled_dependency'</span>, <span class="nv">begin</span><span class="o">=</span>46, <span class="nv">end</span><span class="o">=</span>49, <span class="nv">result</span><span class="o">=</span><span class="s1">'Retail - Apparel &amp; Specialty'</span>, <span class="nv">metadata</span><span class="o">={</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span>, <span class="s1">'chunk'</span>: <span class="s1">'0'</span>, <span class="s1">'entity'</span>: <span class="s1">'AMZN'</span>, <span class="s1">'relation'</span>: <span class="s1">'industry'</span>, <span class="s1">'all_relations'</span>: <span class="s1">''</span><span class="o">}</span>, <span class="nv">embeddings</span><span class="o">=[])</span>, Row<span class="o">(</span><span class="nv">annotatorType</span><span class="o">=</span><span class="s1">'labeled_dependency'</span>, <span class="nv">begin</span><span class="o">=</span>46, <span class="nv">end</span><span class="o">=</span>49, <span class="nv">result</span><span class="o">=</span><span class="s1">'Consumer Cyclical'</span>, <span class="nv">metadata</span><span class="o">={</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span>, <span class="s1">'chunk'</span>: <span class="s1">'0'</span>, <span class="s1">'entity'</span>: <span class="s1">'AMZN'</span>, <span class="s1">'relation'</span>: <span class="s1">'sector'</span>, <span class="s1">'all_relations'</span>: <span class="s1">''</span><span class="o">}</span>, <span class="nv">embeddings</span><span class="o">=[])</span>, Row<span class="o">(</span><span class="nv">annotatorType</span><span class="o">=</span><span class="s1">'labeled_dependency'</span>, <span class="nv">begin</span><span class="o">=</span>57, <span class="nv">end</span><span class="o">=</span>61, <span class="nv">result</span><span class="o">=</span><span class="s1">'NONE'</span>, <span class="nv">metadata</span><span class="o">={</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span>, <span class="s1">'chunk'</span>: <span class="s1">'1'</span>, <span class="s1">'entity'</span>: <span class="s1">'today'</span><span class="o">}</span>, <span class="nv">embeddings</span><span class="o">=[])])]</span>
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>

@@ -464,69 +464,49 @@
         <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"ner"</span><span class="p">])</span>\
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
-<span class="n">chunkToDoc</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Chunk2Doc</span><span class="p">()</span>\
+<span class="c1"># Optional: To normalize the ORG name using NASDAQ data before the mapping
+##########################################################################
+</span><span class="n">chunkToDoc</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Chunk2Doc</span><span class="p">()</span>\
         <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>\
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk_doc"</span><span class="p">)</span>
 
-<span class="n">sentence_embeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">UniversalSentenceEncoder</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"tfhub_use"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
+<span class="n">chunk_embeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">UniversalSentenceEncoder</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"tfhub_use"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
       <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"ner_chunk_doc"</span><span class="p">)</span> \
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>
     
-<span class="n">resolver</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">SentenceEntityResolverModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finel_edgar_company_name"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span> \
+<span class="n">use_er_model</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">SentenceEntityResolverModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finel_edgar_company_name"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span> \
       <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk_doc"</span><span class="p">,</span> <span class="s">"sentence_embeddings"</span><span class="p">])</span> \
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"normalized"</span><span class="p">)</span>\
       <span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDEAN"</span><span class="p">)</span>
+<span class="c1">##########################################################################
+</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">ChunkMapperModel</span><span class="p">()</span>\
+      <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finmapper_edgar_companyname"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
+      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"normalized"</span><span class="p">])</span>\ <span class="c1"># or ner_chunk for non normalized versions
+</span>      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"mappings"</span><span class="p">)</span>
 
-
-<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
         <span class="n">documentAssembler</span><span class="p">,</span>
         <span class="n">tokenizer</span><span class="p">,</span>
         <span class="n">embeddings</span><span class="p">,</span>
         <span class="n">ner_model</span><span class="p">,</span>
         <span class="n">ner_converter</span><span class="p">,</span>
         <span class="n">chunkToDoc</span><span class="p">,</span>
-        <span class="n">sentence_embeddings</span><span class="p">,</span>
-        <span class="n">resolver</span><span class="p">])</span>
+        <span class="n">chunk_embeddings</span><span class="p">,</span>
+        <span class="n">use_er_model</span><span class="p">,</span>
+        <span class="n">cm</span>
+<span class="p">])</span>
 
-<span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s">""</span><span class="p">]</span>
-<span class="n">test_data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([</span><span class="n">text</span><span class="p">]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s">"""NIKE Inc is an American multinational corporation that is engaged in the design, development, manufacturing, and worldwide marketing and sales of footwear, 
+apparel, equipment, accessories, and services"""</span>
+
+<span class="n">test_data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">text</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+
 <span class="n">model</span> <span class="o">=</span> <span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
 
-<span class="n">lp</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
-<span class="n">res</span> <span class="o">=</span> <span class="n">lp</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="s">"Jamestown Invest LLC is a direct-to-consumer platform for Commercial Real Estate Investments launched by a global real estate institution."</span><span class="p">)</span>
+<span class="n">lp</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">LightPipeline</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 
-<span class="c1"># This will return the first normalized record found, which is the most similar
-</span><span class="n">first_result</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">'normalized'</span><span class="p">][</span><span class="s">'all_k_resolutions'</span><span class="p">].</span><span class="n">split</span><span class="p">(</span><span class="s">':::'</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># Jamestown Invest 1, LLC
-</span>
-
-<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span>\
-        <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
-
-<span class="n">chunkAssembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Doc2Chunk</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"chunk"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setIsArray</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-
-<span class="n">CM</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">ChunkMapperModel</span><span class="p">()</span>\
-      <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finmapper_edgar_companyname"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"chunk"</span><span class="p">])</span>\
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"mappings"</span><span class="p">)</span>
-      
-<span class="n">cm_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">chunkAssembler</span><span class="p">,</span> <span class="n">CM</span><span class="p">])</span>
-<span class="n">fit_cm_pipeline</span> <span class="o">=</span> <span class="n">cm_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
-
-<span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">first_result</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-<span class="n">r</span> <span class="o">=</span> <span class="n">fit_cm_pipeline</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">).</span><span class="n">collect</span><span class="p">()</span>
-
-<span class="n">json_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-<span class="n">json_dict</span><span class="p">[</span><span class="s">'mappings'</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">'mappings'</span><span class="p">]:</span>
-    <span class="n">json_dict</span><span class="p">[</span><span class="s">'mappings'</span><span class="p">].</span><span class="n">append</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">.</span><span class="n">annotatorType</span><span class="p">),</span> <span class="n">n</span><span class="p">.</span><span class="n">begin</span><span class="p">,</span> <span class="n">n</span><span class="p">.</span><span class="n">end</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">.</span><span class="n">result</span><span class="p">),</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">n</span><span class="p">.</span><span class="n">metadata</span><span class="p">.</span><span class="n">items</span><span class="p">()}])</span>
-<span class="k">print</span><span class="p">(</span><span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">json_dict</span><span class="p">))</span>
-
-
-
+<span class="n">lp</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
 </code></pre></div>  </div>
 
 </div>
