@@ -106,7 +106,7 @@ Legal documents, scrapped from the Internet, and classified in-house
             label  precision    recall  f1-score   support
 injunctive-relief       0.91      1.00      0.95        30
             other       1.00      0.97      0.99       103
-         accuracy        -         -        0.98       133
+         accuracy          -         -      0.98       133
         macro-avg       0.95      0.99      0.97       133
      weighted-avg       0.98      0.98      0.98       133
 ```

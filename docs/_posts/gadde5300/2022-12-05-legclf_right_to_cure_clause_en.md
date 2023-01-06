@@ -43,6 +43,7 @@ This model is a Binary Classifier (True, False) for the `right-to-cure` clause t
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  documentAssembler = nlp.DocumentAssembler() \
          .setInputCol("clause_text") \
@@ -89,17 +90,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-
-               precision    recall  f1-score   support
-
+        label  precision    recall  f1-score   support
         other       0.95      0.95      0.95        39
 right-to-cure       0.92      0.92      0.92        24
-
      accuracy          -         -      0.94        63
-    macro avg       0.93      0.93      0.93        63
- weighted avg       0.94      0.94      0.94        63
-
-
-
-
+    macro-avg       0.93      0.93      0.93        63
+ weighted-avg       0.94      0.94      0.94        63
 ```

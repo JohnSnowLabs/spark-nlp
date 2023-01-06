@@ -44,6 +44,7 @@ This model is a Binary Classifier (True, False) for the `other-definitions` clau
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  documentAssembler = nlp.DocumentAssembler() \
          .setInputCol("clause_text") \
@@ -90,15 +91,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-
-                   precision    recall  f1-score   support
-
+            label  precision    recall  f1-score   support
             other       0.97      0.97      0.97        39
 other-definitions       0.97      0.97      0.97        38
-
-         accuracy                           0.97        77
-        macro avg       0.97      0.97      0.97        77
-     weighted avg       0.97      0.97      0.97        77
-
-
+         accuracy          -         -      0.97        77
+        macro-avg       0.97      0.97      0.97        77
+     weighted-avg       0.97      0.97      0.97        77
 ```

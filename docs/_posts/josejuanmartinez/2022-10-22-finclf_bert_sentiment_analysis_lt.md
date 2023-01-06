@@ -103,7 +103,7 @@ An in-house augmented version of [this dataset](https://www.kaggle.com/datasets/
        label    precision    recall  f1-score   support
          NEG       0.80      0.76      0.78       509
          POS       0.90      0.92      0.91      1167
-    accuracy        -         -        0.87      1676
+    accuracy         -         -       0.87      1676
    macro-avg       0.85      0.84      0.84      1676
 weighted-avg       0.87      0.87      0.87      1676
 ```

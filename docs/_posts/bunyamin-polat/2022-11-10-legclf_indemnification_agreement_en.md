@@ -111,11 +111,10 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 ## Benchmarking
 
 ```bash
-| label                     | precision | recall | f1-score | support |
-|---------------------------|-----------|--------|----------|---------|
-| indemnification-agreement | 1.00      | 1.00   | 1.00     | 31      |
-| other                     | 1.00      | 1.00   | 1.00     | 85      |
-| accuracy                  | -         | -      | 1.00     | 116     |
-| macro-avg                 | 1.00      | 1.00   | 1.00     | 116     |
-| weighted-avg              | 1.00      | 1.00   | 1.00     | 116     |
+label                      precision  recall  f1-score  support 
+indemnification-agreement  1.00       1.00    1.00      31      
+other                      1.00       1.00    1.00      85      
+accuracy                   -          -       1.00      116     
+macro-avg                  1.00       1.00    1.00      116     
+weighted-avg               1.00       1.00    1.00      116 
 ```

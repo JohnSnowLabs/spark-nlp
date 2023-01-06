@@ -107,7 +107,7 @@ In-house annotations on CUAD dataset
        label  precision    recall  f1-score   support
  obligations       0.88      0.79      0.83        95
        other       0.88      0.93      0.90       152
-    accuracy         -         -       0.88       247
+    accuracy          -         -      0.88       247
    macro-avg       0.88      0.86      0.87       247
 weighted-avg       0.88      0.88      0.88       247
 ```

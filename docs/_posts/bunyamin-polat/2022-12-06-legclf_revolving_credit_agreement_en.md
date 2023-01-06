@@ -116,12 +116,10 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 
 ```bash
 
-                            precision    recall  f1-score   support
-
+                     label    precision   recall  f1-score   support
                      other       0.98      0.97      0.98       111
 revolving-credit-agreement       0.93      0.96      0.95        45
-
-                  accuracy                           0.97       156
+                  accuracy         -         -       0.97       156
                  macro-avg       0.96      0.96      0.96       156
               weighted-avg       0.97      0.97      0.97       156
 

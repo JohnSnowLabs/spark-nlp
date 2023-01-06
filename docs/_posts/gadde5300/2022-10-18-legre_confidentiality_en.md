@@ -130,10 +130,10 @@ In-house annotated examples from CUAD legal dataset
 ## Benchmarking
 
 ```bash
-Relation                        Recall    Precision     F1   Support
-is_confidentiality_indobject    1.000     1.000      1.000        28
-is_confidentiality_object       1.000     0.981      0.990        51
-is_confidentiality_subject      0.970     1.000      0.985        33
-Avg.                            0.990     0.994     0.992
-Weighted Avg.                   0.991     0.991     0.991
+                       label   Recall Precision       F1   Support
+is_confidentiality_indobject    1.000     1.000    1.000        28
+   is_confidentiality_object    1.000     0.981    0.990        51
+  is_confidentiality_subject    0.970     1.000    0.985        33
+                         Avg    0.990     0.994    0.992        -
+                Weighted-Avg    0.991     0.991    0.991        -
 ```

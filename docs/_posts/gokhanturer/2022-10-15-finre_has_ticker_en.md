@@ -147,9 +147,8 @@ Manual annotations on tweets
 ## Benchmarking
 
 ```bash
-| Relation      | Recall Precision | F1    | Support |    |
-|---------------|------------------|-------|---------|----|
-| has_ticker    | 0.717            | 0.827 | 0.768   | 60 |
-| Avg.          | 0.717            | 0.827 | 0.768   |    |
-| Weighted Avg. | 0.717            | 0.827 | 0.768   |    |
+label          Recall Precision  F1     Support     
+has_ticker     0.717  0.827      0.768    60 
+Avg.           0.717  0.827      0.768    -  
+Weighted-Avg.  0.717  0.827      0.768    -  
 ```
