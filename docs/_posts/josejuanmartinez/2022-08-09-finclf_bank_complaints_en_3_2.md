@@ -99,7 +99,7 @@ https://www.consumerfinance.gov/data-research/consumer-complaints/#download-the-
                       Loans       0.78      0.78      0.78       472
 Money_Transfer_and_Currency       0.82      0.84      0.83       482
                    Mortgage       0.87      0.87      0.87       488
-                   accuracy         -         -       0.78      3340
+                   accuracy          -         -      0.78      3340
                   macro-avg       0.78      0.78      0.78      3340
                weighted-avg       0.78      0.78      0.78      3340
 ```

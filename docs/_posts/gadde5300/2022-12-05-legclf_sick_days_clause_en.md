@@ -43,6 +43,8 @@ This model is a Binary Classifier (True, False) for the `sick-days` clause type.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
+
 ```python
  documentAssembler = nlp.DocumentAssembler() \
          .setInputCol("clause_text") \
@@ -89,15 +91,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
        other       1.00      1.00      1.00        39
    sick-days       1.00      1.00      1.00        22
-
     accuracy          -         -      1.00        61
-   macro avg       1.00      1.00      1.00        61
-weighted avg       1.00      1.00      1.00        61
-
-
+   macro-avg       1.00      1.00      1.00        61
+weighted-avg       1.00      1.00      1.00        61
 ```

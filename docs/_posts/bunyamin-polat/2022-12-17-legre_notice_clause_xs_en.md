@@ -141,16 +141,17 @@ In-house dataset
 ## Benchmarking
 
 ```bash
-| Relation         | Recall  | Precision | F1    | Support |
-|------------------|---------|-----------|-------|---------|
-| has_address      | 0.976   | 1.000     | 0.988 | 41      |
-| has_department   | 0.667   | 1.000     | 0.800 | 3       |
-| has_email        | 1.000   | 1.000     | 1.000 | 7       |
-| has_fax_phone    | 1.000   | 1.000     | 1.000 | 8       |
-| has_notice_party | 1.000   | 0.955     | 0.977 | 42      |
-| has_person       | 1.000   | 0.938     | 0.968 | 15      |
-| has_title        | 0.875   | 0.933     | 0.903 | 16      |
-| other            | 1.000   | 1.000     | 1.000 | 68      |
-| Avg.             | 0.940   | 0.978     | 0.954 |         |
-| Weighted-Avg.    | 0.980   | 0.980     | 0.979 |         |
+
+label             Recall  Precision  F1     Support 
+has_address       0.976   1.000      0.988  41      
+has_department    0.667   1.000      0.800  3       
+has_email         1.000   1.000      1.000  7       
+has_fax_phone     1.000   1.000      1.000  8       
+has_notice_party  1.000   0.955      0.977  42      
+has_person        1.000   0.938      0.968  15      
+has_title         0.875   0.933      0.903  16      
+other             1.000   1.000      1.000  68      
+Avg.              0.940   0.978      0.954  -       
+Weighted-Avg.     0.980   0.980      0.979  -  
+
 ```

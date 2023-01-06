@@ -26,6 +26,10 @@ CHUNK
 [ChunkMergeModel](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/merge/ChunkMergeModel)
 {%- endcapture -%}
 
+{%- capture model_python_api_link -%}
+[ChunkMergeModel](https://nlp.johnsnowlabs.com/licensed/api/python/reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.ChunkMergeModel)
+{%- endcapture -%}
+
 {%- capture approach_description -%}
 Merges two chunk columns coming from two annotators(NER, ContextualParser or any other annotator producing
 chunks). The merger of the two chunk columns is made by selecting one chunk from one of the columns according
@@ -400,6 +404,9 @@ val model = nlpPipeline.fit(data)
 [ChunkMergeApproach](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/merge/ChunkMergeApproach)
 {%- endcapture -%}
 
+{%- capture approach_python_api_link -%}
+[ChunkMergeApproach](https://nlp.johnsnowlabs.com/licensed/api/python/reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.ChunkMergeApproach)
+{%- endcapture -%}
 
 {% include templates/licensed_approach_model_medical_fin_leg_template.md
 title=title
@@ -409,6 +416,7 @@ model_description=model_description
 model_input_anno=model_input_anno
 model_output_anno=model_output_anno
 model_api_link=model_api_link
+model_python_api_link=model_python_api_link
 approach_description=approach_description
 approach_input_anno=approach_input_anno
 approach_output_anno=approach_output_anno
@@ -419,4 +427,5 @@ approach_scala_medical=approach_scala_medical
 approach_scala_finance=approach_scala_finance
 approach_scala_legal=approach_scala_legal
 approach_api_link=approach_api_link
+approach_python_api_link=approach_python_api_link
 %}

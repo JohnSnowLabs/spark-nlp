@@ -42,7 +42,7 @@ class S3ResourceDownloader(
 
   private val repoFolder2Metadata: mutable.Map[String, RepositoryMetadata] =
     mutable.Map[String, RepositoryMetadata]()
-  private val cachePath = new Path(cacheFolder)
+  val cachePath = new Path(cacheFolder)
 
   if (!doesCacheFolderInCloud && !fileSystem.exists(cachePath)) {
     fileSystem.mkdirs(cachePath)

@@ -11,7 +11,9 @@ sidebar:
     nav: sparknlp
 ---
 
-## NLP Server 0.4.0
+<div class="h3-box" markdown="1">
+
+## 0.4.0
 
 ### Highlights
 
@@ -20,26 +22,9 @@ sidebar:
 - Support for floating licenses. Users can now take advantage of the floating license flexibility and use those inside of the NLP Server.
 
 
-<div class="prev_ver h3-box" markdown="1">
+</div><div class="prev_ver h3-box" markdown="1">
 
 ## Versions
 
 </div>
-
-<ul class="pagination">
-    <li>
-        <a href="release_notes_0_5_0">Version 0.5.0</a>
-    </li>
-    <li>
-        <strong>Version 0.4.0</strong>
-    </li>
-</ul>
-
-<ul class="pagination owl-carousel pagination_big">
-  <li><a href="release_notes_0_7_1">0.7.1</a></li>
-  <li><a href="release_notes_0_7_0">0.7.0</a></li>
-  <li><a href="release_notes_0_6_1">0.6.1</a></li>
-  <li><a href="release_notes_0_6_0">0.6.0</a></li>
-  <li><a href="release_notes_0_5_0">0.5.0</a></li>
-  <li class="active"><a href="release_notes_0_4_0">0.4.0</a></li>
-</ul>
+{%- include docs-nlpserver-pagination.html -%}

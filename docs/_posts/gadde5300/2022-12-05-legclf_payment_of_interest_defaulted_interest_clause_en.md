@@ -43,6 +43,7 @@ This model is a Binary Classifier (True, False) for the `payment-of-interest-def
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  documentAssembler = nlp.DocumentAssembler() \
          .setInputCol("clause_text") \
@@ -89,15 +90,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-
-                                        precision    recall  f1-score   support
-
+                                 label  precision    recall  f1-score   support
                                  other       1.00      1.00      1.00        27
 payment-of-interest-defaulted-interest       1.00      1.00      1.00        24
-
                               accuracy          -         -      1.00        51
-                             macro avg       1.00      1.00      1.00        51
-                          weighted avg       1.00      1.00      1.00        51
-
-
+                             macro-avg       1.00      1.00      1.00        51
+                          weighted-avg       1.00      1.00      1.00        51
 ```

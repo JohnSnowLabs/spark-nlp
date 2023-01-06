@@ -20,6 +20,30 @@ data:
           activemenu: deidentification
       source: yes
       source: 
+        - title: Classify Patient Demographics
+          id: detect_demographic_information
+          image: 
+              src: /assets/images/Detect_demographic_information.svg
+          excerpt: Automatically identify demographic information such as <b>Date, Doctor, Hospital, ID number, Medical record, Patient, Age, Profession, Organization, State, City, Country, Street, Username, Zip code, Phone number</b> in clinical documents using three of our pretrained Spark NLP models.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_DEMOGRAPHICS/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_DEMOGRAPHICS.ipynb        
+        - title: Deidentify Clinical Notes in Different Languages
+          id: deidentify_clinical_notes_different_languages
+          image: 
+              src: /assets/images/Deidentify_free_text_documents.svg
+          excerpt: This demo shows how to deidentify protected health information in English, Spanish, French, Italian, Portuguese, Romanian, and German texts.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/DEID_PHI_TEXT_MULTI/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/DEID_PHI_TEXT_MULTI.ipynb   
         - title: Deidentify structured data
           id: deidentify_structured_data
           image: 
@@ -31,19 +55,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/DEID_EHR_DATA
           - text: Colab
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/DEID_EHR_DATA.ipynb
-        - title: Deidentify free text documents
-          id: deidentify_free_text_documents
-          image: 
-              src: /assets/images/Deidentify_free_text_documents.svg
-          excerpt: Deidentify free text documents by either masking or obfuscating PHI information using out of the box Spark NLP models that enforce GDPR and HIPPA compliance.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/DEID_PHI_TEXT
-          - text: Colab
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/DEID_PHI_TEXT.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/DEID_EHR_DATA.ipynb    
         - title: Deidentify DICOM documents
           id: deidentify_dicom_documents
           image: 
@@ -91,17 +103,17 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_DEMOGRAPHICS/
           - text: Colab
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_DEMOGRAPHICS.ipynb
-        - title: Deidentify Clinical Notes in Different Languages
-          id: deidentify_clinical_notes_different_languages
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_DEMOGRAPHICS.ipynb        
+        - title: Deidentify free text documents
+          id: deidentify_free_text_documents
           image: 
               src: /assets/images/Deidentify_free_text_documents.svg
-          excerpt: This demo shows how to deidentify protected health information in English, Spanish, French, Italian, Portuguese, Romanian, and German texts.
+          excerpt: Deidentify free text documents by either masking or obfuscating PHI information using out of the box Spark NLP models that enforce GDPR and HIPPA compliance.
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/DEID_PHI_TEXT_MULTI/
+            url: https://demo.johnsnowlabs.com/healthcare/DEID_PHI_TEXT/
           - text: Colab
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/DEID_PHI_TEXT_MULTI.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/DEID_PHI_TEXT.ipynb
 ---

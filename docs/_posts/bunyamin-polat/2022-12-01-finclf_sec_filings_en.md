@@ -20,7 +20,7 @@ use_language_switcher: "Python-Scala-Java"
 
 This model allows you to classify documents among a list of specific US Security Exchange Commission filings, as : `10-K`, `10-Q`, `8-K`, `S-8`, `3`, `4`, `Other`
 
-**IMPORTANT** : This model works with the first page or first 5K characters of a document, you don't need to run it in the whole document.
+**IMPORTANT** : This model works with the first 512 tokens of a document, you don't need to run it in the whole document.
 
 ## Predicted Entities
 
@@ -102,8 +102,7 @@ Scrapped filings from SEC
 ## Benchmarking
 
 ```bash
-class         precision  recall  f1-score  support
-
+label         precision  recall  f1-score  support
 10-K          0.97       0.82    0.89      40
 10-Q          0.94       0.94    0.94      35
 3             0.80       0.95    0.87      41
@@ -111,8 +110,7 @@ class         precision  recall  f1-score  support
 8-K           0.81       0.94    0.87      32
 S-8           0.91       0.93    0.92      44
 other         0.98       0.98    0.98      41
-
-accuracy                         0.90      275
+accuracy        -          -     0.90      275
 macro-avg     0.91       0.90    0.90      275
 weighted-avg  0.91       0.90    0.90      275
 ```

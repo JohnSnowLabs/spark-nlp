@@ -151,15 +151,8 @@
 
 {% endif %}
 
-{% if include.model_source_link %}
+{% if include.model_python_api_link %}| **Python API:** {{include.model_python_api_link}}|{% endif %}{% if include.model_api_link %} **Scala API:** {{include.model_api_link}}|{% endif %}{% if include.model_source_link %} **Source:** {{include.model_source_link}}|{% endif %}
 
-| **Scala API:** {{include.model_api_link}} | **Source:** {{include.model_source_link}} |
-
-{% else %}
-
-| **Scala API:** {{include.model_api_link}} |
-
-{% endif %}
 {% if include.model_python_medical or include.model_python_finance or include.model_python_legal %}
 
 <details>

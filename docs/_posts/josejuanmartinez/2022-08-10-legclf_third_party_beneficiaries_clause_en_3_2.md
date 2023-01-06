@@ -106,7 +106,7 @@ Legal documents, scrapped from the Internet, and classified in-house
                        label  precision    recall  f1-score   support
 no-third-party-beneficiaries       0.96      0.96      0.96        49
                        other       0.98      0.98      0.98       130
-                    accuracy         -         -       0.98       179
+                    accuracy          -         -      0.98       179
                    macro-avg       0.97      0.97      0.97       179
                 weighted-avg       0.98      0.98      0.98       179
 ```

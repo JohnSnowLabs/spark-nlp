@@ -106,7 +106,7 @@ Legal documents, scrapped from the Internet, and classified in-house
        label  precision    recall  f1-score   support
 contribution       1.00      0.88      0.93        16
        other       0.96      1.00      0.98        43
-    accuracy        -         -        0.97        59
+    accuracy          -         -      0.97        59
    macro-avg       0.98      0.94      0.96        59
 weighted-avg       0.97      0.97      0.97        59
 ```

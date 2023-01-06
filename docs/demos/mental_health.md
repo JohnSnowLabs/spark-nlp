@@ -19,7 +19,7 @@ data:
           activemenu: mental_health
       source: yes
       source: 
-        - title: Depression Classifier for Tweets
+        - title: Identify Depression for Patient Posts
           id: depression_classifier_tweets 
           image: 
               src: /assets/images/Depression_Classifier_for_Tweets.svg
@@ -31,7 +31,7 @@ data:
           - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/MENTAL_HEALTH.ipynb
-        - title: Classify Intimate Partner Violence - Tweet
+        - title: Identify Intimate Partner Violence from Patient Posts
           id: classify_intimate_partner_violence_tweet          
           image: 
               src: /assets/images/Classify_Intimate_Partner_Violence_Tweet.svg

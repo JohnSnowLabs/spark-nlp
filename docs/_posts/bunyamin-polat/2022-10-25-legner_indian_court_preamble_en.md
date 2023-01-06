@@ -219,14 +219,13 @@ Training data is available [here](https://github.com/Legal-NLP-EkStep/legal_NER#
 ## Benchmarking
 
 ```bash
-| label        | precision | recall | f1-score | support |
-|--------------|-----------|--------|----------|---------|
-| COURT        | 0.92      | 0.91   | 0.91     | 109     |
-| JUDGE        | 0.96      | 0.92   | 0.94     | 168     |
-| LAWYER       | 0.94      | 0.93   | 0.94     | 377     |
-| PETITIONER   | 0.76      | 0.77   | 0.76     | 269     |
-| RESPONDENT   | 0.78      | 0.80   | 0.79     | 356     |
-| micro-avg    | 0.86      | 0.86   | 0.86     | 1279    |
-| macro-avg    | 0.87      | 0.86   | 0.87     | 1279    |
-| weighted-avg | 0.86      | 0.86   | 0.86     | 1279    |
+label         precision  recall  f1-score  support 
+COURT         0.92       0.91    0.91      109     
+JUDGE         0.96       0.92    0.94      168     
+LAWYER        0.94       0.93    0.94      377     
+PETITIONER    0.76       0.77    0.76      269     
+RESPONDENT    0.78       0.80    0.79      356     
+micro-avg     0.86       0.86    0.86      1279    
+macro-avg     0.87       0.86    0.87      1279    
+weighted-avg  0.86       0.86    0.86      1279
 ```

@@ -111,9 +111,12 @@ val trainingPipeline = new Pipeline().setStages(Array(document, drugNormalizer))
 
 {%- endcapture -%}
 
-
 {%- capture model_api_link -%}
 [DrugNormalizer](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/DrugNormalizer)
+{%- endcapture -%}
+
+{%- capture model_python_api_link -%}
+[DrugNormalizer](https://nlp.johnsnowlabs.com/licensed/api/python/reference/autosummary/sparknlp_jsl/annotator/normalizer/drug_normalizer/index.html#sparknlp_jsl.annotator.normalizer.drug_normalizer.DrugNormalizer)
 {%- endcapture -%}
 
 {% include templates/licensed_approach_model_medical_fin_leg_template.md
@@ -128,4 +131,5 @@ model_python_finance=model_python_finance
 model_scala_medical=model_scala_medical
 model_scala_legal=model_scala_legal
 model_scala_finance=model_scala_finance
-model_api_link=model_api_link%}
+model_api_link=model_api_link
+model_python_api_link=model_python_api_link%}

@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Company Name Normalization using Edgar Database
+title: Company Name Normalization (Edgar Database)
 author: John Snow Labs
 name: finel_edgar_company_name
 date: 2022-08-30
