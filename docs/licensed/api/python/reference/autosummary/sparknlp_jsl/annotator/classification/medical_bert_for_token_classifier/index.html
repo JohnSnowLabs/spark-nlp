@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp_jsl.annotator.classification.medical_bert_for_token_classifier &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.annotator.classification.medical_bert_for_token_classifier &#8212; Spark NLP  documentation</title>
   
   
   
@@ -252,6 +252,7 @@
     <ul class="current nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../assertion/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.assertion</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../assertion/assertionDL/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.assertion.assertionDL</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../assertion/assertion_chunk_converter/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.assertion.assertion_chunk_converter</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../assertion/assertion_dl_reg/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.assertion.assertion_dl_reg</span></code></a></li>
 </ul>
 </li>
@@ -397,7 +398,7 @@ object:</p>
 </div>
 <p>The default model is <code class="docutils literal notranslate"><span class="pre">&quot;bert_token_classifier_ner_bionlp&quot;</span></code>, if no name is
 provided.</p>
-<p>For available pretrained models please see the <a class="reference external" href="https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition">Models Hub</a>.</p>
+<p>For available pretrained models please see the <a class="reference external" href="https://nlp.johnsnowlabs.com/models">Models Hub</a>.</p>
 <p>Models from the HuggingFace 🤗 Transformers library are also compatible with
 Spark NLP 🚀. To see which models are compatible and how to import them see
 <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669">Import Transformers into Spark NLP 🚀</a>.</p>
@@ -416,15 +417,9 @@ Spark NLP 🚀. To see which models are compatible and how to import them see
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>batchSize</strong></dt><dd><p>Batch size. Large values allows faster processing but requires more
-memory, by default 8</p>
-</dd>
-<dt><strong>caseSensitive</strong></dt><dd><p>Whether to ignore case in tokens for embeddings matching, by default
-True</p>
-</dd>
 <dt><strong>configProtoBytes</strong></dt><dd><p>ConfigProto from tensorflow, serialized into byte array.</p>
 </dd>
-<dt><strong>maxSentenceLength</strong></dt><dd><p>Max sentence length to process, by default 128</p>
+<dt><strong>maxSentenceLength</strong></dt><dd><p>Max sentence length to process, by default 128.</p>
 </dd>
 </dl>
 </dd>
@@ -563,24 +558,12 @@ True</p>
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.classification.medical_bert_for_token_classifier.MedicalBertForTokenClassifier.pretrained">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pretrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'bert_token_classifier_ner_bionlp'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'en'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'clinical/models'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/classification/medical_bert_for_token_classifier.html#MedicalBertForTokenClassifier.pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.classification.medical_bert_for_token_classifier.MedicalBertForTokenClassifier.pretrained" title="Permalink to this definition">#</a></dt>
 <dd><p>Downloads and loads a pretrained model.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the pretrained model, by default
-“bert_base_token_classifier_conll03”
-lang : str, optional
-Language of the pretrained model, by default “en”
-remote_loc : str, optional
-Optional remote address of the resource, by default None. Will use
-Spark NLPs repositories otherwise.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>name (str): Name of the pretrained model, by default “bert_token_classifier_ner_bionlp”.
+lang (str): Language of the pretrained model, by default “en”.
+remote_loc (str): Optional remote address of the resource, by default “clinical/models”. Will use Spark NLPs repositories otherwise.</p>
 </dd>
-</dl>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><dl class="simple">
-<dt>MedicalBertForTokenClassifier</dt><dd><p>The restored model</p>
-</dd>
-</dl>
+<dt>Returns:</dt><dd><p>MedicalBertForTokenClassifier: The restored model</p>
 </dd>
 </dl>
 </dd></dl>

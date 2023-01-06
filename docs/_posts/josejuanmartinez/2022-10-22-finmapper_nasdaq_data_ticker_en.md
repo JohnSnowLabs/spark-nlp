@@ -48,52 +48,7 @@ This is a Financial Chunk Mapper, which will retrieve, given a normalized Compan
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-document_assembler = nlp.DocumentAssembler()\
-      .setInputCol('text')\
-      .setOutputCol('document')
 
-tokenizer = nlp.Tokenizer()\
-      .setInputCols("document")\
-      .setOutputCol("token")
-
-embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
-       .setInputCols(["document", "token"]) \
-       .setOutputCol("embeddings")
-
-ner_model = finance.NerModel.pretrained("finner_orgs_prods_alias","en","finance/models")\
-       .setInputCols(["document", "token", "embeddings"])\
-       .setOutputCol("ner")
- 
-ner_converter = nlp.NerConverter()\
-      .setInputCols(["document", "token", "ner"])\
-      .setOutputCol("ner_chunk")\
-      .setWhiteList(["ORG"])
-
-CM = finance.ChunkMapperModel.pretrained('finmapper_nasdaq_data_company_name', 'en', 'finance/models')\
-      .setInputCols(["ner_chunk"])\
-      .setOutputCol("mappings")\
-      .setRel('ticker')
-
-pipeline = Pipeline().setStages([document_assembler,
-                                 tokenizer, 
-                                 embeddings,
-                                 ner_model, 
-                                 ner_converter, 
-                                 CM])
-
-text = ["""GLEASON CORP is a company which ..."""]
-
-test_data = spark.createDataFrame([text]).toDF("text")
-
-model = pipeline.fit(test_data)
-res= model.transform(test_data)
-```
-
-</div>
-
-## Results
-
-```bash
 document_assembler = nlp.DocumentAssembler()\
       .setInputCol('text')\
       .setOutputCol('document')
@@ -110,7 +65,7 @@ ner_model = finance.NerModel.pretrained("finner_ticker", "en", "finance/models")
     .setInputCols(["document", "token", "embeddings"])\
     .setOutputCol("ner")
 
-ner_converter = nlp.NerConverter()\
+ner_converter = nlp.NerConverterInternal()\
     .setInputCols(["document", "token", "ner"])\
     .setOutputCol("ner_chunk")
 
@@ -131,7 +86,16 @@ text = ["""There are some serious purchases and sales of GLE1 stock today."""]
 test_data = spark.createDataFrame([text]).toDF("text")
 
 model = pipeline.fit(test_data)
-res= model.transform(test_data)
+
+res= model.transform(test_data).select('mappings').collect()
+```
+
+</div>
+
+## Results
+
+```bash
+[Row(mappings=[Row(annotatorType='labeled_dependency', begin=46, end=49, result='AMZN', metadata={'sentence': '0', 'chunk': '0', 'entity': 'AMZN', 'relation': 'ticker', 'all_relations': ''}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=46, end=49, result='Amazon.com Inc.', metadata={'sentence': '0', 'chunk': '0', 'entity': 'AMZN', 'relation': 'company_name', 'all_relations': ''}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=46, end=49, result='Amazon.com', metadata={'sentence': '0', 'chunk': '0', 'entity': 'AMZN', 'relation': 'short_name', 'all_relations': ''}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=46, end=49, result='Retail - Apparel & Specialty', metadata={'sentence': '0', 'chunk': '0', 'entity': 'AMZN', 'relation': 'industry', 'all_relations': ''}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=46, end=49, result='Consumer Cyclical', metadata={'sentence': '0', 'chunk': '0', 'entity': 'AMZN', 'relation': 'sector', 'all_relations': ''}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=57, end=61, result='NONE', metadata={'sentence': '0', 'chunk': '1', 'entity': 'today'}, embeddings=[])])]
 ```
 
 {:.model-param}

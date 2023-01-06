@@ -104,7 +104,7 @@ Weak labelling on documents from Edgar database
        label  precision    recall  f1-score   support
       equity       0.84      0.85      0.84        66
        other       0.85      0.84      0.84        67
-    accuracy        -         -        0.84       133
+    accuracy          -         -      0.84       133
    macro-avg       0.84      0.84      0.84       133
 weighted-avg       0.84      0.84      0.84       133
 ```

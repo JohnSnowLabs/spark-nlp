@@ -20,6 +20,11 @@ use_language_switcher: "Python-Scala-Java"
 
 This model extracts mentions of anatomical entities using granular labels.
 
+
+## Predicted Entities
+
+`Direction`, `Site_Lymph_Node`, `Site_Breast`, `Site_Other_Body_Part`, `Site_Bone`, `Site_Liver`, `Site_Lung`, `Site_Brain`
+
 Definitions of Predicted Entities:
 
 - `Direction`: Directional and laterality terms, such as "left", "right", "bilateral", "upper" and "lower".

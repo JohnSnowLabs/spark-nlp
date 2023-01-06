@@ -10,7 +10,7 @@ language: en
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
-annotator: ClassifierDLModel
+annotator: FinanceClassifierDLModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -101,13 +101,10 @@ Weak labelling on documents from Edgar database
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
 acquisitions       0.95      0.89      0.92       136
        other       0.96      0.98      0.97       412
-
-    accuracy                           0.96       548
-   macro avg       0.95      0.94      0.95       548
-weighted avg       0.96      0.96      0.96       548
-
+    accuracy          -         -      0.96       548
+   macro-avg       0.95      0.94      0.95       548
+weighted-avg       0.96      0.96      0.96       548
 ```

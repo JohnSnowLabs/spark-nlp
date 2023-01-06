@@ -44,6 +44,7 @@ This model is a Binary Classifier (True, False) for the `indemnification-and-ins
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler() \
              .setInputCol("clause_text") \
@@ -90,15 +91,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-
-                               precision    recall  f1-score   support
-
+                        label  precision    recall  f1-score   support
 indemnification-and-insurance       0.97      0.94      0.95        33
                         other       0.95      0.97      0.96        39
-
-                     accuracy                           0.96        72
-                    macro avg       0.96      0.96      0.96        72
-                 weighted avg       0.96      0.96      0.96        72
-
-
+                     accuracy          -         -      0.96        72
+                    macro-avg       0.96      0.96      0.96        72
+                 weighted-avg       0.96      0.96      0.96        72
 ```

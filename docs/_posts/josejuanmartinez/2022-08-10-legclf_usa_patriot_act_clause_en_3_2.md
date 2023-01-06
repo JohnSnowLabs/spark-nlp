@@ -106,7 +106,7 @@ Legal documents, scrapped from the Internet, and classified in-house
           label  precision    recall  f1-score   support
           other       0.99      1.00      0.99        97
 usa-patriot-act       1.00      0.96      0.98        25
-       accuracy         -         -       0.99       122
+       accuracy          -         -      0.99       122
       macro-avg       0.99      0.98      0.99       122
    weighted-avg       0.99      0.99      0.99       122
 ```

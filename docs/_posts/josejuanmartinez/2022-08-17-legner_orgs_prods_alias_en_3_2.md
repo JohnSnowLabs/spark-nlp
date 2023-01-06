@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal ORG, PRODUCT and ALIAS NER
+title: Legal ORG, PRODUCT and ALIAS NER (small)
 author: John Snow Labs
 name: legner_orgs_prods_alias
 date: 2022-08-17

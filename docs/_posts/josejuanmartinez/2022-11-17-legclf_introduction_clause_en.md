@@ -10,7 +10,7 @@ language: en
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
-annotator: ClassifierDLModel
+annotator: LegalClassifierDLModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -44,6 +44,7 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler() \
      .setInputCol("clause_text") \
@@ -102,11 +103,10 @@ Legal documents, scrapped from the Internet, and classified in-house, including 
 ## Benchmarking
 
 ```bash
-label              precision    recall  f1-score   support
+       label  precision    recall  f1-score   support
 introduction       1.00      0.98      0.99        99
        other       0.99      1.00      0.99       151
-    accuracy         -          -        0.99       250
+    accuracy         -          -      0.99       250
    macro-avg       0.99      0.99      0.99       250
 weighted-avg       0.99      0.99      0.99       250
-
 ```

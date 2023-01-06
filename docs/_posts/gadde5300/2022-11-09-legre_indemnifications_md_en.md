@@ -150,16 +150,11 @@ Manual annotations on CUAD dataset
 ## Benchmarking
 
 ```bash
-
-Relation                        Recall    Precision  F1       Support
-
+                       label    Recall Precision        F1   Support
 is_indemnification_indobject     1.000     1.000     1.000        18
-is_indemnification_object        0.972     1.000     0.986        36
-is_indemnification_subject       0.800     0.800     0.800        10
-other                            0.972     0.946     0.959        36
-
-Avg.                0.936     0.936     0.936
-
-Weighted Avg.       0.960     0.961     0.960
-
+   is_indemnification_object     0.972     1.000     0.986        36
+  is_indemnification_subject     0.800     0.800     0.800        10
+                       other     0.972     0.946     0.959        36
+                         Avg     0.936     0.936     0.936        -
+                Weighted-Avg     0.960     0.961     0.960        -
 ```

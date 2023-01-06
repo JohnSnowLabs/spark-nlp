@@ -106,7 +106,7 @@ Legal documents, scrapped from the Internet, and classified in-house
                label  precision    recall  f1-score   support
 officers-certificate       0.98      1.00      0.99        40
                other       1.00      0.99      1.00       103
-            accuracy         -         -       0.99       143
+            accuracy          -         -      0.99       143
            macro-avg       0.99      1.00      0.99       143
         weighted-avg       0.99      0.99      0.99       143
 ```

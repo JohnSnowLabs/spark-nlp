@@ -43,6 +43,7 @@ This model is a Binary Classifier (True, False) for the `principal-underwriter` 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  documentAssembler = nlp.DocumentAssembler() \
          .setInputCol("clause_text") \
@@ -89,16 +90,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-
-                       precision    recall  f1-score   support
-
+                label  precision    recall  f1-score   support
                 other       0.97      1.00      0.99        34
 principal-underwriter       1.00      0.96      0.98        24
-
              accuracy        -          -       0.98        58
-            macro avg       0.99      0.98      0.98        58
-         weighted avg       0.98      0.98      0.98        58
-
-
-
+            macro-avg       0.99      0.98      0.98        58
+         weighted-avg       0.98      0.98      0.98        58
 ```

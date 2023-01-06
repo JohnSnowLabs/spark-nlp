@@ -107,11 +107,11 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 
 ```bash
 
-|             label |   precision |   recall |   f1-score |   support |
-|------------------:|------------:|---------:|-----------:|----------:|
-| events-of-default |        0.92 |     0.96 |       0.94 |        24 |
-|             other |        0.97 |     0.95 |       0.96 |        39 |
-|          accuracy |           - |        - |       0.95 |        63 |
-|         macro-avg |        0.95 |     0.95 |       0.95 |        63 |
-|      weighted-avg |        0.95 |     0.95 |       0.95 |        63 |
+             label    precision    recall    f1-score    support 
+ events-of-default         0.92      0.96        0.94         24 
+             other         0.97      0.95        0.96         39 
+          accuracy            -         -        0.95         63 
+         macro-avg         0.95      0.95        0.95         63 
+      weighted-avg         0.95      0.95        0.95         63 
+
 ```
