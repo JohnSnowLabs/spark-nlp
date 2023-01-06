@@ -124,9 +124,11 @@ https://metatext.io/datasets/sigmalaw-absa
 ## Benchmarking
 
 ```bash
-label	 tp	 fp	 fn	 prec	 rec	 f1
-I-PER	 43	 2	 0	 0.95555556	 1.0	 0.97727275
-B-PER	 777	 11	 15	 0.9860406	 0.9810606	 0.98354435
-Macro-average 820 13 15 0.9707981 0.9905303 0.9805649
-Micro-average 820 13 15 0.9843938 0.98203593 0.9832135
+
+ label          tp   fp  fn  prec        rec         f1         
+ I-PER          43   2   0   0.95555556  1.0         0.97727275 
+ B-PER          777  11  15  0.9860406   0.9810606   0.98354435 
+ Macro-average  820  13  15  0.9707981   0.9905303   0.9805649  
+ Micro-average  820  13  15  0.9843938   0.98203593  0.9832135  
+ 
 ```

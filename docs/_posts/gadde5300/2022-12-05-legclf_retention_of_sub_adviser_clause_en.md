@@ -43,6 +43,7 @@ This model is a Binary Classifier (True, False) for the `retention-of-sub-advise
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  documentAssembler = nlp.DocumentAssembler() \
          .setInputCol("clause_text") \
@@ -89,14 +90,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-
-                          precision    recall  f1-score   support
-
+                   label  precision    recall  f1-score   support
                    other       0.97      1.00      0.99        34
 retention-of-sub-adviser       1.00      0.95      0.97        19
-
                 accuracy          -         -      0.98        53
-               macro avg       0.99      0.97      0.98        53
-            weighted avg       0.98      0.98      0.98        53
-
+               macro-avg       0.99      0.97      0.98        53
+            weighted-avg       0.98      0.98      0.98        53
 ```

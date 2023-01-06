@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Temporality / Certainty Assertion Status
+title: Temporality / Certainty Assertion Status (sm)
 author: John Snow Labs
 name: legassertion_time
 date: 2022-09-27
@@ -18,7 +18,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This is an Assertion Status Model aimed to detect temporality (PRESENT, PAST, FUTURE) or Certainty (POSSIBLE) in your legal documents
+This is a small Assertion Status Model aimed to detect temporality (PRESENT, PAST, FUTURE) or Certainty (POSSIBLE) in your legal documents
 
 ## Predicted Entities
 

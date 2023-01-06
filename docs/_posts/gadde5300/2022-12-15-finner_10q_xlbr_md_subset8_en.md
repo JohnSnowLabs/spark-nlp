@@ -36,6 +36,7 @@ This is a large (`md`) model, trained with 200K sentences.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  
 documentAssembler = nlp.DocumentAssembler() \
@@ -154,7 +155,7 @@ An in-house modified version of https://huggingface.co/datasets/nlpaueb/finer-13
 
 ```bash
 
-label                                                        precision    recall  f1-score   support                                                
+label                                                     precision    recall  f1-score   support                                                
 B-NumberOfRealEstateProperties                               0.9556    0.9894    0.9722       283
 B-NumberOfReportableSegments                                 0.9862    0.9984    0.9923       645
 B-OperatingLeaseCost                                         0.7669    0.6793    0.7205       184
@@ -172,5 +173,4 @@ O                                                            0.9996    0.9984   
 accuracy                                                        -          -     0.9954    113876
 macro-avg                                                    0.8552    0.8886    0.8620    113876
 weighted-avg                                                 0.9955    0.9954    0.9952    113876
-
 ```

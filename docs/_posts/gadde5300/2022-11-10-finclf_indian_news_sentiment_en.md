@@ -35,6 +35,7 @@ This is a `sm` version of Indian News Sentiment Analysis Text Classifier, which 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  
 document_assembler = nlp.DocumentAssembler() \
@@ -105,14 +106,10 @@ An in-house augmented version of [this dataset](https://www.kaggle.com/datasets/
 ## Benchmarking
 
 ```bash
-
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
     NEGATIVE       0.75      0.78      0.76     21441
     POSITIVE       0.73      0.69      0.71     18449
-
-    accuracy                           0.74     39890
-   macro avg       0.74      0.74      0.74     39890
-weighted avg       0.74      0.74      0.74     39890
-
+    accuracy         -         -       0.74     39890
+   macro-avg       0.74      0.74      0.74     39890
+weighted-avg       0.74      0.74      0.74     39890
 ```

@@ -36,6 +36,7 @@ This is a large (`md`) model, trained with 200K sentences.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  
 documentAssembler = nlp.DocumentAssembler() \
@@ -150,5 +151,4 @@ O                                                                               
 accuracy                                                                                                                -          -    0.9982     79816
 macro-avg                                                                                                           0.8742    0.8747    0.8733     79816
 weighted-avg                                                                                                        0.9982    0.9982    0.9982     79816
-
 ```

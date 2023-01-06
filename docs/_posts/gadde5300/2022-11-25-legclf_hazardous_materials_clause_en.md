@@ -90,15 +90,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-
-                     precision    recall  f1-score   support
-
+              label  precision    recall  f1-score   support
 hazardous-materials       1.00      0.97      0.98        31
               other       0.97      1.00      0.99        39
-
-           accuracy                           0.99        70
-          macro avg       0.99      0.98      0.99        70
-       weighted avg       0.99      0.99      0.99        70
-
-
+           accuracy          -         -      0.99        70
+          macro-avg       0.99      0.98      0.99        70
+       weighted-avg       0.99      0.99      0.99        70
 ```
