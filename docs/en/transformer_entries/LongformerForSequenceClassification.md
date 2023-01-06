@@ -103,11 +103,11 @@ result.select("label.result").show(false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[LongformerForSequenceClassification](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/LongformerForSequenceClassification)
+[LongformerForSequenceClassification](/api/com/johnsnowlabs/nlp/annotators/classifier/dl/LongformerForSequenceClassification)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[LongformerForSequenceClassification](/api/python/reference/autosummary/python/sparknlp/annotator/classifier_dl/longformer_for_sequence_classification/index.html#sparknlp.annotator.classifier_dl.longformer_for_sequence_classification.LongformerForSequenceClassification)
+[LongformerForSequenceClassification](/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/longformer_for_sequence_classification/index.html#sparknlp.annotator.classifier_dl.longformer_for_sequence_classification.LongformerForSequenceClassification)
 {%- endcapture -%}
 
 {%- capture source_link -%}
