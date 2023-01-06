@@ -10,6 +10,7 @@ language: en
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
+annotator: FinanceClassifierDLModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -95,12 +96,12 @@ res = res.select('label.result')
 ## Benchmarking
 
 ```bash
-label precision    recall  f1-score   support
+        label  precision    recall  f1-score   support
           10k       1.00      1.00      1.00        17
 broker_report       1.00      1.00      1.00        18
  earning_call       1.00      1.00      1.00        19
         other       1.00      1.00      1.00        98
-     accuracy            -         -      1.00       152
+     accuracy          -         -      1.00       152
     macro-avg       1.00      1.00      1.00       152
  weighted-avg       1.00      1.00      1.00       152
 ```

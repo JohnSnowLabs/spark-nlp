@@ -92,6 +92,8 @@ class TextMatcher(AnnotatorApproach):
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
+    outputAnnotatorType = AnnotatorType.CHUNK
+
     entities = Param(Params._dummy(),
                      "entities",
                      "ExternalResource for entities",
@@ -206,6 +208,8 @@ class TextMatcherModel(AnnotatorModel):
     name = "TextMatcherModel"
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
+
+    outputAnnotatorType = AnnotatorType.CHUNK
 
     mergeOverlapping = Param(Params._dummy(),
                              "mergeOverlapping",

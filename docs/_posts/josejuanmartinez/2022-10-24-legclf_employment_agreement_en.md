@@ -10,7 +10,7 @@ language: en
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
-annotator: ClassifierDLModel
+annotator: LegalClassifierDLModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -112,7 +112,7 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
                label  precision    recall  f1-score   support
 employment-agreement       0.96      1.00      0.98        24
                other       1.00      0.98      0.99        62
-            accuracy        -         -        0.99        86
+            accuracy          -         -      0.99        86
            macro-avg       0.98      0.99      0.99        86
         weighted-avg       0.99      0.99      0.99        86
 ```

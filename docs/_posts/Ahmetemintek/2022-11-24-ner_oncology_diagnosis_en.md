@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 4.2.2
 spark_version: 3.0
 supported: true
+annotator: MedicalNerModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -45,6 +46,7 @@ Definitions of Predicted Entities:
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_diagnosis_en_4.2.2_3.0_1669300474926.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
+
 
 
 <div class="tabs-box" markdown="1">

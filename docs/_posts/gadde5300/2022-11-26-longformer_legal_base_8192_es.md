@@ -11,6 +11,7 @@ edition: Spark NLP 4.2.1
 spark_version: 3.0
 supported: true
 engine: tensorflow
+annotator: LongformerEmbeddings
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -31,6 +32,7 @@ Pretrained Longformer Embeddings model, adapted from Hugging Face and curated to
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  embeddings = LongformerEmbeddings\
     .pretrained("longformer_legal_base_8192","es")\

@@ -102,6 +102,8 @@ class Word2VecApproach(AnnotatorApproach, HasStorageRef, HasEnableCachingPropert
     """
     inputAnnotatorTypes = [AnnotatorType.TOKEN]
 
+    outputAnnotatorType = AnnotatorType.WORD_EMBEDDINGS
+
     vectorSize = Param(Params._dummy(),
                        "vectorSize",
                        "the dimension of codes after transforming from words (> 0)",
@@ -298,6 +300,8 @@ class Word2VecModel(AnnotatorModel, HasStorageRef, HasEmbeddingsProperties):
     name = "Word2VecModel"
 
     inputAnnotatorTypes = [AnnotatorType.TOKEN]
+
+    outputAnnotatorType = AnnotatorType.WORD_EMBEDDINGS
 
     vectorSize = Param(Params._dummy(),
                        "vectorSize",

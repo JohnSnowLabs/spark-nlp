@@ -84,6 +84,8 @@ class BigTextMatcher(AnnotatorApproach, HasStorage):
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
+    outputAnnotatorType = AnnotatorType.CHUNK
+
     entities = Param(Params._dummy(),
                      "entities",
                      "ExternalResource for entities",
@@ -185,7 +187,10 @@ class BigTextMatcherModel(AnnotatorModel, HasStorageModel):
     """
     name = "BigTextMatcherModel"
     databases = ['TMVOCAB', 'TMEDGES', 'TMNODES']
+
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
+
+    outputAnnotatorType = AnnotatorType.CHUNK
 
     caseSensitive = Param(Params._dummy(),
                           "caseSensitive",

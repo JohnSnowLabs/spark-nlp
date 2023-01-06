@@ -10,6 +10,7 @@ language: en
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
+annotator: LegalClassifierDLModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -43,6 +44,7 @@ This model is a Binary Classifier (True, False) for the `expenses-indemnity-dama
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  documentAssembler = nlp.DocumentAssembler() \
          .setInputCol("clause_text") \
@@ -90,14 +92,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 
 ```bash
 
-                                  precision    recall  f1-score   support
-
+                           label  precision    recall  f1-score   support
 expenses-indemnity-damage-waiver       0.96      0.96      0.96        24
                            other       0.97      0.97      0.97        38
-
-                        accuracy                           0.97        62
-                       macro avg       0.97      0.97      0.97        62
-                    weighted avg       0.97      0.97      0.97        62
-
-
+                        accuracy          -         -      0.97        62
+                       macro-avg       0.97      0.97      0.97        62
+                    weighted-avg       0.97      0.97      0.97        62
 ```

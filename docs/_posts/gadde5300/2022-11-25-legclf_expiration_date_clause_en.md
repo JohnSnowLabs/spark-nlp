@@ -10,6 +10,7 @@ language: en
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
+annotator: LegalClassifierDLModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -43,6 +44,7 @@ This model is a Binary Classifier (True, False) for the `expiration-date` clause
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  documentAssembler = nlp.DocumentAssembler() \
              .setInputCol("clause_text") \
@@ -89,15 +91,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-
-                 precision    recall  f1-score   support
-
+          label  precision    recall  f1-score   support
 expiration-date       1.00      0.97      0.99        35
           other       0.97      1.00      0.99        39
-
-       accuracy                           0.99        74
-      macro avg       0.99      0.99      0.99        74
-   weighted avg       0.99      0.99      0.99        74
-
-
+       accuracy          -         -      0.99        74
+      macro-avg       0.99      0.99      0.99        74
+   weighted-avg       0.99      0.99      0.99        74
 ```

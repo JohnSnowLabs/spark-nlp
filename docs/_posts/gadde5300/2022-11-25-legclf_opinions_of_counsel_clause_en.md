@@ -10,6 +10,7 @@ language: en
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
+annotator: LegalClassifierDLModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -43,6 +44,7 @@ This model is a Binary Classifier (True, False) for the `opinions-of-counsel` cl
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  documentAssembler = nlp.DocumentAssembler() \
          .setInputCol("clause_text") \
@@ -89,15 +91,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-
-                     precision    recall  f1-score   support
-
+              label  precision    recall  f1-score   support
 opinions-of-counsel       1.00      1.00      1.00        24
               other       1.00      1.00      1.00        39
-
-           accuracy                           1.00        63
-          macro avg       1.00      1.00      1.00        63
-       weighted avg       1.00      1.00      1.00        63
-
-
+           accuracy          -         -      1.00        63
+          macro-avg       1.00      1.00      1.00        63
+       weighted-avg       1.00      1.00      1.00        63
 ```

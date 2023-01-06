@@ -10,7 +10,7 @@ language: en
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
-annotator: ClassifierDLModel
+annotator: LegalClassifierDLModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -39,6 +39,7 @@ If not, let us know and we can carry out another approach for you: getting chunk
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  
 documentAssembler = nlp.DocumentAssembler() \
@@ -112,15 +113,10 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 ## Benchmarking
 
 ```bash
-
-                             precision    recall  f1-score   support
-
+                      label  precision    recall  f1-score   support
 master-repurchase-agreement       0.97      0.97      0.97        34
                       other       0.99      0.99      0.99        73
-
-                   accuracy                           0.98       107
-                  macro avg       0.98      0.98      0.98       107
-               weighted avg       0.98      0.98      0.98       107
-
-
+                   accuracy          -         -      0.98       107
+                  macro-avg       0.98      0.98      0.98       107
+               weighted-avg       0.98      0.98      0.98       107
 ```

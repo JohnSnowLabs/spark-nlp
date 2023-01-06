@@ -146,6 +146,8 @@ class GraphExtraction(AnnotatorModel):
 
     optionalInputAnnotatorTypes = [AnnotatorType.DEPENDENCY, AnnotatorType.LABELED_DEPENDENCY]
 
+    outputAnnotatorType = AnnotatorType.NODE
+
     relationshipTypes = Param(Params._dummy(),
                               "relationshipTypes",
                               "Find paths between a pair of token and entity",

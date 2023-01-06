@@ -10,6 +10,7 @@ language: en
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
+annotator: LegalClassifierDLModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -43,6 +44,7 @@ This model is a Binary Classifier (True, False) for the `prepayment` clause type
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  documentAssembler = nlp.DocumentAssembler() \
          .setInputCol("clause_text") \
@@ -89,15 +91,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
        other       0.91      1.00      0.95        39
   prepayment       1.00      0.88      0.93        32
-
-    accuracy                           0.94        71
-   macro avg       0.95      0.94      0.94        71
-weighted avg       0.95      0.94      0.94        71
-
-
+    accuracy          -         -      0.94        71
+   macro-avg       0.95      0.94      0.94        71
+weighted-avg       0.95      0.94      0.94        71
 ```

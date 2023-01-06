@@ -10,7 +10,7 @@ language: en
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
-annotator: ClassifierDLModel
+annotator: LegalClassifierDLModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -104,7 +104,7 @@ CUAD dataset
       label     precision    recall  f1-score   support
        other       0.96      0.96      0.96        27
     warranty       0.93      0.93      0.93        14
-    accuracy        -         -        0.95        41
+    accuracy          -         -      0.95        41
    macro-avg       0.95      0.95      0.95        41
 weighted-avg       0.95      0.95      0.95        41
 ```

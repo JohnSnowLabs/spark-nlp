@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 4.2.2
 spark_version: 3.0
 supported: true
+annotator: MedicalNerModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -18,6 +19,11 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 
 This model extracts mentions of anatomical entities using granular labels.
+
+
+## Predicted Entities
+
+`Direction`, `Site_Lymph_Node`, `Site_Breast`, `Site_Other_Body_Part`, `Site_Bone`, `Site_Liver`, `Site_Lung`, `Site_Brain`
 
 Definitions of Predicted Entities:
 

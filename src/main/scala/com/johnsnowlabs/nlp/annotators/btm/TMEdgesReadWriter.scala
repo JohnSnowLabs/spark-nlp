@@ -32,4 +32,8 @@ class TMEdgesReadWriter(
     BigInt(content).toByteArray
   }
 
+  override def lookup(index: (Int, Int)): Option[Int] = {
+    super.lookup(index.toString())
+  }
+
 }

@@ -109,8 +109,8 @@ object ResourceDownloader {
     Version.parse(Build.version)
   }
 
-  var defaultDownloader: ResourceDownloader =
-    new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, "default")
+  var privateDownloader: ResourceDownloader =
+    new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, "private")
   var publicDownloader: ResourceDownloader =
     new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, "public")
   var communityDownloader: ResourceDownloader =
@@ -119,7 +119,7 @@ object ResourceDownloader {
   /** Reset the cache and recreate ResourceDownloader S3 credentials */
   def resetResourceDownloader(): Unit = {
     cache.empty
-    this.defaultDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, "default")
+    this.privateDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, "private")
   }
 
   /** List all pretrained models in public name_lang */
@@ -341,7 +341,9 @@ object ResourceDownloader {
       lang: Option[String] = None,
       version: Option[Version] = None): List[String] = {
     val resourceList = new ListBuffer[String]()
-    val resourceMetaData = defaultDownloader.downloadMetadataIfNeed(folder)
+
+    val resourceMetaData = getResourceMetadata(folder)
+
     for (meta <- resourceMetaData) {
       val isSameResourceType =
         meta.category.getOrElse(ResourceType.NOT_DEFINED).toString.equals(resourceType.toString)
@@ -386,7 +388,9 @@ object ResourceDownloader {
     listPretrainedResources(folder, resourceType, lang = Some(lang), version = Some(version))
 
   def listAvailableAnnotators(folder: String = publicLoc): List[String] = {
-    val resourceMetaData = defaultDownloader.downloadMetadataIfNeed(folder)
+
+    val resourceMetaData = getResourceMetadata(folder)
+
     resourceMetaData
       .map(_.annotator.getOrElse(""))
       .toSet
@@ -395,6 +399,14 @@ object ResourceDownloader {
       }
       .toList
       .sorted
+  }
+
+  private def getResourceMetadata(location: String): List[ResourceMetadata] = {
+    location match {
+      case this.publicLoc => publicDownloader.downloadMetadataIfNeed(location)
+      case loc if loc.startsWith("@") => communityDownloader.downloadMetadataIfNeed(location)
+      case _ => privateDownloader.downloadMetadataIfNeed(location)
+    }
   }
 
   def showAvailableAnnotators(folder: String = publicLoc): Unit = {
@@ -440,7 +452,7 @@ object ResourceDownloader {
           request.sparkVersion)
         communityDownloader.download(updatedRequest)
       } else {
-        defaultDownloader.download(request)
+        privateDownloader.download(request)
       }
     }
 
@@ -470,7 +482,7 @@ object ResourceDownloader {
 
     require(
       path.isDefined,
-      s"Was not found appropriate resource to download for request: $request with downloader: $defaultDownloader")
+      s"Was not found appropriate resource to download for request: $request with downloader: $privateDownloader")
     println("Download done! Loading the resource.")
     path.get
   }
@@ -489,7 +501,7 @@ object ResourceDownloader {
     } else if (folder.startsWith("@")) {
       communityDownloader.downloadAndUnzipFile(model)
     } else {
-      defaultDownloader.downloadAndUnzipFile(model)
+      privateDownloader.downloadAndUnzipFile(model)
     }
   }
 
@@ -540,7 +552,7 @@ object ResourceDownloader {
   }
 
   def clearCache(request: ResourceRequest): Unit = {
-    defaultDownloader.clearCache(request)
+    privateDownloader.clearCache(request)
     publicDownloader.clearCache(request)
     communityDownloader.clearCache(request)
     cache.remove(request)
@@ -556,7 +568,7 @@ object ResourceDownloader {
       size = communityDownloader.getDownloadSize(
         ResourceRequest(resourceRequest.name, resourceRequest.language, actualLoc))
     } else {
-      size = defaultDownloader.getDownloadSize(resourceRequest)
+      size = privateDownloader.getDownloadSize(resourceRequest)
     }
     size match {
       case Some(downloadBytes) => FileHelper.getHumanReadableFileSize(downloadBytes)
@@ -682,7 +694,8 @@ object PythonResourceDownloader {
     "Wav2Vec2ForCTC" -> Wav2Vec2ForCTC,
     "CamemBertForTokenClassification" -> CamemBertForTokenClassification,
     "TableAssembler" -> TableAssembler,
-    "TapasForQuestionAnswering" -> TapasForQuestionAnswering)
+    "TapasForQuestionAnswering" -> TapasForQuestionAnswering,
+    "CamemBertForSequenceClassification" -> CamemBertForSequenceClassification)
 
   def downloadModel(
       readerStr: String,

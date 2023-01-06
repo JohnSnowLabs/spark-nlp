@@ -137,6 +137,8 @@ class GPT2Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
+    outputAnnotatorType = AnnotatorType.DOCUMENT
+
     task = Param(Params._dummy(), "task", "Transformer's task, e.g. 'is it true that'>",
                  typeConverter=TypeConverters.toString)
 

@@ -10,6 +10,7 @@ language: en
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
+annotator: LegalClassifierDLModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -43,6 +44,7 @@ This model is a Binary Classifier (True, False) for the `subcontracting` clause 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  documentAssembler = nlp.DocumentAssembler() \
          .setInputCol("clause_text") \
@@ -89,15 +91,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-
-                    precision    recall  f1-score   support
-
+             label  precision    recall  f1-score   support
              other       0.95      1.00      0.97        39
     subcontracting       1.00      0.93      0.96        28
-
-          accuracy                           0.97        67
-         macro avg       0.98      0.96      0.97        67
-      weighted avg       0.97      0.97      0.97        67
-
-    
+          accuracy          -         -      0.97        67
+         macro-avg       0.98      0.96      0.97        67
+      weighted-avg       0.97      0.97      0.97        67
 ```

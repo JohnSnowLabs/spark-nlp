@@ -10,6 +10,7 @@ language: en
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
+annotator: LegalClassifierDLModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -45,6 +46,7 @@ There are other models in this dataset with similar title, but the difference is
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler() \
      .setInputCol("clause_text") \
@@ -101,10 +103,10 @@ CUAD dataset
 ## Benchmarking
 
 ```bash
-label              precision    recall  f1-score   support
+       label  precision    recall  f1-score   support
        other       1.00      1.00      1.00        73
      signers       1.00      1.00      1.00        35
-    accuracy          -           -      1.00       108
+    accuracy          -         -      1.00       108
    macro-avg       1.00      1.00      1.00       108
 weighted-avg       1.00      1.00      1.00       108
 ```

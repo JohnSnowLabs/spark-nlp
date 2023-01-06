@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.annotator.chunker.assertion_filterer &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.annotator.chunker.assertion_filterer &#8212; Spark NLP  documentation</title>
   
   
   
@@ -362,6 +362,13 @@
         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span></div>
     <span class="p">)</span>
 
+<div class="viewcode-block" id="AssertionFilterer.caseSensitive"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/assertion_filterer/index.html#sparknlp_jsl.annotator.chunker.assertion_filterer.AssertionFilterer.caseSensitive">[docs]</a>    <span class="n">caseSensitive</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;caseSensitive&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Determines whether the definitions of the white listed entities are case sensitive.&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span></div>
+    <span class="p">)</span>
+
 <div class="viewcode-block" id="AssertionFilterer.regex"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/assertion_filterer/index.html#sparknlp_jsl.annotator.chunker.assertion_filterer.AssertionFilterer.regex">[docs]</a>    <span class="n">regex</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
         <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
         <span class="s2">&quot;regex&quot;</span><span class="p">,</span>
@@ -387,6 +394,16 @@
 <span class="sd">           If defined, list of entities to process. The rest will be ignored.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">whiteList</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AssertionFilterer.setCaseSensitive"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/assertion_filterer/index.html#sparknlp_jsl.annotator.chunker.assertion_filterer.AssertionFilterer.setCaseSensitive">[docs]</a>    <span class="k">def</span> <span class="nf">setCaseSensitive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Determines whether the definitions of the white listed entities are case sensitive.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">           Whether white listed entities are case sensitive or not.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">caseSensitive</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AssertionFilterer.setRegex"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/assertion_filterer/index.html#sparknlp_jsl.annotator.chunker.assertion_filterer.AssertionFilterer.setRegex">[docs]</a>    <span class="k">def</span> <span class="nf">setRegex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sets llist of regex to process. The rest will be ignored.</span>

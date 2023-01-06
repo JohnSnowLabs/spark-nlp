@@ -133,7 +133,7 @@ Customer_Privacy                                  1.00          0.93         0.9
 Ecological_Impacts                                1.00          1.00         1.00          16
 Energy_Management                                 1.00          0.91         0.95          11
 GHG_Emissions                                     1.00          0.91         0.95          11
-accuracy                                            -             -          0.95         330
+accuracy                                             -             -         0.95         330
 macro-avg                                         0.95          0.95         0.95         330
 weighted-avg                                      0.95          0.95         0.95         330
 ```

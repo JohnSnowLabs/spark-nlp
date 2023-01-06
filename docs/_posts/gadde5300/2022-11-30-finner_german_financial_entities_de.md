@@ -10,6 +10,7 @@ language: de
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
+annotator: FinanceNerModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -34,6 +35,7 @@ This is a German NER model trained on German Financial Statements, aimed to extr
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler()\
         .setInputCol("text")\
@@ -137,7 +139,7 @@ https://huggingface.co/datasets/fabianrausch/financial-entities-values-augmented
 ## Benchmarking
 
 ```bash
-             label   precision    recall  f1-score   support
+             label  precision    recall  f1-score   support
 B-financial_entity     0.9923    0.9983    0.9953      1813
  B-financial_value     1.0000    0.9920    0.9960      1369
 I-financial_entity     0.9962    0.9998    0.9980      4148

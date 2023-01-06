@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp_jsl.annotator.normalizer.date_normalizer &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.annotator.normalizer.date_normalizer &#8212; Spark NLP  documentation</title>
   
   
   
@@ -252,6 +252,7 @@
     <ul class="current nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../assertion/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.assertion</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../assertion/assertionDL/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.assertion.assertionDL</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../assertion/assertion_chunk_converter/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.assertion.assertion_chunk_converter</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../assertion/assertion_dl_reg/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.assertion.assertion_dl_reg</span></code></a></li>
 </ul>
 </li>
@@ -477,6 +478,21 @@ tomorrow. If not set it will use the current day. Example: 11</p>
 <span class="sig-name descname"><span class="pre">outputDateFormat</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/normalizer/date_normalizer.html#DateNormalizer.outputDateFormat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.outputDateFormat" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.defaultReplacementDay">
+<span class="sig-name descname"><span class="pre">defaultReplacementDay</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/normalizer/date_normalizer.html#DateNormalizer.defaultReplacementDay"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.defaultReplacementDay" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.defaultReplacementMonth">
+<span class="sig-name descname"><span class="pre">defaultReplacementMonth</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/normalizer/date_normalizer.html#DateNormalizer.defaultReplacementMonth"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.defaultReplacementMonth" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.defaultReplacementYear">
+<span class="sig-name descname"><span class="pre">defaultReplacementYear</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/normalizer/date_normalizer.html#DateNormalizer.defaultReplacementYear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.defaultReplacementYear" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.setAnchorDateYear">
 <span class="sig-name descname"><span class="pre">setAnchorDateYear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/normalizer/date_normalizer.html#DateNormalizer.setAnchorDateYear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.setAnchorDateYear" title="Permalink to this definition">#</a></dt>
@@ -535,6 +551,61 @@ after tomorrow. If not set it will use the current day.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>The anchor day for relative dates</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.setDefaultReplacementDay">
+<span class="sig-name descname"><span class="pre">setDefaultReplacementDay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/normalizer/date_normalizer.html#DateNormalizer.setDefaultReplacementDay"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.setDefaultReplacementDay" title="Permalink to this definition">#</a></dt>
+<dd><p>Defines which value to use for creating the Day Value
+when original Date-Entity has no Day Information. Defaults to 15.</p>
+<p>Example: “11”</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>The default value to use when creating a value for Day
+while normalizing and the original date has no day data</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.setDefaultReplacementMonth">
+<span class="sig-name descname"><span class="pre">setDefaultReplacementMonth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/normalizer/date_normalizer.html#DateNormalizer.setDefaultReplacementMonth"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.setDefaultReplacementMonth" title="Permalink to this definition">#</a></dt>
+<dd><p>Defines which value to use for creating the Month Value when original Date-Entity has no Month Information.
+Defaults to 06.</p>
+<p>Example: “11”</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><dl class="simple">
+<dt>The default value to use when creating a value for</dt><dd><p>Month while normalizing and the original date has no Month data</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.setDefaultReplacementYear">
+<span class="sig-name descname"><span class="pre">setDefaultReplacementYear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/normalizer/date_normalizer.html#DateNormalizer.setDefaultReplacementYear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.setDefaultReplacementYear" title="Permalink to this definition">#</a></dt>
+<dd><p>Defines which value to use for creating the Year Value when original Date-Entity has no Year Information.
+Defaults to 2020.</p>
+<p>Example: “2023”</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><dl class="simple">
+<dt>The default value to use when creating a value for</dt><dd><p>Year while normalizing and the original date has no Year data</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd>
@@ -645,6 +716,33 @@ after tomorrow. If not set it will use the current day.</p>
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.defaultReplacementDay">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DateNormalizer.defaultReplacementDay
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.defaultReplacementMonth">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DateNormalizer.defaultReplacementMonth
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.defaultReplacementYear">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DateNormalizer.defaultReplacementYear
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.setAnchorDateYear">
          <code class="docutils literal notranslate">
           <span class="pre">
@@ -676,6 +774,33 @@ after tomorrow. If not set it will use the current day.</p>
          <code class="docutils literal notranslate">
           <span class="pre">
            DateNormalizer.setOutputDateformat()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.setDefaultReplacementDay">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DateNormalizer.setDefaultReplacementDay()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.setDefaultReplacementMonth">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DateNormalizer.setDefaultReplacementMonth()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.setDefaultReplacementYear">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           DateNormalizer.setDefaultReplacementYear()
           </span>
          </code>
         </a>
@@ -718,6 +843,21 @@ after tomorrow. If not set it will use the current day.</p>
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.defaultReplacementDay">
+         defaultReplacementDay
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.defaultReplacementMonth">
+         defaultReplacementMonth
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.defaultReplacementYear">
+         defaultReplacementYear
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.setAnchorDateYear">
          setAnchorDateYear
         </a>
@@ -735,6 +875,21 @@ after tomorrow. If not set it will use the current day.</p>
        <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.setOutputDateformat">
          setOutputDateformat
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.setDefaultReplacementDay">
+         setDefaultReplacementDay
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.setDefaultReplacementMonth">
+         setDefaultReplacementMonth
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.setDefaultReplacementYear">
+         setDefaultReplacementYear
         </a>
        </li>
       </ul>
