@@ -90,11 +90,11 @@ result.selectExpr("stem.result").show(truncate = false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[Stemmer](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/Stemmer)
+[Stemmer](/api/com/johnsnowlabs/nlp/annotators/Stemmer)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[Stemmer](/api/python/reference/autosummary/python/sparknlp/annotator/stemmer/index.html#sparknlp.annotator.stemmer.Stemmer)
+[Stemmer](/api/python/reference/autosummary/sparknlp/annotator/stemmer/index.html#sparknlp.annotator.stemmer.Stemmer)
 {%- endcapture -%}
 
 {%- capture source_link -%}
