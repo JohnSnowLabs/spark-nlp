@@ -1,4 +1,2 @@
-docs/_includes/input_output_image.html
-docs/_sass/custom.scss
-docs/_includes/input_output_image.html
-docs/_sass/custom.scss
+docs/_posts/josejuanmartinez/2022-08-30-finel_edgar_company_name_en.md
+docs/_posts/josejuanmartinez/2022-08-30-finel_edgar_company_name_en.md
