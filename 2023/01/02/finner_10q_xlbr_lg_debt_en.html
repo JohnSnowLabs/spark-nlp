@@ -9,10 +9,10 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Temporality / Certainty Assertion Status (md)</title><meta property="og:title" content=""/>
+<!-- End Google Tag Manager --><title>Finance Debt NER (10Q, lg)</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis is a medium (md) Assertion Status Model aimed to detect temporality (PRESENT, PAST, FUTURE) or Certainty (POSSIBLE) in your legal documents, which may improve the results of the legassertion_time (small) model.Predicted EntitiesPRESENT, PAST, FUTURE, POSSIBLELive DemoOpen in ColabDownloadHow to use  ...">
-<link rel="canonical" href="/2023/01/02/legassertion_time_md_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<meta name="description" content="DescriptionThis model is an NER model containing 20 numeric financial Debt entities from different 10Q reports. The tokens being annotated are the amounts, not any other surrounding word, but the context will determine what kind of amount is from the list of the 20 available.This is a large (lg) model, trained with ...">
+<link rel="canonical" href="/2023/01/02/finner_10q_xlbr_lg_debt_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -408,26 +408,28 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2023-01-02-legassertion_time_md_en.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/gadde5300/2023-01-02-finner_10q_xlbr_lg_debt_en.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
         </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jan 02, 2023</span>
             </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-01-02T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Temporality / Certainty Assertion Status (md)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Temporality / Certainty Assertion Status (md)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>time</li><li>possibility</li><li>en</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-01-02T00:00:00+00:00">
-    <meta itemprop="keywords" content="time,possibility,en,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+          <h1>Finance Debt NER (10Q, lg)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Finance Debt NER (10Q, lg)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>10q</li><li>xlbr</li><li>en</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-01-02T00:00:00+00:00">
+    <meta itemprop="keywords" content="10q,xlbr,en,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This is a medium (md) Assertion Status Model aimed to detect temporality (PRESENT, PAST, FUTURE) or Certainty (POSSIBLE) in your legal documents, which may improve the results of the <code class="language-plaintext highlighter-rouge">legassertion_time</code> (small) model.</p>
+<p>This model is an NER model containing 20 numeric financial Debt entities from different 10Q reports. The tokens being annotated are the amounts, not any other surrounding word, but the context will determine what kind of amount is from the list of the 20 available.</p>
+
+<p>This is a large (<code class="language-plaintext highlighter-rouge">lg</code>) model, trained with 200K sentences.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">PRESENT</code>, <code class="language-plaintext highlighter-rouge">PAST</code>, <code class="language-plaintext highlighter-rouge">FUTURE</code>, <code class="language-plaintext highlighter-rouge">POSSIBLE</code></p>
+<p><code class="language-plaintext highlighter-rouge">AccrualForEnvironmentalLossContingencies</code>, <code class="language-plaintext highlighter-rouge">LineOfCreditFacilityInterestRateAtPeriodEnd</code>, <code class="language-plaintext highlighter-rouge">LineOfCreditFacilityMaximumBorrowingCapacity</code>, <code class="language-plaintext highlighter-rouge">DebtInstrumentFairValue</code>, <code class="language-plaintext highlighter-rouge">OperatingLeaseLiability</code>, <code class="language-plaintext highlighter-rouge">LesseeOperatingLeaseRenewalTerm</code>, <code class="language-plaintext highlighter-rouge">DebtWeightedAverageInterestRate</code>, <code class="language-plaintext highlighter-rouge">LineOfCredit</code>, <code class="language-plaintext highlighter-rouge">GuaranteeObligationsMaximumExposure</code>, <code class="language-plaintext highlighter-rouge">EmployeeServiceShareBasedCompensationNonvestedAwardsTotalCompensationCostNotYetRecognized</code>, <code class="language-plaintext highlighter-rouge">LettersOfCreditOutstandingAmount</code>, <code class="language-plaintext highlighter-rouge">ContractWithCustomerLiability</code>, <code class="language-plaintext highlighter-rouge">DebtInstrumentUnamortizedDiscount</code>, <code class="language-plaintext highlighter-rouge">LongTermDebt</code>, <code class="language-plaintext highlighter-rouge">BusinessCombinationContingentConsiderationLiability</code>, <code class="language-plaintext highlighter-rouge">DebtInstrumentInterestRateStatedPercentage</code>, <code class="language-plaintext highlighter-rouge">DebtInstrumentInterestRateEffectivePercentage</code>, <code class="language-plaintext highlighter-rouge">UnrecognizedTaxBenefits</code>, <code class="language-plaintext highlighter-rouge">BusinessCombinationRecognizedIdentifiableAssetsAcquiredAndLiabilitiesAssumedIntangibles</code>, <code class="language-plaintext highlighter-rouge">EmployeeServiceShareBasedCompensationNonvestedAwardsTotalCompensationCostNotYetRecognizedShareBasedAwardsOtherThanOptions</code></p>
 
-<p class="btn-box"><a href="https://demo.johnsnowlabs.com/legal/LEGASSERTION_TEMPORALITY" class="button button-orange">Live Demo</a>
+<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legassertion_time_md_en_1.0.0_3.0_1672687111582.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_10q_xlbr_lg_debt_en_1.0.0_3.0_1672655212398.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -435,67 +437,82 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 
+<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span> \
+   <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="n">sentence_detector</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">SentenceDetector</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
+<span class="n">sentence</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">SentenceDetector</span><span class="p">()</span> \
+   <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span> 
 
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Tokenizer</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setContextChars</span><span class="p">([</span><span class="s">'.'</span><span class="p">,</span> <span class="s">','</span><span class="p">,</span> <span class="s">';'</span><span class="p">,</span> <span class="s">':'</span><span class="p">,</span> <span class="s">'!'</span><span class="p">,</span> <span class="s">'?'</span><span class="p">,</span> <span class="s">'*'</span><span class="p">,</span> <span class="s">'-'</span><span class="p">,</span> <span class="s">'('</span><span class="p">,</span> <span class="s">')'</span><span class="p">,</span> <span class="s">'”'</span><span class="p">,</span> <span class="s">'’'</span><span class="p">,</span> <span class="s">'$'</span><span class="p">,</span><span class="s">'€'</span><span class="p">])</span>
 
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">RoBertaEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"roberta_embeddings_legal_roberta_base"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings_ner"</span><span class="p">)</span>\
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_embeddings_sec_bert_base"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>\
+  <span class="p">.</span><span class="n">setMaxSentenceLength</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span>
 
-<span class="n">ner_model</span> <span class="o">=</span> <span class="n">legal</span><span class="p">.</span><span class="n">NerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'legner_contract_doc_parties'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'legal/models'</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings_ner"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
+<span class="n">nerTagger</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">NerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'finner_10q_xlbr_lg_debt'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'finance/models'</span><span class="p">)</span>\
+   <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
+   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
+              
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span>
+                            <span class="n">sentence</span><span class="p">,</span>
+                            <span class="n">tokenizer</span><span class="p">,</span>
+                            <span class="n">embeddings</span><span class="p">,</span>
+                            <span class="n">nerTagger</span>
+                                <span class="p">])</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s">"As such , the if - converted value of the Notes was less than the principal amount of $ 345.0 million ."</span>
 
-<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">NerConverter</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setWhiteList</span><span class="p">([</span><span class="s">"DOC"</span><span class="p">,</span> <span class="s">"EFFDATE"</span><span class="p">,</span> <span class="s">"PARTY"</span><span class="p">])</span> <span class="c1"># We will check time only on these
-</span>
-<span class="n">assertion</span> <span class="o">=</span> <span class="n">legal</span><span class="p">.</span><span class="n">AssertionDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legassertion_time_md"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"embeddings "</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"assertion"</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">text</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">fit</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 
+<span class="n">result</span> <span class="o">=</span> <span class="n">fit</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 
-<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-            <span class="n">document_assembler</span><span class="p">,</span> 
-            <span class="n">sentence_detector</span><span class="p">,</span>
-            <span class="n">tokenizer</span><span class="p">,</span>
-            <span class="n">embeddings_ner</span><span class="p">,</span>
-            <span class="n">ner_model</span><span class="p">,</span>
-            <span class="n">ner_converter</span><span class="p">,</span>
-            <span class="n">assertion</span>
-            <span class="p">])</span>
+<span class="n">result_df</span> <span class="o">=</span> <span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">explode</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">arrays_zip</span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">token</span><span class="p">.</span><span class="n">result</span><span class="p">,</span><span class="n">result</span><span class="p">.</span><span class="n">ner</span><span class="p">.</span><span class="n">result</span><span class="p">,</span> <span class="n">result</span><span class="p">.</span><span class="n">ner</span><span class="p">.</span><span class="n">metadata</span><span class="p">)).</span><span class="n">alias</span><span class="p">(</span><span class="s">"cols"</span><span class="p">))</span>\
+<span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">expr</span><span class="p">(</span><span class="s">"cols['0']"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"token"</span><span class="p">),</span>\
+      <span class="n">F</span><span class="p">.</span><span class="n">expr</span><span class="p">(</span><span class="s">"cols['1']"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"ner_label"</span><span class="p">),</span>\
+      <span class="n">F</span><span class="p">.</span><span class="n">expr</span><span class="p">(</span><span class="s">"cols['2']['confidence']"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"confidence"</span><span class="p">))</span>
 
-<span class="n">empty_data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>  
-
-<span class="n">model</span> <span class="o">=</span> <span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty_data</span><span class="p">)</span>
-
-<span class="n">lp</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
-
-<span class="n">texts</span> <span class="o">=</span> <span class="p">[</span><span class="s">"The subsidiaries of Atlantic Inc will participate in a merging operation"</span><span class="p">,</span>
-    <span class="s">"The Conditions and Warranties of this agreement might be modified"</span><span class="p">]</span>
-
-<span class="n">lp</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
+<span class="n">result_df</span><span class="p">.</span><span class="n">show</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">truncate</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 </code></pre></div>  </div>
 
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chunk,begin,end,entity_type,assertion
-Atlantic Inc,20,31,ORG,FUTURE
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
++---------+--------------+----------+
+|token    |ner_label     |confidence|
++---------+--------------+----------+
+|As       |O             |1.0       |
+|such     |O             |1.0       |
+|,        |O             |1.0       |
+|the      |O             |1.0       |
+|if       |O             |1.0       |
+|-        |O             |1.0       |
+|converted|O             |1.0       |
+|value    |O             |1.0       |
+|of       |O             |1.0       |
+|the      |O             |1.0       |
+|Notes    |O             |1.0       |
+|was      |O             |1.0       |
+|less     |O             |1.0       |
+|than     |O             |1.0       |
+|the      |O             |1.0       |
+|principal|O             |1.0       |
+|amount   |O             |1.0       |
+|of       |O             |1.0       |
+|<span class="nv">$ </span>       |O             |1.0       |
+|345.0    |B-LongTermDebt|0.8872    |
+|million  |O             |1.0       |
+|.        |O             |1.0       |
++---------+--------------+----------+
 
-chunk,begin,end,entity_type,assertion
-Conditions and Warranties,4,28,DOC,POSSIBLE
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -504,11 +521,11 @@ Conditions and Warranties,4,28,DOC,POSSIBLE
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>legassertion_time_md</td>
+      <td>finner_10q_xlbr_lg_debt</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Legal NLP 1.0.0+</td>
+      <td>Finance NLP 1.0.0+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -520,11 +537,11 @@ Conditions and Warranties,4,28,DOC,POSSIBLE
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[document, doc_chunk, embeddings]</td>
+      <td>[sentence, token, embeddings]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[assertion]</td>
+      <td>[ner]</td>
     </tr>
     <tr>
       <td>Language:</td>
@@ -532,24 +549,50 @@ Conditions and Warranties,4,28,DOC,POSSIBLE
     </tr>
     <tr>
       <td>Size:</td>
-      <td>2.2 MB</td>
+      <td>16.4 MB</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="references">References</h2>
 
-<p>In-house annotations augmented with synthetic data.</p>
+<p>An in-house modified version of https://huggingface.co/datasets/nlpaueb/finer-139, re-splited and filtered to focus on sentences with bigger density of tags.</p>
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>label	 tp	 fp	 fn	 prec	 rec	 f1
-PRESENT	 115	 11	 5	 0.9126984	 0.9583333	 0.9349593
-POSSIBLE	 79	 5	 4	 0.9404762	 0.9518072	 0.9461077
-PAST	 54	 5	 11	 0.91525424	 0.83076924	 0.8709678
-FUTURE	 77	 3	 4	 0.9625	 0.9506173	 0.95652175
-Macro-average 325 24 24 0.9327322 0.9228818 0.92778087
-Micro-average 325 24 24 0.9312321 0.9312321 0.9312321
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+label                                                         precision    recall  f1-score   support
+    B-ClassOfWarrantOrRightExercisePriceOfWarrantsOrRights1     0.9613    0.9613    0.9613       155
+                             B-ConcentrationRiskPercentage1     0.9887    0.9990    0.9938      1049
+                 B-DebtInstrumentBasisSpreadOnVariableRate1     0.9696    0.9761    0.9728      1926
+                             B-DebtInstrumentCarryingAmount     0.6658    0.6159    0.6399       427
+                B-DebtInstrumentConvertibleConversionPrice1     0.9572    0.9835    0.9702       182
+                                 B-DebtInstrumentFaceAmount     0.7537    0.9201    0.8286      1114
+                               B-DebtInstrumentMaturityDate     0.8211    0.7573    0.7879       103
+                                       B-DebtInstrumentTerm     0.9205    0.8323    0.8742       167
+                                B-DeferredFinanceCostsGross     0.6977    0.6250    0.6593       144
+                                  B-DeferredFinanceCostsNet     0.8264    0.8264    0.8264       265
+             B-LineOfCreditFacilityCurrentBorrowingCapacity     0.9061    0.5714    0.7009       287
+           B-LineOfCreditFacilityRemainingBorrowingCapacity     0.7935    0.9220    0.8529       346
+B-LineOfCreditFacilityUnusedCapacityCommitmentFeePercentage     0.9597    0.9597    0.9597       273
+                                    B-LongTermDebtFairValue     0.9307    0.9239    0.9273       276
+                    B-LossContingencyAccrualAtCarryingValue     0.9476    0.9922    0.9693       255
+B-MinorityInterestOwnershipPercentageByNoncontrollingOwners     0.9248    0.8531    0.8875       245
+              B-MinorityInterestOwnershipPercentageByParent     0.8133    0.9414    0.8727       273
+         B-OperatingLeaseWeightedAverageRemainingLeaseTerm1     1.0000    0.8762    0.9340       105
+                           B-PreferredStockSharesAuthorized     0.9904    0.9626    0.9763       107
+                    B-RevenueRemainingPerformanceObligation     0.9292    0.9906    0.9589       424
+   B-UnrecognizedTaxBenefitsThatWouldImpactEffectiveTaxRate     0.9942    0.8912    0.9399       193
+                                 I-DebtInstrumentFaceAmount     0.0000    0.0000    0.0000         1
+                               I-DebtInstrumentMaturityDate     0.8211    0.7573    0.7879       309
+                                       I-DebtInstrumentTerm     0.9643    0.7826    0.8640        69
+         I-OperatingLeaseWeightedAverageRemainingLeaseTerm1     1.0000    0.6667    0.8000        15
+                           I-PreferredStockSharesAuthorized     1.0000    0.8571    0.9231         7
+                                                          O     0.9986    0.9979    0.9982    210593
+                                                   accuracy       -         -       0.9942    219310
+                                                  macro-avg     0.8717    0.8312    0.8469    219310
+                                               weighted-avg     0.9944    0.9942    0.9942    219310
+
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2023-01-02T00:00:00+00:00"><!-- start custom article footer snippet -->
 
@@ -890,7 +933,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2023/01/02/finner_10q_xlbr_lg_revenue_en.html">Finance Revenue NER (10Q, lg)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2023/01/02/legner_roles_en.html">Legal Roles NER</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2023/01/02/finner_10q_xlbr_lg_contra_stock_equity_en.html">Finance Stock Equity NER (10Q, lg)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2023/01/02/finner_10q_xlbr_lg_expense_en.html">Finance Expense NER (10Q, lg)</a></div></div></div>
 
 </div>
 </div>

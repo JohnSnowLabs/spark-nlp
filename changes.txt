@@ -1,8 +1,8 @@
-docs/_posts/josejuanmartinez/2023-01-01-legassertion_negation_en.md
-docs/_posts/josejuanmartinez/2023-01-01-legner_org_per_role_date_en.md
-docs/_posts/josejuanmartinez/2023-01-02-legassertion_time_md_en.md
-docs/_posts/josejuanmartinez/2023-01-02-legner_roles_en.md
-docs/_posts/josejuanmartinez/2023-01-01-legassertion_negation_en.md
-docs/_posts/josejuanmartinez/2023-01-01-legner_org_per_role_date_en.md
-docs/_posts/josejuanmartinez/2023-01-02-legassertion_time_md_en.md
-docs/_posts/josejuanmartinez/2023-01-02-legner_roles_en.md
+docs/en/financial_release_notes.md
+docs/en/financial_version_compatibility.md
+docs/en/legal_release_notes.md
+docs/en/legal_version_compatibility.md
+docs/en/financial_release_notes.md
+docs/en/financial_version_compatibility.md
+docs/en/legal_release_notes.md
+docs/en/legal_version_compatibility.md

@@ -9,10 +9,10 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Temporality / Certainty Assertion Status (md)</title><meta property="og:title" content=""/>
+<!-- End Google Tag Manager --><title>Finance Assets NER (10Q, lg)</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis is a medium (md) Assertion Status Model aimed to detect temporality (PRESENT, PAST, FUTURE) or Certainty (POSSIBLE) in your legal documents, which may improve the results of the legassertion_time (small) model.Predicted EntitiesPRESENT, PAST, FUTURE, POSSIBLELive DemoOpen in ColabDownloadHow to use  ...">
-<link rel="canonical" href="/2023/01/02/legassertion_time_md_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<meta name="description" content="DescriptionThis model is an NER model containing 13 numeric financial assets entities from different 10Q reports. The tokens being annotated are the amounts, not any other surrounding word, but the context will determine what kind of amount is from the list of the 13 available entities.This is a large (lg) model, tr...">
+<link rel="canonical" href="/2023/01/02/finner_10q_xlbr_lg_asset_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -408,26 +408,28 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2023-01-02-legassertion_time_md_en.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/gadde5300/2023-01-02-finner_10q_xlbr_lg_asset_en.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
         </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jan 02, 2023</span>
             </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-01-02T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Temporality / Certainty Assertion Status (md)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Temporality / Certainty Assertion Status (md)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>time</li><li>possibility</li><li>en</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-01-02T00:00:00+00:00">
-    <meta itemprop="keywords" content="time,possibility,en,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+          <h1>Finance Assets NER (10Q, lg)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Finance Assets NER (10Q, lg)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>10q</li><li>xlbr</li><li>en</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-01-02T00:00:00+00:00">
+    <meta itemprop="keywords" content="10q,xlbr,en,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This is a medium (md) Assertion Status Model aimed to detect temporality (PRESENT, PAST, FUTURE) or Certainty (POSSIBLE) in your legal documents, which may improve the results of the <code class="language-plaintext highlighter-rouge">legassertion_time</code> (small) model.</p>
+<p>This model is an NER model containing 13 numeric financial assets entities from different 10Q reports. The tokens being annotated are the amounts, not any other surrounding word, but the context will determine what kind of amount is from the list of the 13 available entities.</p>
+
+<p>This is a large (<code class="language-plaintext highlighter-rouge">lg</code>) model, trained with 200K sentences.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">PRESENT</code>, <code class="language-plaintext highlighter-rouge">PAST</code>, <code class="language-plaintext highlighter-rouge">FUTURE</code>, <code class="language-plaintext highlighter-rouge">POSSIBLE</code></p>
+<p><code class="language-plaintext highlighter-rouge">Goodwill</code>, <code class="language-plaintext highlighter-rouge">AcquiredFiniteLivedIntangibleAssetsWeightedAverageUsefulLife</code>, <code class="language-plaintext highlighter-rouge">OperatingLeaseRightOfUseAsset</code>, <code class="language-plaintext highlighter-rouge">PropertyPlantAndEquipmentUsefulLife</code>, <code class="language-plaintext highlighter-rouge">AreaOfRealEstateProperty</code>, <code class="language-plaintext highlighter-rouge">NumberOfRealEstateProperties</code>, <code class="language-plaintext highlighter-rouge">CashAndCashEquivalentsFairValueDisclosure</code>, <code class="language-plaintext highlighter-rouge">FiniteLivedIntangibleAssetUsefulLife</code>, <code class="language-plaintext highlighter-rouge">EquityMethodInvestments</code>, <code class="language-plaintext highlighter-rouge">BusinessAcquisitionPercentageOfVotingInterestsAcquired</code>, <code class="language-plaintext highlighter-rouge">OperatingLossCarryforwards</code>, <code class="language-plaintext highlighter-rouge">DerivativeNotionalAmount</code>, <code class="language-plaintext highlighter-rouge">EquityMethodInvestmentOwnershipPercentage</code></p>
 
-<p class="btn-box"><a href="https://demo.johnsnowlabs.com/legal/LEGASSERTION_TEMPORALITY" class="button button-orange">Live Demo</a>
+<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legassertion_time_md_en_1.0.0_3.0_1672687111582.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_10q_xlbr_lg_asset_en_1.0.0_3.0_1672652118242.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -435,67 +437,160 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 
+<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span> \
+   <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="n">sentence_detector</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">SentenceDetector</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
+<span class="n">sentence</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">SentenceDetector</span><span class="p">()</span> \
+   <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span> 
 
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Tokenizer</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setContextChars</span><span class="p">([</span><span class="s">'.'</span><span class="p">,</span> <span class="s">','</span><span class="p">,</span> <span class="s">';'</span><span class="p">,</span> <span class="s">':'</span><span class="p">,</span> <span class="s">'!'</span><span class="p">,</span> <span class="s">'?'</span><span class="p">,</span> <span class="s">'*'</span><span class="p">,</span> <span class="s">'-'</span><span class="p">,</span> <span class="s">'('</span><span class="p">,</span> <span class="s">')'</span><span class="p">,</span> <span class="s">'”'</span><span class="p">,</span> <span class="s">'’'</span><span class="p">,</span> <span class="s">'$'</span><span class="p">,</span><span class="s">'€'</span><span class="p">])</span>
 
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">RoBertaEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"roberta_embeddings_legal_roberta_base"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings_ner"</span><span class="p">)</span>\
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_embeddings_sec_bert_base"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>\
+  <span class="p">.</span><span class="n">setMaxSentenceLength</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span>
 
-<span class="n">ner_model</span> <span class="o">=</span> <span class="n">legal</span><span class="p">.</span><span class="n">NerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'legner_contract_doc_parties'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'legal/models'</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings_ner"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
+<span class="n">nerTagger</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">NerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'finner_10q_xlbr_lg_asset'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'finance/models'</span><span class="p">)</span>\
+   <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
+   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
+              
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span>
+                            <span class="n">sentence</span><span class="p">,</span>
+                            <span class="n">tokenizer</span><span class="p">,</span>
+                            <span class="n">embeddings</span><span class="p">,</span>
+                            <span class="n">nerTagger</span>
+                                <span class="p">])</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s">"As of May 31 , 2016 , total assets include $ 645.1 million related to consolidated VIEs of which $ 8.2 million is included in Lennar Homebuilding cash and cash equivalents , $ 0.1 million in Lennar Homebuilding receivables , net , $ 6.2 million in Lennar Homebuilding finished homes and construction in progress , $ 158.8 million in Lennar Homebuilding land and land under development , $ 134.5 million in Lennar Homebuilding consolidated inventory not owned , $ 4.5 million in Lennar Homebuilding investments in unconsolidated entities , $ 21.4 million in Lennar Homebuilding other assets , $ 280.0 million in Rialto assets and $ 31.4 million in Lennar Multifamily assets ."</span>
 
-<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">NerConverter</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setWhiteList</span><span class="p">([</span><span class="s">"DOC"</span><span class="p">,</span> <span class="s">"EFFDATE"</span><span class="p">,</span> <span class="s">"PARTY"</span><span class="p">])</span> <span class="c1"># We will check time only on these
-</span>
-<span class="n">assertion</span> <span class="o">=</span> <span class="n">legal</span><span class="p">.</span><span class="n">AssertionDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legassertion_time_md"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"embeddings "</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"assertion"</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">text</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">fit</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 
+<span class="n">result</span> <span class="o">=</span> <span class="n">fit</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 
-<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-            <span class="n">document_assembler</span><span class="p">,</span> 
-            <span class="n">sentence_detector</span><span class="p">,</span>
-            <span class="n">tokenizer</span><span class="p">,</span>
-            <span class="n">embeddings_ner</span><span class="p">,</span>
-            <span class="n">ner_model</span><span class="p">,</span>
-            <span class="n">ner_converter</span><span class="p">,</span>
-            <span class="n">assertion</span>
-            <span class="p">])</span>
+<span class="n">result_df</span> <span class="o">=</span> <span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">explode</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">arrays_zip</span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">token</span><span class="p">.</span><span class="n">result</span><span class="p">,</span><span class="n">result</span><span class="p">.</span><span class="n">ner</span><span class="p">.</span><span class="n">result</span><span class="p">,</span> <span class="n">result</span><span class="p">.</span><span class="n">ner</span><span class="p">.</span><span class="n">metadata</span><span class="p">)).</span><span class="n">alias</span><span class="p">(</span><span class="s">"cols"</span><span class="p">))</span>\
+<span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">expr</span><span class="p">(</span><span class="s">"cols['0']"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"token"</span><span class="p">),</span>\
+      <span class="n">F</span><span class="p">.</span><span class="n">expr</span><span class="p">(</span><span class="s">"cols['1']"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"ner_label"</span><span class="p">),</span>\
+      <span class="n">F</span><span class="p">.</span><span class="n">expr</span><span class="p">(</span><span class="s">"cols['2']['confidence']"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"confidence"</span><span class="p">))</span>
 
-<span class="n">empty_data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>  
-
-<span class="n">model</span> <span class="o">=</span> <span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty_data</span><span class="p">)</span>
-
-<span class="n">lp</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
-
-<span class="n">texts</span> <span class="o">=</span> <span class="p">[</span><span class="s">"The subsidiaries of Atlantic Inc will participate in a merging operation"</span><span class="p">,</span>
-    <span class="s">"The Conditions and Warranties of this agreement might be modified"</span><span class="p">]</span>
-
-<span class="n">lp</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
+<span class="n">result_df</span><span class="p">.</span><span class="n">show</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">truncate</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 </code></pre></div>  </div>
 
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chunk,begin,end,entity_type,assertion
-Atlantic Inc,20,31,ORG,FUTURE
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
++--------------+-------------------------+----------+
+|token         |ner_label                |confidence|
++--------------+-------------------------+----------+
+|As            |O                        |1.0       |
+|of            |O                        |1.0       |
+|May           |O                        |1.0       |
+|31            |O                        |1.0       |
+|,             |O                        |1.0       |
+|2016          |O                        |1.0       |
+|,             |O                        |1.0       |
+|total         |O                        |1.0       |
+|assets        |O                        |1.0       |
+|include       |O                        |1.0       |
+|<span class="nv">$ </span>            |O                        |1.0       |
+|645.1         |O                        |0.9998    |
+|million       |O                        |1.0       |
+|related       |O                        |1.0       |
+|to            |O                        |1.0       |
+|consolidated  |O                        |1.0       |
+|VIEs          |O                        |1.0       |
+|of            |O                        |1.0       |
+|which         |O                        |1.0       |
+|<span class="nv">$ </span>            |O                        |1.0       |
+|8.2           |O                        |1.0       |
+|million       |O                        |1.0       |
+|is            |O                        |1.0       |
+|included      |O                        |1.0       |
+|in            |O                        |1.0       |
+|Lennar        |O                        |1.0       |
+|Homebuilding  |O                        |1.0       |
+|cash          |O                        |1.0       |
+|and           |O                        |1.0       |
+|cash          |O                        |1.0       |
+|equivalents   |O                        |1.0       |
+|,             |O                        |1.0       |
+|<span class="nv">$ </span>            |O                        |1.0       |
+|0.1           |O                        |0.9995    |
+|million       |O                        |1.0       |
+|in            |O                        |1.0       |
+|Lennar        |O                        |1.0       |
+|Homebuilding  |O                        |1.0       |
+|receivables   |O                        |1.0       |
+|,             |O                        |1.0       |
+|net           |O                        |1.0       |
+|,             |O                        |1.0       |
+|<span class="nv">$ </span>            |O                        |1.0       |
+|6.2           |O                        |0.9991    |
+|million       |O                        |1.0       |
+|in            |O                        |1.0       |
+|Lennar        |O                        |1.0       |
+|Homebuilding  |O                        |1.0       |
+|finished      |O                        |1.0       |
+|homes         |O                        |1.0       |
+|and           |O                        |1.0       |
+|construction  |O                        |1.0       |
+|in            |O                        |1.0       |
+|progress      |O                        |1.0       |
+|,             |O                        |1.0       |
+|<span class="nv">$ </span>            |O                        |1.0       |
+|158.8         |O                        |0.9935    |
+|million       |O                        |1.0       |
+|in            |O                        |1.0       |
+|Lennar        |O                        |1.0       |
+|Homebuilding  |O                        |1.0       |
+|land          |O                        |1.0       |
+|and           |O                        |1.0       |
+|land          |O                        |1.0       |
+|under         |O                        |1.0       |
+|development   |O                        |1.0       |
+|,             |O                        |1.0       |
+|<span class="nv">$ </span>            |O                        |1.0       |
+|134.5         |O                        |0.9959    |
+|million       |O                        |1.0       |
+|in            |O                        |1.0       |
+|Lennar        |O                        |1.0       |
+|Homebuilding  |O                        |1.0       |
+|consolidated  |O                        |1.0       |
+|inventory     |O                        |0.9997    |
+|not           |O                        |0.9999    |
+|owned         |O                        |1.0       |
+|,             |O                        |1.0       |
+|<span class="nv">$ </span>            |O                        |1.0       |
+|4.5           |B-EquityMethodInvestments|0.9934    |
+|million       |O                        |1.0       |
+|in            |O                        |1.0       |
+|Lennar        |O                        |1.0       |
+|Homebuilding  |O                        |1.0       |
+|investments   |O                        |1.0       |
+|in            |O                        |1.0       |
+|unconsolidated|O                        |1.0       |
+|entities      |O                        |1.0       |
+|,             |O                        |1.0       |
+|<span class="nv">$ </span>            |O                        |1.0       |
+|21.4          |O                        |0.9917    |
+|million       |O                        |1.0       |
+|in            |O                        |1.0       |
+|Lennar        |O                        |1.0       |
+|Homebuilding  |O                        |1.0       |
+|other         |O                        |1.0       |
+|assets        |O                        |1.0       |
+|,             |O                        |1.0       |
+|<span class="nv">$ </span>            |O                        |1.0       |
+|280.0         |O                        |0.9985    |
++--------------+-------------------------+----------+
 
-chunk,begin,end,entity_type,assertion
-Conditions and Warranties,4,28,DOC,POSSIBLE
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -504,11 +599,11 @@ Conditions and Warranties,4,28,DOC,POSSIBLE
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>legassertion_time_md</td>
+      <td>finner_10q_xlbr_lg_asset</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Legal NLP 1.0.0+</td>
+      <td>Finance NLP 1.0.0+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -520,11 +615,11 @@ Conditions and Warranties,4,28,DOC,POSSIBLE
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[document, doc_chunk, embeddings]</td>
+      <td>[sentence, token, embeddings]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[assertion]</td>
+      <td>[ner]</td>
     </tr>
     <tr>
       <td>Language:</td>
@@ -532,24 +627,42 @@ Conditions and Warranties,4,28,DOC,POSSIBLE
     </tr>
     <tr>
       <td>Size:</td>
-      <td>2.2 MB</td>
+      <td>16.4 MB</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="references">References</h2>
 
-<p>In-house annotations augmented with synthetic data.</p>
+<p>An in-house modified version of https://huggingface.co/datasets/nlpaueb/finer-139, re-splited and filtered to focus on sentences with bigger density of tags.</p>
 
 <h2 id="benchmarking">Benchmarking</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>label	 tp	 fp	 fn	 prec	 rec	 f1
-PRESENT	 115	 11	 5	 0.9126984	 0.9583333	 0.9349593
-POSSIBLE	 79	 5	 4	 0.9404762	 0.9518072	 0.9461077
-PAST	 54	 5	 11	 0.91525424	 0.83076924	 0.8709678
-FUTURE	 77	 3	 4	 0.9625	 0.9506173	 0.95652175
-Macro-average 325 24 24 0.9327322 0.9228818 0.92778087
-Micro-average 325 24 24 0.9312321 0.9312321 0.9312321
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+label                                                           precision    recall  f1-score   support
+B-AcquiredFiniteLivedIntangibleAssetsWeightedAverageUsefulLife     0.6955    0.8158    0.7509       266
+                                    B-AreaOfRealEstateProperty     0.9558    0.9251    0.9402       187
+      B-BusinessAcquisitionPercentageOfVotingInterestsAcquired     0.9490    0.5820    0.7215       256
+                   B-CashAndCashEquivalentsFairValueDisclosure     1.0000    0.9827    0.9913       231
+                                    B-DerivativeNotionalAmount     0.9829    0.9844    0.9836       641
+                   B-EquityMethodInvestmentOwnershipPercentage     0.8688    0.9851    0.9233       874
+                                     B-EquityMethodInvestments     0.8880    0.9715    0.9279       351
+                        B-FiniteLivedIntangibleAssetUsefulLife     0.8199    0.7629    0.7904       388
+                                                    B-Goodwill     0.9910    0.9379    0.9637       467
+                                B-NumberOfRealEstateProperties     0.8981    0.9831    0.9387       296
+                               B-OperatingLeaseRightOfUseAsset     0.9861    0.8903    0.9357       319
+                                  B-OperatingLossCarryforwards     0.9819    0.9056    0.9422       180
+                         B-PropertyPlantAndEquipmentUsefulLife     0.9641    0.9335    0.9486       316
+I-AcquiredFiniteLivedIntangibleAssetsWeightedAverageUsefulLife     0.8140    0.5833    0.6796        60
+                                    I-AreaOfRealEstateProperty     0.0000    0.0000    0.0000         1
+                        I-FiniteLivedIntangibleAssetUsefulLife     0.6869    0.7556    0.7196        90
+                                I-NumberOfRealEstateProperties     1.0000    0.5000    0.6667         2
+                         I-PropertyPlantAndEquipmentUsefulLife     0.9524    0.7595    0.8451        79
+                                                             O     0.9987    0.9989    0.9988    123678
+                                                      accuracy       -         -       0.9952    128682
+                                                     macro-avg     0.8649    0.8030    0.8246    128682
+                                                  weighted-avg     0.9954    0.9952    0.9951    128682
+
 </code></pre></div></div>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2023-01-02T00:00:00+00:00"><!-- start custom article footer snippet -->
 
@@ -890,7 +1003,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2023/01/02/finner_10q_xlbr_lg_revenue_en.html">Finance Revenue NER (10Q, lg)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2023/01/02/legner_roles_en.html">Legal Roles NER</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2023/01/01/legner_org_per_role_date_en.html">Legal ORG, PER, ROLE, DATE NER</a></div><div class="next nav_link"><span>NEXT</span><a href="/2023/01/02/finner_10q_xlbr_lg_contra_liability_en.html">Finance Contra Liability NER (10Q, lg)</a></div></div></div>
 
 </div>
 </div>
