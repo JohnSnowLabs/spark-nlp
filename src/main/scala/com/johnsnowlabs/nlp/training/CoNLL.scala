@@ -355,15 +355,15 @@ case class CoNLL(
         .wholeTextFiles(path, minPartitions = parallelism)
         .flatMap { case (_, content) =>
           val lines = content.split(System.lineSeparator)
-          readLines(lines).map(doc => coreTransformation(doc))
+            readLines(lines)
         }
         .persist(storageLevel)
 
-      val df = spark
-        .createDataFrame(rdd)
-        .toDF(conllTextCol, documentCol, sentenceCol, tokenCol, posCol, labelCol)
-
-      spark.createDataFrame(df.rdd, schema)
+      import spark.implicits._
+      if (includeDocId) {
+        spark.createDataFrame(rdd.map(coreTransformationWithDocId).toDF.rdd, schema)
+      } else
+        spark.createDataFrame(rdd.map(coreTransformation).toDF.rdd, schema)
     } else {
       val er = ExternalResource(path, readAs, Map("format" -> "text"))
       packDocs(readDocs(er), spark)
