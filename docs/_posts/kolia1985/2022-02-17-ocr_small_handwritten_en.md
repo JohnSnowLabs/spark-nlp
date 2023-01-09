@@ -27,7 +27,7 @@ The abstract from the paper is the following:  Text recognition is a long-standi
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-[Open in Colab]([Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/TrainingNotebooks/tutorials/Certification_Trainings/1.4.Handwritten_Text_Recognition.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}){:.button.button-orange.button-orange-trans.co.button-icon}
+[Open in Colab]([Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/TrainingNotebooks/tutorials/Certification_Trainings/others/SparkOcrImageToTextHandwritten.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/ocr/ocr_small_handwritten_en_3.3.3_2.4_1645080334390.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use

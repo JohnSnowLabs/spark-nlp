@@ -25,7 +25,7 @@ Model for cleaning image with text. It is based on text detection model with ext
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-[Open in Colab]([Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/TrainingNotebooks/tutorials/Certification_Trainings/1.4.Handwritten_Text_Recognition.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}){:.button.button-orange.button-orange-trans.co.button-icon}
+[Open in Colab]([Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/TrainingNotebooks/tutorials/Certification_Trainings/others/SparkOcrImageCleaner.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/ocr/text_cleaner_v1_en_3.0.0_2.4_1640088709401.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 
