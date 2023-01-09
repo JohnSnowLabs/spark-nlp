@@ -65,6 +65,8 @@ class CoNLL(ExtendedJavaWrapper):
         Whether to explode sentences to separate rows, by default True
     delimiter: str, optional
         Delimiter used to separate columns inside CoNLL file
+    includeDocId: bool, optional
+        Whether to try and parse the document id from the third item in the -DOCSTART- line (X if not found)
 
     Examples
     --------
@@ -95,7 +97,8 @@ class CoNLL(ExtendedJavaWrapper):
                  textCol='text',
                  labelCol='label',
                  explodeSentences=True,
-                 delimiter=' '
+                 delimiter=' ',
+                 includeDocId=False
                  ):
         super(CoNLL, self).__init__("com.johnsnowlabs.nlp.training.CoNLL",
                                     documentCol,
@@ -107,7 +110,8 @@ class CoNLL(ExtendedJavaWrapper):
                                     textCol,
                                     labelCol,
                                     explodeSentences,
-                                    delimiter)
+                                    delimiter,
+                                    includeDocId)
 
     def readDataset(self, spark, path, read_as=ReadAs.TEXT, partitions=8, storage_level=pyspark.StorageLevel.DISK_ONLY):
         # ToDo Replace with std pyspark
