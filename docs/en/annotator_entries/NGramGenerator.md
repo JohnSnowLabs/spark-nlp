@@ -118,11 +118,11 @@ results.selectExpr("explode(ngrams) as result").show(false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[NGramGenerator](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/NGramGenerator)
+[NGramGenerator](/api/com/johnsnowlabs/nlp/annotators/NGramGenerator)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[NGramGenerator](/api/python/reference/autosummary/python/sparknlp/annotator/n_gram_generator/index.html#sparknlp.annotator.n_gram_generator.NGramGenerator)
+[NGramGenerator](/api/python/reference/autosummary/sparknlp/annotator/n_gram_generator/index.html#sparknlp.annotator.n_gram_generator.NGramGenerator)
 {%- endcapture -%}
 
 {%- capture source_link -%}
