@@ -380,7 +380,7 @@
   "54": {
     "id": "54",
     "title": "Finance NLP Release Notes",
-    "content": "Releases log Finance NLP 1.0.0 on Medium Finance NLP 1.1.0 on Medium Finance NLP 1.2.0 on Medium Finance NLP 1.3.0 on Medium Finance NLP 1.4.0 on Medium Slack - Join #finance channel",
+    "content": "Releases log Finance NLP 1.0.0 on Medium Finance NLP 1.1.0 on Medium Finance NLP 1.2.0 on Medium Finance NLP 1.3.0 on Medium Finance NLP 1.4.0 on Medium Finance NLP 1.5.0 on Medium Slack - Join #finance channel",
     "url": "/docs/en/financial_release_notes",
     "relUrl": "/docs/en/financial_release_notes"
   },
@@ -394,7 +394,7 @@
   "56": {
     "id": "56",
     "title": "Version Compatibility",
-    "content": "Legal NLP runs on top of johnsnowlabs library (former nlu). Please find technical documentation about how to install it here. Finance NLP johnsnowlabs 1.0.0 4.2.0 1.1.0 4.2.1 1.2.0 4.2.1 1.3.0 4.2.2 1.4.0 4.2.3 Finance NLP is also supported in Annotation Lab from Alab 4.2.3 version on!",
+    "content": "Legal NLP runs on top of johnsnowlabs library (former nlu). Please find technical documentation about how to install it here. Finance NLP johnsnowlabs 1.0.0 4.2.0 1.1.0 4.2.1 1.2.0 4.2.1 1.3.0 4.2.2 1.4.0 4.2.3 1.5.0 4.2.4 Finance NLP is also supported in Annotation Lab from Alab 4.2.3 version on!",
     "url": "/docs/en/financial_version_compatibility",
     "relUrl": "/docs/en/financial_version_compatibility"
   },
@@ -583,7 +583,7 @@
   "83": {
     "id": "83",
     "title": "Legal NLP Release Notes",
-    "content": "Releases log Legal NLP 1.0.0 on Medium Legal NLP 1.1.0 on Medium Legal NLP 1.2.0 on Medium Legal NLP 1.3.0 on Medium Legal NLP 1.4.0 on Medium Slack - Join #legal channel",
+    "content": "Releases log Legal NLP 1.0.0 on Medium Legal NLP 1.1.0 on Medium Legal NLP 1.2.0 on Medium Legal NLP 1.3.0 on Medium Legal NLP 1.4.0 on Medium Legal NLP 1.5.0 on Medium Slack - Join #legal channel",
     "url": "/docs/en/legal_release_notes",
     "relUrl": "/docs/en/legal_release_notes"
   },
@@ -604,7 +604,7 @@
   "86": {
     "id": "86",
     "title": "Version Compatibility",
-    "content": "Legal NLP runs on top of johnsnowlabs library (former nlu). Please find technical documentation about how to install it here. Legal NLP johnsnowlabs 1.0.0 4.2.0 1.1.0 4.2.1 1.2.0 4.2.1 1.3.0 4.2.2 1.4.0 4.2.3 Legal NLP is also supported in Annotation Lab from Alab 4.2.3 version on!",
+    "content": "Legal NLP runs on top of johnsnowlabs library (former nlu). Please find technical documentation about how to install it here. Legal NLP johnsnowlabs 1.0.0 4.2.0 1.1.0 4.2.1 1.2.0 4.2.1 1.3.0 4.2.2 1.4.0 4.2.3 1.5.0 4.2.4 Legal NLP is also supported in Annotation Lab from Alab 4.2.3 version on!",
     "url": "/docs/en/legal_version_compatibility",
     "relUrl": "/docs/en/legal_version_compatibility"
   },
