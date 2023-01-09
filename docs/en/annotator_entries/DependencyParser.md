@@ -151,11 +151,11 @@ result.selectExpr("explode(arrays_zip(token.result, dependency.result)) as cols"
 {%- endcapture -%}
 
 {%- capture model_api_link -%}
-[DependencyParserModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/parser/dep/DependencyParserModel)
+[DependencyParserModel](/api/com/johnsnowlabs/nlp/annotators/parser/dep/DependencyParserModel)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[DependencyParserModel](/api/python/reference/autosummary/python/sparknlp/annotator/dependency/dependency_parser/index.html#sparknlp.annotator.dependency.dependency_parser.DependencyParserModel)
+[DependencyParserModel](/api/python/reference/autosummary/sparknlp/annotator/dependency/dependency_parser/index.html#sparknlp.annotator.dependency.dependency_parser.DependencyParserModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -274,11 +274,11 @@ val pipelineModel = pipeline.fit(emptyDataSet)
 {%- endcapture -%}
 
 {%- capture approach_api_link -%}
-[DependencyParserApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/parser/dep/DependencyParserApproach)
+[DependencyParserApproach](/api/com/johnsnowlabs/nlp/annotators/parser/dep/DependencyParserApproach)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[DependencyParserApproach](/api/python/reference/autosummary/python/sparknlp/annotator/dependency/dependency_parser/index.html#sparknlp.annotator.dependency.dependency_parser.DependencyParserApproach)
+[DependencyParserApproach](/api/python/reference/autosummary/sparknlp/annotator/dependency/dependency_parser/index.html#sparknlp.annotator.dependency.dependency_parser.DependencyParserApproach)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}
