@@ -319,7 +319,7 @@ case class CoNLL(
       StructType(Seq(text, doc, sentence, token, pos, label))
   }
 
-  def coreTransformation(doc: CoNLLDocument) = {
+  private def coreTransformation(doc: CoNLLDocument) = {
     val text = doc.text
     val labels = packNerTagged(doc.nerTagged)
     val docs = packAssembly(text)
