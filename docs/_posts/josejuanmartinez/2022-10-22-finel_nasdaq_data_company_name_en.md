@@ -20,7 +20,7 @@ use_language_switcher: "Python-Scala-Java"
 
 This is a Financial Entity Resolver model, trained to obtain normalized versions of Company Names, registered in NASDAQ. You can use this model after extracting a company name using any NER, and you will obtain the official name of the company as per NASDAQ database.
 
-After this, you can use `finel_nasdaq_data_company_name` to augment and obtain more information about a company using NASDAQ datasource, including Ticker, Sector, Location, Currency, etc.
+After this, you can use `finmapper_nasdaq_data_company_name` to augment and obtain more information about a company using NASDAQ datasource, including Ticker, Sector, Location, Currency, etc.
 
 ## Predicted Entities
 
@@ -56,7 +56,7 @@ use_er_model = finance.SentenceEntityResolverModel.pretrained('finel_nasdaq_data
 
 prediction_Model = PipelineModel(stages=[documentAssembler, use, use_er_model])
 
-test_pred = prediction_Model.transform(testsdf).cache()
+test_pred = prediction_Model.transform(testsdf)
 ```
 
 </div>

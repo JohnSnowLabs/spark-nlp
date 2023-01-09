@@ -56,7 +56,7 @@ embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en")
         .setInputCols(["document", "token"]) \
         .setOutputCol("embeddings")
 
-ner_model = finance.NerModel.pretrained("finner_orgs_prods_alias", "en", "finance/models")\
+ner_model = legal.NerModel.pretrained("legner_orgs_prods_alias", "en", "legal/models")\
         .setInputCols(["document", "token", "embeddings"])\
         .setOutputCol("ner")
 
@@ -64,69 +64,49 @@ ner_converter = nlp.NerConverter()\
         .setInputCols(["document","token","ner"])\
         .setOutputCol("ner_chunk")
 
+# Optional: To normalize the ORG name using NASDAQ data before the mapping
+##########################################################################
 chunkToDoc = nlp.Chunk2Doc()\
         .setInputCols("ner_chunk")\
         .setOutputCol("ner_chunk_doc")
 
-sentence_embeddings = nlp.UniversalSentenceEncoder.pretrained("tfhub_use", "en") \
+chunk_embeddings = nlp.UniversalSentenceEncoder.pretrained("tfhub_use", "en") \
       .setInputCols("ner_chunk_doc") \
       .setOutputCol("sentence_embeddings")
     
-resolver = legal.SentenceEntityResolverModel.pretrained("finel_edgar_company_name", "en", "finance/models") \
+use_er_model = legal.SentenceEntityResolverModel.pretrained("legel_edgar_company_name", "en", "legal/models") \
       .setInputCols(["ner_chunk_doc", "sentence_embeddings"]) \
       .setOutputCol("normalized")\
       .setDistanceFunction("EUCLIDEAN")
+##########################################################################
 
+cm = legal.ChunkMapperModel()\
+      .pretrained("legmapper_edgar_companyname", "en", "legal/models")\
+      .setInputCols(["normalized"])\ # or ner_chunk for non normalized versions
+      .setOutputCol("mappings")
 
-nlpPipeline = Pipeline(stages=[
+nlpPipeline = nlp.Pipeline(stages=[
         documentAssembler,
         tokenizer,
         embeddings,
         ner_model,
         ner_converter,
         chunkToDoc,
-        sentence_embeddings,
-        resolver])
+        chunk_embeddings,
+        use_er_model,
+        cm
+])
 
-text = [""]
-test_data = spark.createDataFrame([text]).toDF("text")
+text = """NIKE Inc is an American multinational corporation that is engaged in the design, development, manufacturing, and worldwide marketing and sales of footwear, 
+apparel, equipment, accessories, and services"""
+
+test_data = spark.createDataFrame([[text]]).toDF("text")
+
 model = nlpPipeline.fit(test_data)
 
-lp = LightPipeline(model)
-res = lp.fullAnnotate("Jamestown Invest LLC is a direct-to-consumer platform for Commercial Real Estate Investments launched by a global real estate institution.")
+lp = nlp.LightPipeline(model)
 
-# This will return the first normalized record found, which is the most similar
-first_result = res[0]['normalized']['all_k_resolutions'].split(':::')[0] # Jamestown Invest 1, LLC
-
-
-documentAssembler = nlp.DocumentAssembler()\
-        .setInputCol("text")\
-        .setOutputCol("document")
-
-chunkAssembler = nlp.Doc2Chunk() \
-    .setInputCols("document") \
-    .setOutputCol("chunk") \
-    .setIsArray(False)
-
-CM = legal.ChunkMapperModel()\
-      .pretrained("finmapper_edgar_companyname", "en", "finance/models")\
-      .setInputCols(["chunk"])\
-      .setOutputCol("mappings")
-      
-cm_pipeline = Pipeline(stages=[documentAssembler, chunkAssembler, CM])
-fit_cm_pipeline = cm_pipeline.fit(test_data)
-
-df = spark.createDataFrame([[first_result]]).toDF("text")
-r = fit_cm_pipeline.transform(df).collect()
-
-import json
-
-json_dict = dict()
-json_dict['mappings'] = []
-for n in r[0]['mappings']:
-    json_dict['mappings'].append([str(n.annotatorType), n.begin, n.end, str(n.result), {k:v for k,v in n.metadata.items()}])
-print(json.dumps(json_dict))
-
+lp.annotate(text)
 ```
 
 </div>
