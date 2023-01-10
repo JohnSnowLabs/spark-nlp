@@ -6864,7 +6864,7 @@ code {
 
 .btn-box-install {
   margin: 0 -10px !important;
-  text-align: left !important; }
+  text-align: center !important; }
   .btn-box-install a {
     margin: 0 10px 10px; }
 
@@ -6872,7 +6872,7 @@ code {
   border-radius: 5px;
   background: #fff;
   border-color: #1E77B7;
-  min-width: 180px;
+  min-width: 170px;
   color: #1E77B7 !important; }
   .button.button-blue:hover, .button-blue.swiper__button:hover {
     border-color: #FF8A00;
@@ -6910,6 +6910,28 @@ code {
       margin: 0 !important; }
   .block-box.with_i {
     flex-direction: row !important; }
+
+.df {
+  display: flex;
+  align-items: center; }
+
+.alab-top-wrapper {
+  display: flex;
+  padding: 40px 20px;
+  justify-content: space-between; }
+  .alab-top-wrapper .block-box-inner {
+    width: 60%;
+    flex: 0 0 60%; }
+    .alab-top-wrapper .block-box-inner h2 {
+      text-align: left;
+      margin: 0 0 25px; }
+    .alab-top-wrapper .block-box-inner img,
+    .alab-top-wrapper .block-box-inner figure {
+      margin: 0; }
+  .alab-top-wrapper .alab-top-image {
+    justify-content: center;
+    width: 40%;
+    flex: 0 0 40%; }
 
 .list3 {
   list-style-type: none;
@@ -7090,7 +7112,7 @@ code {
 
 .docs-wrapper {
   margin: 0 auto;
-  width: 850px;
+  width: 910px;
   padding: 0 15px; }
   .docs-wrapper.border {
     border: 1px solid #E1F6FF;
@@ -7904,6 +7926,17 @@ code {
     width: 100%;
     margin: 0; }
 
+  .alab-top-wrapper {
+    flex-direction: column-reverse;
+    margin-bottom: 38px; }
+    .alab-top-wrapper .block-box-inner {
+      width: 100%;
+      flex: 0 0 100%; }
+      .alab-top-wrapper .block-box-inner h2 {
+        text-align: center; }
+    .alab-top-wrapper .alab-top-image {
+      margin-bottom: 45px; }
+
   .article__header {
     padding: 54px 15px 0; }
 
@@ -8261,6 +8294,13 @@ code {
     margin-right: 42px;
     width: 40px;
     height: 40px; }
+
+  .alab-top-wrapper .btn-flex {
+    flex-direction: column;
+    padding-bottom: 0; }
+    .alab-top-wrapper .btn-flex a {
+      width: 100%;
+      margin: 0 0 25px; }
 
   .breadcrambs {
     flex-wrap: wrap; }
