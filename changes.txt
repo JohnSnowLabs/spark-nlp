@@ -1,2 +1,2 @@
-docs/_posts/josejuanmartinez/2022-12-01-legner_warranty_md_en.md
-docs/_posts/josejuanmartinez/2022-12-01-legner_warranty_md_en.md
+docs/_posts/josejuanmartinez/2022-12-01-legner_termination_md_en.md
+docs/_posts/josejuanmartinez/2022-12-01-legner_termination_md_en.md
