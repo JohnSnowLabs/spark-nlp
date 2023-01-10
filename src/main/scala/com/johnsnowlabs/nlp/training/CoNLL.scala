@@ -326,13 +326,13 @@ case class CoNLL(
     val sentences = packSentence(text, doc.nerTagged)
     val tokenized = packTokenized(text, doc.nerTagged)
     val posTagged = packPosTagged(doc.posTagged)
-    (text, labels, docs, sentences, tokenized, posTagged)
+    (text, docs, sentences, tokenized, posTagged, labels)
   }
 
   private def coreTransformationWithDocId(doc: CoNLLDocument) = {
       val docId = removeSurroundingHyphens(doc.docId.getOrElse("X"))
       val (text, labels, docs, sentences, tokenized, posTagged) = coreTransformation(doc)
-      (docId, text, labels, docs, sentences, tokenized, posTagged)
+      (docId, text, docs, sentences, tokenized, posTagged, labels)
   }
 
   def packDocs(docs: Seq[CoNLLDocument], spark: SparkSession): Dataset[_] = {
