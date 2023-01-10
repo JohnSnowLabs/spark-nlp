@@ -26,7 +26,7 @@ This is a Form Recognition / Key Value extraction model, trained on the summary 
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings_JSL/Finance/90.2.Financial_Visual_NER.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/ocr/visualner_keyvalue_10kfilings_en_4.0.0_3.2_1663781115795.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
@@ -35,6 +35,7 @@ This is a Form Recognition / Key Value extraction model, trained on the summary 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 binary_to_image = BinaryToImage()\
     .setOutputCol("image") \
@@ -95,7 +96,13 @@ results.withColumn('filename', path_array.getItem(f.size(path_array)- 1)) \
 
 </div>
 
-## Results
+## Example
+
+### Input:
+![Screenshot](../../_examples_ocr/image11.jpg)
+
+### Output:
+![Screenshot](../../_examples_ocr/image11_out.png)
 
 ```bash
 +--------+---------------------------------------------------------------------------------------------------------------------------------------------------------+
