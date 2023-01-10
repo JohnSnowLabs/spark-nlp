@@ -1,2 +1,2 @@
-docs/_posts/josejuanmartinez/2022-12-01-legner_contract_doc_parties_md_en.md
-docs/_posts/josejuanmartinez/2022-12-01-legner_contract_doc_parties_md_en.md
+docs/_posts/josejuanmartinez/2022-12-01-legner_indemnifications_md_en.md
+docs/_posts/josejuanmartinez/2022-12-01-legner_indemnifications_md_en.md
