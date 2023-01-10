@@ -1,14 +1,2 @@
-docs/_data/navigation.yml
-docs/_layouts/nlp_products.html
-docs/_sass/custom.scss
-docs/assets/images/annotation_lab/flower_22.png
-docs/docs.md
-docs/en/alab/install.md
-docs/en/alab/quickstart.md
-docs/_data/navigation.yml
-docs/_layouts/nlp_products.html
-docs/_sass/custom.scss
-docs/assets/images/annotation_lab/flower_22.png
-docs/docs.md
-docs/en/alab/install.md
-docs/en/alab/quickstart.md
+docs/_posts/josejuanmartinez/2022-12-01-legner_warranty_md_en.md
+docs/_posts/josejuanmartinez/2022-12-01-legner_warranty_md_en.md
