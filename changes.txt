@@ -1,2 +1,2 @@
-docs/_posts/josejuanmartinez/2022-12-01-legner_whereas_md_en.md
-docs/_posts/josejuanmartinez/2022-12-01-legner_whereas_md_en.md
+docs/_posts/bunyamin-polat/2022-10-25-legner_indian_court_judgement_en.md
+docs/_posts/bunyamin-polat/2022-10-25-legner_indian_court_judgement_en.md
