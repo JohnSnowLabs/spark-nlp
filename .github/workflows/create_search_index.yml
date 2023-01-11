@@ -18,15 +18,31 @@ jobs:
           ruby-version: 2.7
           working-directory: docs
           bundler-cache: true
-      - name: Index changed posts
+      - name: Download artifacts
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          workflow: create_search_index.yml
+          workflow_conclusion: success
+          name: jekyll-build
+          path: ./docs
+          if_no_artifact_found: ignore
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+      - name: Incremental build
         env:
           ELASTICSEARCH_URL: ${{ secrets.ELASTICSEARCH_URL }}
           ELASTICSEARCH_ACCESS_TOKEN: ${{ secrets.ELASTICSEARCH_ACCESS_TOKEN }}
         working-directory: docs
         run: |
-          git diff --name-only ${{github.event.before}}..${{github.event.after}} > changes.txt
-          git diff --name-only ${{github.event.after}}..${{github.event.before}} >> changes.txt
-          bundle exec jekyll build
+          bundle exec jekyll build -I
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: jekyll-build
+          path: |
+            ./docs/.jekyll-metadata
+            ./docs/_site/
       - uses: actions/setup-node@v2
         with:
           node-version: 14
