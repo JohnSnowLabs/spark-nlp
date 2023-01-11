@@ -340,7 +340,7 @@ case class CoNLL(
       spark.createDataFrame(docs.map(coreTransformationWithDocId))
     } else {
       spark.createDataFrame(docs.map(coreTransformation))
-    }.toDF(schema.map(_.name): _*)
+    }
     spark.createDataFrame(preDf.rdd, schema)
   }
 
@@ -363,7 +363,7 @@ case class CoNLL(
         spark.createDataFrame(rdd.map(coreTransformationWithDocId))
       } else {
         spark.createDataFrame(rdd.map(coreTransformation))
-      }.toDF(schema.map(_.name): _*)
+      }
       spark.createDataFrame(preDf.rdd, schema)
     } else {
       val er = ExternalResource(path, readAs, Map("format" -> "text"))
