@@ -25,17 +25,23 @@ jobs:
           workflow: create_search_index.yml
           workflow_conclusion: success
           name: jekyll-build
-          path: ./docs
           if_no_artifact_found: ignore
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
+      - name: Extract artifacts and prepare incremental build
+        working-directory: docs
+        run: |
+          7z x jekyll-content.zip -o_site
+          rm jekyll-content.zip
+          mv _site/.jekyll-metadata ./
+          mv _site/models.json ./
+          mv _site/benchmarking.json ./
+          mv _site/references.json ./
       - name: Incremental build
         env:
           ELASTICSEARCH_URL: ${{ secrets.ELASTICSEARCH_URL }}
           ELASTICSEARCH_ACCESS_TOKEN: ${{ secrets.ELASTICSEARCH_ACCESS_TOKEN }}
         working-directory: docs
         run: |
-          bundle exec jekyll build -I
+          bundle exec jekyll build --incremental
       - uses: actions/setup-node@v2
         with:
           node-version: 14
