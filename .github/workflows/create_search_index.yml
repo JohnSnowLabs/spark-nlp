@@ -55,7 +55,7 @@ jobs:
       - name: Zip contents for artifacts
         uses: vimtor/action-zip@v1
         with:
-          files: ./docs/_site/ .docs/.jekyll-metadata
+          files: ./docs/_site/ ./docs/.jekyll-metadata
           dest: jekyll-content.zip
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
