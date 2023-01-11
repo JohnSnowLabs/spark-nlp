@@ -331,7 +331,7 @@ case class CoNLL(
 
   private def coreTransformationWithDocId(doc: CoNLLDocument) = {
       val docId = removeSurroundingHyphens(doc.docId.getOrElse("X"))
-      val (text, labels, docs, sentences, tokenized, posTagged) = coreTransformation(doc)
+      val (text, docs, sentences, tokenized, posTagged, labels) = coreTransformation(doc)
       (docId, text, docs, sentences, tokenized, posTagged, labels)
   }
 
