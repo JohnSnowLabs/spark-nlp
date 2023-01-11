@@ -34,6 +34,7 @@ This model extracts mentions of treatments and posology information using unspec
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\
@@ -58,7 +59,7 @@ ner = MedicalNerModel\
     .setInputCols(["sentence", "token", "embeddings"]) \
     .setOutputCol("ner")
 
-ner_converter = NerConverter() \
+ner_converter = NerConverterInternal() \
     .setInputCols(["sentence", "token", "ner"]) \
     .setOutputCol("ner_chunk")
         
@@ -96,7 +97,7 @@ val ner = MedicalNerModel.pretrained("ner_oncology_unspecific_posology_healthcar
     .setInputCols(Array("sentence", "token", "embeddings"))
     .setOutputCol("ner")
     
-val ner_converter = new NerConverter()
+val ner_converter = new NerConverterInternal()
     .setInputCols(Array("sentence", "token", "ner"))
     .setOutputCol("ner_chunk")
         
