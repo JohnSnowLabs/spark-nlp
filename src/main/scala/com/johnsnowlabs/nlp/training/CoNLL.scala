@@ -143,8 +143,8 @@ case class CoNLLDocument(
   * @param delimiter
   *   Delimiter used to separate columns inside CoNLL file
   * @param includeDocId
-  *   Whether to try and parse the document id from the third item in the -DOCSTART- line (X if not
-  *   found)
+  *   Whether to try and parse the document id from the third item in the -DOCSTART- line (X if
+  *   not found)
   */
 case class CoNLL(
     documentCol: String = "document",
@@ -330,18 +330,18 @@ case class CoNLL(
   }
 
   private def coreTransformationWithDocId(doc: CoNLLDocument) = {
-      val docId = removeSurroundingHyphens(doc.docId.getOrElse("X"))
-      val (text, docs, sentences, tokenized, posTagged, labels) = coreTransformation(doc)
-      (docId, text, docs, sentences, tokenized, posTagged, labels)
+    val docId = removeSurroundingHyphens(doc.docId.getOrElse("X"))
+    val (text, docs, sentences, tokenized, posTagged, labels) = coreTransformation(doc)
+    (docId, text, docs, sentences, tokenized, posTagged, labels)
   }
 
   def packDocs(docs: Seq[CoNLLDocument], spark: SparkSession): Dataset[_] = {
-    import spark.implicits._
-    if(includeDocId) {
-      spark.createDataFrame(docs.map(coreTransformationWithDocId).toDF.rdd, schema)
+    val preDf = if (includeDocId) {
+      spark.createDataFrame(docs.map(coreTransformationWithDocId))
     } else {
-      spark.createDataFrame(docs.map(coreTransformation).toDF.rdd, schema)
-    }
+      spark.createDataFrame(docs.map(coreTransformation))
+    }.toDF(schema.map(_.name): _*)
+    spark.createDataFrame(preDf.rdd, schema)
   }
 
   def readDataset(
@@ -355,15 +355,16 @@ case class CoNLL(
         .wholeTextFiles(path, minPartitions = parallelism)
         .flatMap { case (_, content) =>
           val lines = content.split(System.lineSeparator)
-            readLines(lines)
+          readLines(lines)
         }
         .persist(storageLevel)
 
-      import spark.implicits._
-      if (includeDocId) {
-        spark.createDataFrame(rdd.map(coreTransformationWithDocId).toDF.rdd, schema)
-      } else
-        spark.createDataFrame(rdd.map(coreTransformation).toDF.rdd, schema)
+      val preDf = if (includeDocId) {
+        spark.createDataFrame(rdd.map(coreTransformationWithDocId))
+      } else {
+        spark.createDataFrame(rdd.map(coreTransformation))
+      }.toDF(schema.map(_.name): _*)
+      spark.createDataFrame(preDf.rdd, schema)
     } else {
       val er = ExternalResource(path, readAs, Map("format" -> "text"))
       packDocs(readDocs(er), spark)

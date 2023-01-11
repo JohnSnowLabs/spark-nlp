@@ -6,7 +6,7 @@ import org.apache.spark.sql.Dataset
 import org.apache.spark.sql.types.StructField
 import org.scalatest.flatspec.AnyFlatSpec
 
-class CoNLLTestSpec  extends AnyFlatSpec {
+class CoNLLTestSpec extends AnyFlatSpec {
 
   private val expectedColumnNames: Seq[String] = Seq("document", "sentence", "token", "pos", "label")
   private val expectedAnnotatorTypes: Seq[String] = Seq("document", "document", "token", "pos", "named_entity")
@@ -34,8 +34,7 @@ class CoNLLTestSpec  extends AnyFlatSpec {
   }
 
   "CoNLL" should "read a CoNLL with ids and have the columns in the right order" taggedAs FastTest in {
-    val trainingData = CoNLL(includeDocId = true).readDataset(
-      ResourceHelper.spark, "src/test/resources/conll/test_conll_docid.txt")
+    val trainingData = CoNLL(includeDocId = true).readDataset(ResourceHelper.spark, "src/test/resources/conll/test_conll_docid.txt")
     val expectedDocIds = Seq("O", "1", "2", "3-1", "3-2")
     assertNamesAndTypes(trainingData.schema.tail.tail)
     assertDocIds(trainingData, expectedDocIds)
