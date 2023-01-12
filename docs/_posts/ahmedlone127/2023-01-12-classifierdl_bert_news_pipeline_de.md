@@ -26,7 +26,7 @@ This pre-trained pipeline classifies German texts of news.
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/public/CLASSIFICATION_DE_NEWS/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_DE_NEWS.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/classifierdl_bert_news_pipeline_de_4.3.0_3.0_1673540127129.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/classifierdl_bert_news_pipeline_de_4.3.0_3.0_1673540289862.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
