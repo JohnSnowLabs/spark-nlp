@@ -50,8 +50,9 @@ jobs:
         uses: mxschmitt/action-tmate@v3
       - name: Full build
         if: ${{ failure() && steps.incremental-build.outputs.require_full_build == 'true' }}
-        ELASTICSEARCH_URL: ${{ secrets.ELASTICSEARCH_URL }}
-        ELASTICSEARCH_ACCESS_TOKEN: ${{ secrets.ELASTICSEARCH_ACCESS_TOKEN }}
+        env:
+          ELASTICSEARCH_URL: ${{ secrets.ELASTICSEARCH_URL }}
+          ELASTICSEARCH_ACCESS_TOKEN: ${{ secrets.ELASTICSEARCH_ACCESS_TOKEN }}
         working-directory: docs
         run: |
           rm .jekyll-metadata
