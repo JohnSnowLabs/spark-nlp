@@ -30,12 +30,15 @@ jobs:
       - name: Extract artifacts and prepare incremental build
         working-directory: docs
         run: |
-          7z x -o_site/ jekyll-content.zip
-          rm jekyll-content.zip
-          mv _site/.jekyll-metadata ./
-          mv _site/models.orig.json ./
-          mv _site/benchmarking.orig.json ./
-          mv _site/references.orig.json ./
+          FILE=jekyl-content.zip
+          if test -f "$FILE"; then
+            7z x -o_site/ jekyll-content.zip
+            rm jekyll-content.zip
+            mv _site/.jekyll-metadata ./
+            mv _site/models.orig.json ./
+            mv _site/benchmarking.orig.json ./
+            mv _site/references.orig.json ./
+          fi
       - name: Incremental build
         env:
           ELASTICSEARCH_URL: ${{ secrets.ELASTICSEARCH_URL }}
