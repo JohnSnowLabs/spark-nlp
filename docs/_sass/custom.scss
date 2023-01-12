@@ -2149,7 +2149,7 @@ code {
 
 .btn-box-install {
 	margin: 0 -10px !important;
-	text-align: left !important;
+	text-align: center !important;
 	a {
 		margin: 0 10px 10px;
 	}
@@ -2160,7 +2160,7 @@ code {
 		border-radius: 5px;
 		background: #fff;
 		border-color: $color-blue;
-		min-width: 180px;
+		min-width: 170px;
 		color:  $color-blue !important;
 		&:hover {
 			border-color: $color-orange;
@@ -2212,6 +2212,33 @@ code {
 	}
 }
 
+.df {
+	display: flex;
+	align-items: center;
+}
+
+.alab-top-wrapper {
+	display: flex;
+	padding: 40px 20px;
+	justify-content: space-between;
+	.block-box-inner {
+		h2 {
+			text-align: left;
+			margin: 0 0 25px;
+		}
+		width: 60%;
+		flex: 0 0 60%;
+		img,
+		figure {
+			margin: 0;			
+		}
+	}	
+	.alab-top-image {
+		justify-content: center;
+		width: 40%;
+		flex: 0 0 40%;
+	}
+}
 
 
 .list3 {
@@ -2433,7 +2460,7 @@ code {
 
 .docs-wrapper {
 	margin: 0 auto;
-	width: 850px;
+	width: 910px;
 	padding: 0 15px;
 	&.border {
 		border: 1px solid #E1F6FF;
@@ -3456,6 +3483,20 @@ code {
 		width: 100%;
 		margin: 0;
 	}
+	.alab-top-wrapper {
+		flex-direction: column-reverse;
+		margin-bottom: 38px;
+		.block-box-inner {
+			width: 100%;
+			flex: 0 0 100%;
+			h2 {
+				text-align: center;
+			}
+		}
+		.alab-top-image {
+			margin-bottom: 45px;
+		}
+	}
 	.article__header {
 		padding: 54px 15px 0;
 	}
@@ -3851,6 +3892,16 @@ code {
 		margin-right: 42px;
 		width: 40px;
 		height: 40px;
+	}
+	.alab-top-wrapper {
+		.btn-flex {
+			flex-direction: column;
+			padding-bottom: 0;
+			a {
+				width: 100%;
+				margin: 0 0 25px;
+			}
+		}
 	}
 	.breadcrambs {
 		flex-wrap: wrap;

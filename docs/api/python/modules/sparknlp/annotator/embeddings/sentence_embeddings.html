@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.embeddings.sentence_embeddings &#8212; Spark NLP 4.2.6 documentation</title>
+    <title>sparknlp.annotator.embeddings.sentence_embeddings &#8212; Spark NLP 4.2.7 documentation</title>
   
   
   
@@ -314,7 +314,7 @@
 
 
 <div class="viewcode-block" id="SentenceEmbeddings"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/sentence_embeddings/index.html#sparknlp.annotator.embeddings.sentence_embeddings.SentenceEmbeddings">[docs]</a><span class="k">class</span> <span class="nc">SentenceEmbeddings</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">HasEmbeddingsProperties</span><span class="p">,</span> <span class="n">HasStorageRef</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Converts the results from WordEmbeddings, BertEmbeddings, or other word</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts the results from WordEmbeddings, BertEmbeddings, or other word</span>
 <span class="sd">    embeddings into sentence or document embeddings by either summing up or</span>
 <span class="sd">    averaging all the word embeddings in a sentence or a document (depending on</span>
 <span class="sd">    the inputCols).</span>
@@ -408,7 +408,7 @@
                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
 
 <div class="viewcode-block" id="SentenceEmbeddings.setPoolingStrategy"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/sentence_embeddings/index.html#sparknlp.annotator.embeddings.sentence_embeddings.SentenceEmbeddings.setPoolingStrategy">[docs]</a>    <span class="k">def</span> <span class="nf">setPoolingStrategy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">strategy</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets how to aggregate the word Embeddings to sentence embeddings, by</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets how to aggregate the word Embeddings to sentence embeddings, by</span>
 <span class="sd">        default AVERAGE.</span>
 
 <span class="sd">        Can either be AVERAGE or SUM.</span>

@@ -1,4 +1,20 @@
 ========
+4.2.7
+========
+----------------
+Bug Fixes & Enhancements
+----------------
+* Fix `outputAnnotatorType` issue in pipelines with `Finisher` annotator. This change adds `outputAnnotatorType` to `AnnotatorTransformer` to avoid loading `outputAnnotatorType` attribute when a stage in pipeline does not use it.
+* Fix the wrong sentence index calculation in metadata by annotators in the pipeline when `setExplodeSentences` param was set to `true` in SentenceDetector annotator
+* Fix the issue in `Tokenizer` when a custom pattern is used with `lookahead/-behinds` and it has `0 width` matches. This led to indexes not being calculated correctly
+* Fix missing to output embeddings in `.fullAnnotate()` method when `parseEmbeddings` param was set to `True/true`
+* Fix broken links to the Python API pages, as the generation of the PyDocs was slightly changed in a previous release. This makes the Python APIs accessible from the Annotators and Transformers pages like before
+* Change default values of `explodeEntities` and `mergeEntities` parameters to `true`
+* Better error handling when there are empty paths/relations in `GraphExctraction`annotator. New message will better guide the user on how to configure `GraphExtraction` to output meaningful relationships
+* Removed the duplicated definition of method `setWeightedDistPath` from `ContextSpellCheckerApproach`
+
+
+========
 4.2.6
 ========
 ----------------

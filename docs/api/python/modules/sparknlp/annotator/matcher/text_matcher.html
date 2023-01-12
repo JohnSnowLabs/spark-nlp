@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.matcher.text_matcher &#8212; Spark NLP 4.2.6 documentation</title>
+    <title>sparknlp.annotator.matcher.text_matcher &#8212; Spark NLP 4.2.7 documentation</title>
   
   
   
@@ -315,7 +315,7 @@
 
 
 <div class="viewcode-block" id="TextMatcher"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/text_matcher/index.html#sparknlp.annotator.matcher.text_matcher.TextMatcher">[docs]</a><span class="k">class</span> <span class="nc">TextMatcher</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Annotator to match exact phrases (by token) provided in a file against a</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Annotator to match exact phrases (by token) provided in a file against a</span>
 <span class="sd">    Document.</span>
 
 <span class="sd">    A text file of predefined phrases must be provided with</span>
@@ -427,7 +427,7 @@
         <span class="k">return</span> <span class="n">TextMatcherModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span>
 
 <div class="viewcode-block" id="TextMatcher.setEntities"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/text_matcher/index.html#sparknlp.annotator.matcher.text_matcher.TextMatcher.setEntities">[docs]</a>    <span class="k">def</span> <span class="nf">setEntities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">TEXT</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">}):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the external resource for the entities.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the external resource for the entities.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -441,7 +441,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">entities</span><span class="o">=</span><span class="n">ExternalResource</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">copy</span><span class="p">()))</span></div>
 
 <div class="viewcode-block" id="TextMatcher.setCaseSensitive"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/text_matcher/index.html#sparknlp.annotator.matcher.text_matcher.TextMatcher.setCaseSensitive">[docs]</a>    <span class="k">def</span> <span class="nf">setCaseSensitive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to match regardless of case, by default True.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to match regardless of case, by default True.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -451,7 +451,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">caseSensitive</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TextMatcher.setMergeOverlapping"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/text_matcher/index.html#sparknlp.annotator.matcher.text_matcher.TextMatcher.setMergeOverlapping">[docs]</a>    <span class="k">def</span> <span class="nf">setMergeOverlapping</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to merge overlapping matched chunks, by default False.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to merge overlapping matched chunks, by default False.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -461,7 +461,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">mergeOverlapping</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TextMatcher.setEntityValue"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/text_matcher/index.html#sparknlp.annotator.matcher.text_matcher.TextMatcher.setEntityValue">[docs]</a>    <span class="k">def</span> <span class="nf">setEntityValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets value for the entity metadata field.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets value for the entity metadata field.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -471,7 +471,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">entityValue</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TextMatcher.setBuildFromTokens"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/text_matcher/index.html#sparknlp.annotator.matcher.text_matcher.TextMatcher.setBuildFromTokens">[docs]</a>    <span class="k">def</span> <span class="nf">setBuildFromTokens</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether the TextMatcher should take the CHUNK from TOKEN or not.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether the TextMatcher should take the CHUNK from TOKEN or not.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -482,7 +482,7 @@
 
 
 <div class="viewcode-block" id="TextMatcherModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/text_matcher/index.html#sparknlp.annotator.matcher.text_matcher.TextMatcherModel">[docs]</a><span class="k">class</span> <span class="nc">TextMatcherModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Instantiated model of the TextMatcher.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Instantiated model of the TextMatcher.</span>
 
 <span class="sd">    This is the instantiated model of the :class:`.TextMatcher`. For training</span>
 <span class="sd">    your own model, please see the documentation of that class.</span>
@@ -535,7 +535,7 @@
         <span class="p">)</span>
 
 <div class="viewcode-block" id="TextMatcherModel.setMergeOverlapping"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/text_matcher/index.html#sparknlp.annotator.matcher.text_matcher.TextMatcherModel.setMergeOverlapping">[docs]</a>    <span class="k">def</span> <span class="nf">setMergeOverlapping</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to merge overlapping matched chunks, by default False.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to merge overlapping matched chunks, by default False.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -545,7 +545,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">mergeOverlapping</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TextMatcherModel.setEntityValue"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/text_matcher/index.html#sparknlp.annotator.matcher.text_matcher.TextMatcherModel.setEntityValue">[docs]</a>    <span class="k">def</span> <span class="nf">setEntityValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets value for the entity metadata field.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets value for the entity metadata field.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -555,7 +555,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">entityValue</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TextMatcherModel.setBuildFromTokens"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/text_matcher/index.html#sparknlp.annotator.matcher.text_matcher.TextMatcherModel.setBuildFromTokens">[docs]</a>    <span class="k">def</span> <span class="nf">setBuildFromTokens</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether the TextMatcher should take the CHUNK from TOKEN or not.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether the TextMatcher should take the CHUNK from TOKEN or not.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -566,7 +566,7 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="TextMatcherModel.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/text_matcher/index.html#sparknlp.annotator.matcher.text_matcher.TextMatcherModel.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

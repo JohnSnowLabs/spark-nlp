@@ -17,6 +17,8 @@ import unittest
 import pytest
 
 from pyspark.sql.functions import col
+
+from sparknlp.pretrained import PretrainedPipeline
 from test.util import SparkSessionForTest, SparkContextForTest
 
 from sparknlp.annotator import *
@@ -387,3 +389,20 @@ class LightPipelineWrongInputColsTest(unittest.TestCase):
 
         with self.assertRaises(TypeError):
             light_model.annotate(self.sample_text)
+
+
+@pytest.mark.slow
+class LightPipelineWithEmbeddings(unittest.TestCase):
+
+    def setUp(self):
+        self.pipeline = PretrainedPipeline('onto_recognize_entities_bert_tiny', lang='en')
+
+    def runTest(self):
+        light_pipeline = LightPipeline(self.pipeline.model, parse_embeddings=True)
+        result = light_pipeline.annotate("Hello from John Snow Labs ! ")
+
+        self.assertTrue(len(result["embeddings"]) > 0)
+
+        full_result = light_pipeline.fullAnnotate("Hello from John Snow Labs ! ")[0]
+        self.assertTrue(len(full_result["embeddings"]) > 0)
+

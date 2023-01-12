@@ -24,6 +24,7 @@ Please find technical documentation about how to install it [here](https://nlu.j
 | 1.2.0        | 4.2.1        |
 | 1.3.0        | 4.2.2        |
 | 1.4.0        | 4.2.3        |
+| 1.5.0        | 4.2.4        |
 
 Finance NLP is also supported in Annotation Lab from Alab 4.2.3 version on!
 
