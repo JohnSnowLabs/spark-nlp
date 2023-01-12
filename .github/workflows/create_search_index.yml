@@ -33,9 +33,9 @@ jobs:
           (7z x -o_site/ jekyll-content.zip 
           && rm jekyll-content.zip 
           && mv _site/.jekyll-metadata ./
-          && mv _site/models.orig.json ./
-          && mv _site/benchmarking.orig.json ./
-          && mv _site/references.orig.json ./)
+          && mv _site/backup-models.json ./
+          && mv _site/backup-benchmarking.json ./
+          && mv _site/backup-references.json ./)
           || true
       - name: Incremental build
         env:
@@ -66,9 +66,9 @@ jobs:
           files: >
             ./docs/_site/
             ./docs/.jekyll-metadata
-            ./docs/models.orig.json
-            ./docs/benchmarking.orig.json
-            ./docs/references.orig.json
+            ./docs/backup-models.json
+            ./docs/backup-benchmarking.json
+            ./docs/backup-references.json
           dest: jekyll-content.zip
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
