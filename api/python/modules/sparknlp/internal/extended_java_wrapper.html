@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.internal.extended_java_wrapper &#8212; Spark NLP 4.2.6 documentation</title>
+    <title>sparknlp.internal.extended_java_wrapper &#8212; Spark NLP 4.2.7 documentation</title>
   
   
   
@@ -334,7 +334,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_java_obj</span><span class="p">(</span><span class="n">java_class</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ExtendedJavaWrapper.new_java_array"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/internal/extended_java_wrapper/index.html#sparknlp.internal.extended_java_wrapper.ExtendedJavaWrapper.new_java_array">[docs]</a>    <span class="k">def</span> <span class="nf">new_java_array</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pylist</span><span class="p">,</span> <span class="n">java_class</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        ToDo: Inspired from spark 2.0. Review if spark changes</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">java_array</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sc</span><span class="o">.</span><span class="n">_gateway</span><span class="o">.</span><span class="n">new_array</span><span class="p">(</span><span class="n">java_class</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">pylist</span><span class="p">))</span>

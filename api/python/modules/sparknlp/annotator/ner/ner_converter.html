@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.ner.ner_converter &#8212; Spark NLP 4.2.6 documentation</title>
+    <title>sparknlp.annotator.ner.ner_converter &#8212; Spark NLP 4.2.7 documentation</title>
   
   
   
@@ -314,7 +314,7 @@
 
 
 <div class="viewcode-block" id="NerConverter"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_converter/index.html#sparknlp.annotator.ner.ner_converter.NerConverter">[docs]</a><span class="k">class</span> <span class="nc">NerConverter</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Converts a IOB or IOB2 representation of NER to a user-friendly one, by</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts a IOB or IOB2 representation of NER to a user-friendly one, by</span>
 <span class="sd">    associating the tokens of recognized entities and their label. Results in</span>
 <span class="sd">    ``CHUNK`` Annotation type.</span>
 
@@ -396,7 +396,7 @@
     <span class="p">)</span>
 
 <div class="viewcode-block" id="NerConverter.setWhiteList"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_converter/index.html#sparknlp.annotator.ner.ner_converter.NerConverter.setWhiteList">[docs]</a>    <span class="k">def</span> <span class="nf">setWhiteList</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entities</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets list of entities to process. The rest will be ignored.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets list of entities to process. The rest will be ignored.</span>
 
 <span class="sd">        Does not include IOB prefix on labels.</span>
 
@@ -409,7 +409,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">whiteList</span><span class="o">=</span><span class="n">entities</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="NerConverter.setPreservePosition"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_converter/index.html#sparknlp.annotator.ner.ner_converter.NerConverter.setPreservePosition">[docs]</a>    <span class="k">def</span> <span class="nf">setPreservePosition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Whether to preserve the original position of the tokens in the original document</span>
 <span class="sd">        or use the modified tokens, by default `True`.</span>
 

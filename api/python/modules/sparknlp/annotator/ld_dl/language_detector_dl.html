@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.ld_dl.language_detector_dl &#8212; Spark NLP 4.2.6 documentation</title>
+    <title>sparknlp.annotator.ld_dl.language_detector_dl &#8212; Spark NLP 4.2.7 documentation</title>
   
   
   
@@ -314,7 +314,7 @@
 
 
 <div class="viewcode-block" id="LanguageDetectorDL"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ld_dl/language_detector_dl/index.html#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL">[docs]</a><span class="k">class</span> <span class="nc">LanguageDetectorDL</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">HasStorageRef</span><span class="p">,</span> <span class="n">HasEngine</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Language Identification and Detection by using CNN and RNN architectures</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Language Identification and Detection by using CNN and RNN architectures</span>
 <span class="sd">    in TensorFlow.</span>
 
 <span class="sd">    ``LanguageDetectorDL`` is an annotator that detects the language of</span>
@@ -430,7 +430,7 @@
                       <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
 
 <div class="viewcode-block" id="LanguageDetectorDL.setConfigProtoBytes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ld_dl/language_detector_dl/index.html#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -440,7 +440,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">configProtoBytes</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="LanguageDetectorDL.setThreshold"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ld_dl/language_detector_dl/index.html#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.setThreshold">[docs]</a>    <span class="k">def</span> <span class="nf">setThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the minimum threshold for the final result otherwise it will be</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the minimum threshold for the final result otherwise it will be</span>
 <span class="sd">        either neutral or the value set in thresholdLabel, by default 0.5.</span>
 
 <span class="sd">        Parameters</span>
@@ -452,7 +452,7 @@
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="LanguageDetectorDL.setThresholdLabel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ld_dl/language_detector_dl/index.html#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.setThresholdLabel">[docs]</a>    <span class="k">def</span> <span class="nf">setThresholdLabel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets what should be the label in case the score is less than</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets what should be the label in case the score is less than</span>
 <span class="sd">        threshold, by default Unknown.</span>
 
 <span class="sd">        Parameters</span>
@@ -463,7 +463,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">thresholdLabel</span><span class="o">=</span><span class="n">p</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="LanguageDetectorDL.setCoalesceSentences"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ld_dl/language_detector_dl/index.html#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.setCoalesceSentences">[docs]</a>    <span class="k">def</span> <span class="nf">setCoalesceSentences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets if the output of all sentences will be averaged to one output</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets if the output of all sentences will be averaged to one output</span>
 <span class="sd">        instead of one output per sentence, by default True.</span>
 
 <span class="sd">        Parameters</span>
@@ -475,7 +475,7 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="LanguageDetectorDL.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ld_dl/language_detector_dl/index.html#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;ld_wiki_tatoeba_cnn_21&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;xx&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.matcher.big_text_matcher &#8212; Spark NLP 4.2.6 documentation</title>
+    <title>sparknlp.annotator.matcher.big_text_matcher &#8212; Spark NLP 4.2.7 documentation</title>
   
   
   
@@ -315,7 +315,7 @@
 
 
 <div class="viewcode-block" id="BigTextMatcher"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/big_text_matcher/index.html#sparknlp.annotator.matcher.big_text_matcher.BigTextMatcher">[docs]</a><span class="k">class</span> <span class="nc">BigTextMatcher</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">,</span> <span class="n">HasStorage</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Annotator to match exact phrases (by token) provided in a file against a</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Annotator to match exact phrases (by token) provided in a file against a</span>
 <span class="sd">    Document.</span>
 
 <span class="sd">    A text file of predefined phrases must be provided with ``setStoragePath``.</span>
@@ -413,7 +413,7 @@
         <span class="k">return</span> <span class="n">TextMatcherModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span>
 
 <div class="viewcode-block" id="BigTextMatcher.setEntities"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/big_text_matcher/index.html#sparknlp.annotator.matcher.big_text_matcher.BigTextMatcher.setEntities">[docs]</a>    <span class="k">def</span> <span class="nf">setEntities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">TEXT</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">}):</span>
-        <span class="sd">&quot;&quot;&quot;Sets ExternalResource for entities.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets ExternalResource for entities.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -427,7 +427,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">entities</span><span class="o">=</span><span class="n">ExternalResource</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">copy</span><span class="p">()))</span></div>
 
 <div class="viewcode-block" id="BigTextMatcher.setCaseSensitive"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/big_text_matcher/index.html#sparknlp.annotator.matcher.big_text_matcher.BigTextMatcher.setCaseSensitive">[docs]</a>    <span class="k">def</span> <span class="nf">setCaseSensitive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to ignore case in index lookups, by default True.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to ignore case in index lookups, by default True.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -437,7 +437,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">caseSensitive</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BigTextMatcher.setMergeOverlapping"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/big_text_matcher/index.html#sparknlp.annotator.matcher.big_text_matcher.BigTextMatcher.setMergeOverlapping">[docs]</a>    <span class="k">def</span> <span class="nf">setMergeOverlapping</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to merge overlapping matched chunks, by default False.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to merge overlapping matched chunks, by default False.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -448,7 +448,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">mergeOverlapping</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BigTextMatcher.setTokenizer"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/big_text_matcher/index.html#sparknlp.annotator.matcher.big_text_matcher.BigTextMatcher.setTokenizer">[docs]</a>    <span class="k">def</span> <span class="nf">setTokenizer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tokenizer_model</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets TokenizerModel to use to tokenize input file for building a</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets TokenizerModel to use to tokenize input file for building a</span>
 <span class="sd">        Trie.</span>
 
 <span class="sd">        Parameters</span>
@@ -462,7 +462,7 @@
 
 
 <div class="viewcode-block" id="BigTextMatcherModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/big_text_matcher/index.html#sparknlp.annotator.matcher.big_text_matcher.BigTextMatcherModel">[docs]</a><span class="k">class</span> <span class="nc">BigTextMatcherModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">HasStorageModel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Instantiated model of the BigTextMatcher.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Instantiated model of the BigTextMatcher.</span>
 
 <span class="sd">    This is the instantiated model of the :class:`.BigTextMatcher`.</span>
 <span class="sd">    For training your own model, please see the documentation of that class.</span>
@@ -511,7 +511,7 @@
         <span class="p">)</span>
 
 <div class="viewcode-block" id="BigTextMatcherModel.setMergeOverlapping"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/big_text_matcher/index.html#sparknlp.annotator.matcher.big_text_matcher.BigTextMatcherModel.setMergeOverlapping">[docs]</a>    <span class="k">def</span> <span class="nf">setMergeOverlapping</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to merge overlapping matched chunks, by default False.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to merge overlapping matched chunks, by default False.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -521,7 +521,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">mergeOverlapping</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BigTextMatcherModel.setCaseSensitive"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/big_text_matcher/index.html#sparknlp.annotator.matcher.big_text_matcher.BigTextMatcherModel.setCaseSensitive">[docs]</a>    <span class="k">def</span> <span class="nf">setCaseSensitive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to ignore case in index lookups.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to ignore case in index lookups.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -532,7 +532,7 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="BigTextMatcherModel.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/big_text_matcher/index.html#sparknlp.annotator.matcher.big_text_matcher.BigTextMatcherModel.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -554,7 +554,7 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="BigTextMatcherModel.loadStorage"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/big_text_matcher/index.html#sparknlp.annotator.matcher.big_text_matcher.BigTextMatcherModel.loadStorage">[docs]</a>    <span class="k">def</span> <span class="nf">loadStorage</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">spark</span><span class="p">,</span> <span class="n">storage_ref</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Loads the model from storage.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads the model from storage.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

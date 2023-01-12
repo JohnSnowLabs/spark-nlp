@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.base.table_assembler &#8212; Spark NLP 4.2.6 documentation</title>
+    <title>sparknlp.base.table_assembler &#8212; Spark NLP 4.2.7 documentation</title>
   
   
   
@@ -313,7 +313,7 @@
 
 
 <div class="viewcode-block" id="TableAssembler"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/table_assembler/index.html#sparknlp.base.table_assembler.TableAssembler">[docs]</a><span class="k">class</span> <span class="nc">TableAssembler</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;This transformer parses text into tabular representation. The input consists of DOCUMENT annotations and the</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This transformer parses text into tabular representation. The input consists of DOCUMENT annotations and the</span>
 <span class="sd">    output are TABLE annotations. The source format can be either JSON or CSV. The CSV format support alternative</span>
 <span class="sd">    delimiters (e.g. tab), as well as escaping delimiters by surrounding cell values with double quotes.</span>
 
@@ -400,7 +400,7 @@
         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
 
 <div class="viewcode-block" id="TableAssembler.setInputFormat"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/table_assembler/index.html#sparknlp.base.table_assembler.TableAssembler.setInputFormat">[docs]</a>    <span class="k">def</span> <span class="nf">setInputFormat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the table input format. The following formats are currently supported: json, csv.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the table input format. The following formats are currently supported: json, csv.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -410,7 +410,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inputFormat</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TableAssembler.setCsvDelimiter"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/table_assembler/index.html#sparknlp.base.table_assembler.TableAssembler.setCsvDelimiter">[docs]</a>    <span class="k">def</span> <span class="nf">setCsvDelimiter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the CSV delimiter.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the CSV delimiter.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -420,7 +420,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">csvDelimiter</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TableAssembler.setEscapeCsvDelimiter"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/table_assembler/index.html#sparknlp.base.table_assembler.TableAssembler.setEscapeCsvDelimiter">[docs]</a>    <span class="k">def</span> <span class="nf">setEscapeCsvDelimiter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Escape Csv delimiter by surrounding values with double quotes</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Escape Csv delimiter by surrounding values with double quotes</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

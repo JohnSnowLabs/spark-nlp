@@ -117,11 +117,11 @@ result.select("text", "sentiment.result").show(false)
 {%- endcapture -%}
 
 {%- capture model_api_link -%}
-[SentimentDLModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/SentimentDLModel)
+[SentimentDLModel](/api/com/johnsnowlabs/nlp/annotators/classifier/dl/SentimentDLModel)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[SentimentDLModel](/api/python/reference/autosummary/python/sparknlp/annotator/sentiment/sentiment_dl/index.html#sparknlp.annotator.sentiment.sentiment_dl.SentimentDLModel)
+[SentimentDLModel](/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/sentiment_dl/index.html#sparknlp.annotator.classifier_dl.sentiment_dl.SentimentDLModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -279,11 +279,11 @@ val pipelineModel = pipeline.fit(smallCorpus)
 {%- endcapture -%}
 
 {%- capture approach_api_link -%}
-[SentimentDLApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/SentimentDLApproach)
+[SentimentDLApproach](/api/com/johnsnowlabs/nlp/annotators/classifier/dl/SentimentDLApproach)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[SentimentDLApproach](/api/python/reference/autosummary/python/sparknlp/annotator/sentiment/sentiment_dl/index.html#sparknlp.annotator.sentiment.sentiment_dl.SentimentDLApproach)
+[SentimentDLApproach](/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/sentiment_dl/index.html#sparknlp.annotator.classifier_dl.sentiment_dl.SentimentDLApproach)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

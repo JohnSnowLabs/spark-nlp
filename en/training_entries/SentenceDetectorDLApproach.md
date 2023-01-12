@@ -96,11 +96,11 @@ val model = pipeline.fit(trainingData)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[SentenceDetectorDLApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLApproach)
+[SentenceDetectorDLApproach](/api/com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLApproach)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[SentenceDetectorDLApproach](/api/python/reference/autosummary/python/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach)
+[SentenceDetectorDLApproach](/api/python/reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach)
 {%- endcapture -%}
 
 {%- capture source_link -%}

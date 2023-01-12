@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.token.recursive_tokenizer &#8212; Spark NLP 4.2.6 documentation</title>
+    <title>sparknlp.annotator.token.recursive_tokenizer &#8212; Spark NLP 4.2.7 documentation</title>
   
   
   
@@ -314,7 +314,7 @@
 
 
 <div class="viewcode-block" id="RecursiveTokenizer"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/recursive_tokenizer/index.html#sparknlp.annotator.token.recursive_tokenizer.RecursiveTokenizer">[docs]</a><span class="k">class</span> <span class="nc">RecursiveTokenizer</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Tokenizes raw text recursively based on a handful of definable rules.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tokenizes raw text recursively based on a handful of definable rules.</span>
 
 <span class="sd">    Unlike the Tokenizer, the RecursiveTokenizer operates based on these array</span>
 <span class="sd">    string parameters only:</span>
@@ -404,7 +404,7 @@
                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
 
 <div class="viewcode-block" id="RecursiveTokenizer.setPrefixes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/recursive_tokenizer/index.html#sparknlp.annotator.token.recursive_tokenizer.RecursiveTokenizer.setPrefixes">[docs]</a>    <span class="k">def</span> <span class="nf">setPrefixes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets strings to be considered independent tokens when found at the</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets strings to be considered independent tokens when found at the</span>
 <span class="sd">        beginning of a word, by default [&quot;&#39;&quot;, &#39;&quot;&#39;, &#39;(&#39;, &#39;[&#39;, &#39;\\n&#39;].</span>
 
 <span class="sd">        Parameters</span>
@@ -416,7 +416,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">prefixes</span><span class="o">=</span><span class="n">p</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="RecursiveTokenizer.setSuffixes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/recursive_tokenizer/index.html#sparknlp.annotator.token.recursive_tokenizer.RecursiveTokenizer.setSuffixes">[docs]</a>    <span class="k">def</span> <span class="nf">setSuffixes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets strings to be considered independent tokens when found at the</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets strings to be considered independent tokens when found at the</span>
 <span class="sd">        end of a word, by default [&#39;.&#39;, &#39;:&#39;, &#39;%&#39;, &#39;,&#39;, &#39;;&#39;, &#39;?&#39;, &quot;&#39;&quot;, &#39;&quot;&#39;, &#39;)&#39;,</span>
 <span class="sd">        &#39;]&#39;, &#39;\\n&#39;, &#39;!&#39;, &quot;&#39;s&quot;].</span>
 
@@ -429,7 +429,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">suffixes</span><span class="o">=</span><span class="n">s</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="RecursiveTokenizer.setInfixes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/recursive_tokenizer/index.html#sparknlp.annotator.token.recursive_tokenizer.RecursiveTokenizer.setInfixes">[docs]</a>    <span class="k">def</span> <span class="nf">setInfixes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets strings to be considered independent tokens when found in the</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets strings to be considered independent tokens when found in the</span>
 <span class="sd">        middle of a word, by default [&#39;\\n&#39;, &#39;(&#39;, &#39;)&#39;].</span>
 
 <span class="sd">        Parameters</span>
@@ -446,7 +446,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">infixes</span><span class="o">=</span><span class="n">i</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="RecursiveTokenizer.setWhitelist"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/recursive_tokenizer/index.html#sparknlp.annotator.token.recursive_tokenizer.RecursiveTokenizer.setWhitelist">[docs]</a>    <span class="k">def</span> <span class="nf">setWhitelist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">w</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets strings to be considered as single tokens, by default [&quot;it\&#39;s&quot;,</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets strings to be considered as single tokens, by default [&quot;it\&#39;s&quot;,</span>
 <span class="sd">        &quot;that\&#39;s&quot;, &quot;there\&#39;s&quot;, &quot;he\&#39;s&quot;, &quot;she\&#39;s&quot;, &quot;what\&#39;s&quot;, &quot;let\&#39;s&quot;, &quot;who\&#39;s&quot;,</span>
 <span class="sd">        &quot;It\&#39;s&quot;, &quot;That\&#39;s&quot;, &quot;There\&#39;s&quot;, &quot;He\&#39;s&quot;, &quot;She\&#39;s&quot;, &quot;What\&#39;s&quot;, &quot;Let\&#39;s&quot;,</span>
 <span class="sd">        &quot;Who\&#39;s&quot;].</span>
@@ -474,7 +474,7 @@
 
 
 <div class="viewcode-block" id="RecursiveTokenizerModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/recursive_tokenizer/index.html#sparknlp.annotator.token.recursive_tokenizer.RecursiveTokenizerModel">[docs]</a><span class="k">class</span> <span class="nc">RecursiveTokenizerModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Instantiated model of the RecursiveTokenizer.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Instantiated model of the RecursiveTokenizer.</span>
 
 <span class="sd">    This is the instantiated model of the :class:`.RecursiveTokenizer`.</span>
 <span class="sd">    For training your own model, please see the documentation of that class.</span>

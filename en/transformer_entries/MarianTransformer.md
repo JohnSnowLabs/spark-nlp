@@ -134,11 +134,11 @@ result.selectExpr("explode(translation.result) as result").show(false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[MarianTransformer](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/seq2seq/MarianTransformer)
+[MarianTransformer](/api/com/johnsnowlabs/nlp/annotators/seq2seq/MarianTransformer)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[MarianTransformer](/api/python/reference/autosummary/python/sparknlp/annotator/seq2seq/marian_transformer/index.html#sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer)
+[MarianTransformer](/api/python/reference/autosummary/sparknlp/annotator/seq2seq/marian_transformer/index.html#sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer)
 {%- endcapture -%}
 
 {%- capture source_link -%}

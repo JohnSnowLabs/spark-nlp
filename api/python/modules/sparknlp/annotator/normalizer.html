@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.normalizer &#8212; Spark NLP 4.2.6 documentation</title>
+    <title>sparknlp.annotator.normalizer &#8212; Spark NLP 4.2.7 documentation</title>
   
   
   
@@ -313,7 +313,7 @@
 
 
 <div class="viewcode-block" id="Normalizer"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/normalizer/index.html#sparknlp.annotator.normalizer.Normalizer">[docs]</a><span class="k">class</span> <span class="nc">Normalizer</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Annotator that cleans out tokens. Requires stems, hence tokens. Removes</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Annotator that cleans out tokens. Requires stems, hence tokens. Removes</span>
 <span class="sd">    all dirty characters from text following a regex pattern and transforms</span>
 <span class="sd">    words based on a provided dictionary</span>
 
@@ -418,7 +418,7 @@
         <span class="p">)</span>
 
 <div class="viewcode-block" id="Normalizer.setCleanupPatterns"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/normalizer/index.html#sparknlp.annotator.normalizer.Normalizer.setCleanupPatterns">[docs]</a>    <span class="k">def</span> <span class="nf">setCleanupPatterns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets normalization regex patterns which match will be removed from</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets normalization regex patterns which match will be removed from</span>
 <span class="sd">        token, by default [&#39;[^\\pL+]&#39;].</span>
 
 <span class="sd">        Parameters</span>
@@ -429,7 +429,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">cleanupPatterns</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Normalizer.setLowercase"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/normalizer/index.html#sparknlp.annotator.normalizer.Normalizer.setLowercase">[docs]</a>    <span class="k">def</span> <span class="nf">setLowercase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to convert strings to lowercase, by default False.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to convert strings to lowercase, by default False.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -439,7 +439,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">lowercase</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Normalizer.setSlangDictionary"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/normalizer/index.html#sparknlp.annotator.normalizer.Normalizer.setSlangDictionary">[docs]</a>    <span class="k">def</span> <span class="nf">setSlangDictionary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">TEXT</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">}):</span>
-        <span class="sd">&quot;&quot;&quot;Sets slang dictionary is a delimited text. Needs &#39;delimiter&#39; in</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets slang dictionary is a delimited text. Needs &#39;delimiter&#39; in</span>
 <span class="sd">        options.</span>
 
 <span class="sd">        Parameters</span>
@@ -459,7 +459,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">slangDictionary</span><span class="o">=</span><span class="n">ExternalResource</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="p">,</span> <span class="n">opts</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="Normalizer.setMinLength"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/normalizer/index.html#sparknlp.annotator.normalizer.Normalizer.setMinLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMinLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the minimum allowed length for each token, by default 0.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the minimum allowed length for each token, by default 0.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -469,7 +469,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">minLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Normalizer.setMaxLength"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/normalizer/index.html#sparknlp.annotator.normalizer.Normalizer.setMaxLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the maximum allowed length for each token.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the maximum allowed length for each token.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -483,7 +483,7 @@
 
 
 <div class="viewcode-block" id="NormalizerModel"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/normalizer/index.html#sparknlp.annotator.normalizer.NormalizerModel">[docs]</a><span class="k">class</span> <span class="nc">NormalizerModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Instantiated Model of the Normalizer.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Instantiated Model of the Normalizer.</span>
 
 <span class="sd">    This is the instantiated model of the :class:`.Normalizer`.</span>
 <span class="sd">    For training your own model, please see the documentation of that class.</span>

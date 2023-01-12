@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.classifier_dl.classifier_dl &#8212; Spark NLP 4.2.6 documentation</title>
+    <title>sparknlp.annotator.classifier_dl.classifier_dl &#8212; Spark NLP 4.2.7 documentation</title>
   
   
   
@@ -316,7 +316,7 @@
 
 
 <div class="viewcode-block" id="ClassifierDLApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/classifier_dl/index.html#sparknlp.annotator.classifier_dl.classifier_dl.ClassifierDLApproach">[docs]</a><span class="k">class</span> <span class="nc">ClassifierDLApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">,</span> <span class="n">EvaluationDLParams</span><span class="p">,</span> <span class="n">ClassifierEncoder</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Trains a ClassifierDL for generic Multi-class Text Classification.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Trains a ClassifierDL for generic Multi-class Text Classification.</span>
 
 <span class="sd">    ClassifierDL uses the state-of-the-art Universal Sentence Encoder as an</span>
 <span class="sd">    input for text classifications.</span>
@@ -449,7 +449,7 @@
     <span class="n">dropout</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;dropout&quot;</span><span class="p">,</span> <span class="s2">&quot;Dropout coefficient&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ClassifierDLApproach.setDropout"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/classifier_dl/index.html#sparknlp.annotator.classifier_dl.classifier_dl.ClassifierDLApproach.setDropout">[docs]</a>    <span class="k">def</span> <span class="nf">setDropout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets dropout coefficient, by default 0.5</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets dropout coefficient, by default 0.5</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -477,7 +477,7 @@
 
 
 <div class="viewcode-block" id="ClassifierDLModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/classifier_dl/index.html#sparknlp.annotator.classifier_dl.classifier_dl.ClassifierDLModel">[docs]</a><span class="k">class</span> <span class="nc">ClassifierDLModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">HasStorageRef</span><span class="p">,</span> <span class="n">HasEngine</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;ClassifierDL for generic Multi-class Text Classification.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;ClassifierDL for generic Multi-class Text Classification.</span>
 
 <span class="sd">    ClassifierDL uses the state-of-the-art Universal Sentence Encoder as an</span>
 <span class="sd">    input for text classifications. The ClassifierDL annotator uses a deep</span>
@@ -585,7 +585,7 @@
                     <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ClassifierDLModel.setConfigProtoBytes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/classifier_dl/index.html#sparknlp.annotator.classifier_dl.classifier_dl.ClassifierDLModel.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -596,7 +596,7 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="ClassifierDLModel.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/classifier_dl/index.html#sparknlp.annotator.classifier_dl.classifier_dl.ClassifierDLModel.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;classifierdl_use_trec6&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

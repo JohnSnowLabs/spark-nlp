@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.matcher.regex_matcher &#8212; Spark NLP 4.2.6 documentation</title>
+    <title>sparknlp.annotator.matcher.regex_matcher &#8212; Spark NLP 4.2.7 documentation</title>
   
   
   
@@ -314,7 +314,7 @@
 
 
 <div class="viewcode-block" id="RegexMatcher"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/regex_matcher/index.html#sparknlp.annotator.matcher.regex_matcher.RegexMatcher">[docs]</a><span class="k">class</span> <span class="nc">RegexMatcher</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Uses rules to match a set of regular expressions and associate them with a</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Uses rules to match a set of regular expressions and associate them with a</span>
 <span class="sd">    provided identifier.</span>
 
 <span class="sd">    A rule consists of a regex pattern and an identifier, delimited by a character of</span>
@@ -416,7 +416,7 @@
         <span class="p">)</span>
 
 <div class="viewcode-block" id="RegexMatcher.setStrategy"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/regex_matcher/index.html#sparknlp.annotator.matcher.regex_matcher.RegexMatcher.setStrategy">[docs]</a>    <span class="k">def</span> <span class="nf">setStrategy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets matching strategy, by default &quot;MATCH_ALL&quot;.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets matching strategy, by default &quot;MATCH_ALL&quot;.</span>
 
 <span class="sd">        Can be either MATCH_FIRST|MATCH_ALL|MATCH_COMPLETE.</span>
 
@@ -428,7 +428,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="RegexMatcher.setExternalRules"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/regex_matcher/index.html#sparknlp.annotator.matcher.regex_matcher.RegexMatcher.setExternalRules">[docs]</a>    <span class="k">def</span> <span class="nf">setExternalRules</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">TEXT</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">}):</span>
-        <span class="sd">&quot;&quot;&quot;Sets external resource to rules, needs &#39;delimiter&#39; in options.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets external resource to rules, needs &#39;delimiter&#39; in options.</span>
 
 <span class="sd">        Only one of either parameter `rules` or `externalRules` must be set.</span>
 
@@ -450,7 +450,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">externalRules</span><span class="o">=</span><span class="n">ExternalResource</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="p">,</span> <span class="n">opts</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="RegexMatcher.setRules"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/regex_matcher/index.html#sparknlp.annotator.matcher.regex_matcher.RegexMatcher.setRules">[docs]</a>    <span class="k">def</span> <span class="nf">setRules</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the regex rules to match the identifier with.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the regex rules to match the identifier with.</span>
 
 <span class="sd">        The rules must consist of a regex pattern and an identifier for that pattern. The regex</span>
 <span class="sd">        pattern and the identifier must be delimited by a character that will also have to set with</span>
@@ -475,7 +475,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">rules</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="RegexMatcher.setDelimiter"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/regex_matcher/index.html#sparknlp.annotator.matcher.regex_matcher.RegexMatcher.setDelimiter">[docs]</a>    <span class="k">def</span> <span class="nf">setDelimiter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the delimiter for rules.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the delimiter for rules.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -489,7 +489,7 @@
 
 
 <div class="viewcode-block" id="RegexMatcherModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/regex_matcher/index.html#sparknlp.annotator.matcher.regex_matcher.RegexMatcherModel">[docs]</a><span class="k">class</span> <span class="nc">RegexMatcherModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Instantiated model of the RegexMatcher.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Instantiated model of the RegexMatcher.</span>
 
 <span class="sd">    This is the instantiated model of the :class:`.RegexMatcher`.</span>
 <span class="sd">    For training your own model, please see the documentation of that class.</span>

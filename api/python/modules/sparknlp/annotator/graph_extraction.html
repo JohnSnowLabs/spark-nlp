@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.graph_extraction &#8212; Spark NLP 4.2.6 documentation</title>
+    <title>sparknlp.annotator.graph_extraction &#8212; Spark NLP 4.2.7 documentation</title>
   
   
   
@@ -313,7 +313,7 @@
 
 
 <div class="viewcode-block" id="GraphExtraction"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/graph_extraction/index.html#sparknlp.annotator.graph_extraction.GraphExtraction">[docs]</a><span class="k">class</span> <span class="nc">GraphExtraction</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Extracts a dependency graph between entities.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extracts a dependency graph between entities.</span>
 
 <span class="sd">    The GraphExtraction class takes e.g. extracted entities from a</span>
 <span class="sd">    :class:`.NerDLModel` and creates a dependency tree which describes how the</span>
@@ -511,7 +511,7 @@
                                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
 
 <div class="viewcode-block" id="GraphExtraction.setRelationshipTypes"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/graph_extraction/index.html#sparknlp.annotator.graph_extraction.GraphExtraction.setRelationshipTypes">[docs]</a>    <span class="k">def</span> <span class="nf">setRelationshipTypes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets paths to find between a pair of token and entity.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets paths to find between a pair of token and entity.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -521,7 +521,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">relationshipTypes</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GraphExtraction.setEntityTypes"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/graph_extraction/index.html#sparknlp.annotator.graph_extraction.GraphExtraction.setEntityTypes">[docs]</a>    <span class="k">def</span> <span class="nf">setEntityTypes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets paths to find between a pair of entities.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets paths to find between a pair of entities.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -531,7 +531,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">entityTypes</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GraphExtraction.setExplodeEntities"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/graph_extraction/index.html#sparknlp.annotator.graph_extraction.GraphExtraction.setExplodeEntities">[docs]</a>    <span class="k">def</span> <span class="nf">setExplodeEntities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to find paths between entities.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to find paths between entities.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -541,7 +541,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">explodeEntities</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GraphExtraction.setRootTokens"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/graph_extraction/index.html#sparknlp.annotator.graph_extraction.GraphExtraction.setRootTokens">[docs]</a>    <span class="k">def</span> <span class="nf">setRootTokens</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets tokens to be considered as the root to start traversing the paths.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets tokens to be considered as the root to start traversing the paths.</span>
 
 <span class="sd">        Use it along with explodeEntities.</span>
 
@@ -553,7 +553,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">rootTokens</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GraphExtraction.setMaxSentenceSize"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/graph_extraction/index.html#sparknlp.annotator.graph_extraction.GraphExtraction.setMaxSentenceSize">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSentenceSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets Maximum sentence size that the annotator will process, by</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets Maximum sentence size that the annotator will process, by</span>
 <span class="sd">        default 1000.</span>
 
 <span class="sd">        Above this, the sentence is skipped.</span>
@@ -566,7 +566,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSentenceSize</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GraphExtraction.setMinSentenceSize"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/graph_extraction/index.html#sparknlp.annotator.graph_extraction.GraphExtraction.setMinSentenceSize">[docs]</a>    <span class="k">def</span> <span class="nf">setMinSentenceSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets Minimum sentence size that the annotator will process, by</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets Minimum sentence size that the annotator will process, by</span>
 <span class="sd">        default 2.</span>
 
 <span class="sd">        Below this, the sentence is skipped.</span>
@@ -579,7 +579,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">minSentenceSize</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GraphExtraction.setMergeEntities"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/graph_extraction/index.html#sparknlp.annotator.graph_extraction.GraphExtraction.setMergeEntities">[docs]</a>    <span class="k">def</span> <span class="nf">setMergeEntities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to merge same neighboring entities as a single token.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to merge same neighboring entities as a single token.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -589,7 +589,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">mergeEntities</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GraphExtraction.setMergeEntitiesIOBFormat"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/graph_extraction/index.html#sparknlp.annotator.graph_extraction.GraphExtraction.setMergeEntitiesIOBFormat">[docs]</a>    <span class="k">def</span> <span class="nf">setMergeEntitiesIOBFormat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets IOB format to apply when merging entities.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets IOB format to apply when merging entities.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -599,7 +599,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">mergeEntitiesIOBFormat</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GraphExtraction.setIncludeEdges"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/graph_extraction/index.html#sparknlp.annotator.graph_extraction.GraphExtraction.setIncludeEdges">[docs]</a>    <span class="k">def</span> <span class="nf">setIncludeEdges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to include edges when building paths.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to include edges when building paths.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -609,7 +609,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">includeEdges</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GraphExtraction.setDelimiter"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/graph_extraction/index.html#sparknlp.annotator.graph_extraction.GraphExtraction.setDelimiter">[docs]</a>    <span class="k">def</span> <span class="nf">setDelimiter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets delimiter symbol used for path output.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets delimiter symbol used for path output.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -619,7 +619,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">delimiter</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GraphExtraction.setPosModel"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/graph_extraction/index.html#sparknlp.annotator.graph_extraction.GraphExtraction.setPosModel">[docs]</a>    <span class="k">def</span> <span class="nf">setPosModel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets Coordinates (name, lang, remoteLoc) to a pretrained POS model.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets Coordinates (name, lang, remoteLoc) to a pretrained POS model.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -629,7 +629,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">posModel</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GraphExtraction.setDependencyParserModel"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/graph_extraction/index.html#sparknlp.annotator.graph_extraction.GraphExtraction.setDependencyParserModel">[docs]</a>    <span class="k">def</span> <span class="nf">setDependencyParserModel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets Coordinates (name, lang, remoteLoc) to a pretrained Dependency</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets Coordinates (name, lang, remoteLoc) to a pretrained Dependency</span>
 <span class="sd">        Parser model.</span>
 
 <span class="sd">        Parameters</span>
@@ -641,7 +641,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">dependencyParserModel</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GraphExtraction.setTypedDependencyParserModel"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/graph_extraction/index.html#sparknlp.annotator.graph_extraction.GraphExtraction.setTypedDependencyParserModel">[docs]</a>    <span class="k">def</span> <span class="nf">setTypedDependencyParserModel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets Coordinates (name, lang, remoteLoc) to a pretrained Typed</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets Coordinates (name, lang, remoteLoc) to a pretrained Typed</span>
 <span class="sd">        Dependency Parser model.</span>
 
 <span class="sd">        Parameters</span>

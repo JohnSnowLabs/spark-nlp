@@ -99,11 +99,11 @@ result.select("label.result").show(false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[RoBertaForSequenceClassification](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/RoBertaForSequenceClassification)
+[RoBertaForSequenceClassification](/api/com/johnsnowlabs/nlp/annotators/classifier/dl/RoBertaForSequenceClassification)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[RoBertaForSequenceClassification](/api/python/reference/autosummary/python/sparknlp/annotator/classifier_dl/roberta_for_sequence_classification/index.html#sparknlp.annotator.classifier_dl.roberta_for_sequence_classification.RoBertaForSequenceClassification)
+[RoBertaForSequenceClassification](/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/roberta_for_sequence_classification/index.html#sparknlp.annotator.classifier_dl.roberta_for_sequence_classification.RoBertaForSequenceClassification)
 {%- endcapture -%}
 
 {%- capture source_link -%}
