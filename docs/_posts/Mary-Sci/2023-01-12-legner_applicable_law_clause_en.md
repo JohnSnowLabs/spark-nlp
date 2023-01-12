@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This is a NER model aimed to be used in `applicable_law` clauses, to retrieve entities as `APPLIC_LAW`. Make sure you run this model only on `applicable_law` clauses after you filter them using `legclf_applicable_law_cuad`.
+This is a NER model aimed to be used in `applicable_law` clauses to retrieve entities as `APPLIC_LAW`. Make sure you run this model only on `applicable_law` clauses after you filter them using `legclf_applicable_law_cuad` model.
 
 ## Predicted Entities
 
@@ -34,6 +34,7 @@ This is a NER model aimed to be used in `applicable_law` clauses, to retrieve en
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler()\
         .setInputCol("text")\
