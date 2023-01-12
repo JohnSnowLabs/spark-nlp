@@ -17,6 +17,12 @@
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.ReadSentencePieceModel
+import com.johnsnowlabs.nlp.annotators.audio.{
+  ReadHubertForAudioTensorflowModel,
+  ReadWav2Vec2ForAudioTensorflowModel,
+  ReadablePretrainedHubertForAudioModel,
+  ReadablePretrainedWav2Vec2ForAudioModel
+}
 import com.johnsnowlabs.nlp.annotators.btm.ReadablePretrainedBigTextMatcher
 import com.johnsnowlabs.nlp.annotators.classifier.dl._
 import com.johnsnowlabs.nlp.annotators.coref.{
@@ -636,4 +642,17 @@ package object annotator {
       extends ReadablePretrainedCamemBertForSequenceModel
       with ReadCamemBertForSequenceTensorflowModel
 
+  type Wav2Vec2ForCTC =
+    com.johnsnowlabs.nlp.annotators.audio.Wav2Vec2ForCTC
+
+  object Wav2Vec2ForCTC
+      extends ReadablePretrainedWav2Vec2ForAudioModel
+      with ReadWav2Vec2ForAudioTensorflowModel
+
+  type HubertForCTC =
+    com.johnsnowlabs.nlp.annotators.audio.HubertForCTC
+
+  object HubertForCTC
+      extends ReadablePretrainedHubertForAudioModel
+      with ReadHubertForAudioTensorflowModel
 }
