@@ -130,11 +130,11 @@ result.select("text", "classifications.result").show(false)
 {%- endcapture -%}
 
 {%- capture model_api_link -%}
-[MultiClassifierDLModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/MultiClassifierDLModel)
+[MultiClassifierDLModel](/api/com/johnsnowlabs/nlp/annotators/classifier/dl/MultiClassifierDLModel)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[MultiClassifierDLModel](/api/python/reference/autosummary/python/sparknlp/annotator/classifier_dl/multi_classifier_dl/index.html#sparknlp.annotator.classifier_dl.multi_classifier_dl.MultiClassifierDLModel)
+[MultiClassifierDLModel](/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/multi_classifier_dl/index.html#sparknlp.annotator.classifier_dl.multi_classifier_dl.MultiClassifierDLModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -336,11 +336,11 @@ val pipelineModel = pipeline.fit(smallCorpus)
 {%- endcapture -%}
 
 {%- capture approach_api_link -%}
-[MultiClassifierDLApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/MultiClassifierDLApproach)
+[MultiClassifierDLApproach](/api/com/johnsnowlabs/nlp/annotators/classifier/dl/MultiClassifierDLApproach)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[MultiClassifierDLApproach](/api/python/reference/autosummary/python/sparknlp/annotator/classifier_dl/multi_classifier_dl/index.html#sparknlp.annotator.classifier_dl.multi_classifier_dl.MultiClassifierDLApproach)
+[MultiClassifierDLApproach](/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/multi_classifier_dl/index.html#sparknlp.annotator.classifier_dl.multi_classifier_dl.MultiClassifierDLApproach)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

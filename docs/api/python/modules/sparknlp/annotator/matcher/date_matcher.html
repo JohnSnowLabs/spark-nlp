@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.matcher.date_matcher &#8212; Spark NLP 4.2.6 documentation</title>
+    <title>sparknlp.annotator.matcher.date_matcher &#8212; Spark NLP 4.2.7 documentation</title>
   
   
   
@@ -314,7 +314,7 @@
 
 
 <div class="viewcode-block" id="DateMatcherUtils"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/date_matcher/index.html#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils">[docs]</a><span class="k">class</span> <span class="nc">DateMatcherUtils</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Base class for DateMatcher Annotators</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for DateMatcher Annotators</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">inputFormats</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                          <span class="s2">&quot;inputFormats&quot;</span><span class="p">,</span>
@@ -365,7 +365,7 @@
                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
 
 <div class="viewcode-block" id="DateMatcherUtils.setInputFormats"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/date_matcher/index.html#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.setInputFormats">[docs]</a>    <span class="k">def</span> <span class="nf">setInputFormats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets input formats patterns to match in the documents.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets input formats patterns to match in the documents.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -375,7 +375,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inputFormats</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DateMatcherUtils.setOutputFormat"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/date_matcher/index.html#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.setOutputFormat">[docs]</a>    <span class="k">def</span> <span class="nf">setOutputFormat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets desired output format for extracted dates, by default yyyy/MM/dd.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets desired output format for extracted dates, by default yyyy/MM/dd.</span>
 
 <span class="sd">        Not all of the date information needs to be included. For example</span>
 <span class="sd">        ``&quot;YYYY&quot;`` is also a valid input.</span>
@@ -388,7 +388,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputFormat</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DateMatcherUtils.setReadMonthFirst"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/date_matcher/index.html#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.setReadMonthFirst">[docs]</a>    <span class="k">def</span> <span class="nf">setReadMonthFirst</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to parse the date in mm/dd/yyyy format instead of</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to parse the date in mm/dd/yyyy format instead of</span>
 <span class="sd">        dd/mm/yyyy, by default True.</span>
 
 <span class="sd">        For example July 5th 2015, would be parsed as 07/05/2015 instead of</span>
@@ -403,7 +403,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">readMonthFirst</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DateMatcherUtils.setDefaultDayWhenMissing"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/date_matcher/index.html#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.setDefaultDayWhenMissing">[docs]</a>    <span class="k">def</span> <span class="nf">setDefaultDayWhenMissing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets which day to set when it is missing from parsed input,</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets which day to set when it is missing from parsed input,</span>
 <span class="sd">        by default 1.</span>
 
 <span class="sd">        Parameters</span>
@@ -414,7 +414,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">defaultDayWhenMissing</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DateMatcherUtils.setAnchorDateYear"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/date_matcher/index.html#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.setAnchorDateYear">[docs]</a>    <span class="k">def</span> <span class="nf">setAnchorDateYear</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets an anchor year for the relative dates such as a day after</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets an anchor year for the relative dates such as a day after</span>
 <span class="sd">        tomorrow. If not set it will use the current year.</span>
 
 <span class="sd">        Example: 2021</span>
@@ -427,7 +427,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">anchorDateYear</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DateMatcherUtils.setAnchorDateMonth"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/date_matcher/index.html#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.setAnchorDateMonth">[docs]</a>    <span class="k">def</span> <span class="nf">setAnchorDateMonth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets an anchor month for the relative dates such as a day after</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets an anchor month for the relative dates such as a day after</span>
 <span class="sd">        tomorrow. If not set it will use the current month.</span>
 
 <span class="sd">        Example: 1 which means January</span>
@@ -444,7 +444,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">sourceLanguage</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
 
 <div class="viewcode-block" id="DateMatcherUtils.setAnchorDateDay"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/date_matcher/index.html#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.setAnchorDateDay">[docs]</a>    <span class="k">def</span> <span class="nf">setAnchorDateDay</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets an anchor day of the day for the relative dates such as a day</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets an anchor day of the day for the relative dates such as a day</span>
 <span class="sd">        after tomorrow. If not set it will use the current day.</span>
 
 <span class="sd">        Example: 11</span>
@@ -458,7 +458,7 @@
 
 
 <div class="viewcode-block" id="DateMatcher"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/date_matcher/index.html#sparknlp.annotator.matcher.date_matcher.DateMatcher">[docs]</a><span class="k">class</span> <span class="nc">DateMatcher</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">DateMatcherUtils</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Matches standard date formats into a provided format</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Matches standard date formats into a provided format</span>
 <span class="sd">    Reads from different forms of date and time expressions and converts them</span>
 <span class="sd">    to a provided date format.</span>
 
