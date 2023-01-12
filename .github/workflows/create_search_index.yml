@@ -45,9 +45,8 @@ jobs:
         working-directory: docs
         run: |
           bundle exec jekyll build --incremental
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
       - name: Full build
+        id: full-build
         if: ${{ failure() && steps.incremental-build.outputs.require_full_build == 'true' }}
         env:
           ELASTICSEARCH_URL: ${{ secrets.ELASTICSEARCH_URL }}
@@ -57,22 +56,26 @@ jobs:
           rm .jekyll-metadata
           FORCE=1 bundle exec jekyll build --incremental
       - uses: actions/setup-node@v2
+        if: ${{steps.incremental-build.outcome == 'success' || steps.full-build.outcome == 'success'}}
         with:
           node-version: 14
           cache: yarn
           cache-dependency-path: docs/_frontend/yarn.lock
       - name: Build frontend
+        if: ${{steps.incremental-build.outcome == 'success' || steps.full-build.outcome == 'success'}}
         working-directory: docs/_frontend
         run: |
           yarn
           yarn run build
           mv static ../_site/
       - name: Deploy to GitHub Pages
+        if: ${{steps.incremental-build.outcome == 'success' || steps.full-build.outcome == 'success'}}
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs/_site
       - name: Zip contents for artifacts
+        if: ${{steps.incremental-build.outcome == 'success' || steps.full-build.outcome == 'success'}}
         uses: vimtor/action-zip@v1
         with:
           files: >
@@ -83,6 +86,7 @@ jobs:
             ./docs/backup-references.json
           dest: jekyll-content.zip
       - name: Upload Artifacts
+        if: ${{steps.incremental-build.outcome == 'success' || steps.full-build.outcome == 'success'}}
         uses: actions/upload-artifact@v3
         with:
           name: jekyll-build
