@@ -29,16 +29,14 @@ jobs:
           if_no_artifact_found: ignore
       - name: Extract artifacts and prepare incremental build
         working-directory: docs
-        run: |
-          FILE=jekyl-content.zip
-          if test -f "$FILE"; then
-            7z x -o_site/ jekyll-content.zip
-            rm jekyll-content.zip
-            mv _site/.jekyll-metadata ./
-            mv _site/models.orig.json ./
-            mv _site/benchmarking.orig.json ./
-            mv _site/references.orig.json ./
-          fi
+        run: >
+          (7z x -o_site/ jekyll-content.zip 
+          && rm jekyll-content.zip 
+          && mv _site/.jekyll-metadata ./
+          && mv _site/models.orig.json ./
+          && mv _site/benchmarking.orig.json ./
+          && mv _site/references.orig.json ./)
+          || true
       - name: Incremental build
         env:
           ELASTICSEARCH_URL: ${{ secrets.ELASTICSEARCH_URL }}
@@ -65,7 +63,7 @@ jobs:
       - name: Zip contents for artifacts
         uses: vimtor/action-zip@v1
         with:
-          files: |
+          files: >
             ./docs/_site/
             ./docs/.jekyll-metadata
             ./docs/models.orig.json
