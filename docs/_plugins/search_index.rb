@@ -505,9 +505,9 @@ end
 
 Jekyll::Hooks.register :site, :post_write do |site|
   is_incremental = site.config['incremental']
-  backup_filename = File.join(site.config['source'], 'models.json')
-  backup_benchmarking_filename = File.join(site.config['source'], 'benchmarking.json')
-  backup_references_filename = File.join(site.config['source'], 'references.json')
+  backup_filename = File.join(site.config['source'], 'models.orig.json')
+  backup_benchmarking_filename = File.join(site.config['source'], 'benchmarking.orig.json')
+  backup_references_filename = File.join(site.config['source'], 'references.orig.json')
 
   if is_incremental
     # Read from backup and merge with incremental posts data

@@ -33,9 +33,9 @@ jobs:
           7z x -o_site/ jekyll-content.zip
           rm jekyll-content.zip
           mv _site/.jekyll-metadata ./
-          mv _site/models.json ./
-          mv _site/benchmarking.json ./
-          mv _site/references.json ./
+          mv _site/models.orig.json ./
+          mv _site/benchmarking.orig.json ./
+          mv _site/references.orig.json ./
       - name: Incremental build
         env:
           ELASTICSEARCH_URL: ${{ secrets.ELASTICSEARCH_URL }}
@@ -62,7 +62,12 @@ jobs:
       - name: Zip contents for artifacts
         uses: vimtor/action-zip@v1
         with:
-          files: ./docs/_site/ ./docs/.jekyll-metadata
+          files: |
+            ./docs/_site/
+            ./docs/.jekyll-metadata
+            ./docs/models.orig.json
+            ./docs/benchmarking.orig.json
+            ./docs/references.orig.json
           dest: jekyll-content.zip
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
