@@ -200,6 +200,7 @@ exclude:
   - /screenshots
   - /test
   - /vendor
+  - backup-*.json
   - /_frontend
 
 defaults:
