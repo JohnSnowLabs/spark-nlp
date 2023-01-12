@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.embeddings.doc2vec &#8212; Spark NLP 4.2.6 documentation</title>
+    <title>sparknlp.annotator.embeddings.doc2vec &#8212; Spark NLP 4.2.7 documentation</title>
   
   
   
@@ -314,7 +314,7 @@
 
 
 <div class="viewcode-block" id="Doc2VecApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/doc2vec/index.html#sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach">[docs]</a><span class="k">class</span> <span class="nc">Doc2VecApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">,</span> <span class="n">HasStorageRef</span><span class="p">,</span> <span class="n">HasEnableCachingProperties</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Trains a Word2Vec model that creates vector representations of words in a</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Trains a Word2Vec model that creates vector representations of words in a</span>
 <span class="sd">    text corpus.</span>
 
 <span class="sd">    The algorithm first constructs a vocabulary from the corpus and then learns</span>
@@ -443,52 +443,52 @@
                  <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Doc2VecApproach.setVectorSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/doc2vec/index.html#sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.setVectorSize">[docs]</a>    <span class="k">def</span> <span class="nf">setVectorSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vectorSize</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets vector size (default: 100).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">vectorSize</span><span class="o">=</span><span class="n">vectorSize</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Doc2VecApproach.setWindowSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/doc2vec/index.html#sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.setWindowSize">[docs]</a>    <span class="k">def</span> <span class="nf">setWindowSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">windowSize</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets window size (default: 5).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">windowSize</span><span class="o">=</span><span class="n">windowSize</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Doc2VecApproach.setStepSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/doc2vec/index.html#sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.setStepSize">[docs]</a>    <span class="k">def</span> <span class="nf">setStepSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stepSize</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets initial learning rate (default: 0.025).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">stepSize</span><span class="o">=</span><span class="n">stepSize</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Doc2VecApproach.setNumPartitions"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/doc2vec/index.html#sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.setNumPartitions">[docs]</a>    <span class="k">def</span> <span class="nf">setNumPartitions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numPartitions</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets number of partitions (default: 1). Use a small number for</span>
 <span class="sd">        accuracy.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">numPartitions</span><span class="o">=</span><span class="n">numPartitions</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Doc2VecApproach.setMaxIter"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/doc2vec/index.html#sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.setMaxIter">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxIter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numIterations</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets number of iterations (default: 1), which should be smaller</span>
 <span class="sd">        than or equal to number of partitions.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxIter</span><span class="o">=</span><span class="n">numIterations</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Doc2VecApproach.setSeed"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/doc2vec/index.html#sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.setSeed">[docs]</a>    <span class="k">def</span> <span class="nf">setSeed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seed</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets random seed.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Doc2VecApproach.setMinCount"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/doc2vec/index.html#sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.setMinCount">[docs]</a>    <span class="k">def</span> <span class="nf">setMinCount</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">minCount</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets minCount, the minimum number of times a token must appear</span>
 <span class="sd">        to be included in the word2vec model&#39;s vocabulary (default: 5).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">minCount</span><span class="o">=</span><span class="n">minCount</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Doc2VecApproach.setMaxSentenceLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/doc2vec/index.html#sparknlp.annotator.embeddings.doc2vec.Doc2VecApproach.setMaxSentenceLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">maxSentenceLength</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Maximum length (in words) of each sentence in the input data.</span>
 <span class="sd">        Any sentence longer than this threshold will be divided into</span>
 <span class="sd">        chunks up to the size (&gt; 0)</span>
@@ -514,7 +514,7 @@
 
 
 <div class="viewcode-block" id="Doc2VecModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/doc2vec/index.html#sparknlp.annotator.embeddings.doc2vec.Doc2VecModel">[docs]</a><span class="k">class</span> <span class="nc">Doc2VecModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">HasStorageRef</span><span class="p">,</span> <span class="n">HasEmbeddingsProperties</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Word2Vec model that creates vector representations of words in a text</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Word2Vec model that creates vector representations of words in a text</span>
 <span class="sd">    corpus.</span>
 
 <span class="sd">    The algorithm first constructs a vocabulary from the corpus and then learns</span>
@@ -605,7 +605,7 @@
                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Doc2VecModel.setVectorSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/doc2vec/index.html#sparknlp.annotator.embeddings.doc2vec.Doc2VecModel.setVectorSize">[docs]</a>    <span class="k">def</span> <span class="nf">setVectorSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vectorSize</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets vector size (default: 100).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">vectorSize</span><span class="o">=</span><span class="n">vectorSize</span><span class="p">)</span></div>
@@ -621,7 +621,7 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="Doc2VecModel.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/doc2vec/index.html#sparknlp.annotator.embeddings.doc2vec.Doc2VecModel.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;doc2vec_gigaword_300&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.embeddings.chunk_embeddings &#8212; Spark NLP 4.2.6 documentation</title>
+    <title>sparknlp.annotator.embeddings.chunk_embeddings &#8212; Spark NLP 4.2.7 documentation</title>
   
   
   
@@ -314,7 +314,7 @@
 
 
 <div class="viewcode-block" id="ChunkEmbeddings"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/chunk_embeddings/index.html#sparknlp.annotator.embeddings.chunk_embeddings.ChunkEmbeddings">[docs]</a><span class="k">class</span> <span class="nc">ChunkEmbeddings</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;This annotator utilizes WordEmbeddings, BertEmbeddings etc. to generate</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This annotator utilizes WordEmbeddings, BertEmbeddings etc. to generate</span>
 <span class="sd">    chunk embeddings from either Chunker, NGramGenerator, or NerConverter</span>
 <span class="sd">    outputs.</span>
 
@@ -416,7 +416,7 @@
                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ChunkEmbeddings.setPoolingStrategy"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/chunk_embeddings/index.html#sparknlp.annotator.embeddings.chunk_embeddings.ChunkEmbeddings.setPoolingStrategy">[docs]</a>    <span class="k">def</span> <span class="nf">setPoolingStrategy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">strategy</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets how to aggregate Word Embeddings to Chunk Embeddings, by default</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets how to aggregate Word Embeddings to Chunk Embeddings, by default</span>
 <span class="sd">        AVERAGE.</span>
 
 <span class="sd">        Possible Values: ``AVERAGE, SUM``</span>
@@ -434,7 +434,7 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">poolingStrategy</span><span class="o">=</span><span class="s2">&quot;AVERAGE&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ChunkEmbeddings.setSkipOOV"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/chunk_embeddings/index.html#sparknlp.annotator.embeddings.chunk_embeddings.ChunkEmbeddings.setSkipOOV">[docs]</a>    <span class="k">def</span> <span class="nf">setSkipOOV</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to discard default vectors for OOV words from the</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to discard default vectors for OOV words from the</span>
 <span class="sd">        aggregation/pooling.</span>
 
 <span class="sd">        Parameters</span>

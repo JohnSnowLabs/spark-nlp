@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.base.finisher &#8212; Spark NLP 4.2.6 documentation</title>
+    <title>sparknlp.base.finisher &#8212; Spark NLP 4.2.7 documentation</title>
   
   
   
@@ -316,7 +316,7 @@
 
 
 <div class="viewcode-block" id="Finisher"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/finisher/index.html#sparknlp.base.finisher.Finisher">[docs]</a><span class="k">class</span> <span class="nc">Finisher</span><span class="p">(</span><span class="n">AnnotatorTransformer</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Converts annotation results into a format that easier to use.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts annotation results into a format that easier to use.</span>
 
 <span class="sd">    It is useful to extract the results from Spark NLP Pipelines. The Finisher</span>
 <span class="sd">    outputs annotation(s) values into ``String``.</span>
@@ -415,7 +415,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Finisher.setInputCols"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/finisher/index.html#sparknlp.base.finisher.Finisher.setInputCols">[docs]</a>    <span class="k">def</span> <span class="nf">setInputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets column names of input annotations.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets column names of input annotations.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -428,7 +428,7 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inputCols</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">value</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="Finisher.setOutputCols"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/finisher/index.html#sparknlp.base.finisher.Finisher.setOutputCols">[docs]</a>    <span class="k">def</span> <span class="nf">setOutputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets column names of finished output annotations.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets column names of finished output annotations.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -441,7 +441,7 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputCols</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">value</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="Finisher.setValueSplitSymbol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/finisher/index.html#sparknlp.base.finisher.Finisher.setValueSplitSymbol">[docs]</a>    <span class="k">def</span> <span class="nf">setValueSplitSymbol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets character separating values, by default #.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets character separating values, by default #.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -451,7 +451,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">valueSplitSymbol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Finisher.setAnnotationSplitSymbol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/finisher/index.html#sparknlp.base.finisher.Finisher.setAnnotationSplitSymbol">[docs]</a>    <span class="k">def</span> <span class="nf">setAnnotationSplitSymbol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets character separating annotations, by default @.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets character separating annotations, by default @.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -461,7 +461,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">annotationSplitSymbol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Finisher.setCleanAnnotations"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/finisher/index.html#sparknlp.base.finisher.Finisher.setCleanAnnotations">[docs]</a>    <span class="k">def</span> <span class="nf">setCleanAnnotations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to remove annotation columns, by default True.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to remove annotation columns, by default True.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -471,7 +471,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">cleanAnnotations</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Finisher.setIncludeMetadata"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/finisher/index.html#sparknlp.base.finisher.Finisher.setIncludeMetadata">[docs]</a>    <span class="k">def</span> <span class="nf">setIncludeMetadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to include annotation metadata.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to include annotation metadata.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -481,7 +481,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">includeMetadata</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Finisher.setOutputAsArray"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/finisher/index.html#sparknlp.base.finisher.Finisher.setOutputAsArray">[docs]</a>    <span class="k">def</span> <span class="nf">setOutputAsArray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to generate an array with the results instead of a</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to generate an array with the results instead of a</span>
 <span class="sd">        string.</span>
 
 <span class="sd">        Parameters</span>
@@ -492,7 +492,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputAsArray</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Finisher.setParseEmbeddingsVectors"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/finisher/index.html#sparknlp.base.finisher.Finisher.setParseEmbeddingsVectors">[docs]</a>    <span class="k">def</span> <span class="nf">setParseEmbeddingsVectors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to include embeddings vectors in the process.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to include embeddings vectors in the process.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
