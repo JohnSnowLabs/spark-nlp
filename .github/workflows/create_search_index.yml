@@ -29,7 +29,7 @@ jobs:
       - name: Extract artifacts and prepare incremental build
         working-directory: docs
         run: |
-          7z x jekyll-content.zip -o_site
+          7z x -o_site/ jekyll-content.zip
           rm jekyll-content.zip
           mv _site/.jekyll-metadata ./
           mv _site/models.json ./
