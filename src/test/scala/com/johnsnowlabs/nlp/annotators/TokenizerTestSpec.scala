@@ -16,7 +16,9 @@
 
 package com.johnsnowlabs.nlp.annotators
 
+import com.johnsnowlabs.nlp.AnnotatorType.TOKEN
 import com.johnsnowlabs.nlp._
+import com.johnsnowlabs.nlp.annotator.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import com.johnsnowlabs.util.Benchmark
@@ -752,10 +754,7 @@ class TokenizerTestSpec extends AnyFlatSpec with TokenizerBehaviors {
       .setOutputCol("token")
       .setSplitPattern("""\s+|(?=[-.:;*+,\(\)\/$&%\\[\\]])|(?<=[-.:;*+,\(\)\/$&%\\[\\]])""")
 
-    val pipeline = new Pipeline().setStages(
-      Array(
-        documentAssembler,
-        tokenizer))
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer))
 
     val text =
       "PRIMARY OBJECTIVES:\r\n\r\n      I. Determine the safety and feasibility of the chimeric antigen receptor T cells transduced\r\n      with the anti-CD19 (cluster of differentiation antigen 19 ) vector (referred to as CART-19\r\n      cells).\r\n\r\n      II. Determine duration of in vivo survival of CART-19 cells. RT-PCR (reverse transcription\r\n      polymerase chain reaction) analysis of whole blood will be used to detect and quantify\r\n      survival of CART-19 TCR (T-cell receptor) zeta:CD137 and TCR zeta cells over time.\r\n\r\n      SECONDARY OBJECTIVES:\r\n\r\n      I. For patients with detectable disease, measure anti-tumor response due to CART-19 cell\r\n      infusions.\r\n\r\n      II. To determine if the CD137 transgene is superior to the TCR zeta only transgene as\r\n      measured by the relative engraftment levels of CART-19 TCR zeta:CD137 and TCR zeta cells over\r\n      time.\r\n\r\n      III. Estimate relative trafficking of CART-19 cells to tumor in bone marrow and lymph nodes.\r\n\r\n      IV. For patients with stored or accessible tumor cells (such as patients with active chronic\r\n      lymphocytic leukemia(CLL), acute lymphocytic leukemia (ALL), etc) determine tumor cell\r\n      killing by CART-19 cells in vitro.\r\n\r\n      V. Determine if cellular or humoral host immunity develops against the murine anti-CD19, and\r\n      assess correlation with loss of detectable CART-19 (loss of engraftment).\r\n\r\n      VI. Determine the relative subsets of CART-19 T cells (Tcm, Tem, and Treg).\r\n\r\n      OUTLINE: Patients are assigned to 1 group according to order of enrollment.\r\n\r\n      Patients receive anti-CD19-CAR (coupled with CD137 and CD3 zeta signalling\r\n      domains)vector-transduced autologous T cells on days 0,1, and 2 in the absence of disease\r\n      progression or unacceptable toxicity.\r\n\r\n      After completion of study treatment, patients are followed intensively for 6 months, every 3\r\n      months for 2 years, and annually thereafter for 13 years."
@@ -886,6 +885,46 @@ class TokenizerTestSpec extends AnyFlatSpec with TokenizerBehaviors {
     val loadedPipelineModel = PipelineModel.load("./tmp_pipelineModel_with_recTokenizer")
     loadedPipelineModel.transform(data).show()
 
+  }
+
+  it should "tokenize with sentence index" taggedAs FastTest in {
+
+    val text = "This is a sentence. This is another one"
+    val testDataSet = Seq(text).toDS.toDF("text")
+
+    val expectedEntitiesFromText1: Array[Seq[Annotation]] = Array(
+      Seq(
+        Annotation(TOKEN, 0, 3, "This", Map("sentence" -> "0")),
+        Annotation(TOKEN, 5, 6, "is", Map("sentence" -> "0")),
+        Annotation(TOKEN, 8, 8, "a", Map("sentence" -> "0")),
+        Annotation(TOKEN, 10, 17, "sentence", Map("sentence" -> "0")),
+        Annotation(TOKEN, 18, 18, ".", Map("sentence" -> "0"))),
+      Seq(
+        Annotation(TOKEN, 20, 23, "This", Map("sentence" -> "1")),
+        Annotation(TOKEN, 25, 26, "is", Map("sentence" -> "1")),
+        Annotation(TOKEN, 28, 34, "another", Map("sentence" -> "1")),
+        Annotation(TOKEN, 36, 38, "one", Map("sentence" -> "1"))))
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentenceDetector = new SentenceDetector()
+      .setInputCols("document")
+      .setOutputCol("sentence")
+      .setExplodeSentences(true)
+
+    val tokenizer = new Tokenizer()
+      .setInputCols("sentence")
+      .setOutputCol("token")
+
+    val pipeline = new Pipeline()
+      .setStages(Array(documentAssembler, sentenceDetector, tokenizer))
+
+    val resultDataSet = pipeline.fit(testDataSet).transform(testDataSet)
+    val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "token")
+
+    AssertAnnotations.assertFields(expectedEntitiesFromText1, actualEntities)
   }
 
 }
