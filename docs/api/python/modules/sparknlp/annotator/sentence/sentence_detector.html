@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.sentence.sentence_detector &#8212; Spark NLP 4.2.6 documentation</title>
+    <title>sparknlp.annotator.sentence.sentence_detector &#8212; Spark NLP 4.2.7 documentation</title>
   
   
   
@@ -314,7 +314,7 @@
 
 
 <div class="viewcode-block" id="SentenceDetectorParams"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector/index.html#sparknlp.annotator.sentence.sentence_detector.SentenceDetectorParams">[docs]</a><span class="k">class</span> <span class="nc">SentenceDetectorParams</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Base class for SentenceDetector parameters</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for SentenceDetector parameters</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">useAbbreviations</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
@@ -359,7 +359,7 @@
 
 
 <div class="viewcode-block" id="SentenceDetector"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector/index.html#sparknlp.annotator.sentence.sentence_detector.SentenceDetector">[docs]</a><span class="k">class</span> <span class="nc">SentenceDetector</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">SentenceDetectorParams</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Annotator that detects sentence boundaries using regular expressions.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Annotator that detects sentence boundaries using regular expressions.</span>
 
 <span class="sd">    The following characters are checked as sentence boundaries:</span>
 
@@ -470,7 +470,7 @@
                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
 
 <div class="viewcode-block" id="SentenceDetector.setCustomBounds"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector/index.html#sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setCustomBounds">[docs]</a>    <span class="k">def</span> <span class="nf">setCustomBounds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets characters used to explicitly mark sentence bounds, by default</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets characters used to explicitly mark sentence bounds, by default</span>
 <span class="sd">        [].</span>
 
 <span class="sd">        Parameters</span>
@@ -481,7 +481,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">customBounds</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SentenceDetector.setCustomBoundsStrategy"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector/index.html#sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setCustomBoundsStrategy">[docs]</a>    <span class="k">def</span> <span class="nf">setCustomBoundsStrategy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets how to return matched custom bounds, by default &quot;none&quot;.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets how to return matched custom bounds, by default &quot;none&quot;.</span>
 
 <span class="sd">        Will have no effect if no custom bounds are used.</span>
 <span class="sd">        Possible values are:</span>
@@ -498,7 +498,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">customBoundsStrategy</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SentenceDetector.setUseAbbreviations"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector/index.html#sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setUseAbbreviations">[docs]</a>    <span class="k">def</span> <span class="nf">setUseAbbreviations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to apply abbreviations at sentence detection, by default</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to apply abbreviations at sentence detection, by default</span>
 <span class="sd">        True</span>
 
 <span class="sd">        Parameters</span>
@@ -509,7 +509,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">useAbbreviations</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SentenceDetector.setDetectLists"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector/index.html#sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setDetectLists">[docs]</a>    <span class="k">def</span> <span class="nf">setDetectLists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether detect lists during sentence detection, by default True</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether detect lists during sentence detection, by default True</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -519,7 +519,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">detectLists</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SentenceDetector.setUseCustomBoundsOnly"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector/index.html#sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setUseCustomBoundsOnly">[docs]</a>    <span class="k">def</span> <span class="nf">setUseCustomBoundsOnly</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to only utilize custom bounds in sentence detection, by</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to only utilize custom bounds in sentence detection, by</span>
 <span class="sd">        default False.</span>
 
 <span class="sd">        Parameters</span>
@@ -530,7 +530,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">useCustomBoundsOnly</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SentenceDetector.setExplodeSentences"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector/index.html#sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setExplodeSentences">[docs]</a>    <span class="k">def</span> <span class="nf">setExplodeSentences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to explode each sentence into a different row, for</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to explode each sentence into a different row, for</span>
 <span class="sd">        better parallelization, by default False.</span>
 
 <span class="sd">        Parameters</span>
@@ -541,7 +541,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">explodeSentences</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SentenceDetector.setSplitLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector/index.html#sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setSplitLength">[docs]</a>    <span class="k">def</span> <span class="nf">setSplitLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets length at which sentences will be forcibly split.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets length at which sentences will be forcibly split.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -551,7 +551,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">splitLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SentenceDetector.setMinLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector/index.html#sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setMinLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMinLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets minimum allowed length for each sentence, by default 0</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets minimum allowed length for each sentence, by default 0</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -561,7 +561,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">minLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SentenceDetector.setMaxLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector/index.html#sparknlp.annotator.sentence.sentence_detector.SentenceDetector.setMaxLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the maximum allowed length for each sentence, by default</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the maximum allowed length for each sentence, by default</span>
 <span class="sd">        99999</span>
 
 <span class="sd">        Parameters</span>

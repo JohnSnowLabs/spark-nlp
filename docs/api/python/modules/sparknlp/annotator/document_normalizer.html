@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.document_normalizer &#8212; Spark NLP 4.2.6 documentation</title>
+    <title>sparknlp.annotator.document_normalizer &#8212; Spark NLP 4.2.7 documentation</title>
   
   
   
@@ -313,7 +313,7 @@
 
 
 <div class="viewcode-block" id="DocumentNormalizer"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/document_normalizer/index.html#sparknlp.annotator.document_normalizer.DocumentNormalizer">[docs]</a><span class="k">class</span> <span class="nc">DocumentNormalizer</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Annotator which normalizes raw text from tagged text, e.g. scraped web</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Annotator which normalizes raw text from tagged text, e.g. scraped web</span>
 <span class="sd">    pages or xml documents, from document type columns into Sentence.</span>
 
 <span class="sd">    Removes all dirty characters from text following one or more input regex</span>
@@ -431,7 +431,7 @@
         <span class="p">)</span>
 
 <div class="viewcode-block" id="DocumentNormalizer.setAction"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/document_normalizer/index.html#sparknlp.annotator.document_normalizer.DocumentNormalizer.setAction">[docs]</a>    <span class="k">def</span> <span class="nf">setAction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets action to perform before applying regex patterns on text, by</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets action to perform before applying regex patterns on text, by</span>
 <span class="sd">        default &quot;clean&quot;.</span>
 
 <span class="sd">        Parameters</span>
@@ -442,7 +442,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DocumentNormalizer.setPatterns"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/document_normalizer/index.html#sparknlp.annotator.document_normalizer.DocumentNormalizer.setPatterns">[docs]</a>    <span class="k">def</span> <span class="nf">setPatterns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets normalization regex patterns which match will be removed from</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets normalization regex patterns which match will be removed from</span>
 <span class="sd">        document, by default [&#39;&lt;[^&gt;]*&gt;&#39;].</span>
 
 <span class="sd">        Parameters</span>
@@ -454,7 +454,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">patterns</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DocumentNormalizer.setReplacement"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/document_normalizer/index.html#sparknlp.annotator.document_normalizer.DocumentNormalizer.setReplacement">[docs]</a>    <span class="k">def</span> <span class="nf">setReplacement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets replacement string to apply when regexes match, by default &quot; &quot;.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets replacement string to apply when regexes match, by default &quot; &quot;.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -464,7 +464,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">replacement</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DocumentNormalizer.setLowercase"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/document_normalizer/index.html#sparknlp.annotator.document_normalizer.DocumentNormalizer.setLowercase">[docs]</a>    <span class="k">def</span> <span class="nf">setLowercase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to convert strings to lowercase, by default False.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to convert strings to lowercase, by default False.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -474,7 +474,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">lowercase</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DocumentNormalizer.setPolicy"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/document_normalizer/index.html#sparknlp.annotator.document_normalizer.DocumentNormalizer.setPolicy">[docs]</a>    <span class="k">def</span> <span class="nf">setPolicy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets policy to remove pattern from text, by default &quot;pretty_all&quot;.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets policy to remove pattern from text, by default &quot;pretty_all&quot;.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -484,7 +484,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">policy</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DocumentNormalizer.setEncoding"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/document_normalizer/index.html#sparknlp.annotator.document_normalizer.DocumentNormalizer.setEncoding">[docs]</a>    <span class="k">def</span> <span class="nf">setEncoding</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets file encoding to apply on normalized documents, by default</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets file encoding to apply on normalized documents, by default</span>
 <span class="sd">        &quot;UTF-8&quot;.</span>
 
 <span class="sd">        Parameters</span>

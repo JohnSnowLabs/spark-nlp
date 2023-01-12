@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.ner.ner_crf &#8212; Spark NLP 4.2.6 documentation</title>
+    <title>sparknlp.annotator.ner.ner_crf &#8212; Spark NLP 4.2.7 documentation</title>
   
   
   
@@ -315,7 +315,7 @@
 
 
 <div class="viewcode-block" id="NerCrfApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_crf/index.html#sparknlp.annotator.ner.ner_crf.NerCrfApproach">[docs]</a><span class="k">class</span> <span class="nc">NerCrfApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">,</span> <span class="n">NerApproach</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Algorithm for training a Named Entity Recognition Model</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Algorithm for training a Named Entity Recognition Model</span>
 
 <span class="sd">    For instantiated/pretrained models, see :class:`.NerCrfModel`.</span>
 
@@ -451,7 +451,7 @@
     <span class="n">verbose</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;verbose&quot;</span><span class="p">,</span> <span class="s2">&quot;Level of verbosity during training&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
 
 <div class="viewcode-block" id="NerCrfApproach.setL2"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_crf/index.html#sparknlp.annotator.ner.ner_crf.NerCrfApproach.setL2">[docs]</a>    <span class="k">def</span> <span class="nf">setL2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">l2value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets L2 regularization coefficient, by default 1.0.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets L2 regularization coefficient, by default 1.0.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -461,7 +461,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">l2</span><span class="o">=</span><span class="n">l2value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="NerCrfApproach.setC0"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_crf/index.html#sparknlp.annotator.ner.ner_crf.NerCrfApproach.setC0">[docs]</a>    <span class="k">def</span> <span class="nf">setC0</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c0value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets c0 params defining decay speed for gradient, by default 2250000.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets c0 params defining decay speed for gradient, by default 2250000.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -471,7 +471,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">c0</span><span class="o">=</span><span class="n">c0value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="NerCrfApproach.setLossEps"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_crf/index.html#sparknlp.annotator.ner.ner_crf.NerCrfApproach.setLossEps">[docs]</a>    <span class="k">def</span> <span class="nf">setLossEps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eps</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets If Epoch relative improvement less than eps then training is</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets If Epoch relative improvement less than eps then training is</span>
 <span class="sd">        stopped, by default 0.001.</span>
 
 <span class="sd">        Parameters</span>
@@ -482,7 +482,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">lossEps</span><span class="o">=</span><span class="n">eps</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="NerCrfApproach.setMinW"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_crf/index.html#sparknlp.annotator.ner.ner_crf.NerCrfApproach.setMinW">[docs]</a>    <span class="k">def</span> <span class="nf">setMinW</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">w</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets minimum weight value.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets minimum weight value.</span>
 
 <span class="sd">        Features with less weights then this param value will be filtered.</span>
 
@@ -494,7 +494,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">minW</span><span class="o">=</span><span class="n">w</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="NerCrfApproach.setExternalFeatures"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_crf/index.html#sparknlp.annotator.ner.ner_crf.NerCrfApproach.setExternalFeatures">[docs]</a>    <span class="k">def</span> <span class="nf">setExternalFeatures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">TEXT</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">}):</span>
-        <span class="sd">&quot;&quot;&quot;Sets Additional dictionaries paths to use as a features.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets Additional dictionaries paths to use as a features.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -513,7 +513,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">externalFeatures</span><span class="o">=</span><span class="n">ExternalResource</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="p">,</span> <span class="n">opts</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="NerCrfApproach.setIncludeConfidence"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_crf/index.html#sparknlp.annotator.ner.ner_crf.NerCrfApproach.setIncludeConfidence">[docs]</a>    <span class="k">def</span> <span class="nf">setIncludeConfidence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to include confidence scores in annotation metadata, by</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to include confidence scores in annotation metadata, by</span>
 <span class="sd">        default False.</span>
 
 <span class="sd">        Parameters</span>
@@ -524,7 +524,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">includeConfidence</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="NerCrfApproach.setVerbose"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_crf/index.html#sparknlp.annotator.ner.ner_crf.NerCrfApproach.setVerbose">[docs]</a>    <span class="k">def</span> <span class="nf">setVerbose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">verboseValue</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets level of verbosity during training.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets level of verbosity during training.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -551,7 +551,7 @@
 
 
 <div class="viewcode-block" id="NerCrfModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_crf/index.html#sparknlp.annotator.ner.ner_crf.NerCrfModel">[docs]</a><span class="k">class</span> <span class="nc">NerCrfModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Extracts Named Entities based on a CRF Model.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extracts Named Entities based on a CRF Model.</span>
 
 <span class="sd">    This Named Entity recognition annotator allows for a generic model to be</span>
 <span class="sd">    trained by utilizing a CRF machine learning algorithm. The data should have</span>
@@ -661,7 +661,7 @@
         <span class="p">)</span>
 
 <div class="viewcode-block" id="NerCrfModel.setIncludeConfidence"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_crf/index.html#sparknlp.annotator.ner.ner_crf.NerCrfModel.setIncludeConfidence">[docs]</a>    <span class="k">def</span> <span class="nf">setIncludeConfidence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to include confidence scores in annotation metadata, by</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to include confidence scores in annotation metadata, by</span>
 <span class="sd">        default False.</span>
 
 <span class="sd">        Parameters</span>
@@ -673,7 +673,7 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="NerCrfModel.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_crf/index.html#sparknlp.annotator.ner.ner_crf.NerCrfModel.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;ner_crf&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
