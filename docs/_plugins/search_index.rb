@@ -453,6 +453,10 @@ Jekyll::Hooks.register :site, :post_render do |site|
   is_incremental = site.config['incremental']
   if not ENV['FORCE'] and editions_changed?(editions)
     print("Please retry again with full build. New editions encountered.")
+    # Write to $GITHUB_OUPUT for CI/CD
+    open(ENV["GITHUB_OUTPUT"], 'a') do |f|
+      f << "require_full_build=true"
+    end
     # exit raises a SystemExit exception with exit code 11
     exit(11)
   end

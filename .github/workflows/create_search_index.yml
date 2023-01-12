@@ -45,7 +45,6 @@ jobs:
         working-directory: docs
         run: |
           bundle exec jekyll build --incremental
-        continue-on-error: true
       - name: Setup tmate session
         uses: mxschmitt/action-tmate@v3
       - name: Full build
