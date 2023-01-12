@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Applicable Law Document Classifier (Bert Sentence Embeddings)
+title: Legal Applicable Law Clause Binary Classifier
 author: John Snow Labs
 name: legclf_applicable_law_cuad
 date: 2023-01-12
@@ -18,9 +18,14 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-The `legclf_applicable_law_cuad` model is a Bert Sentence Embeddings Document Classifier used to classify if the document belongs to the class `applicable-law` (check [Lawinsider](https://www.lawinsider.com/tags) for similar document type classification) or not (Binary Classification).
+This model is a Binary Classifier (True, False) for the applicable-law clause type. To use this model, make sure you provide enough context as an input. Adding Sentence Splitters to the pipeline will make the model see only sentences, not the whole text, so it’s better to skip it, unless you want to do Binary Classification as sentence level. If you have big legal documents, and you want to look for clauses, we recommend you to split the documents using any of the techniques available in our Spark NLP for Legal Workshop Tokenization & Splitting Tutorial (link [here](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings_JSL/Legal/01.Page_Splitting.ipynb)), namely:
 
-Unlike the Longformer model, this model is lighter in terms of inference time.
+- Paragraph splitting (by multiline);
+- Splitting by headers / subheaders;
+- etc.
+Take into consideration the embeddings of this model allows up to 512 tokens. If you have more than that, consider splitting in smaller pieces (you can also check the same tutorial link provided above).
+
+This model can be combined with any of the other 200+ Legal Clauses Classifiers you will find in Models Hub, getting as an output a series of True/False values for each of the legal clause model you have added.
 
 ## Predicted Entities
 
@@ -37,6 +42,7 @@ Unlike the Longformer model, this model is lighter in terms of inference time.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 document_assembler = nlp.DocumentAssembler()\
