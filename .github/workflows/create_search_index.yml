@@ -26,6 +26,8 @@ jobs:
           workflow_conclusion: success
           name: jekyll-build
           if_no_artifact_found: ignore
+      - name: Setup upterm session
+        uses: lhotari/action-upterm@v1
       - name: Extract artifacts and prepare incremental build
         working-directory: docs
         run: |
