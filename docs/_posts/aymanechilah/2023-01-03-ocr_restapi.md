@@ -4,7 +4,7 @@ title: ocr_restapi
 author: John Snow Labs
 name: ocr_restapi
 date: 2023-01-03
-tags: [en, licensed]
+tags: [en, licensed, ocr, RestApi]
 task: Ocr RestApi
 language: en
 edition: Visual NLP 3.14.0
