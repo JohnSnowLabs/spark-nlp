@@ -268,6 +268,7 @@
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.classification</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../classification/document_log_classifier/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.classification.document_log_classifier</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classification/document_ml_classifier/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.classification.document_ml_classifier</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classification/medical_bert_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.classification.medical_bert_for_sequence_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classification/medical_bert_for_token_classifier/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.classification.medical_bert_for_token_classifier</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classification/medical_distilbert_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.classification.medical_distilbert_for_sequence_classification</span></code></a></li>
@@ -336,6 +337,7 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../annotation_merger/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.annotation_merger</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../doc2_chunk_internal/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.doc2_chunk_internal</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resolution2_chunk/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.resolution2_chunk</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../router/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.router</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../source_tracking_metadata_params/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.source_tracking_metadata_params</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tf_graph_builder/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.tf_graph_builder</span></code></a></li>
@@ -455,6 +457,11 @@
 <span class="sig-name descname"><span class="pre">fuzzyMatchingDistanceThresholds</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunkmapper.html#ChunkMapperFuzzyMatchingParams.fuzzyMatchingDistanceThresholds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperFuzzyMatchingParams.fuzzyMatchingDistanceThresholds" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperFuzzyMatchingParams.fuzzyDistanceScalingMode">
+<span class="sig-name descname"><span class="pre">fuzzyDistanceScalingMode</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunkmapper.html#ChunkMapperFuzzyMatchingParams.fuzzyDistanceScalingMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperFuzzyMatchingParams.fuzzyDistanceScalingMode" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperFuzzyMatchingParams.setEnableTokenFingerprintMatching">
 <span class="sig-name descname"><span class="pre">setEnableTokenFingerprintMatching</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">etfm</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunkmapper.html#ChunkMapperFuzzyMatchingParams.setEnableTokenFingerprintMatching"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperFuzzyMatchingParams.setEnableTokenFingerprintMatching" title="Permalink to this definition">#</a></dt>
@@ -513,6 +520,11 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperFuzzyMatchingParams.setFuzzyMatchingDistanceThresholds">
 <span class="sig-name descname"><span class="pre">setFuzzyMatchingDistanceThresholds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fmdth</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunkmapper.html#ChunkMapperFuzzyMatchingParams.setFuzzyMatchingDistanceThresholds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperFuzzyMatchingParams.setFuzzyMatchingDistanceThresholds" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperFuzzyMatchingParams.setFuzzyDistanceScalingMode">
+<span class="sig-name descname"><span class="pre">setFuzzyDistanceScalingMode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fdsm</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunkmapper.html#ChunkMapperFuzzyMatchingParams.setFuzzyDistanceScalingMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperFuzzyMatchingParams.setFuzzyDistanceScalingMode" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -626,7 +638,7 @@ lc : bool</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp_jsl.common</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp_jsl</span>
@@ -659,6 +671,11 @@ lc : bool</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperApproach.inputAnnotatorTypes">
 <span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunkmapper.html#ChunkMapperApproach.inputAnnotatorTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperApproach.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperApproach.outputAnnotatorType">
+<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunkmapper.html#ChunkMapperApproach.outputAnnotatorType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperApproach.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -716,7 +733,7 @@ path : str</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp_jsl.common</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp_jsl</span>
@@ -751,6 +768,11 @@ path : str</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperModel.inputAnnotatorTypes">
 <span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunkmapper.html#ChunkMapperModel.inputAnnotatorTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperModel.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperModel.outputAnnotatorType">
+<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunkmapper.html#ChunkMapperModel.outputAnnotatorType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperModel.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -941,6 +963,15 @@ Spark NLPs repositories otherwise.</p>
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperFuzzyMatchingParams.fuzzyDistanceScalingMode">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkMapperFuzzyMatchingParams.fuzzyDistanceScalingMode
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperFuzzyMatchingParams.setEnableTokenFingerprintMatching">
          <code class="docutils literal notranslate">
           <span class="pre">
@@ -1044,6 +1075,15 @@ Spark NLPs repositories otherwise.</p>
          <code class="docutils literal notranslate">
           <span class="pre">
            ChunkMapperFuzzyMatchingParams.setFuzzyMatchingDistanceThresholds()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperFuzzyMatchingParams.setFuzzyDistanceScalingMode">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkMapperFuzzyMatchingParams.setFuzzyDistanceScalingMode()
           </span>
          </code>
         </a>
@@ -1170,6 +1210,15 @@ Spark NLPs repositories otherwise.</p>
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperApproach.outputAnnotatorType">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkMapperApproach.outputAnnotatorType
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperApproach.name">
          <code class="docutils literal notranslate">
           <span class="pre">
@@ -1212,6 +1261,15 @@ Spark NLPs repositories otherwise.</p>
          <code class="docutils literal notranslate">
           <span class="pre">
            ChunkMapperModel.inputAnnotatorTypes
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperModel.outputAnnotatorType">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ChunkMapperModel.outputAnnotatorType
           </span>
          </code>
         </a>
@@ -1302,6 +1360,11 @@ Spark NLPs repositories otherwise.</p>
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperFuzzyMatchingParams.fuzzyDistanceScalingMode">
+         fuzzyDistanceScalingMode
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperFuzzyMatchingParams.setEnableTokenFingerprintMatching">
          setEnableTokenFingerprintMatching
         </a>
@@ -1359,6 +1422,11 @@ Spark NLPs repositories otherwise.</p>
        <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperFuzzyMatchingParams.setFuzzyMatchingDistanceThresholds">
          setFuzzyMatchingDistanceThresholds
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperFuzzyMatchingParams.setFuzzyDistanceScalingMode">
+         setFuzzyDistanceScalingMode
         </a>
        </li>
       </ul>
@@ -1431,6 +1499,11 @@ Spark NLPs repositories otherwise.</p>
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperApproach.outputAnnotatorType">
+         outputAnnotatorType
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperApproach.name">
          name
         </a>
@@ -1455,6 +1528,11 @@ Spark NLPs repositories otherwise.</p>
        <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperModel.inputAnnotatorTypes">
          inputAnnotatorTypes
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperModel.outputAnnotatorType">
+         outputAnnotatorType
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
