@@ -4,7 +4,7 @@ title: image_processing
 author: John Snow Labs
 name: image_processing
 date: 2023-01-03
-tags: [en, licensed]
+tags: [en, licensed, ocr, image_processing]
 task: Document Image Processing
 language: en
 edition: Visual NLP 3.14.0
