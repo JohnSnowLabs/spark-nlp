@@ -38,11 +38,11 @@ documentAssembler = DocumentAssembler() \
 tokenizer = Tokenizer() \
     .setInputCols("document") \
     .setOutputCol("token")
-  
+
 embeddings = BertSentenceEmbeddings.pretrained("sbert_bert_large_portuguese_cased_legal_mlm_sts_v0.10","pt") \
     .setInputCols(["document", "token"]) \
     .setOutputCol("embeddings")
-    
+
 pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings])
 
 data = spark.createDataFrame([["Eu amo Spark NLP"]]).toDF("text")
