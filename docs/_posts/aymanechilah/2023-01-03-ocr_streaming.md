@@ -4,7 +4,7 @@ title: ocr_streaming
 author: John Snow Labs
 name: ocr_streaming
 date: 2023-01-03
-tags: [en, licensed]
+tags: [en, licensed, ocr, streaming]
 task: Ocr Streaming
 language: en
 edition: Visual NLP 3.14.0
@@ -47,34 +47,33 @@ Streaming pipeline implementation for the OCR task, using tesseract models. Tess
     
     # Run OCR for each region
     ocr = ImageToText()
-    ocr.setInputCol("image")
-    ocr.setOutputCol("text")
-    ocr.setConfidenceThreshold(60)
+            ocr.setInputCol("image")
+            ocr.setOutputCol("text")
+            ocr.setConfidenceThreshold(60)
     
     # OCR pipeline
     pipeline = PipelineModel(stages=[
-        pdf_to_image,
-        ocr
-    ])
+                                pdf_to_image,
+                                ocr])
 
     # count of files in one microbatch
     maxFilesPerTrigger = 4 
     
     # read files as stream
     pdf_stream_df = spark.readStream \
-    .format("binaryFile") \
-    .schema(pdfs_df.schema) \
-    .option("maxFilesPerTrigger", maxFilesPerTrigger) \
-    .load(dataset_path)
+        .format("binaryFile") \
+        .schema(pdfs_df.schema) \
+        .option("maxFilesPerTrigger", maxFilesPerTrigger) \
+        .load(dataset_path)
     
     # process files using OCR pipeline
     result = pipeline.transform(pdf_stream_df).withColumn("timestamp", current_timestamp())
     
     # store results to memory table
     query = result.writeStream \
-     .format('memory') \
-     .queryName('result') \
-     .start()
+       .format('memory') \
+       .queryName('result') \
+       .start()
 ```
 ```scala
 import com.johnsnowlabs.ocr.transformers.*
@@ -84,50 +83,49 @@ val imagePath = "path to image"
 var batchDataFrame = spark.read.format("binaryFile").load(imagePath)
 
 val binaryToImage = new BinaryToImage()
-  .setInputCol("content")
-  .setOutputCol("image")
+      .setInputCol("content")
+      .setOutputCol("image")
   
 val binarizer = new ImageBinarizer()
-  .setInputCol("image")
-  .setOutputCol("binarized_image")
+      .setInputCol("image")
+      .setOutputCol("binarized_image")
   
 val layoutAnalayzer = new ImageLayoutAnalyzer()
-  .setInputCol("binarized_image")
-  .setOutputCol("region")
-  .setPageIteratorLevel(TessPageIteratorLevel.RIL_BLOCK)
+      .setInputCol("binarized_image")
+      .setOutputCol("region")
+      .setPageIteratorLevel(TessPageIteratorLevel.RIL_BLOCK)
   
 val splitter = new ImageSplitRegions()
-  .setInputCol("binarized_image")
-  .setOutputCol("region_image")
+      .setInputCol("binarized_image")
+      .setOutputCol("region_image")
   
 val ocr = new ImageToText()
-  .setInputCol("region_image")
-  .setOutputCol("text")
-  .setPageSegMode(6)
-  .setPageIteratorLevel(TessPageIteratorLevel.RIL_BLOCK)
-  
-val pipeline = new Pipeline()
-pipeline.setStages(Array(
-  binaryToImage,
-  binarizer,
-  layoutAnalayzer,
-  splitter,
-  ocr
-))
+      .setInputCol("region_image")
+      .setOutputCol("text")
+      .setPageSegMode(6)
+      .setPageIteratorLevel(TessPageIteratorLevel.RIL_BLOCK)
+      
+val pipeline = new Pipeline().setStages(Array(
+                                          binaryToImage,
+                                          binarizer,
+                                          layoutAnalayzer,
+                                          splitter,
+                                          ocr
+                                        ))
 
 val modelPipeline = pipeline.fit(batchDataFrame)
 
 val dataFrame = spark.readStream
-  .format("binaryFile")
-  .schema(batchDataFrame.schema)
-  .load(imagePath)
+    .format("binaryFile")
+    .schema(batchDataFrame.schema)
+    .load(imagePath)
   
 val query = modelPipeline.transform(dataFrame)
-  .select("text", "exception")
-  .writeStream
-  .format("memory")
-  .queryName("test")
-  .start()
+    .select("text", "exception")
+    .writeStream
+    .format("memory")
+    .queryName("test")
+    .start()
   
 query.processAllAvailable()
 ```
