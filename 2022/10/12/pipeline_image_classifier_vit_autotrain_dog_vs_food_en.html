@@ -425,56 +425,104 @@
 
 <p><code class="language-plaintext highlighter-rouge">dog</code>, <code class="language-plaintext highlighter-rouge">food</code></p>
 
-<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_image_classifier_vit_autotrain_dog_vs_food_en_4.2.1_3.0_1665569556627.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button></p>
+
+<p><button class="button button-orange" disabled="">Open in Colab</button></p>
+
+<p><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_image_classifier_vit_autotrain_dog_vs_food_en_4.2.1_3.0_1665569556627.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
 <div class="tabs-box">
+
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+
+
     <span class="n">pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">'pipeline_image_classifier_vit_autotrain_dog_vs_food'</span><span class="p">,</span> <span class="n">lang</span> <span class="o">=</span> <span class="s">'en'</span><span class="p">)</span>
+
     <span class="n">annotations</span> <span class="o">=</span>  <span class="n">pipeline</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">imageDF</span><span class="p">)</span>
+
     
+
 </code></pre></div>  </div>
+
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+
+
     <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"pipeline_image_classifier_vit_autotrain_dog_vs_food"</span><span class="o">,</span> <span class="n">lang</span> <span class="k">=</span> <span class="s">"en"</span><span class="o">)</span>
+
     <span class="k">val</span> <span class="nv">annotations</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">imageDF</span><span class="o">)</span>
+
     
+
 </code></pre></div>  </div>
+
 </div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
-<table class="table-model">
+<p>|—|—|</p>
+
+<table>
   <tbody>
     <tr>
       <td>Model Name:</td>
       <td>pipeline_image_classifier_vit_autotrain_dog_vs_food</td>
     </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
     <tr>
       <td>Type:</td>
       <td>pipeline</td>
     </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
     <tr>
       <td>Compatibility:</td>
       <td>Spark NLP 4.2.1+</td>
     </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
     <tr>
       <td>License:</td>
       <td>Open Source</td>
     </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
     <tr>
       <td>Edition:</td>
       <td>Official</td>
     </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
     <tr>
       <td>Language:</td>
       <td>en</td>
     </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
     <tr>
       <td>Size:</td>
       <td>321.9 MB</td>
@@ -485,9 +533,14 @@
 <h2 id="included-models">Included Models</h2>
 
 <ul>
-  <li>ImageAssembler</li>
-  <li>ViTForImageClassification</li>
+  <li>
+    <p>ImageAssembler</p>
+  </li>
+  <li>
+    <p>ViTForImageClassification</p>
+  </li>
 </ul>
+
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-10-12T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>

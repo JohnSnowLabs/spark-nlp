@@ -11,7 +11,7 @@
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
 <!-- End Google Tag Manager --><title>English image_classifier_vit_pond ViTForImageClassification from SummerChiam</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionPretrained VIT  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.image_classifier_vit_pond is a English model originally trained by SummerChiam.Live DemoOpen in ColabDownloadHow to use         PythonScalaNLU  image_assembler = ImageAssembler() \ ...">
+<meta name="description" content="DescriptionPretrained VIT  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.image_classifier_vit_pond is a English model originally trained by SummerChiam.Predicted EntitiesNormalCement0, Boiling0, NormalNight0, Algae0, BoilingNight0, NormalRain0, Normal0Li...">
 <link rel="canonical" href="/2022/08/10/image_classifier_vit_pond_en_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -421,86 +421,169 @@
 
 <p>Pretrained VIT  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.<code class="language-plaintext highlighter-rouge">image_classifier_vit_pond</code> is a English model originally trained by SummerChiam.</p>
 
-<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/image_classifier_vit_pond_en_4.1.0_3.0_1660165886306.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<h2 id="predicted-entities">Predicted Entities</h2>
+
+<p><code class="language-plaintext highlighter-rouge">NormalCement0</code>, <code class="language-plaintext highlighter-rouge">Boiling0</code>, <code class="language-plaintext highlighter-rouge">NormalNight0</code>, <code class="language-plaintext highlighter-rouge">Algae0</code>, <code class="language-plaintext highlighter-rouge">BoilingNight0</code>, <code class="language-plaintext highlighter-rouge">NormalRain0</code>, <code class="language-plaintext highlighter-rouge">Normal0</code></p>
+
+<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button></p>
+
+<p><button class="button button-orange" disabled="">Open in Colab</button></p>
+
+<p><a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/image_classifier_vit_pond_en_4.1.0_3.0_1660165886306.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
 <div class="tabs-box">
+
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
+
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+
+
 <span class="n">image_assembler</span> <span class="o">=</span> <span class="n">ImageAssembler</span><span class="p">()</span> \
+
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
+
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image_assembler"</span><span class="p">)</span>
 
+
+
 <span class="n">imageClassifier</span> <span class="o">=</span> <span class="n">ViTForImageClassification</span> \
+
     <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"image_classifier_vit_pond"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span>\
+
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"image_assembler"</span><span class="p">)</span> \
+
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"class"</span><span class="p">)</span>
 
+
+
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+
     <span class="n">image_assembler</span><span class="p">,</span>
+
     <span class="n">imageClassifier</span><span class="p">,</span>
+
 <span class="p">])</span>
+
+
 
 <span class="n">pipelineModel</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">imageDF</span><span class="p">)</span>
 
+
+
 <span class="n">pipelineDF</span> <span class="o">=</span> <span class="n">pipelineModel</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">imageDF</span><span class="p">)</span>
+
 </code></pre></div>  </div>
+
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+
+
 <span class="k">val</span> <span class="nv">imageAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ImageAssembler</span><span class="o">()\</span>
+
 <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)\</span>
+
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
 
+
+
 <span class="k">val</span> <span class="nv">imageClassifier</span> <span class="k">=</span> <span class="nc">ViTForImageClassification</span><span class="o">\</span>
+
 <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"image_classifier_vit_pond"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)\</span>
+
 <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)\</span>
+
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"class"</span><span class="o">)</span>
+
+
 
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">imageAssembler</span><span class="o">,</span> <span class="n">imageClassifier</span><span class="o">))</span>
 
+
+
 <span class="k">val</span> <span class="nv">pipelineModel</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">imageDF</span><span class="o">)</span>
+
+
 
 <span class="k">val</span> <span class="nv">pipelineDF</span> <span class="k">=</span> <span class="nv">pipelineModel</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">imageDF</span><span class="o">)</span>
 
+
+
 </code></pre></div>  </div>
+
 </div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
-<table class="table-model">
+<p>|—|—|</p>
+
+<table>
   <tbody>
     <tr>
       <td>Model Name:</td>
       <td>image_classifier_vit_pond</td>
     </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
     <tr>
       <td>Compatibility:</td>
       <td>Spark NLP 4.1.0+</td>
     </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
     <tr>
       <td>License:</td>
       <td>Open Source</td>
     </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
     <tr>
       <td>Edition:</td>
       <td>Official</td>
     </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
     <tr>
       <td>Input Labels:</td>
       <td>[image_assembler]</td>
     </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
     <tr>
       <td>Output Labels:</td>
       <td>[class]</td>
     </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
     <tr>
       <td>Language:</td>
       <td>en</td>
     </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
     <tr>
       <td>Size:</td>
       <td>321.9 MB</td>
