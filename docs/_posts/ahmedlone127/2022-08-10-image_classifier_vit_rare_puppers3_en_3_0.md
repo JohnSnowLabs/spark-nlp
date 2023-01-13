@@ -25,6 +25,8 @@ Pretrained VIT  model, adapted from Hugging Face and curated to provide scalabil
 
 `Marcelle Lender doing the Bolero in Chilperic`, `Moulin Rouge_ La Goulue - Henri Toulouse-Lautrec`, `Salon at the Rue des Moulins - Henri de Toulouse-Lautrec`, `aristide bruant - Henri de Toulouse-Lautrec`
 
+
+
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>

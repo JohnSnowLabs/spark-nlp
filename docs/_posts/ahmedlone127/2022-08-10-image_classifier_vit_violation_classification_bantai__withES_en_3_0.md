@@ -26,9 +26,6 @@ Pretrained VIT  model, adapted from Hugging Face and curated to provide scalabil
 `Public Smoking`, `Public-Drinking`, `ambiguous`, `non-violation`
 
 
-## Predicted Entities
-
-`Public Smoking`, `Public-Drinking`, `ambiguous`, `non-violation`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

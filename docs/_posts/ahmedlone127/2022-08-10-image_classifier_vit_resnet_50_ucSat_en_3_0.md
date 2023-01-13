@@ -25,6 +25,8 @@ Pretrained VIT  model, adapted from Hugging Face and curated to provide scalabil
 
 `buildings`, `denseresidential`, `storagetanks`, `tenniscourt`, `parkinglot`, `golfcourse`, `intersection`, `harbor`, `river`, `runway`, `mediumresidential`, `chaparral`, `freeway`, `overpass`, `mobilehomepark`, `baseballdiamond`, `agricultural`, `airplane`, `sparseresidential`, `forest`, `beach`
 
+
+
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>

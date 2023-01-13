@@ -25,6 +25,8 @@ Pretrained VIT  model, adapted from Hugging Face and curated to provide scalabil
 
 `Residential`, `AnnualCrop`, `Highway`, `Pasture`, `SeaLake`, `Industrial`, `HerbaceousVegetation`, `River`, `PermanentCrop`, `Forest`
 
+
+
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>

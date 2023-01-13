@@ -25,6 +25,8 @@ Pretrained VIT  model, adapted from Hugging Face and curated to provide scalabil
 
 `marker`, `pencil`, `pens`, `crayon`, `chalk`
 
+
+
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>

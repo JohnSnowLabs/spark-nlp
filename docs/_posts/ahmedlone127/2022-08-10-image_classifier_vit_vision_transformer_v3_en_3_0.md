@@ -25,6 +25,8 @@ Pretrained VIT  model, adapted from Hugging Face and curated to provide scalabil
 
 `chart`, `imagechart`, `notchart`, `pdfpagechart`
 
+
+
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
