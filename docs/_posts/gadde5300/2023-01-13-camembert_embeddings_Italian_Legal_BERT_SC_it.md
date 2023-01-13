@@ -4,7 +4,7 @@ title: Italian Camembert Embedding  Cased model
 author: John Snow Labs
 name: camembert_embeddings_Italian_Legal_BERT_SC
 date: 2023-01-13
-tags: [it, open_source, embeddings, camembertembeddings]
+tags: [it, open_source, embeddings, camembert]
 task: Embeddings
 language: it
 edition: Spark NLP 4.2.7
