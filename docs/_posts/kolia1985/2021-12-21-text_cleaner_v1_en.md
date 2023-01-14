@@ -32,18 +32,7 @@ Model for cleaning image with text. It is based on text detection model with ext
 ## How to use
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
 
-    from pyspark.ml import PipelineModel
-    from sparkocr.transformers import *
-    
-    imagePath = "path to image"
-    image_df = spark.read.format("binaryFile").load(imagePath)
-
-
-## How to use
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 
     from pyspark.ml import PipelineModel
