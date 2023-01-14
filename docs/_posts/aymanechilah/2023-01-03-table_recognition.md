@@ -4,7 +4,7 @@ title: table_recognition
 author: John Snow Labs
 name: table_recognition
 date: 2023-01-03
-tags: [en, licensed]
+tags: [en, licensed, ocr, table_recognition]
 task: Table Recognition
 language: en
 edition: Visual NLP 3.14.0
@@ -35,6 +35,7 @@ For table recognition is proposed a CascadTabNet model. CascadTabNet is an autom
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
     
     from pyspark.ml import PipelineModel
