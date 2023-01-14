@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.ReadSentencePieceModel
 import com.johnsnowlabs.nlp.annotators.audio.{
   ReadHubertForAudioTensorflowModel,
-  ReadWav2Vec2ForAudioTensorflowModel,
+  ReadWav2Vec2ForAudioDLModel,
   ReadablePretrainedHubertForAudioModel,
   ReadablePretrainedWav2Vec2ForAudioModel
 }
@@ -652,7 +652,7 @@ package object annotator {
 
   object Wav2Vec2ForCTC
       extends ReadablePretrainedWav2Vec2ForAudioModel
-      with ReadWav2Vec2ForAudioTensorflowModel
+      with ReadWav2Vec2ForAudioDLModel
 
   type HubertForCTC =
     com.johnsnowlabs.nlp.annotators.audio.HubertForCTC
