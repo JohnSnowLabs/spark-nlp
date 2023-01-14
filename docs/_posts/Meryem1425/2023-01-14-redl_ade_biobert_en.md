@@ -35,6 +35,7 @@ This model is an end-to-end trained BioBERT model, capable of Relating Drugs and
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documenter = DocumentAssembler()\
     .setInputCol("text")\
