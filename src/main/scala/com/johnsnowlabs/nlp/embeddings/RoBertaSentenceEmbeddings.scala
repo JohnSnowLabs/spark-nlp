@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
+import com.johnsnowlabs.ml.ai.RoBerta
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadTextAsset,
@@ -251,7 +252,7 @@ class RoBertaSentenceEmbeddings(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowRoBerta]] = None
+  private var _model: Option[Broadcast[RoBerta]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
@@ -260,7 +261,7 @@ class RoBertaSentenceEmbeddings(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowRoBerta(
+          new RoBerta(
             tensorflowWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
@@ -273,7 +274,7 @@ class RoBertaSentenceEmbeddings(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowRoBerta = _model.get.value
+  def getModelIfNotSet: RoBerta = _model.get.value
 
   /** Set Embeddings dimensions for the RoBERTa model. Only possible to set this when the first
     * time is saved dimension is not changeable, it comes from RoBERTa config file.
@@ -402,16 +403,13 @@ trait ReadRobertaSentenceDLModel extends ReadTensorflowModel {
 
   override val tfFile: String = "roberta_tensorflow"
 
-  def readTensorflow(
-      instance: RoBertaSentenceEmbeddings,
-      path: String,
-      spark: SparkSession): Unit = {
+  def readModel(instance: RoBertaSentenceEmbeddings, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_roberta_tf", initAllTables = false)
     instance.setModelIfNotSet(spark, tf)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): RoBertaSentenceEmbeddings = {
 

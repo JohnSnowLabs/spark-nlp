@@ -122,15 +122,10 @@ Manual annotations on CUAD dataset
 ## Benchmarking
 
 ```bash
-
-Relation           Recall Precision        F1   Support
-
-allows              1.000     1.000     1.000        32
-is_allowed_to       1.000     1.000     1.000        36
-other               1.000     1.000     1.000        32
-
-Avg.                1.000     1.000     1.000
-
-Weighted Avg.       1.000     1.000     1.000
-
+        label      Recall   Precision        F1   Support
+       allows       1.000       1.000     1.000        32
+is_allowed_to       1.000       1.000     1.000        36
+        other       1.000       1.000     1.000        32
+          Avg       1.000       1.000     1.000        -
+ Weighted-Avg       1.000       1.000     1.000        -
 ```

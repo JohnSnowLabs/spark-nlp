@@ -316,7 +316,7 @@ trait ReadLanguageDetectorDLTensorflowModel extends ReadTensorflowModel {
 
   override val tfFile: String = "ld_tensorflow"
 
-  def readTensorflow(instance: LanguageDetectorDL, path: String, spark: SparkSession): Unit = {
+  def readModel(instance: LanguageDetectorDL, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_ld_tf")
     instance.setModelIfNotSet(spark, tf)
@@ -326,7 +326,7 @@ trait ReadLanguageDetectorDLTensorflowModel extends ReadTensorflowModel {
     instance.set(instance.languages, r)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): LanguageDetectorDL = {
 

@@ -115,12 +115,11 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 
 ```bash
 
-|        label |   precision |   recall |   f1-score |   support |
-|-------------:|------------:|---------:|-----------:|----------:|
-|    indenture |        0.90 |     0.94 |       0.92 |       113 |
-|        other |        0.96 |     0.94 |       0.95 |       188 |
-|     accuracy |           - |        - |       0.94 |       301 |
-|    macro-avg |        0.93 |     0.94 |       0.93 |       301 |
-| weighted-avg |        0.94 |     0.94 |       0.94 |       301 |
+        label    precision    recall    f1-score    support 
+    indenture         0.90      0.94        0.92        113 
+        other         0.96      0.94        0.95        188 
+     accuracy            -         -        0.94        301 
+    macro-avg         0.93      0.94        0.93        301 
+ weighted-avg         0.94      0.94        0.94        301
 
 ```

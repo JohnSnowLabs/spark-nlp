@@ -37,6 +37,7 @@ Unlike the Longformer model, this model is lighter in terms of inference time.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  
 document_assembler = nlp.DocumentAssembler()\
@@ -86,13 +87,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-                            precision    recall  f1-score   support
-
+                     label  precision    recall  f1-score   support
                      other       1.00      1.00      1.00        35
 restricted-stock-agreement       1.00      1.00      1.00        30
-
-                  accuracy                           1.00        65
-                 macro avg       1.00      1.00      1.00        65
-              weighted avg       1.00      1.00      1.00        65
-
+                  accuracy          -         -      1.00        65
+                 macro-avg       1.00      1.00      1.00        65
+              weighted-avg       1.00      1.00      1.00        65
 ```

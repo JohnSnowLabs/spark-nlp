@@ -116,13 +116,11 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 
 ```bash
 
-| label                         | precision | recall | f1-score | support |
-|-------------------------------|-----------|--------|----------|---------|
-| other                         | 0.92      | 0.92   | 0.92     | 85      |
-| securities-purchase-agreement | 0.77      | 0.77   | 0.77     | 30      |
-| accuracy                      | -         | -      | 0.88     | 115     |
-| macro-avg                     | 0.84      | 0.84   | 0.84     | 115     |
-| weighted-avg                  | 0.88      | 0.88   | 0.88     | 115     |
-
+label                          precision  recall  f1-score  support 
+other                          0.92       0.92    0.92      85      
+securities-purchase-agreement  0.77       0.77    0.77      30      
+accuracy                       -          -       0.88      115     
+macro-avg                      0.84       0.84    0.84      115     
+weighted-avg                   0.88       0.88    0.88      115 
 
 ```

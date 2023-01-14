@@ -44,6 +44,7 @@ This model is a Binary Classifier (True, False) for the `risk-of-loss` clause ty
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  documentAssembler = nlp.DocumentAssembler() \
          .setInputCol("clause_text") \
@@ -90,15 +91,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
        other       0.97      1.00      0.99        39
 risk-of-loss       1.00      0.95      0.98        22
-
-    accuracy                           0.98        61
-   macro avg       0.99      0.98      0.98        61
-weighted avg       0.98      0.98      0.98        61
-
-
+    accuracy          -         -      0.98        61
+   macro-avg       0.99      0.98      0.98        61
+weighted-avg       0.98      0.98      0.98        61
 ```

@@ -163,7 +163,7 @@ result
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[TapasForQuestionAnswering](/api/python/reference/autosummary/python/sparknlp/annotator/classifier_dl/tapas_for_question_answering/index.html?highlight=tapas#python.sparknlp.annotator.classifier_dl.tapas_for_question_answering.TapasForQuestionAnswering)
+[TapasForQuestionAnswering](/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/tapas_for_question_answering/index.html?highlight=tapas#python.sparknlp.annotator.classifier_dl.tapas_for_question_answering.TapasForQuestionAnswering)
 {%- endcapture -%}
 
 {%- capture source_link -%}

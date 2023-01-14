@@ -68,7 +68,7 @@ CM = legal.ChunkMapperModel()\
       .setInputCols(["ner_chunk"])\
       .setOutputCol("mappings")
 
-pipeline = Pipeline().setStages([document_assembler,
+pipeline = nlp.Pipeline().setStages([document_assembler,
                                  tokenizer, 
                                  embeddings,
                                  ner_model, 

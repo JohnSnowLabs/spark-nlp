@@ -696,7 +696,8 @@ object PythonResourceDownloader {
     "CamemBertForTokenClassification" -> CamemBertForTokenClassification,
     "TableAssembler" -> TableAssembler,
     "TapasForQuestionAnswering" -> TapasForQuestionAnswering,
-    "CamemBertForSequenceClassification" -> CamemBertForSequenceClassification)
+    "CamemBertForSequenceClassification" -> CamemBertForSequenceClassification,
+    "CamemBertForQuestionAnswering" -> CamemBertForQuestionAnswering)
 
   def downloadModel(
       readerStr: String,

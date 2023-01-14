@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Financial ORG, PRODUCT and ALIAS NER (Large)
+title: Financial ORG, PRODUCT and ALIAS NER (Small)
 author: John Snow Labs
 name: finner_orgs_prods_alias
 date: 2022-08-17

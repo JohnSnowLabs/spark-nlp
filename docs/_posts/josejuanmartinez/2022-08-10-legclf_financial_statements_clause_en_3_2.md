@@ -106,7 +106,7 @@ Legal documents, scrapped from the Internet, and classified in-house
                label  precision    recall  f1-score   support
 financial-statements       1.00      1.00      1.00        23
                other       1.00      1.00      1.00        40
-            accuracy        -         -        1.00        63
+            accuracy          -         -      1.00        63
            macro-avg       1.00      1.00      1.00        63
         weighted-avg       1.00      1.00      1.00        63
 ```
