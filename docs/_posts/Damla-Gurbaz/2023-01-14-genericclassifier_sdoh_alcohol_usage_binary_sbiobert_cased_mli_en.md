@@ -34,20 +34,29 @@ This Generic Classifier model is intended for detecting behavioral factor alcoho
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-document_assembler = DocumentAssembler()    .setInputCol("text")    .setOutputCol("document")
+document_assembler = DocumentAssembler()\
+    .setInputCol("text")\
+    .setOutputCol("document")
         
-sentence_embeddings = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", 'en','clinical/models')    .setInputCols(["document"])    .setOutputCol("sentence_embeddings")
+sentence_embeddings = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", 'en','clinical/models')\
+    .setInputCols(["document"])\
+    .setOutputCol("sentence_embeddings")
 
-features_asm = FeaturesAssembler()    .setInputCols(["sentence_embeddings"])    .setOutputCol("features")
+features_asm = FeaturesAssembler()\
+    .setInputCols(["sentence_embeddings"])\
+    .setOutputCol("features")
 
-generic_classifier = GenericClassifierModel.pretrained("genericclassifier_sdoh_alcohol_usage_binary_sbiobert_cased_mli", 'en', 'clinical/models')    .setInputCols(["features"])    .setOutputCol("class")
+generic_classifier = GenericClassifierModel.pretrained("genericclassifier_sdoh_alcohol_usage_binary_sbiobert_cased_mli", 'en', 'clinical/models')\
+    .setInputCols(["features"])\
+    .setOutputCol("class")
 
 pipeline = Pipeline(stages=[
-    document_assembler,
-    sentence_embeddings,
-    features_asm,
-    generic_classifier    
+     document_assembler,
+     sentence_embeddings,
+     features_asm,
+     generic_classifier    
 ])
 
 text_list = ["Retired schoolteacher, now substitutes. Lives with wife in location 1439. Has a 27 yo son and a 25 yo daughter. He uses alcohol and cigarettes",
