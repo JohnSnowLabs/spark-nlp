@@ -31,10 +31,17 @@ Detect interactions between chemicals and proteins using BERT model by classifyi
 
 ## How to use
 
+In the table below, `redl_chemprot_biobert` RE model, its labels, optimal NER model, and meaningful relation pairs are illustrated.
+
+|        RE MODEL       |                             RE MODEL LABES                            |       NER MODEL       | RE PAIRS                  |
+|:---------------------:|:---------------------------------------------------------------------:|:---------------------:|---------------------------|
+| redl_chemprot_biobert | CPR:1, CPR:2, CPR:3, CPR:4, CPR:5, CPR:6, CPR:7, CPR:8, CPR:9, CPR:10 | ner_chemprot_clinical | [“No need to set pairs.”] |
+
 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documenter = DocumentAssembler()\
     .setInputCol("text")\
