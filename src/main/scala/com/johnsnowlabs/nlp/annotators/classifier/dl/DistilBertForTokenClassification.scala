@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
+import com.johnsnowlabs.ml.ai.DistilBertClassification
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadTextAsset,
@@ -223,7 +224,7 @@ class DistilBertForTokenClassification(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowDistilBertClassification]] = None
+  private var _model: Option[Broadcast[DistilBertClassification]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
@@ -232,7 +233,7 @@ class DistilBertForTokenClassification(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowDistilBertClassification(
+          new DistilBertClassification(
             tensorflowWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
@@ -246,7 +247,7 @@ class DistilBertForTokenClassification(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowDistilBertClassification = _model.get.value
+  def getModelIfNotSet: DistilBertClassification = _model.get.value
 
   /** Whether to lowercase tokens or not
     *
@@ -321,12 +322,12 @@ trait ReadablePretrainedDistilBertForTokenModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadDistilBertForTokenTensorflowModel extends ReadTensorflowModel {
+trait ReadDistilBertForTokenDLModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[DistilBertForTokenClassification] =>
 
   override val tfFile: String = "distilbert_classification_tensorflow"
 
-  def readTensorflow(
+  def readModel(
       instance: DistilBertForTokenClassification,
       path: String,
       spark: SparkSession): Unit = {
@@ -336,7 +337,7 @@ trait ReadDistilBertForTokenTensorflowModel extends ReadTensorflowModel {
     instance.setModelIfNotSet(spark, tf)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): DistilBertForTokenClassification = {
 
@@ -381,4 +382,4 @@ trait ReadDistilBertForTokenTensorflowModel extends ReadTensorflowModel {
   */
 object DistilBertForTokenClassification
     extends ReadablePretrainedDistilBertForTokenModel
-    with ReadDistilBertForTokenTensorflowModel
+    with ReadDistilBertForTokenDLModel

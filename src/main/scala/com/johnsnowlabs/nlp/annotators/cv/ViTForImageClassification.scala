@@ -16,9 +16,9 @@
 
 package com.johnsnowlabs.nlp.annotators.cv
 
+import com.johnsnowlabs.ml.ai.ViTClassifier
 import com.johnsnowlabs.ml.tensorflow.{
   ReadTensorflowModel,
-  TensorflowViTClassifier,
   TensorflowWrapper,
   WriteTensorflowModel
 }
@@ -203,10 +203,10 @@ class ViTForImageClassification(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowViTClassifier]] = None
+  private var _model: Option[Broadcast[ViTClassifier]] = None
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowViTClassifier = _model.get.value
+  def getModelIfNotSet: ViTClassifier = _model.get.value
 
   /** @group setParam */
   def setModelIfNotSet(
@@ -220,7 +220,7 @@ class ViTForImageClassification(override val uid: String)
 
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowViTClassifier(
+          new ViTClassifier(
             tensorflow,
             configProtoBytes = getConfigProtoBytes,
             tags = $$(labels),
@@ -320,15 +320,12 @@ trait ReadablePretrainedViTForImageModel
       remoteLoc: String): ViTForImageClassification = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadViTForImageTensorflowModel extends ReadTensorflowModel {
+trait ReadViTForImageDLModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[ViTForImageClassification] =>
 
   override val tfFile: String = "image_classification_tensorflow"
 
-  def readTensorflow(
-      instance: ViTForImageClassification,
-      path: String,
-      spark: SparkSession): Unit = {
+  def readModel(instance: ViTForImageClassification, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_image_classification_tf", initAllTables = false)
     instance.setModelIfNotSet(
@@ -340,7 +337,7 @@ trait ReadViTForImageTensorflowModel extends ReadTensorflowModel {
       instance.getSize)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): ViTForImageClassification = {
 
@@ -406,4 +403,4 @@ trait ReadViTForImageTensorflowModel extends ReadTensorflowModel {
   */
 object ViTForImageClassification
     extends ReadablePretrainedViTForImageModel
-    with ReadViTForImageTensorflowModel
+    with ReadViTForImageDLModel

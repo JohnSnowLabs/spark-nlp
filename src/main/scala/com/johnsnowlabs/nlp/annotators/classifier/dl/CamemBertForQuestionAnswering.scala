@@ -16,10 +16,15 @@
 
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
-import com.johnsnowlabs.ml.ai.{DistilBertClassification, MergeTokenStrategy}
+import com.johnsnowlabs.ml.ai._
 import com.johnsnowlabs.ml.tensorflow._
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
+  ReadSentencePieceModel,
+  SentencePieceWrapper,
+  WriteSentencePieceModel
+}
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
-  loadTextAsset,
+  loadSentencePieceAsset,
   modelSanityCheck,
   notSupportedEngineError
 }
@@ -31,17 +36,17 @@ import org.apache.spark.ml.param.{IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
-/** DistilBertForQuestionAnswering can load DistilBert Models with a span classification head on
-  * top for extractive question-answering tasks like SQuAD (a linear layer on top of the
-  * hidden-states output to compute span start logits and span end logits).
+/** CamemBertForQuestionAnswering can load CamemBERT Models with a span classification head on top
+  * for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states
+  * output to compute span start logits and span end logits).
   *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{
-  * val spanClassifier = DistilBertForQuestionAnswering.pretrained()
+  * val spanClassifier = CamemBertForQuestionAnswering.pretrained()
   *   .setInputCols(Array("document_question", "document_context"))
   *   .setOutputCol("answer")
   * }}}
-  * The default model is `"distilbert_base_cased_qa_squad2"`, if no name is provided.
+  * The default model is `"camembert_base_qa_fquad"`, if no name is provided.
   *
   * For available pretrained models please see the
   * [[https://nlp.johnsnowlabs.com/models?task=Question+Answering Models Hub]].
@@ -49,7 +54,7 @@ import org.apache.spark.sql.SparkSession
   * To see which models are compatible and how to import them see
   * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]] and to see more extended
   * examples, see
-  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/DistilBertForSequenceClassificationTestSpec.scala DistilBertForSequenceClassificationTestSpec]].
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/CamemBertForQuestionAnsweringTestSpec.scala CamemBertForQuestionAnsweringTestSpec]].
   *
   * ==Example==
   * {{{
@@ -62,7 +67,7 @@ import org.apache.spark.sql.SparkSession
   *   .setInputCols("question", "context")
   *   .setOutputCols("document_question", "document_context")
   *
-  * val questionAnswering = DistilBertForQuestionAnswering.pretrained()
+  * val questionAnswering = CamemBertForQuestionAnswering.pretrained()
   *   .setInputCols(Array("document_question", "document_context"))
   *   .setOutputCol("answer")
   *   .setCaseSensitive(true)
@@ -84,7 +89,7 @@ import org.apache.spark.sql.SparkSession
   * }}}
   *
   * @see
-  *   [[DistilBertForSequenceClassification]] for sequence-level classification
+  *   [[CamemBertForQuestionAnswering]] for sequence-level classification
   * @see
   *   [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of
   *   transformer based classifiers
@@ -107,17 +112,18 @@ import org.apache.spark.sql.SparkSession
   *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
   *   parameter values through setters and getters, respectively.
   */
-class DistilBertForQuestionAnswering(override val uid: String)
-    extends AnnotatorModel[DistilBertForQuestionAnswering]
-    with HasBatchedAnnotate[DistilBertForQuestionAnswering]
+class CamemBertForQuestionAnswering(override val uid: String)
+    extends AnnotatorModel[CamemBertForQuestionAnswering]
+    with HasBatchedAnnotate[CamemBertForQuestionAnswering]
     with WriteTensorflowModel
+    with WriteSentencePieceModel
     with HasCaseSensitiveProperties
     with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
     */
-  def this() = this(Identifiable.randomUID("DistilBertForQuestionAnswering"))
+  def this() = this(Identifiable.randomUID("CamemBertForQuestionAnswering"))
 
   /** Input Annotator Types: DOCUMENT, DOCUMENT
     *
@@ -132,25 +138,6 @@ class DistilBertForQuestionAnswering(override val uid: String)
     */
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.CHUNK
 
-  /** @group setParam */
-  def sentenceStartTokenId: Int = {
-    $$(vocabulary)("[CLS]")
-  }
-
-  /** @group setParam */
-  def sentenceEndTokenId: Int = {
-    $$(vocabulary)("[SEP]")
-  }
-
-  /** Vocabulary used to encode the words to ids with WordPieceEncoder
-    *
-    * @group param
-    */
-  val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary")
-
-  /** @group setParam */
-  def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
-
   /** ConfigProto from tensorflow, serialized into byte array. Get with
     * `config_proto.SerializeToString()`
     *
@@ -162,7 +149,7 @@ class DistilBertForQuestionAnswering(override val uid: String)
     "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** @group setParam */
-  def setConfigProtoBytes(bytes: Array[Int]): DistilBertForQuestionAnswering.this.type =
+  def setConfigProtoBytes(bytes: Array[Int]): CamemBertForQuestionAnswering.this.type =
     set(this.configProtoBytes, bytes)
 
   /** @group getParam */
@@ -179,7 +166,7 @@ class DistilBertForQuestionAnswering(override val uid: String)
   def setMaxSentenceLength(value: Int): this.type = {
     require(
       value <= 512,
-      "DistilBERT models do not support sequences longer than 512 because of trainable positional embeddings.")
+      "CamemBERT models do not support sequences longer than 512 because of trainable positional embeddings.")
     require(value >= 1, "The maxSentenceLength must be at least 1")
     set(maxSentenceLength, value)
     this
@@ -204,30 +191,29 @@ class DistilBertForQuestionAnswering(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[DistilBertClassification]] = None
+  private var _model: Option[Broadcast[CamemBertClassification]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
       spark: SparkSession,
-      tensorflowWrapper: TensorflowWrapper): DistilBertForQuestionAnswering = {
+      tensorflowWrapper: TensorflowWrapper,
+      spp: SentencePieceWrapper): CamemBertForQuestionAnswering = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new DistilBertClassification(
+          new CamemBertClassification(
             tensorflowWrapper,
-            sentenceStartTokenId,
-            sentenceEndTokenId,
+            spp,
             configProtoBytes = getConfigProtoBytes,
             tags = Map.empty[String, Int],
-            signatures = getSignatures,
-            $$(vocabulary))))
+            signatures = getSignatures)))
     }
 
     this
   }
 
   /** @group getParam */
-  def getModelIfNotSet: DistilBertClassification = _model.get.value
+  def getModelIfNotSet: CamemBertClassification = _model.get.value
 
   /** Whether to lowercase tokens or not (Default: `true`).
     *
@@ -248,6 +234,7 @@ class DistilBertForQuestionAnswering(override val uid: String)
     */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
     batchedAnnotations.map(annotations => {
+
       val documents = annotations
         .filter(_.annotatorType == AnnotatorType.DOCUMENT)
         .toSeq
@@ -257,7 +244,7 @@ class DistilBertForQuestionAnswering(override val uid: String)
           documents,
           $(maxSentenceLength),
           $(caseSensitive),
-          MergeTokenStrategy.vocab)
+          MergeTokenStrategy.sentencePiece)
       } else {
         Seq.empty[Annotation]
       }
@@ -270,60 +257,68 @@ class DistilBertForQuestionAnswering(override val uid: String)
       path,
       spark,
       getModelIfNotSet.tensorflowWrapper,
-      "_distilbert_classification",
-      DistilBertForQuestionAnswering.tfFile,
+      "_camembert_classification",
+      CamemBertForQuestionAnswering.tfFile,
       configProtoBytes = getConfigProtoBytes)
+    writeSentencePieceModel(
+      path,
+      spark,
+      getModelIfNotSet.spp,
+      "_camembert",
+      CamemBertForQuestionAnswering.sppFile)
   }
-
 }
 
-trait ReadablePretrainedDistilBertForQAModel
-    extends ParamsAndFeaturesReadable[DistilBertForQuestionAnswering]
-    with HasPretrained[DistilBertForQuestionAnswering] {
-  override val defaultModelName: Some[String] = Some("distilbert_base_cased_qa_squad2")
+trait ReadablePretrainedCamemBertForQAModel
+    extends ParamsAndFeaturesReadable[CamemBertForQuestionAnswering]
+    with HasPretrained[CamemBertForQuestionAnswering] {
+  override val defaultModelName: Some[String] = Some("camembert_base_qa_fquad")
+  override val defaultLang: String = "fr"
 
   /** Java compliant-overrides */
-  override def pretrained(): DistilBertForQuestionAnswering = super.pretrained()
+  override def pretrained(): CamemBertForQuestionAnswering =
+    super.pretrained()
 
-  override def pretrained(name: String): DistilBertForQuestionAnswering =
+  override def pretrained(name: String): CamemBertForQuestionAnswering =
     super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): DistilBertForQuestionAnswering =
+  override def pretrained(name: String, lang: String): CamemBertForQuestionAnswering =
     super.pretrained(name, lang)
 
   override def pretrained(
       name: String,
       lang: String,
-      remoteLoc: String): DistilBertForQuestionAnswering =
+      remoteLoc: String): CamemBertForQuestionAnswering =
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadDistilBertForQuestionAnsweringDLModel extends ReadTensorflowModel {
-  this: ParamsAndFeaturesReadable[DistilBertForQuestionAnswering] =>
+trait ReadCamemBertForQADLModel extends ReadTensorflowModel with ReadSentencePieceModel {
+  this: ParamsAndFeaturesReadable[CamemBertForQuestionAnswering] =>
 
-  override val tfFile: String = "distilbert_classification_tensorflow"
+  override val tfFile: String = "camembert_classification_tensorflow"
+  override val sppFile: String = "camembert_spp"
 
-  def readModel(
-      instance: DistilBertForQuestionAnswering,
+  def readTensorflow(
+      instance: CamemBertForQuestionAnswering,
       path: String,
       spark: SparkSession): Unit = {
 
     val tf =
-      readTensorflowModel(path, spark, "_distilbert_classification_tf", initAllTables = false)
-    instance.setModelIfNotSet(spark, tf)
+      readTensorflowModel(path, spark, "_camembert_classification_tf", initAllTables = false)
+    val spp = readSentencePieceModel(path, spark, "_camembert_spp", sppFile)
+    instance.setModelIfNotSet(spark, tf, spp)
   }
 
-  addReader(readModel)
+  addReader(readTensorflow)
 
-  def loadSavedModel(modelPath: String, spark: SparkSession): DistilBertForQuestionAnswering = {
+  def loadSavedModel(modelPath: String, spark: SparkSession): CamemBertForQuestionAnswering = {
 
     val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
-    val vocabs = loadTextAsset(localModelPath, "vocab.txt").zipWithIndex.toMap
+    val spModel = loadSentencePieceAsset(localModelPath, "sentencepiece.bpe.model")
 
     /*Universal parameters for all engines*/
-    val annotatorModel = new DistilBertForQuestionAnswering()
-      .setVocabulary(vocabs)
+    val annotatorModel = new CamemBertForQuestionAnswering()
 
     annotatorModel.set(annotatorModel.engine, detectedEngine)
 
@@ -342,7 +337,7 @@ trait ReadDistilBertForQuestionAnsweringDLModel extends ReadTensorflowModel {
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, wrapper)
+          .setModelIfNotSet(spark, wrapper, spModel)
 
       case _ =>
         throw new Exception(notSupportedEngineError)
@@ -352,9 +347,9 @@ trait ReadDistilBertForQuestionAnsweringDLModel extends ReadTensorflowModel {
   }
 }
 
-/** This is the companion object of [[DistilBertForQuestionAnswering]]. Please refer to that class
+/** This is the companion object of [[CamemBertForQuestionAnswering]]. Please refer to that class
   * for the documentation.
   */
-object DistilBertForQuestionAnswering
-    extends ReadablePretrainedDistilBertForQAModel
-    with ReadDistilBertForQuestionAnsweringDLModel
+object CamemBertForQuestionAnswering
+    extends ReadablePretrainedCamemBertForQAModel
+    with ReadCamemBertForQADLModel

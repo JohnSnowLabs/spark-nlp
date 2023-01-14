@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.ml.tensorflow
+package com.johnsnowlabs.ml.ai
 
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
+import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
 import com.johnsnowlabs.nlp.{ActivationFunction, Annotation}
@@ -37,7 +38,7 @@ import scala.collection.JavaConverters._
   * @param signatures
   *   TF v2 signatures in Spark NLP
   */
-class TensorflowBertClassification(
+private[johnsnowlabs] class BertClassification(
     val tensorflowWrapper: TensorflowWrapper,
     val sentenceStartTokenId: Int,
     val sentenceEndTokenId: Int,
@@ -46,7 +47,7 @@ class TensorflowBertClassification(
     signatures: Option[Map[String, String]] = None,
     vocabulary: Map[String, Int])
     extends Serializable
-    with TensorflowForClassification {
+    with XXXForClassification {
 
   val _tfBertSignatures: Map[String, String] = signatures.getOrElse(ModelSignatureManager.apply())
 
