@@ -14,16 +14,17 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.ml.tensorflow
+package com.johnsnowlabs.ml.ai
 
-import com.johnsnowlabs.ml.tensorflow.sentencepiece._
+import com.johnsnowlabs.ml.ai.util.PrepareEmbeddings
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{SentencePieceWrapper, SentencepieceEncoder}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
+import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.common._
-import org.tensorflow.ndarray.buffer.DataBuffers
 
 import scala.collection.JavaConverters._
 
-/** @param tensorflow
+/** @param tensorflowWrapper
   *   DeBERTa Model wrapper with TensorFlowWrapper
   * @param spp
   *   DeBERTa SentencePiece model with SentencePieceWrapper
@@ -32,8 +33,8 @@ import scala.collection.JavaConverters._
   * @param configProtoBytes
   *   Configuration for TensorFlow session
   */
-class TensorflowDeBerta(
-    val tensorflow: TensorflowWrapper,
+class DeBerta(
+    val tensorflowWrapper: TensorflowWrapper,
     val spp: SentencePieceWrapper,
     batchSize: Int,
     configProtoBytes: Option[Array[Byte]] = None,
@@ -49,62 +50,22 @@ class TensorflowDeBerta(
   private val SentencePadTokenId = spp.getSppModel.pieceToId("[PAD]")
   private val SentencePieceDelimiterId = spp.getSppModel.pieceToId("▁")
 
-  def encode(
-      sentences: Seq[(WordpieceTokenizedSentence, Int)],
-      maxSequenceLength: Int): Seq[Array[Int]] = {
-    val maxSentenceLength =
-      Array(
-        maxSequenceLength - 2,
-        sentences.map { case (wpTokSentence, _) =>
-          wpTokSentence.tokens.length
-        }.max).min
-
-    sentences
-      .map { case (wpTokSentence, _) =>
-        val tokenPieceIds = wpTokSentence.tokens.map(t => t.pieceId)
-        val padding = Array.fill(maxSentenceLength - tokenPieceIds.length)(SentencePadTokenId)
-
-        Array(SentenceStartTokenId) ++ tokenPieceIds.take(maxSentenceLength) ++ Array(
-          SentenceEndTokenId) ++ padding
-      }
-  }
-
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
 
+    val maxSentenceLength = batch.map(pieceIds => pieceIds.length).max
+    val batchLength = batch.length
+
     val tensors = new TensorResources()
-    val tensorsMasks = new TensorResources()
-    val tensorsSegments = new TensorResources()
 
-    /* Actual size of each sentence to skip padding in the TF model */
-    val sequencesLength = batch.map(x => x.length).toArray
-    val maxSentenceLength = sequencesLength.max
+    val (tokenTensors, maskTensors, segmentTensors) =
+      PrepareEmbeddings.prepareBatchTensorsWithSegment(
+        tensors = tensors,
+        batch = batch,
+        maxSentenceLength = maxSentenceLength,
+        batchLength = batchLength,
+        sentencePadTokenId = SentencePadTokenId)
 
-    val tokenBuffers = DataBuffers.ofInts(batch.length * maxSentenceLength)
-    val maskBuffers = DataBuffers.ofInts(batch.length * maxSentenceLength)
-    val segmentBuffers = DataBuffers.ofInts(batch.length * maxSentenceLength)
-
-    val shape = Array(batch.length.toLong, maxSentenceLength)
-
-    batch.zipWithIndex.foreach { case (tokenIds, idx) =>
-      // this one marks the beginning of each sentence in the flatten structure
-      val offset = idx * maxSentenceLength
-      val diff = maxSentenceLength - tokenIds.length
-      segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0))
-
-      val padding = Array.fill(diff)(SentencePadTokenId)
-      val newTokenIds = tokenIds ++ padding
-
-      tokenBuffers.offset(offset).write(newTokenIds)
-      maskBuffers
-        .offset(offset)
-        .write(newTokenIds.map(x => if (x == SentencePadTokenId) 0 else 1))
-    }
-
-    val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
-    val maskTensors = tensorsMasks.createIntBufferTensor(shape, maskBuffers)
-    val segmentTensors = tensorsSegments.createIntBufferTensor(shape, segmentBuffers)
-
-    val runner = tensorflow
+    val runner = tensorflowWrapper
       .getTFSessionWithSignature(
         configProtoBytes = configProtoBytes,
         savedSignatures = signatures,
@@ -131,28 +92,17 @@ class TensorflowDeBerta(
     val outs = runner.run().asScala
     val embeddings = TensorResources.extractFloats(outs.head)
 
+    tokenTensors.close()
+    maskTensors.close()
+    segmentTensors.close()
     tensors.clearSession(outs)
     tensors.clearTensors()
 
-    val dim = embeddings.length / (batch.length * maxSentenceLength)
-    val shrinkedEmbeddings: Array[Array[Array[Float]]] =
-      embeddings
-        .grouped(dim)
-        .toArray
-        .grouped(maxSentenceLength)
-        .toArray
-
-    val emptyVector = Array.fill(dim)(0f)
-
-    batch.zip(shrinkedEmbeddings).map { case (ids, embeddings) =>
-      if (ids.length > embeddings.length) {
-        embeddings.take(embeddings.length - 1) ++
-          Array.fill(embeddings.length - ids.length)(emptyVector) ++
-          Array(embeddings.last)
-      } else {
-        embeddings
-      }
-    }
+    PrepareEmbeddings.prepareBatchWordEmbeddings(
+      batch,
+      embeddings,
+      maxSentenceLength,
+      batchLength)
   }
 
   def predict(
@@ -166,7 +116,12 @@ class TensorflowDeBerta(
     wordPieceTokenizedSentences.zipWithIndex
       .grouped(batchSize)
       .flatMap { batch =>
-        val encoded = encode(batch, maxSentenceLength)
+        val encoded = PrepareEmbeddings.prepareBatchInputsWithPadding(
+          batch,
+          maxSentenceLength,
+          SentenceStartTokenId,
+          SentenceEndTokenId,
+          SentencePadTokenId)
         val vectors = tag(encoded)
 
         /*Combine tokens and calculated embeddings*/

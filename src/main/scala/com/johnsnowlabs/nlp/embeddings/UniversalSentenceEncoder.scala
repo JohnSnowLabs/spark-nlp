@@ -16,9 +16,9 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
+import com.johnsnowlabs.ml.ai.USE
 import com.johnsnowlabs.ml.tensorflow.{
   ReadTensorflowModel,
-  TensorflowUSE,
   TensorflowWrapper,
   WriteTensorflowModel
 }
@@ -223,10 +223,10 @@ class UniversalSentenceEncoder(override val uid: String)
   def getConfigProtoBytes: Option[Array[Byte]] =
     get(this.configProtoBytes).map(_.map(_.toByte))
 
-  private var _model: Option[Broadcast[TensorflowUSE]] = None
+  private var _model: Option[Broadcast[USE]] = None
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowUSE = _model.get.value
+  def getModelIfNotSet: USE = _model.get.value
 
   /** @group setParam */
   def setModelIfNotSet(spark: SparkSession, tensorflow: TensorflowWrapper): this.type = {
@@ -234,10 +234,7 @@ class UniversalSentenceEncoder(override val uid: String)
 
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowUSE(
-            tensorflow,
-            configProtoBytes = getConfigProtoBytes,
-            loadSP = getLoadSP)))
+          new USE(tensorflow, configProtoBytes = getConfigProtoBytes, loadSP = getLoadSP)))
     }
     this
   }
@@ -330,17 +327,14 @@ trait ReadUSEDLModel extends ReadTensorflowModel {
   /*Needs to point to an actual folder rather than a .pb file*/
   override val tfFile: String = "use_tensorflow"
 
-  def readTensorflow(
-      instance: UniversalSentenceEncoder,
-      path: String,
-      spark: SparkSession): Unit = {
+  def readModel(instance: UniversalSentenceEncoder, path: String, spark: SparkSession): Unit = {
     val loadSP = instance.getLoadSP
     val tf =
       readTensorflowWithSPModel(path, spark, "_use_tf", initAllTables = true, loadSP = loadSP)
     instance.setModelIfNotSet(spark, tf)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(
       modelPath: String,

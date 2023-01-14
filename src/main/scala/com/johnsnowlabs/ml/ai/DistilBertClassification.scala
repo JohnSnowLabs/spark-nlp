@@ -14,20 +14,23 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.ml.tensorflow
+package com.johnsnowlabs.ml.ai
 
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.{SentencePieceWrapper, SentencepieceEncoder}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
+import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.common._
+import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
 import com.johnsnowlabs.nlp.{ActivationFunction, Annotation}
 import org.tensorflow.ndarray.buffer.IntDataBuffer
 
 import scala.collection.JavaConverters._
 
 /** @param tensorflowWrapper
-  *   XLM-RoBERTa Model wrapper with TensorFlow Wrapper
-  * @param spp
-  *   XlmRoberta SentencePiece model with SentencePieceWrapper
+  *   Bert Model wrapper with TensorFlow Wrapper
+  * @param sentenceStartTokenId
+  *   Id of sentence start Token
+  * @param sentenceEndTokenId
+  *   Id of sentence end Token.
   * @param configProtoBytes
   *   Configuration for TensorFlow session
   * @param tags
@@ -35,39 +38,46 @@ import scala.collection.JavaConverters._
   * @param signatures
   *   TF v2 signatures in Spark NLP
   */
-class TensorflowXlmRoBertaClassification(
+private[johnsnowlabs] class DistilBertClassification(
     val tensorflowWrapper: TensorflowWrapper,
-    val spp: SentencePieceWrapper,
+    val sentenceStartTokenId: Int,
+    val sentenceEndTokenId: Int,
     configProtoBytes: Option[Array[Byte]] = None,
     tags: Map[String, Int],
-    signatures: Option[Map[String, String]] = None)
+    signatures: Option[Map[String, String]] = None,
+    vocabulary: Map[String, Int])
     extends Serializable
-    with TensorflowForClassification {
+    with XXXForClassification {
 
-  val _tfXlmRoBertaSignatures: Map[String, String] =
+  val _tfDistilBertSignatures: Map[String, String] =
     signatures.getOrElse(ModelSignatureManager.apply())
 
-  protected val sentenceStartTokenId: Int = 0
-  protected val sentenceEndTokenId: Int = 2
-  protected val sentencePadTokenId: Int = 1
-
-  private val sentencePieceDelimiterId = spp.getSppModel.pieceToId("▁")
+  protected val sentencePadTokenId = 0
 
   def tokenizeWithAlignment(
       sentences: Seq[TokenizedSentence],
       maxSeqLength: Int,
       caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
 
-    val encoder =
-      new SentencepieceEncoder(spp, caseSensitive, sentencePieceDelimiterId, pieceIdOffset = 1)
+    val basicTokenizer = new BasicTokenizer(caseSensitive)
+    val encoder = new WordpieceEncoder(vocabulary)
 
-    val sentenceTokenPieces = sentences.map { s =>
-      val trimmedSentence = s.indexedTokens.take(maxSeqLength - 2)
-      val wordpieceTokens =
-        trimmedSentence.flatMap(token => encoder.encode(token)).take(maxSeqLength)
+    sentences.map { tokenIndex =>
+      // filter empty and only whitespace tokens
+      val bertTokens =
+        tokenIndex.indexedTokens.filter(x => x.token.nonEmpty && !x.token.equals(" ")).map {
+          token =>
+            val content = if (caseSensitive) token.token else token.token.toLowerCase()
+            val sentenceBegin = token.begin
+            val sentenceEnd = token.end
+            val sentenceIndex = tokenIndex.sentenceIndex
+            val result = basicTokenizer.tokenize(
+              Sentence(content, sentenceBegin, sentenceEnd, sentenceIndex))
+            if (result.nonEmpty) result.head else IndexedToken("")
+        }
+      val wordpieceTokens = bertTokens.flatMap(token => encoder.encode(token)).take(maxSeqLength)
       WordpieceTokenizedSentence(wordpieceTokens)
     }
-    sentenceTokenPieces
   }
 
   def tokenizeDocument(
@@ -75,20 +85,34 @@ class TensorflowXlmRoBertaClassification(
       maxSeqLength: Int,
       caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
 
-    val encoder =
-      new SentencepieceEncoder(
-        spp,
-        caseSensitive,
-        sentencePieceDelimiterId - 1,
-        pieceIdOffset = 1)
-
+    // we need the original form of the token
+    // let's lowercase if needed right before the encoding
+    val basicTokenizer = new BasicTokenizer(caseSensitive = true, hasBeginEnd = false)
+    val encoder = new WordpieceEncoder(vocabulary)
     val sentences = docs.map { s => Sentence(s.result, s.begin, s.end, 0) }
 
-    val sentenceTokenPieces = sentences.map { s =>
-      val wordpieceTokens = encoder.encodeSentence(s, maxLength = maxSeqLength).take(maxSeqLength)
+    sentences.map { sentence =>
+      val tokens = basicTokenizer.tokenize(sentence)
+
+      val wordpieceTokens = if (caseSensitive) {
+        tokens.flatMap(token => encoder.encode(token))
+      } else {
+        // now we can lowercase the tokens since we have the original form already
+        val normalizedTokens =
+          tokens.map(x => IndexedToken(x.token.toLowerCase(), x.begin, x.end))
+        val normalizedWordPiece = normalizedTokens.flatMap(token => encoder.encode(token))
+
+        normalizedWordPiece.map { t =>
+          val orgToken = tokens
+            .find(org => t.begin == org.begin && t.isWordStart)
+            .map(x => x.token)
+            .getOrElse(t.token)
+          TokenPiece(t.wordpiece, orgToken, t.pieceId, t.isWordStart, t.begin, t.end)
+        }
+      }
+
       WordpieceTokenizedSentence(wordpieceTokens)
     }
-    sentenceTokenPieces
   }
 
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
@@ -107,28 +131,28 @@ class TensorflowXlmRoBertaClassification(
       .foreach { case (sentence, idx) =>
         val offset = idx * maxSentenceLength
         tokenBuffers.offset(offset).write(sentence)
-        maskBuffers
-          .offset(offset)
-          .write(sentence.map(x => if (x == sentencePadTokenId) 0 else 1))
+        maskBuffers.offset(offset).write(sentence.map(x => if (x == 0) 0 else 1))
       }
 
-    val runner = tensorflowWrapper
-      .getTFSessionWithSignature(configProtoBytes = configProtoBytes, initAllTables = false)
-      .runner
+    val session = tensorflowWrapper.getTFSessionWithSignature(
+      configProtoBytes = configProtoBytes,
+      savedSignatures = signatures,
+      initAllTables = false)
+    val runner = session.runner
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
     val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
 
     runner
       .feed(
-        _tfXlmRoBertaSignatures
+        _tfDistilBertSignatures
           .getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"),
         tokenTensors)
       .feed(
-        _tfXlmRoBertaSignatures
+        _tfDistilBertSignatures
           .getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"),
         maskTensors)
-      .fetch(_tfXlmRoBertaSignatures
+      .fetch(_tfDistilBertSignatures
         .getOrElse(ModelSignatureConstants.LogitsOutput.key, "missing_logits_key"))
 
     val outs = runner.run().asScala
@@ -165,28 +189,28 @@ class TensorflowXlmRoBertaClassification(
       .foreach { case (sentence, idx) =>
         val offset = idx * maxSentenceLength
         tokenBuffers.offset(offset).write(sentence)
-        maskBuffers
-          .offset(offset)
-          .write(sentence.map(x => if (x == sentencePadTokenId) 0 else 1))
+        maskBuffers.offset(offset).write(sentence.map(x => if (x == 0) 0 else 1))
       }
 
-    val runner = tensorflowWrapper
-      .getTFSessionWithSignature(configProtoBytes = configProtoBytes, initAllTables = false)
-      .runner
+    val session = tensorflowWrapper.getTFSessionWithSignature(
+      configProtoBytes = configProtoBytes,
+      savedSignatures = signatures,
+      initAllTables = false)
+    val runner = session.runner
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
     val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
 
     runner
       .feed(
-        _tfXlmRoBertaSignatures
+        _tfDistilBertSignatures
           .getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"),
         tokenTensors)
       .feed(
-        _tfXlmRoBertaSignatures
+        _tfDistilBertSignatures
           .getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"),
         maskTensors)
-      .fetch(_tfXlmRoBertaSignatures
+      .fetch(_tfDistilBertSignatures
         .getOrElse(ModelSignatureConstants.LogitsOutput.key, "missing_logits_key"))
 
     val outs = runner.run().asScala
@@ -227,30 +251,32 @@ class TensorflowXlmRoBertaClassification(
       .foreach { case (sentence, idx) =>
         val offset = idx * maxSentenceLength
         tokenBuffers.offset(offset).write(sentence)
-        maskBuffers
-          .offset(offset)
-          .write(sentence.map(x => if (x == sentencePadTokenId) 0 else 1))
+        maskBuffers.offset(offset).write(sentence.map(x => if (x == 0) 0 else 1))
       }
 
-    val runner = tensorflowWrapper
-      .getTFSessionWithSignature(configProtoBytes = configProtoBytes, initAllTables = false)
-      .runner
+    val session = tensorflowWrapper.getTFSessionWithSignature(
+      configProtoBytes = configProtoBytes,
+      savedSignatures = signatures,
+      initAllTables = false)
+    val runner = session.runner
 
     val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
     val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
 
     runner
       .feed(
-        _tfXlmRoBertaSignatures
-          .getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"),
+        _tfDistilBertSignatures.getOrElse(
+          ModelSignatureConstants.InputIds.key,
+          "missing_input_id_key"),
         tokenTensors)
       .feed(
-        _tfXlmRoBertaSignatures
-          .getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"),
+        _tfDistilBertSignatures.getOrElse(
+          ModelSignatureConstants.AttentionMask.key,
+          "missing_input_mask_key"),
         maskTensors)
-      .fetch(_tfXlmRoBertaSignatures
+      .fetch(_tfDistilBertSignatures
         .getOrElse(ModelSignatureConstants.EndLogitsOutput.key, "missing_end_logits_key"))
-      .fetch(_tfXlmRoBertaSignatures
+      .fetch(_tfDistilBertSignatures
         .getOrElse(ModelSignatureConstants.StartLogitsOutput.key, "missing_start_logits_key"))
 
     val outs = runner.run().asScala
@@ -276,8 +302,7 @@ class TensorflowXlmRoBertaClassification(
       tokenizedSentences: Seq[TokenizedSentence],
       sentence: (WordpieceTokenizedSentence, Int),
       tokenPiece: TokenPiece): Option[IndexedToken] = {
-    tokenizedSentences(sentence._2).indexedTokens.find(p =>
-      p.begin == tokenPiece.begin && tokenPiece.isWordStart)
+    tokenizedSentences(sentence._2).indexedTokens.find(p => p.begin == tokenPiece.begin)
   }
 
 }

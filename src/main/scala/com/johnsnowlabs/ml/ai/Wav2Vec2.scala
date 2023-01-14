@@ -14,16 +14,17 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.ml.tensorflow
+package com.johnsnowlabs.ml.ai
 
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
+import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.audio.feature_extractor.Preprocessor
 
 import scala.collection.JavaConverters._
 import scala.collection.mutable.ArrayBuffer
 
-class TensorflowWav2Vec2ForCTC(
+private[johnsnowlabs] class Wav2Vec2(
     val tensorflowWrapper: TensorflowWrapper,
     configProtoBytes: Option[Array[Byte]] = None,
     vocabs: Map[String, BigInt],

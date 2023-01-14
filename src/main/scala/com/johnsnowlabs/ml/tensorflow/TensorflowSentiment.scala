@@ -25,7 +25,7 @@ import org.apache.spark.ml.util.Identifiable
 import scala.collection.mutable
 import scala.util.Random
 
-class TensorflowSentiment(
+private[johnsnowlabs] class TensorflowSentiment(
     val tensorflow: TensorflowWrapper,
     val encoder: ClassifierDatasetEncoder,
     override val verboseLevel: Verbose.Value)
