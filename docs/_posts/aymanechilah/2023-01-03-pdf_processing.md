@@ -4,7 +4,7 @@ title: pdf_processing
 author: John Snow Labs
 name: pdf_processing
 date: 2023-01-03
-tags: [en, licensed]
+tags: [en, licensed, ocr, pdf_processing]
 task: Document Pdf Processing
 language: en
 edition: Visual NLP 3.14.0
@@ -33,6 +33,7 @@ This model obtain the text of an input PDF document.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
     
     from pyspark.ml import PipelineModel
