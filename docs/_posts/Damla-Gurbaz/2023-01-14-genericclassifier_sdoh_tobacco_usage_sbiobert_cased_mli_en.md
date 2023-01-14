@@ -34,13 +34,15 @@ This Generic Classifier model is intended for detecting tobacco use in clinical 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
         
 sentence_embeddings = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", 'en','clinical/models')\
-    .setInputCols(["document"])    .setOutputCol("sentence_embeddings")
+    .setInputCols(["document"])\
+    .setOutputCol("sentence_embeddings")
 
 features_asm = FeaturesAssembler()\
     .setInputCols(["sentence_embeddings"])\
