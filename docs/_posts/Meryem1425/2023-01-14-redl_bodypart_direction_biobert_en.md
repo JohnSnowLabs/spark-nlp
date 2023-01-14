@@ -35,6 +35,7 @@ Relation extraction between body parts entities like Internal_organ_or_component
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documenter = DocumentAssembler()\
     .setInputCol("text")\
@@ -193,7 +194,7 @@ Trained on an internal dataset.
 ## Benchmarking
 
 ```bash
-Relation           Recall Precision        F1   Support
+label              Recall Precision        F1   Support
 0                   0.856     0.873     0.865       153
 1                   0.986     0.984     0.985      1347
 Avg.                0.921     0.929     0.925         -
