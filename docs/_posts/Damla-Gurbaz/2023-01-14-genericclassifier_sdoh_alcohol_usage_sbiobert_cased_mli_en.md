@@ -1,10 +1,10 @@
 ---
 layout: model
-title: SDOH Economics Status For Binary Classification
+title: SDOH Substance Usage For Binary Classification
 author: John Snow Labs
 name: genericclassifier_sdoh_alcohol_usage_sbiobert_cased_mli
 date: 2023-01-14
-tags: [en, licensed, generic_classifier, sdoh, economics, clinical]
+tags: [en, licensed, generic_classifier, sdoh, substance, clinical]
 task: Text Classification
 language: en
 edition: Healthcare NLP 4.2.4
@@ -17,16 +17,16 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model classifies related to social economics status in the clinical documents and trained by using GenericClassifierApproach annotator. `True:` if the patient was currently employed or unemployed. `False:` if there was no related passage.
+This Generic Classifier model is intended for detecting behavioral factor drug/substance use in clinical notes and trained by using GenericClassifierApproach annotator. `Present:` if the patient was a current consumer of alcohol or the patient was a consumer in the past and had quit or if the patient had never consumed alcohol. `None: ` if there was no related text.
 
 ## Predicted Entities
 
-`True`, `False`
+`Present`, `None`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/genericclassifier_sdoh_alcohol_usage_sbiobert_cased_mli_en_4.2.4_3.0_1673695895684.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/genericclassifier_sdoh_alcohol_usage_sbiobert_cased_mli_en_4.2.4_3.0_1673696443548.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
@@ -46,7 +46,7 @@ features_asm = FeaturesAssembler()\
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("features")
 
-generic_classifier = GenericClassifierModel.pretrained("genericclassifier_sdoh_economics_binary_sbiobert_cased_mli", 'en', 'clinical/models')\
+generic_classifier = GenericClassifierModel.pretrained("genericclassifier_sdoh_substance_usage_binary_sbiobert_cased_mli", 'en', 'clinical/models')\
     .setInputCols(["features"])\
     .setOutputCol("class")
 
@@ -57,9 +57,9 @@ pipeline = Pipeline(stages=[
     generic_classifier    
 ])
 
-text_list = ["Retired schoolteacher, now substitutes. Lives with wife in location 1439. Has a 27 yo son and a 25 yo daughter. He uses alcohol and cigarettes",
+text_list = ["Lives in apartment with 16-year-old daughter. Denies EtOH use currently although reports occasional use in past. Utox on admission positive for opiate (on as rx) as well as cocaine. 4-6 cigarettes a day on and off for 10 years. Denies h/o illicit drug use besides marijuana although admitted to cocaine use after being found to have urine positive for cocaine.",
              "The patient quit smoking approximately two years ago with an approximately a 40 pack year history, mostly cigar use. He also reports 'heavy alcohol use', quit 15 months ago."]
-             
+
 df = spark.createDataFrame(text_list, StringType()).toDF("text")
 
 result = pipeline.fit(df).transform(df)
@@ -79,7 +79,7 @@ val features_asm = new FeaturesAssembler()
     .setInputCols("sentence_embeddings")
     .setOutputCol("features")
 
-val generic_classifier = GenericClassifierModel.pretrained("genericclassifier_sdoh_economics_binary_sbiobert_cased_mli", "en", "clinical/models")
+val generic_classifier = GenericClassifierModel.pretrained("genericclassifier_sdoh_substance_usage_binary_sbiobert_cased_mli", "en", "clinical/models")
     .setInputCols("features")
     .setOutputCol("class")
 
@@ -89,7 +89,7 @@ val pipeline = new PipelineModel().setStages(Array(
     features_asm,
     generic_classifier))
 
-val data = Seq("Retired schoolteacher, now substitutes. Lives with wife in location 1439. Has a 27 yo son and a 25 yo daughter. He uses alcohol and cigarettes").toDS.toDF("text")
+val data = Seq("Lives in apartment with 16-year-old daughter. Denies EtOH use currently although reports occasional use in past. Utox on admission positive for opiate (on as rx) as well as cocaine. 4-6 cigarettes a day on and off for 10 years. Denies h/o illicit drug use besides marijuana although admitted to cocaine use after being found to have urine positive for cocaine.").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
@@ -99,12 +99,12 @@ val result = pipeline.fit(data).transform(data)
 
 ```bash
 
-+----------------------------------------------------------------------------------------------------+-------+
-|                                                                                                text| result|
-+----------------------------------------------------------------------------------------------------+-------+
-|Retired schoolteacher, now substitutes. Lives with wife in location 1439. Has a 27 yo son and a 2...| [True]|
-|The patient quit smoking approximately two years ago with an approximately a 40 pack year history...|[False]|
-+----------------------------------------------------------------------------------------------------+-------+
++----------------------------------------------------------------------------------------------------+---------+
+|                                                                                                text|   result|
++----------------------------------------------------------------------------------------------------+---------+
+|Lives in apartment with 16-year-old daughter. Denies EtOH use currently although reports occasion...|[Present]|
+|The patient quit smoking approximately two years ago with an approximately a 40 pack year history...|   [None]|
++----------------------------------------------------------------------------------------------------+---------+
 
 ```
 
@@ -120,17 +120,17 @@ val result = pipeline.fit(data).transform(data)
 |Input Labels:|[features]|
 |Output Labels:|[prediction]|
 |Language:|en|
-|Size:|3.5 MB|
+|Size:|3.4 MB|
 
 ## Benchmarking
 
 ```bash
 
        label  precision    recall  f1-score   support
-       False       0.93      0.85      0.89       894
-        True       0.79      0.90      0.84       562
-    accuracy        -         -        0.87      1456
-   macro-avg       0.86      0.87      0.86      1456
-weighted-avg       0.87      0.87      0.87      1456
+        None       0.91      0.83      0.87       898
+     Present       0.76      0.87      0.81       540
+    accuracy        -         -        0.85      1438
+   macro-avg       0.83      0.85      0.84      1438
+weighted-avg       0.85      0.85      0.85      1438
 
 ```
