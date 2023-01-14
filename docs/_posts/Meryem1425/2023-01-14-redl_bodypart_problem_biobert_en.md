@@ -35,6 +35,7 @@ Relation extraction between body parts and problem entities in clinical texts. 1
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documenter = DocumentAssembler()\
     .setInputCol("text")\
@@ -183,7 +184,7 @@ Trained on internal dataset.
 ## Benchmarking
 
 ```bash
-Relation           Recall Precision        F1   Support
+label              Recall Precision        F1   Support
 0                   0.762     0.814     0.787       315
 1                   0.938     0.917     0.927       885
 Avg.                0.850     0.865     0.857        -
