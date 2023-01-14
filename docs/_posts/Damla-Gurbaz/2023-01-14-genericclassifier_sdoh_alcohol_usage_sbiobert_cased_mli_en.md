@@ -2,7 +2,7 @@
 layout: model
 title: SDOH Substance Usage For Binary Classification
 author: John Snow Labs
-name: genericclassifier_sdoh_alcohol_usage_sbiobert_cased_mli
+name: genericclassifier_sdoh_substance_usage_binary_sbiobert_cased_mli
 date: 2023-01-14
 tags: [en, licensed, generic_classifier, sdoh, substance, clinical]
 task: Text Classification
@@ -34,13 +34,15 @@ This Generic Classifier model is intended for detecting behavioral factor drug/s
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
         
 sentence_embeddings = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", 'en','clinical/models')\
-    .setInputCols(["document"])    .setOutputCol("sentence_embeddings")
+    .setInputCols(["document"])\
+    .setOutputCol("sentence_embeddings")
 
 features_asm = FeaturesAssembler()\
     .setInputCols(["sentence_embeddings"])\
