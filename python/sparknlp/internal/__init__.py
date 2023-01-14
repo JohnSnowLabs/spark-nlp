@@ -452,6 +452,12 @@ class _Wav2Vec2ForCTC(ExtendedJavaWrapper):
             "com.johnsnowlabs.nlp.annotators.audio.Wav2Vec2ForCTC.loadSavedModel", path, jspark)
 
 
+class _HubertForCTC(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_HubertForCTC, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.audio.HubertForCTC.loadSavedModel", path, jspark)
+
+
 class _CamemBertForTokenClassificationLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_CamemBertForTokenClassificationLoader, self).__init__(
