@@ -48,6 +48,7 @@ This is a Financial Chunk Mapper which will retrieve, given a ticker, extra info
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
+
 document_assembler = nlp.DocumentAssembler()\
       .setInputCol('text')\
       .setOutputCol('document')
@@ -57,43 +58,57 @@ tokenizer = nlp.Tokenizer()\
       .setOutputCol("token")
 
 embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
-       .setInputCols(["document", "token"]) \
-       .setOutputCol("embeddings")
+        .setInputCols(["document", "token"]) \
+        .setOutputCol("embeddings")
 
-ner_model = finance.NerModel.pretrained("finner_orgs_prods_alias","en","finance/models")\
-       .setInputCols(["document", "token", "embeddings"])\
-       .setOutputCol("ner")
+ner_model = finance.NerModel.pretrained('finner_orgs_prods_alias', 'en', 'finance/models')\
+        .setInputCols(["document", "token", "embeddings"])\
+        .setOutputCol("ner")
  
 ner_converter = nlp.NerConverter()\
       .setInputCols(["document", "token", "ner"])\
-      .setOutputCol("ner_chunk")\
-      .setWhiteList(["ORG"])
+      .setOutputCol("ner_chunk")
 
-...
+# Optional: To normalize the ORG name using NASDAQ data before the mapping
+##########################################################################
+chunkToDoc = nlp.Chunk2Doc()\
+        .setInputCols("ner_chunk")\
+        .setOutputCol("ner_chunk_doc")
 
-# Use `finel_nasdaq_data_company_name` Entity Resolver to normalize the company name
-# to be able to match with Chunk Mapper
+chunk_embeddings = nlp.UniversalSentenceEncoder.pretrained("tfhub_use_lg", "en")\
+    .setInputCols(["ner_chunk_doc"])\
+    .setOutputCol("chunk_embeddings")
 
-...
+use_er_model = finance.SentenceEntityResolverModel.pretrained('finel_nasdaq_data_company_name', 'en', 'finance/models')\
+    .setInputCols("chunk_embeddings")\
+    .setOutputCol('normalized')\
+    .setDistanceFunction("EUCLIDEAN")  
+##########################################################################
 
-CM = finance.ChunkMapperModel.pretrained('finmapper_nasdaq_data_company_name', 'en', 'finance/models')\
-      .setInputCols(["ner_chunk"])\
-      .setOutputCol("mappings")\
-      .setRel('ticker')
+CM = finance.ChunkMapperModel()\
+      .pretrained('finmapper_nasdaq_data_company_name', 'en', 'finance/models')\
+      .setInputCols(["normalized"])\ #or ner_chunk without normalization
+      .setOutputCol("mappings")
 
-pipeline = Pipeline().setStages([document_assembler,
+pipeline = nlp.Pipeline().setStages([document_assembler,
                                  tokenizer, 
                                  embeddings,
                                  ner_model, 
-                                 ner_converter, 
+                                 ner_converter,
+                                 chunkToDoc, # Optional for normalization
+                                 chunk_embeddings, # Optional for normalization
+                                 use_er_model, # Optional for normalization
                                  CM])
+                                 
+text = """GLEASON CORP is a company which ..."""
 
-text = ["""GLEASON CORP is a company which ..."""]
-
-test_data = spark.createDataFrame([text]).toDF("text")
+test_data = spark.createDataFrame([[text]]).toDF("text")
 
 model = pipeline.fit(test_data)
-res= model.transform(test_data)
+
+lp = nlp.LightPipeline(model)
+
+lp.fullAnnotate(text)
 ```
 
 </div>

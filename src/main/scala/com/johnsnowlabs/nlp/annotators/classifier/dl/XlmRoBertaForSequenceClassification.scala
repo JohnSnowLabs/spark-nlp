@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
+import com.johnsnowlabs.ml.ai.XlmRoBertaClassification
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
   ReadSentencePieceModel,
@@ -232,7 +233,7 @@ class XlmRoBertaForSequenceClassification(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowXlmRoBertaClassification]] = None
+  private var _model: Option[Broadcast[XlmRoBertaClassification]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
@@ -242,7 +243,7 @@ class XlmRoBertaForSequenceClassification(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowXlmRoBertaClassification(
+          new XlmRoBertaClassification(
             tensorflowWrapper,
             spp,
             configProtoBytes = getConfigProtoBytes,
@@ -254,7 +255,7 @@ class XlmRoBertaForSequenceClassification(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowXlmRoBertaClassification = _model.get.value
+  def getModelIfNotSet: XlmRoBertaClassification = _model.get.value
 
   /** Whether to lowercase tokens or not
     *
@@ -341,15 +342,13 @@ trait ReadablePretrainedXlmRoBertaForSequenceModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadXlmRoBertaForSequenceTensorflowModel
-    extends ReadTensorflowModel
-    with ReadSentencePieceModel {
+trait ReadXlmRoBertaForSequenceDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[XlmRoBertaForSequenceClassification] =>
 
   override val tfFile: String = "xlm_roberta_classification_tensorflow"
   override val sppFile: String = "xlmroberta_spp"
 
-  def readTensorflow(
+  def readModel(
       instance: XlmRoBertaForSequenceClassification,
       path: String,
       spark: SparkSession): Unit = {
@@ -360,7 +359,7 @@ trait ReadXlmRoBertaForSequenceTensorflowModel
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(
       modelPath: String,
@@ -406,4 +405,4 @@ trait ReadXlmRoBertaForSequenceTensorflowModel
   */
 object XlmRoBertaForSequenceClassification
     extends ReadablePretrainedXlmRoBertaForSequenceModel
-    with ReadXlmRoBertaForSequenceTensorflowModel
+    with ReadXlmRoBertaForSequenceDLModel

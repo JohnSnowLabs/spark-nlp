@@ -26,7 +26,7 @@ import java.io.{BufferedOutputStream, File, FileOutputStream}
 import java.nio.file.{Files, Paths}
 import java.util.UUID
 
-object LoadSentencepiece {
+private[johnsnowlabs] object LoadSentencepiece {
   @transient var loadedToCluster = false
   @transient var loadedToTensorflow = false
 

@@ -123,3 +123,16 @@ class PretrainedPipelineAudioInputTest(unittest.TestCase):
         for result in annotations_result:
             self.assertTrue(len(result) > 0)
 
+
+@pytest.mark.slow
+class PretrainedPipelineWithFinisher(unittest.TestCase):
+
+    def setUp(self):
+        self.pipeline = PretrainedPipeline("distilbert_base_token_classifier_masakhaner_pipeline", "xx")
+
+    def runTest(self):
+        text = "Hello from John Snow Labs ! "
+        annotations_result = self.pipeline.fullAnnotate(text)
+
+        for result in annotations_result:
+            self.assertTrue(len(result) > 0)
