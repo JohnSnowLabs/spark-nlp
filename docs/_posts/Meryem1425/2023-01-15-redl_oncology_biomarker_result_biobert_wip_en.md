@@ -133,7 +133,7 @@ val re_ner_chunk_filter = new RENerChunksFilter()
     .setRelationPairs(Array("Biomarker-Biomarker_Result", "Biomarker_Result-Biomarker", "Oncogene-Biomarker_Result", "Biomarker_Result-Oncogene"))
 
 val re_model = RelationExtractionDLModel.pretrained("redl_oncology_biomarker_result_biobert_wip", "en", "clinical/models")
-    .setInputCols("re_ner_chunk", "sentence")
+    .setInputCols(Array("re_ner_chunk", "sentence"))
     .setOutputCol("relation_extraction")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler,
