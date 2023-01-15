@@ -138,7 +138,7 @@ val dependency_parser = DependencyParserModel()
     .setOutputCol("dependencies")
 
 // Set a filter on pairs of named entities which will be treated as relation candidates
-val re_ner_chunk_filter = RENerChunksFilter()
+val re_ner_chunk_filter = new RENerChunksFilter()
     .setInputCols(Array("ner_chunks", "dependencies"))
     .setMaxSyntacticDistance(10)
     .setOutputCol("re_ner_chunks")
