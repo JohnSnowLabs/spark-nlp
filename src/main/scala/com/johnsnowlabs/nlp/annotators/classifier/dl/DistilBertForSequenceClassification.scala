@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
+import com.johnsnowlabs.ml.ai.DistilBertClassification
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadTextAsset,
@@ -245,7 +246,7 @@ class DistilBertForSequenceClassification(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowDistilBertClassification]] = None
+  private var _model: Option[Broadcast[DistilBertClassification]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
@@ -254,7 +255,7 @@ class DistilBertForSequenceClassification(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowDistilBertClassification(
+          new DistilBertClassification(
             tensorflowWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
@@ -268,7 +269,7 @@ class DistilBertForSequenceClassification(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowDistilBertClassification = _model.get.value
+  def getModelIfNotSet: DistilBertClassification = _model.get.value
 
   /** Whether to lowercase tokens or not
     *
@@ -350,12 +351,12 @@ trait ReadablePretrainedDistilBertForSequenceModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadDistilBertForSequenceTensorflowModel extends ReadTensorflowModel {
+trait ReadDistilBertForSequenceDLModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[DistilBertForSequenceClassification] =>
 
   override val tfFile: String = "distilbert_classification_tensorflow"
 
-  def readTensorflow(
+  def readModel(
       instance: DistilBertForSequenceClassification,
       path: String,
       spark: SparkSession): Unit = {
@@ -365,7 +366,7 @@ trait ReadDistilBertForSequenceTensorflowModel extends ReadTensorflowModel {
     instance.setModelIfNotSet(spark, tf)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(
       modelPath: String,
@@ -412,4 +413,4 @@ trait ReadDistilBertForSequenceTensorflowModel extends ReadTensorflowModel {
   */
 object DistilBertForSequenceClassification
     extends ReadablePretrainedDistilBertForSequenceModel
-    with ReadDistilBertForSequenceTensorflowModel
+    with ReadDistilBertForSequenceDLModel

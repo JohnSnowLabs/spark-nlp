@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
+import com.johnsnowlabs.ml.ai.RoBertaClassification
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadTextAsset,
@@ -256,7 +257,7 @@ class RoBertaForSequenceClassification(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowRoBertaClassification]] = None
+  private var _model: Option[Broadcast[RoBertaClassification]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
@@ -265,7 +266,7 @@ class RoBertaForSequenceClassification(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowRoBertaClassification(
+          new RoBertaClassification(
             tensorflowWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
@@ -281,7 +282,7 @@ class RoBertaForSequenceClassification(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowRoBertaClassification = _model.get.value
+  def getModelIfNotSet: RoBertaClassification = _model.get.value
 
   /** Whether to lowercase tokens or not (Default: `false`).
     *
@@ -362,12 +363,12 @@ trait ReadablePretrainedRoBertaForSequenceModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadRoBertaForSequenceTensorflowModel extends ReadTensorflowModel {
+trait ReadRoBertaForSequenceDLModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[RoBertaForSequenceClassification] =>
 
   override val tfFile: String = "roberta_classification_tensorflow"
 
-  def readTensorflow(
+  def readModel(
       instance: RoBertaForSequenceClassification,
       path: String,
       spark: SparkSession): Unit = {
@@ -376,7 +377,7 @@ trait ReadRoBertaForSequenceTensorflowModel extends ReadTensorflowModel {
     instance.setModelIfNotSet(spark, tf)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): RoBertaForSequenceClassification = {
     val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
@@ -427,4 +428,4 @@ trait ReadRoBertaForSequenceTensorflowModel extends ReadTensorflowModel {
   */
 object RoBertaForSequenceClassification
     extends ReadablePretrainedRoBertaForSequenceModel
-    with ReadRoBertaForSequenceTensorflowModel
+    with ReadRoBertaForSequenceDLModel

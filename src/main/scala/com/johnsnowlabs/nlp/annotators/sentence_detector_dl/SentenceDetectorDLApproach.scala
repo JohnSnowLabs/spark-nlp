@@ -16,7 +16,8 @@
 
 package com.johnsnowlabs.nlp.annotators.sentence_detector_dl
 
-import com.johnsnowlabs.ml.tensorflow.{TensorflowSentenceDetectorDL, TensorflowWrapper, Variables}
+import com.johnsnowlabs.ml.ai.SentenceDetectorDL
+import com.johnsnowlabs.ml.tensorflow.{TensorflowWrapper, Variables}
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach}
@@ -476,7 +477,7 @@ class SentenceDetectorDLApproach(override val uid: String)
     /** FIXME inspect ops for init */
     // graph.operations().foreach(println)
 
-    val tfModel = new TensorflowSentenceDetectorDL(
+    val tfModel = new SentenceDetectorDL(
       tfWrapper,
       outputLogsPath = if (getOutputLogsPath.nonEmpty) Some(getOutputLogsPath) else None)
 
