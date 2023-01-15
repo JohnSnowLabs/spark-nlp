@@ -134,7 +134,7 @@ val re_ner_chunk_filter = new RENerChunksFilter()
 
 val re_model = RelationExtractionDLModel.pretrained("redl_oncology_granular_biobert_wip", "en", "clinical/models")
       .setPredictionThreshold(0.5f)
-      .setInputCols("re_ner_chunk", "sentence")
+      .setInputCols(Array("re_ner_chunk", "sentence"))
       .setOutputCol("relation_extraction")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler,
