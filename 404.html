@@ -427,10 +427,10 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-59JLR64');</script>
-<!-- End Google Tag Manager --><title>Mapt Company Tickers to their Acquisitions (wikipedia, en)</title><meta property="og:title" content=""/>
+<!-- End Google Tag Manager --><title>Extract temporal relations among clinical events (ReDL)</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis models allows you to, given an extracter TICKER, retrieve all the parent / subsidiary /companies acquired and/or in the same group than it.Predicted EntitiesLive DemoOpen in ColabDownloadHow to use         PythonScalaNLU  documentAssembler = nlp.DocumentAssembler()\        .setInputCol("text")\      ...">
-<link rel="canonical" href="/2023/01/13/finmapper_wikipedia_parentcompanies_ticker_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<meta name="description" content="DescriptionExtract relations between clinical events in terms of time. If an event occurred before, after, or overlaps another event.Predicted EntitiesAFTER, BEFORE, OVERLAPLive DemoOpen in ColabDownloadHow to use         PythonScalaNLU  documenter = DocumentAssembler()\    .setInputCol("text")\    .setOutputCol("do...">
+<link rel="canonical" href="/2023/01/15/redl_temporal_events_biobert_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -826,24 +826,26 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/josejuanmartinez/2023-01-13-finmapper_wikipedia_parentcompanies_ticker_en.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/Meryem1425/2023-01-15-redl_temporal_events_biobert_en.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jan 13, 2023</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-01-13T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Mapt Company Tickers to their Acquisitions (wikipedia, en)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Mapt Company Tickers to their Acquisitions (wikipedia, en)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>subsidiaries</li><li>companies</li><li>acquisitions</li><li>en</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-01-13T00:00:00+00:00">
-    <meta itemprop="keywords" content="subsidiaries,companies,acquisitions,en,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jan 15, 2023</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-01-15T00:00:00+00:00"></div><header class="main-docs have_subtitle">
+          <h1>Extract temporal relations among clinical events (ReDL)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Extract temporal relations among clinical events (ReDL)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>relation_extraction</li><li>en</li><li>clinical</li><li>licensed</li><li>tensorflow</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-01-15T00:00:00+00:00">
+    <meta itemprop="keywords" content="relation_extraction,en,clinical,licensed,tensorflow"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This models allows you to, given an extracter TICKER, retrieve all the parent / subsidiary /companies acquired and/or in the same group than it.</p>
+<p>Extract relations between clinical events in terms of time. If an event occurred before, after, or overlaps another event.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finmapper_wikipedia_parentcompanies_ticker_en_1.0.0_3.0_1673610848433.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
+<p><code class="language-plaintext highlighter-rouge">AFTER</code>, <code class="language-plaintext highlighter-rouge">BEFORE</code>, <code class="language-plaintext highlighter-rouge">OVERLAP</code></p>
+
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/healthcare/RE_CLINICAL_EVENTS/" class="button button-orange">Live Demo</a>
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/redl_temporal_events_biobert_en_4.2.4_3.0_1673778147598.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
@@ -851,67 +853,136 @@
   <div class="top_tab_li">   
     <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
 </div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span>\
-        <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
-        
-<span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">SentenceDetector</span><span class="p">()</span>\
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documenter</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Tokenizer</span><span class="p">()</span>\
-        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span>\
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+<span class="n">sentencer</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentences"</span><span class="p">)</span>
 
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_embeddings_sec_bert_base"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="p">.</span><span class="n">annotators</span><span class="p">.</span><span class="n">Tokenizer</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"tokens"</span><span class="p">)</span>
+
+<span class="n">pos_tagger</span> <span class="o">=</span> <span class="n">PerceptronModel</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"pos_clinical"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"pos_tags"</span><span class="p">)</span>
+
+<span class="n">words_embedder</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"embeddings_clinical"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 
-<span class="n">ner_model</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">NerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finner_ticker"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>\
+<span class="n">ner_tagger</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_events_clinical"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_tags"</span><span class="p">)</span> 
 
-<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">NerConverter</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
+<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverterInternal</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">,</span> <span class="s">"ner_tags"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunks"</span><span class="p">)</span>
 
-<span class="n">CM</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">ChunkMapperModel</span><span class="p">()</span>\
-      <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'finmapper_wikipedia_parentcompanies_ticker'</span><span class="p">,</span><span class="s">'en'</span><span class="p">,</span><span class="s">'finance/models'</span><span class="p">)</span>\
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">])</span>\
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"mappings"</span><span class="p">)</span>
+<span class="n">dependency_parser</span> <span class="o">=</span> <span class="n">DependencyParserModel</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"dependency_conllu"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"pos_tags"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"dependencies"</span><span class="p">)</span>
 
-<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-        <span class="n">documentAssembler</span><span class="p">,</span>
-        <span class="n">sentenceDetector</span><span class="p">,</span>
-        <span class="n">tokenizer</span><span class="p">,</span>
-        <span class="n">embeddings</span><span class="p">,</span>
-        <span class="n">ner_model</span><span class="p">,</span>
-        <span class="n">ner_converter</span><span class="p">,</span>
-        <span class="n">CM</span>
-<span class="p">])</span>
+<span class="n">re_ner_chunk_filter</span> <span class="o">=</span> <span class="n">RENerChunksFilter</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunks"</span><span class="p">,</span> <span class="s">"dependencies"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setMaxSyntacticDistance</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"re_ner_chunks"</span><span class="p">)</span>
 
-<span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s">"""ABG is a multinational corporation that is engaged in ..."""</span><span class="p">]</span>
+<span class="n">re_model</span> <span class="o">=</span> <span class="n">RelationExtractionDLModel</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"redl_temporal_events_biobert"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setPredictionThreshold</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"re_ner_chunks"</span><span class="p">,</span> <span class="s">"sentences"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"relations"</span><span class="p">)</span>
 
-<span class="n">test_data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([</span><span class="n">text</span><span class="p">]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documenter</span><span class="p">,</span> <span class="n">sentencer</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">pos_tagger</span><span class="p">,</span> <span class="n">words_embedder</span><span class="p">,</span> <span class="n">ner_tagger</span><span class="p">,</span> <span class="n">ner_converter</span><span class="p">,</span> <span class="n">dependency_parser</span><span class="p">,</span> <span class="n">re_ner_chunk_filter</span><span class="p">,</span> <span class="n">re_model</span><span class="p">])</span>
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s">"She is diagnosed with cancer in 1991. Then she was admitted to Mayo Clinic in May 2000 and discharged in October 2001"</span>
 
-<span class="n">lp</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">LightPipeline</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
-<span class="n">res</span><span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">text</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+
+<span class="n">p_model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">p_model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </code></pre></div>  </div>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documenter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
+<span class="k">val</span> <span class="nv">sentencer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">SentenceDetector</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"tokens"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pos_tagger</span> <span class="k">=</span> <span class="nc">PerceptronModel</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"pos_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"pos_tags"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">words_embedder</span> <span class="k">=</span> <span class="nc">WordEmbeddingsModel</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"embeddings_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">ner_tagger</span> <span class="k">=</span> <span class="nv">MedicalNerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_events_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_tags"</span><span class="o">)</span> 
+
+<span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerConverterInternal</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">,</span> <span class="s">"ner_tags"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunks"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">dependency_parser</span> <span class="k">=</span> <span class="nc">DependencyParserModel</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"dependency_conllu"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"pos_tags"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"dependencies"</span><span class="o">)</span>
+
+<span class="c1">// Set a filter on pairs of named entities which will be treated as relation candidates</span>
+<span class="k">val</span> <span class="nv">re_ner_chunk_filter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">RENerChunksFilter</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"ner_chunks"</span><span class="o">,</span> <span class="s">"dependencies"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setMaxSyntacticDistance</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"re_ner_chunks"</span><span class="o">)</span>
+
+<span class="c1">// The dataset this model is trained to is sentence-wise. </span>
+<span class="c1">// This model can also be trained on document-level relations - in which case, while predicting, use "document" instead of "sentence" as input.</span>
+<span class="k">val</span> <span class="nv">re_model</span> <span class="k">=</span> <span class="nc">RelationExtractionDLModel</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"redl_temporal_events_biobert"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setPredictionThreshold</span><span class="o">(</span><span class="mf">0.5</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"re_ner_chunks"</span><span class="o">,</span> <span class="s">"sentences"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"relations"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documenter</span><span class="o">,</span> <span class="n">sentencer</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">pos_tagger</span><span class="o">,</span> <span class="n">words_embedder</span><span class="o">,</span> <span class="n">ner_tagger</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">,</span> <span class="n">dependency_parser</span><span class="o">,</span> <span class="n">re_ner_chunk_filter</span><span class="o">,</span> <span class="n">re_model</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"""She is diagnosed with cancer in 1991. Then she was admitted to Mayo Clinic in May 2000 and discharged in October 2001"""</span><span class="o">).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+</code></pre></div>  </div>
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">{</span><span class="s1">'mappings'</span>: <span class="o">[</span><span class="s1">'ABSA Group Limited'</span>,
-   <span class="s1">'ABSA Group Limited@http://www.wikidata.org/entity/Q58641733'</span>,
-   <span class="s1">'ABSA Group Limited@ABSA Group Limited@en'</span>,
-   <span class="s1">'ABSA Group Limited@http://www.wikidata.org/prop/direct/P749'</span>,
-   <span class="s1">'ABSA Group Limited@is_parent_of'</span>,
-   <span class="s1">'ABSA Group Limited@JOHANNESBURG STOCK EXCHANGE@en'</span>,
-   <span class="s1">'ABSA Group Limited@باركليز@ar'</span>,
-   <span class="s1">'ABSA Group Limited@http://www.wikidata.org/entity/Q245343'</span><span class="o">]</span>,
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+--------+-------------+-------------+-----------+-----------+-------------+-------------+-----------+------------+----------+
+|relation|      entity1|entity1_begin|entity1_end|     chunk1|      entity2|entity2_begin|entity2_end|      chunk2|confidence|
++--------+-------------+-------------+-----------+-----------+-------------+-------------+-----------+------------+----------+
+|  BEFORE|   OCCURRENCE|            7|         15|  diagnosed|      PROBLEM|           22|         27|      cancer|0.78168863|
+| OVERLAP|      PROBLEM|           22|         27|     cancer|         DATE|           32|         35|        1991| 0.8492274|
+|   AFTER|   OCCURRENCE|           51|         58|   admitted|CLINICAL_DEPT|           63|         73| Mayo Clinic|0.85629463|
+|  BEFORE|   OCCURRENCE|           51|         58|   admitted|   OCCURRENCE|           91|        100|  discharged| 0.6843513|
+| OVERLAP|CLINICAL_DEPT|           63|         73|Mayo Clinic|         DATE|           78|         85|    May 2000| 0.7844673|
+|  BEFORE|CLINICAL_DEPT|           63|         73|Mayo Clinic|   OCCURRENCE|           91|        100|  discharged|0.60411876|
+| OVERLAP|CLINICAL_DEPT|           63|         73|Mayo Clinic|         DATE|          105|        116|October 2001|  0.540761|
+|  BEFORE|         DATE|           78|         85|   May 2000|   OCCURRENCE|           91|        100|  discharged| 0.6042761|
+| OVERLAP|         DATE|           78|         85|   May 2000|         DATE|          105|        116|October 2001|0.64867175|
+|  BEFORE|   OCCURRENCE|           91|        100| discharged|         DATE|          105|        116|October 2001| 0.5302478|
++--------+-------------+-------------+-----------+-----------+-------------+-------------+-----------+------------+----------+
+
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -920,11 +991,11 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>finmapper_wikipedia_parentcompanies_ticker</td>
+      <td>redl_temporal_events_biobert</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Finance NLP 1.0.0+</td>
+      <td>Healthcare NLP 4.2.4+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -935,28 +1006,29 @@
       <td>Official</td>
     </tr>
     <tr>
-      <td>Input Labels:</td>
-      <td>[ner_chunk]</td>
-    </tr>
-    <tr>
-      <td>Output Labels:</td>
-      <td>[mappings]</td>
-    </tr>
-    <tr>
       <td>Language:</td>
       <td>en</td>
     </tr>
     <tr>
       <td>Size:</td>
-      <td>1.3 MB</td>
+      <td>401.7 MB</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="references">References</h2>
 
-<p>Wikidata</p>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2023-01-13T00:00:00+00:00"><!-- start custom article footer snippet -->
+<p>Trained on temporal clinical events benchmark dataset.</p>
+
+<h2 id="benchmarking">Benchmarking</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>label              Recall Precision        F1   Support
+AFTER               0.332     0.655     0.440      2123
+BEFORE              0.868     0.908     0.887     13817
+OVERLAP             0.887     0.733     0.802      7860
+Avg.                0.695     0.765     0.710		     -
+</code></pre></div></div>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2023-01-15T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -1295,7 +1367,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2023/01/13/finmapper_wikipedia_parentcompanies_en.html">Map Companies to their Acquisitions (wikipedia, en)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2023/01/15/redl_oncology_test_result_biobert_wip_en.html">Relation Extraction between Test and Results (ReDL)</a></div></div></div>
 
 </div>
 </div>
