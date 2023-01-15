@@ -134,7 +134,7 @@ val dependency_parser = DependencyParserModel()
     .setInputCols(Array("sentences", "pos_tags", "tokens"))
     .setOutputCol("dependencies")
 
-val events_re_ner_chunk_filter = RENerChunksFilter() 
+val events_re_ner_chunk_filter = new RENerChunksFilter() 
     .setInputCols(Array("ner_chunks", "dependencies"))
     .setOutputCol("re_ner_chunks")
 
