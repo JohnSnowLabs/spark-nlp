@@ -35,6 +35,7 @@ Identify if tests were conducted on a particular date or any diagnosis was made 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documenter = DocumentAssembler()\
     .setInputCol("text")\
@@ -104,11 +105,11 @@ val documenter = new DocumentAssembler()
     .setOutputCol("document")
 
 val sentencer = new SentenceDetector()
-    .setInputCols(Array("document"))
+    .setInputCols("document")
     .setOutputCol("sentences")
 
 val tokenizer = new Tokenizer()
-    .setInputCols(Array("sentences"))
+    .setInputCols("sentences")
     .setOutputCol("tokens")
 
 val words_embedder = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
@@ -138,7 +139,7 @@ val events_re_ner_chunk_filter = RENerChunksFilter()
     .setOutputCol("re_ner_chunks")
 
 val events_re_Model = RelationExtractionDLModel() 
-    .pretrained('redl_date_clinical_biobert', "en", "clinical/models")
+    .pretrained("redl_date_clinical_biobert", "en", "clinical/models")
     .setPredictionThreshold(0.5)
     .setInputCols(Array("re_ner_chunks", "sentences")) 
     .setOutputCol("relations")
