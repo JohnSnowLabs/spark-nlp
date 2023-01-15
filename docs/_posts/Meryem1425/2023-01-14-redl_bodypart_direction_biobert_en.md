@@ -103,11 +103,11 @@ val documenter = new DocumentAssembler()
     .setOutputCol("document")
 
 val sentencer = new SentenceDetector()
-    .setInputCols(Array("document"))
+    .setInputCols("document")
     .setOutputCol("sentences")
 
 val tokenizer = new Tokenizer()
-    .setInputCols(Array("sentences"))
+    .setInputCols("sentences")
     .setOutputCol("tokens")
 
 val pos_tagger = PerceptronModel()
@@ -138,10 +138,10 @@ val re_ner_chunk_filter = RENerChunksFilter()
     .setInputCols(Array("ner_chunks", "dependencies"))
     .setMaxSyntacticDistance(10)
     .setOutputCol("re_ner_chunks")
-    .setRelationPairs(Array('direction-external_body_part_or_region', 
-    'external_body_part_or_region-direction',
-    'direction-internal_organ_or_component',
-    'internal_organ_or_component-direction'))
+    .setRelationPairs(Array("direction-external_body_part_or_region", 
+    "external_body_part_or_region-direction",
+    "direction-internal_organ_or_component",
+    "internal_organ_or_component-direction"))
 
 // The dataset this model is trained to is sentence-wise. 
 // This model can also be trained on document-level relations - in which case, while predicting, use "document" instead of "sentence" as input.
