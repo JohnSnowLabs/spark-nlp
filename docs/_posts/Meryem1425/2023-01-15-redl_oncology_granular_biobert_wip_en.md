@@ -127,7 +127,7 @@ val dependency_parser = DependencyParserModel.pretrained("dependency_conllu", "e
     .setOutputCol("dependencies")
 
 val re_ner_chunk_filter = new RENerChunksFilter()
-     .setInputCols("ner_chunk", "dependencies")
+     .setInputCols(Array("ner_chunk", "dependencies"))
      .setOutputCol("re_ner_chunk")
      .setMaxSyntacticDistance(10)
      .setRelationPairs(Array("Tumor_Finding-Tumor_Size", "Tumor_Size-Tumor_Finding", "Cancer_Surgery-Relative_Date", "Relative_Date-Cancer_Surgery"))
