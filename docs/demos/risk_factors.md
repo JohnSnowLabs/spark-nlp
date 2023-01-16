@@ -4,7 +4,7 @@ title: Risk and Factors - Clinical NLP Demos & Notebooks
 seotitle: 'Clinical NLP: Risk and Factors - John Snow Labs'
 subtitle: Run 300+ live demos and notebooks
 full_width: true
-permalink: /risk_and_factors
+permalink: /risk_factors
 key: demo
 article_header:
   type: demo
@@ -16,8 +16,8 @@ data:
   sections:  
     - secheader: yes
       secheader:
-        - subtitle: Risk and Factors - Live Demos & Notebooks
-          activemenu: risk_and_factors
+        - subtitle: Risk Factors - Live Demos & Notebooks
+          activemenu: risk_factors
       source: yes
       source:           
         - title: Calculate Medicare HCC Risk Score
@@ -44,7 +44,7 @@ data:
           - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_RISK_FACTORS.ipynb
-        - title: Detect Smoking Status Entities
+        - title: Detect Smoking Status
           id: detect_smoking_status_entities
           image: 
               src: /assets/images/Detect_Smoking_Status.svg
