@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.functions &#8212; Spark NLP 4.2.6 documentation</title>
+    <title>sparknlp.functions &#8212; Spark NLP 4.2.7 documentation</title>
   
   
   
@@ -319,7 +319,7 @@
 
 
 <div class="viewcode-block" id="map_annotations"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/functions/index.html#sparknlp.functions.map_annotations">[docs]</a><span class="k">def</span> <span class="nf">map_annotations</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">output_type</span><span class="p">:</span> <span class="n">DataType</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Creates a Spark UDF to map over an Annotator&#39;s results.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a Spark UDF to map over an Annotator&#39;s results.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -365,7 +365,7 @@
     <span class="p">)</span>
 
 <div class="viewcode-block" id="map_annotations_array"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/functions/index.html#sparknlp.functions.map_annotations_array">[docs]</a><span class="k">def</span> <span class="nf">map_annotations_array</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">output_type</span><span class="p">:</span> <span class="n">DataType</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Creates a Spark UDF to map over an Annotator&#39;s array results.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a Spark UDF to map over an Annotator&#39;s array results.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -385,7 +385,7 @@
     <span class="p">)</span>
 
 <div class="viewcode-block" id="map_annotations_strict"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/functions/index.html#sparknlp.functions.map_annotations_strict">[docs]</a><span class="k">def</span> <span class="nf">map_annotations_strict</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Creates a Spark UDF to map over an Annotator&#39;s results, for which the</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a Spark UDF to map over an Annotator&#39;s results, for which the</span>
 <span class="sd">    return type is explicitly defined as a `Annotation.dataType()`.</span>
 
 <span class="sd">    Parameters</span>
@@ -427,7 +427,7 @@
 
 <div class="viewcode-block" id="map_annotations_col"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/functions/index.html#sparknlp.functions.map_annotations_col">[docs]</a><span class="k">def</span> <span class="nf">map_annotations_col</span><span class="p">(</span><span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">column</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">output_column</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">annotatyon_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
                         <span class="n">output_type</span><span class="p">:</span> <span class="n">DataType</span> <span class="o">=</span> <span class="n">Annotation</span><span class="o">.</span><span class="n">arrayType</span><span class="p">()):</span>
-    <span class="sd">&quot;&quot;&quot;Creates a Spark UDF to map over a column of Annotation results.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a Spark UDF to map over a column of Annotation results.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -485,7 +485,7 @@
 
 <div class="viewcode-block" id="map_annotations_cols"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/functions/index.html#sparknlp.functions.map_annotations_cols">[docs]</a><span class="k">def</span> <span class="nf">map_annotations_cols</span><span class="p">(</span><span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">columns</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">output_column</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">annotatyon_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
                         <span class="n">output_type</span><span class="p">:</span> <span class="n">DataType</span> <span class="o">=</span> <span class="n">Annotation</span><span class="o">.</span><span class="n">arrayType</span><span class="p">()):</span>
-    <span class="sd">&quot;&quot;&quot;Creates a Spark UDF to map over multiple columns of Annotation results.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a Spark UDF to map over multiple columns of Annotation results.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -551,7 +551,7 @@
 
 
 <div class="viewcode-block" id="filter_by_annotations_col"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/functions/index.html#sparknlp.functions.filter_by_annotations_col">[docs]</a><span class="k">def</span> <span class="nf">filter_by_annotations_col</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">column</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Applies a filter over a column of Annotations.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Applies a filter over a column of Annotations.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -595,7 +595,7 @@
 
 
 <div class="viewcode-block" id="explode_annotations_col"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/functions/index.html#sparknlp.functions.explode_annotations_col">[docs]</a><span class="k">def</span> <span class="nf">explode_annotations_col</span><span class="p">(</span><span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">output_column</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Explodes an Annotation column, putting each result onto a separate row.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Explodes an Annotation column, putting each result onto a separate row.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>

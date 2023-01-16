@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.er.entity_ruler &#8212; Spark NLP 4.2.6 documentation</title>
+    <title>sparknlp.annotator.er.entity_ruler &#8212; Spark NLP 4.2.7 documentation</title>
   
   
   
@@ -314,7 +314,7 @@
 
 
 <div class="viewcode-block" id="EntityRulerApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/er/entity_ruler/index.html#sparknlp.annotator.er.entity_ruler.EntityRulerApproach">[docs]</a><span class="k">class</span> <span class="nc">EntityRulerApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">,</span> <span class="n">HasStorage</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Fits an Annotator to match exact strings or regex patterns provided in a</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fits an Annotator to match exact strings or regex patterns provided in a</span>
 <span class="sd">    file against a Document and assigns them an named entity. The definitions</span>
 <span class="sd">    can contain any number of named entities.</span>
 
@@ -458,7 +458,7 @@
             <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="EntityRulerApproach.setPatternsResource"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/er/entity_ruler/index.html#sparknlp.annotator.er.entity_ruler.EntityRulerApproach.setPatternsResource">[docs]</a>    <span class="k">def</span> <span class="nf">setPatternsResource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">TEXT</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;JSON&quot;</span><span class="p">}):</span>
-        <span class="sd">&quot;&quot;&quot;Sets Resource in JSON or CSV format to map entities to patterns.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets Resource in JSON or CSV format to map entities to patterns.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -472,7 +472,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">patternsResource</span><span class="o">=</span><span class="n">ExternalResource</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="p">,</span> <span class="n">options</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="EntityRulerApproach.setEnablePatternRegex"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/er/entity_ruler/index.html#sparknlp.annotator.er.entity_ruler.EntityRulerApproach.setEnablePatternRegex">[docs]</a>    <span class="k">def</span> <span class="nf">setEnablePatternRegex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to enable regex pattern matching.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to enable regex pattern matching.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -482,7 +482,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">enablePatternRegex</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="EntityRulerApproach.setUseStorage"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/er/entity_ruler/index.html#sparknlp.annotator.er.entity_ruler.EntityRulerApproach.setUseStorage">[docs]</a>    <span class="k">def</span> <span class="nf">setUseStorage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to use RocksDB storage to serialize patterns.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to use RocksDB storage to serialize patterns.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -492,7 +492,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">useStorage</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="EntityRulerApproach.setSentenceMatch"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/er/entity_ruler/index.html#sparknlp.annotator.er.entity_ruler.EntityRulerApproach.setSentenceMatch">[docs]</a>    <span class="k">def</span> <span class="nf">setSentenceMatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to find match at sentence level.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to find match at sentence level.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -502,7 +502,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">sentenceMatch</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="EntityRulerApproach.setAlphabetResource"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/er/entity_ruler/index.html#sparknlp.annotator.er.entity_ruler.EntityRulerApproach.setAlphabetResource">[docs]</a>    <span class="k">def</span> <span class="nf">setAlphabetResource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Alphabet Resource (a simple plain text with all language characters)</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Alphabet Resource (a simple plain text with all language characters)</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -516,7 +516,7 @@
 
 
 <div class="viewcode-block" id="EntityRulerModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/er/entity_ruler/index.html#sparknlp.annotator.er.entity_ruler.EntityRulerModel">[docs]</a><span class="k">class</span> <span class="nc">EntityRulerModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">HasStorageModel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Instantiated model of the EntityRulerApproach.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Instantiated model of the EntityRulerApproach.</span>
 <span class="sd">    For usage and examples see the documentation of the main class.</span>
 
 <span class="sd">    ====================== ======================</span>
