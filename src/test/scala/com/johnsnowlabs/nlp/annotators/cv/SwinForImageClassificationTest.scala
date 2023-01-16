@@ -7,9 +7,6 @@ class SwinForImageClassificationTest extends AnyFlatSpec with ViTForImageClassif
 
   behavior of "SwinForImageClassificationTest"
 
-  val modelPath =
-    "/home/ducha/Workspace/scala/spark-nlp/spark-nlp-dev-things/dev_model_export/exported_swin/saved_model/1"
-
   val goldStandards: Map[String, String] =
     Map(
       "hen.JPEG" -> "hen",
@@ -25,6 +22,6 @@ class SwinForImageClassificationTest extends AnyFlatSpec with ViTForImageClassif
 
   it should behave like
     behaviorsViTForImageClassification[SwinForImageClassification](
-      SwinForImageClassification.loadSavedModel(modelPath, ResourceHelper.spark),
+      SwinForImageClassification.pretrained(),
       goldStandards)
 }
