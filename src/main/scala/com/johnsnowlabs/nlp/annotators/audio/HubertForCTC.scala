@@ -174,7 +174,7 @@ trait ReadablePretrainedHubertForAudioModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadHubertForAudioTensorflowModel extends ReadTensorflowModel {
+trait ReadHubertForAudioDLModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[HubertForCTC] =>
 
   override val tfFile: String = "hubert_ctc_tensorflow"
@@ -241,6 +241,4 @@ trait ReadHubertForAudioTensorflowModel extends ReadTensorflowModel {
 /** This is the companion object of [[HubertForCTC]]. Please refer to that class for the
   * documentation.
   */
-object HubertForCTC
-    extends ReadablePretrainedHubertForAudioModel
-    with ReadHubertForAudioTensorflowModel
+object HubertForCTC extends ReadablePretrainedHubertForAudioModel with ReadHubertForAudioDLModel
