@@ -40,7 +40,9 @@ import com.johnsnowlabs.nlp.annotators.ld.dl.{
 }
 import com.johnsnowlabs.nlp.annotators.ner.crf.ReadablePretrainedNerCrf
 import com.johnsnowlabs.nlp.annotators.ner.dl.{
+  ReadZeroShotNerDLModel,
   ReadablePretrainedNerDL,
+  ReadablePretrainedZeroShotNer,
   ReadsNERGraph,
   WithGraphResolver
 }
@@ -660,4 +662,9 @@ package object annotator {
   object HubertForCTC
       extends ReadablePretrainedHubertForAudioModel
       with ReadHubertForAudioTensorflowModel
+
+  type ZeroShotNerModel =
+    com.johnsnowlabs.nlp.annotators.ner.dl.ZeroShotNerModel
+
+  object ZeroShotNerModel extends ReadablePretrainedZeroShotNer with ReadZeroShotNerDLModel
 }
