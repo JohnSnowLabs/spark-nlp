@@ -258,7 +258,7 @@ trait ReadablePretrainedSwinForImageModel
       remoteLoc: String): SwinForImageClassification = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadSwinForImageTensorflowModel extends ReadTensorflowModel {
+trait ReadSwinForImageDLModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[SwinForImageClassification] =>
 
   override val tfFile: String = "image_classification_swin_tensorflow"
@@ -346,4 +346,4 @@ trait ReadSwinForImageTensorflowModel extends ReadTensorflowModel {
   */
 object SwinForImageClassification
     extends ReadablePretrainedSwinForImageModel
-    with ReadSwinForImageTensorflowModel
+    with ReadSwinForImageDLModel
