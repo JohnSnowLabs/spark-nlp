@@ -30,7 +30,9 @@ import com.johnsnowlabs.nlp.annotators.coref.{
   ReadablePretrainedSpanBertCorefModel
 }
 import com.johnsnowlabs.nlp.annotators.cv.{
+  ReadSwinForImageTensorflowModel,
   ReadViTForImageDLModel,
+  ReadablePretrainedSwinForImageModel,
   ReadablePretrainedViTForImageModel
 }
 import com.johnsnowlabs.nlp.annotators.er.ReadablePretrainedEntityRuler
@@ -640,6 +642,13 @@ package object annotator {
       extends ReadablePretrainedCamemBertForSequenceModel
       with ReadCamemBertForSequenceDLModel
 
+  type SwinForImageClassification =
+    com.johnsnowlabs.nlp.annotators.cv.SwinForImageClassification
+
+  object SwinForImageClassification
+      extends ReadablePretrainedSwinForImageModel
+      with ReadSwinForImageTensorflowModel
+
   type CamemBertForQuestionAnswering =
     com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForQuestionAnswering
 
@@ -660,4 +669,5 @@ package object annotator {
   object HubertForCTC
       extends ReadablePretrainedHubertForAudioModel
       with ReadHubertForAudioTensorflowModel
+
 }
