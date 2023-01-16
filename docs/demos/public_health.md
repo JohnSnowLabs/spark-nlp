@@ -119,7 +119,7 @@ data:
         - title: Detect Social Determinants of Health
           id: detect_social_determinants_health            
           image: 
-              src: /assets/images/Classify_Public_Health_Mentions.svg
+              src: /assets/images/DetectSocialDeterminantsHealth.svg
           excerpt: This demo shows how detect social determinants of health in medical text using Spark NLP Healthcare NER and Sequence Classification models.
           actions:
           - text: Live Demo
