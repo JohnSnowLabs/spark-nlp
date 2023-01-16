@@ -180,7 +180,8 @@ private[johnsnowlabs] class ViTClassifier(
       ImageResizeUtils.normalizeBufferedImage(
         img = resizedImage,
         mean = preprocessor.image_mean,
-        std = preprocessor.image_std)
+        std = preprocessor.image_std,
+        rescaleFactor = preprocessor.rescale_factor)
     }
 
     batchProcessedImages

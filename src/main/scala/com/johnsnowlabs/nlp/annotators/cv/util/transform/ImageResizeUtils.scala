@@ -47,14 +47,20 @@ private[johnsnowlabs] object ImageResizeUtils {
 
   // TODO implement doNormalize = false to only return Array[Array[Array[Float]]] without normalizing
   /** @param img
+    *   The image in BufferedImage
     * @param mean
+    *   Mean to subtract
     * @param std
+    *   Standard deviation to normalize
+    * @param rescaleFactor
+    *   Factor to rescale the image values by
     * @return
     */
   def normalizeBufferedImage(
       img: BufferedImage,
       mean: Array[Double],
-      std: Array[Double]): Array[Array[Array[Float]]] = {
+      std: Array[Double],
+      rescaleFactor: Double = 1 / 255.0d): Array[Array[Array[Float]]] = {
     val data =
       Array(ArrayBuffer[Array[Float]](), ArrayBuffer[Array[Float]](), ArrayBuffer[Array[Float]]())
     for (y <- 0 until img.getHeight) {
@@ -68,9 +74,9 @@ private[johnsnowlabs] object ImageResizeUtils {
         val color = new Color(pixel, true)
 
         // Retrieving the R G B values and Normalizing them
-        val red = ((color.getRed / 255.0) - mean.head) / std.head
-        val green = ((color.getGreen / 255.0) - mean(1)) / std(1)
-        val blue = ((color.getBlue / 255.0) - mean(2)) / std(2)
+        val red = ((color.getRed * rescaleFactor) - mean.head) / std.head
+        val green = ((color.getGreen * rescaleFactor) - mean(1)) / std(1)
+        val blue = ((color.getBlue * rescaleFactor) - mean(2)) / std(2)
         RedList += red.toFloat
         GreenList += green.toFloat
         BlueList += blue.toFloat
