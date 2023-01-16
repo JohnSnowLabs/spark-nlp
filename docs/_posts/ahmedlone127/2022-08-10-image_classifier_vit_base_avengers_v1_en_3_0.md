@@ -25,6 +25,8 @@ Pretrained VIT  model, adapted from Hugging Face and curated to provide scalabil
 
 `Thor`, `Captain America`, `Captain Marvel`, `Falcon Avengers`, `Vision Avengers`, `Bucky Barnes`, `Loki`, `Black Widow`, `Iron Man`, `Black Panther`, `Docter Strage`, `Scarlet Witch`, `Ant Man`, `Hulk`, `Spider Man`, `Hawkeye Avengers`
 
+
+
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>

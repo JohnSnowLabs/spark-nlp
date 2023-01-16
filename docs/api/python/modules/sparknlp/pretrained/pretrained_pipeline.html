@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.pretrained.pretrained_pipeline &#8212; Spark NLP 4.2.6 documentation</title>
+    <title>sparknlp.pretrained.pretrained_pipeline &#8212; Spark NLP 4.2.7 documentation</title>
   
   
   
@@ -318,7 +318,7 @@
 
 
 <div class="viewcode-block" id="PretrainedPipeline"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/pretrained_pipeline/index.html#sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline">[docs]</a><span class="k">class</span> <span class="nc">PretrainedPipeline</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Loads a Represents a fully constructed and trained Spark NLP pipeline,</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Loads a Represents a fully constructed and trained Spark NLP pipeline,</span>
 <span class="sd">    ready to be used.</span>
 
 <span class="sd">    This way, a whole pipeline can be defined in 1 line. Additionally, the</span>
@@ -358,7 +358,7 @@
         <span class="k">return</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">parse_embeddings</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
 
 <div class="viewcode-block" id="PretrainedPipeline.annotate"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/pretrained_pipeline/index.html#sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.annotate">[docs]</a>    <span class="k">def</span> <span class="nf">annotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Annotates the data provided, extracting the results.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Annotates the data provided, extracting the results.</span>
 
 <span class="sd">        The data should be either a list or a str.</span>
 
@@ -387,7 +387,7 @@
         <span class="k">return</span> <span class="n">annotations</span></div>
 
 <div class="viewcode-block" id="PretrainedPipeline.fullAnnotate"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/pretrained_pipeline/index.html#sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.fullAnnotate">[docs]</a>    <span class="k">def</span> <span class="nf">fullAnnotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">optional_target</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Annotates the data provided into `Annotation` type results.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Annotates the data provided into `Annotation` type results.</span>
 
 <span class="sd">        The data should be either a list or a str.</span>
 
@@ -422,7 +422,7 @@
         <span class="k">return</span> <span class="n">annotations</span></div>
 
 <div class="viewcode-block" id="PretrainedPipeline.fullAnnotateImage"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/pretrained_pipeline/index.html#sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.fullAnnotateImage">[docs]</a>    <span class="k">def</span> <span class="nf">fullAnnotateImage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path_to_image</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Annotates the data provided into `Annotation` type results.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Annotates the data provided into `Annotation` type results.</span>
 
 <span class="sd">        The data should be either a list or a str.</span>
 
@@ -440,7 +440,7 @@
         <span class="k">return</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fullAnnotateImage</span><span class="p">(</span><span class="n">path_to_image</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="PretrainedPipeline.transform"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/pretrained_pipeline/index.html#sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Transforms the input dataset with Spark.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Transforms the input dataset with Spark.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

@@ -267,7 +267,7 @@
             <article class="bd-article" role="main">
               
   <h1>Source code for sparknlp_jsl.annotator.chunker.chunkmapper</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span></span><span class="kn">from</span> <span class="nn">sparknlp_jsl.common</span> <span class="kn">import</span> <span class="o">*</span>
 
 <div class="viewcode-block" id="ChunkMapperFuzzyMatchingParams"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper/index.html#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperFuzzyMatchingParams">[docs]</a><span class="k">class</span> <span class="nc">ChunkMapperFuzzyMatchingParams</span><span class="p">:</span>
 <div class="viewcode-block" id="ChunkMapperFuzzyMatchingParams.enableTokenFingerprintMatching"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper/index.html#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperFuzzyMatchingParams.enableTokenFingerprintMatching">[docs]</a>    <span class="n">enableTokenFingerprintMatching</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
@@ -370,7 +370,16 @@
 <div class="viewcode-block" id="ChunkMapperFuzzyMatchingParams.setFuzzyMatchingDistanceThresholds"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper/index.html#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperFuzzyMatchingParams.setFuzzyMatchingDistanceThresholds">[docs]</a>    <span class="k">def</span> <span class="nf">setFuzzyMatchingDistanceThresholds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fmdth</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">fmdth</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">list</span><span class="p">:</span>
             <span class="n">fmdth</span> <span class="o">=</span> <span class="p">[</span><span class="n">fmdth</span><span class="p">]</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">fuzzyMatchingDistanceThresholds</span><span class="o">=</span><span class="n">fmdth</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">fuzzyMatchingDistanceThresholds</span><span class="o">=</span><span class="n">fmdth</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ChunkMapperFuzzyMatchingParams.fuzzyDistanceScalingMode"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper/index.html#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperFuzzyMatchingParams.fuzzyDistanceScalingMode">[docs]</a>    <span class="n">fuzzyDistanceScalingMode</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                                          <span class="s2">&quot;fuzzyDistanceScalingMode&quot;</span><span class="p">,</span>
+                                          <span class="s2">&quot;When enableFuzzyMatching is true, the scaling mode for Integer Edit Distances; possible values are: left, right, long, short, none&quot;</span><span class="p">,</span>
+                                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ChunkMapperFuzzyMatchingParams.setFuzzyDistanceScalingMode"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper/index.html#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperFuzzyMatchingParams.setFuzzyDistanceScalingMode">[docs]</a>    <span class="k">def</span> <span class="nf">setFuzzyDistanceScalingMode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fdsm</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">fuzzyDistanceScalingMode</span><span class="o">=</span><span class="n">fdsm</span><span class="p">)</span></div></div>
+
 
 <div class="viewcode-block" id="CommonChunkMapperParams"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper/index.html#sparknlp_jsl.annotator.chunker.chunkmapper.CommonChunkMapperParams">[docs]</a><span class="k">class</span> <span class="nc">CommonChunkMapperParams</span><span class="p">:</span>
 <div class="viewcode-block" id="CommonChunkMapperParams.allowMultiTokenChunk"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper/index.html#sparknlp_jsl.annotator.chunker.chunkmapper.CommonChunkMapperParams.allowMultiTokenChunk">[docs]</a>    <span class="n">allowMultiTokenChunk</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
@@ -378,7 +387,7 @@
                                  <span class="s2">&quot;Whether   skyp relations with multitokens&quot;</span><span class="p">,</span>
                                  <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 <div class="viewcode-block" id="CommonChunkMapperParams.setAllowMultiTokenChunk"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper/index.html#sparknlp_jsl.annotator.chunker.chunkmapper.CommonChunkMapperParams.setAllowMultiTokenChunk">[docs]</a>    <span class="k">def</span> <span class="nf">setAllowMultiTokenChunk</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mc</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Whether  if we skip relations with multitokens</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether  if we skip relations with multitokens</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        mc : bool</span>
@@ -391,7 +400,7 @@
                                  <span class="s2">&quot;Whether  to decide if we want to send multi-chunk tokens or only single token chunks&quot;</span><span class="p">,</span>
                                  <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 <div class="viewcode-block" id="CommonChunkMapperParams.setMultivaluesRelations"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper/index.html#sparknlp_jsl.annotator.chunker.chunkmapper.CommonChunkMapperParams.setMultivaluesRelations">[docs]</a>    <span class="k">def</span> <span class="nf">setMultivaluesRelations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mc</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Whether  to decide if we want to send multi-chunk tokens or only single token chunks</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether  to decide if we want to send multi-chunk tokens or only single token chunks</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">         mc : bool</span>
@@ -409,7 +418,7 @@
 
 <div class="viewcode-block" id="CommonChunkMapperParams.rels"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper/index.html#sparknlp_jsl.annotator.chunker.chunkmapper.CommonChunkMapperParams.rels">[docs]</a>    <span class="n">rels</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                  <span class="s2">&quot;rels&quot;</span><span class="p">,</span>
-                 <span class="s2">&quot;relations to be mappen in the dictionary&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;relations to be mapped in the dictionary&quot;</span><span class="p">,</span>
                  <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="CommonChunkMapperParams.setRels"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper/index.html#sparknlp_jsl.annotator.chunker.chunkmapper.CommonChunkMapperParams.setRels">[docs]</a>    <span class="k">def</span> <span class="nf">setRels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rs</span><span class="p">):</span>
@@ -421,7 +430,7 @@
                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="CommonChunkMapperParams.setLowerCase"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper/index.html#sparknlp_jsl.annotator.chunker.chunkmapper.CommonChunkMapperParams.setLowerCase">[docs]</a>    <span class="k">def</span> <span class="nf">setLowerCase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">lc</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set if we want to save the keys of the dictionary in lower case or not</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set if we want to save the keys of the dictionary in lower case or not</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        lc : bool</span>
@@ -430,8 +439,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">lowerCase</span><span class="o">=</span><span class="n">lc</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="ChunkMapperApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper/index.html#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperApproach">[docs]</a><span class="k">class</span> <span class="nc">ChunkMapperApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">,</span> <span class="n">CommonChunkMapperParams</span><span class="p">,</span> <span class="n">ChunkMapperFuzzyMatchingParams</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="ChunkMapperApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper/index.html#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperApproach">[docs]</a><span class="k">class</span> <span class="nc">ChunkMapperApproach</span><span class="p">(</span><span class="n">AnnotatorApproachInternal</span><span class="p">,</span> <span class="n">CommonChunkMapperParams</span><span class="p">,</span> <span class="n">ChunkMapperFuzzyMatchingParams</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The chunk mapper Approach load a JsonDictionary that have the relations to be mapped in the ChunkMapperModel</span>
 
 <span class="sd">    ====================== =======================</span>
@@ -453,7 +462,7 @@
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; import sparknlp</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
-<span class="sd">    &gt;&gt;&gt; from sparknlp.common import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.common import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.training import *</span>
 <span class="sd">    &gt;&gt;&gt; import sparknlp_jsl</span>
@@ -503,6 +512,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="ChunkMapperApproach.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper/index.html#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperApproach.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span><span class="p">]</span></div>
+<div class="viewcode-block" id="ChunkMapperApproach.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper/index.html#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperApproach.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">LABELED_DEPENDENCY</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="ChunkMapperApproach.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper/index.html#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperApproach.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;ChunkMapperApproach&quot;</span></div>
 
@@ -513,7 +523,7 @@
 
 
 <div class="viewcode-block" id="ChunkMapperApproach.setDictionary"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper/index.html#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperApproach.setDictionary">[docs]</a>    <span class="k">def</span> <span class="nf">setDictionary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets if we want to use &#39;bow&#39; for word embeddings or &#39;sentence&#39; for sentences&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets if we want to use &#39;bow&#39; for word embeddings or &#39;sentence&#39; for sentences&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        path : str</span>
@@ -529,8 +539,8 @@
         <span class="k">return</span> <span class="n">ChunkMapperModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="ChunkMapperModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper/index.html#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperModel">[docs]</a><span class="k">class</span> <span class="nc">ChunkMapperModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">CommonChunkMapperParams</span><span class="p">,</span> <span class="n">ChunkMapperFuzzyMatchingParams</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="ChunkMapperModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper/index.html#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperModel">[docs]</a><span class="k">class</span> <span class="nc">ChunkMapperModel</span><span class="p">(</span><span class="n">AnnotatorModelInternal</span><span class="p">,</span> <span class="n">CommonChunkMapperParams</span><span class="p">,</span> <span class="n">ChunkMapperFuzzyMatchingParams</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The chunk mapper Approach load a JsonDictionary that have the relations to be mapped in the ChunkMapperModel</span>
 
 <span class="sd">    ====================== =======================</span>
@@ -552,7 +562,7 @@
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; import sparknlp</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
-<span class="sd">    &gt;&gt;&gt; from sparknlp.common import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.common import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.training import *</span>
 <span class="sd">    &gt;&gt;&gt; import sparknlp_jsl</span>
@@ -606,6 +616,7 @@
 <span class="sd">    -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="ChunkMapperModel.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper/index.html#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperModel.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span><span class="p">]</span></div>
+<div class="viewcode-block" id="ChunkMapperModel.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper/index.html#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperModel.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">LABELED_DEPENDENCY</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="ChunkMapperModel.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper/index.html#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperModel.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;ChunkMapperModel&quot;</span></div>
 
@@ -617,7 +628,7 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="ChunkMapperModel.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper/index.html#sparknlp_jsl.annotator.chunker.chunkmapper.ChunkMapperModel.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="s2">&quot;clinical/models&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

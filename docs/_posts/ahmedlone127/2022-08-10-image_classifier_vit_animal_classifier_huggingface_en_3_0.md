@@ -26,9 +26,6 @@ Pretrained VIT  model, adapted from Hugging Face and curated to provide scalabil
 `lion`, `tiger`, `dog`, `cat`, `elephant`
 
 
-## Predicted Entities
-
-`cat`, `dog`, `snake`, `tiger`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

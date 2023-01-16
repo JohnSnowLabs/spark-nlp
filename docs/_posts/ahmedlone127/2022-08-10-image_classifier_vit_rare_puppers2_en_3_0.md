@@ -25,6 +25,8 @@ Pretrained VIT  model, adapted from Hugging Face and curated to provide scalabil
 
 ` La Goulue Toulouse-Lautrec`, `aristide bruant Lautrec`, `la goulue Toulouse-Lautrec`, `Marcelle Lender Bolero`, `Salon at the Rue des Moulins Lautrec`
 
+
+
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>

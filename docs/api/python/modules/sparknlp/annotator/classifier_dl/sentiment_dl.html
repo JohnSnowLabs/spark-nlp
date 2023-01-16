@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.classifier_dl.sentiment_dl &#8212; Spark NLP 4.2.6 documentation</title>
+    <title>sparknlp.annotator.classifier_dl.sentiment_dl &#8212; Spark NLP 4.2.7 documentation</title>
   
   
   
@@ -315,7 +315,7 @@
 
 
 <div class="viewcode-block" id="SentimentDLApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/sentiment_dl/index.html#sparknlp.annotator.classifier_dl.sentiment_dl.SentimentDLApproach">[docs]</a><span class="k">class</span> <span class="nc">SentimentDLApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">,</span> <span class="n">EvaluationDLParams</span><span class="p">,</span> <span class="n">ClassifierEncoder</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Trains a SentimentDL, an annotator for multi-class sentiment analysis.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Trains a SentimentDL, an annotator for multi-class sentiment analysis.</span>
 
 <span class="sd">    In natural language processing, sentiment analysis is the task of</span>
 <span class="sd">    classifying the affective state or subjective view of a text. A common</span>
@@ -456,7 +456,7 @@
                            <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
 
 <div class="viewcode-block" id="SentimentDLApproach.setDropout"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/sentiment_dl/index.html#sparknlp.annotator.classifier_dl.sentiment_dl.SentimentDLApproach.setDropout">[docs]</a>    <span class="k">def</span> <span class="nf">setDropout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets dropout coefficient, by default 0.5.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets dropout coefficient, by default 0.5.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -467,7 +467,7 @@
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="SentimentDLApproach.setThreshold"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/sentiment_dl/index.html#sparknlp.annotator.classifier_dl.sentiment_dl.SentimentDLApproach.setThreshold">[docs]</a>    <span class="k">def</span> <span class="nf">setThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the minimum threshold for the final result otheriwse it will be</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the minimum threshold for the final result otheriwse it will be</span>
 <span class="sd">        neutral, by default 0.6.</span>
 
 <span class="sd">        Parameters</span>
@@ -479,7 +479,7 @@
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="SentimentDLApproach.setThresholdLabel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/sentiment_dl/index.html#sparknlp.annotator.classifier_dl.sentiment_dl.SentimentDLApproach.setThresholdLabel">[docs]</a>    <span class="k">def</span> <span class="nf">setThresholdLabel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets what the label should be, if the score is less than threshold,</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets what the label should be, if the score is less than threshold,</span>
 <span class="sd">        by default &quot;neutral&quot;.</span>
 
 <span class="sd">        Parameters</span>
@@ -509,7 +509,7 @@
 
 
 <div class="viewcode-block" id="SentimentDLModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/sentiment_dl/index.html#sparknlp.annotator.classifier_dl.sentiment_dl.SentimentDLModel">[docs]</a><span class="k">class</span> <span class="nc">SentimentDLModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">HasStorageRef</span><span class="p">,</span> <span class="n">HasEngine</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;SentimentDL, an annotator for multi-class sentiment analysis.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;SentimentDL, an annotator for multi-class sentiment analysis.</span>
 
 <span class="sd">    In natural language processing, sentiment analysis is the task of</span>
 <span class="sd">    classifying the affective state or subjective view of a text. A common</span>
@@ -620,7 +620,7 @@
                     <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
 
 <div class="viewcode-block" id="SentimentDLModel.setConfigProtoBytes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/sentiment_dl/index.html#sparknlp.annotator.classifier_dl.sentiment_dl.SentimentDLModel.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -630,7 +630,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">configProtoBytes</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SentimentDLModel.setThreshold"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/sentiment_dl/index.html#sparknlp.annotator.classifier_dl.sentiment_dl.SentimentDLModel.setThreshold">[docs]</a>    <span class="k">def</span> <span class="nf">setThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the minimum threshold for the final result otheriwse it will be</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the minimum threshold for the final result otheriwse it will be</span>
 <span class="sd">        neutral, by default 0.6.</span>
 
 <span class="sd">        Parameters</span>
@@ -642,7 +642,7 @@
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="SentimentDLModel.setThresholdLabel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/sentiment_dl/index.html#sparknlp.annotator.classifier_dl.sentiment_dl.SentimentDLModel.setThresholdLabel">[docs]</a>    <span class="k">def</span> <span class="nf">setThresholdLabel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets what the label should be, if the score is less than threshold,</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets what the label should be, if the score is less than threshold,</span>
 <span class="sd">        by default &quot;neutral&quot;.</span>
 
 <span class="sd">        Parameters</span>
@@ -654,7 +654,7 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="SentimentDLModel.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/sentiment_dl/index.html#sparknlp.annotator.classifier_dl.sentiment_dl.SentimentDLModel.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;sentimentdl_use_imdb&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

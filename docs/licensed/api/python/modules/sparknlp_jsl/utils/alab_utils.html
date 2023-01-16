@@ -342,7 +342,7 @@
 
 
 <div class="viewcode-block" id="get_nlp_token_pipeline"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.get_nlp_token_pipeline">[docs]</a><span class="k">def</span> <span class="nf">get_nlp_token_pipeline</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">regex_pattern</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Generates a LightPipeline with a document assembler, sentence detector and regular tokenizer</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates a LightPipeline with a document assembler, sentence detector and regular tokenizer</span>
 <span class="sd">    :param spark: Spark session with spark-nlp-jsl jar</span>
 <span class="sd">    :type spark: SparkSession</span>
 <span class="sd">    :param regex_pattern: set a pattern to use regex tokenizer, defaults to regular tokenizer if pattern not defined</span>
@@ -385,7 +385,7 @@
 
 
 <div class="viewcode-block" id="get_sentence_pipeline"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.get_sentence_pipeline">[docs]</a><span class="k">def</span> <span class="nf">get_sentence_pipeline</span><span class="p">(</span><span class="n">spark</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Generates a LightPipeline with a document assembler and sentence detector</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates a LightPipeline with a document assembler and sentence detector</span>
 <span class="sd">        :param spark: Spark session with spark-nlp-jsl jar</span>
 <span class="sd">        :type spark: SparkSession</span>
 <span class="sd">        :return: LightPipeline with a document assembler and sentence detector</span>
@@ -406,7 +406,7 @@
 
 
 <div class="viewcode-block" id="get_rel_df"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.get_rel_df">[docs]</a><span class="k">def</span> <span class="nf">get_rel_df</span><span class="p">(</span><span class="n">input_json_path</span><span class="p">,</span> <span class="n">ground_truth</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Generate dataframe for all annotated relations from an Annotation Lab JSON export</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate dataframe for all annotated relations from an Annotation Lab JSON export</span>
 <span class="sd">    :param input_json_path: path to Annotation Lab JSON export</span>
 <span class="sd">    :type input_json_path: str</span>
 <span class="sd">    :param ground_truth: set to True to select ground truth completions, False to select latest completions,</span>
@@ -456,7 +456,7 @@
 
 
 <div class="viewcode-block" id="get_ner_df"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.get_ner_df">[docs]</a><span class="k">def</span> <span class="nf">get_ner_df</span><span class="p">(</span><span class="n">input_json_path</span><span class="p">,</span> <span class="n">ground_truth</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">assertion_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Generates dataframe for all annotated entities from an Annotation Lab JSON export</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates dataframe for all annotated entities from an Annotation Lab JSON export</span>
 <span class="sd">    :param input_json_path: path to Annotation Lab JSON export</span>
 <span class="sd">    :type input_json_path: str</span>
 <span class="sd">    :param ground_truth: set to True to select ground truth completions, False to select latest completions,</span>
@@ -517,7 +517,7 @@
 
 
 <div class="viewcode-block" id="get_ner_sentence_borders"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.get_ner_sentence_borders">[docs]</a><span class="k">def</span> <span class="nf">get_ner_sentence_borders</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">input_json_path</span><span class="p">,</span> <span class="n">ground_truth</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">assertion_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Get sentence borders for each task</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get sentence borders for each task</span>
 <span class="sd">    :param spark: Spark session with spark-nlp-jsl jar</span>
 <span class="sd">    :type spark: SparkSession</span>
 <span class="sd">    :param input_json_path: path to Annotation Lab JSON export</span>
@@ -613,7 +613,7 @@
 
 
 <div class="viewcode-block" id="get_nlp_pos_pipeline"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.get_nlp_pos_pipeline">[docs]</a><span class="k">def</span> <span class="nf">get_nlp_pos_pipeline</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">regex_pattern</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Generates a LightPipeline with a document assembler, sentence detector, regular tokenizer and POS-tagger</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates a LightPipeline with a document assembler, sentence detector, regular tokenizer and POS-tagger</span>
 <span class="sd">    :param spark: Spark session with spark-nlp-jsl jar</span>
 <span class="sd">    :type spark: SparkSession</span>
 <span class="sd">    :param regex_pattern: set a pattern to use regex tokenizer, defaults to regular tokenizer if pattern not defined</span>
@@ -657,7 +657,7 @@
 
 <div class="viewcode-block" id="get_single_task_conll"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.get_single_task_conll">[docs]</a><span class="k">def</span> <span class="nf">get_single_task_conll</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">pos_pipeline</span><span class="p">,</span> <span class="n">token_pipeline</span><span class="p">,</span> <span class="n">ground_truth</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">excluded_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                           <span class="n">excluded_task_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">excluded_task_titles</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Generates CoNLL-style outputs from a single task in an Annotation Lab JSON export</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates CoNLL-style outputs from a single task in an Annotation Lab JSON export</span>
 <span class="sd">    :param output: enumerated items from an Annotation Lab JSON export</span>
 <span class="sd">    :type output: dict</span>
 <span class="sd">    :param pos_pipeline: LightPipeline with a document assembler, sentence detector, tokenizer and POS-tagger</span>
@@ -718,10 +718,15 @@
             <span class="ow">and</span> <span class="n">output</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">excluded_task_ids</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">print_title</span><span class="si">}</span><span class="s1"> is included&#39;</span><span class="p">)</span>
 
+        <span class="n">honeypot</span> <span class="o">=</span> <span class="kc">False</span>       
         <span class="k">if</span> <span class="n">ground_truth</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="s1">&#39;completions&#39;</span><span class="p">])):</span>
-                <span class="k">if</span> <span class="n">output</span><span class="p">[</span><span class="s1">&#39;completions&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;honeypot&#39;</span><span class="p">]:</span>
-                    <span class="n">ann_results</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s1">&#39;completions&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;result&#39;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">completion</span> <span class="ow">in</span> <span class="n">output</span><span class="p">[</span><span class="s1">&#39;completions&#39;</span><span class="p">]:</span>          
+                <span class="k">if</span> <span class="n">completion</span><span class="p">[</span><span class="s1">&#39;honeypot&#39;</span><span class="p">]:</span>
+                    <span class="n">ann_results</span> <span class="o">=</span> <span class="n">completion</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span>
+                    <span class="n">honeypot</span><span class="o">=</span><span class="kc">True</span>
+                    
+                <span class="k">elif</span> <span class="n">honeypot</span><span class="o">==</span><span class="kc">False</span><span class="p">:</span>
+                    <span class="n">ann_results</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s1">&#39;completions&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;result&#39;</span><span class="p">]</span>             
 
         <span class="k">elif</span> <span class="n">ground_truth</span> <span class="ow">is</span> <span class="kc">False</span> <span class="ow">or</span> <span class="n">ground_truth</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">ann_results</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s1">&#39;completions&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;result&#39;</span><span class="p">]</span>

@@ -26,9 +26,6 @@ Pretrained VIT  model, adapted from Hugging Face and curated to provide scalabil
 `lion`, `tulip`, `keyboard`, `cra`, `bus`, `dolphin`, `plate`, `beaver`, `skyscraper`, `tiger`, `bear`, `trout`, `porcupine`, `sea`, `shrew`, `squirrel`, `snail`, `leopard`, `palm_tree`, `turtle`, `orchid`, `skunk`, `hamster`, `oak_tree`, `lizard`, `bridge`, `sunflower`, `pickup_truck`, `orange`, `man`, `mouse`, `cup`, `whale`, `seal`, `television`, `snake`, `crocodile`, `cockroach`, `bed`, `otter`, `caterpillar`, `woman`, `rocket`, `butterfly`, `bicycle`, `spider`, `motorcycle`, `lawn_mower`, `wolf`, `raccoon`, `can`, `cloud`, `clock`, `worm`, `tank`, `ray`, `house`, `girl`, `dinosaur`, `willow_tree`, `maple_tree`, `kangaroo`, `cattle`, `bee`, `chair`, `aquarium_fish`, `shark`, `baby`, `tractor`, `sweet_pepper`, `plain`, `lamp`, `boy`, `telephone`, `mushroom`, `couch`, `apple`, `wardrobe`, `train`, `pine_tree`, `pear`, `road`, `mountain`, `castle`, `bowl`, `lobster`, `elephant`, `beetle`, `possum`, `forest`, `flatfish`, `poppy`, `fox`, `streetcar`, `chimpanzee`, `bottle`, `rose`, `rabbit`, `table`, `camel`
 
 
-## Predicted Entities
-
-`angular_leaf_spot`, `bean_rust`, `healthy`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

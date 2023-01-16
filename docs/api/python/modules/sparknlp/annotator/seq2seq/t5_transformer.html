@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.seq2seq.t5_transformer &#8212; Spark NLP 4.2.6 documentation</title>
+    <title>sparknlp.annotator.seq2seq.t5_transformer &#8212; Spark NLP 4.2.7 documentation</title>
   
   
   
@@ -314,7 +314,7 @@
 
 
 <div class="viewcode-block" id="T5Transformer"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/t5_transformer/index.html#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer">[docs]</a><span class="k">class</span> <span class="nc">T5Transformer</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">HasBatchedAnnotate</span><span class="p">,</span> <span class="n">HasEngine</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;T5: the Text-To-Text Transfer Transformer</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;T5: the Text-To-Text Transfer Transformer</span>
 
 <span class="sd">    T5 reconsiders all NLP tasks into a unified text-to-text-format where the</span>
 <span class="sd">    input and output are always text strings, in contrast to BERT-style models</span>
@@ -489,7 +489,7 @@
                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span>
 
 <div class="viewcode-block" id="T5Transformer.setIgnoreTokenIds"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/t5_transformer/index.html#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setIgnoreTokenIds">[docs]</a>    <span class="k">def</span> <span class="nf">setIgnoreTokenIds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;A list of token ids which are ignored in the decoder&#39;s output.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;A list of token ids which are ignored in the decoder&#39;s output.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -499,7 +499,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">ignoreTokenIds</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="T5Transformer.setConfigProtoBytes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/t5_transformer/index.html#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -509,7 +509,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">configProtoBytes</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="T5Transformer.setTask"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/t5_transformer/index.html#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setTask">[docs]</a>    <span class="k">def</span> <span class="nf">setTask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the transformer&#39;s task, e.g. ``summarize:``.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the transformer&#39;s task, e.g. ``summarize:``.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -519,7 +519,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">task</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="T5Transformer.setMinOutputLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/t5_transformer/index.html#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setMinOutputLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMinOutputLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets minimum length of the sequence to be generated.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets minimum length of the sequence to be generated.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -529,7 +529,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">minOutputLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="T5Transformer.setMaxOutputLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/t5_transformer/index.html#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setMaxOutputLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxOutputLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets maximum length of output text.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets maximum length of output text.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -539,7 +539,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxOutputLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="T5Transformer.setDoSample"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/t5_transformer/index.html#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setDoSample">[docs]</a>    <span class="k">def</span> <span class="nf">setDoSample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether or not to use sampling, use greedy decoding otherwise.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether or not to use sampling, use greedy decoding otherwise.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -549,7 +549,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">doSample</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="T5Transformer.setTemperature"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/t5_transformer/index.html#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setTemperature">[docs]</a>    <span class="k">def</span> <span class="nf">setTemperature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the value used to module the next token probabilities.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the value used to module the next token probabilities.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -559,7 +559,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">temperature</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="T5Transformer.setTopK"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/t5_transformer/index.html#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setTopK">[docs]</a>    <span class="k">def</span> <span class="nf">setTopK</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the number of highest probability vocabulary tokens to keep for</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the number of highest probability vocabulary tokens to keep for</span>
 <span class="sd">        top-k-filtering.</span>
 
 <span class="sd">        Parameters</span>
@@ -570,7 +570,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">topK</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="T5Transformer.setTopP"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/t5_transformer/index.html#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setTopP">[docs]</a>    <span class="k">def</span> <span class="nf">setTopP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the top cumulative probability for vocabulary tokens.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the top cumulative probability for vocabulary tokens.</span>
 
 <span class="sd">        If set to float &lt; 1, only the most probable tokens with probabilities</span>
 <span class="sd">        that add up to ``topP`` or higher are kept for generation.</span>
@@ -583,7 +583,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">topP</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="T5Transformer.setRepetitionPenalty"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/t5_transformer/index.html#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setRepetitionPenalty">[docs]</a>    <span class="k">def</span> <span class="nf">setRepetitionPenalty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the parameter for repetition penalty. 1.0 means no penalty.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the parameter for repetition penalty. 1.0 means no penalty.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -598,7 +598,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">repetitionPenalty</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="T5Transformer.setNoRepeatNgramSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/t5_transformer/index.html#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.setNoRepeatNgramSize">[docs]</a>    <span class="k">def</span> <span class="nf">setNoRepeatNgramSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets size of n-grams that can only occur once.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets size of n-grams that can only occur once.</span>
 
 <span class="sd">        If set to int &gt; 0, all ngrams of that size can only occur once.</span>
 
@@ -631,7 +631,7 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="T5Transformer.loadSavedModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/t5_transformer/index.html#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.loadSavedModel">[docs]</a>    <span class="k">def</span> <span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -651,7 +651,7 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="T5Transformer.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/t5_transformer/index.html#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;t5_small&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

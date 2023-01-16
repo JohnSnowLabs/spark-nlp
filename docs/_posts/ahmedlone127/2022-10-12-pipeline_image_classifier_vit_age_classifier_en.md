@@ -25,6 +25,8 @@ Pretrained VIT  model, adapted from Hugging Face and curated to provide scalabil
 
 `60-70`, `40-50`, `70-80`, `80-90`, `10-20`, `50-60`, `90-100`, `30-40`, `0-10`, `20-30`
 
+
+
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
