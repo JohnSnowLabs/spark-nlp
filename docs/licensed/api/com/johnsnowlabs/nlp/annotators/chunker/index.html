@@ -235,6 +235,14 @@
                         <a href="ChunkSentenceSplitter.html" title="Split the document using the chunks that you provided,and put in the metadata the chunk entity.">ChunkSentenceSplitter</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
+                        <a class="class" href="DocMapperApproach.html" title=""></a>
+                        <a href="DocMapperApproach.html" title="">DocMapperApproach</a>
+                      </li><li class="current-entities indented5">
+                        <a class="object" href="DocMapperModel$.html" title=""></a>
+                        <a class="class" href="DocMapperModel.html" title=""></a>
+                        <a href="DocMapperModel.html" title="">DocMapperModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
                         <a class="trait" href="ReadChunkKeyPhraseExtractionTensorflowModel.html" title=""></a>
                         <a href="ReadChunkKeyPhraseExtractionTensorflowModel.html" title="">ReadChunkKeyPhraseExtractionTensorflowModel</a>
                       </li><li class="current-entities indented5">
@@ -245,6 +253,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedChunkMapperModel.html" title=""></a>
                         <a href="ReadablePretrainedChunkMapperModel.html" title="">ReadablePretrainedChunkMapperModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedDocMapperModel.html" title=""></a>
+                        <a href="ReadablePretrainedDocMapperModel.html" title="">ReadablePretrainedDocMapperModel</a>
                       </li><li name="com.johnsnowlabs.nlp.annotators.classification" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="classification"></a><a id="classification:classification"></a>
       <span class="permalink">
@@ -910,6 +922,38 @@ The first piece of document to the first chunk will have the entity as header.</
 <span class="kw">val</span> pipeline =  <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(documentAssembler,regexMatcher,chunkSentenceSplitter))
 <span class="kw">val</span> result = pipeline.fit(data).transform(data).select(<span class="lit">"paragraphs"</span>)
 result.show(truncate = <span class="kw">false</span>)</pre></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.DocMapperApproach" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="DocMapperApproachextendsChunkMapperApproach"></a><a id="DocMapperApproach:DocMapperApproach"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/DocMapperApproach.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="DocMapperApproach.html"><span class="name">DocMapperApproach</span></a><span class="result"> extends <a href="ChunkMapperApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkMapperApproach">ChunkMapperApproach</a></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.DocMapperModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="DocMapperModelextendsChunkMapperModel"></a><a id="DocMapperModel:DocMapperModel"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/DocMapperModel.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="DocMapperModel.html"><span class="name">DocMapperModel</span></a><span class="result"> extends <a href="ChunkMapperModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkMapperModel">ChunkMapperModel</a></span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.annotators.chunker.ReadChunkKeyPhraseExtractionTensorflowModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="ReadChunkKeyPhraseExtractionTensorflowModelextendsReadTensorflowModel"></a><a id="ReadChunkKeyPhraseExtractionTensorflowModel:ReadChunkKeyPhraseExtractionTensorflowModel"></a>
       <span class="permalink">
@@ -955,6 +999,22 @@ result.show(truncate = <span class="kw">false</span>)</pre></div></div>
       </span>
       <span class="symbol">
         <a title="" href="ReadablePretrainedChunkMapperModel.html"><span class="name">ReadablePretrainedChunkMapperModel</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</span>[<a href="ChunkMapperModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkMapperModel">ChunkMapperModel</a>] with <span class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</span>[<a href="ChunkMapperModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkMapperModel">ChunkMapperModel</a>]</span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.ReadablePretrainedDocMapperModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReadablePretrainedDocMapperModelextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.annotators.chunker.DocMapperModel]withHasPretrained[com.johnsnowlabs.nlp.annotators.chunker.DocMapperModel]"></a><a id="ReadablePretrainedDocMapperModel:ReadablePretrainedDocMapperModel"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/ReadablePretrainedDocMapperModel.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ReadablePretrainedDocMapperModel.html"><span class="name">ReadablePretrainedDocMapperModel</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</span>[<a href="DocMapperModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.DocMapperModel">DocMapperModel</a>] with <span class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</span>[<a href="DocMapperModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.DocMapperModel">DocMapperModel</a>]</span>
       </span>
       
       
@@ -1075,6 +1135,22 @@ result.show(truncate = <span class="kw">false</span>)</pre></div></div>
       </span>
       <span class="symbol">
         <a title="" href="ChunkSentenceSplitter$.html"><span class="name">ChunkSentenceSplitter</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</span>[<a href="ChunkSentenceSplitter.html" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.ChunkSentenceSplitter">ChunkSentenceSplitter</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.DocMapperModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="DocMapperModel"></a><a id="DocMapperModel:DocMapperModel"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/DocMapperModel$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="DocMapperModel$.html"><span class="name">DocMapperModel</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</span>[<a href="DocMapperModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.DocMapperModel">DocMapperModel</a>] with <a href="ReadablePretrainedDocMapperModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.ReadablePretrainedDocMapperModel">ReadablePretrainedDocMapperModel</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
       
