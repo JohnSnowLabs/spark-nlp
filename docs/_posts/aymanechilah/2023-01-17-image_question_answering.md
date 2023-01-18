@@ -4,7 +4,7 @@ title: Document Visual Question Answering
 author: John Snow Labs
 name: image_question_answering
 date: 2023-01-17
-tags: [en, licensed]
+tags: [en, licensed, visual_question_answering, ocr]
 task: Document Visual Question Answering
 language: en
 edition: Visual NLP 4.3.0
@@ -33,6 +33,7 @@ DocVQA seeks to inspire a “purpose-driven” point of view in Document Analysi
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
     from pyspark.ml import PipelineModel
@@ -42,14 +43,14 @@ DocVQA seeks to inspire a “purpose-driven” point of view in Document Analysi
     bin_df = spark.read.format("binaryFile").load(imagePath)
     image_df = BinaryToImage().transform(bin_df)
 
-    questions = [["question 1", question 2", question X"]]
+    questions = [["question 1", "question 2", "question X"]]
     questions_df = spark.createDataFrame([questions])
     questions_df = questions_df.withColumnRenamed("_1", "questions")
     image_and_questions = bin_df.join(questions_df)
 
     binary_to_image = BinaryToImage()\
-    .setOutputCol("image") \
-    .setImageType(ImageType.TYPE_3BYTE_BGR)
+        .setOutputCol("image") \
+        .setImageType(ImageType.TYPE_3BYTE_BGR)
 
     visual_question_answering = VisualQuestionAnswering()\
         .pretrained("docvqa_donut_base", "en", "clinical/ocr")\
@@ -72,7 +73,7 @@ import com.johnsnowlabs.ocr.OcrContext.implicits._
 
 val imagePath = "path to image"
 val imageDf = spark.read.format("binaryFile").load(imagePath)
-val questions = Seq(Array("question 1", question 2", question X")).toDF("questions")
+val questions = Seq(Array("question 1", "question 2", "question X")).toDF("questions")
 val imageWithQuestions = imageDf.join(questions)
 
 val binaryToImage = new BinaryToImage().
