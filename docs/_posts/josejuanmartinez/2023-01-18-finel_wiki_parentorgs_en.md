@@ -35,7 +35,30 @@ This is an Entity Resolution model, aimed to normalize a previously extracted OR
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-PLACEHOLDER
+documentAssembler = nlp.DocumentAssembler()\
+      .setInputCol("text")\
+      .setOutputCol("ner_chunk")
+
+embeddings = nlp.UniversalSentenceEncoder.pretrained("tfhub_use", "en") \
+      .setInputCols("ner_chunk") \
+      .setOutputCol("sentence_embeddings")
+    
+resolver = finance.SentenceEntityResolverModel.pretrained("finel_wiki_parentorgs", "en", "finance/models")\
+      .setInputCols(["sentence_embeddings"]) \
+      .setOutputCol("normalized_name")\
+      .setDistanceFunction("EUCLIDEAN")
+
+pipelineModel = PipelineModel(
+      stages = [
+          documentAssembler,
+          embeddings,
+          resolver
+      ])
+
+lp = nlp.LightPipeline(pipelineModel)
+test_pred = lp.fullAnnotate('ALPHABET')
+print(test_pred[0]['normalized_name'][0].result)
+print(test_pred[0]['normalized_name'][0].metadata['all_k_aux_labels'].split(':::')[0])
 ```
 
 </div>
