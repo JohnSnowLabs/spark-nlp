@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 
 This is an Entity Resolution model, aimed to normalize a previously extracted ORG entity, using its reference name in WIkidata. This is useful to then use `finel_wiki_parentorgs` Chunk Mapping model and get information of the subsidiaries, countries, stock exchange, etc.
 
-It also retrieves the TICKER in metadata.
+It also retrieves the TICKER, which can be retrieved from `aux_label` column in metadata.
 
 ## Predicted Entities
 
