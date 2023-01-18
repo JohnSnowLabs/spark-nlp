@@ -19,6 +19,9 @@ use_language_switcher: "Python-Scala-Java"
 
 This model helps you retrieve the TICKER of a company using a previously detected ORG entity with NER.
 
+It also retrieves the normalized company name as per Wikidata, which can be retrieved from `aux_label` column in metadata.
+
+
 ## Predicted Entities
 
 
