@@ -26,7 +26,7 @@ Document Image Transformer (DiT) model for document classification. The model wa
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Open in Colab](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/master/tutorials/Certification_Trainings/5.2.Visual_Document_Classifier_v3.ipynbhttps://github.com/JohnSnowLabs/spark-ocr-workshop/blob/master/tutorials/Certification_Trainings/5.2.Visual_Document_Classifier_v3.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/ocr/dit_base_finetuned_rvlcdip_en_3.3.0_3.0_1654798502586.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use

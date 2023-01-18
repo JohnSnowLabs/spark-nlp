@@ -27,7 +27,8 @@ For table recognition is proposed a CascadTabNet model. CascadTabNet is an autom
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/master/tutorials/Certification_Trainings/2.2.Spark_OCR_training_Table_recognition.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-<button class="button button-orange" disabled>Download</button>
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/ocr/general_model_table_detection_v2_en_3.3.0_3.0_1623301511401.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+
 
 ## How to use
 

@@ -27,7 +27,7 @@ It protects specific health information that could identify living or deceased i
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/master/tutorials/Certification_Trainings/3.1.SparkOcrImageDeIdentification.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-<button class="button button-orange" disabled>Download</button>
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_deid_large_en_3.0.0_3.0_1617209688468.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
