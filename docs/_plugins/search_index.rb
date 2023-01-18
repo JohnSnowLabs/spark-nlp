@@ -6,7 +6,12 @@ require 'date'
 require 'elasticsearch'
 require 'nokogiri'
 
-OUTDATED_EDITIONS = ['Spark NLP 2.1', 'Healthcare NLP 2.0']
+SEARCH_URL = (ENV["SEARCH_ORIGIN"] || 'https://search.modelshub.johnsnowlabs.com') + '/'
+ELASTICSEARCH_INDEX_NAME = ENV["ELASTICSEARCH_INDEX_NAME"] || 'models'
+
+OUTDATED_EDITIONS = ['Spark NLP 2.0', 'Spark NLP 2.1', 'Healthcare NLP 2.0']
+
+$remote_editions = Set.new
 
 class Version < Array
   def initialize name
@@ -74,17 +79,20 @@ def compatible_editions(editions, model_editions, edition)
   end
 end
 
-def editions_changed?(local_editions)
-  uri = URI('https://search.modelshub.johnsnowlabs.com/')
-  res = Net::HTTP.get_response(uri)
-  if res.is_a?(Net::HTTPSuccess)
-    data = JSON.parse(res.body)
-    remote_editions = data['meta']['aggregations']['editions']
-
-
-    return !(local_editions - OUTDATED_EDITIONS).to_set.subset?(remote_editions.to_set)
+def editions_changed?(edition)
+  if $remote_editions.empty?
+    puts "Retrieving remote editions...."
+    uri = URI(SEARCH_URL)
+    res = Net::HTTP.get_response(uri)
+    if res.is_a?(Net::HTTPSuccess)
+      data = JSON.parse(res.body)
+      editions = data['meta']['aggregations']['editions']
+      $remote_editions = editions.to_set
+    end
   end
-  true
+  local_editions = Set.new
+  local_editions << edition
+  return !(local_editions - OUTDATED_EDITIONS).to_set.subset?($remote_editions)
 end
 
 def to_product_name(edition_short)
@@ -242,7 +250,7 @@ class BulkIndexer
     return nil unless @client
     return nil if @buffer.empty?
     puts "Indexing #{@buffer.length} models..."
-    @client.bulk(index: 'models', body: @buffer)
+    @client.bulk(index: ELASTICSEARCH_INDEX_NAME, body: @buffer)
     @buffer.clear
   end
 end
@@ -347,7 +355,21 @@ Jekyll::Hooks.register :posts, :post_render do |post|
   uniq = "#{post.data['name']}_#{post.data['language']}"
   uniq_to_models_mapping[uniq] = [] unless uniq_to_models_mapping.has_key? uniq
   uniq_to_models_mapping[uniq] << model
-  editions.add(edition_short) unless edition_short.empty?
+  unless edition_short.empty?
+    editions.add(edition_short)
+    if not ENV['FULL_BUILD'] and editions_changed?(edition_short)
+      print("Please retry again with full build. New edition #{edition_short} encountered.")
+      # Write to $GITHUB_OUPUT for CI/CD
+      if ENV["GITHUB_OUTPUT"]
+        open(ENV["GITHUB_OUTPUT"], 'a') do |f|
+          f << "require_full_build=true"
+        end
+      end
+      # exit raises a SystemExit exception with exit code 11
+      exit(11)
+    end
+  end
+
 
   name_language_editions_sparkversion_to_models_mapping[key] = [] unless name_language_editions_sparkversion_to_models_mapping.has_key? key
   name_language_editions_sparkversion_to_models_mapping[key] << model
@@ -369,10 +391,10 @@ unless ENV['ELASTICSEARCH_URL'].to_s.empty?
       },
     },
   )
-  exists =  client.indices.exists index: 'models'
+  exists =  client.indices.exists index: ELASTICSEARCH_INDEX_NAME
   puts "Index already exists: #{exists}"
   unless exists
-    client.indices.create index: 'models', body: {
+    client.indices.create index: ELASTICSEARCH_INDEX_NAME, body: {
        "mappings": {
         "properties": {
             "body": {
@@ -450,11 +472,6 @@ end
 
 Jekyll::Hooks.register :site, :post_render do |site|
   is_incremental = site.config['incremental']
-  if not ENV['FORCE'] and editions_changed?(editions)
-    print("Please retry again with full build. New editions encountered.")
-    # exit raises a SystemExit exception with exit code 11
-    exit(11)
-  end
   bulk_indexer = BulkIndexer.new(client)
 
   uniq_to_models_mapping.each do |uniq, items|
@@ -497,17 +514,17 @@ Jekyll::Hooks.register :site, :post_render do |site|
   end
   bulk_indexer.execute
 
-  if client and not is_incremental
+  if client and (not is_incremental or ENV["FULL_BUILD"])
     # For full build, remove all documents not in site.posts
-    client.delete_by_query index: 'models', body: {query: {bool: {must_not: {ids: {values: all_posts_id}}}}}
+    client.delete_by_query index: ELASTICSEARCH_INDEX_NAME, body: {query: {bool: {must_not: {ids: {values: all_posts_id}}}}}
   end
 end
 
 Jekyll::Hooks.register :site, :post_write do |site|
   is_incremental = site.config['incremental']
-  backup_filename = File.join(site.config['source'], 'models.json')
-  backup_benchmarking_filename = File.join(site.config['source'], 'benchmarking.json')
-  backup_references_filename = File.join(site.config['source'], 'references.json')
+  backup_filename = File.join(site.config['source'], 'backup-models.json')
+  backup_benchmarking_filename = File.join(site.config['source'], 'backup-benchmarking.json')
+  backup_references_filename = File.join(site.config['source'], 'backup-references.json')
 
   if is_incremental
     # Read from backup and merge with incremental posts data
@@ -558,6 +575,6 @@ Jekyll::Hooks.register :clean, :on_obsolete do |files|
               .select {|v| v.include?('/docs/_site') and v.end_with?('.html')}
               .map {|v| v.split('/docs/_site')[1]}
   if client
-    client.delete_by_query index: 'models', body: {query: {bool: {must: {ids: {values: all_deleted_posts}}}}}
+    client.delete_by_query index: ELASTICSEARCH_INDEX_NAME, body: {query: {bool: {must: {ids: {values: all_deleted_posts}}}}}
   end
 end
