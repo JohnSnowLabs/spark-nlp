@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Resolve Tickers to Company Names using Wikidata
+title: Resolve Company Names to Tickers using Wikidata
 author: John Snow Labs
 name: finel_wiki_parentorgs_ticker
 date: 2023-01-18
@@ -17,7 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model helps you retrieve the name of a company as in Wikidata, using a previously detected TICKER entity with NER.
+This model helps you retrieve the TICKER of a company using a previously detected ORG entity with NER.
 
 ## Predicted Entities
 
@@ -67,6 +67,7 @@ print(test_pred[0]['normalized_name'][0].metadata['all_k_aux_labels'].split(':::
 
 ```bash
 GOOGL
+Aux data: Alphabet Inc.
 ```
 
 {:.model-param}
