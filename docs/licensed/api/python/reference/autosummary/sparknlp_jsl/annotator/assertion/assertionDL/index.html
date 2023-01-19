@@ -264,6 +264,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../chunker/chunker_filterer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.chunker.chunker_filterer</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chunker/chunkmapper/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.chunker.chunkmapper</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chunker/chunkmapper_filterer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.chunker.chunkmapper_filterer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chunker/docmapper/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.chunker.docmapper</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.classification</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -443,8 +444,6 @@ Get with config_proto.SerializeToString()</p>
 against the model on each epoch. The value should be between 0.0 and 1.0
 and by default it is 0.0 (no validation).</p>
 </dd>
-<dt><strong>evaluationLogExtended</strong></dt><dd><p>Select if you want to have mode eval.</p>
-</dd>
 <dt><strong>testDataset</strong></dt><dd><p>Path to test dataset. If set used to calculate statistic on it during training.</p>
 </dd>
 <dt><strong>includeConfidence</strong></dt><dd><p>whether to include confidence scores in annotation metadata</p>
@@ -573,11 +572,6 @@ and by default it is 0.0 (no validation).</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.validationSplit">
 <span class="sig-name descname"><span class="pre">validationSplit</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertionDL.html#AssertionDLApproach.validationSplit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.validationSplit" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.evaluationLogExtended">
-<span class="sig-name descname"><span class="pre">evaluationLogExtended</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertionDL.html#AssertionDLApproach.evaluationLogExtended"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.evaluationLogExtended" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -728,16 +722,6 @@ and by default it is 0.0 (no validation).</p>
 <dd><p>Sets the validation size for the training dataset.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>value (float): The proportion of training dataset to be used as validation set.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setEvaluationLogExtended">
-<span class="sig-name descname"><span class="pre">setEvaluationLogExtended</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertionDL.html#AssertionDLApproach.setEvaluationLogExtended"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setEvaluationLogExtended" title="Permalink to this definition">#</a></dt>
-<dd><p>Creates a Annotation from a Spark <cite>Row</cite>.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>value (bool): Whether to use extended evaluation log or not.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1157,15 +1141,6 @@ annotator inputs. To train a custom model, use AssertionDLApproach.</p>
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.evaluationLogExtended">
-         <code class="docutils literal notranslate">
-          <span class="pre">
-           AssertionDLApproach.evaluationLogExtended
-          </span>
-         </code>
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.testDataset">
          <code class="docutils literal notranslate">
           <span class="pre">
@@ -1323,15 +1298,6 @@ annotator inputs. To train a custom model, use AssertionDLApproach.</p>
          <code class="docutils literal notranslate">
           <span class="pre">
            AssertionDLApproach.setValidationSplit()
-          </span>
-         </code>
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setEvaluationLogExtended">
-         <code class="docutils literal notranslate">
-          <span class="pre">
-           AssertionDLApproach.setEvaluationLogExtended()
           </span>
          </code>
         </a>
@@ -1596,11 +1562,6 @@ annotator inputs. To train a custom model, use AssertionDLApproach.</p>
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.evaluationLogExtended">
-         evaluationLogExtended
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.testDataset">
          testDataset
         </a>
@@ -1688,11 +1649,6 @@ annotator inputs. To train a custom model, use AssertionDLApproach.</p>
        <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setValidationSplit">
          setValidationSplit
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setEvaluationLogExtended">
-         setEvaluationLogExtended
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">

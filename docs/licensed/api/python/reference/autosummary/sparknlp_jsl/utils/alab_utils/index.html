@@ -338,6 +338,9 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.utils.alab_utils.get_single_task_conll" title="sparknlp_jsl.utils.alab_utils.get_single_task_conll"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_single_task_conll</span></code></a>(output, pos_pipeline, token_pipeline)</p></td>
 <td><p>Generates CoNLL-style outputs from a single task in an Annotation Lab JSON export</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.utils.alab_utils.get_token_df" title="sparknlp_jsl.utils.alab_utils.get_token_df"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_token_df</span></code></a>(text)</p></td>
+<td><p>Args:</p></td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -558,6 +561,17 @@ defaults to None
 :type excluded_task_titles: list
 :return: CoNLL lines
 :rtype: list</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sparknlp_jsl.utils.alab_utils.get_token_df">
+<span class="sig-name descname"><span class="pre">get_token_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/utils/alab_utils.html#get_token_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.utils.alab_utils.get_token_df" title="Permalink to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>Args:</dt><dd><p>text (str): input text</p>
+</dd>
+<dt>Returns:</dt><dd><p>_type_: Pandas DataFrame with columns (‘token’, ‘begin’, ‘end’)</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -811,6 +825,15 @@ defaults to None
       </a>
      </li>
      <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.utils.alab_utils.get_token_df">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         get_token_df()
+        </span>
+       </code>
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#sparknlp_jsl.utils.alab_utils.nlp_token_pipeline">
        nlp_token_pipeline
       </a>
@@ -923,6 +946,11 @@ defaults to None
      <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#sparknlp_jsl.utils.alab_utils.get_single_task_conll">
        get_single_task_conll
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.utils.alab_utils.get_token_df">
+       get_token_df
       </a>
      </li>
     </ul>
