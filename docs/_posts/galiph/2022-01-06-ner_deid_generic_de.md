@@ -32,7 +32,8 @@ Named Entity recognition annotator allows for a generic model to be trained by u
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_DEID_DE){:.button.button-orange}
 [Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.1.Clinical_Deidentification_in_German.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_deid_generic_de_3.3.4_2.4_1641460977185.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_deid_generic_de_3.3.4_2.4_1641460977185.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/ner_deid_generic_de_3.3.4_2.4_1641460977185.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 
 ## How to use

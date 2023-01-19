@@ -29,7 +29,8 @@ If you look for generic version, only returning Environment, Social or Governanc
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/finance/FINCLF_ESG/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_augmented_esg_en_1.0.0_3.2_1662473372920.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_augmented_esg_en_1.0.0_3.2_1662473372920.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/finance/models/finclf_augmented_esg_en_1.0.0_3.2_1662473372920.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

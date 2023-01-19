@@ -28,6 +28,7 @@ This model was imported from Hugging Face to carry out Name Entity Recognition w
 <button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_HINDI_ENGLISH.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_token_classifier_hi_en_ner_hi_3.2.0_3.0_1640612846736.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bert_token_classifier_hi_en_ner_hi_3.2.0_3.0_1640612846736.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

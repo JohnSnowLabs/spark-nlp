@@ -25,7 +25,8 @@ This pipeline can be used to de-identify PHI information from medical texts. The
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/DEID_PHI_TEXT/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/DEID_PHI_TEXT.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/clinical_deidentification_en_2.4.0_2.4_1580481115376.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/clinical_deidentification_en_2.4.0_2.4_1580481115376.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/clinical_deidentification_en_2.4.0_2.4_1580481115376.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 
 {:.h2_title}

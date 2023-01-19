@@ -28,6 +28,7 @@ Analyze sentiment in reviews by classifying them as `positive` and `negative`. W
 <button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.Text_Classification_with_ClassifierDL.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/sentiment_jager_use_th_2.7.1_2.4_1610586390122.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/sentiment_jager_use_th_2.7.1_2.4_1610586390122.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

@@ -33,7 +33,8 @@ This model is a `sm` model without meaningful directions in the relations (the m
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/finance/FINRE_WORK_EXPERIENCE){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finre_work_experience_en_1.0.0_3.0_1664360618647.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finre_work_experience_en_1.0.0_3.0_1664360618647.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/finance/models/finre_work_experience_en_1.0.0_3.0_1664360618647.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

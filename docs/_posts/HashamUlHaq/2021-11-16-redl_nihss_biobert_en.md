@@ -32,7 +32,8 @@ Relate scale items and their measurements according to NIHSS guidelines.
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/RE_NIHSS/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/redl_nihss_biobert_en_3.3.2_3.0_1637038860417.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/redl_nihss_biobert_en_3.3.2_3.0_1637038860417.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/redl_nihss_biobert_en_3.3.2_3.0_1637038860417.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 
 ## How to use

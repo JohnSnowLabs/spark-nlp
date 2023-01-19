@@ -26,6 +26,7 @@ Pretrained Wav2vec2  model, adapted from Hugging Face and curated to provide sca
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_wav2vec2_base_960h_en_4.2.0_3.0_1663934856069.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/asr_wav2vec2_base_960h_en_4.2.0_3.0_1663934856069.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

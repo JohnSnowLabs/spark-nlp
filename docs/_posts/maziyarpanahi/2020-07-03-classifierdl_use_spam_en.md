@@ -27,7 +27,8 @@ Automatically identify messages as being regular messages or Spam.
 ``spam``, ``ham``
 
 {:.btn-box}
-[Live Demo](https://demo.johnsnowlabs.com/public/CLASSIFICATION_EN_SPAM/){:.button.button-orange}<br/>[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_EN_SPAM.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}<br/>[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/classifierdl_use_spam_en_2.5.3_2.4_1593783318934.zip){:.button.button-orange.button-orange-trans.arr.button-icon}<br/>
+[Live Demo](https://demo.johnsnowlabs.com/public/CLASSIFICATION_EN_SPAM/){:.button.button-orange}<br/>[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_EN_SPAM.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}<br/>[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/classifierdl_use_spam_en_2.5.3_2.4_1593783318934.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/classifierdl_use_spam_en_2.5.3_2.4_1593783318934.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}<br/>
 
 ## How to use 
 <div class="tabs-box" markdown="1">

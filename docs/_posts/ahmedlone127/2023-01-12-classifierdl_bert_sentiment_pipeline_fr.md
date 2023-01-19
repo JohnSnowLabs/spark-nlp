@@ -27,6 +27,7 @@ This pretrained pipeline identifies the sentiments (positive or negative) in Fre
 [Live Demo](https://demo.johnsnowlabs.com/public/SENTIMENT_FR/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_Fr_Sentiment.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/classifierdl_bert_sentiment_pipeline_fr_4.3.0_3.0_1673542275468.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/classifierdl_bert_sentiment_pipeline_fr_4.3.0_3.0_1673542275468.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

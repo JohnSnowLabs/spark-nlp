@@ -29,6 +29,7 @@ Catalan Roberta Word Embeddings, used within the `PlanTL-GOB-ES/roberta-base-ca`
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/community.johnsnowlabs.com/cayorodriguez/roberta_embeddings_bsc_ca_3.4.4_3.0_1657198648319.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://community.johnsnowlabs.com/cayorodriguez/roberta_embeddings_bsc_ca_3.4.4_3.0_1657198648319.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
