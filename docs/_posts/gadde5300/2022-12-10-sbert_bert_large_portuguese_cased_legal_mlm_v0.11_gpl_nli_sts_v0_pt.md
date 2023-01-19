@@ -23,6 +23,7 @@ Pretrained BERT Sentence Embedding model, adapted from Hugging Face and curated 
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/sbert_bert_large_portuguese_cased_legal_mlm_v0.11_gpl_nli_sts_v0_pt_4.2.4_3.0_1670672536457.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/sbert_bert_large_portuguese_cased_legal_mlm_v0.11_gpl_nli_sts_v0_pt_4.2.4_3.0_1670672536457.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

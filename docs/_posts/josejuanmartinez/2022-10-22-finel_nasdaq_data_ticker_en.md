@@ -29,7 +29,8 @@ After this, you can use `finmapper_nasdaq_data_ticker` to augment and obtain mor
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/finance/ER_EDGAR_CRUNCHBASE/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finel_nasdaq_data_ticker_en_1.0.0_3.0_1666473763228.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finel_nasdaq_data_ticker_en_1.0.0_3.0_1666473763228.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/finance/models/finel_nasdaq_data_ticker_en_1.0.0_3.0_1666473763228.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

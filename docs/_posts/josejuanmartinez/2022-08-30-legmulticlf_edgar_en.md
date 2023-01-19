@@ -44,7 +44,8 @@ This is a Multilabel Document Classification model, which can be used to identif
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/legal/LEGMULTICLF_LEDGAR/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legmulticlf_edgar_en_1.0.0_3.2_1661858359724.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legmulticlf_edgar_en_1.0.0_3.2_1661858359724.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legmulticlf_edgar_en_1.0.0_3.2_1661858359724.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

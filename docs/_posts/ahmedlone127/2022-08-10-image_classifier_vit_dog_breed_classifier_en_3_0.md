@@ -58,6 +58,7 @@ Pretrained VIT  model, adapted from Hugging Face and curated to provide scalabil
 <button class="button button-orange" disabled>Open in Colab</button>
 
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/image_classifier_vit_dog_breed_classifier_en_4.1.0_3.0_1660167173151.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/image_classifier_vit_dog_breed_classifier_en_4.1.0_3.0_1660167173151.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 
 
