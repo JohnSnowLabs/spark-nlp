@@ -183,10 +183,11 @@ if(document.querySelectorAll('.tab-li-inner').length !== 0) {
         tabLiTop = document.querySelectorAll('.toptab-second'),
         tabLi = document.querySelectorAll('.toptab-second p');
 
-
-    tabLiTop.forEach(e => {        
-        e.nextElementSibling.classList.add('active');
-    });
+    try {
+        tabLiTop.forEach(e => {        
+            e.nextElementSibling.classList.add('active');
+        });
+    } catch(e){}
 
     tabLi.forEach(e => {        
         e.firstChild.classList.add('active');
