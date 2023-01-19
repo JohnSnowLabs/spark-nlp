@@ -12,7 +12,7 @@ spark_version: 3.0
 supported: true
 annotator: ChunkMapperModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -50,6 +50,7 @@ Firstly, you should get the TICKER symbol from the finance text with the `finner
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler()\
     .setInputCol('text')\
