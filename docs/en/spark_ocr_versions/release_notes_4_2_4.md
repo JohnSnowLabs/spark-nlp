@@ -5,7 +5,7 @@ seotitle: Visual NLP(Spark OCR)
 title: Visual NLP(Spark OCR) release notes 4.2.4
 permalink: /docs/en/spark_ocr_versions/release_notes_4_2_4
 key: docs-release-notes
-modify_date: "2022-19-12"
+modify_date: "2022-12-19"
 show_nav: true
 sidebar:
     nav: sparknlp
