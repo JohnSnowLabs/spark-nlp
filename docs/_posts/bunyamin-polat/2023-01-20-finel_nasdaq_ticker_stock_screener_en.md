@@ -12,7 +12,7 @@ spark_version: 3.0
 supported: true
 annotator: SentenceEntityResolverModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -36,6 +36,7 @@ This is an Entity Resolution / Entity Linking model, which is able to provide Ti
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler()\
     .setInputCol('text')\
