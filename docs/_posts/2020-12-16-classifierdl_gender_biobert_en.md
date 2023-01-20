@@ -28,7 +28,8 @@ This model classifies the gender of the patient in the clinical document.
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/CLINICAL_CLASSIFICATION.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/classifierdl_gender_biobert_en_2.6.4_2.4_1608119684447.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/classifierdl_gender_biobert_en_2.6.4_2.4_1608119684447.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/classifierdl_gender_biobert_en_2.6.4_2.4_1608119684447.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 {:.h2_title}
 ## How to use

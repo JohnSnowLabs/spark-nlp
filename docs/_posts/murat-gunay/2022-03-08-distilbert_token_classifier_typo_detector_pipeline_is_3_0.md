@@ -23,6 +23,7 @@ This pretrained pipeline is built on the top of [distilbert_token_classifier_typ
 [Live Demo](https://demo.johnsnowlabs.com/public/TYPO_DETECTOR_IS/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/DistilBertForTokenClassification.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_token_classifier_typo_detector_pipeline_is_3.4.1_3.0_1646741501592.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/distilbert_token_classifier_typo_detector_pipeline_is_3.4.1_3.0_1646741501592.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

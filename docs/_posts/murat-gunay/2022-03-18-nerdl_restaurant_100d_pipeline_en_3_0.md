@@ -24,6 +24,7 @@ This pretrained pipeline is built on the top of [nerdl_restaurant_100d](https://
 [Live Demo](https://demo.johnsnowlabs.com/public/NER_RESTAURANT/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_RESTAURANT.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/nerdl_restaurant_100d_pipeline_en_3.4.1_3.0_1647610686318.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/nerdl_restaurant_100d_pipeline_en_3.4.1_3.0_1647610686318.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

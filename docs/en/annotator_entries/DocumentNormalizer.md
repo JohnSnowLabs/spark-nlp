@@ -115,11 +115,11 @@ result.selectExpr("normalizedDocument.result").show(truncate=false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[DocumentNormalizer](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/DocumentNormalizer)
+[DocumentNormalizer](/api/com/johnsnowlabs/nlp/annotators/DocumentNormalizer)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[DocumentNormalizer](/api/python/reference/autosummary/python/sparknlp/annotator/document_normalizer/index.html#sparknlp.annotator.document_normalizer.DocumentNormalizer)
+[DocumentNormalizer](/api/python/reference/autosummary/sparknlp/annotator/document_normalizer/index.html#sparknlp.annotator.document_normalizer.DocumentNormalizer)
 {%- endcapture -%}
 
 {%- capture source_link -%}

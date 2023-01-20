@@ -268,6 +268,7 @@
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.classification</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../classification/document_log_classifier/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.classification.document_log_classifier</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classification/document_ml_classifier/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.classification.document_ml_classifier</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classification/medical_bert_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.classification.medical_bert_for_sequence_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classification/medical_bert_for_token_classifier/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.classification.medical_bert_for_token_classifier</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classification/medical_distilbert_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.classification.medical_distilbert_for_sequence_classification</span></code></a></li>
@@ -336,6 +337,7 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../annotation_merger/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.annotation_merger</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../doc2_chunk_internal/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.doc2_chunk_internal</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resolution2_chunk/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.resolution2_chunk</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../router/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.router</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../source_tracking_metadata_params/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.source_tracking_metadata_params</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tf_graph_builder/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.tf_graph_builder</span></code></a></li>
@@ -379,16 +381,57 @@
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.assertion.assertion_chunk_converter.AssertionChunkConverter" title="sparknlp_jsl.annotator.assertion.assertion_chunk_converter.AssertionChunkConverter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AssertionChunkConverter</span></code></a></p></td>
-<td><p>Base class for :py:class:<a href="#id1"><span class="problematic" id="id2">`</span></a>Transformer`s that wrap Java/Scala</p></td>
+<td><p>Creates an extended chunk column with metadata that can be used for assertion status detection model training.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertion_chunk_converter.AssertionChunkConverter">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AssertionChunkConverter</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertion_chunk_converter.html#AssertionChunkConverter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertion_chunk_converter.AssertionChunkConverter" title="Permalink to this definition">#</a></dt>
-<dd><p>Base class for :py:class:<a href="#id3"><span class="problematic" id="id4">`</span></a>Transformer`s that wrap Java/Scala
-implementations. Subclasses should ensure they have the transformer Java object
-available as _java_obj.</p>
+<dd><p>Creates an extended chunk column with metadata that can be used for assertion status detection model training.</p>
+<p>In some cases, there may be issues while creating the chunk column by using
+token indices and losing some data while training and testing the assertion
+status model if there are issues in these token indices.</p>
+<p>&gt; Chunk begin and end indices in the assertion status model training dataframe
+&gt; can be populated using the new version of ALAB module.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>chunkTextCol (str): Name of the column containing the text of the chunk
+chunkBeginCol (str): Name of the column containing the start index of the chunk
+chunkEndCol (str): Name of the column containing the end index of the chunk
+outputTokenBeginCol (str): Name of the column containing selected token start index
+outputTokenEndCol (str): Name of the column containing selected token end index</p>
+</dd>
+</dl>
+<p>Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="s2">&quot;An angiography showed bleeding in two vessels off of the Minnie supplying the sigmoid that were succesfully embolized.&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;Minnie&quot;</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mi">64</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="s2">&quot;After discussing this with his PCP, Leon was clear that the patient had had recurrent DVTs and ultimately a PE and his PCP felt strongly that he required long-term anticoagulation &quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;PCP&quot;</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">34</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;target&quot;</span><span class="p">,</span> <span class="s2">&quot;char_begin&quot;</span><span class="p">,</span> <span class="s2">&quot;char_end&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>     <span class="o">...</span>     <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>     <span class="o">...</span>     <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span>    <span class="o">...</span>     <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span>    <span class="o">...</span>     <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentence&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>     <span class="o">...</span>     <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">])</span>     <span class="o">...</span>     <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;tokens&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">converter</span> <span class="o">=</span> <span class="n">AssertionChunkConverter</span><span class="p">()</span>     <span class="o">...</span>     <span class="o">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s2">&quot;tokens&quot;</span><span class="p">)</span>    <span class="o">...</span>     <span class="o">.</span><span class="n">setChunkTextCol</span><span class="p">(</span><span class="s2">&quot;target&quot;</span><span class="p">)</span>    <span class="o">...</span>     <span class="o">.</span><span class="n">setChunkBeginCol</span><span class="p">(</span><span class="s2">&quot;char_begin&quot;</span><span class="p">)</span>    <span class="o">...</span>     <span class="o">.</span><span class="n">setChunkEndCol</span><span class="p">(</span><span class="s2">&quot;char_end&quot;</span><span class="p">)</span>    <span class="o">...</span>     <span class="o">.</span><span class="n">setOutputTokenBeginCol</span><span class="p">(</span><span class="s2">&quot;token_begin&quot;</span><span class="p">)</span>    <span class="o">...</span>     <span class="o">.</span><span class="n">setOutputTokenEndCol</span><span class="p">(</span><span class="s2">&quot;token_end&quot;</span><span class="p">)</span>    <span class="o">...</span>     <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;chunk&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span><span class="n">document_assembler</span><span class="p">,</span><span class="n">sentenceDetector</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">converter</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span>    <span class="o">...</span> <span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s2">&quot;target&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;char_begin&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;char_end&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;token_begin&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;token_end&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;tokens[token_begin].result&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;tokens[token_end].result&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;target&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;chunk&quot;</span><span class="p">)</span>    <span class="o">...</span> <span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">+------+----------+--------+-----------+---------+--------------------------+------------------------+------+----------------------------------------------+</span>
+<span class="go">|target|char_begin|char_end|token_begin|token_end|tokens[token_begin].result|tokens[token_end].result|target|chunk                                         |</span>
+<span class="go">+------+----------+--------+-----------+---------+--------------------------+------------------------+------+----------------------------------------------+</span>
+<span class="go">|Minnie|57        |64      |10         |10       |Minnie                    |Minnie                  |Minnie|[{chunk, 57, 62, Minnie, {sentence -&gt; 0}, []}]|</span>
+<span class="go">|PCP   |31        |34      |5          |5        |PCP                       |PCP                     |PCP   |[{chunk, 31, 33, PCP, {sentence -&gt; 0}, []}]   |</span>
+<span class="go">+------+----------+--------+-----------+---------+--------------------------+------------------------+------+----------------------------------------------+</span>
+</pre></div>
+</div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertion_chunk_converter.AssertionChunkConverter.name">
 <span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">AssertionChunkConverter</span></em><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertion_chunk_converter.html#AssertionChunkConverter.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertion_chunk_converter.AssertionChunkConverter.name" title="Permalink to this definition">#</a></dt>
@@ -397,6 +440,11 @@ available as _java_obj.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertion_chunk_converter.AssertionChunkConverter.inputAnnotatorTypes">
 <span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertion_chunk_converter.html#AssertionChunkConverter.inputAnnotatorTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertion_chunk_converter.AssertionChunkConverter.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertion_chunk_converter.AssertionChunkConverter.outputAnnotatorType">
+<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertion_chunk_converter.html#AssertionChunkConverter.outputAnnotatorType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertion_chunk_converter.AssertionChunkConverter.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -465,7 +513,7 @@ available as _java_obj.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertion_chunk_converter.AssertionChunkConverter.setChunkTextCol">
 <span class="sig-name descname"><span class="pre">setChunkTextCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">col</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertion_chunk_converter.html#AssertionChunkConverter.setChunkTextCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertion_chunk_converter.AssertionChunkConverter.setChunkTextCol" title="Permalink to this definition">#</a></dt>
-<dd><p>Sets the name of the column containing the text of the chunk</p>
+<dd><p>Sets the name of the column containing the text of the chunk.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -479,7 +527,7 @@ available as _java_obj.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertion_chunk_converter.AssertionChunkConverter.setChunkBeginCol">
 <span class="sig-name descname"><span class="pre">setChunkBeginCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">col</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertion_chunk_converter.html#AssertionChunkConverter.setChunkBeginCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertion_chunk_converter.AssertionChunkConverter.setChunkBeginCol" title="Permalink to this definition">#</a></dt>
-<dd><p>Sets the name of the column containing the start index of the chunk</p>
+<dd><p>Sets the name of the column containing the start index of the chunk.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -493,7 +541,7 @@ available as _java_obj.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertion_chunk_converter.AssertionChunkConverter.setChunkEndCol">
 <span class="sig-name descname"><span class="pre">setChunkEndCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">col</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertion_chunk_converter.html#AssertionChunkConverter.setChunkEndCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertion_chunk_converter.AssertionChunkConverter.setChunkEndCol" title="Permalink to this definition">#</a></dt>
-<dd><p>Sets the name of the column containing the end index of the chunk</p>
+<dd><p>Sets the name of the column containing the end index of the chunk.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -507,7 +555,7 @@ available as _java_obj.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertion_chunk_converter.AssertionChunkConverter.setOutputTokenBeginCol">
 <span class="sig-name descname"><span class="pre">setOutputTokenBeginCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">col</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertion_chunk_converter.html#AssertionChunkConverter.setOutputTokenBeginCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertion_chunk_converter.AssertionChunkConverter.setOutputTokenBeginCol" title="Permalink to this definition">#</a></dt>
-<dd><p>Sets the name of the column containing selected token start index</p>
+<dd><p>Sets the name of the column containing selected token start index.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -521,7 +569,7 @@ available as _java_obj.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertion_chunk_converter.AssertionChunkConverter.setOutputTokenEndCol">
 <span class="sig-name descname"><span class="pre">setOutputTokenEndCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">col</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertion_chunk_converter.html#AssertionChunkConverter.setOutputTokenEndCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertion_chunk_converter.AssertionChunkConverter.setOutputTokenEndCol" title="Permalink to this definition">#</a></dt>
-<dd><p>Sets the name of the column containing selected token end index</p>
+<dd><p>Sets the name of the column containing selected token end index.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -600,6 +648,15 @@ available as _java_obj.</p>
          <code class="docutils literal notranslate">
           <span class="pre">
            AssertionChunkConverter.inputAnnotatorTypes
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertion_chunk_converter.AssertionChunkConverter.outputAnnotatorType">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           AssertionChunkConverter.outputAnnotatorType
           </span>
          </code>
         </a>
@@ -754,6 +811,11 @@ available as _java_obj.</p>
        <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertion_chunk_converter.AssertionChunkConverter.inputAnnotatorTypes">
          inputAnnotatorTypes
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.assertion.assertion_chunk_converter.AssertionChunkConverter.outputAnnotatorType">
+         outputAnnotatorType
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">

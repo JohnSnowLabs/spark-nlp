@@ -32,6 +32,7 @@ We used TFXLNetForSequenceClassification to train this model and used XlnetForSe
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/xlnet_base_sequence_classifier_ag_news_en_3.4.0_3.0_1640263463723.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/xlnet_base_sequence_classifier_ag_news_en_3.4.0_3.0_1640263463723.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

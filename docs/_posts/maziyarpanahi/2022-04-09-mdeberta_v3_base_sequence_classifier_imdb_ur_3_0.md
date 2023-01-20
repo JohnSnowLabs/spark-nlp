@@ -28,6 +28,7 @@ We used TFDebertaV2ForSequenceClassification to train this model and used DeBert
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/mdeberta_v3_base_sequence_classifier_imdb_ur_3.4.3_3.0_1649514716255.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/mdeberta_v3_base_sequence_classifier_imdb_ur_3.4.3_3.0_1649514716255.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

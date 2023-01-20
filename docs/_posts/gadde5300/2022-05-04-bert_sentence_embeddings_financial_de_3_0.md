@@ -27,6 +27,7 @@ Financial Pretrained BERT Embeddings model, uploaded to Hugging Face, adapted an
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_sentence_embeddings_financial_de_3.4.2_3.0_1651678415089.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bert_sentence_embeddings_financial_de_3.4.2_3.0_1651678415089.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

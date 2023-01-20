@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.lemmatizer &#8212; Spark NLP 4.2.6 documentation</title>
+    <title>sparknlp.annotator.lemmatizer &#8212; Spark NLP 4.2.7 documentation</title>
   
   
   
@@ -313,7 +313,7 @@
 
 
 <div class="viewcode-block" id="Lemmatizer"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/lemmatizer/index.html#sparknlp.annotator.lemmatizer.Lemmatizer">[docs]</a><span class="k">class</span> <span class="nc">Lemmatizer</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Class to find lemmas out of words with the objective of returning a base</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class to find lemmas out of words with the objective of returning a base</span>
 <span class="sd">    dictionary word.</span>
 
 <span class="sd">    Retrieves the significant part of a word. A dictionary of predefined lemmas</span>
@@ -415,7 +415,7 @@
         <span class="k">return</span> <span class="n">LemmatizerModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Lemmatizer.setFormCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/lemmatizer/index.html#sparknlp.annotator.lemmatizer.Lemmatizer.setFormCol">[docs]</a>    <span class="k">def</span> <span class="nf">setFormCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Column that correspends to CoNLLU(formCol=) output</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Column that correspends to CoNLLU(formCol=) output</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -425,7 +425,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">formCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Lemmatizer.setLemmaCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/lemmatizer/index.html#sparknlp.annotator.lemmatizer.Lemmatizer.setLemmaCol">[docs]</a>    <span class="k">def</span> <span class="nf">setLemmaCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Column that correspends to CoNLLU(fromLemma=) output</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Column that correspends to CoNLLU(fromLemma=) output</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -436,7 +436,7 @@
 
 <div class="viewcode-block" id="Lemmatizer.setDictionary"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/lemmatizer/index.html#sparknlp.annotator.lemmatizer.Lemmatizer.setDictionary">[docs]</a>    <span class="k">def</span> <span class="nf">setDictionary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">key_delimiter</span><span class="p">,</span> <span class="n">value_delimiter</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">TEXT</span><span class="p">,</span>
                       <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">}):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the external dictionary for the lemmatizer.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the external dictionary for the lemmatizer.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -479,7 +479,7 @@
 
 
 <div class="viewcode-block" id="LemmatizerModel"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/lemmatizer/index.html#sparknlp.annotator.lemmatizer.LemmatizerModel">[docs]</a><span class="k">class</span> <span class="nc">LemmatizerModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Instantiated Model of the Lemmatizer.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Instantiated Model of the Lemmatizer.</span>
 
 <span class="sd">    This is the instantiated model of the :class:`.Lemmatizer`.</span>
 <span class="sd">    For training your own model, please see the documentation of that class.</span>
@@ -526,7 +526,7 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="LemmatizerModel.pretrained"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/annotator/lemmatizer/index.html#sparknlp.annotator.lemmatizer.LemmatizerModel.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;lemma_antbnc&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

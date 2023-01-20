@@ -25,6 +25,7 @@ The text_cleaning is a pretrained pipeline that we can use to process text with 
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/text_cleaning_en_4.0.0_3.0_1657198002660.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/text_cleaning_en_4.0.0_3.0_1657198002660.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

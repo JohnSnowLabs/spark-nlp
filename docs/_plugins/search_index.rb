@@ -6,6 +6,13 @@ require 'date'
 require 'elasticsearch'
 require 'nokogiri'
 
+SEARCH_URL = (ENV["SEARCH_ORIGIN"] || 'https://search.modelshub.johnsnowlabs.com') + '/'
+ELASTICSEARCH_INDEX_NAME = ENV["ELASTICSEARCH_INDEX_NAME"] || 'models'
+
+OUTDATED_EDITIONS = ['Spark NLP 2.0', 'Spark NLP 2.1', 'Healthcare NLP 2.0']
+
+$remote_editions = Set.new
+
 class Version < Array
   def initialize name
     m = /(\d+\.\d+)\z/.match(name)
@@ -39,8 +46,7 @@ end
 def compatible_editions(editions, model_editions, edition)
   return edition if edition.to_s.empty?
 
-  outdated_editions = ['Spark NLP 2.1', 'Healthcare NLP 2.0']
-  return edition if outdated_editions.include? edition
+  return edition if OUTDATED_EDITIONS.include? edition
 
   def to_product_name(edition)
     m = /^(.*?) \d+\.\d+$/.match(edition)
@@ -49,7 +55,7 @@ def compatible_editions(editions, model_editions, edition)
 
   product_name = to_product_name(edition)
   if product_name
-    selection_lambda = lambda {|v| to_product_name(v) == product_name && !outdated_editions.include?(v)}
+    selection_lambda = lambda {|v| to_product_name(v) == product_name && !OUTDATED_EDITIONS.include?(v)}
   else
     selection_lambda = lambda {|_| false }
   end
@@ -73,15 +79,20 @@ def compatible_editions(editions, model_editions, edition)
   end
 end
 
-def editions_changed?(local_editions)
-  uri = URI('https://search.modelshub.johnsnowlabs.com/')
-  res = Net::HTTP.get_response(uri)
-  if res.is_a?(Net::HTTPSuccess)
-    data = JSON.parse(res.body)
-    remote_editions = data['meta']['aggregations']['editions']
-    return !local_editions.to_set.subset?(remote_editions.to_set)
+def editions_changed?(edition)
+  if $remote_editions.empty?
+    puts "Retrieving remote editions...."
+    uri = URI(SEARCH_URL)
+    res = Net::HTTP.get_response(uri)
+    if res.is_a?(Net::HTTPSuccess)
+      data = JSON.parse(res.body)
+      editions = data['meta']['aggregations']['editions']
+      $remote_editions = editions.to_set
+    end
   end
-  true
+  local_editions = Set.new
+  local_editions << edition
+  return !(local_editions - OUTDATED_EDITIONS).to_set.subset?($remote_editions)
 end
 
 def to_product_name(edition_short)
@@ -239,7 +250,7 @@ class BulkIndexer
     return nil unless @client
     return nil if @buffer.empty?
     puts "Indexing #{@buffer.length} models..."
-    @client.bulk(index: 'models', body: @buffer)
+    @client.bulk(index: ELASTICSEARCH_INDEX_NAME, body: @buffer)
     @buffer.clear
   end
 end
@@ -248,29 +259,20 @@ editions = Set.new
 # Add the editions that are absent in the existing models yet
 editions << 'Visual NLP 4.2'
 uniq_to_models_mapping = {}
-uniq_for_indexing = Set.new
 name_language_editions_sparkversion_to_models_mapping = {}
 models_json = {}
 models_benchmarking_json = {}
 models_references_json = {}
 
 all_posts_id = []
-changed_filenames = []
+
+all_deleted_posts = []
 
 def is_latest?(group, model)
-  models = group[model[:id]]
+  models = group[model[:uniq_key]]
   Date.parse(model[:date]) == models.map { |m| Date.parse(m[:date])}.max
 end
 
-if File.exist?("./changes.txt")
-  changed_filenames = File.open("./changes.txt") \
-    .each_line \
-    .to_a \
-    .map(&:chomp) \
-    .uniq \
-    .select { |v| v.start_with?("docs/_posts") } \
-    .map { |v| File.basename(v) }
-end
 
 Jekyll::Hooks.register :posts, :pre_render do |post|
   extractor = Extractor.new(post.content)
@@ -327,8 +329,10 @@ Jekyll::Hooks.register :posts, :post_render do |post|
   supported = !!post.data['supported']
   deprecated = !!post.data['deprecated']
   recommended = !!post.data['recommended']
+  key = "#{post.data['name']}_#{post.data['language']}_#{post.data['edition']}_#{post.data["spark_version"]}"
+
   model = {
-    id: "#{post.data['name']}_#{post.data['language']}_#{post.data['edition']}_#{post.data["spark_version"]}",
+    id: post.url,
     name: post.data['name'],
     title: post.data['title'],
     tags_glued: post.data['tags'].join(' '),
@@ -343,20 +347,33 @@ Jekyll::Hooks.register :posts, :post_render do |post|
     deprecated: deprecated,
     body: body,
     url: post.url,
-    recommended: recommended
+    recommended: recommended,
+    annotator: post.data['annotator'],
+    uniq_key: key
   }
 
   uniq = "#{post.data['name']}_#{post.data['language']}"
   uniq_to_models_mapping[uniq] = [] unless uniq_to_models_mapping.has_key? uniq
   uniq_to_models_mapping[uniq] << model
-  editions.add(edition_short) unless edition_short.empty?
-  uniq_for_indexing << uniq if changed_filenames.include?(post.basename)
-  changed_filenames.delete(post.basename)
+  unless edition_short.empty?
+    editions.add(edition_short)
+    if not ENV['FULL_BUILD'] and editions_changed?(edition_short)
+      print("Please retry again with full build. New edition #{edition_short} encountered.")
+      # Write to $GITHUB_OUPUT for CI/CD
+      if ENV["GITHUB_OUTPUT"]
+        open(ENV["GITHUB_OUTPUT"], 'a') do |f|
+          f << "require_full_build=true"
+        end
+      end
+      # exit raises a SystemExit exception with exit code 11
+      exit(11)
+    end
+  end
 
-  key = model[:id]
+
   name_language_editions_sparkversion_to_models_mapping[key] = [] unless name_language_editions_sparkversion_to_models_mapping.has_key? key
   name_language_editions_sparkversion_to_models_mapping[key] << model
-  all_posts_id << key
+  all_posts_id << model[:id]
 end
 
 client = nil
@@ -374,10 +391,10 @@ unless ENV['ELASTICSEARCH_URL'].to_s.empty?
       },
     },
   )
-  exists =  client.indices.exists index: 'models'
+  exists =  client.indices.exists index: ELASTICSEARCH_INDEX_NAME
   puts "Index already exists: #{exists}"
   unless exists
-    client.indices.create index: 'models', body: {
+    client.indices.create index: ELASTICSEARCH_INDEX_NAME, body: {
        "mappings": {
         "properties": {
             "body": {
@@ -443,6 +460,9 @@ unless ENV['ELASTICSEARCH_URL'].to_s.empty?
             },
             "recommended": {
               "type": "boolean"
+            },
+            "annotator": {
+              "type": "keyword"
             }
         }
       }
@@ -451,7 +471,7 @@ unless ENV['ELASTICSEARCH_URL'].to_s.empty?
 end
 
 Jekyll::Hooks.register :site, :post_render do |site|
-  force_reindex = editions_changed?(editions)
+  is_incremental = site.config['incremental']
   bulk_indexer = BulkIndexer.new(client)
 
   uniq_to_models_mapping.each do |uniq, items|
@@ -484,34 +504,77 @@ Jekyll::Hooks.register :site, :post_render do |site|
       model[:download_link] = models_json[model[:url]][:download_link]
 
       if client
-        if force_reindex || uniq_for_indexing.include?(uniq)
-          if is_latest?(name_language_editions_sparkversion_to_models_mapping, model)
-            id = model.delete(:id)
-            bulk_indexer.index(id, model)
-          end
+        if is_latest?(name_language_editions_sparkversion_to_models_mapping, model)
+          id = model.delete(:id)
+          model.delete(:uniq_key)
+          bulk_indexer.index(id, model)
         end
       end
     end
   end
   bulk_indexer.execute
 
-  if client
-    # Also delete models whose  name, language, edition, spark version were modified
-    client.delete_by_query index: 'models', body: {query: {bool: {must_not: {ids: {values: all_posts_id}}}}}
+  if client and (not is_incremental or ENV["FULL_BUILD"])
+    # For full build, remove all documents not in site.posts
+    client.delete_by_query index: ELASTICSEARCH_INDEX_NAME, body: {query: {bool: {must_not: {ids: {values: all_posts_id}}}}}
   end
-
-
-
 end
 
 Jekyll::Hooks.register :site, :post_write do |site|
+  is_incremental = site.config['incremental']
+  backup_filename = File.join(site.config['source'], 'backup-models.json')
+  backup_benchmarking_filename = File.join(site.config['source'], 'backup-benchmarking.json')
+  backup_references_filename = File.join(site.config['source'], 'backup-references.json')
+
+  if is_incremental
+    # Read from backup and merge with incremental posts data
+    begin
+        backup_models_data = JSON.parse(File.read(backup_filename))
+    rescue
+      backup_models_data = Hash.new
+    end
+    begin
+      backup_benchmarking_data = JSON.parse(File.read(backup_benchmarking_filename))
+    rescue
+      backup_benchmarking_data = Hash.new
+    end
+
+    begin
+      backup_references_data = JSON.parse(File.read(backup_references_filename))
+    rescue
+      backup_references_data = Hash.new
+    end
+
+    # Remove deleted posts
+    all_deleted_posts.each do |url|
+      backup_models_data.delete(url)
+      backup_references_data.delete(url)
+      backup_benchmarking_data.delete(url)
+    end
+
+    models_json = backup_models_data.merge(models_json)
+    models_benchmarking_json = backup_benchmarking_data.merge(models_benchmarking_json)
+    models_references_json = backup_references_data.merge(models_references_json)
+  end
+
   filename = File.join(site.config['destination'], 'models.json')
   File.write(filename, models_json.values.to_json)
+  File.write(backup_filename, models_json.to_json)
 
   benchmarking_filename = File.join(site.config['destination'], 'benchmarking.json')
   File.write(benchmarking_filename, models_benchmarking_json.to_json)
+  File.write(backup_benchmarking_filename, models_benchmarking_json.to_json)
 
   references_filename = File.join(site.config['destination'], 'references.json')
   File.write(references_filename, models_references_json.to_json)
+  File.write(backup_references_filename, models_references_json.to_json)
+end
 
+Jekyll::Hooks.register :clean, :on_obsolete do |files|
+  all_deleted_posts = files
+              .select {|v| v.include?('/docs/_site') and v.end_with?('.html')}
+              .map {|v| v.split('/docs/_site')[1]}
+  if client
+    client.delete_by_query index: ELASTICSEARCH_INDEX_NAME, body: {query: {bool: {must: {ids: {values: all_deleted_posts}}}}}
+  end
 end

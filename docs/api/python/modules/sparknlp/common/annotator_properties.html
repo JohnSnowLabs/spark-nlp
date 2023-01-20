@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.common.annotator_properties &#8212; Spark NLP 4.2.6 documentation</title>
+    <title>sparknlp.common.annotator_properties &#8212; Spark NLP 4.2.7 documentation</title>
   
   
   
@@ -337,7 +337,7 @@
                           <span class="p">)</span>
 
 <div class="viewcode-block" id="AnnotatorProperties.setInputCols"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/annotator_properties/index.html#sparknlp.common.annotator_properties.AnnotatorProperties.setInputCols">[docs]</a>    <span class="k">def</span> <span class="nf">setInputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets column names of input annotations.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets column names of input annotations.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -375,11 +375,11 @@
                     <span class="sa">f</span><span class="s2">&quot;Which should be columns from at least the following annotators: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">inputAnnotatorTypes</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="AnnotatorProperties.getInputCols"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/annotator_properties/index.html#sparknlp.common.annotator_properties.AnnotatorProperties.getInputCols">[docs]</a>    <span class="k">def</span> <span class="nf">getInputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Gets current column names of input annotations.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets current column names of input annotations.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputCols</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AnnotatorProperties.setOutputCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/annotator_properties/index.html#sparknlp.common.annotator_properties.AnnotatorProperties.setOutputCol">[docs]</a>    <span class="k">def</span> <span class="nf">setOutputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets output column name of annotations.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets output column name of annotations.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -389,11 +389,11 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AnnotatorProperties.getOutputCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/annotator_properties/index.html#sparknlp.common.annotator_properties.AnnotatorProperties.getOutputCol">[docs]</a>    <span class="k">def</span> <span class="nf">getOutputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Gets output column name of annotations.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets output column name of annotations.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outputCol</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AnnotatorProperties.setLazyAnnotator"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/annotator_properties/index.html#sparknlp.common.annotator_properties.AnnotatorProperties.setLazyAnnotator">[docs]</a>    <span class="k">def</span> <span class="nf">setLazyAnnotator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether Annotator should be evaluated lazily in a</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether Annotator should be evaluated lazily in a</span>
 <span class="sd">        RecursivePipeline.</span>
 
 <span class="sd">        Parameters</span>
@@ -405,7 +405,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">lazyAnnotator</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AnnotatorProperties.getLazyAnnotator"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/annotator_properties/index.html#sparknlp.common.annotator_properties.AnnotatorProperties.getLazyAnnotator">[docs]</a>    <span class="k">def</span> <span class="nf">getLazyAnnotator</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Gets whether Annotator should be evaluated lazily in a</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets whether Annotator should be evaluated lazily in a</span>
 <span class="sd">        RecursivePipeline.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lazyAnnotator</span><span class="p">)</span></div></div>

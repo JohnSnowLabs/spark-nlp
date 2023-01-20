@@ -288,11 +288,11 @@
 
 
 <div class="viewcode-block" id="AnnotationLab"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/alab/index.html#sparknlp_jsl.alab.AnnotationLab">[docs]</a><span class="k">class</span> <span class="nc">AnnotationLab</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Class to interact with John Snow Labs&#39;s Annotation Lab</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class to interact with John Snow Labs&#39;s Annotation Lab</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Class Constructor.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
@@ -305,7 +305,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">http_success_codes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">200</span><span class="p">,</span> <span class="mi">201</span><span class="p">,</span> <span class="mi">203</span><span class="p">]</span>
         
 <div class="viewcode-block" id="AnnotationLab.set_credentials"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/alab/index.html#sparknlp_jsl.alab.AnnotationLab.set_credentials">[docs]</a>    <span class="k">def</span> <span class="nf">set_credentials</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">client_secret</span><span class="p">,</span> <span class="n">annotationlab_url</span><span class="o">=</span><span class="s2">&quot;https://annotationlab.johnsnowlabs.com&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set credentials to connect to your Annotation Lab instance.</span>
 <span class="sd">        :param username: Username</span>
 <span class="sd">        :type username: str</span>
@@ -336,7 +336,7 @@
     
     
     <span class="k">def</span> <span class="nf">__create_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generates a URL.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -344,7 +344,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="o">+</span><span class="n">path</span>
     
     <span class="k">def</span> <span class="nf">__make_post_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">jsn</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">with_cookies</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_message</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">header_type</span><span class="o">=</span><span class="s1">&#39;json&#39;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sends post request.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
@@ -377,7 +377,7 @@
         <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
     
     <span class="k">def</span> <span class="nf">__make_get_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sends a get request.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
@@ -392,7 +392,7 @@
         <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
     
     <span class="k">def</span> <span class="nf">__make_delete_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">jsn</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sends a delete request.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
@@ -407,7 +407,7 @@
         <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
         
     <span class="k">def</span> <span class="nf">__authenticate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Authenticates Username and Password. Also, sets cookies.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
@@ -433,7 +433,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">cookies</span> <span class="o">=</span> <span class="n">cookies</span>
         
     <span class="k">def</span> <span class="nf">__generate_random_color</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generates random HEX color codes.</span>
 <span class="sd">        :rtype str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -442,7 +442,7 @@
         <span class="k">return</span> <span class="s1">&#39;#</span><span class="si">%02x%02x%02x</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">r</span><span class="p">(),</span> <span class="n">r</span><span class="p">(),</span> <span class="n">r</span><span class="p">())</span>
     
 <div class="viewcode-block" id="AnnotationLab.get_all_projects"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/alab/index.html#sparknlp_jsl.alab.AnnotationLab.get_all_projects">[docs]</a>    <span class="k">def</span> <span class="nf">get_all_projects</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a JSON object containing details of all visible projects in Annotation Lab.</span>
 <span class="sd">        :rtype dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -454,7 +454,7 @@
         <span class="k">return</span> <span class="n">content</span></div>
     
 <div class="viewcode-block" id="AnnotationLab.get_project_config"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/alab/index.html#sparknlp_jsl.alab.AnnotationLab.get_project_config">[docs]</a>    <span class="k">def</span> <span class="nf">get_project_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get configuration details of a project as JSON.</span>
 <span class="sd">        :param project_name: Project Name</span>
 <span class="sd">        :type project_name: str</span>
@@ -468,7 +468,7 @@
         <span class="k">return</span> <span class="n">content</span></div>
                 
 <div class="viewcode-block" id="AnnotationLab.create_project"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/alab/index.html#sparknlp_jsl.alab.AnnotationLab.create_project">[docs]</a>    <span class="k">def</span> <span class="nf">create_project</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_name</span><span class="p">,</span> <span class="n">project_description</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">project_sampling</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">project_instruction</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a new project.</span>
 <span class="sd">        :param project_name: Project Name</span>
 <span class="sd">        :type project_name: str</span>
@@ -495,7 +495,7 @@
         <span class="k">return</span> <span class="n">content</span></div>
     
 <div class="viewcode-block" id="AnnotationLab.delete_project"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/alab/index.html#sparknlp_jsl.alab.AnnotationLab.delete_project">[docs]</a>    <span class="k">def</span> <span class="nf">delete_project</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_name</span><span class="p">,</span> <span class="n">confirm</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Delete an existing project.</span>
 <span class="sd">        :param project_name: Project Name</span>
 <span class="sd">        :type project_name: str</span>
@@ -518,7 +518,7 @@
             <span class="k">return</span> <span class="n">content</span></div>
                     
 <div class="viewcode-block" id="AnnotationLab.set_project_config"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/alab/index.html#sparknlp_jsl.alab.AnnotationLab.set_project_config">[docs]</a>    <span class="k">def</span> <span class="nf">set_project_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_name</span><span class="p">,</span> <span class="n">classification_labels</span><span class="o">=</span><span class="p">[],</span> <span class="n">ner_labels</span><span class="o">=</span><span class="p">[],</span> <span class="n">assertion_labels</span><span class="o">=</span><span class="p">[],</span> <span class="n">relations_labels</span><span class="o">=</span><span class="p">[]):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set configuration of a project.</span>
 <span class="sd">        :param project_name: Project Name</span>
 <span class="sd">        :type project_name: str</span>
@@ -573,7 +573,7 @@
         
     
 <div class="viewcode-block" id="AnnotationLab.upload_tasks"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/alab/index.html#sparknlp_jsl.alab.AnnotationLab.upload_tasks">[docs]</a>    <span class="k">def</span> <span class="nf">upload_tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_name</span><span class="p">,</span> <span class="n">task_list</span><span class="p">,</span> <span class="n">title_list</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">id_offset</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Upload tasks to a project in Annotation Lab.</span>
 <span class="sd">        :param project_name: Project Name</span>
 <span class="sd">        :type project_name: str</span>
@@ -600,7 +600,7 @@
         <span class="k">return</span> <span class="n">content</span></div>
         
 <div class="viewcode-block" id="AnnotationLab.delete_tasks"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/alab/index.html#sparknlp_jsl.alab.AnnotationLab.delete_tasks">[docs]</a>    <span class="k">def</span> <span class="nf">delete_tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_name</span><span class="p">,</span> <span class="n">task_ids</span><span class="p">,</span> <span class="n">confirm</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Delete tasks of a project in Annotation Lab.</span>
 <span class="sd">        :param project_name: Project Name</span>
 <span class="sd">        :type project_name: str</span>
@@ -625,7 +625,7 @@
             <span class="k">return</span> <span class="n">content</span></div>
     
 <div class="viewcode-block" id="AnnotationLab.get_annotations"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/alab/index.html#sparknlp_jsl.alab.AnnotationLab.get_annotations">[docs]</a>    <span class="k">def</span> <span class="nf">get_annotations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_name</span><span class="p">,</span> <span class="n">output_name</span><span class="p">,</span> <span class="n">save_dir</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get / Export annotations of a project in Annotation Lab.</span>
 <span class="sd">        :param project_name: Project Name</span>
 <span class="sd">        :type project_name: str</span>
@@ -659,7 +659,7 @@
                        <span class="n">ground_truth</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">excluded_labels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                        <span class="n">excluded_task_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">excluded_task_titles</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                        <span class="n">regex_pattern</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IO</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Generates a CoNLL file from an Annotation Lab JSON export</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a CoNLL file from an Annotation Lab JSON export</span>
 <span class="sd">        :param spark: Spark session with spark-nlp-jsl jar</span>
 <span class="sd">        :type spark: SparkSession</span>
 <span class="sd">        :param input_json_path: path to Annotation Lab JSON export</span>
@@ -724,7 +724,7 @@
                            <span class="n">unannotated_label_strategy_dict</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                            <span class="n">excluded_task_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                            <span class="n">excluded_task_titles</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Generate a dataframe to train assertion models in Spark NLP from an Annotation Lab JSON export</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate a dataframe to train assertion models in Spark NLP from an Annotation Lab JSON export</span>
 <span class="sd">        :param spark: Spark session with spark-nlp-jsl jar</span>
 <span class="sd">        :type spark: SparkSession</span>
 <span class="sd">        :param input_json_path: path to Annotation Lab JSON export</span>
@@ -913,7 +913,7 @@
                                      <span class="n">negative_relation_strategy_dict</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                                      <span class="n">excluded_task_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                                      <span class="n">excluded_task_titles</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Generate a dataframe to train relation extraction models in Spark NLP from an Annotation Lab JSON export</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate a dataframe to train relation extraction models in Spark NLP from an Annotation Lab JSON export</span>
 <span class="sd">        :param spark: Spark session with spark-nlp-jsl jar</span>
 <span class="sd">        :type spark: SparkSession</span>
 <span class="sd">        :param input_json_path: path to Annotation Lab JSON export</span>
@@ -1120,7 +1120,7 @@
         <span class="k">return</span> <span class="n">final_rel_df</span></div>
     
 <div class="viewcode-block" id="AnnotationLab.get_classification_data"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/alab/index.html#sparknlp_jsl.alab.AnnotationLab.get_classification_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_classification_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_json_path</span><span class="p">,</span> <span class="n">ground_truth</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Generates a dataframe to train classification models.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a dataframe to train classification models.</span>
 <span class="sd">        :param input_json_path: path of Annotation Lab exported JSON</span>
 <span class="sd">        :type input_json_path: str</span>
 <span class="sd">        :param ground_truth: set to True to select ground truth completions, False to select latest completions,</span>
@@ -1160,7 +1160,7 @@
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">res_df</span><span class="p">)</span></div>
     
     <span class="k">def</span> <span class="nf">__generate_hash</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Generates a unique ID</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a unique ID</span>
 <span class="sd">        :param length: character length of ID</span>
 <span class="sd">        :type length: int</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1171,7 +1171,7 @@
         <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">chr</span><span class="p">(</span><span class="n">all_chars</span><span class="p">[</span><span class="n">rand</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_chars</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">length</span><span class="p">)])</span>
 
     <span class="k">def</span> <span class="nf">__build_ner_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chunk</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">start</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">end</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Generates a Named Entity Annotation object.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a Named Entity Annotation object.</span>
 <span class="sd">        :param chunk: named entity string</span>
 <span class="sd">        :type chunk: str</span>
 <span class="sd">        :param start: starting string index of entity</span>
@@ -1199,7 +1199,7 @@
         <span class="k">return</span> <span class="n">ner_label</span>
 
     <span class="k">def</span> <span class="nf">__build_re_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">from_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">to_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">direction</span> <span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Generates a Relation Annotation object.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a Relation Annotation object.</span>
 <span class="sd">        :param from_id: unique id of chunk1</span>
 <span class="sd">        :type from_id: str</span>
 <span class="sd">        :param tos_id: unique id of chunk2</span>
@@ -1220,7 +1220,7 @@
         <span class="k">return</span> <span class="n">label_json</span>
     
 <div class="viewcode-block" id="AnnotationLab.generate_preannotations"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/alab/index.html#sparknlp_jsl.alab.AnnotationLab.generate_preannotations">[docs]</a>    <span class="k">def</span> <span class="nf">generate_preannotations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">all_results</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="n">document_column</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ner_columns</span> <span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">assertion_columns</span> <span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">relations_columns</span> <span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">user_name</span> <span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="n">titles_list</span> <span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">id_offset</span> <span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Generates a JSON that can be imported directly into Annotation Lab as pre-annotations.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a JSON that can be imported directly into Annotation Lab as pre-annotations.</span>
 <span class="sd">        :param all_results: list of annotations on documents using light_pipeline.fullAnnotate or full_pipeline.transform(df).collect()</span>
 <span class="sd">        :type all_results: list[objects]</span>
 <span class="sd">        :param document_column: output column name of DocumentAssembler stage</span>
@@ -1317,7 +1317,7 @@
         <span class="k">return</span> <span class="n">export_anns</span><span class="p">,</span> <span class="n">summary</span></div>
     
 <div class="viewcode-block" id="AnnotationLab.upload_preannotations"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/alab/index.html#sparknlp_jsl.alab.AnnotationLab.upload_preannotations">[docs]</a>    <span class="k">def</span> <span class="nf">upload_preannotations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_name</span><span class="p">,</span> <span class="n">preannotations</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Uploads preannotations to a project in Annotation Lab.</span>
 <span class="sd">        :param project_name: Project Name</span>
 <span class="sd">        :type project_name: str</span>

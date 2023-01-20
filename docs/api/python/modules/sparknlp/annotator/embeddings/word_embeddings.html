@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.embeddings.word_embeddings &#8212; Spark NLP 4.2.6 documentation</title>
+    <title>sparknlp.annotator.embeddings.word_embeddings &#8212; Spark NLP 4.2.7 documentation</title>
   
   
   
@@ -315,7 +315,7 @@
 
 
 <div class="viewcode-block" id="WordEmbeddings"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings">[docs]</a><span class="k">class</span> <span class="nc">WordEmbeddings</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">,</span> <span class="n">HasEmbeddingsProperties</span><span class="p">,</span> <span class="n">HasStorage</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Word Embeddings lookup annotator that maps tokens to vectors.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Word Embeddings lookup annotator that maps tokens to vectors.</span>
 
 <span class="sd">    For instantiated/pretrained models, see :class:`.WordEmbeddingsModel`.</span>
 
@@ -426,7 +426,7 @@
                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
 
 <div class="viewcode-block" id="WordEmbeddings.setWriteBufferSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings.setWriteBufferSize">[docs]</a>    <span class="k">def</span> <span class="nf">setWriteBufferSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets buffer size limit before dumping to disk storage while writing,</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets buffer size limit before dumping to disk storage while writing,</span>
 <span class="sd">        by default 10000.</span>
 
 <span class="sd">        Parameters</span>
@@ -437,7 +437,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">writeBufferSize</span><span class="o">=</span><span class="n">v</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="WordEmbeddings.setReadCacheSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings.setReadCacheSize">[docs]</a>    <span class="k">def</span> <span class="nf">setReadCacheSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets cache size for items retrieved from storage. Increase for</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets cache size for items retrieved from storage. Increase for</span>
 <span class="sd">        performance but higher memory consumption.</span>
 
 <span class="sd">        Parameters</span>
@@ -461,7 +461,7 @@
 
 
 <div class="viewcode-block" id="WordEmbeddingsModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel">[docs]</a><span class="k">class</span> <span class="nc">WordEmbeddingsModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">HasEmbeddingsProperties</span><span class="p">,</span> <span class="n">HasStorageModel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Word Embeddings lookup annotator that maps tokens to vectors</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Word Embeddings lookup annotator that maps tokens to vectors</span>
 
 <span class="sd">    This is the instantiated model of :class:`.WordEmbeddings`.</span>
 
@@ -563,7 +563,7 @@
                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
 
 <div class="viewcode-block" id="WordEmbeddingsModel.setReadCacheSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.setReadCacheSize">[docs]</a>    <span class="k">def</span> <span class="nf">setReadCacheSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets cache size for items retrieved from storage. Increase for</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets cache size for items retrieved from storage. Increase for</span>
 <span class="sd">        performance but higher memory consumption.</span>
 
 <span class="sd">        Parameters</span>
@@ -582,7 +582,7 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="WordEmbeddingsModel.overallCoverage"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.overallCoverage">[docs]</a>    <span class="k">def</span> <span class="nf">overallCoverage</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">embeddings_col</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Calculates overall word coverage for the whole data in the embedded</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculates overall word coverage for the whole data in the embedded</span>
 <span class="sd">        field.</span>
 
 <span class="sd">        This returns a single coverage object considering all rows in the</span>
@@ -613,7 +613,7 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="WordEmbeddingsModel.withCoverageColumn"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.withCoverageColumn">[docs]</a>    <span class="k">def</span> <span class="nf">withCoverageColumn</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">embeddings_col</span><span class="p">,</span> <span class="n">output_col</span><span class="o">=</span><span class="s1">&#39;coverage&#39;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Adds a custom column with word coverage stats for the embedded field.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds a custom column with word coverage stats for the embedded field.</span>
 <span class="sd">        This creates a new column with statistics for each row.</span>
 
 <span class="sd">        Parameters</span>
@@ -646,7 +646,7 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="WordEmbeddingsModel.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;glove_100d&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -668,7 +668,7 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="WordEmbeddingsModel.loadStorage"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel.loadStorage">[docs]</a>    <span class="k">def</span> <span class="nf">loadStorage</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">spark</span><span class="p">,</span> <span class="n">storage_ref</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Loads the model from storage.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads the model from storage.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
