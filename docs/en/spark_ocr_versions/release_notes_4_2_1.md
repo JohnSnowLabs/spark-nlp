@@ -5,7 +5,7 @@ seotitle: Visual NLP(Spark OCR)
 title: Visual NLP(Spark OCR) release notes 4.2.1
 permalink: /docs/en/spark_ocr_versions/release_notes_4_2_1
 key: docs-release-notes
-modify_date: "2022-28-11"
+modify_date: "2022-11-28"
 show_nav: true
 sidebar:
     nav: spark-ocr
@@ -15,7 +15,7 @@ sidebar:
 
 ## 4.2.1
 
-Release date: 28-11-2022
+Release date: 11-28-2022
 
  
 We're glad to announce that Spark-OCR 4.2.1 has been released! This release is almost completely about LightPipelines.
