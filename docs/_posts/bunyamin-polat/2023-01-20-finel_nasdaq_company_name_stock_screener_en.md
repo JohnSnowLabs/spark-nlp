@@ -12,7 +12,7 @@ spark_version: 3.0
 supported: true
 annotator: SentenceEntityResolverModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -38,6 +38,7 @@ After this, you can use `finmapper_nasdaq_company_name_stock_screener` to augmen
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
