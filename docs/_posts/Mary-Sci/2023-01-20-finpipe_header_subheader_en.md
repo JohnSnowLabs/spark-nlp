@@ -37,6 +37,7 @@ Item 1A, 2B, etc are SUBHEADERS
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 finance_pipeline = nlp.PretrainedPipeline("finpipe_header_subheader", "en", "finance/models")
 
