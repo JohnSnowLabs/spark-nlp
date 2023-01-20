@@ -8,7 +8,7 @@ key: docs-release-notes
 modify_date: "2022-02-09"
 show_nav: true
 sidebar:
-    nav: sparknlp
+    nav: spark-ocr
 ---
 
 <div class="h3-box" markdown="1">
