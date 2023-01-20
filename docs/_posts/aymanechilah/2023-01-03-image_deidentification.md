@@ -2,13 +2,13 @@
 layout: model
 title: image_deidentification
 author: John Snow Labs
-name: image_deidentification
+name: ner_deid_large
 date: 2023-01-03
 tags: [en, licensed, ocr, image_deidentification]
 task: Image DeIdentification
 language: en
-edition: Visual NLP 3.14.0
-spark_version: 3.0
+edition: Visual NLP 4.0.0
+spark_version: 3.2.1
 supported: true
 annotator: ImageDeIdentification
 article_header:
@@ -31,99 +31,97 @@ It protects specific health information that could identify living or deceased i
 
 ## How to use
 
-
-
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-    
-    from pyspark.ml import PipelineModel
-    from sparkocr.transformers import *
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
 
-    imagePath = "path to image"
-    bin_df = spark.read.format("binaryFile").load(imagePath)
+imagePath = "path to image"
+bin_df = spark.read.format("binaryFile").load(imagePath)
 
-    def deidentification_nlp_pipeline(input_column, prefix = ""):
-        document_assembler = DocumentAssembler() \
-            .setInputCol(input_column) \
-            .setOutputCol(prefix + "document")
-    
-        # Sentence Detector annotator, processes various sentences per line
-        sentence_detector = SentenceDetector() \
-            .setInputCols([prefix + "document"]) \
-            .setOutputCol(prefix + "sentence")
-    
-        tokenizer = Tokenizer() \
-            .setInputCols([prefix + "sentence"]) \
-            .setOutputCol(prefix + "token")
-    
-        # Clinical word embeddings
-        word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models") \
-            .setInputCols([prefix + "sentence", prefix + "token"]) \
-            .setOutputCol(prefix + "embeddings")
-            
-        # NER model trained on i2b2 (sampled from MIMIC) dataset
-        clinical_ner = MedicalNerModel.pretrained("ner_deid_large", "en", "clinical/models") \
-            .setInputCols([prefix + "sentence", prefix + "token", prefix + "embeddings"]) \
-            .setOutputCol(prefix + "ner")
-    
-        custom_ner_converter = NerConverter() \
-            .setInputCols([prefix + "sentence", prefix + "token", prefix + "ner"]) \
-            .setOutputCol(prefix + "ner_chunk") \
-            .setWhiteList(['NAME', 'AGE', 'CONTACT', 'LOCATION', 'PROFESSION', 'PERSON', 'DATE'])
-    
-        nlp_pipeline = Pipeline(stages=[
-                document_assembler,
-                sentence_detector,
-                tokenizer,
-                word_embeddings,
-                clinical_ner,
-                custom_ner_converter
-            ])
-        empty_data = spark.createDataFrame([[""]]).toDF(input_column)
-        nlp_model = nlp_pipeline.fit(empty_data)
-        return nlp_model
+def deidentification_nlp_pipeline(input_column, prefix = ""):
+    document_assembler = DocumentAssembler() \
+        .setInputCol(input_column) \
+        .setOutputCol(prefix + "document")
 
-    # Convert to images
-    binary_to_image = BinaryToImage() \
-        .setInputCol("content") \
-        .setOutputCol("image_raw")
-    
-    # Extract text from image
-    ocr = ImageToText() \
-        .setInputCol("image_raw") \
-        .setOutputCol("text") \
-        .setIgnoreResolution(False) \
-        .setPageIteratorLevel(PageIteratorLevel.SYMBOL) \
-        .setPageSegMode(PageSegmentationMode.SPARSE_TEXT) \
-        .setConfidenceThreshold(70)
-    
-    # Found coordinates of sensitive data
-    position_finder = PositionFinder() \
-        .setInputCols("ner_chunk") \
-        .setOutputCol("coordinates") \
-        .setPageMatrixCol("positions") \
-        .setMatchingWindow(1000) \
-        .setPadding(1)
-    
-    # Draw filled rectangle for hide sensitive data
-    drawRegions = ImageDrawRegions()  \
-        .setInputCol("image_raw")  \
-        .setInputRegionsCol("coordinates")  \
-        .setOutputCol("image_with_regions")  \
-        .setFilledRect(True) \
-        .setRectColor(Color.gray)
+    # Sentence Detector annotator, processes various sentences per line
+    sentence_detector = SentenceDetector() \
+        .setInputCols([prefix + "document"]) \
+        .setOutputCol(prefix + "sentence")
+
+    tokenizer = Tokenizer() \
+        .setInputCols([prefix + "sentence"]) \
+        .setOutputCol(prefix + "token")
+
+    # Clinical word embeddings
+    word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models") \
+        .setInputCols([prefix + "sentence", prefix + "token"]) \
+        .setOutputCol(prefix + "embeddings")
         
-    # OCR pipeline
-    pipeline = Pipeline(stages=[
-        binary_to_image,
-        ocr,
-        deidentification_nlp_pipeline(input_column="text"),
-        position_finder,
-        drawRegions
-    ])
+    # NER model trained on i2b2 (sampled from MIMIC) dataset
+    clinical_ner = MedicalNerModel.pretrained("ner_deid_large", "en", "clinical/models") \
+        .setInputCols([prefix + "sentence", prefix + "token", prefix + "embeddings"]) \
+        .setOutputCol(prefix + "ner")
+
+    custom_ner_converter = NerConverter() \
+        .setInputCols([prefix + "sentence", prefix + "token", prefix + "ner"]) \
+        .setOutputCol(prefix + "ner_chunk") \
+        .setWhiteList(['NAME', 'AGE', 'CONTACT', 'LOCATION', 'PROFESSION', 'PERSON', 'DATE'])
+
+    nlp_pipeline = Pipeline(stages=[
+            document_assembler,
+            sentence_detector,
+            tokenizer,
+            word_embeddings,
+            clinical_ner,
+            custom_ner_converter
+        ])
+    empty_data = spark.createDataFrame([[""]]).toDF(input_column)
+    nlp_model = nlp_pipeline.fit(empty_data)
+    return nlp_model
+
+# Convert to images
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image_raw")
+
+# Extract text from image
+ocr = ImageToText() \
+    .setInputCol("image_raw") \
+    .setOutputCol("text") \
+    .setIgnoreResolution(False) \
+    .setPageIteratorLevel(PageIteratorLevel.SYMBOL) \
+    .setPageSegMode(PageSegmentationMode.SPARSE_TEXT) \
+    .setConfidenceThreshold(70)
+
+# Found coordinates of sensitive data
+position_finder = PositionFinder() \
+    .setInputCols("ner_chunk") \
+    .setOutputCol("coordinates") \
+    .setPageMatrixCol("positions") \
+    .setMatchingWindow(1000) \
+    .setPadding(1)
+
+# Draw filled rectangle for hide sensitive data
+drawRegions = ImageDrawRegions()  \
+    .setInputCol("image_raw")  \
+    .setInputRegionsCol("coordinates")  \
+    .setOutputCol("image_with_regions")  \
+    .setFilledRect(True) \
+    .setRectColor(Color.gray)
     
-    result = pipeline.fit(image_df).transform(image_df).cache()
+# OCR pipeline
+pipeline = Pipeline(stages=[
+    binary_to_image,
+    ocr,
+    deidentification_nlp_pipeline(input_column="text"),
+    position_finder,
+    drawRegions
+])
+
+result = pipeline.fit(image_df).transform(image_df).cache()
 ```
 ```scala
 import com.johnsnowlabs.ocr.transformers.*
@@ -140,8 +138,7 @@ val pdf_to_image = new PdfToImage()
 val image_to_text = new ImageToText()
       .setInputCol("image")
       .setOutputCol("text").setIgnoreResolution(false)
-      .setConfidenceThreshold(10)
-      .setPageIteratorLevel(PageIteratorLevel.SYMBOL)
+      .setConfidenceThreshold(10).setPageIteratorLevel(PageIteratorLevel.SYMBOL)
       .setPageSegMode(PageSegmentationMode.SPARSE_TEXT_OSD)
 
 val document_assembler = new DocumentAssembler()
@@ -222,7 +219,7 @@ data.select("positions", "ner_chunk", "pagenum" ).write.parquet(path)
 {:.table-model}
 |---|---|
 |Model Name:|ner_clinical_large|
-|Compatibility:|Healthcare NLP 3.0.0+|
+|Compatibility:|Healthcare NLP 4.0.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Input Labels:|[sentence, token, embeddings]|

@@ -2,13 +2,13 @@
 layout: model
 title: Text Detection
 author: John Snow Labs
-name: text_detection_v1
+name: image_text_detector_v2
 date: 2021-12-09
 tags: [en, licensed]
 task: OCR Text Detection & Recognition
 language: en
-edition: Visual NLP 3.0.0
-spark_version: 3.0
+edition: Visual NLP 4.1.0
+spark_version: 3.2.1
 supported: true
 article_header:
   type: cover
@@ -25,48 +25,47 @@ CRAFT: Character-Region Awareness For Text detection, is designed with a convolu
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/tutorials/Certification_Trainings/others/SparkOcrImageTextDetection.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/ocr/text_detection_v1_en_3.0.0_3.0_1639033905025.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/Cards/SparkOcrImageTextDetection.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/ocr/image_text_detector_v2_en_3.3.0_2.4_1643618928538.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 ## How to use
 
-
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
 
-    from pyspark.ml import PipelineModel
-    from sparkocr.transformers import *
-    
-    imagePath = "path to image"
-    image_df = spark.read.format("binaryFile").load(imagePath)
+imagePath = "path to image"
+image_df = spark.read.format("binaryFile").load(imagePath)
 
-    binary_to_image = BinaryToImage() 
-    binary_to_image.setImageType(ImageType.TYPE_3BYTE_BGR)
-    
-    text_detector = ImageTextDetectorV2 \
-        .pretrained("image_text_detector_v2", "en", "clinical/ocr") \
-        .setInputCol("image") \
-        .setOutputCol("text_regions") \
-        .setScoreThreshold(0.5) \
-        .setTextThreshold(0.2) \
-        .setSizeThreshold(10) \
-        .setWithRefiner(True)
-    
-    draw_regions = ImageDrawRegions() \
-        .setInputCol("image") \
-        .setInputRegionsCol("text_regions") \
-        .setOutputCol("image_with_regions") \
-        .setRectColor(Color.green) \
-        .setRotated(True)
-    
-    pipeline = PipelineModel(stages=[
-        binary_to_image,
-        text_detector,
-        draw_regions
-    ])
+binary_to_image = BinaryToImage() 
+binary_to_image.setImageType(ImageType.TYPE_3BYTE_BGR)
 
-    result = pipeline.transform(image_df)
+text_detector = ImageTextDetectorV2 \
+    .pretrained("image_text_detector_v2", "en", "clinical/ocr") \
+    .setInputCol("image") \
+    .setOutputCol("text_regions") \
+    .setScoreThreshold(0.5) \
+    .setTextThreshold(0.2) \
+    .setSizeThreshold(10) \
+    .setWithRefiner(True)
+
+draw_regions = ImageDrawRegions() \
+    .setInputCol("image") \
+    .setInputRegionsCol("text_regions") \
+    .setOutputCol("image_with_regions") \
+    .setRectColor(Color.green) \
+    .setRotated(True)
+
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    text_detector,
+    draw_regions
+])
+
+result = pipeline.transform(image_df)
 ```
 ```scala
 import com.johnsnowlabs.ocr.transformers.*
@@ -115,9 +114,9 @@ val results = pipeline
 
 {:.table-model}
 |---|---|
-|Model Name:|text_detection_v1|
+|Model Name:|text_detection_v2|
 |Type:|ocr|
-|Compatibility:|Visual NLP 3.0.0+|
+|Compatibility:|Visual NLP 4.1.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Output Labels:|[text_regions]|

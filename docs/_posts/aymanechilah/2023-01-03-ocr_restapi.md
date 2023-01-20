@@ -7,8 +7,8 @@ date: 2023-01-03
 tags: [en, licensed, ocr, RestApi]
 task: Ocr RestApi
 language: en
-edition: Visual NLP 3.14.0
-spark_version: 3.0
+edition: Visual NLP 4.0.0
+spark_version: 3.2.1
 supported: true
 annotator: OcrRestApi
 article_header:
@@ -18,8 +18,11 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-RestAPI pipeline implementation for the OCR task, using tesseract models. Tesseract is an open source text recognition (OCR) Engine, available under the Apache 2.0 license. Library pros are trainedlanguage models (>192), different kinds of recognition (image as word, text block, vertical text)
+RestAPI pipeline implementation for the OCR task, using tesseract models. Tesseract is an Optical Character Recognition (OCR) engine developed by Google. It is an open-source tool that can be used to recognize text in images and convert it into machine-readable text. The engine is based on a neural network architecture and uses machine learning algorithms to improve its accuracy over time.
 
+Tesseract has been trained on a variety of datasets to improve its recognition capabilities. These datasets include images of text in various languages and scripts, as well as images with different font styles, sizes, and orientations. The training process involves feeding the engine with a large number of images and their corresponding text, allowing the engine to learn the patterns and characteristics of different text styles. One of the most important datasets used in training Tesseract is the UNLV dataset, which contains over 400,000 images of text in different languages, scripts, and font styles. This dataset is widely used in the OCR community and has been instrumental in improving the accuracy of Tesseract. Other datasets that have been used in training Tesseract include the ICDAR dataset, the IIIT-HWS dataset, and the RRC-GV-WS dataset.
+
+In addition to these datasets, Tesseract also uses a technique called adaptive training, where the engine can continuously improve its recognition capabilities by learning from new images and text. This allows Tesseract to adapt to new text styles and languages, and improve its overall accuracy.
 
 ## Predicted Entities
 
@@ -30,61 +33,59 @@ RestAPI pipeline implementation for the OCR task, using tesseract models. Tesser
 
 ## How to use
 
-
-
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-    
-    from pyspark.ml import PipelineModel
-    from sparkocr.transformers import *
-    
-    imagePath = "path to image"
-    bin_df = spark.read.format("binaryFile").load(imagePath)
-    
-    binary_to_image = BinaryToImage() 
-    
-    ocr = ImageToText() \
-       .setOutputCol("text")
-    
-    pipeline = PipelineModel(stages=[
-        binary_to_image,
-        ocr
-    ])
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
 
-    ## Start server
-    SERVER_HOST = "localhost"
-    SERVER_PORT = 8889
-    SERVER_API_NAME = "spark_ocr_api"
+imagePath = "path to image"
+bin_df = spark.read.format("binaryFile").load(imagePath)
 
-    checkpoint_dir = tempfile.TemporaryDirectory("_spark_ocr_server_checkpoint")
-    df = spark.readStream.server() \
-        .address(SERVER_HOST, SERVER_PORT, SERVER_API_NAME) \
-        .load() \
-        .parseRequest(SERVER_API_NAME, schema=StructType().add("image", BinaryType())) \
-        .withColumn("path", f.lit("")) \
-        .withColumnRenamed("image", "content")
-    
-    replies = pipeline.transform(df)\
-        .makeReply("text") 
-    
-    server = replies\
-        .writeStream \
-        .server() \
-        .replyTo(SERVER_API_NAME) \
-        .queryName("spark_ocr") \
-        .option("checkpointLocation", checkpoint_dir) \
-        .start()
+binary_to_image = BinaryToImage() 
 
-    ## Call API
-    with open(imagePath, "rb") as image_file:
-        im_bytes = image_file.read()
+ocr = ImageToText() \
+   .setOutputCol("text")
 
-    im_b64 = base64.b64encode(im_bytes).decode("utf8")
-    headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-    payload = json.dumps({"image": im_b64})
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    ocr
+])
 
-    r = requests.post(data=payload, headers=headers, url=f"http://{SERVER_HOST}:{SERVER_PORT}/{SERVER_API_NAME}")
+## Start server
+SERVER_HOST = "localhost"
+SERVER_PORT = 8889
+SERVER_API_NAME = "spark_ocr_api"
+
+checkpoint_dir = tempfile.TemporaryDirectory("_spark_ocr_server_checkpoint")
+df = spark.readStream.server() \
+    .address(SERVER_HOST, SERVER_PORT, SERVER_API_NAME) \
+    .load() \
+    .parseRequest(SERVER_API_NAME, schema=StructType().add("image", BinaryType())) \
+    .withColumn("path", f.lit("")) \
+    .withColumnRenamed("image", "content")
+
+replies = pipeline.transform(df)\
+    .makeReply("text") 
+
+server = replies\
+    .writeStream \
+    .server() \
+    .replyTo(SERVER_API_NAME) \
+    .queryName("spark_ocr") \
+    .option("checkpointLocation", checkpoint_dir) \
+    .start()
+
+## Call API
+with open(imagePath, "rb") as image_file:
+    im_bytes = image_file.read()
+
+im_b64 = base64.b64encode(im_bytes).decode("utf8")
+headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+payload = json.dumps({"image": im_b64})
+
+r = requests.post(data=payload, headers=headers, url=f"http://{SERVER_HOST}:{SERVER_PORT}/{SERVER_API_NAME}")
 ```
 ```scala
 ```

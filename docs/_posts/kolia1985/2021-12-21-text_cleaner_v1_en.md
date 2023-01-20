@@ -7,8 +7,8 @@ date: 2021-12-21
 tags: [en, licensed]
 task: OCR Text Detection & Recognition
 language: en
-edition: Visual NLP 3.0.0
-spark_version: 2.4
+edition: Visual NLP 4.1.0
+spark_version: 3.2.1
 supported: true
 article_header:
   type: cover
@@ -25,7 +25,7 @@ Model for cleaning image with text. It is based on text detection model with ext
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-[Open in Colab]([Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/TrainingNotebooks/tutorials/Certification_Trainings/others/SparkOcrImageCleaner.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}){:.button.button-orange.button-orange-trans.co.button-icon}
+[Open in Colab](https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/Cards/SparkOcrImageCleaner.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/ocr/text_cleaner_v1_en_3.0.0_2.4_1640088709401.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 
@@ -34,50 +34,88 @@ Model for cleaning image with text. It is based on text detection model with ext
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
 
-    from pyspark.ml import PipelineModel
-    from sparkocr.transformers import *
-    
-    imagePath = "path to image"
-    image_df = spark.read.format("binaryFile").load(imagePath)
+pdf_example = "path to pdf"
+pdf_example_df = spark.read.format("binaryFile").load(pdf_example).cache()
 
-    binary_to_image = BinaryToImage() 
-    
-    text_detector = ImageTextDetectorV2 \
-        .pretrained("image_text_detector_v2", "en", "clinical/ocr") \
-        .setInputCol("image") \
-        .setOutputCol("text_regions") \
-        .setWithRefiner(True) \
-        .setSizeThreshold(10) \
-        .setScoreThreshold(0.2) \
-        .setTextThreshold(0.2) \
-        .setLinkThreshold(0.3) \
-        .setWidth(500)
-    
-    ocr = ImageToTextV2.pretrained("ocr_base_handwritten", "en", "clinical/ocr") \
-        .setInputCols(["image", "text_regions"]) \
-        .setGroupImages(True) \
-        .setOutputCol("text")
-    
-    draw_regions = ImageDrawRegions() \
-        .setInputCol("image") \
-        .setInputRegionsCol("text_regions") \
-        .setOutputCol("image_with_regions") \
-        .setRectColor(Color.green) \
-        .setRotated(True)
-    
-    pipeline = PipelineModel(stages=[
-        binary_to_image,
-        text_detector,
-        ocr,
-        draw_regions
-    ])
+pdf_to_image = PdfToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image") \
+    .setResolution(300)
 
-    result = pipeline.transform(image_df)
-    print(f"Detected text:\n{results.select('text').collect()[0].text}")
+ocr = ImageToText() \
+    .setInputCol("image") \
+    .setOutputCol("text") \
+    .setConfidenceThreshold(70) \
+    .setIgnoreResolution(False)
+
+cleaner = ImageTextCleaner \
+    .pretrained("text_cleaner_v1", "en", "clinical/ocr") \
+    .setInputCol("image") \
+    .setOutputCol("corrected_image") \
+    .setMedianBlur(0) \
+    .setSizeThreshold(10) \
+    .setTextThreshold(0.3) \
+    .setLinkThreshold(0.2) \
+    .setPadding(5) \
+    .setBinarize(False)
+
+ocr_corrected = ImageToText() \
+    .setInputCol("corrected_image") \
+    .setOutputCol("corrected_text") \
+    .setConfidenceThreshold(70) \
+    .setIgnoreResolution(False)
+
+pipeline = PipelineModel(stages=[
+    pdf_to_image,
+    ocr,
+    cleaner,
+    ocr_corrected
+])
+
+results = pipeline.transform(pdf_example_df).cache()
+print(f"Detected text:\n{results.select('text').collect()[0].text}")
 ```
 ```scala
+import com.johnsnowlabs.ocr.transformers.*
+import com.johnsnowlabs.ocr.OcrContext.implicits._
 
+val imagePath = "path to image"
+val imgDf = spark.read.format("binaryFile").load(imagePath)
+val bin2imTransformer = new BinaryToImage()
+bin2imTransformer.setImageType(ImageType.TYPE_3BYTE_BGR)
+val dataFrame = bin2imTransformer.transform(imgDf)
+
+val textDetector = ImageTextCleaner
+  .pretrained("text_cleaner_v1", "en", "clinical/ocr")
+  .setInputCol("image")
+  .setOutputCol("cleaned_image")
+  .setSizeThreshold(5)
+  .setTextThreshold(0.4)
+  .setLinkThreshold(0.4)
+  .setPadding(10)
+  .setMedianBlur(3)
+  .setBinarize(true)
+  .setWidth(960)
+  .setHeight(1280)
+
+val ocr = new ImageToText()
+  .setInputCol("cleaned_image")
+  .setOutputCol("text")
+  .setIgnoreResolution(false)
+
+val pipeline = new Pipeline()
+pipeline.setStages(Array(
+  textDetector,
+  ocr
+))
+
+val modelPipeline = pipeline.fit(dataFrame)
+val transformed = modelPipeline.transform(dataFrame).select("text")
+
+val text = transformed.select("text").limit(10).collect().map(_.getString(0)).mkString("")
 ```
 </div>
 
@@ -135,7 +173,7 @@ C
 |---|---|
 |Model Name:|text_cleaner_v1|
 |Type:|ocr|
-|Compatibility:|Visual NLP 3.0.0+|
+|Compatibility:|Visual NLP 4.1.0+|
 |License:|Licensed|
 |Edition:|Official|
 |Language:|en|

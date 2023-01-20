@@ -23,7 +23,7 @@ Ocr small model for recognise printed text based on TrOcr architecture. The TrOC
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/TrainingNotebooks/tutorials/Certification_Trainings/1.3.Trasformer_based_Text_Recognition.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/tutorials/Certification_Trainings/1.3.Trasformer_based_Text_Recognition.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/ocr/ocr_small_printed_en_3.3.3_2.4_1645007455031.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 
@@ -31,57 +31,83 @@ Ocr small model for recognise printed text based on TrOcr architecture. The TrOC
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-    
-    from pyspark.ml import PipelineModel
-    from sparkocr.transformers import *
-    
-    imagePath = "path to image"
-    bin_df = spark.read.format("binaryFile").load(imagePath)
-    
-    binary_to_image = BinaryToImage() 
-    binary_to_image.setImageType(ImageType.TYPE_3BYTE_BGR)
-    
-    text_detector = ImageTextDetectorV2 \
-        .pretrained("image_text_detector_v2", "en", "clinical/ocr") \
-        .setInputCol("image") \
-        .setOutputCol("text_regions") \
-        .setWithRefiner(False) \
-        .setSizeThreshold(15) \
-        .setLinkThreshold(0.3)
-    
-    ocr = ImageToTextV2.pretrained("ocr_small_printed", "en", "clinical/ocr") \
-        .setInputCols(["image", "text_regions"]) \
-        .setOutputCol("hocr") \
-        .setOutputFormat(OcrOutputFormat.HOCR) \
-        .setGroupImages(False) 
-    
-    tokenizer = HocrTokenizer() \
-        .setInputCol("hocr") \
-        .setOutputCol("token") \
-    
-    draw_annotations = ImageDrawAnnotations() \
-        .setInputCol("image") \
-        .setInputChunksCol("token") \
-        .setOutputCol("image_with_annotations") \
-        .setFilledRect(False) \
-        .setFontSize(14) \
-        .setRectColor(Color.red)
-    
-    hocr_pipeline = PipelineModel(stages=[
-        binary_to_image,
-        text_detector,
-        ocr,
-        tokenizer,
-        draw_annotations
-    ])
 
-    hocr_result = hocr_pipeline.transform(image_example_df).cache()
-    display_images(hocr_result, "image_with_annotations", width=1000)
-    print(hocr_result.select("hocr").collect()[0].hocr)
+```python
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+bin_df = spark.read.format("binaryFile").load(imagePath)
+
+binary_to_image = BinaryToImage() 
+binary_to_image.setImageType(ImageType.TYPE_3BYTE_BGR)
+
+text_detector = ImageTextDetectorV2 \
+    .pretrained("image_text_detector_v2", "en", "clinical/ocr") \
+    .setInputCol("image") \
+    .setOutputCol("text_regions") \
+    .setWithRefiner(False) \
+    .setSizeThreshold(15) \
+    .setLinkThreshold(0.3)
+
+ocr = ImageToTextV2.pretrained("ocr_small_printed", "en", "clinical/ocr") \
+    .setInputCols(["image", "text_regions"]) \
+    .setOutputCol("hocr") \
+    .setOutputFormat(OcrOutputFormat.HOCR) \
+    .setGroupImages(False) 
+
+tokenizer = HocrTokenizer() \
+    .setInputCol("hocr") \
+    .setOutputCol("token") \
+
+draw_annotations = ImageDrawAnnotations() \
+    .setInputCol("image") \
+    .setInputChunksCol("token") \
+    .setOutputCol("image_with_annotations") \
+    .setFilledRect(False) \
+    .setFontSize(14) \
+    .setRectColor(Color.red)
+
+hocr_pipeline = PipelineModel(stages=[
+    binary_to_image,
+    text_detector,
+    ocr,
+    tokenizer,
+    draw_annotations
+])
+
+hocr_result = hocr_pipeline.transform(image_example_df).cache()
+display_images(hocr_result, "image_with_annotations", width=1000)
+print(hocr_result.select("hocr").collect()[0].hocr)
 ```
 ```scala
+import com.johnsnowlabs.ocr.transformers.*
+import com.johnsnowlabs.ocr.OcrContext.implicits._
 
+val imagePath = "path to image"
+val imageDf = spark.read.format("binaryFile").load(imagePath)
+
+val regionsPath = "./python/sparkocr/resources/ocr/text_detection/regions.parquet"
+val regionsDf = spark.read.parquet(regionsPath)
+
+val imageWithRegions = regionsDf.join(imageDf)
+
+val binaryToImage = new BinaryToImage().
+  setOutputCol("image")
+
+val ocr = ImageToTextOnnx.
+  pretrained("ocr_small_printed")
+   .setInputCols(Array("image"))
+   .setRegionsColumn("text_regions")
+   .setOutputFormat("text")
+
+val pipeline = new Pipeline()
+   .setStages(Array(binaryToImage, ocr))
+  .fit(imageWithRegions)
+
+val r = Benchmark.time("Using ocr_small_printed",true) {
+  pipeline.transform(imageWithRegions).select("text").collect()
+}
 ```
 </div>
 

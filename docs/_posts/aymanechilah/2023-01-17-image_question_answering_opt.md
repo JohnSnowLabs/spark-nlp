@@ -2,7 +2,7 @@
 layout: model
 title: Document Visual Question Answering Optimized
 author: John Snow Labs
-name: image_question_answering_opt
+name: docvqa_donut_base_opt
 date: 2023-01-17
 tags: [en, licensed]
 task: Document Visual Question Answering
@@ -25,7 +25,7 @@ DocVQA seeks to inspire a “purpose-driven” point of view in Document Analysi
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/tutorials/Cards/SparkOcrVisualQuestionAnswering_opt.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/Cards/SparkOcrVisualQuestionAnswering_opt.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/ocr/docvqa_donut_base_opt_en_4.3.0_3.0_1673269990047.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 
@@ -33,38 +33,38 @@ DocVQA seeks to inspire a “purpose-driven” point of view in Document Analysi
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
 
-    from pyspark.ml import PipelineModel
-    from sparkocr.transformers import *
+imagePath = "path to image"
+bin_df = spark.read.format("binaryFile").load(imagePath)
+image_df = BinaryToImage().transform(bin_df)
 
-    imagePath = "path to image"
-    bin_df = spark.read.format("binaryFile").load(imagePath)
-    image_df = BinaryToImage().transform(bin_df)
+questions = [["question 1", "question 2", "question X"]]
+questions_df = spark.createDataFrame([questions])
+questions_df = questions_df.withColumnRenamed("_1", "questions")
+image_and_questions = bin_df.join(questions_df)
 
-    questions = [["question 1", question 2", question X"]]
-    questions_df = spark.createDataFrame([questions])
-    questions_df = questions_df.withColumnRenamed("_1", "questions")
-    image_and_questions = bin_df.join(questions_df)
+binary_to_image = BinaryToImage()\
+.setOutputCol("image") \
+.setImageType(ImageType.TYPE_3BYTE_BGR)
 
-    binary_to_image = BinaryToImage()\
-    .setOutputCol("image") \
-    .setImageType(ImageType.TYPE_3BYTE_BGR)
+visual_question_answering = VisualQuestionAnswering()\
+    .pretrained("docvqa_donut_base_opt", "en", "clinical/ocr")\
+    .setInputCol(["image"])\
+    .setOutputCol("answers")\
+    .setQuestionsCol("questions")
 
-    visual_question_answering = VisualQuestionAnswering()\
-        .pretrained("docvqa_donut_base_opt", "en", "clinical/ocr")\
-        .setInputCol(["image"])\
-        .setOutputCol("answers")\
-        .setQuestionsCol("questions")
-    
-    # OCR pipeline
-    pipeline = PipelineModel(stages=[
-        binary_to_image,
-        visual_question_answering
-    ])
+# OCR pipeline
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    visual_question_answering
+])
 
-    results = pipeline.transform(image_and_questions).cache()
-    results.select(results.answers).show(truncate=False)
+results = pipeline.transform(image_and_questions).cache()
+results.select(results.answers).show(truncate=False)
 ```
 ```scala
 import com.johnsnowlabs.ocr.transformers.*
@@ -72,7 +72,7 @@ import com.johnsnowlabs.ocr.OcrContext.implicits._
 
 val imagePath = "path to image"
 val imageDf = spark.read.format("binaryFile").load(imagePath)
-val questions = Seq(Array("question 1", question 2", question X")).toDF("questions")
+val questions = Seq(Array("question 1", "question 2", "question X")).toDF("questions")
 val imageWithQuestions = imageDf.join(questions)
 
 val binaryToImage = new BinaryToImage().

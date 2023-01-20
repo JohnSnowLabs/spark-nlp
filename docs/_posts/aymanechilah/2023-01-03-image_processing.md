@@ -7,8 +7,8 @@ date: 2023-01-03
 tags: [en, licensed, ocr, image_processing]
 task: Document Image Processing
 language: en
-edition: Visual NLP 3.14.0
-spark_version: 3.0
+edition: Visual NLP 4.0.0
+spark_version: 3.2.1
 supported: true
 annotator: ImageProcessing
 article_header:
@@ -18,7 +18,9 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-The processing of documents for the purpose of discovering  knowledge from them in an automated fashion is a challenging task and hence an open issue for the research community. In this work, it is proposed the use of different image processing algorithms apply to documents to improve its quality to improve the performance of the next step of computer vision algorithms as text detection, text recognition, ocr, table detection... These image processing algorithms are: scale image, adaptive thresholding, erosion, dilation, remove objects, median blur and gpu image transformation.
+The processing of documents for the purpose of discovering  knowledge from them in an automated fashion is a challenging task and hence an open issue for the research community. Sometimes, the quality of the input images makes it much more difficult to perform these procedures correctly.
+
+To avoid this, it is proposed the use of different image processing algorithms on documents images to improve its quality and the performance of the next step of computer vision algorithms as text detection, text recognition, ocr, table detection... Some of these image processing algorithms included in this project are: scale image, adaptive thresholding, erosion, dilation, remove objects, median blur and gpu image transformation.
 
 ## Predicted Entities
 
@@ -29,72 +31,70 @@ The processing of documents for the purpose of discovering  knowledge from them 
 
 ## How to use
 
-
-
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
-    
-    from pyspark.ml import PipelineModel
-    from sparkocr.transformers import *
-    
-    imagePath = "path to image"
-    bin_df = spark.read.format("binaryFile").load(imagePath)
-    
-    scaled_image_df = ImageTransformer() \
-        .addScalingTransform(2) \
-        .setInputCol("image") \
-        .setOutputCol("scaled_image") \
-        .setImageType(ImageType.TYPE_BYTE_GRAY) \
-        .transform(image_df)
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
 
-    thresholded_image = ImageTransformer() \
-        .addAdaptiveThreshold(21, 20)\
-        .setInputCol("image") \
-        .setOutputCol("thresholded_image") \
-        .transform(image_df)
+imagePath = "path to image"
+bin_df = spark.read.format("binaryFile").load(imagePath)
 
-    eroded_image = ImageTransformer() \
-        .addErodeTransform(2,2)\
-        .setInputCol("image") \
-        .setOutputCol("eroded_image") \
-        .transform(image_df)
+scaled_image_df = ImageTransformer() \
+    .addScalingTransform(2) \
+    .setInputCol("image") \
+    .setOutputCol("scaled_image") \
+    .setImageType(ImageType.TYPE_BYTE_GRAY) \
+    .transform(image_df)
 
-    dilated_image = ImageTransformer() \
-          .addDilateTransform(1, 2)\
-          .setInputCol("image") \
-          .setOutputCol("dilated_image") \
-          .transform(image_df)
+thresholded_image = ImageTransformer() \
+    .addAdaptiveThreshold(21, 20)\
+    .setInputCol("image") \
+    .setOutputCol("thresholded_image") \
+    .transform(image_df)
 
-    removebg_image = ImageTransformer() \
-        .addScalingTransform(2) \
-        .addAdaptiveThreshold(31, 2)\
-        .addRemoveObjects(10, 500) \
-        .setInputCol("image") \
-        .setOutputCol("corrected_image") \
-        .transform(image_df)
+eroded_image = ImageTransformer() \
+    .addErodeTransform(2,2)\
+    .setInputCol("image") \
+    .setOutputCol("eroded_image") \
+    .transform(image_df)
 
-    deblured_image = ImageTransformer() \
-        .addScalingTransform(2) \
-        .addMedianBlur(3) \
-        .setInputCol("image") \
-        .setOutputCol("corrected_image") \
-        .transform(image_df)
+dilated_image = ImageTransformer() \
+      .addDilateTransform(1, 2)\
+      .setInputCol("image") \
+      .setOutputCol("dilated_image") \
+      .transform(image_df)
 
-    multiple_image = GPUImageTransformer() \
-        .addScalingTransform(8) \
-        .addOtsuTransform() \
-        .addErodeTransform(3, 3) \
-        .setInputCol("image") \
-        .setOutputCol("multiple_image") \
-        .transform(image_df)
+removebg_image = ImageTransformer() \
+    .addScalingTransform(2) \
+    .addAdaptiveThreshold(31, 2)\
+    .addRemoveObjects(10, 500) \
+    .setInputCol("image") \
+    .setOutputCol("corrected_image") \
+    .transform(image_df)
 
-    display_images(thresholded_image, "Adaptative Thresholding")
-    display_images(eroded_image, "Erosion")
-    display_images(dilated_image, "Dilation")
-    display_images(removebg_imageremovebg_image, "Remove Objects")
-    display_images(deblured_image, "Median Blur")
-    display_images(multiple_image, "GPU Image Transformation")
+deblured_image = ImageTransformer() \
+    .addScalingTransform(2) \
+    .addMedianBlur(3) \
+    .setInputCol("image") \
+    .setOutputCol("corrected_image") \
+    .transform(image_df)
+
+multiple_image = GPUImageTransformer() \
+    .addScalingTransform(8) \
+    .addOtsuTransform() \
+    .addErodeTransform(3, 3) \
+    .setInputCol("image") \
+    .setOutputCol("multiple_image") \
+    .transform(image_df)
+
+display_images(thresholded_image, "Adaptative Thresholding")
+display_images(eroded_image, "Erosion")
+display_images(dilated_image, "Dilation")
+display_images(removebg_imageremovebg_image, "Remove Objects")
+display_images(deblured_image, "Median Blur")
+display_images(multiple_image, "GPU Image Transformation")
 ```
 ```scala
 import com.johnsnowlabs.ocr.transformers.*

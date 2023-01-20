@@ -17,14 +17,14 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Ocr base handwritten model v2 optimized with ONNX for recognise handwritten text based on Tesseract architecture and handwritten datasets.
-Tesseract is an optical character recognition engine with open-source code, this is the most popular and qualitative OCR-library. OCR uses artificial intelligence for text search and its recognition on images. Tesseract is finding templates in pixels, letters, words and sentences. It uses two-step approach that calls adaptive recognition. It requires one data stage for character recognition, then the second stage to fulfil any letters, it wasn’t insured in, by letters that can match the word or sentence context.
+Ocr base handwritten model v2 optimized with ONNX for recognise handwritten text based on TrOCR architecture and handwritten datasets. It is an Ocr base model for recognise handwritten text based on TrOcr architecture.  The TrOCR model was proposed in TrOCR: Transformer-based Optical Character Recognition with Pre-trained Models by Minghao Li, Tengchao Lv, Lei Cui, Yijuan Lu, Dinei Florencio, Cha Zhang, Zhoujun Li, Furu Wei. TrOCR consists of an image Transformer encoder and an autoregressive text Transformer decoder to perform optical character recognition (OCR).  The abstract from the paper is the following:  Text recognition is a long-standing research problem for document digitalization. Existing approaches for text recognition are usually built based on CNN for image understanding and RNN for char-level text generation. In addition, another language model is usually needed to improve the overall accuracy as a post-processing step. In this paper, we propose an end-to-end text recognition approach with pre-trained image Transformer and text Transformer models, namely TrOCR, which leverages the Transformer architecture for both image understanding and wordpiece-level text generation. The TrOCR model is simple but effective, and can be pre-trained with large-scale synthetic data and fine-tuned with human-labeled datasets. Experiments show that the TrOCR model outperforms the current state-of-the-art models on both printed and handwritten text recognition tasks.
+
 
 ## Predicted Entities
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
-[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/tutorials/Cards/SparkOcrImageToTextHandwritten_V2_opt.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/Cards/SparkOcrImageToTextHandwritten_V2_opt.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/ocr/ocr_base_handwritten_v2_opt_en_4.2.2_3.0_1670608549000.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
 
 
@@ -32,49 +32,49 @@ Tesseract is an optical character recognition engine with open-source code, this
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
 
-    from pyspark.ml import PipelineModel
-    from sparkocr.transformers import *
+imagePath = "path to image"
+image_df = spark.read.format("binaryFile").load(imagePath)
 
-    imagePath = "path to image"
-    image_df = spark.read.format("binaryFile").load(imagePath)
+binary_to_image = BinaryToImage() 
+binary_to_image.setImageType(ImageType.TYPE_3BYTE_BGR)
 
-    binary_to_image = BinaryToImage() 
-    binary_to_image.setImageType(ImageType.TYPE_3BYTE_BGR)
-    
-    text_detector = ImageTextDetectorV2 \
-        .pretrained("image_text_detector_v2", "en", "clinical/ocr") \
-        .setInputCol("image") \
-        .setOutputCol("text_regions") \
-        .setWithRefiner(True) \
-        .setSizeThreshold(-1) \
-        .setLinkThreshold(0.3) \
-        .setWidth(500)
-    
-    ocr = ImageToTextV2Opt.pretrained("ocr_base_handwritten_v2_opt", "en", "clinical/ocr") \
-        .setInputCols(["image", "text_regions"]) \
-        .setGroupImages(True) \
-        .setOutputCol("text") \
-        .setRegionsColumn("text_regions")
-    
-    draw_regions = ImageDrawRegions() \
-        .setInputCol("image") \
-        .setInputRegionsCol("text_regions") \
-        .setOutputCol("image_with_regions") \
-        .setRectColor(Color.green) \
-        .setRotated(True)
-    
-    pipeline = PipelineModel(stages=[
-        binary_to_image,
-        text_detector,
-        ocr,
-        draw_regions
-    ])
+text_detector = ImageTextDetectorV2 \
+    .pretrained("image_text_detector_v2", "en", "clinical/ocr") \
+    .setInputCol("image") \
+    .setOutputCol("text_regions") \
+    .setWithRefiner(True) \
+    .setSizeThreshold(-1) \
+    .setLinkThreshold(0.3) \
+    .setWidth(500)
 
-    result = pipeline.transform(image_df).cache()
-    display_images(result, "image_with_regions")
-    print(("").join([x.text for x in result.select("text").collect()]))
+ocr = ImageToTextV2Opt.pretrained("ocr_base_handwritten_v2_opt", "en", "clinical/ocr") \
+    .setInputCols(["image", "text_regions"]) \
+    .setGroupImages(True) \
+    .setOutputCol("text") \
+    .setRegionsColumn("text_regions")
+
+draw_regions = ImageDrawRegions() \
+    .setInputCol("image") \
+    .setInputRegionsCol("text_regions") \
+    .setOutputCol("image_with_regions") \
+    .setRectColor(Color.green) \
+    .setRotated(True)
+
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    text_detector,
+    ocr,
+    draw_regions
+])
+
+result = pipeline.transform(image_df).cache()
+display_images(result, "image_with_regions")
+print(("").join([x.text for x in result.select("text").collect()]))
 ```
 ```scala
 import com.johnsnowlabs.ocr.transformers.*
