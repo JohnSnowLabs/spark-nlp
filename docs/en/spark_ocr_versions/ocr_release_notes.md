@@ -16,7 +16,7 @@ sidebar:
 
 ## 4.3.0
 
-Release date: 01-13-2023
+Release date: 13-01-2023
 
 We are glad to announce that Spark OCR 4.3.0 has been released!! This big release comes with improvements in Dicom Processing, Visual Question Answering, new Table Extraction annotators, and much more!.
 
