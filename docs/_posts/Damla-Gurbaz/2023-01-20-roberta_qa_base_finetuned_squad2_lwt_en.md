@@ -19,13 +19,13 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained RobertaForQuestionAnswering  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `RoBERTa-base-finetuned-squad2-lwt` is a English model originally trained by `21iridescent`.
+Pretrained RobertaForQuestionAnswering  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `distilroberta-base-finetuned-squad2-lwt` is a English model originally trained by `21iridescent`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/roberta_qa_base_finetuned_squad2_lwt_en_4.3.0_3.0_1674208536799.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/roberta_qa_base_finetuned_squad2_lwt_en_4.3.0_3.0_1674208536799.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/roberta_qa_base_finetuned_squad2_lwt_en_4.3.0_3.0_1674210398377.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/roberta_qa_base_finetuned_squad2_lwt_en_4.3.0_3.0_1674210398377.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -79,10 +79,10 @@ val result = pipeline.fit(data).transform(data)
 |Input Labels:|[document, token]|
 |Output Labels:|[class]|
 |Language:|en|
-|Size:|464.3 MB|
+|Size:|307.1 MB|
 |Case sensitive:|true|
 |Max sentence length:|256|
 
 ## References
 
-- https://huggingface.co/21iridescent/RoBERTa-base-finetuned-squad2-lwt
+- https://huggingface.co/21iridescent/distilroberta-base-finetuned-squad2-lwt
