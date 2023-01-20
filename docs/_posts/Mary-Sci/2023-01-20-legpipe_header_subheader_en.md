@@ -32,6 +32,7 @@ This is a Legal pretrained pipeline, aimed to carry out Section Splitting by usi
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 legal_pipeline = nlp.PretrainedPipeline("legpipe_header_subheader", "en", "legal/models")
 
