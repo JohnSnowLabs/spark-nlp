@@ -24,6 +24,7 @@ This model is the v1.2 of [biobert_pubmed_base_cased](https://nlp.johnsnowlabs.c
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/biobert_pubmed_base_cased_v1.2_en_4.0.0_3.0_1658152927645.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/biobert_pubmed_base_cased_v1.2_en_4.0.0_3.0_1658152927645.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

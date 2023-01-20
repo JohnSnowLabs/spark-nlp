@@ -29,6 +29,7 @@ The TREC dataset for question classification consists of open-domain, fact-based
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/community.johnsnowlabs.com/ahmedlone127/bert_sequence_classifier_trec_coarse_pipeline_en_4.0.0_3.0_1655211903928.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://community.johnsnowlabs.com/ahmedlone127/bert_sequence_classifier_trec_coarse_pipeline_en_4.0.0_3.0_1655211903928.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

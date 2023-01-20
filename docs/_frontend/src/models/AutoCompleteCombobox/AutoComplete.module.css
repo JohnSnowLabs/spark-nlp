@@ -1,0 +1,99 @@
+
+.selectedItem {
+  display: inline-flex;
+  background: #e2e6ee;
+  border-radius: 2px;
+  align-items: center;
+  margin: 4px;
+  margin-top: 0;
+  margin-left: 0;
+  max-width: 100%;
+}
+
+.selectedItem__value {
+  padding: 2px 4px;
+  line-height: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.selectedItem__x {
+  display: flex;
+  width: 20px;
+  height: 20px;
+  justify-content: center;
+  align-items: center;
+  cursor: default;
+
+  &:hover {
+    background: #9ea8bd;
+    color: #fff;
+  }
+}
+
+.combobox {
+  display: flex;
+  background: #ffffff;
+  border: 1px solid #e8e9ea;
+  box-sizing: border-box;
+  border-radius: 2px;
+}
+
+.combobox__input {
+  border: none;
+  background: transparent;
+  min-width: 0;
+  font-family: Roboto, sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+  padding: 6px 16px;
+  padding-right: 0;
+  width: 100%;
+}
+
+.combobox__toggle {
+  background-image: url("data:image/svg+xml,%3Csvg width='14' height='8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='m5.757 5.76.653-.757-.653.757Zm2.609.003-.651-.758.65.758Zm-1.956-.76L1.653.901.347 2.415l4.757 4.103L6.41 5.003ZM12.5.9 7.715 5.005l1.302 1.517 4.784-4.105L12.5.899ZM5.104 6.518a3 3 0 0 0 3.913.004L7.715 5.005a1 1 0 0 1-1.305-.002L5.104 6.518Z' fill='%23FF8A00'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
+
+.menuWrapper {
+  position: relative;
+  z-index: 1000;
+}
+
+.menu {
+  background: #ffffff;
+  border: 1px solid #e7edf0;
+  box-sizing: border-box;
+  box-shadow: 0px 5px 25px rgba(30, 119, 183, 0.25);
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  list-style: none;
+  min-width: 100%;
+  max-height: 240px;
+  overflow: scroll;
+}
+
+.menu__item {
+  font-family: Roboto, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 18px;
+  padding: 6px 12px;
+  box-sizing: border-box;
+}
+
+.menu__item.isEmpty {
+  text-align: center;
+  color: #9ea8bd;
+  font-weight: normal;
+}

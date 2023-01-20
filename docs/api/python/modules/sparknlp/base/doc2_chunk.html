@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.base.doc2_chunk &#8212; Spark NLP 4.2.6 documentation</title>
+    <title>sparknlp.base.doc2_chunk &#8212; Spark NLP 4.2.7 documentation</title>
   
   
   
@@ -319,7 +319,7 @@
 
 
 <div class="viewcode-block" id="Doc2Chunk"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/doc2_chunk/index.html#sparknlp.base.doc2_chunk.Doc2Chunk">[docs]</a><span class="k">class</span> <span class="nc">Doc2Chunk</span><span class="p">(</span><span class="n">AnnotatorTransformer</span><span class="p">,</span> <span class="n">AnnotatorProperties</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Converts ``DOCUMENT`` type annotations into ``CHUNK`` type with the</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts ``DOCUMENT`` type annotations into ``CHUNK`` type with the</span>
 <span class="sd">    contents of a ``chunkCol``.</span>
 
 <span class="sd">    Chunk text must be contained within input ``DOCUMENT``. May be either</span>
@@ -407,7 +407,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Doc2Chunk.setChunkCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/doc2_chunk/index.html#sparknlp.base.doc2_chunk.Doc2Chunk.setChunkCol">[docs]</a>    <span class="k">def</span> <span class="nf">setChunkCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets column that contains the string. Must be part of DOCUMENT.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets column that contains the string. Must be part of DOCUMENT.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -417,7 +417,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">chunkCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Doc2Chunk.setIsArray"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/doc2_chunk/index.html#sparknlp.base.doc2_chunk.Doc2Chunk.setIsArray">[docs]</a>    <span class="k">def</span> <span class="nf">setIsArray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether the chunkCol is an array of strings.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether the chunkCol is an array of strings.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -427,7 +427,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">isArray</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Doc2Chunk.setStartCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/doc2_chunk/index.html#sparknlp.base.doc2_chunk.Doc2Chunk.setStartCol">[docs]</a>    <span class="k">def</span> <span class="nf">setStartCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets column that has a reference of where chunk begins.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets column that has a reference of where chunk begins.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -437,7 +437,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">startCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Doc2Chunk.setStartColByTokenIndex"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/doc2_chunk/index.html#sparknlp.base.doc2_chunk.Doc2Chunk.setStartColByTokenIndex">[docs]</a>    <span class="k">def</span> <span class="nf">setStartColByTokenIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether start column is prepended by whitespace tokens.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether start column is prepended by whitespace tokens.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -447,7 +447,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">startColByTokenIndex</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Doc2Chunk.setFailOnMissing"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/doc2_chunk/index.html#sparknlp.base.doc2_chunk.Doc2Chunk.setFailOnMissing">[docs]</a>    <span class="k">def</span> <span class="nf">setFailOnMissing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to fail the job if a chunk is not found within document.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to fail the job if a chunk is not found within document.</span>
 <span class="sd">        Return empty otherwise.</span>
 
 <span class="sd">        Parameters</span>
@@ -458,7 +458,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">failOnMissing</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Doc2Chunk.setLowerCase"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/doc2_chunk/index.html#sparknlp.base.doc2_chunk.Doc2Chunk.setLowerCase">[docs]</a>    <span class="k">def</span> <span class="nf">setLowerCase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to lower case for matching case.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to lower case for matching case.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

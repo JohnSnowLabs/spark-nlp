@@ -267,11 +267,12 @@
             <article class="bd-article" role="main">
               
   <h1>Source code for sparknlp_jsl.annotator.assertion.assertionDL</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span></span><span class="kn">from</span> <span class="nn">sparknlp_jsl.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp_jsl.utils.licensed_annotator_type</span> <span class="kn">import</span> <span class="n">InternalAnnotatorType</span>
 
 
-<div class="viewcode-block" id="AssertionDLApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach">[docs]</a><span class="k">class</span> <span class="nc">AssertionDLApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">,</span> <span class="n">HasEngine</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Train a Assertion Model algorithm using deep learning.</span>
+<div class="viewcode-block" id="AssertionDLApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach">[docs]</a><span class="k">class</span> <span class="nc">AssertionDLApproach</span><span class="p">(</span><span class="n">AnnotatorApproachInternal</span><span class="p">,</span> <span class="n">HasEngine</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Train a Assertion Model algorithm using deep learning.</span>
 
 <span class="sd">    Example of possible values: &quot;present&quot;, &quot;absent&quot;, &quot;hypothetical&quot;, &quot;conditional&quot;,</span>
 <span class="sd">    &quot;associated_with_other_person&quot;, etc.</span>
@@ -381,6 +382,7 @@
 <span class="sd">    &gt;&gt;&gt; assertion_model = assertionPipeline.fit(dataset)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="AssertionDLApproach.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">WORD_EMBEDDINGS</span><span class="p">]</span></div>
+<div class="viewcode-block" id="AssertionDLApproach.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="p">[</span><span class="n">InternalAnnotatorType</span><span class="o">.</span><span class="n">ASSERTION</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="AssertionDLApproach.label"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.label">[docs]</a>    <span class="n">label</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="s2">&quot;Column with one label per document&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
@@ -438,7 +440,7 @@
                         <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListInt</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AssertionDLApproach.setGraphFolder"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setGraphFolder">[docs]</a>    <span class="k">def</span> <span class="nf">setGraphFolder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">folder</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets folder path that contain external graph files.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets folder path that contain external graph files.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            folder (srt): Folder path that contain external graph files.</span>
@@ -446,7 +448,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">graphFolder</span><span class="o">=</span><span class="n">folder</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AssertionDLApproach.setGraphFile"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setGraphFile">[docs]</a>    <span class="k">def</span> <span class="nf">setGraphFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets path that contains the external graph file. </span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets path that contains the external graph file. </span>
 <span class="sd">        </span>
 <span class="sd">        When specified, the provided file will be used, and no graph search will happen.</span>
 
@@ -456,7 +458,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">graphFile</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AssertionDLApproach.setConfigProtoBytes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conf</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the ConfigProto from tensorflow, serialized into byte array.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the ConfigProto from tensorflow, serialized into byte array.</span>
 
 <span class="sd">        Get with `config_proto.SerializeToString()`.</span>
 
@@ -466,7 +468,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">configProtoBytes</span><span class="o">=</span><span class="n">conf</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AssertionDLApproach.setLabelCol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setLabelCol">[docs]</a>    <span class="k">def</span> <span class="nf">setLabelCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">colname</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set the column containing the labels of the documents.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the column containing the labels of the documents.</span>
 <span class="sd">        </span>
 <span class="sd">        Args:</span>
 <span class="sd">            colname (str): The columns name.</span>
@@ -474,7 +476,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">colname</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AssertionDLApproach.setStartCol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setStartCol">[docs]</a>    <span class="k">def</span> <span class="nf">setStartCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_col</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set a column that contains the token number for the start of the target.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set a column that contains the token number for the start of the target.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            start_col (str): Column that contains the token number for the start of the target.</span>
@@ -483,7 +485,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">startCol</span><span class="o">=</span><span class="n">start_col</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AssertionDLApproach.setEndCol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setEndCol">[docs]</a>    <span class="k">def</span> <span class="nf">setEndCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">end_col</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set column that contains the token number for the end of the target.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set column that contains the token number for the end of the target.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            end_col (str): Column that contains the token number for the end of the target.</span>
@@ -491,7 +493,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">endCol</span><span class="o">=</span><span class="n">end_col</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AssertionDLApproach.setBatchSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setBatchSize">[docs]</a>    <span class="k">def</span> <span class="nf">setBatchSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set Size for each batch in the optimization process.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set Size for each batch in the optimization process.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            size (int): Size for each batch in the optimization process</span>
@@ -499,7 +501,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">batchSize</span><span class="o">=</span><span class="n">size</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AssertionDLApproach.setEpochs"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setEpochs">[docs]</a>    <span class="k">def</span> <span class="nf">setEpochs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">number</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets number of epochs for the optimization process.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets number of epochs for the optimization process.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            number (int): Number of epochs for the optimization process.</span>
@@ -507,7 +509,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">epochs</span><span class="o">=</span><span class="n">number</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AssertionDLApproach.setLearningRate"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setLearningRate">[docs]</a>    <span class="k">def</span> <span class="nf">setLearningRate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lr</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set a learning rate for the optimization process.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set a learning rate for the optimization process.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            lr (float): Learning rate for the optimization process.</span>
@@ -515,7 +517,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">learningRate</span><span class="o">=</span><span class="n">lr</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AssertionDLApproach.setDropout"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setDropout">[docs]</a>    <span class="k">def</span> <span class="nf">setDropout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets a dropout at the output of each layer.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets a dropout at the output of each layer.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            rate (float): Dropout rate at the output of each layer</span>
@@ -523,7 +525,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">dropout</span><span class="o">=</span><span class="n">rate</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AssertionDLApproach.setMaxSentLen"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setMaxSentLen">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSentLen</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set the max length for an input sentence.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the max length for an input sentence.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            length (int): The new value for maximum sentence length.</span>
@@ -531,7 +533,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSentLen</span><span class="o">=</span><span class="n">length</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AssertionDLApproach.setValidationSplit"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setValidationSplit">[docs]</a>    <span class="k">def</span> <span class="nf">setValidationSplit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the validation size for the training dataset.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the validation size for the training dataset.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            value (float): The proportion of training dataset to be used as validation set.</span>
@@ -540,7 +542,7 @@
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="AssertionDLApproach.setEvaluationLogExtended"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setEvaluationLogExtended">[docs]</a>    <span class="k">def</span> <span class="nf">setEvaluationLogExtended</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Creates a Annotation from a Spark `Row`.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a Annotation from a Spark `Row`.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            value (bool): Whether to use extended evaluation log or not.</span>
@@ -549,7 +551,7 @@
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="AssertionDLApproach.setTestDataset"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setTestDataset">[docs]</a>    <span class="k">def</span> <span class="nf">setTestDataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">SPARK</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets path to test dataset. </span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets path to test dataset. </span>
 <span class="sd">        </span>
 <span class="sd">        If set used to calculate statistic on it during training.</span>
 
@@ -563,7 +565,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">testDataset</span><span class="o">=</span><span class="n">ExternalResource</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">copy</span><span class="p">()))</span></div>
 
 <div class="viewcode-block" id="AssertionDLApproach.setIncludeConfidence"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setIncludeConfidence">[docs]</a>    <span class="k">def</span> <span class="nf">setIncludeConfidence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets if you waht to include confidence scores in annotation metadata.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets if you waht to include confidence scores in annotation metadata.</span>
 
 <span class="sd">            Parameters</span>
 <span class="sd">            ----------</span>
@@ -572,7 +574,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">includeConfidence</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AssertionDLApproach.setEnableOutputLogs"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setEnableOutputLogs">[docs]</a>    <span class="k">def</span> <span class="nf">setEnableOutputLogs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets if you enable to output to annotators log folder.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets if you enable to output to annotators log folder.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            value (srt): Folder path that contain external graph files.</span>
@@ -581,7 +583,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">enableOutputLogs</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AssertionDLApproach.setOutputLogsPath"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setOutputLogsPath">[docs]</a>    <span class="k">def</span> <span class="nf">setOutputLogsPath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets folder path that contain external graph files.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets folder path that contain external graph files.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            value (srt): Folder path that contain external graph files.</span>
@@ -589,7 +591,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputLogsPath</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AssertionDLApproach.setVerbose"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setVerbose">[docs]</a>    <span class="k">def</span> <span class="nf">setVerbose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets level of verbosity during training.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets level of verbosity during training.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            value (int): Level of verbosity during training.</span>
@@ -597,7 +599,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AssertionDLApproach.setScopeWindow"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setScopeWindow">[docs]</a>    <span class="k">def</span> <span class="nf">setScopeWindow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span><span class="nb">list</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the scope of the window of the assertion expression</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the scope of the window of the assertion expression</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            value (list): Left and right offset if the scope window. Offsets must be non-negative values.</span>
@@ -618,8 +620,8 @@
                          <span class="n">includeConfidence</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scopeWindow</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span></div>
 
 
-<div class="viewcode-block" id="AssertionDLModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel">[docs]</a><span class="k">class</span> <span class="nc">AssertionDLModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">HasStorageRef</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;AssertionDL is a deep Learning based approach used to extract Assertion Status.</span>
+<div class="viewcode-block" id="AssertionDLModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel">[docs]</a><span class="k">class</span> <span class="nc">AssertionDLModel</span><span class="p">(</span><span class="n">AnnotatorModelInternal</span><span class="p">,</span> <span class="n">HasStorageRef</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;AssertionDL is a deep Learning based approach used to extract Assertion Status.</span>
 
 <span class="sd">    AssertionDLModel requires DOCUMENT, CHUNK and WORD_EMBEDDINGS type</span>
 <span class="sd">    annotator inputs. To train a custom model, use AssertionDLApproach.</span>
@@ -647,7 +649,7 @@
 
 <span class="sd">    &gt;&gt;&gt; import sparknlp</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
-<span class="sd">    &gt;&gt;&gt; from sparknlp.common import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.common import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.training import *</span>
 <span class="sd">    &gt;&gt;&gt; import sparknlp_jsl</span>
@@ -703,6 +705,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="AssertionDLModel.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">WORD_EMBEDDINGS</span><span class="p">]</span></div>
+<div class="viewcode-block" id="AssertionDLModel.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="p">[</span><span class="n">InternalAnnotatorType</span><span class="o">.</span><span class="n">ASSERTION</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="AssertionDLModel.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;AssertionDLModel&quot;</span></div>
 
@@ -729,7 +732,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">configProtoBytes</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AssertionDLModel.setIncludeConfidence"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel.setIncludeConfidence">[docs]</a>    <span class="k">def</span> <span class="nf">setIncludeConfidence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets if you waht to include confidence scores in annotation metadata.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets if you waht to include confidence scores in annotation metadata.</span>
 
 <span class="sd">            Parameters</span>
 <span class="sd">            ----------</span>
@@ -745,7 +748,7 @@
         <span class="p">)</span>
 
 <div class="viewcode-block" id="AssertionDLModel.setScopeWindow"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel.setScopeWindow">[docs]</a>    <span class="k">def</span> <span class="nf">setScopeWindow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the scope of the window of the assertion expression</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the scope of the window of the assertion expression</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

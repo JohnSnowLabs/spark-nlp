@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.spell_check.norvig_sweeting &#8212; Spark NLP 4.2.6 documentation</title>
+    <title>sparknlp.annotator.spell_check.norvig_sweeting &#8212; Spark NLP 4.2.7 documentation</title>
   
   
   
@@ -314,7 +314,7 @@
 
 
 <div class="viewcode-block" id="NorvigSweetingApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/norvig_sweeting/index.html#sparknlp.annotator.spell_check.norvig_sweeting.NorvigSweetingApproach">[docs]</a><span class="k">class</span> <span class="nc">NorvigSweetingApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Trains annotator, that retrieves tokens and makes corrections automatically if</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Trains annotator, that retrieves tokens and makes corrections automatically if</span>
 <span class="sd">    not found in an English dictionary, based on the algorithm by Peter Norvig.</span>
 
 <span class="sd">    The algorithm is based on a Bayesian approach to spell checking: Given the word we</span>
@@ -474,7 +474,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">dictionary_path</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
 <div class="viewcode-block" id="NorvigSweetingApproach.setDictionary"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/norvig_sweeting/index.html#sparknlp.annotator.spell_check.norvig_sweeting.NorvigSweetingApproach.setDictionary">[docs]</a>    <span class="k">def</span> <span class="nf">setDictionary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">token_pattern</span><span class="o">=</span><span class="s2">&quot;\S+&quot;</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">TEXT</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">}):</span>
-        <span class="sd">&quot;&quot;&quot;Sets dictionary which needs &#39;tokenPattern&#39; regex for separating</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets dictionary which needs &#39;tokenPattern&#39; regex for separating</span>
 <span class="sd">        words.</span>
 
 <span class="sd">        Parameters</span>
@@ -495,7 +495,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">dictionary</span><span class="o">=</span><span class="n">ExternalResource</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="p">,</span> <span class="n">opts</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="NorvigSweetingApproach.setCaseSensitive"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/norvig_sweeting/index.html#sparknlp.annotator.spell_check.norvig_sweeting.NorvigSweetingApproach.setCaseSensitive">[docs]</a>    <span class="k">def</span> <span class="nf">setCaseSensitive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to ignore case sensitivity, by default False.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to ignore case sensitivity, by default False.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -505,7 +505,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">caseSensitive</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="NorvigSweetingApproach.setDoubleVariants"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/norvig_sweeting/index.html#sparknlp.annotator.spell_check.norvig_sweeting.NorvigSweetingApproach.setDoubleVariants">[docs]</a>    <span class="k">def</span> <span class="nf">setDoubleVariants</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to use more expensive spell checker, by default False.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to use more expensive spell checker, by default False.</span>
 
 <span class="sd">        Increase search at cost of performance. Enables extra check for word</span>
 <span class="sd">        combinations.</span>
@@ -518,7 +518,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">doubleVariants</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="NorvigSweetingApproach.setShortCircuit"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/norvig_sweeting/index.html#sparknlp.annotator.spell_check.norvig_sweeting.NorvigSweetingApproach.setShortCircuit">[docs]</a>    <span class="k">def</span> <span class="nf">setShortCircuit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to use faster mode, by default False.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to use faster mode, by default False.</span>
 
 <span class="sd">        Increase performance at cost of accuracy. Faster but less accurate.</span>
 
@@ -530,7 +530,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">shortCircuit</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="NorvigSweetingApproach.setFrequencyPriority"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/norvig_sweeting/index.html#sparknlp.annotator.spell_check.norvig_sweeting.NorvigSweetingApproach.setFrequencyPriority">[docs]</a>    <span class="k">def</span> <span class="nf">setFrequencyPriority</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to consider frequency over hamming in intersections,</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to consider frequency over hamming in intersections,</span>
 <span class="sd">        when false hamming takes priority, by default True.</span>
 
 <span class="sd">        Parameters</span>
@@ -545,7 +545,7 @@
 
 
 <div class="viewcode-block" id="NorvigSweetingModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/norvig_sweeting/index.html#sparknlp.annotator.spell_check.norvig_sweeting.NorvigSweetingModel">[docs]</a><span class="k">class</span> <span class="nc">NorvigSweetingModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;This annotator retrieves tokens and makes corrections automatically if</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This annotator retrieves tokens and makes corrections automatically if</span>
 <span class="sd">    not found in an English dictionary.</span>
 
 <span class="sd">    The Symmetric Delete spelling correction algorithm reduces the complexity of</span>
@@ -636,7 +636,7 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="NorvigSweetingModel.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/spell_check/norvig_sweeting/index.html#sparknlp.annotator.spell_check.norvig_sweeting.NorvigSweetingModel.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;spellcheck_norvig&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

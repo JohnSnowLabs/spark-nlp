@@ -25,6 +25,7 @@ RoBERTa Legal Embeddings, trained by `PlanTL-GOB-ES`.
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/roberta_embeddings_RoBERTalex_es_3.4.2_3.0_1649945353788.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/roberta_embeddings_RoBERTalex_es_3.4.2_3.0_1649945353788.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

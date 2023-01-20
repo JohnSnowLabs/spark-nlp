@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.classifier_dl.multi_classifier_dl &#8212; Spark NLP 4.2.6 documentation</title>
+    <title>sparknlp.annotator.classifier_dl.multi_classifier_dl &#8212; Spark NLP 4.2.7 documentation</title>
   
   
   
@@ -316,7 +316,7 @@
 
 
 <div class="viewcode-block" id="MultiClassifierDLApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/multi_classifier_dl/index.html#sparknlp.annotator.classifier_dl.multi_classifier_dl.MultiClassifierDLApproach">[docs]</a><span class="k">class</span> <span class="nc">MultiClassifierDLApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">,</span> <span class="n">EvaluationDLParams</span><span class="p">,</span> <span class="n">ClassifierEncoder</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Trains a MultiClassifierDL for Multi-label Text Classification.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Trains a MultiClassifierDL for Multi-label Text Classification.</span>
 
 <span class="sd">    MultiClassifierDL uses a Bidirectional GRU with a convolutional model that</span>
 <span class="sd">    we have built inside TensorFlow and supports up to 100 classes.</span>
@@ -482,7 +482,7 @@
                       <span class="s2">&quot;The minimum threshold for each label to be accepted. Default is 0.5&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span>
 
 <div class="viewcode-block" id="MultiClassifierDLApproach.setVerbose"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/multi_classifier_dl/index.html#sparknlp.annotator.classifier_dl.multi_classifier_dl.MultiClassifierDLApproach.setVerbose">[docs]</a>    <span class="k">def</span> <span class="nf">setVerbose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets level of verbosity during training.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets level of verbosity during training.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -495,7 +495,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">shufflePerEpoch</span><span class="o">=</span><span class="n">v</span><span class="p">)</span>
 
 <div class="viewcode-block" id="MultiClassifierDLApproach.setThreshold"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/multi_classifier_dl/index.html#sparknlp.annotator.classifier_dl.multi_classifier_dl.MultiClassifierDLApproach.setThreshold">[docs]</a>    <span class="k">def</span> <span class="nf">setThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets minimum threshold for each label to be accepted, by default 0.5.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets minimum threshold for each label to be accepted, by default 0.5.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -525,7 +525,7 @@
 
 
 <div class="viewcode-block" id="MultiClassifierDLModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/multi_classifier_dl/index.html#sparknlp.annotator.classifier_dl.multi_classifier_dl.MultiClassifierDLModel">[docs]</a><span class="k">class</span> <span class="nc">MultiClassifierDLModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">HasStorageRef</span><span class="p">,</span> <span class="n">HasEngine</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;MultiClassifierDL for Multi-label Text Classification.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;MultiClassifierDL for Multi-label Text Classification.</span>
 
 <span class="sd">    MultiClassifierDL Bidirectional GRU with Convolution model we have built</span>
 <span class="sd">    inside TensorFlow and supports up to 100 classes.</span>
@@ -648,7 +648,7 @@
                     <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span>
 
 <div class="viewcode-block" id="MultiClassifierDLModel.setThreshold"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/multi_classifier_dl/index.html#sparknlp.annotator.classifier_dl.multi_classifier_dl.MultiClassifierDLModel.setThreshold">[docs]</a>    <span class="k">def</span> <span class="nf">setThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets minimum threshold for each label to be accepted, by default 0.5.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets minimum threshold for each label to be accepted, by default 0.5.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -659,7 +659,7 @@
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="MultiClassifierDLModel.setConfigProtoBytes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/multi_classifier_dl/index.html#sparknlp.annotator.classifier_dl.multi_classifier_dl.MultiClassifierDLModel.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -670,7 +670,7 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="MultiClassifierDLModel.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/multi_classifier_dl/index.html#sparknlp.annotator.classifier_dl.multi_classifier_dl.MultiClassifierDLModel.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;multiclassifierdl_use_toxic&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

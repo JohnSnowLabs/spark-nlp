@@ -135,11 +135,11 @@ result.select("cleanText").show(false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[TokenAssembler](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/TokenAssembler)
+[TokenAssembler](/api/com/johnsnowlabs/nlp/TokenAssembler)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[TokenAssembler](/api/python/reference/autosummary/python/sparknlp/base/token_assembler/index.html#sparknlp.base.token_assembler.TokenAssembler)
+[TokenAssembler](/api/python/reference/autosummary/sparknlp/base/token_assembler/index.html#sparknlp.base.token_assembler.TokenAssembler)
 {%- endcapture -%}
 
 {%- capture source_link -%}

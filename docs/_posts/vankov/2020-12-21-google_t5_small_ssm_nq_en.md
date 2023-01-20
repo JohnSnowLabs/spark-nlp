@@ -28,6 +28,7 @@ This is a text-to-text model trained by Google on the colossal, cleaned version 
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/google_t5_small_ssm_nq_en_2.7.0_2.4_1608552073257.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/google_t5_small_ssm_nq_en_2.7.0_2.4_1608552073257.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

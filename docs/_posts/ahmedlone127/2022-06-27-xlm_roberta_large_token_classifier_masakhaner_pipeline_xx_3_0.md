@@ -28,6 +28,7 @@ This pretrained pipeline is built on [xlm_roberta_large_token_classifier_masakha
 [Live Demo](https://demo.johnsnowlabs.com/public/Ner_masakhaner/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/Ner_masakhaner.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/xlm_roberta_large_token_classifier_masakhaner_pipeline_xx_4.0.0_3.0_1656369154380.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/xlm_roberta_large_token_classifier_masakhaner_pipeline_xx_4.0.0_3.0_1656369154380.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

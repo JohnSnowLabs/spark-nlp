@@ -28,6 +28,7 @@ We have trained this Doc2Vec model by using Gigaword 5th Edition and English Wik
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/doc2vec_gigaword_wiki_300_en_3.3.3_3.0_1637493418106.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/doc2vec_gigaword_wiki_300_en_3.3.3_3.0_1637493418106.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
