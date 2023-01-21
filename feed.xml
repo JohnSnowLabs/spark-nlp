@@ -1,87 +1,88 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-01-21T17:25:38+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
-</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">Legal NER (Parties, Dates, Alias, Former names, Document Type - lg)</title><link href="/2023/01/21/legner_contract_doc_parties_lg_en.html" rel="alternate" type="text/html" title="Legal NER (Parties, Dates, Alias, Former names, Document Type - lg)" /><published>2023-01-21T00:00:00+00:00</published><updated>2023-01-21T00:00:00+00:00</updated><id>/2023/01/21/legner_contract_doc_parties_lg_en</id><content type="html" xml:base="/2023/01/21/legner_contract_doc_parties_lg_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-01-21T17:33:37+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">Legal NER (Parties, Dates, Alias, Former names, Document Type - lg)</title><link href="/2023/01/21/legner_contract_doc_parties_lg_en.html" rel="alternate" type="text/html" title="Legal NER (Parties, Dates, Alias, Former names, Document Type - lg)" /><published>2023-01-21T00:00:00+00:00</published><updated>2023-01-21T00:00:00+00:00</updated><id>/2023/01/21/legner_contract_doc_parties_lg_en</id><content type="html" xml:base="/2023/01/21/legner_contract_doc_parties_lg_en.html">## Description
 
-&lt;p&gt;MPORTANT: Don’t run this model on the whole legal agreement. Instead:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Split by paragraphs. You can use &lt;a href=&quot;https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings_JSL&quot;&gt;notebook 1&lt;/a&gt; in Finance or Legal as inspiration;&lt;/li&gt;
-  &lt;li&gt;Use the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;legclf_introduction_clause&lt;/code&gt; Text Classifier to select only these paragraphs;&lt;/li&gt;
-&lt;/ul&gt;
+MPORTANT: Don't run this model on the whole legal agreement. Instead:
+- Split by paragraphs. You can use [notebook 1](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings_JSL) in Finance or Legal as inspiration;
+- Use the `legclf_introduction_clause` Text Classifier to select only these paragraphs; 
 
-&lt;p&gt;This is a Legal NER Model, aimed to process the first page of the agreements when information can be found about:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Parties of the contract/agreement;&lt;/li&gt;
-  &lt;li&gt;Their former names;&lt;/li&gt;
-  &lt;li&gt;Aliases of those parties, or how those parties will be called further on in the document;&lt;/li&gt;
-  &lt;li&gt;Document Type;&lt;/li&gt;
-  &lt;li&gt;Effective Date of the agreement;&lt;/li&gt;
-  &lt;li&gt;Other organizations;&lt;/li&gt;
-&lt;/ul&gt;
+This is a Legal NER Model, aimed to process the first page of the agreements when information can be found about:
+- Parties of the contract/agreement;
+- Their former names;
+- Aliases of those parties, or how those parties will be called further on in the document;
+- Document Type;
+- Effective Date of the agreement;
+- Other organizations;
 
-&lt;p&gt;This model can be used all along with its Relation Extraction model to retrieve the relations between these entities, called &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;legre_contract_doc_parties&lt;/code&gt;&lt;/p&gt;
+This model can be used all along with its Relation Extraction model to retrieve the relations between these entities, called `legre_contract_doc_parties`
 
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+## Predicted Entities
 
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PARTY&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;EFFDATE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DOC&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ALIAS&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ORG&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FORMER_NAME&lt;/code&gt;&lt;/p&gt;
+`PARTY`, `EFFDATE`, `DOC`, `ALIAS`, `ORG`, `FORMER_NAME`
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;a href=&quot;https://demo.johnsnowlabs.com/finance/LEGALNER_PARTIES/&quot; class=&quot;button button-orange&quot;&gt;Live Demo&lt;/a&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_contract_doc_parties_lg_en_1.0.0_3.0_1674321394808.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/legal/models/legner_contract_doc_parties_lg_en_1.0.0_3.0_1674321394808.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+[Live Demo](https://demo.johnsnowlabs.com/finance/LEGALNER_PARTIES/){:.button.button-orange}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_contract_doc_parties_lg_en_1.0.0_3.0_1674321394808.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legner_contract_doc_parties_lg_en_1.0.0_3.0_1674321394808.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+documentAssembler = nlp.DocumentAssembler()\
+        .setInputCol(&quot;text&quot;)\
+        .setOutputCol(&quot;document&quot;)
         
-&lt;span class=&quot;n&quot;&gt;sentenceDetector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SentenceDetectorDLModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence_detector_dl&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;xx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+sentenceDetector = nlp.SentenceDetectorDLModel.pretrained(&quot;sentence_detector_dl&quot;,&quot;xx&quot;)\
+        .setInputCols([&quot;document&quot;])\
+        .setOutputCol(&quot;sentence&quot;)
 
-&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+tokenizer = nlp.Tokenizer()\
+        .setInputCols([&quot;sentence&quot;])\
+        .setOutputCol(&quot;token&quot;)
 
-&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RoBertaEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;roberta_embeddings_legal_roberta_base&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+embeddings = nlp.RoBertaEmbeddings.pretrained(&quot;roberta_embeddings_legal_roberta_base&quot;, &quot;en&quot;) \
+        .setInputCols(&quot;sentence&quot;, &quot;token&quot;) \
+        .setOutputCol(&quot;embeddings&quot;)\
 
-&lt;span class=&quot;n&quot;&gt;ner_model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;legal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NerModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'legner_contract_doc_parties_lg'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'en'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'legal/models'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+ner_model = legal.NerModel.pretrained('legner_contract_doc_parties_lg', 'en', 'legal/models')\
+        .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;embeddings&quot;])\
+        .setOutputCol(&quot;ner&quot;)
 
-&lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NerConverter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_chunk&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+ner_converter = nlp.NerConverter()\
+        .setInputCols([&quot;sentence&quot;,&quot;token&quot;,&quot;ner&quot;])\
+        .setOutputCol(&quot;ner_chunk&quot;)
 
-&lt;span class=&quot;n&quot;&gt;nlpPipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;sentenceDetector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;ner_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+nlpPipeline = nlp.Pipeline(stages=[
+        documentAssembler,
+        sentenceDetector,
+        tokenizer,
+        embeddings,
+        ner_model,
+        ner_converter])
 
-&lt;span class=&quot;n&quot;&gt;empty_data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+empty_data = spark.createDataFrame([[&quot;&quot;]]).toDF(&quot;text&quot;)
 
-&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlpPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;empty_data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+model = nlpPipeline.fit(empty_data)
 
-&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;
+text = [&quot;&quot;&quot;
 INTELLECTUAL PROPERTY AGREEMENT
 
 This INTELLECTUAL PROPERTY AGREEMENT (this &quot;Agreement&quot;), dated as of December 31, 2018 (the &quot;Effective Date&quot;) is entered into by and between Armstrong Flooring, Inc., a Delaware corporation (&quot;Seller&quot;) and AFI Licensing LLC, a Delaware limited liability company (&quot;Licensing&quot; and together with Seller, &quot;Arizona&quot;) and AHF Holding, Inc. (formerly known as Tarzan HoldCo, Inc.), a Delaware corporation (&quot;Buyer&quot;) and Armstrong Hardwood Flooring Company, a Tennessee corporation (the &quot;Company&quot; and together with Buyer the &quot;Buyer Entities&quot;) (each of Arizona on the one hand and the Buyer Entities on the other hand, a &quot;Party&quot; and collectively, the &quot;Parties&quot;).
-&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&quot;&quot;&quot;]
 
-&lt;span class=&quot;n&quot;&gt;res&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+res = model.transform(spark.createDataFrame([text]).toDF(&quot;text&quot;))
+```
 
 &lt;/div&gt;
 
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+## Results
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+------------+---------+
+```bash
++------------+---------+
 |       token|ner_label|
 +------------+---------+
 |INTELLECTUAL|    B-DOC|
@@ -91,11 +92,11 @@ This INTELLECTUAL PROPERTY AGREEMENT (this &quot;Agreement&quot;), dated as of D
 |INTELLECTUAL|    B-DOC|
 |    PROPERTY|    I-DOC|
 |   AGREEMENT|    I-DOC|
-|           &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;|        O|
+|           (|        O|
 |        this|        O|
-|           &lt;span class=&quot;s2&quot;&gt;&quot;|        O|
+|           &quot;|        O|
 |   Agreement|        O|
-|         &quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;,|        O|
+|         &quot;),|        O|
 |       dated|        O|
 |          as|        O|
 |          of|        O|
@@ -103,12 +104,12 @@ This INTELLECTUAL PROPERTY AGREEMENT (this &quot;Agreement&quot;), dated as of D
 |          31|I-EFFDATE|
 |           ,|I-EFFDATE|
 |        2018|I-EFFDATE|
-|           &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;|        O|
+|           (|        O|
 |         the|        O|
-|           &lt;span class=&quot;s2&quot;&gt;&quot;|        O|
+|           &quot;|        O|
 |   Effective|        O|
 |        Date|        O|
-|          &quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;|        O|
+|          &quot;)|        O|
 |          is|        O|
 |     entered|        O|
 |        into|        O|
@@ -123,9 +124,9 @@ This INTELLECTUAL PROPERTY AGREEMENT (this &quot;Agreement&quot;), dated as of D
 |           a|        O|
 |    Delaware|        O|
 | corporation|        O|
-|          &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;|        O|
+|          (&quot;|        O|
 |      Seller|  B-ALIAS|
-|          &quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;|        O|
+|          &quot;)|        O|
 |         and|        O|
 |         AFI|  B-PARTY|
 |   Licensing|  I-PARTY|
@@ -136,24 +137,24 @@ This INTELLECTUAL PROPERTY AGREEMENT (this &quot;Agreement&quot;), dated as of D
 |     limited|        O|
 |   liability|        O|
 |     company|        O|
-|          &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;|        O|
+|          (&quot;|        O|
 |   Licensing|  B-ALIAS|
-|           &quot;&lt;/span&gt;|        O|
+|           &quot;|        O|
 |         and|        O|
 |    together|        O|
 |        with|        O|
 |      Seller|  B-ALIAS|
 |           ,|        O|
-|           &lt;span class=&quot;s2&quot;&gt;&quot;|        O|
+|           &quot;|        O|
 |     Arizona|  B-ALIAS|
-|          &quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;|        O|
+|          &quot;)|        O|
 |         and|        O|
 |         AHF|  B-PARTY|
 |     Holding|  I-PARTY|
 |           ,|  I-PARTY|
 |         Inc|  I-PARTY|
 |           .|        O|
-|           &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;|        O|
+|           (|        O|
 |    formerly|        O|
 |       known|        O|
 |          as|        O|
@@ -161,67 +162,43 @@ This INTELLECTUAL PROPERTY AGREEMENT (this &quot;Agreement&quot;), dated as of D
 |      HoldCo|        O|
 |           ,|        O|
 |         Inc|        O|
-|         .&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;,|        O|
+|         .),|        O|
 |           a|        O|
 |    Delaware|        O|
 | corporation|        O|
-|          &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;|        O|
+|          (&quot;|        O|
 |       Buyer|  B-ALIAS|
-|          &quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;|        O|
+|          &quot;)|        O|
 |         and|        O|
 |   Armstrong|  B-PARTY|
 |    Hardwood|  I-PARTY|
 |    Flooring|  I-PARTY|
 |     Company|  I-PARTY|
-&lt;span class=&quot;nt&quot;&gt;------------------------&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+------------------------
+```
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;legner_contract_doc_parties_lg&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Legal NLP 1.0.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Licensed&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[sentence, token, embeddings]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[ner]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;16.3 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|legner_contract_doc_parties_lg|
+|Compatibility:|Legal NLP 1.0.0+|
+|License:|Licensed|
+|Edition:|Official|
+|Input Labels:|[sentence, token, embeddings]|
+|Output Labels:|[ner]|
+|Language:|en|
+|Size:|16.3 MB|
 
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+## References
 
-&lt;p&gt;Manual annotations on CUAD dataset&lt;/p&gt;
+Manual annotations on CUAD dataset
 
-&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
+## Benchmarking
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;label	 tp	 fp	 fn	 prec	 rec	 f1
+```bash
+label	 tp	 fp	 fn	 prec	 rec	 f1
 I-PARTY	 513	 58	 85	 0.8984238	 0.85785955	 0.87767327
 B-EFFDATE	 57	 5	 7	 0.91935486	 0.890625	 0.90476185
 I-ORG	 208	 32	 49	 0.8666667	 0.8093385	 0.8370222
@@ -236,7 +213,7 @@ B-PARTY	 174	 40	 57	 0.8130841	 0.7532467	 0.7820225
 B-ALIAS	 170	 17	 13	 0.90909094	 0.92896175	 0.9189189
 Macro-average	 1739 222 345 0.8837032 0.8368375 0.859632
 Micro-average	 1739 222 345 0.8867925 0.834453 0.859827
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="document" /><category term="contract" /><category term="agreement" /><category term="type" /><category term="parties" /><category term="aliases" /><category term="former" /><category term="names" /><category term="effective" /><category term="dates" /><category term="en" /><category term="licensed" /><summary type="html">Description MPORTANT: Don’t run this model on the whole legal agreement. Instead: Split by paragraphs. You can use notebook 1 in Finance or Legal as inspiration; Use the legclf_introduction_clause Text Classifier to select only these paragraphs; This is a Legal NER Model, aimed to process the first page of the agreements when information can be found about: Parties of the contract/agreement; Their former names; Aliases of those parties, or how those parties will be called further on in the document; Document Type; Effective Date of the agreement; Other organizations; This model can be used all along with its Relation Extraction model to retrieve the relations between these entities, called legre_contract_doc_parties Predicted Entities PARTY, EFFDATE, DOC, ALIAS, ORG, FORMER_NAME Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = nlp.DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) sentenceDetector = nlp.SentenceDetectorDLModel.pretrained(&quot;sentence_detector_dl&quot;,&quot;xx&quot;)\ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;sentence&quot;) tokenizer = nlp.Tokenizer()\ .setInputCols([&quot;sentence&quot;])\ .setOutputCol(&quot;token&quot;) embeddings = nlp.RoBertaEmbeddings.pretrained(&quot;roberta_embeddings_legal_roberta_base&quot;, &quot;en&quot;) \ .setInputCols(&quot;sentence&quot;, &quot;token&quot;) \ .setOutputCol(&quot;embeddings&quot;)\ ner_model = legal.NerModel.pretrained('legner_contract_doc_parties_lg', 'en', 'legal/models')\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;embeddings&quot;])\ .setOutputCol(&quot;ner&quot;) ner_converter = nlp.NerConverter()\ .setInputCols([&quot;sentence&quot;,&quot;token&quot;,&quot;ner&quot;])\ .setOutputCol(&quot;ner_chunk&quot;) nlpPipeline = nlp.Pipeline(stages=[ documentAssembler, sentenceDetector, tokenizer, embeddings, ner_model, ner_converter]) empty_data = spark.createDataFrame([[&quot;&quot;]]).toDF(&quot;text&quot;) model = nlpPipeline.fit(empty_data) text = [&quot;&quot;&quot; INTELLECTUAL PROPERTY AGREEMENT This INTELLECTUAL PROPERTY AGREEMENT (this &quot;Agreement&quot;), dated as of December 31, 2018 (the &quot;Effective Date&quot;) is entered into by and between Armstrong Flooring, Inc., a Delaware corporation (&quot;Seller&quot;) and AFI Licensing LLC, a Delaware limited liability company (&quot;Licensing&quot; and together with Seller, &quot;Arizona&quot;) and AHF Holding, Inc. (formerly known as Tarzan HoldCo, Inc.), a Delaware corporation (&quot;Buyer&quot;) and Armstrong Hardwood Flooring Company, a Tennessee corporation (the &quot;Company&quot; and together with Buyer the &quot;Buyer Entities&quot;) (each of Arizona on the one hand and the Buyer Entities on the other hand, a &quot;Party&quot; and collectively, the &quot;Parties&quot;). &quot;&quot;&quot;] res = model.transform(spark.createDataFrame([text]).toDF(&quot;text&quot;)) Results +------------+---------+ | token|ner_label| +------------+---------+ |INTELLECTUAL| B-DOC| | PROPERTY| I-DOC| | AGREEMENT| I-DOC| | This| O| |INTELLECTUAL| B-DOC| | PROPERTY| I-DOC| | AGREEMENT| I-DOC| | (| O| | this| O| | &quot;| O| | Agreement| O| | &quot;),| O| | dated| O| | as| O| | of| O| | December|B-EFFDATE| | 31|I-EFFDATE| | ,|I-EFFDATE| | 2018|I-EFFDATE| | (| O| | the| O| | &quot;| O| | Effective| O| | Date| O| | &quot;)| O| | is| O| | entered| O| | into| O| | by| O| | and| O| | between| O| | Armstrong| B-PARTY| | Flooring| I-PARTY| | ,| I-PARTY| | Inc| I-PARTY| | .,| O| | a| O| | Delaware| O| | corporation| O| | (&quot;| O| | Seller| B-ALIAS| | &quot;)| O| | and| O| | AFI| B-PARTY| | Licensing| I-PARTY| | LLC| I-PARTY| | ,| O| | a| O| | Delaware| O| | limited| O| | liability| O| | company| O| | (&quot;| O| | Licensing| B-ALIAS| | &quot;| O| | and| O| | together| O| | with| O| | Seller| B-ALIAS| | ,| O| | &quot;| O| | Arizona| B-ALIAS| | &quot;)| O| | and| O| | AHF| B-PARTY| | Holding| I-PARTY| | ,| I-PARTY| | Inc| I-PARTY| | .| O| | (| O| | formerly| O| | known| O| | as| O| | Tarzan| O| | HoldCo| O| | ,| O| | Inc| O| | .),| O| | a| O| | Delaware| O| | corporation| O| | (&quot;| O| | Buyer| B-ALIAS| | &quot;)| O| | and| O| | Armstrong| B-PARTY| | Hardwood| I-PARTY| | Flooring| I-PARTY| | Company| I-PARTY| ------------------------ Model Information Model Name: legner_contract_doc_parties_lg Compatibility: Legal NLP 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence, token, embeddings] Output Labels: [ner] Language: en Size: 16.3 MB References Manual annotations on CUAD dataset Benchmarking label tp fp fn prec rec f1 I-PARTY 513 58 85 0.8984238 0.85785955 0.87767327 B-EFFDATE 57 5 7 0.91935486 0.890625 0.90476185 I-ORG 208 32 49 0.8666667 0.8093385 0.8370222 B-DOC 80 9 21 0.8988764 0.7920792 0.8421053 B-FORMER_NAME 5 0 0 1.0 1.0 1.0 I-EFFDATE 214 11 6 0.95111114 0.9727273 0.96179783 I-FORMER_NAME 7 1 0 0.875 1.0 0.93333334 I-ALIAS 14 5 13 0.7368421 0.5185185 0.6086956 I-DOC 166 16 52 0.9120879 0.7614679 0.83 B-ORG 131 28 42 0.8238994 0.75722545 0.7891567 B-PARTY 174 40 57 0.8130841 0.7532467 0.7820225 B-ALIAS 170 17 13 0.90909094 0.92896175 0.9189189 Macro-average 1739 222 345 0.8837032 0.8368375 0.859632 Micro-average 1739 222 345 0.8867925 0.834453 0.859827</summary></entry><entry><title type="html">Finance Pipeline (Headers / Subheaders)</title><link href="/2023/01/20/finpipe_header_subheader_en.html" rel="alternate" type="text/html" title="Finance Pipeline (Headers / Subheaders)" /><published>2023-01-20T00:00:00+00:00</published><updated>2023-01-20T00:00:00+00:00</updated><id>/2023/01/20/finpipe_header_subheader_en</id><content type="html" xml:base="/2023/01/20/finpipe_header_subheader_en.html">## Description
+```</content><author><name>John Snow Labs</name></author><category term="document" /><category term="contract" /><category term="agreement" /><category term="type" /><category term="parties" /><category term="aliases" /><category term="former" /><category term="names" /><category term="effective" /><category term="dates" /><category term="en" /><category term="licensed" /><summary type="html">Description MPORTANT: Don’t run this model on the whole legal agreement. Instead: Split by paragraphs. You can use notebook 1 in Finance or Legal as inspiration; Use the legclf_introduction_clause Text Classifier to select only these paragraphs; This is a Legal NER Model, aimed to process the first page of the agreements when information can be found about: Parties of the contract/agreement; Their former names; Aliases of those parties, or how those parties will be called further on in the document; Document Type; Effective Date of the agreement; Other organizations; This model can be used all along with its Relation Extraction model to retrieve the relations between these entities, called legre_contract_doc_parties Predicted Entities PARTY, EFFDATE, DOC, ALIAS, ORG, FORMER_NAME Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = nlp.DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) sentenceDetector = nlp.SentenceDetectorDLModel.pretrained(&quot;sentence_detector_dl&quot;,&quot;xx&quot;)\ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;sentence&quot;) tokenizer = nlp.Tokenizer()\ .setInputCols([&quot;sentence&quot;])\ .setOutputCol(&quot;token&quot;) embeddings = nlp.RoBertaEmbeddings.pretrained(&quot;roberta_embeddings_legal_roberta_base&quot;, &quot;en&quot;) \ .setInputCols(&quot;sentence&quot;, &quot;token&quot;) \ .setOutputCol(&quot;embeddings&quot;)\ ner_model = legal.NerModel.pretrained('legner_contract_doc_parties_lg', 'en', 'legal/models')\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;embeddings&quot;])\ .setOutputCol(&quot;ner&quot;) ner_converter = nlp.NerConverter()\ .setInputCols([&quot;sentence&quot;,&quot;token&quot;,&quot;ner&quot;])\ .setOutputCol(&quot;ner_chunk&quot;) nlpPipeline = nlp.Pipeline(stages=[ documentAssembler, sentenceDetector, tokenizer, embeddings, ner_model, ner_converter]) empty_data = spark.createDataFrame([[&quot;&quot;]]).toDF(&quot;text&quot;) model = nlpPipeline.fit(empty_data) text = [&quot;&quot;&quot; INTELLECTUAL PROPERTY AGREEMENT This INTELLECTUAL PROPERTY AGREEMENT (this &quot;Agreement&quot;), dated as of December 31, 2018 (the &quot;Effective Date&quot;) is entered into by and between Armstrong Flooring, Inc., a Delaware corporation (&quot;Seller&quot;) and AFI Licensing LLC, a Delaware limited liability company (&quot;Licensing&quot; and together with Seller, &quot;Arizona&quot;) and AHF Holding, Inc. (formerly known as Tarzan HoldCo, Inc.), a Delaware corporation (&quot;Buyer&quot;) and Armstrong Hardwood Flooring Company, a Tennessee corporation (the &quot;Company&quot; and together with Buyer the &quot;Buyer Entities&quot;) (each of Arizona on the one hand and the Buyer Entities on the other hand, a &quot;Party&quot; and collectively, the &quot;Parties&quot;). &quot;&quot;&quot;] res = model.transform(spark.createDataFrame([text]).toDF(&quot;text&quot;)) Results +------------+---------+ | token|ner_label| +------------+---------+ |INTELLECTUAL| B-DOC| | PROPERTY| I-DOC| | AGREEMENT| I-DOC| | This| O| |INTELLECTUAL| B-DOC| | PROPERTY| I-DOC| | AGREEMENT| I-DOC| | (| O| | this| O| | &quot;| O| | Agreement| O| | &quot;),| O| | dated| O| | as| O| | of| O| | December|B-EFFDATE| | 31|I-EFFDATE| | ,|I-EFFDATE| | 2018|I-EFFDATE| | (| O| | the| O| | &quot;| O| | Effective| O| | Date| O| | &quot;)| O| | is| O| | entered| O| | into| O| | by| O| | and| O| | between| O| | Armstrong| B-PARTY| | Flooring| I-PARTY| | ,| I-PARTY| | Inc| I-PARTY| | .,| O| | a| O| | Delaware| O| | corporation| O| | (&quot;| O| | Seller| B-ALIAS| | &quot;)| O| | and| O| | AFI| B-PARTY| | Licensing| I-PARTY| | LLC| I-PARTY| | ,| O| | a| O| | Delaware| O| | limited| O| | liability| O| | company| O| | (&quot;| O| | Licensing| B-ALIAS| | &quot;| O| | and| O| | together| O| | with| O| | Seller| B-ALIAS| | ,| O| | &quot;| O| | Arizona| B-ALIAS| | &quot;)| O| | and| O| | AHF| B-PARTY| | Holding| I-PARTY| | ,| I-PARTY| | Inc| I-PARTY| | .| O| | (| O| | formerly| O| | known| O| | as| O| | Tarzan| O| | HoldCo| O| | ,| O| | Inc| O| | .),| O| | a| O| | Delaware| O| | corporation| O| | (&quot;| O| | Buyer| B-ALIAS| | &quot;)| O| | and| O| | Armstrong| B-PARTY| | Hardwood| I-PARTY| | Flooring| I-PARTY| | Company| I-PARTY| ------------------------ Model Information Model Name: legner_contract_doc_parties_lg Compatibility: Legal NLP 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence, token, embeddings] Output Labels: [ner] Language: en Size: 16.3 MB References Manual annotations on CUAD dataset Benchmarking label tp fp fn prec rec f1 I-PARTY 513 58 85 0.8984238 0.85785955 0.87767327 B-EFFDATE 57 5 7 0.91935486 0.890625 0.90476185 I-ORG 208 32 49 0.8666667 0.8093385 0.8370222 B-DOC 80 9 21 0.8988764 0.7920792 0.8421053 B-FORMER_NAME 5 0 0 1.0 1.0 1.0 I-EFFDATE 214 11 6 0.95111114 0.9727273 0.96179783 I-FORMER_NAME 7 1 0 0.875 1.0 0.93333334 I-ALIAS 14 5 13 0.7368421 0.5185185 0.6086956 I-DOC 166 16 52 0.9120879 0.7614679 0.83 B-ORG 131 28 42 0.8238994 0.75722545 0.7891567 B-PARTY 174 40 57 0.8130841 0.7532467 0.7820225 B-ALIAS 170 17 13 0.90909094 0.92896175 0.9189189 Macro-average 1739 222 345 0.8837032 0.8368375 0.859632 Micro-average 1739 222 345 0.8867925 0.834453 0.859827</summary></entry><entry><title type="html">Finance Pipeline (Headers / Subheaders)</title><link href="/2023/01/20/finpipe_header_subheader_en.html" rel="alternate" type="text/html" title="Finance Pipeline (Headers / Subheaders)" /><published>2023-01-20T00:00:00+00:00</published><updated>2023-01-20T00:00:00+00:00</updated><id>/2023/01/20/finpipe_header_subheader_en</id><content type="html" xml:base="/2023/01/20/finpipe_header_subheader_en.html">## Description
 
 This is a finance pretrained pipeline that will help you split long financial documents into smaller sections. To do that, it detects Headers and Subheaders of different sections. You can then use the beginning and end information in the metadata to retrieve the text between those headers.
 
