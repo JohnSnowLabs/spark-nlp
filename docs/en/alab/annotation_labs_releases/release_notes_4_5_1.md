@@ -5,7 +5,7 @@ seotitle: Annotation Lab | John Snow Labs
 title: Annotation Lab Release Notes 4.5.1
 permalink: /docs/en/alab/annotation_labs_releases/release_notes_4_5_1
 key: docs-licensed-release-notes
-modify_date: 2023-01-01
+modify_date: 2023-01-05
 show_nav: true
 sidebar:
   nav: annotation-lab
@@ -15,7 +15,7 @@ sidebar:
 
 ## 4.5.1
 
-Release date: **01-05-2023**
+Release date: **05-01-2023**
 
 This release includes some stabilization and bug fixes for issues reported by our user community. Below are the details of what has been included in this release.
 
