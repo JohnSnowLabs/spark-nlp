@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Mapt Company Tickers to their Acquisitions (wikipedia, en)
+title: Map Company Tickers to Subsidiary Companies (wikipedia, en)
 author: John Snow Labs
 name: finmapper_wikipedia_parentcompanies_ticker
 date: 2023-01-13
