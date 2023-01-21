@@ -550,18 +550,16 @@
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><div class="h3-box">
 
-  <div class="tabs-box tabs-new">
+  <div class="tabs-model-aproach has_nlu">
 
-    <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
+    <div class="tabs-model-aproach-head"><button class="tab-li-model-aproach tabheader_active">Python</button><button class="tab-li-model-aproach">Scala</button><button class="tab-li-model-aproach">NLU</button></div>
+
+    <div class="highlighter-rouge jsl-tabs tabs-python-scala-box language-python">
+      <div class="tabs-python-scala-head">   
+    <p class="pt0"><button class="tab-python-scala-li tabheader_active">spark-nlp-jsl</button><button class="tab-python-scala-li">johnsnowlabs</button></p>
 </div>
 
-    <div class="highlighter-rouge language-python">
-      <div class="top_tab_li">   
-    <p class="pt0"><button data-type="johnsnowlabs" class="tab-jsl active">spark-nlp-jsl</button><button data-type="spark-nlp-jsl" class="tab-jsl">johnsnowlabs</button></p>
-</div>
-
-      <div class="python-inner python-spark-nlp-jsl">
+      <div class="tabs-mfl-box python-spark-nlp-jsl">
 
         <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
 <span class="n">pos</span> <span class="o">=</span> <span class="n">PerceptronModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"pos_clinical"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span><span class="s">"clinical/models"</span><span class="p">)</span>\
@@ -574,7 +572,7 @@
 </code></pre></div>        </div>
 
       </div>
-      <div class="python-inner python-johnsnowlabs">
+      <div class="tabs-mfl-box python-johnsnowlabs">
 
         <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
 <span class="n">pos</span> <span class="o">=</span> <span class="n">PerceptronModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"pos_clinical"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span><span class="s">"clinical/models"</span><span class="p">)</span>\
@@ -589,7 +587,7 @@
       </div>
     </div>
 
-    <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">pos</span> <span class="k">=</span> <span class="nv">PerceptronModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"pos_clinical"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)</span>
+    <div class="language-scala tabs-python-scala-box highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">pos</span> <span class="k">=</span> <span class="nv">PerceptronModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"pos_clinical"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)</span>
 	<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"token"</span><span class="o">,</span><span class="s">"sentence"</span><span class="o">)</span>
 	<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"pos"</span><span class="o">)</span>
 
@@ -598,7 +596,7 @@
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>    </div>
 
-    <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+    <div class="language-python tabs-python-scala-box highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
 <span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"en.pos.clinical"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""He was given boluses of MS04 with some effect, he has since been placed on a PCA - he take 80mg of oxycontin at home, his PCA dose is ~ 2 the morphine dose of the oxycontin, he has also received ativan for anxiety."""</span><span class="p">)</span>
 </code></pre></div>    </div>
 
@@ -651,289 +649,100 @@ Note: If you are going to use any pretrained licensed NER model, you don't need 
 
 <script>
 
-/* 
-jQuery(document).ready(function(){  
-    $( ".scala-button" ).click(function() {
-        $(this).closest( ".tabs-box" ).find(".scala-button").removeClass('code-selector-un-active').addClass( "code-selector-active" );        
+'use strict';
 
-        //remove  active class from all other buttons
-        $(this).closest( ".tabs-box" ).find(".nlu-button").removeClass('code-selector-active').addClass('code-selector-un-active');
-        $(this).closest( ".tabs-box" ).find(".python-button").removeClass('code-selector-active').addClass('code-selector-un-active');
+function tabs({tabsWrapperSelector, tabsParentSelector, tabsSelector, tabsContentSelector, activeClass}) {
+    //Tabs
 
-        //toggle language snippets
-        $(this).closest( ".tabs-box" ).find( ".language-scala" ).show();
-        $(this).closest( ".tabs-box" ).find( ".language-python, .nlu-block" ).hide();
-    });
+    const tabsWrapper = document.querySelectorAll(tabsWrapperSelector);
 
-    $( ".python-button" ).click(function() {
-        //set current button to active class and remove unactive class
-        $(this).closest( ".tabs-box" ).find(".python-button").removeClass('code-selector-un-active').addClass( "code-selector-active" ); 
+    //Detecting all tabs
+    tabsWrapper.forEach(tab => {
+        const tabsParent = tab.querySelector(tabsParentSelector),
+                tabsLi = tab.querySelectorAll(tabsSelector),
+                tabsContent = tab.querySelectorAll(tabsContentSelector);
 
-        //remove  active class from all other buttons
-        $(this).closest( ".tabs-box" ).find(".nlu-button").removeClass('code-selector-active').addClass('code-selector-un-active');
-        $(this).closest( ".tabs-box" ).find(".scala-button").removeClass('code-selector-active').addClass('code-selector-un-active');
-
-
-        //toggle language snippets
-        $(this).closest( ".tabs-box" ).find( ".language-python" ).show();
-        $(this).closest( ".tabs-box" ).find( ".nlu-block, .language-scala" ).hide();
-    });
-
-    $( ".nlu-button" ).click(function() {
-        //set current button to active class and remove unactive class
-        $(this).closest( ".tabs-box" ).find(".nlu-button").removeClass('code-selector-un-active').addClass( "code-selector-active" );        
-
-        //remove  active class from all other buttons
-        $(this).closest( ".tabs-box" ).find(".scala-button").removeClass('code-selector-active').addClass('code-selector-un-active');
-        $(this).closest( ".tabs-box" ).find(".python-button").removeClass('code-selector-active').addClass('code-selector-un-active');
-
-        //toggle language snippets        
-        $(this).closest( ".tabs-box" ).find( ".language-python, .language-scala" ).hide();
-        $(this).closest( ".tabs-box" ).find( ".nlu-block" ).show();
-    });
-}); */
-
-/* function togglePython1() {
-
-    //set current button to active class and remove unactive class
-    $( ".python-button" ).addClass( "code-selector-active" );
-
-
-    //toggle language snippets
-    $( ".tabs-box .language-python" ).show();
-    $( ".tabs-box .nlu-block" ).hide();
-    $( ".tabs-box .language-scala" ).hide();
-}
-
-function defer(method) { //wait until jquery ready
-    if (window.jQuery) {
-        method();
-    } else {
-        setTimeout(function() { defer(method); }, 15);
-    }
-}
-
-defer(function () { // load inital language
-    togglePython1();
-}); */
-
-
-if((document.querySelectorAll('.model-wrap').length !== 0) || (document.querySelectorAll('.tabs-new').length !== 0)) {
-
-    let tabLi = document.querySelectorAll('.tabs-new .tab-li');
-
-    if((document.querySelectorAll('.model-wrap').length !== 0)) {
-        tabLi = document.querySelectorAll('.model-wrap .tab-li');
-    } 
-    
-    let tabLiTopF = document.querySelectorAll('.top_tab_li'),
-        pythonInner = document.querySelectorAll('.python-inner');
-
-    tabLiTopF.forEach(e => {        
-        e.nextElementSibling.classList.add('active');
-    });
-    pythonInner.forEach(e => {
-        e.firstElementChild.classList.remove('language-python');
-    });
-
-    tabLi.forEach(element => {
-        element.addEventListener('click', function(e) {
-            e.preventDefault();
-            let tabAttribute = element.getAttribute('data-type'),
-                tabLiInner = element.parentNode.querySelectorAll('.tab-li'),
-                tabBoxInner = element.parentNode.parentNode.parentNode.querySelectorAll('.highlighter-rouge');
+        //Hiding all tabs
+        function hideTabsContent() {
+            if(Array.from(tabsLi).length != 0) {
+                tabsContent.forEach(item => {
+                    item.style.display = 'none';
+                }); 
+            }
             
-            //remove active class from NLU
-            tabBoxInner.forEach(item => {
-                item.classList.remove('active');
-                if(item.classList.contains('nlu-block')) {
-                    item.classList.remove('language-python');
-                }  
-                
-            });
-            tabLiInner.forEach(el => {
-                el.classList.remove('active');
-                el.classList.remove('code-selector-active');
-            });
-            element.classList.add('active');
+            if(Array.from(tabsLi).length != 0) {
+                tabsLi.forEach(item => {
+                    item.classList.remove(activeClass);
+                }); 
+            }
+        }
+
+        //Show active tabs
+        function showTabContent(i = 0) {
+            if(Array.from(tabsContent).length != 0) {
+                tabsContent[i].style.display = "block";
+            }
+            if(Array.from(tabsLi).length != 0) {
+                tabsLi[i].classList.add(activeClass);            
+            }
+        }
+
+        //Changing the tabs
+        if(tabsParent != null) {
+            tabsParent.addEventListener('click', (event) => {
+                const target = event.target;
     
-            //add active class
-            switch (tabAttribute) {
-                case "python":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('language-python')) {
-                            item.classList.add('active');
-                        }                    
+                if(target && target.classList.contains(tabsSelector.slice(1))) {
+                    tabsLi.forEach((item, i) => {
+                        if(target == item) {
+                            hideTabsContent();
+                            showTabContent(i);
+                        }
                     });
-                    break;
-                case "scala":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('language-scala')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                  break;
-                  case "nlu":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('nlu-block')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                  break;
-                default:              
-              }
-        });
+                }
+            });
+        }        
+        
+        hideTabsContent();
+        showTabContent();
     });
 }
 
-//Second tabs
-if(document.querySelectorAll('.tab-li-second').length !== 0) {
-    let tabLi = document.querySelectorAll('.tab-li-second');
-
-    tabLi.forEach(element => {
-        element.addEventListener('click', function(e) {
-            e.preventDefault();
-            let tabAttribute = element.getAttribute('data-type'),
-                tabLiInner = element.parentNode.querySelectorAll('.tab-li-second'),
-                tabBoxInner = element.parentNode.parentNode.parentNode.querySelectorAll('.tabs-box-medic-inner');
-            
-
-            //remove active class
-            tabBoxInner.forEach(item => {
-                item.classList.remove('active');
-            });
-            tabLiInner.forEach(el => {
-                el.classList.remove('active');
-            });
-            element.classList.add('active');
-    
-            //add active class
-            switch (tabAttribute) {
-                case "python":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('language-python')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                    break;
-                case "scala":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('language-scala')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                  break;
-                default:              
-              }
-        });
-    });
-}
-
-//Third tabs
-if(document.querySelectorAll('.tab-li-inner').length !== 0) {
-
-    let tabLiSecond = document.querySelectorAll('.tab-li-inner'),
-        tabLiTop = document.querySelectorAll('.toptab-second'),
-        tabLi = document.querySelectorAll('.toptab-second p');
-
-    try {
-        tabLiTop.forEach(e => {        
-            e.nextElementSibling.classList.add('active');
-        });
-    } catch(e){}
-
-    tabLi.forEach(e => {        
-        e.firstChild.classList.add('active');
-    });
-
-
-    tabLiSecond.forEach(element => {
-        element.addEventListener('click', function(e) {
-            e.preventDefault();
-            let tabAttributeSecond = element.getAttribute('data-type'),
-                tabLiInnerSecond = element.parentNode.querySelectorAll('.tab-li-inner'),
-                tabBoxInnerSecond = element.parentNode.parentNode.parentNode.querySelectorAll('.tabs-box-medic-inner-second');
-            
-            //remove active class
-            tabBoxInnerSecond.forEach(item => {
-                item.classList.remove('active');
-            });
-            tabLiInnerSecond.forEach(el => {
-                el.classList.remove('active');
-            });
-            element.classList.add('active');
-    
-            //add active class
-            switch (tabAttributeSecond) {
-                case "medical":
-                    tabBoxInnerSecond.forEach(item => {
-                        if(item.classList.contains('language-medical')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                    break;
-                case "finance":
-                    tabBoxInnerSecond.forEach(item => {
-                        if(item.classList.contains('language-finance')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                  break;
-                case "legal":
-                tabBoxInnerSecond.forEach(item => {
-                    if(item.classList.contains('language-legal')) {
-                        item.classList.add('active');
-                    }                    
-                });
-                break;
-                default:              
-              }
-        });
-    });
-}
-
-//Forth tabs
-if(document.querySelectorAll('.tab-jsl').length !== 0) {
-    let tabLiForth = document.querySelectorAll('.tab-jsl');
-
-    tabLiForth.forEach(element => {
-        element.addEventListener('click', function(e) {
-            e.preventDefault();
-            let tabAttribute = element.getAttribute('data-type'),
-                tabLiInner = element.parentNode.querySelectorAll('.tab-jsl'),
-                tabBoxInner = element.parentNode.parentNode.parentNode.querySelectorAll('.python-inner');
-            
-
-            //remove active class
-            tabBoxInner.forEach(item => {
-                item.classList.remove('active');
-            });
-            tabLiInner.forEach(el => {
-                el.classList.remove('active');
-            });
-            element.classList.add('active');
-    
-            //add active class
-            switch (tabAttribute) {
-                case "spark-nlp-jsl":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('python-johnsnowlabs')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                    break;
-                case "johnsnowlabs":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('python-spark-nlp-jsl')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                  break;
-                default:              
-              }
-        });
-    });
-}
+tabs({
+    tabsWrapperSelector: '.tabs-model-aproach', 
+    tabsParentSelector: '.tabs-model-aproach-head', 
+    tabsSelector: '.tab-li-model-aproach', 
+    tabsContentSelector: '.tabs-python-scala-box', 
+    activeClass: 'tabheader_active'
+});
+tabs({
+    tabsWrapperSelector: '.tabs-python-scala-box', 
+    tabsParentSelector: '.tabs-python-scala-head', 
+    tabsSelector: '.tab-python-scala-li', 
+    tabsContentSelector: '.tabs-mfl-box', 
+    activeClass: 'tabheader_active'
+});
+tabs({
+    tabsWrapperSelector: '.tabs-mfl-box', 
+    tabsParentSelector: '.tabs-mfl-head', 
+    tabsSelector: '.tab-mfl-li', 
+    tabsContentSelector: '.tab-mfl-content', 
+    activeClass: 'tabheader_active'
+});
+tabs({
+    tabsWrapperSelector: '.tabs-box', 
+    tabsParentSelector: '.tabs-python-scala-head', 
+    tabsSelector: '.tab-python-scala-li', 
+    tabsContentSelector: '.tabs-box .highlighter-rouge', 
+    activeClass: 'tabheader_active'
+});
+tabs({
+    tabsWrapperSelector: '.tabs-box', 
+    tabsParentSelector: '.tabs-model-aproach-head', 
+    tabsSelector: '.tab-li-model-aproach', 
+    tabsContentSelector: '.tabs-python-scala-box', 
+    activeClass: 'tabheader_active'
+});
 
 </script>
 

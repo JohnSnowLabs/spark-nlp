@@ -461,10 +461,10 @@
 
   gtag('config', 'UA-70312582-1');
 
-</script><title>Extract temporal relations among clinical events (ReDL)</title><meta property="og:title" content=""/>
+</script><title>Resolver Company Names to Tickers using Nasdaq Stock Screener</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionExtract relations between clinical events in terms of time. If an event occurred before, after, or overlaps another event.Predicted EntitiesAFTER, BEFORE, OVERLAPLive DemoOpen in ColabDownloadCopy S3 URIHow to use         PythonScalaNLU  documenter = DocumentAssembler()\    .setInputCol("text")\    .setOu...">
-<link rel="canonical" href="/2023/01/15/redl_temporal_events_biobert_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<meta name="description" content="DescriptionThis is an Entity Resolution / Entity Linking model, which is able to provide Ticker / Trading Symbols using a Company Name as an input. You can use any NER which extracts Organizations / Companies / Parties to then send the input to finel_nasdaq_company_name_stock_screener model to get normalized company...">
+<link rel="canonical" href="/2023/01/20/finel_nasdaq_ticker_stock_screener_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -860,164 +860,91 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/Meryem1425/2023-01-15-redl_temporal_events_biobert_en.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/bunyamin-polat/2023-01-20-finel_nasdaq_ticker_stock_screener_en.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jan 15, 2023</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-01-15T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Extract temporal relations among clinical events (ReDL)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Extract temporal relations among clinical events (ReDL)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>relation_extraction</li><li>en</li><li>clinical</li><li>licensed</li><li>tensorflow</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-01-15T00:00:00+00:00">
-    <meta itemprop="keywords" content="relation_extraction,en,clinical,licensed,tensorflow"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jan 20, 2023</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-01-20T00:00:00+00:00"></div><header class="main-docs have_subtitle">
+          <h1>Resolver Company Names to Tickers using Nasdaq Stock Screener</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Resolver Company Names to Tickers using Nasdaq Stock Screener"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>licensed</li><li>finance</li><li>nasdaq</li><li>ticker</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-01-20T00:00:00+00:00">
+    <meta itemprop="keywords" content="en,licensed,finance,nasdaq,ticker"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>Extract relations between clinical events in terms of time. If an event occurred before, after, or overlaps another event.</p>
+<p>This is an Entity Resolution / Entity Linking model, which is able to provide Ticker / Trading Symbols using a Company Name as an input. You can use any NER which extracts Organizations / Companies / Parties to then send the input to <code class="language-plaintext highlighter-rouge">finel_nasdaq_company_name_stock_screener</code> model to get normalized company name. Finally, this Entity Linking model get the Ticker / Trading Symbol (given the company has one).</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
-<p><code class="language-plaintext highlighter-rouge">AFTER</code>, <code class="language-plaintext highlighter-rouge">BEFORE</code>, <code class="language-plaintext highlighter-rouge">OVERLAP</code></p>
-
-<p class="btn-box"><a href="https://demo.johnsnowlabs.com/healthcare/RE_CLINICAL_EVENTS/" class="button button-orange">Live Demo</a>
-<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/redl_temporal_events_biobert_en_4.2.4_3.0_1673778147598.zip" class="button button-orange button-orange-trans arr button-icon hidden">Download</a>
-<a href="s3://auxdata.johnsnowlabs.com/clinical/models/redl_temporal_events_biobert_en_4.2.4_3.0_1673778147598.zip" class="button button-orange button-orange-trans button-icon button-copy-s3">Copy S3 URI</a></p>
+<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
+<button class="button button-orange" disabled="">Open in Colab</button>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finel_nasdaq_ticker_stock_screener_en_1.0.0_3.0_1674236954508.zip" class="button button-orange">Download</a>
+<a href="s3://auxdata.johnsnowlabs.com/finance/models/finel_nasdaq_ticker_stock_screener_en_1.0.0_3.0_1674236954508.zip" class="button button-orange button-orange-trans button-icon button-copy-s3">Copy S3 URI</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
 <div class="tabs-box">
-  <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li code-selector-active python-button">Python</button><button data-type="scala" class="tab-li code-selector-un-active scala-button">Scala</button><button data-type="nlu" class="tab-li code-selector-un-active nlu-button">NLU</button></p>
-</div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documenter</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+  <div class="tabs-model-aproach-head"><button class="tab-li-model-aproach tabheader_active">Python</button><button class="tab-li-model-aproach">Scala</button><button class="tab-li-model-aproach">NLU</button></div>
 
-<span class="n">sentencer</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentences"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
 
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="p">.</span><span class="n">annotators</span><span class="p">.</span><span class="n">Tokenizer</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"tokens"</span><span class="p">)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Tokenizer</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">pos_tagger</span> <span class="o">=</span> <span class="n">PerceptronModel</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"pos_clinical"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"pos_tags"</span><span class="p">)</span>
-
-<span class="n">words_embedder</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"embeddings_clinical"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">])</span> \
+<span class="n">ner_embeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_embeddings_sec_bert_base"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 
-<span class="n">ner_tagger</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_events_clinical"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_tags"</span><span class="p">)</span> 
+<span class="n">ner_model</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">NerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'finner_orgs_prods_alias'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'finance/models'</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
 
-<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverterInternal</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">,</span> <span class="s">"ner_tags"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunks"</span><span class="p">)</span>
+<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">NerConverter</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
-<span class="n">dependency_parser</span> <span class="o">=</span> <span class="n">DependencyParserModel</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"dependency_conllu"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentences"</span><span class="p">,</span> <span class="s">"pos_tags"</span><span class="p">,</span> <span class="s">"tokens"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"dependencies"</span><span class="p">)</span>
+<span class="n">chunkToDoc</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Chunk2Doc</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk_doc"</span><span class="p">)</span> 
 
-<span class="n">re_ner_chunk_filter</span> <span class="o">=</span> <span class="n">RENerChunksFilter</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunks"</span><span class="p">,</span> <span class="s">"dependencies"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setMaxSyntacticDistance</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"re_ner_chunks"</span><span class="p">)</span>
+<span class="n">ticker_embeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">UniversalSentenceEncoder</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"tfhub_use"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"ner_chunk_doc"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ticker_embeddings"</span><span class="p">)</span>
 
-<span class="n">re_model</span> <span class="o">=</span> <span class="n">RelationExtractionDLModel</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"redl_temporal_events_biobert"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setPredictionThreshold</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"re_ner_chunks"</span><span class="p">,</span> <span class="s">"sentences"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"relations"</span><span class="p">)</span>
+<span class="n">er_ticker_model</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">SentenceEntityResolverModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'finel_nasdaq_ticker_stock_screener'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'finance/model'</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ticker_embeddings"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ticker"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setAuxLabelCol</span><span class="p">(</span><span class="s">"company_name"</span><span class="p">)</span>
 
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documenter</span><span class="p">,</span> <span class="n">sentencer</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">pos_tagger</span><span class="p">,</span> <span class="n">words_embedder</span><span class="p">,</span> <span class="n">ner_tagger</span><span class="p">,</span> <span class="n">ner_converter</span><span class="p">,</span> <span class="n">dependency_parser</span><span class="p">,</span> <span class="n">re_ner_chunk_filter</span><span class="p">,</span> <span class="n">re_model</span><span class="p">])</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">document_assembler</span><span class="p">,</span>
+                              <span class="n">tokenizer</span><span class="p">,</span> 
+                              <span class="n">ner_embeddings</span><span class="p">,</span>
+                              <span class="n">ner_model</span><span class="p">,</span> 
+                              <span class="n">ner_converter</span><span class="p">,</span>
+                              <span class="n">chunkToDoc</span><span class="p">,</span>
+                              <span class="n">ticker_embeddings</span><span class="p">,</span>
+                              <span class="n">er_ticker_model</span><span class="p">])</span>
 
-<span class="n">text</span> <span class="o">=</span> <span class="s">"She is diagnosed with cancer in 1991. Then she was admitted to Mayo Clinic in May 2000 and discharged in October 2001"</span>
+<span class="n">empty_data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">text</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty_data</span><span class="p">)</span>
 
-<span class="n">p_model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">lp</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">LightPipeline</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 
-<span class="n">result</span> <span class="o">=</span> <span class="n">p_model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s">"""Nike is an American multinational association that is involved in the design, development, manufacturing and worldwide marketing and sales of apparel, footwear, accessories, equipment and services."""</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">lp</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+
+<span class="n">result</span><span class="p">[</span><span class="s">"ticker"</span><span class="p">]</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documenter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">sentencer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">SentenceDetector</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"tokens"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">pos_tagger</span> <span class="k">=</span> <span class="nc">PerceptronModel</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"pos_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">))</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"pos_tags"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">words_embedder</span> <span class="k">=</span> <span class="nc">WordEmbeddingsModel</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"embeddings_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">))</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">ner_tagger</span> <span class="k">=</span> <span class="nv">MedicalNerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_events_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">))</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_tags"</span><span class="o">)</span> 
-
-<span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerConverterInternal</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">,</span> <span class="s">"ner_tags"</span><span class="o">))</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunks"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">dependency_parser</span> <span class="k">=</span> <span class="nc">DependencyParserModel</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"dependency_conllu"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentences"</span><span class="o">,</span> <span class="s">"pos_tags"</span><span class="o">,</span> <span class="s">"tokens"</span><span class="o">))</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"dependencies"</span><span class="o">)</span>
-
-<span class="c1">// Set a filter on pairs of named entities which will be treated as relation candidates</span>
-<span class="k">val</span> <span class="nv">re_ner_chunk_filter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">RENerChunksFilter</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"ner_chunks"</span><span class="o">,</span> <span class="s">"dependencies"</span><span class="o">))</span>
-    <span class="o">.</span><span class="py">setMaxSyntacticDistance</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"re_ner_chunks"</span><span class="o">)</span>
-
-<span class="c1">// The dataset this model is trained to is sentence-wise. </span>
-<span class="c1">// This model can also be trained on document-level relations - in which case, while predicting, use "document" instead of "sentence" as input.</span>
-<span class="k">val</span> <span class="nv">re_model</span> <span class="k">=</span> <span class="nc">RelationExtractionDLModel</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"redl_temporal_events_biobert"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setPredictionThreshold</span><span class="o">(</span><span class="mf">0.5</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"re_ner_chunks"</span><span class="o">,</span> <span class="s">"sentences"</span><span class="o">))</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"relations"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documenter</span><span class="o">,</span> <span class="n">sentencer</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">pos_tagger</span><span class="o">,</span> <span class="n">words_embedder</span><span class="o">,</span> <span class="n">ner_tagger</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">,</span> <span class="n">dependency_parser</span><span class="o">,</span> <span class="n">re_ner_chunk_filter</span><span class="o">,</span> <span class="n">re_model</span><span class="o">))</span>
-
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"""She is diagnosed with cancer in 1991. Then she was admitted to Mayo Clinic in May 2000 and discharged in October 2001"""</span><span class="o">).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
-</code></pre></div>  </div>
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+--------+-------------+-------------+-----------+-----------+-------------+-------------+-----------+------------+----------+
-|relation|      entity1|entity1_begin|entity1_end|     chunk1|      entity2|entity2_begin|entity2_end|      chunk2|confidence|
-+--------+-------------+-------------+-----------+-----------+-------------+-------------+-----------+------------+----------+
-|  BEFORE|   OCCURRENCE|            7|         15|  diagnosed|      PROBLEM|           22|         27|      cancer|0.78168863|
-| OVERLAP|      PROBLEM|           22|         27|     cancer|         DATE|           32|         35|        1991| 0.8492274|
-|   AFTER|   OCCURRENCE|           51|         58|   admitted|CLINICAL_DEPT|           63|         73| Mayo Clinic|0.85629463|
-|  BEFORE|   OCCURRENCE|           51|         58|   admitted|   OCCURRENCE|           91|        100|  discharged| 0.6843513|
-| OVERLAP|CLINICAL_DEPT|           63|         73|Mayo Clinic|         DATE|           78|         85|    May 2000| 0.7844673|
-|  BEFORE|CLINICAL_DEPT|           63|         73|Mayo Clinic|   OCCURRENCE|           91|        100|  discharged|0.60411876|
-| OVERLAP|CLINICAL_DEPT|           63|         73|Mayo Clinic|         DATE|          105|        116|October 2001|  0.540761|
-|  BEFORE|         DATE|           78|         85|   May 2000|   OCCURRENCE|           91|        100|  discharged| 0.6042761|
-| OVERLAP|         DATE|           78|         85|   May 2000|         DATE|          105|        116|October 2001|0.64867175|
-|  BEFORE|   OCCURRENCE|           91|        100| discharged|         DATE|          105|        116|October 2001| 0.5302478|
-+--------+-------------+-------------+-----------+-----------+-------------+-------------+-----------+------------+----------+
-
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span><span class="s1">'NKE'</span><span class="o">]</span>
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
@@ -1026,11 +953,11 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>redl_temporal_events_biobert</td>
+      <td>finel_nasdaq_ticker_stock_screener</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Healthcare NLP 4.2.4+</td>
+      <td>Finance NLP 1.0.0+</td>
     </tr>
     <tr>
       <td>License:</td>
@@ -1041,317 +968,131 @@
       <td>Official</td>
     </tr>
     <tr>
+      <td>Input Labels:</td>
+      <td>[sentence_embeddings]</td>
+    </tr>
+    <tr>
+      <td>Output Labels:</td>
+      <td>[normalized]</td>
+    </tr>
+    <tr>
       <td>Language:</td>
       <td>en</td>
     </tr>
     <tr>
       <td>Size:</td>
-      <td>401.7 MB</td>
+      <td>54.6 MB</td>
+    </tr>
+    <tr>
+      <td>Case sensitive:</td>
+      <td>false</td>
     </tr>
   </tbody>
 </table>
 
 <h2 id="references">References</h2>
 
-<p>Trained on temporal clinical events benchmark dataset.</p>
-
-<h2 id="benchmarking">Benchmarking</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>label              Recall Precision        F1   Support
-AFTER               0.332     0.655     0.440      2123
-BEFORE              0.868     0.908     0.887     13817
-OVERLAP             0.887     0.733     0.802      7860
-Avg.                0.695     0.765     0.710		     -
-</code></pre></div></div>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2023-01-15T00:00:00+00:00"><!-- start custom article footer snippet -->
+<p>https://www.nasdaq.com/market-activity/stocks/screener</p>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2023-01-20T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
 <script>
 
-/* 
-jQuery(document).ready(function(){  
-    $( ".scala-button" ).click(function() {
-        $(this).closest( ".tabs-box" ).find(".scala-button").removeClass('code-selector-un-active').addClass( "code-selector-active" );        
+'use strict';
 
-        //remove  active class from all other buttons
-        $(this).closest( ".tabs-box" ).find(".nlu-button").removeClass('code-selector-active').addClass('code-selector-un-active');
-        $(this).closest( ".tabs-box" ).find(".python-button").removeClass('code-selector-active').addClass('code-selector-un-active');
+function tabs({tabsWrapperSelector, tabsParentSelector, tabsSelector, tabsContentSelector, activeClass}) {
+    //Tabs
 
-        //toggle language snippets
-        $(this).closest( ".tabs-box" ).find( ".language-scala" ).show();
-        $(this).closest( ".tabs-box" ).find( ".language-python, .nlu-block" ).hide();
-    });
+    const tabsWrapper = document.querySelectorAll(tabsWrapperSelector);
 
-    $( ".python-button" ).click(function() {
-        //set current button to active class and remove unactive class
-        $(this).closest( ".tabs-box" ).find(".python-button").removeClass('code-selector-un-active').addClass( "code-selector-active" ); 
+    //Detecting all tabs
+    tabsWrapper.forEach(tab => {
+        const tabsParent = tab.querySelector(tabsParentSelector),
+                tabsLi = tab.querySelectorAll(tabsSelector),
+                tabsContent = tab.querySelectorAll(tabsContentSelector);
 
-        //remove  active class from all other buttons
-        $(this).closest( ".tabs-box" ).find(".nlu-button").removeClass('code-selector-active').addClass('code-selector-un-active');
-        $(this).closest( ".tabs-box" ).find(".scala-button").removeClass('code-selector-active').addClass('code-selector-un-active');
-
-
-        //toggle language snippets
-        $(this).closest( ".tabs-box" ).find( ".language-python" ).show();
-        $(this).closest( ".tabs-box" ).find( ".nlu-block, .language-scala" ).hide();
-    });
-
-    $( ".nlu-button" ).click(function() {
-        //set current button to active class and remove unactive class
-        $(this).closest( ".tabs-box" ).find(".nlu-button").removeClass('code-selector-un-active').addClass( "code-selector-active" );        
-
-        //remove  active class from all other buttons
-        $(this).closest( ".tabs-box" ).find(".scala-button").removeClass('code-selector-active').addClass('code-selector-un-active');
-        $(this).closest( ".tabs-box" ).find(".python-button").removeClass('code-selector-active').addClass('code-selector-un-active');
-
-        //toggle language snippets        
-        $(this).closest( ".tabs-box" ).find( ".language-python, .language-scala" ).hide();
-        $(this).closest( ".tabs-box" ).find( ".nlu-block" ).show();
-    });
-}); */
-
-/* function togglePython1() {
-
-    //set current button to active class and remove unactive class
-    $( ".python-button" ).addClass( "code-selector-active" );
-
-
-    //toggle language snippets
-    $( ".tabs-box .language-python" ).show();
-    $( ".tabs-box .nlu-block" ).hide();
-    $( ".tabs-box .language-scala" ).hide();
-}
-
-function defer(method) { //wait until jquery ready
-    if (window.jQuery) {
-        method();
-    } else {
-        setTimeout(function() { defer(method); }, 15);
-    }
-}
-
-defer(function () { // load inital language
-    togglePython1();
-}); */
-
-
-if((document.querySelectorAll('.model-wrap').length !== 0) || (document.querySelectorAll('.tabs-new').length !== 0)) {
-
-    let tabLi = document.querySelectorAll('.tabs-new .tab-li');
-
-    if((document.querySelectorAll('.model-wrap').length !== 0)) {
-        tabLi = document.querySelectorAll('.model-wrap .tab-li');
-    } 
-    
-    let tabLiTopF = document.querySelectorAll('.top_tab_li'),
-        pythonInner = document.querySelectorAll('.python-inner');
-
-    tabLiTopF.forEach(e => {        
-        e.nextElementSibling.classList.add('active');
-    });
-    pythonInner.forEach(e => {
-        e.firstElementChild.classList.remove('language-python');
-    });
-
-    tabLi.forEach(element => {
-        element.addEventListener('click', function(e) {
-            e.preventDefault();
-            let tabAttribute = element.getAttribute('data-type'),
-                tabLiInner = element.parentNode.querySelectorAll('.tab-li'),
-                tabBoxInner = element.parentNode.parentNode.parentNode.querySelectorAll('.highlighter-rouge');
+        //Hiding all tabs
+        function hideTabsContent() {
+            if(Array.from(tabsLi).length != 0) {
+                tabsContent.forEach(item => {
+                    item.style.display = 'none';
+                }); 
+            }
             
-            //remove active class from NLU
-            tabBoxInner.forEach(item => {
-                item.classList.remove('active');
-                if(item.classList.contains('nlu-block')) {
-                    item.classList.remove('language-python');
-                }  
-                
-            });
-            tabLiInner.forEach(el => {
-                el.classList.remove('active');
-                el.classList.remove('code-selector-active');
-            });
-            element.classList.add('active');
+            if(Array.from(tabsLi).length != 0) {
+                tabsLi.forEach(item => {
+                    item.classList.remove(activeClass);
+                }); 
+            }
+        }
+
+        //Show active tabs
+        function showTabContent(i = 0) {
+            if(Array.from(tabsContent).length != 0) {
+                tabsContent[i].style.display = "block";
+            }
+            if(Array.from(tabsLi).length != 0) {
+                tabsLi[i].classList.add(activeClass);            
+            }
+        }
+
+        //Changing the tabs
+        if(tabsParent != null) {
+            tabsParent.addEventListener('click', (event) => {
+                const target = event.target;
     
-            //add active class
-            switch (tabAttribute) {
-                case "python":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('language-python')) {
-                            item.classList.add('active');
-                        }                    
+                if(target && target.classList.contains(tabsSelector.slice(1))) {
+                    tabsLi.forEach((item, i) => {
+                        if(target == item) {
+                            hideTabsContent();
+                            showTabContent(i);
+                        }
                     });
-                    break;
-                case "scala":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('language-scala')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                  break;
-                  case "nlu":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('nlu-block')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                  break;
-                default:              
-              }
-        });
+                }
+            });
+        }        
+        
+        hideTabsContent();
+        showTabContent();
     });
 }
 
-//Second tabs
-if(document.querySelectorAll('.tab-li-second').length !== 0) {
-    let tabLi = document.querySelectorAll('.tab-li-second');
-
-    tabLi.forEach(element => {
-        element.addEventListener('click', function(e) {
-            e.preventDefault();
-            let tabAttribute = element.getAttribute('data-type'),
-                tabLiInner = element.parentNode.querySelectorAll('.tab-li-second'),
-                tabBoxInner = element.parentNode.parentNode.parentNode.querySelectorAll('.tabs-box-medic-inner');
-            
-
-            //remove active class
-            tabBoxInner.forEach(item => {
-                item.classList.remove('active');
-            });
-            tabLiInner.forEach(el => {
-                el.classList.remove('active');
-            });
-            element.classList.add('active');
-    
-            //add active class
-            switch (tabAttribute) {
-                case "python":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('language-python')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                    break;
-                case "scala":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('language-scala')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                  break;
-                default:              
-              }
-        });
-    });
-}
-
-//Third tabs
-if(document.querySelectorAll('.tab-li-inner').length !== 0) {
-
-    let tabLiSecond = document.querySelectorAll('.tab-li-inner'),
-        tabLiTop = document.querySelectorAll('.toptab-second'),
-        tabLi = document.querySelectorAll('.toptab-second p');
-
-    try {
-        tabLiTop.forEach(e => {        
-            e.nextElementSibling.classList.add('active');
-        });
-    } catch(e){}
-
-    tabLi.forEach(e => {        
-        e.firstChild.classList.add('active');
-    });
-
-
-    tabLiSecond.forEach(element => {
-        element.addEventListener('click', function(e) {
-            e.preventDefault();
-            let tabAttributeSecond = element.getAttribute('data-type'),
-                tabLiInnerSecond = element.parentNode.querySelectorAll('.tab-li-inner'),
-                tabBoxInnerSecond = element.parentNode.parentNode.parentNode.querySelectorAll('.tabs-box-medic-inner-second');
-            
-            //remove active class
-            tabBoxInnerSecond.forEach(item => {
-                item.classList.remove('active');
-            });
-            tabLiInnerSecond.forEach(el => {
-                el.classList.remove('active');
-            });
-            element.classList.add('active');
-    
-            //add active class
-            switch (tabAttributeSecond) {
-                case "medical":
-                    tabBoxInnerSecond.forEach(item => {
-                        if(item.classList.contains('language-medical')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                    break;
-                case "finance":
-                    tabBoxInnerSecond.forEach(item => {
-                        if(item.classList.contains('language-finance')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                  break;
-                case "legal":
-                tabBoxInnerSecond.forEach(item => {
-                    if(item.classList.contains('language-legal')) {
-                        item.classList.add('active');
-                    }                    
-                });
-                break;
-                default:              
-              }
-        });
-    });
-}
-
-//Forth tabs
-if(document.querySelectorAll('.tab-jsl').length !== 0) {
-    let tabLiForth = document.querySelectorAll('.tab-jsl');
-
-    tabLiForth.forEach(element => {
-        element.addEventListener('click', function(e) {
-            e.preventDefault();
-            let tabAttribute = element.getAttribute('data-type'),
-                tabLiInner = element.parentNode.querySelectorAll('.tab-jsl'),
-                tabBoxInner = element.parentNode.parentNode.parentNode.querySelectorAll('.python-inner');
-            
-
-            //remove active class
-            tabBoxInner.forEach(item => {
-                item.classList.remove('active');
-            });
-            tabLiInner.forEach(el => {
-                el.classList.remove('active');
-            });
-            element.classList.add('active');
-    
-            //add active class
-            switch (tabAttribute) {
-                case "spark-nlp-jsl":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('python-johnsnowlabs')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                    break;
-                case "johnsnowlabs":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('python-spark-nlp-jsl')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                  break;
-                default:              
-              }
-        });
-    });
-}
+tabs({
+    tabsWrapperSelector: '.tabs-model-aproach', 
+    tabsParentSelector: '.tabs-model-aproach-head', 
+    tabsSelector: '.tab-li-model-aproach', 
+    tabsContentSelector: '.tabs-python-scala-box', 
+    activeClass: 'tabheader_active'
+});
+tabs({
+    tabsWrapperSelector: '.tabs-python-scala-box', 
+    tabsParentSelector: '.tabs-python-scala-head', 
+    tabsSelector: '.tab-python-scala-li', 
+    tabsContentSelector: '.tabs-mfl-box', 
+    activeClass: 'tabheader_active'
+});
+tabs({
+    tabsWrapperSelector: '.tabs-mfl-box', 
+    tabsParentSelector: '.tabs-mfl-head', 
+    tabsSelector: '.tab-mfl-li', 
+    tabsContentSelector: '.tab-mfl-content', 
+    activeClass: 'tabheader_active'
+});
+tabs({
+    tabsWrapperSelector: '.tabs-box', 
+    tabsParentSelector: '.tabs-python-scala-head', 
+    tabsSelector: '.tab-python-scala-li', 
+    tabsContentSelector: '.tabs-box .highlighter-rouge', 
+    activeClass: 'tabheader_active'
+});
+tabs({
+    tabsWrapperSelector: '.tabs-box', 
+    tabsParentSelector: '.tabs-model-aproach-head', 
+    tabsSelector: '.tab-li-model-aproach', 
+    tabsContentSelector: '.tabs-python-scala-box', 
+    activeClass: 'tabheader_active'
+});
 
 </script>
 
@@ -1403,7 +1144,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2023/01/15/redl_oncology_test_result_biobert_wip_en.html">Relation Extraction between Test and Results (ReDL)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2023/01/20/finel_nasdaq_company_name_stock_screener_en.html">Company Name Normalization using Nasdaq Stock Screener</a></div></div></div>
 
 </div>
 </div>
@@ -1973,289 +1714,100 @@ if (document.querySelector('.button-copy-s3')) {
 
 <script>
 
-/* 
-jQuery(document).ready(function(){  
-    $( ".scala-button" ).click(function() {
-        $(this).closest( ".tabs-box" ).find(".scala-button").removeClass('code-selector-un-active').addClass( "code-selector-active" );        
+'use strict';
 
-        //remove  active class from all other buttons
-        $(this).closest( ".tabs-box" ).find(".nlu-button").removeClass('code-selector-active').addClass('code-selector-un-active');
-        $(this).closest( ".tabs-box" ).find(".python-button").removeClass('code-selector-active').addClass('code-selector-un-active');
+function tabs({tabsWrapperSelector, tabsParentSelector, tabsSelector, tabsContentSelector, activeClass}) {
+    //Tabs
 
-        //toggle language snippets
-        $(this).closest( ".tabs-box" ).find( ".language-scala" ).show();
-        $(this).closest( ".tabs-box" ).find( ".language-python, .nlu-block" ).hide();
-    });
+    const tabsWrapper = document.querySelectorAll(tabsWrapperSelector);
 
-    $( ".python-button" ).click(function() {
-        //set current button to active class and remove unactive class
-        $(this).closest( ".tabs-box" ).find(".python-button").removeClass('code-selector-un-active').addClass( "code-selector-active" ); 
+    //Detecting all tabs
+    tabsWrapper.forEach(tab => {
+        const tabsParent = tab.querySelector(tabsParentSelector),
+                tabsLi = tab.querySelectorAll(tabsSelector),
+                tabsContent = tab.querySelectorAll(tabsContentSelector);
 
-        //remove  active class from all other buttons
-        $(this).closest( ".tabs-box" ).find(".nlu-button").removeClass('code-selector-active').addClass('code-selector-un-active');
-        $(this).closest( ".tabs-box" ).find(".scala-button").removeClass('code-selector-active').addClass('code-selector-un-active');
-
-
-        //toggle language snippets
-        $(this).closest( ".tabs-box" ).find( ".language-python" ).show();
-        $(this).closest( ".tabs-box" ).find( ".nlu-block, .language-scala" ).hide();
-    });
-
-    $( ".nlu-button" ).click(function() {
-        //set current button to active class and remove unactive class
-        $(this).closest( ".tabs-box" ).find(".nlu-button").removeClass('code-selector-un-active').addClass( "code-selector-active" );        
-
-        //remove  active class from all other buttons
-        $(this).closest( ".tabs-box" ).find(".scala-button").removeClass('code-selector-active').addClass('code-selector-un-active');
-        $(this).closest( ".tabs-box" ).find(".python-button").removeClass('code-selector-active').addClass('code-selector-un-active');
-
-        //toggle language snippets        
-        $(this).closest( ".tabs-box" ).find( ".language-python, .language-scala" ).hide();
-        $(this).closest( ".tabs-box" ).find( ".nlu-block" ).show();
-    });
-}); */
-
-/* function togglePython1() {
-
-    //set current button to active class and remove unactive class
-    $( ".python-button" ).addClass( "code-selector-active" );
-
-
-    //toggle language snippets
-    $( ".tabs-box .language-python" ).show();
-    $( ".tabs-box .nlu-block" ).hide();
-    $( ".tabs-box .language-scala" ).hide();
-}
-
-function defer(method) { //wait until jquery ready
-    if (window.jQuery) {
-        method();
-    } else {
-        setTimeout(function() { defer(method); }, 15);
-    }
-}
-
-defer(function () { // load inital language
-    togglePython1();
-}); */
-
-
-if((document.querySelectorAll('.model-wrap').length !== 0) || (document.querySelectorAll('.tabs-new').length !== 0)) {
-
-    let tabLi = document.querySelectorAll('.tabs-new .tab-li');
-
-    if((document.querySelectorAll('.model-wrap').length !== 0)) {
-        tabLi = document.querySelectorAll('.model-wrap .tab-li');
-    } 
-    
-    let tabLiTopF = document.querySelectorAll('.top_tab_li'),
-        pythonInner = document.querySelectorAll('.python-inner');
-
-    tabLiTopF.forEach(e => {        
-        e.nextElementSibling.classList.add('active');
-    });
-    pythonInner.forEach(e => {
-        e.firstElementChild.classList.remove('language-python');
-    });
-
-    tabLi.forEach(element => {
-        element.addEventListener('click', function(e) {
-            e.preventDefault();
-            let tabAttribute = element.getAttribute('data-type'),
-                tabLiInner = element.parentNode.querySelectorAll('.tab-li'),
-                tabBoxInner = element.parentNode.parentNode.parentNode.querySelectorAll('.highlighter-rouge');
+        //Hiding all tabs
+        function hideTabsContent() {
+            if(Array.from(tabsLi).length != 0) {
+                tabsContent.forEach(item => {
+                    item.style.display = 'none';
+                }); 
+            }
             
-            //remove active class from NLU
-            tabBoxInner.forEach(item => {
-                item.classList.remove('active');
-                if(item.classList.contains('nlu-block')) {
-                    item.classList.remove('language-python');
-                }  
-                
-            });
-            tabLiInner.forEach(el => {
-                el.classList.remove('active');
-                el.classList.remove('code-selector-active');
-            });
-            element.classList.add('active');
+            if(Array.from(tabsLi).length != 0) {
+                tabsLi.forEach(item => {
+                    item.classList.remove(activeClass);
+                }); 
+            }
+        }
+
+        //Show active tabs
+        function showTabContent(i = 0) {
+            if(Array.from(tabsContent).length != 0) {
+                tabsContent[i].style.display = "block";
+            }
+            if(Array.from(tabsLi).length != 0) {
+                tabsLi[i].classList.add(activeClass);            
+            }
+        }
+
+        //Changing the tabs
+        if(tabsParent != null) {
+            tabsParent.addEventListener('click', (event) => {
+                const target = event.target;
     
-            //add active class
-            switch (tabAttribute) {
-                case "python":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('language-python')) {
-                            item.classList.add('active');
-                        }                    
+                if(target && target.classList.contains(tabsSelector.slice(1))) {
+                    tabsLi.forEach((item, i) => {
+                        if(target == item) {
+                            hideTabsContent();
+                            showTabContent(i);
+                        }
                     });
-                    break;
-                case "scala":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('language-scala')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                  break;
-                  case "nlu":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('nlu-block')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                  break;
-                default:              
-              }
-        });
+                }
+            });
+        }        
+        
+        hideTabsContent();
+        showTabContent();
     });
 }
 
-//Second tabs
-if(document.querySelectorAll('.tab-li-second').length !== 0) {
-    let tabLi = document.querySelectorAll('.tab-li-second');
-
-    tabLi.forEach(element => {
-        element.addEventListener('click', function(e) {
-            e.preventDefault();
-            let tabAttribute = element.getAttribute('data-type'),
-                tabLiInner = element.parentNode.querySelectorAll('.tab-li-second'),
-                tabBoxInner = element.parentNode.parentNode.parentNode.querySelectorAll('.tabs-box-medic-inner');
-            
-
-            //remove active class
-            tabBoxInner.forEach(item => {
-                item.classList.remove('active');
-            });
-            tabLiInner.forEach(el => {
-                el.classList.remove('active');
-            });
-            element.classList.add('active');
-    
-            //add active class
-            switch (tabAttribute) {
-                case "python":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('language-python')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                    break;
-                case "scala":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('language-scala')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                  break;
-                default:              
-              }
-        });
-    });
-}
-
-//Third tabs
-if(document.querySelectorAll('.tab-li-inner').length !== 0) {
-
-    let tabLiSecond = document.querySelectorAll('.tab-li-inner'),
-        tabLiTop = document.querySelectorAll('.toptab-second'),
-        tabLi = document.querySelectorAll('.toptab-second p');
-
-    try {
-        tabLiTop.forEach(e => {        
-            e.nextElementSibling.classList.add('active');
-        });
-    } catch(e){}
-
-    tabLi.forEach(e => {        
-        e.firstChild.classList.add('active');
-    });
-
-
-    tabLiSecond.forEach(element => {
-        element.addEventListener('click', function(e) {
-            e.preventDefault();
-            let tabAttributeSecond = element.getAttribute('data-type'),
-                tabLiInnerSecond = element.parentNode.querySelectorAll('.tab-li-inner'),
-                tabBoxInnerSecond = element.parentNode.parentNode.parentNode.querySelectorAll('.tabs-box-medic-inner-second');
-            
-            //remove active class
-            tabBoxInnerSecond.forEach(item => {
-                item.classList.remove('active');
-            });
-            tabLiInnerSecond.forEach(el => {
-                el.classList.remove('active');
-            });
-            element.classList.add('active');
-    
-            //add active class
-            switch (tabAttributeSecond) {
-                case "medical":
-                    tabBoxInnerSecond.forEach(item => {
-                        if(item.classList.contains('language-medical')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                    break;
-                case "finance":
-                    tabBoxInnerSecond.forEach(item => {
-                        if(item.classList.contains('language-finance')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                  break;
-                case "legal":
-                tabBoxInnerSecond.forEach(item => {
-                    if(item.classList.contains('language-legal')) {
-                        item.classList.add('active');
-                    }                    
-                });
-                break;
-                default:              
-              }
-        });
-    });
-}
-
-//Forth tabs
-if(document.querySelectorAll('.tab-jsl').length !== 0) {
-    let tabLiForth = document.querySelectorAll('.tab-jsl');
-
-    tabLiForth.forEach(element => {
-        element.addEventListener('click', function(e) {
-            e.preventDefault();
-            let tabAttribute = element.getAttribute('data-type'),
-                tabLiInner = element.parentNode.querySelectorAll('.tab-jsl'),
-                tabBoxInner = element.parentNode.parentNode.parentNode.querySelectorAll('.python-inner');
-            
-
-            //remove active class
-            tabBoxInner.forEach(item => {
-                item.classList.remove('active');
-            });
-            tabLiInner.forEach(el => {
-                el.classList.remove('active');
-            });
-            element.classList.add('active');
-    
-            //add active class
-            switch (tabAttribute) {
-                case "spark-nlp-jsl":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('python-johnsnowlabs')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                    break;
-                case "johnsnowlabs":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('python-spark-nlp-jsl')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                  break;
-                default:              
-              }
-        });
-    });
-}
+tabs({
+    tabsWrapperSelector: '.tabs-model-aproach', 
+    tabsParentSelector: '.tabs-model-aproach-head', 
+    tabsSelector: '.tab-li-model-aproach', 
+    tabsContentSelector: '.tabs-python-scala-box', 
+    activeClass: 'tabheader_active'
+});
+tabs({
+    tabsWrapperSelector: '.tabs-python-scala-box', 
+    tabsParentSelector: '.tabs-python-scala-head', 
+    tabsSelector: '.tab-python-scala-li', 
+    tabsContentSelector: '.tabs-mfl-box', 
+    activeClass: 'tabheader_active'
+});
+tabs({
+    tabsWrapperSelector: '.tabs-mfl-box', 
+    tabsParentSelector: '.tabs-mfl-head', 
+    tabsSelector: '.tab-mfl-li', 
+    tabsContentSelector: '.tab-mfl-content', 
+    activeClass: 'tabheader_active'
+});
+tabs({
+    tabsWrapperSelector: '.tabs-box', 
+    tabsParentSelector: '.tabs-python-scala-head', 
+    tabsSelector: '.tab-python-scala-li', 
+    tabsContentSelector: '.tabs-box .highlighter-rouge', 
+    activeClass: 'tabheader_active'
+});
+tabs({
+    tabsWrapperSelector: '.tabs-box', 
+    tabsParentSelector: '.tabs-model-aproach-head', 
+    tabsSelector: '.tab-li-model-aproach', 
+    tabsContentSelector: '.tabs-python-scala-box', 
+    activeClass: 'tabheader_active'
+});
 
 </script>
 

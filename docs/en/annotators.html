@@ -1101,7 +1101,7 @@ in the DataFrames.</li>
 
 </div>
 
-<script> jQuery(document).ready(function () {
+<script> /* jQuery(document).ready(function () {
     $(".model-button").click(function () {
         $(this).closest(".tabs-box").find(".model-button").removeClass('code-selector-un-active').addClass("code-selector-active");
 
@@ -1125,18 +1125,15 @@ in the DataFrames.</li>
         $(this.parentNode).siblings(".h3-box.approach-content").show()
     });
 });
- </script>
+ */ </script>
 
 <div class="tabs-box tabs-new">
 
   <h2 id="bigtextmatcher">BigTextMatcher</h2>
 
-  <div class="top_tab_li" style="text-align: center;">
-    <button class="tab-li code-selector-active approach-button">Approach</button>
-    <button class="tab-li code-selector-un-active model-button">Model</button>
-</div>
+  <div class="tabs-model-aproach-head tac"><button class="tab-li-model-aproach tabheader_active">Approach</button><button class="tab-li-model-aproach">Model</button></div>
 
-  <div class="h3-box approach-content">
+  <div class="h3-box tabs-python-scala-box">
 
     <p>Annotator to match exact phrases (by token) provided in a file against a Document.</p>
 
@@ -1166,9 +1163,7 @@ in the DataFrames.</li>
 
 <div class="tabs-box tabs-new">
 
-        <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+        <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
         <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -1258,7 +1253,7 @@ in the DataFrames.</li>
 
   </div>
 
-  <div class="h3-box model-content" style="display: none;">
+  <div class="h3-box tabs-python-scala-box" style="display: none;">
 
     <p>Instantiated model of the BigTextMatcher.
 For usage and examples see the documentation of the main class.</p>
@@ -1281,7 +1276,7 @@ For usage and examples see the documentation of the main class.</p>
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h2 id="chunk2doc">Chunk2Doc</h2>
 
@@ -1311,9 +1306,7 @@ For usage and examples see the documentation of the main class.</p>
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -1369,7 +1362,7 @@ For usage and examples see the documentation of the main class.</p>
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h2 id="chunkembeddings">ChunkEmbeddings</h2>
 
@@ -1400,9 +1393,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -1537,12 +1528,9 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
   <h2 id="chunktokenizer">ChunkTokenizer</h2>
 
-  <div class="top_tab_li" style="text-align: center;">
-    <button class="tab-li code-selector-active approach-button">Approach</button>
-    <button class="tab-li code-selector-un-active model-button">Model</button>
-</div>
+  <div class="tabs-model-aproach-head tac"><button class="tab-li-model-aproach tabheader_active">Approach</button><button class="tab-li-model-aproach">Model</button></div>
 
-  <div class="h3-box approach-content">
+  <div class="h3-box tabs-python-scala-box">
 
     <p>Tokenizes and flattens extracted NER chunks.</p>
 
@@ -1571,9 +1559,7 @@ The result is then flattened, resulting in a single array.</p>
 
 <div class="tabs-box tabs-new">
 
-        <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+        <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
         <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -1681,7 +1667,7 @@ The result is then flattened, resulting in a single array.</p>
 
   </div>
 
-  <div class="h3-box model-content" style="display: none;">
+  <div class="h3-box tabs-python-scala-box" style="display: none;">
 
     <p>Instantiated model of the ChunkTokenizer.
 For usage and examples see the documentation of the main class.</p>
@@ -1704,7 +1690,7 @@ For usage and examples see the documentation of the main class.</p>
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h2 id="chunker">Chunker</h2>
 
@@ -1747,9 +1733,7 @@ and the  <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -1861,12 +1845,9 @@ and the  <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test
 
   <h2 id="classifierdl">ClassifierDL</h2>
 
-  <div class="top_tab_li" style="text-align: center;">
-    <button class="tab-li code-selector-active approach-button">Approach</button>
-    <button class="tab-li code-selector-un-active model-button">Model</button>
-</div>
+  <div class="tabs-model-aproach-head tac"><button class="tab-li-model-aproach tabheader_active">Approach</button><button class="tab-li-model-aproach">Model</button></div>
 
-  <div class="h3-box approach-content">
+  <div class="h3-box tabs-python-scala-box">
 
     <p>Trains a ClassifierDL for generic Multi-class Text Classification.</p>
 
@@ -1936,9 +1917,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
 <div class="tabs-box tabs-new">
 
-        <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+        <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
         <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># In this example, the training data `"sentiment.csv"` has the form of
 #
@@ -2036,7 +2015,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
   </div>
 
-  <div class="h3-box model-content" style="display: none;">
+  <div class="h3-box tabs-python-scala-box" style="display: none;">
 
     <p>ClassifierDL for generic Multi-class Text Classification.</p>
 
@@ -2081,9 +2060,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
 <div class="tabs-box tabs-new">
 
-        <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+        <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
         <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -2191,12 +2168,9 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
   <h2 id="contextspellchecker">ContextSpellChecker</h2>
 
-  <div class="top_tab_li" style="text-align: center;">
-    <button class="tab-li code-selector-active approach-button">Approach</button>
-    <button class="tab-li code-selector-un-active model-button">Model</button>
-</div>
+  <div class="tabs-model-aproach-head tac"><button class="tab-li-model-aproach tabheader_active">Approach</button><button class="tab-li-model-aproach">Model</button></div>
 
-  <div class="h3-box approach-content">
+  <div class="h3-box tabs-python-scala-box">
 
     <p>Trains a deep-learning based Noisy Channel Model Spell Algorithm.
 Correction candidates are extracted combining context information and word information.</p>
@@ -2237,9 +2211,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
 <div class="tabs-box tabs-new">
 
-        <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+        <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
         <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># For this example, we use the first Sherlock Holmes book as the training dataset.
 </span>
@@ -2323,7 +2295,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
   </div>
 
-  <div class="h3-box model-content" style="display: none;">
+  <div class="h3-box tabs-python-scala-box" style="display: none;">
 
     <p>Implements a deep-learning based Noisy Channel Model Spell Algorithm.
 Correction candidates are extracted combining context information and word information.</p>
@@ -2370,7 +2342,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h2 id="datematcher">DateMatcher</h2>
 
@@ -2416,9 +2388,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -2500,12 +2470,9 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
   <h2 id="dependencyparser">DependencyParser</h2>
 
-  <div class="top_tab_li" style="text-align: center;">
-    <button class="tab-li code-selector-active approach-button">Approach</button>
-    <button class="tab-li code-selector-un-active model-button">Model</button>
-</div>
+  <div class="tabs-model-aproach-head tac"><button class="tab-li-model-aproach tabheader_active">Approach</button><button class="tab-li-model-aproach">Model</button></div>
 
-  <div class="h3-box approach-content">
+  <div class="h3-box tabs-python-scala-box">
 
     <p>Trains an unlabeled parser that finds a grammatical relations between two words in a sentence.</p>
 
@@ -2545,9 +2512,7 @@ you find precise answers to specific questions.</p>
 
 <div class="tabs-box tabs-new">
 
-        <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+        <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
         <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -2636,7 +2601,7 @@ you find precise answers to specific questions.</p>
 
   </div>
 
-  <div class="h3-box model-content" style="display: none;">
+  <div class="h3-box tabs-python-scala-box" style="display: none;">
 
     <p>Unlabeled parser that finds a grammatical relation between two words in a sentence.</p>
 
@@ -2676,7 +2641,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h2 id="doc2chunk">Doc2Chunk</h2>
 
@@ -2707,9 +2672,7 @@ Chunk text must be contained within input <code class="language-plaintext highli
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -2776,12 +2739,9 @@ Chunk text must be contained within input <code class="language-plaintext highli
 
   <h2 id="doc2vec-1">Doc2Vec 1</h2>
 
-  <div class="top_tab_li" style="text-align: center;">
-    <button class="tab-li code-selector-active approach-button">Approach</button>
-    <button class="tab-li code-selector-un-active model-button">Model</button>
-</div>
+  <div class="tabs-model-aproach-head tac"><button class="tab-li-model-aproach tabheader_active">Approach</button><button class="tab-li-model-aproach">Model</button></div>
 
-  <div class="h3-box approach-content">
+  <div class="h3-box tabs-python-scala-box">
 
     <p>Trains a Word2Vec model that creates vector representations of words in a text corpus.</p>
 
@@ -2823,9 +2783,7 @@ and <a href="https://arxiv.org/pdf/1310.4546v1.pdf">Distributed Representations 
 
 <div class="tabs-box tabs-new">
 
-        <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+        <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
         <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -2892,7 +2850,7 @@ and <a href="https://arxiv.org/pdf/1310.4546v1.pdf">Distributed Representations 
 
   </div>
 
-  <div class="h3-box model-content" style="display: none;">
+  <div class="h3-box tabs-python-scala-box" style="display: none;">
 
     <p>Word2Vec model that creates vector representations of words in a text corpus.</p>
 
@@ -2944,9 +2902,7 @@ and <a href="https://arxiv.org/pdf/1310.4546v1.pdf">Distributed Representations 
 
 <div class="tabs-box tabs-new">
 
-        <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+        <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
         <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -3037,7 +2993,7 @@ and <a href="https://arxiv.org/pdf/1310.4546v1.pdf">Distributed Representations 
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h2 id="documentassembler">DocumentAssembler</h2>
 
@@ -3068,9 +3024,7 @@ can be used to pre-process the text (Default: <code class="language-plaintext hi
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -3140,7 +3094,7 @@ can be used to pre-process the text (Default: <code class="language-plaintext hi
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h2 id="documentnormalizer">DocumentNormalizer</h2>
 
@@ -3171,9 +3125,7 @@ Can apply lower case normalization.</p>
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -3272,7 +3224,7 @@ Can apply lower case normalization.</p>
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h2 id="embeddingsfinisher">EmbeddingsFinisher</h2>
 
@@ -3311,9 +3263,7 @@ compatible with Spark ML functions such as LDA, K-mean, Random Forest classifier
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -3447,12 +3397,9 @@ compatible with Spark ML functions such as LDA, K-mean, Random Forest classifier
 
   <h2 id="entityruler">EntityRuler</h2>
 
-  <div class="top_tab_li" style="text-align: center;">
-    <button class="tab-li code-selector-active approach-button">Approach</button>
-    <button class="tab-li code-selector-un-active model-button">Model</button>
-</div>
+  <div class="tabs-model-aproach-head tac"><button class="tab-li-model-aproach tabheader_active">Approach</button><button class="tab-li-model-aproach">Model</button></div>
 
-  <div class="h3-box approach-content">
+  <div class="h3-box tabs-python-scala-box">
 
     <p>Fits an Annotator to match exact strings or regex patterns provided in a file against a Document and assigns them an
 named entity. The definitions can contain any number of named entities.</p>
@@ -3514,9 +3461,7 @@ LOCATION|Winterfell
 
 <div class="tabs-box tabs-new">
 
-        <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+        <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
         <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># In this example, the entities file as the form of
 #
@@ -3623,7 +3568,7 @@ LOCATION|Winterfell
 
   </div>
 
-  <div class="h3-box model-content" style="display: none;">
+  <div class="h3-box tabs-python-scala-box" style="display: none;">
 
     <p>Instantiated model of the EntityRulerApproach.
 For usage and examples see the documentation of the main class.</p>
@@ -3646,7 +3591,7 @@ For usage and examples see the documentation of the main class.</p>
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h2 id="finisher">Finisher</h2>
 
@@ -3676,9 +3621,7 @@ Pipelines. The Finisher outputs annotation(s) values into <code class="language-
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -3744,7 +3687,7 @@ Pipelines. The Finisher outputs annotation(s) values into <code class="language-
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h2 id="graphextraction">GraphExtraction</h2>
 
@@ -3800,9 +3743,7 @@ automatically. The specific models can also be set with <code class="language-pl
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -3947,7 +3888,7 @@ automatically. The specific models can also be set with <code class="language-pl
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h2 id="graphfinisher">GraphFinisher</h2>
 
@@ -3973,9 +3914,7 @@ automatically. The specific models can also be set with <code class="language-pl
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -4024,7 +3963,7 @@ automatically. The specific models can also be set with <code class="language-pl
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h2 id="imageassembler">ImageAssembler</h2>
 
@@ -4051,9 +3990,7 @@ is needed to process images.</p>
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -4116,7 +4053,7 @@ is needed to process images.</p>
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h2 id="languagedetectordl">LanguageDetectorDL</h2>
 
@@ -4160,9 +4097,7 @@ And the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -4246,12 +4181,9 @@ And the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
   <h2 id="lemmatizer">Lemmatizer</h2>
 
-  <div class="top_tab_li" style="text-align: center;">
-    <button class="tab-li code-selector-active approach-button">Approach</button>
-    <button class="tab-li code-selector-un-active model-button">Model</button>
-</div>
+  <div class="tabs-model-aproach-head tac"><button class="tab-li-model-aproach tabheader_active">Approach</button><button class="tab-li-model-aproach">Model</button></div>
 
-  <div class="h3-box approach-content">
+  <div class="h3-box tabs-python-scala-box">
 
     <p>Class to find lemmas out of words with the objective of returning a base dictionary word.
 Retrieves the significant part of a word. A dictionary of predefined lemmas must be provided with <code class="language-plaintext highlighter-rouge">setDictionary</code>.
@@ -4281,9 +4213,7 @@ For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs
 
 <div class="tabs-box tabs-new">
 
-        <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+        <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
         <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># In this example, the lemma dictionary `lemmas_small.txt` has the form of
 #
@@ -4398,7 +4328,7 @@ For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs
 
   </div>
 
-  <div class="h3-box model-content" style="display: none;">
+  <div class="h3-box tabs-python-scala-box" style="display: none;">
 
     <p>Instantiated Model of the Lemmatizer. For usage and examples, please see the documentation of that class.
 For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Lemmatization">Models Hub</a>.</p>
@@ -4425,12 +4355,9 @@ For available pretrained models please see the <a href="https://nlp.johnsnowlabs
 
   <h2 id="multiclassifierdl">MultiClassifierDL</h2>
 
-  <div class="top_tab_li" style="text-align: center;">
-    <button class="tab-li code-selector-active approach-button">Approach</button>
-    <button class="tab-li code-selector-un-active model-button">Model</button>
-</div>
+  <div class="tabs-model-aproach-head tac"><button class="tab-li-model-aproach tabheader_active">Approach</button><button class="tab-li-model-aproach">Model</button></div>
 
-  <div class="h3-box approach-content">
+  <div class="h3-box tabs-python-scala-box">
 
     <p>Trains a MultiClassifierDL for Multi-label Text Classification.</p>
 
@@ -4509,9 +4436,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
 <div class="tabs-box tabs-new">
 
-        <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+        <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
         <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># In this example, the training data has the form
 #
@@ -4645,7 +4570,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
   </div>
 
-  <div class="h3-box model-content" style="display: none;">
+  <div class="h3-box tabs-python-scala-box" style="display: none;">
 
     <p>MultiClassifierDL for Multi-label Text Classification.</p>
 
@@ -4700,9 +4625,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
 <div class="tabs-box tabs-new">
 
-        <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+        <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
         <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -4791,7 +4714,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h2 id="multidatematcher">MultiDateMatcher</h2>
 
@@ -4830,9 +4753,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -4910,7 +4831,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h2 id="multidocumentassembler">MultiDocumentAssembler</h2>
 
@@ -4943,9 +4864,7 @@ section.</p>
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 
@@ -5017,7 +4936,7 @@ section.</p>
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h2 id="ngramgenerator">NGramGenerator</h2>
 
@@ -5054,9 +4973,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -5152,7 +5069,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h2 id="nerconverter">NerConverter</h2>
 
@@ -5184,9 +5101,7 @@ Chunks with no associated entity (tagged “O”) are filtered.</p>
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -5269,12 +5184,9 @@ Chunks with no associated entity (tagged “O”) are filtered.</p>
 
   <h2 id="nercrf">NerCrf</h2>
 
-  <div class="top_tab_li" style="text-align: center;">
-    <button class="tab-li code-selector-active approach-button">Approach</button>
-    <button class="tab-li code-selector-un-active model-button">Model</button>
-</div>
+  <div class="tabs-model-aproach-head tac"><button class="tab-li-model-aproach tabheader_active">Approach</button><button class="tab-li-model-aproach">Model</button></div>
 
-  <div class="h3-box approach-content">
+  <div class="h3-box tabs-python-scala-box">
 
     <p>Algorithm for training a Named Entity Recognition Model</p>
 
@@ -5318,9 +5230,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
 <div class="tabs-box tabs-new">
 
-        <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+        <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
         <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># This CoNLL dataset already includes the sentence, token, pos and label column with their respective annotator types.
 # If a custom dataset is used, these need to be defined.
@@ -5408,7 +5318,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
   </div>
 
-  <div class="h3-box model-content" style="display: none;">
+  <div class="h3-box tabs-python-scala-box" style="display: none;">
 
     <p>Extracts Named Entities based on a CRF Model.</p>
 
@@ -5456,12 +5366,9 @@ For available pretrained models please see the <a href="https://nlp.johnsnowlabs
 
   <h2 id="nerdl">NerDL</h2>
 
-  <div class="top_tab_li" style="text-align: center;">
-    <button class="tab-li code-selector-active approach-button">Approach</button>
-    <button class="tab-li code-selector-un-active model-button">Model</button>
-</div>
+  <div class="tabs-model-aproach-head tac"><button class="tab-li-model-aproach tabheader_active">Approach</button><button class="tab-li-model-aproach">Model</button></div>
 
-  <div class="h3-box approach-content">
+  <div class="h3-box tabs-python-scala-box">
 
     <p>This Named Entity recognition annotator allows to train generic NER model based on Neural Networks.</p>
 
@@ -5540,9 +5447,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
 <div class="tabs-box tabs-new">
 
-        <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+        <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
         <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -5646,7 +5551,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
   </div>
 
-  <div class="h3-box model-content" style="display: none;">
+  <div class="h3-box tabs-python-scala-box" style="display: none;">
 
     <p>This Named Entity recognition annotator is a generic NER model based on Neural Networks.</p>
 
@@ -5690,7 +5595,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h2 id="neroverwriter">NerOverwriter</h2>
 
@@ -5719,9 +5624,7 @@ The strings specified with <code class="language-plaintext highlighter-rouge">se
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -5900,12 +5803,9 @@ The strings specified with <code class="language-plaintext highlighter-rouge">se
 
   <h2 id="normalizer">Normalizer</h2>
 
-  <div class="top_tab_li" style="text-align: center;">
-    <button class="tab-li code-selector-active approach-button">Approach</button>
-    <button class="tab-li code-selector-un-active model-button">Model</button>
-</div>
+  <div class="tabs-model-aproach-head tac"><button class="tab-li-model-aproach tabheader_active">Approach</button><button class="tab-li-model-aproach">Model</button></div>
 
-  <div class="h3-box approach-content">
+  <div class="h3-box tabs-python-scala-box">
 
     <p>Annotator that cleans out tokens. Requires stems, hence tokens.
 Removes all dirty characters from text following a regex pattern and transforms words based on a provided dictionary</p>
@@ -5932,9 +5832,7 @@ Removes all dirty characters from text following a regex pattern and transforms 
 
 <div class="tabs-box tabs-new">
 
-        <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+        <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
         <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -6016,7 +5914,7 @@ Removes all dirty characters from text following a regex pattern and transforms 
 
   </div>
 
-  <div class="h3-box model-content" style="display: none;">
+  <div class="h3-box tabs-python-scala-box" style="display: none;">
 
     <p>Instantiated Model of the Normalizer. For usage and examples, please see the documentation of that class.</p>
 
@@ -6042,12 +5940,9 @@ Removes all dirty characters from text following a regex pattern and transforms 
 
   <h2 id="norvigsweeting-spellchecker">NorvigSweeting Spellchecker</h2>
 
-  <div class="top_tab_li" style="text-align: center;">
-    <button class="tab-li code-selector-active approach-button">Approach</button>
-    <button class="tab-li code-selector-un-active model-button">Model</button>
-</div>
+  <div class="tabs-model-aproach-head tac"><button class="tab-li-model-aproach tabheader_active">Approach</button><button class="tab-li-model-aproach">Model</button></div>
 
-  <div class="h3-box approach-content">
+  <div class="h3-box tabs-python-scala-box">
 
     <p>Trains annotator, that retrieves tokens and makes corrections automatically if not found in an English dictionary.</p>
 
@@ -6083,9 +5978,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
 <div class="tabs-box tabs-new">
 
-        <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+        <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
         <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># In this example, the dictionary `"words.txt"` has the form of
 #
@@ -6171,7 +6064,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
   </div>
 
-  <div class="h3-box model-content" style="display: none;">
+  <div class="h3-box tabs-python-scala-box" style="display: none;">
 
     <p>This annotator retrieves tokens and makes corrections automatically if not found in an English dictionary.
 Inspired by Norvig model and <a href="https://github.com/wolfgarbe/SymSpell">SymSpell</a>.</p>
@@ -6217,12 +6110,9 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
   <h2 id="postagger-part-of-speech-tagger">POSTagger (Part of speech tagger)</h2>
 
-  <div class="top_tab_li" style="text-align: center;">
-    <button class="tab-li code-selector-active approach-button">Approach</button>
-    <button class="tab-li code-selector-un-active model-button">Model</button>
-</div>
+  <div class="tabs-model-aproach-head tac"><button class="tab-li-model-aproach tabheader_active">Approach</button><button class="tab-li-model-aproach">Model</button></div>
 
-  <div class="h3-box approach-content">
+  <div class="h3-box tabs-python-scala-box">
 
     <p>Trains an averaged Perceptron model to tag words part-of-speech.
 Sets a POS tag to each word within a sentence.</p>
@@ -6270,9 +6160,7 @@ and <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scal
 
 <div class="tabs-box tabs-new">
 
-        <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+        <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
         <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -6372,7 +6260,7 @@ and <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scal
 
   </div>
 
-  <div class="h3-box model-content" style="display: none;">
+  <div class="h3-box tabs-python-scala-box" style="display: none;">
 
     <p>Averaged Perceptron model to tag words part-of-speech.
 Sets a POS tag to each word within a sentence.</p>
@@ -6414,12 +6302,9 @@ Additionally, pretrained pipelines are available for this module, see <a href="h
 
   <h2 id="recursivetokenizer">RecursiveTokenizer</h2>
 
-  <div class="top_tab_li" style="text-align: center;">
-    <button class="tab-li code-selector-active approach-button">Approach</button>
-    <button class="tab-li code-selector-un-active model-button">Model</button>
-</div>
+  <div class="tabs-model-aproach-head tac"><button class="tab-li-model-aproach tabheader_active">Approach</button><button class="tab-li-model-aproach">Model</button></div>
 
-  <div class="h3-box approach-content">
+  <div class="h3-box tabs-python-scala-box">
 
     <p>Tokenizes raw text recursively based on a handful of definable rules.</p>
 
@@ -6454,9 +6339,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
 <div class="tabs-box tabs-new">
 
-        <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+        <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
         <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -6522,7 +6405,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
   </div>
 
-  <div class="h3-box model-content" style="display: none;">
+  <div class="h3-box tabs-python-scala-box" style="display: none;">
 
     <p>Instantiated model of the RecursiveTokenizer.
 For usage and examples see the documentation of the main class.</p>
@@ -6549,12 +6432,9 @@ For usage and examples see the documentation of the main class.</p>
 
   <h2 id="regexmatcher">RegexMatcher</h2>
 
-  <div class="top_tab_li" style="text-align: center;">
-    <button class="tab-li code-selector-active approach-button">Approach</button>
-    <button class="tab-li code-selector-un-active model-button">Model</button>
-</div>
+  <div class="tabs-model-aproach-head tac"><button class="tab-li-model-aproach tabheader_active">Approach</button><button class="tab-li-model-aproach">Model</button></div>
 
-  <div class="h3-box approach-content">
+  <div class="h3-box tabs-python-scala-box">
 
     <p>Uses rules to match a set of regular expressions and associate them with a provided
 identifier.</p>
@@ -6593,9 +6473,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
 <div class="tabs-box tabs-new">
 
-        <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+        <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
         <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -6678,7 +6556,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
   </div>
 
-  <div class="h3-box model-content" style="display: none;">
+  <div class="h3-box tabs-python-scala-box" style="display: none;">
 
     <p>Instantiated model of the RegexMatcher.
 For usage and examples see the documentation of the main class.</p>
@@ -6701,7 +6579,7 @@ For usage and examples see the documentation of the main class.</p>
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h2 id="regextokenizer">RegexTokenizer</h2>
 
@@ -6730,9 +6608,7 @@ By default this pattern is <code class="language-plaintext highlighter-rouge">\s
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -6802,7 +6678,7 @@ By default this pattern is <code class="language-plaintext highlighter-rouge">\s
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h2 id="sentencedetector">SentenceDetector</h2>
 
@@ -6862,9 +6738,7 @@ if <code class="language-plaintext highlighter-rouge">explodeSentences</code> is
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -6940,12 +6814,9 @@ if <code class="language-plaintext highlighter-rouge">explodeSentences</code> is
 
   <h2 id="sentencedetectordl">SentenceDetectorDL</h2>
 
-  <div class="top_tab_li" style="text-align: center;">
-    <button class="tab-li code-selector-active approach-button">Approach</button>
-    <button class="tab-li code-selector-un-active model-button">Model</button>
-</div>
+  <div class="tabs-model-aproach-head tac"><button class="tab-li-model-aproach tabheader_active">Approach</button><button class="tab-li-model-aproach">Model</button></div>
 
-  <div class="h3-box approach-content">
+  <div class="h3-box tabs-python-scala-box">
 
     <p>Trains an annotator that detects sentence boundaries using a deep learning approach.</p>
 
@@ -6983,9 +6854,7 @@ if <code class="language-plaintext highlighter-rouge">explodeSentences</code> is
 
 <div class="tabs-box tabs-new">
 
-        <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+        <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
         <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># The training process needs data, where each data point is a sentence.
 # In this example the `train.txt` file has the form of
@@ -7055,7 +6924,7 @@ if <code class="language-plaintext highlighter-rouge">explodeSentences</code> is
 
   </div>
 
-  <div class="h3-box model-content" style="display: none;">
+  <div class="h3-box tabs-python-scala-box" style="display: none;">
 
     <p>Annotator that detects sentence boundaries using a deep learning approach.</p>
 
@@ -7094,7 +6963,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h2 id="sentenceembeddings">SentenceEmbeddings</h2>
 
@@ -7112,9 +6981,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
   <div class="tabs-box tabs-new">
 
-    <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+    <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
     <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">org.apache.spark.ml.linal</span> <span class="kn">import</span> <span class="n">Vector</span><span class="p">,</span> <span class="n">Vectors</span>
 <span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">udf</span>
@@ -7166,9 +7033,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -7279,12 +7144,9 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
   <h2 id="sentimentdl">SentimentDL</h2>
 
-  <div class="top_tab_li" style="text-align: center;">
-    <button class="tab-li code-selector-active approach-button">Approach</button>
-    <button class="tab-li code-selector-un-active model-button">Model</button>
-</div>
+  <div class="tabs-model-aproach-head tac"><button class="tab-li-model-aproach tabheader_active">Approach</button><button class="tab-li-model-aproach">Model</button></div>
 
-  <div class="h3-box approach-content">
+  <div class="h3-box tabs-python-scala-box">
 
     <p>Trains a SentimentDL, an annotator for multi-class sentiment analysis.</p>
 
@@ -7357,9 +7219,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
 <div class="tabs-box tabs-new">
 
-        <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+        <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
         <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -7453,7 +7313,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
   </div>
 
-  <div class="h3-box model-content" style="display: none;">
+  <div class="h3-box tabs-python-scala-box" style="display: none;">
 
     <p>SentimentDL, an annotator for multi-class sentiment analysis.</p>
 
@@ -7497,12 +7357,9 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
   <h2 id="sentimentdetector">SentimentDetector</h2>
 
-  <div class="top_tab_li" style="text-align: center;">
-    <button class="tab-li code-selector-active approach-button">Approach</button>
-    <button class="tab-li code-selector-un-active model-button">Model</button>
-</div>
+  <div class="tabs-model-aproach-head tac"><button class="tab-li-model-aproach tabheader_active">Approach</button><button class="tab-li-model-aproach">Model</button></div>
 
-  <div class="h3-box approach-content">
+  <div class="h3-box tabs-python-scala-box">
 
     <p>Trains a rule based sentiment detector, which calculates a score based on predefined keywords.</p>
 
@@ -7536,9 +7393,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
 <div class="tabs-box tabs-new">
 
-        <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+        <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
         <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># In this example, the dictionary `default-sentiment-dict.txt` has the form of
 #
@@ -7661,7 +7516,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
   </div>
 
-  <div class="h3-box model-content" style="display: none;">
+  <div class="h3-box tabs-python-scala-box" style="display: none;">
 
     <p>Rule based sentiment detector, which calculates a score based on predefined keywords.</p>
 
@@ -7696,7 +7551,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h2 id="stemmer">Stemmer</h2>
 
@@ -7723,9 +7578,7 @@ For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -7803,7 +7656,7 @@ For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h2 id="stopwordscleaner">StopWordsCleaner</h2>
 
@@ -7832,9 +7685,7 @@ If you need to <code class="language-plaintext highlighter-rouge">setStopWords</
 
   <div class="tabs-box tabs-new">
 
-    <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+    <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
     <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># your stop words text file, each line is one stop word
 </span><span class="n">stopwords</span> <span class="o">=</span> <span class="n">sc</span><span class="p">.</span><span class="n">textFile</span><span class="p">(</span><span class="s">"/tmp/stopwords/english.txt"</span><span class="p">).</span><span class="n">collect</span><span class="p">()</span>
@@ -7891,9 +7742,7 @@ If you need to <code class="language-plaintext highlighter-rouge">setStopWords</
 
 <div class="tabs-box tabs-new">
 
-        <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+        <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
         <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -7995,12 +7844,9 @@ If you need to <code class="language-plaintext highlighter-rouge">setStopWords</
 
     <h2 id="symmetricdelete-spellchecker">SymmetricDelete Spellchecker</h2>
 
-    <div class="top_tab_li" style="text-align: center;">
-    <button class="tab-li code-selector-active approach-button">Approach</button>
-    <button class="tab-li code-selector-un-active model-button">Model</button>
-</div>
+    <div class="tabs-model-aproach-head tac"><button class="tab-li-model-aproach tabheader_active">Approach</button><button class="tab-li-model-aproach">Model</button></div>
 
-    <div class="h3-box approach-content">
+    <div class="h3-box tabs-python-scala-box">
 
       <p>Trains a Symmetric Delete spelling correction algorithm.
 Retrieves tokens and utilizes distance metrics to compute possible derived words.</p>
@@ -8031,9 +7877,7 @@ Retrieves tokens and utilizes distance metrics to compute possible derived words
 
 <div class="tabs-box tabs-new">
 
-          <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+          <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
           <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -8117,7 +7961,7 @@ Retrieves tokens and utilizes distance metrics to compute possible derived words
 
     </div>
 
-    <div class="h3-box model-content" style="display: none;">
+    <div class="h3-box tabs-python-scala-box" style="display: none;">
 
       <p>Symmetric Delete spelling correction algorithm.</p>
 
@@ -8159,12 +8003,9 @@ For available pretrained models please see the <a href="https://nlp.johnsnowlabs
 
     <h2 id="textmatcher">TextMatcher</h2>
 
-    <div class="top_tab_li" style="text-align: center;">
-    <button class="tab-li code-selector-active approach-button">Approach</button>
-    <button class="tab-li code-selector-un-active model-button">Model</button>
-</div>
+    <div class="tabs-model-aproach-head tac"><button class="tab-li-model-aproach tabheader_active">Approach</button><button class="tab-li-model-aproach">Model</button></div>
 
-    <div class="h3-box approach-content">
+    <div class="h3-box tabs-python-scala-box">
 
       <p>Annotator to match exact phrases (by token) provided in a file against a Document.</p>
 
@@ -8193,9 +8034,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
 <div class="tabs-box tabs-new">
 
-          <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+          <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
           <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -8290,7 +8129,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
     </div>
 
-    <div class="h3-box model-content" style="display: none;">
+    <div class="h3-box tabs-python-scala-box" style="display: none;">
 
       <p>Instantiated model of the TextMatcher.
 For usage and examples see the documentation of the main class.</p>
@@ -8313,7 +8152,7 @@ For usage and examples see the documentation of the main class.</p>
 
   </div>
 
-  <div class="h3-box model-content">
+  <div class="h3-box tabs-python-scala-box">
 
     <h2 id="token2chunk">Token2Chunk</h2>
 
@@ -8341,9 +8180,7 @@ For usage and examples see the documentation of the main class.</p>
 
 <div class="tabs-box tabs-new">
 
-        <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+        <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
         <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -8427,7 +8264,7 @@ For usage and examples see the documentation of the main class.</p>
 
   </div>
 
-  <div class="h3-box model-content">
+  <div class="h3-box tabs-python-scala-box">
 
     <h2 id="tokenassembler">TokenAssembler</h2>
 
@@ -8458,9 +8295,7 @@ Requires <code class="language-plaintext highlighter-rouge">DOCUMENT</code> and 
 
 <div class="tabs-box tabs-new">
 
-        <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+        <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
         <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -8583,12 +8418,9 @@ Requires <code class="language-plaintext highlighter-rouge">DOCUMENT</code> and 
 
     <h2 id="tokenizer">Tokenizer</h2>
 
-    <div class="top_tab_li" style="text-align: center;">
-    <button class="tab-li code-selector-active approach-button">Approach</button>
-    <button class="tab-li code-selector-un-active model-button">Model</button>
-</div>
+    <div class="tabs-model-aproach-head tac"><button class="tab-li-model-aproach tabheader_active">Approach</button><button class="tab-li-model-aproach">Model</button></div>
 
-    <div class="h3-box approach-content">
+    <div class="h3-box tabs-python-scala-box">
 
       <p>Tokenizes raw text in document type columns into TokenizedSentence .</p>
 
@@ -8624,9 +8456,7 @@ and <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scal
 
 <div class="tabs-box tabs-new">
 
-          <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+          <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
           <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -8674,7 +8504,7 @@ and <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scal
 
     </div>
 
-    <div class="h3-box model-content" style="display: none;">
+    <div class="h3-box tabs-python-scala-box" style="display: none;">
 
       <p>Tokenizes raw text into word pieces, tokens. Identifies tokens with tokenization open standards. A few rules will help customizing it if defaults do not fit user needs.</p>
 
@@ -8704,12 +8534,9 @@ and <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scal
 
     <h2 id="typeddependencyparser">TypedDependencyParser</h2>
 
-    <div class="top_tab_li" style="text-align: center;">
-    <button class="tab-li code-selector-active approach-button">Approach</button>
-    <button class="tab-li code-selector-un-active model-button">Model</button>
-</div>
+    <div class="tabs-model-aproach-head tac"><button class="tab-li-model-aproach tabheader_active">Approach</button><button class="tab-li-model-aproach">Model</button></div>
 
-    <div class="h3-box approach-content">
+    <div class="h3-box tabs-python-scala-box">
 
       <p>Labeled parser that finds a grammatical relation between two words in a sentence.
 Its input is either a CoNLL2009 or ConllU dataset.</p>
@@ -8751,9 +8578,7 @@ The required training data can be set in two different ways (only one can be cho
 
 <div class="tabs-box tabs-new">
 
-          <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+          <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
           <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -8855,7 +8680,7 @@ The required training data can be set in two different ways (only one can be cho
 
     </div>
 
-    <div class="h3-box model-content" style="display: none;">
+    <div class="h3-box tabs-python-scala-box" style="display: none;">
 
       <p>Labeled parser that finds a grammatical relation between two words in a sentence.
 Its input is either a CoNLL2009 or ConllU dataset.</p>
@@ -8899,12 +8724,9 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/
 
     <h2 id="viveknsentiment">ViveknSentiment</h2>
 
-    <div class="top_tab_li" style="text-align: center;">
-    <button class="tab-li code-selector-active approach-button">Approach</button>
-    <button class="tab-li code-selector-un-active model-button">Model</button>
-</div>
+    <div class="tabs-model-aproach-head tac"><button class="tab-li-model-aproach tabheader_active">Approach</button><button class="tab-li-model-aproach">Model</button></div>
 
-    <div class="h3-box approach-content">
+    <div class="h3-box tabs-python-scala-box">
 
       <p>Trains a sentiment analyser inspired by the algorithm by Vivek Narayanan https://github.com/vivekn/sentiment/.</p>
 
@@ -8939,9 +8761,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/
 
 <div class="tabs-box tabs-new">
 
-          <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+          <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
           <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -9058,7 +8878,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/
 
     </div>
 
-    <div class="h3-box model-content" style="display: none;">
+    <div class="h3-box tabs-python-scala-box" style="display: none;">
 
       <p>Sentiment analyser inspired by the algorithm by Vivek Narayanan https://github.com/vivekn/sentiment/.</p>
 
@@ -9096,12 +8916,9 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/
 
     <h2 id="word2vec">Word2Vec</h2>
 
-    <div class="top_tab_li" style="text-align: center;">
-    <button class="tab-li code-selector-active approach-button">Approach</button>
-    <button class="tab-li code-selector-un-active model-button">Model</button>
-</div>
+    <div class="tabs-model-aproach-head tac"><button class="tab-li-model-aproach tabheader_active">Approach</button><button class="tab-li-model-aproach">Model</button></div>
 
-    <div class="h3-box approach-content">
+    <div class="h3-box tabs-python-scala-box">
 
       <p>Trains a Word2Vec model that creates vector representations of words in a text corpus.</p>
 
@@ -9143,9 +8960,7 @@ and <a href="https://arxiv.org/pdf/1310.4546v1.pdf">Distributed Representations 
 
 <div class="tabs-box tabs-new">
 
-          <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+          <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
           <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -9212,7 +9027,7 @@ and <a href="https://arxiv.org/pdf/1310.4546v1.pdf">Distributed Representations 
 
     </div>
 
-    <div class="h3-box model-content" style="display: none;">
+    <div class="h3-box tabs-python-scala-box" style="display: none;">
 
       <p>Word2Vec model that creates vector representations of words in a text corpus.</p>
 
@@ -9264,9 +9079,7 @@ and <a href="https://arxiv.org/pdf/1310.4546v1.pdf">Distributed Representations 
 
 <div class="tabs-box tabs-new">
 
-          <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+          <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
           <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -9359,12 +9172,9 @@ and <a href="https://arxiv.org/pdf/1310.4546v1.pdf">Distributed Representations 
 
     <h2 id="wordembeddings">WordEmbeddings</h2>
 
-    <div class="top_tab_li" style="text-align: center;">
-    <button class="tab-li code-selector-active approach-button">Approach</button>
-    <button class="tab-li code-selector-un-active model-button">Model</button>
-</div>
+    <div class="tabs-model-aproach-head tac"><button class="tab-li-model-aproach tabheader_active">Approach</button><button class="tab-li-model-aproach">Model</button></div>
 
-    <div class="h3-box approach-content">
+    <div class="h3-box tabs-python-scala-box">
 
       <p>Word Embeddings lookup annotator that maps tokens to vectors.</p>
 
@@ -9406,9 +9216,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
 <div class="tabs-box tabs-new">
 
-          <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+          <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
           <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -9523,7 +9331,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
     </div>
 
-    <div class="h3-box model-content" style="display: none;">
+    <div class="h3-box tabs-python-scala-box" style="display: none;">
 
       <p>Word Embeddings lookup annotator that maps tokens to vectors</p>
 
@@ -9585,12 +9393,9 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
     <h2 id="wordsegmenter">WordSegmenter</h2>
 
-    <div class="top_tab_li" style="text-align: center;">
-    <button class="tab-li code-selector-active approach-button">Approach</button>
-    <button class="tab-li code-selector-un-active model-button">Model</button>
-</div>
+    <div class="tabs-model-aproach-head tac"><button class="tab-li-model-aproach tabheader_active">Approach</button><button class="tab-li-model-aproach">Model</button></div>
 
-    <div class="h3-box approach-content">
+    <div class="h3-box tabs-python-scala-box">
 
       <p>Trains a WordSegmenter which tokenizes non-english or non-whitespace separated texts.</p>
 
@@ -9630,9 +9435,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
 <div class="tabs-box tabs-new">
 
-          <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+          <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
           <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># In this example, `"chinese_train.utf8"` is in the form of
 #
@@ -9709,7 +9512,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
     </div>
 
-    <div class="h3-box model-content" style="display: none;">
+    <div class="h3-box tabs-python-scala-box" style="display: none;">
 
       <p>WordSegmenter which tokenizes non-english or non-whitespace separated texts.</p>
 
@@ -9749,7 +9552,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
   </div>
 
-  <div class="h3-box model-content">
+  <div class="h3-box tabs-python-scala-box">
 
     <h2 id="yakekeywordextraction">YakeKeywordExtraction</h2>
 
@@ -9808,9 +9611,7 @@ texts of different sizes, languages, and domains.</em></p>
 
 <div class="tabs-box tabs-new">
 
-        <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+        <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
         <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -9938,289 +9739,100 @@ texts of different sizes, languages, and domains.</em></p>
 
 <script>
 
-/* 
-jQuery(document).ready(function(){  
-    $( ".scala-button" ).click(function() {
-        $(this).closest( ".tabs-box" ).find(".scala-button").removeClass('code-selector-un-active').addClass( "code-selector-active" );        
+'use strict';
 
-        //remove  active class from all other buttons
-        $(this).closest( ".tabs-box" ).find(".nlu-button").removeClass('code-selector-active').addClass('code-selector-un-active');
-        $(this).closest( ".tabs-box" ).find(".python-button").removeClass('code-selector-active').addClass('code-selector-un-active');
+function tabs({tabsWrapperSelector, tabsParentSelector, tabsSelector, tabsContentSelector, activeClass}) {
+    //Tabs
 
-        //toggle language snippets
-        $(this).closest( ".tabs-box" ).find( ".language-scala" ).show();
-        $(this).closest( ".tabs-box" ).find( ".language-python, .nlu-block" ).hide();
-    });
+    const tabsWrapper = document.querySelectorAll(tabsWrapperSelector);
 
-    $( ".python-button" ).click(function() {
-        //set current button to active class and remove unactive class
-        $(this).closest( ".tabs-box" ).find(".python-button").removeClass('code-selector-un-active').addClass( "code-selector-active" ); 
+    //Detecting all tabs
+    tabsWrapper.forEach(tab => {
+        const tabsParent = tab.querySelector(tabsParentSelector),
+                tabsLi = tab.querySelectorAll(tabsSelector),
+                tabsContent = tab.querySelectorAll(tabsContentSelector);
 
-        //remove  active class from all other buttons
-        $(this).closest( ".tabs-box" ).find(".nlu-button").removeClass('code-selector-active').addClass('code-selector-un-active');
-        $(this).closest( ".tabs-box" ).find(".scala-button").removeClass('code-selector-active').addClass('code-selector-un-active');
-
-
-        //toggle language snippets
-        $(this).closest( ".tabs-box" ).find( ".language-python" ).show();
-        $(this).closest( ".tabs-box" ).find( ".nlu-block, .language-scala" ).hide();
-    });
-
-    $( ".nlu-button" ).click(function() {
-        //set current button to active class and remove unactive class
-        $(this).closest( ".tabs-box" ).find(".nlu-button").removeClass('code-selector-un-active').addClass( "code-selector-active" );        
-
-        //remove  active class from all other buttons
-        $(this).closest( ".tabs-box" ).find(".scala-button").removeClass('code-selector-active').addClass('code-selector-un-active');
-        $(this).closest( ".tabs-box" ).find(".python-button").removeClass('code-selector-active').addClass('code-selector-un-active');
-
-        //toggle language snippets        
-        $(this).closest( ".tabs-box" ).find( ".language-python, .language-scala" ).hide();
-        $(this).closest( ".tabs-box" ).find( ".nlu-block" ).show();
-    });
-}); */
-
-/* function togglePython1() {
-
-    //set current button to active class and remove unactive class
-    $( ".python-button" ).addClass( "code-selector-active" );
-
-
-    //toggle language snippets
-    $( ".tabs-box .language-python" ).show();
-    $( ".tabs-box .nlu-block" ).hide();
-    $( ".tabs-box .language-scala" ).hide();
-}
-
-function defer(method) { //wait until jquery ready
-    if (window.jQuery) {
-        method();
-    } else {
-        setTimeout(function() { defer(method); }, 15);
-    }
-}
-
-defer(function () { // load inital language
-    togglePython1();
-}); */
-
-
-if((document.querySelectorAll('.model-wrap').length !== 0) || (document.querySelectorAll('.tabs-new').length !== 0)) {
-
-    let tabLi = document.querySelectorAll('.tabs-new .tab-li');
-
-    if((document.querySelectorAll('.model-wrap').length !== 0)) {
-        tabLi = document.querySelectorAll('.model-wrap .tab-li');
-    } 
-    
-    let tabLiTopF = document.querySelectorAll('.top_tab_li'),
-        pythonInner = document.querySelectorAll('.python-inner');
-
-    tabLiTopF.forEach(e => {        
-        e.nextElementSibling.classList.add('active');
-    });
-    pythonInner.forEach(e => {
-        e.firstElementChild.classList.remove('language-python');
-    });
-
-    tabLi.forEach(element => {
-        element.addEventListener('click', function(e) {
-            e.preventDefault();
-            let tabAttribute = element.getAttribute('data-type'),
-                tabLiInner = element.parentNode.querySelectorAll('.tab-li'),
-                tabBoxInner = element.parentNode.parentNode.parentNode.querySelectorAll('.highlighter-rouge');
+        //Hiding all tabs
+        function hideTabsContent() {
+            if(Array.from(tabsLi).length != 0) {
+                tabsContent.forEach(item => {
+                    item.style.display = 'none';
+                }); 
+            }
             
-            //remove active class from NLU
-            tabBoxInner.forEach(item => {
-                item.classList.remove('active');
-                if(item.classList.contains('nlu-block')) {
-                    item.classList.remove('language-python');
-                }  
-                
-            });
-            tabLiInner.forEach(el => {
-                el.classList.remove('active');
-                el.classList.remove('code-selector-active');
-            });
-            element.classList.add('active');
+            if(Array.from(tabsLi).length != 0) {
+                tabsLi.forEach(item => {
+                    item.classList.remove(activeClass);
+                }); 
+            }
+        }
+
+        //Show active tabs
+        function showTabContent(i = 0) {
+            if(Array.from(tabsContent).length != 0) {
+                tabsContent[i].style.display = "block";
+            }
+            if(Array.from(tabsLi).length != 0) {
+                tabsLi[i].classList.add(activeClass);            
+            }
+        }
+
+        //Changing the tabs
+        if(tabsParent != null) {
+            tabsParent.addEventListener('click', (event) => {
+                const target = event.target;
     
-            //add active class
-            switch (tabAttribute) {
-                case "python":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('language-python')) {
-                            item.classList.add('active');
-                        }                    
+                if(target && target.classList.contains(tabsSelector.slice(1))) {
+                    tabsLi.forEach((item, i) => {
+                        if(target == item) {
+                            hideTabsContent();
+                            showTabContent(i);
+                        }
                     });
-                    break;
-                case "scala":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('language-scala')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                  break;
-                  case "nlu":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('nlu-block')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                  break;
-                default:              
-              }
-        });
+                }
+            });
+        }        
+        
+        hideTabsContent();
+        showTabContent();
     });
 }
 
-//Second tabs
-if(document.querySelectorAll('.tab-li-second').length !== 0) {
-    let tabLi = document.querySelectorAll('.tab-li-second');
-
-    tabLi.forEach(element => {
-        element.addEventListener('click', function(e) {
-            e.preventDefault();
-            let tabAttribute = element.getAttribute('data-type'),
-                tabLiInner = element.parentNode.querySelectorAll('.tab-li-second'),
-                tabBoxInner = element.parentNode.parentNode.parentNode.querySelectorAll('.tabs-box-medic-inner');
-            
-
-            //remove active class
-            tabBoxInner.forEach(item => {
-                item.classList.remove('active');
-            });
-            tabLiInner.forEach(el => {
-                el.classList.remove('active');
-            });
-            element.classList.add('active');
-    
-            //add active class
-            switch (tabAttribute) {
-                case "python":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('language-python')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                    break;
-                case "scala":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('language-scala')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                  break;
-                default:              
-              }
-        });
-    });
-}
-
-//Third tabs
-if(document.querySelectorAll('.tab-li-inner').length !== 0) {
-
-    let tabLiSecond = document.querySelectorAll('.tab-li-inner'),
-        tabLiTop = document.querySelectorAll('.toptab-second'),
-        tabLi = document.querySelectorAll('.toptab-second p');
-
-    try {
-        tabLiTop.forEach(e => {        
-            e.nextElementSibling.classList.add('active');
-        });
-    } catch(e){}
-
-    tabLi.forEach(e => {        
-        e.firstChild.classList.add('active');
-    });
-
-
-    tabLiSecond.forEach(element => {
-        element.addEventListener('click', function(e) {
-            e.preventDefault();
-            let tabAttributeSecond = element.getAttribute('data-type'),
-                tabLiInnerSecond = element.parentNode.querySelectorAll('.tab-li-inner'),
-                tabBoxInnerSecond = element.parentNode.parentNode.parentNode.querySelectorAll('.tabs-box-medic-inner-second');
-            
-            //remove active class
-            tabBoxInnerSecond.forEach(item => {
-                item.classList.remove('active');
-            });
-            tabLiInnerSecond.forEach(el => {
-                el.classList.remove('active');
-            });
-            element.classList.add('active');
-    
-            //add active class
-            switch (tabAttributeSecond) {
-                case "medical":
-                    tabBoxInnerSecond.forEach(item => {
-                        if(item.classList.contains('language-medical')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                    break;
-                case "finance":
-                    tabBoxInnerSecond.forEach(item => {
-                        if(item.classList.contains('language-finance')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                  break;
-                case "legal":
-                tabBoxInnerSecond.forEach(item => {
-                    if(item.classList.contains('language-legal')) {
-                        item.classList.add('active');
-                    }                    
-                });
-                break;
-                default:              
-              }
-        });
-    });
-}
-
-//Forth tabs
-if(document.querySelectorAll('.tab-jsl').length !== 0) {
-    let tabLiForth = document.querySelectorAll('.tab-jsl');
-
-    tabLiForth.forEach(element => {
-        element.addEventListener('click', function(e) {
-            e.preventDefault();
-            let tabAttribute = element.getAttribute('data-type'),
-                tabLiInner = element.parentNode.querySelectorAll('.tab-jsl'),
-                tabBoxInner = element.parentNode.parentNode.parentNode.querySelectorAll('.python-inner');
-            
-
-            //remove active class
-            tabBoxInner.forEach(item => {
-                item.classList.remove('active');
-            });
-            tabLiInner.forEach(el => {
-                el.classList.remove('active');
-            });
-            element.classList.add('active');
-    
-            //add active class
-            switch (tabAttribute) {
-                case "spark-nlp-jsl":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('python-johnsnowlabs')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                    break;
-                case "johnsnowlabs":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('python-spark-nlp-jsl')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                  break;
-                default:              
-              }
-        });
-    });
-}
+tabs({
+    tabsWrapperSelector: '.tabs-model-aproach', 
+    tabsParentSelector: '.tabs-model-aproach-head', 
+    tabsSelector: '.tab-li-model-aproach', 
+    tabsContentSelector: '.tabs-python-scala-box', 
+    activeClass: 'tabheader_active'
+});
+tabs({
+    tabsWrapperSelector: '.tabs-python-scala-box', 
+    tabsParentSelector: '.tabs-python-scala-head', 
+    tabsSelector: '.tab-python-scala-li', 
+    tabsContentSelector: '.tabs-mfl-box', 
+    activeClass: 'tabheader_active'
+});
+tabs({
+    tabsWrapperSelector: '.tabs-mfl-box', 
+    tabsParentSelector: '.tabs-mfl-head', 
+    tabsSelector: '.tab-mfl-li', 
+    tabsContentSelector: '.tab-mfl-content', 
+    activeClass: 'tabheader_active'
+});
+tabs({
+    tabsWrapperSelector: '.tabs-box', 
+    tabsParentSelector: '.tabs-python-scala-head', 
+    tabsSelector: '.tab-python-scala-li', 
+    tabsContentSelector: '.tabs-box .highlighter-rouge', 
+    activeClass: 'tabheader_active'
+});
+tabs({
+    tabsWrapperSelector: '.tabs-box', 
+    tabsParentSelector: '.tabs-model-aproach-head', 
+    tabsSelector: '.tab-li-model-aproach', 
+    tabsContentSelector: '.tabs-python-scala-box', 
+    activeClass: 'tabheader_active'
+});
 
 </script>
 

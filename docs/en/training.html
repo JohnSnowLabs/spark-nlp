@@ -596,9 +596,7 @@ part-of-speech tagging, named entity recognition, spell checking and more.</p>
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="n">POS</span>
 <span class="n">pos</span> <span class="o">=</span> <span class="n">POS</span><span class="p">()</span>
@@ -730,9 +728,7 @@ lamb NN I-NP O
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="n">CoNLL</span>
 <span class="n">trainingData</span> <span class="o">=</span> <span class="n">CoNLL</span><span class="p">().</span><span class="n">readDataset</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="s">"src/test/resources/conll2003/eng.train"</span><span class="p">)</span>
@@ -821,9 +817,7 @@ lamb NN I-NP O
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="n">CoNLLU</span>
 <span class="n">conlluFile</span> <span class="o">=</span> <span class="s">"src/test/resources/conllu/en.test.conllu"</span>
@@ -906,9 +900,7 @@ lamb NN I-NP O
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="n">PubTator</span>
 <span class="n">pubTatorFile</span> <span class="o">=</span> <span class="s">"./src/test/resources/corpus_pubtator_sample.txt"</span>
@@ -949,9 +941,7 @@ lamb NN I-NP O
 
   <div class="tabs-box tabs-new">
 
-    <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+    <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
     <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">train_corpus</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span> \
     <span class="p">.</span><span class="n">text</span><span class="p">(</span><span class="s">"./sherlockholmes.txt"</span><span class="p">)</span> \
@@ -971,7 +961,7 @@ lamb NN I-NP O
 dependency parsing, lemmatisation, part-of-speech tagging, sentence detection
 and word segmentation.</p>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h3 id="dependencyparserapproach">DependencyParserApproach</h3>
 
@@ -1029,9 +1019,7 @@ German JJ B-NP B-MISC
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -1120,7 +1108,7 @@ German JJ B-NP B-MISC
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h3 id="lemmatizer">Lemmatizer</h3>
 
@@ -1151,9 +1139,7 @@ Pretrained models can be loaded with <code class="language-plaintext highlighter
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># In this example, the lemma dictionary `lemmas_small.txt` has the form of
 #
@@ -1269,7 +1255,7 @@ Pretrained models can be loaded with <code class="language-plaintext highlighter
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h3 id="perceptronapproach-part-of-speech-tagger">PerceptronApproach (Part of speech tagger)</h3>
 
@@ -1318,9 +1304,7 @@ and <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scal
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -1420,7 +1404,7 @@ and <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scal
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h3 id="sentencedetectordlapproach">SentenceDetectorDLApproach</h3>
 
@@ -1460,9 +1444,7 @@ if <code class="language-plaintext highlighter-rouge">explodeSentences</code> is
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># The training process needs data, where each data point is a sentence.
 # In this example the `train.txt` file has the form of
@@ -1533,7 +1515,7 @@ if <code class="language-plaintext highlighter-rouge">explodeSentences</code> is
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h3 id="typeddependencyparser">TypedDependencyParser</h3>
 
@@ -1590,9 +1572,7 @@ German JJ B-NP B-MISC
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -1694,7 +1674,7 @@ German JJ B-NP B-MISC
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h3 id="wordsegmenterapproach">WordSegmenterApproach</h3>
 
@@ -1733,9 +1713,7 @@ set with <code class="language-plaintext highlighter-rouge">setPosColumn</code>.
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># In this example, `"chinese_train.utf8"` is in the form of
 #
@@ -1815,7 +1793,7 @@ set with <code class="language-plaintext highlighter-rouge">setPosColumn</code>.
 <h2 id="spell-checkers">Spell Checkers</h2>
 <p>These are annotators that can be trained to correct text.</p>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h3 id="contextspellcheckerapproach">ContextSpellCheckerApproach</h3>
 
@@ -1855,9 +1833,7 @@ the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tuto
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># For this example, we use the first Sherlock Holmes book as the training dataset.
 </span>
@@ -1941,7 +1917,7 @@ the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tuto
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h3 id="norvigsweeting-spellchecker">NorvigSweeting Spellchecker</h3>
 
@@ -1989,9 +1965,7 @@ gummiferous
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -2053,7 +2027,7 @@ gummiferous
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h3 id="symmetricdelete-spellchecker">SymmetricDelete Spellchecker</h3>
 
@@ -2101,9 +2075,7 @@ gummiferous
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -2168,7 +2140,7 @@ gummiferous
 <h2 id="token-classification">Token Classification</h2>
 <p>These are annotators that can be trained to recognize named entities in text.</p>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h3 id="nercrfapproach">NerCrfApproach</h3>
 
@@ -2211,9 +2183,7 @@ Excluding the label, this can be done with for example</p>
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -2327,7 +2297,7 @@ Excluding the label, this can be done with for example</p>
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h3 id="nerdlapproach">NerDLApproach</h3>
 
@@ -2368,9 +2338,7 @@ Excluding the label, this can be done with for example</p>
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -2479,7 +2447,7 @@ Excluding the label, this can be done with for example</p>
 <p>These are annotators that can be trained to classify text into different
 classes, such as sentiment.</p>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h3 id="classifierdlapproach">ClassifierDLApproach</h3>
 
@@ -2517,9 +2485,7 @@ The ClassifierDL annotator uses a deep learning model (DNNs) we have built insid
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># In this example, the training data `"sentiment.csv"` has the form of
 #
@@ -2617,7 +2583,7 @@ The ClassifierDL annotator uses a deep learning model (DNNs) we have built insid
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h3 id="multiclassifierdlapproach">MultiClassifierDLApproach</h3>
 
@@ -2661,9 +2627,7 @@ Formally, multi-label classification is the problem of finding a model that maps
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># In this example, the training data has the form
 #
@@ -2797,7 +2761,7 @@ Formally, multi-label classification is the problem of finding a model that maps
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h3 id="sentimentdlapproach">SentimentDLApproach</h3>
 
@@ -2841,9 +2805,7 @@ Formally, multi-label classification is the problem of finding a model that maps
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># In this example, the training data has the form
 #
@@ -2977,7 +2939,7 @@ Formally, multi-label classification is the problem of finding a model that maps
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h3 id="viveknsentimentapproach">ViveknSentimentApproach</h3>
 
@@ -3013,9 +2975,7 @@ Tokenization is needed to make sure tokens are within bounds. Transitivity requi
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -3136,7 +3096,7 @@ Tokenization is needed to make sure tokens are within bounds. Transitivity requi
 <p>These are annotators that can be trained to turn text into a numerical
 representation.</p>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h3 id="doc2vecapproach">Doc2VecApproach</h3>
 
@@ -3180,9 +3140,7 @@ and <a href="https://arxiv.org/pdf/1310.4546v1.pdf">Distributed Representations 
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -3249,7 +3207,7 @@ and <a href="https://arxiv.org/pdf/1310.4546v1.pdf">Distributed Representations 
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h3 id="word2vecapproach">Word2VecApproach</h3>
 
@@ -3293,9 +3251,7 @@ and <a href="https://arxiv.org/pdf/1310.4546v1.pdf">Distributed Representations 
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -3366,7 +3322,7 @@ and <a href="https://arxiv.org/pdf/1310.4546v1.pdf">Distributed Representations 
 <p>These are annotators that are trained in an external library, which are then
 loaded into Spark NLP.</p>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h3 id="albertfortokenclassification">AlbertForTokenClassification</h3>
 
@@ -3440,9 +3396,7 @@ the transformers model) and <code class="language-plaintext highlighter-rouge">l
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -3544,7 +3498,7 @@ the transformers model) and <code class="language-plaintext highlighter-rouge">l
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h3 id="bertforsequenceclassification">BertForSequenceClassification</h3>
 
@@ -3614,9 +3568,7 @@ the transformers model) and <code class="language-plaintext highlighter-rouge">l
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -3718,7 +3670,7 @@ the transformers model) and <code class="language-plaintext highlighter-rouge">l
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h3 id="bertfortokenclassification">BertForTokenClassification</h3>
 
@@ -3784,9 +3736,7 @@ the transformers model) and <code class="language-plaintext highlighter-rouge">l
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -3888,7 +3838,7 @@ the transformers model) and <code class="language-plaintext highlighter-rouge">l
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h3 id="distilbertforsequenceclassification">DistilBertForSequenceClassification</h3>
 
@@ -3958,9 +3908,7 @@ the transformers model) and <code class="language-plaintext highlighter-rouge">l
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -4062,7 +4010,7 @@ the transformers model) and <code class="language-plaintext highlighter-rouge">l
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h3 id="distilbertfortokenclassification">DistilBertForTokenClassification</h3>
 
@@ -4130,9 +4078,7 @@ the transformers model) and <code class="language-plaintext highlighter-rouge">l
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -4236,7 +4182,7 @@ the transformers model) and <code class="language-plaintext highlighter-rouge">l
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h3 id="robertafortokenclassification">RoBertaForTokenClassification</h3>
 
@@ -4317,9 +4263,7 @@ the transformers model) and <code class="language-plaintext highlighter-rouge">l
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -4421,7 +4365,7 @@ the transformers model) and <code class="language-plaintext highlighter-rouge">l
 
 </div>
 
-<div class="h3-box model-content">
+<div class="h3-box tabs-python-scala-box">
 
   <h3 id="xlmrobertafortokenclassification">XlmRoBertaForTokenClassification</h3>
 
@@ -4496,9 +4440,7 @@ the transformers model) and <code class="language-plaintext highlighter-rouge">l
 
 <div class="tabs-box tabs-new">
 
-      <div class="top_tab_li">   
-    <p><button data-type="python" class="tab-li tab-li-second active">Python</button><button data-type="scala" class="tab-li tab-li-second">Scala</button></p>
-</div>
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -4685,289 +4627,100 @@ Currently, Spark NLP has graphs for the most common combination of tags, embeddi
 
 <script>
 
-/* 
-jQuery(document).ready(function(){  
-    $( ".scala-button" ).click(function() {
-        $(this).closest( ".tabs-box" ).find(".scala-button").removeClass('code-selector-un-active').addClass( "code-selector-active" );        
+'use strict';
 
-        //remove  active class from all other buttons
-        $(this).closest( ".tabs-box" ).find(".nlu-button").removeClass('code-selector-active').addClass('code-selector-un-active');
-        $(this).closest( ".tabs-box" ).find(".python-button").removeClass('code-selector-active').addClass('code-selector-un-active');
+function tabs({tabsWrapperSelector, tabsParentSelector, tabsSelector, tabsContentSelector, activeClass}) {
+    //Tabs
 
-        //toggle language snippets
-        $(this).closest( ".tabs-box" ).find( ".language-scala" ).show();
-        $(this).closest( ".tabs-box" ).find( ".language-python, .nlu-block" ).hide();
-    });
+    const tabsWrapper = document.querySelectorAll(tabsWrapperSelector);
 
-    $( ".python-button" ).click(function() {
-        //set current button to active class and remove unactive class
-        $(this).closest( ".tabs-box" ).find(".python-button").removeClass('code-selector-un-active').addClass( "code-selector-active" ); 
+    //Detecting all tabs
+    tabsWrapper.forEach(tab => {
+        const tabsParent = tab.querySelector(tabsParentSelector),
+                tabsLi = tab.querySelectorAll(tabsSelector),
+                tabsContent = tab.querySelectorAll(tabsContentSelector);
 
-        //remove  active class from all other buttons
-        $(this).closest( ".tabs-box" ).find(".nlu-button").removeClass('code-selector-active').addClass('code-selector-un-active');
-        $(this).closest( ".tabs-box" ).find(".scala-button").removeClass('code-selector-active').addClass('code-selector-un-active');
-
-
-        //toggle language snippets
-        $(this).closest( ".tabs-box" ).find( ".language-python" ).show();
-        $(this).closest( ".tabs-box" ).find( ".nlu-block, .language-scala" ).hide();
-    });
-
-    $( ".nlu-button" ).click(function() {
-        //set current button to active class and remove unactive class
-        $(this).closest( ".tabs-box" ).find(".nlu-button").removeClass('code-selector-un-active').addClass( "code-selector-active" );        
-
-        //remove  active class from all other buttons
-        $(this).closest( ".tabs-box" ).find(".scala-button").removeClass('code-selector-active').addClass('code-selector-un-active');
-        $(this).closest( ".tabs-box" ).find(".python-button").removeClass('code-selector-active').addClass('code-selector-un-active');
-
-        //toggle language snippets        
-        $(this).closest( ".tabs-box" ).find( ".language-python, .language-scala" ).hide();
-        $(this).closest( ".tabs-box" ).find( ".nlu-block" ).show();
-    });
-}); */
-
-/* function togglePython1() {
-
-    //set current button to active class and remove unactive class
-    $( ".python-button" ).addClass( "code-selector-active" );
-
-
-    //toggle language snippets
-    $( ".tabs-box .language-python" ).show();
-    $( ".tabs-box .nlu-block" ).hide();
-    $( ".tabs-box .language-scala" ).hide();
-}
-
-function defer(method) { //wait until jquery ready
-    if (window.jQuery) {
-        method();
-    } else {
-        setTimeout(function() { defer(method); }, 15);
-    }
-}
-
-defer(function () { // load inital language
-    togglePython1();
-}); */
-
-
-if((document.querySelectorAll('.model-wrap').length !== 0) || (document.querySelectorAll('.tabs-new').length !== 0)) {
-
-    let tabLi = document.querySelectorAll('.tabs-new .tab-li');
-
-    if((document.querySelectorAll('.model-wrap').length !== 0)) {
-        tabLi = document.querySelectorAll('.model-wrap .tab-li');
-    } 
-    
-    let tabLiTopF = document.querySelectorAll('.top_tab_li'),
-        pythonInner = document.querySelectorAll('.python-inner');
-
-    tabLiTopF.forEach(e => {        
-        e.nextElementSibling.classList.add('active');
-    });
-    pythonInner.forEach(e => {
-        e.firstElementChild.classList.remove('language-python');
-    });
-
-    tabLi.forEach(element => {
-        element.addEventListener('click', function(e) {
-            e.preventDefault();
-            let tabAttribute = element.getAttribute('data-type'),
-                tabLiInner = element.parentNode.querySelectorAll('.tab-li'),
-                tabBoxInner = element.parentNode.parentNode.parentNode.querySelectorAll('.highlighter-rouge');
+        //Hiding all tabs
+        function hideTabsContent() {
+            if(Array.from(tabsLi).length != 0) {
+                tabsContent.forEach(item => {
+                    item.style.display = 'none';
+                }); 
+            }
             
-            //remove active class from NLU
-            tabBoxInner.forEach(item => {
-                item.classList.remove('active');
-                if(item.classList.contains('nlu-block')) {
-                    item.classList.remove('language-python');
-                }  
-                
-            });
-            tabLiInner.forEach(el => {
-                el.classList.remove('active');
-                el.classList.remove('code-selector-active');
-            });
-            element.classList.add('active');
+            if(Array.from(tabsLi).length != 0) {
+                tabsLi.forEach(item => {
+                    item.classList.remove(activeClass);
+                }); 
+            }
+        }
+
+        //Show active tabs
+        function showTabContent(i = 0) {
+            if(Array.from(tabsContent).length != 0) {
+                tabsContent[i].style.display = "block";
+            }
+            if(Array.from(tabsLi).length != 0) {
+                tabsLi[i].classList.add(activeClass);            
+            }
+        }
+
+        //Changing the tabs
+        if(tabsParent != null) {
+            tabsParent.addEventListener('click', (event) => {
+                const target = event.target;
     
-            //add active class
-            switch (tabAttribute) {
-                case "python":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('language-python')) {
-                            item.classList.add('active');
-                        }                    
+                if(target && target.classList.contains(tabsSelector.slice(1))) {
+                    tabsLi.forEach((item, i) => {
+                        if(target == item) {
+                            hideTabsContent();
+                            showTabContent(i);
+                        }
                     });
-                    break;
-                case "scala":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('language-scala')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                  break;
-                  case "nlu":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('nlu-block')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                  break;
-                default:              
-              }
-        });
+                }
+            });
+        }        
+        
+        hideTabsContent();
+        showTabContent();
     });
 }
 
-//Second tabs
-if(document.querySelectorAll('.tab-li-second').length !== 0) {
-    let tabLi = document.querySelectorAll('.tab-li-second');
-
-    tabLi.forEach(element => {
-        element.addEventListener('click', function(e) {
-            e.preventDefault();
-            let tabAttribute = element.getAttribute('data-type'),
-                tabLiInner = element.parentNode.querySelectorAll('.tab-li-second'),
-                tabBoxInner = element.parentNode.parentNode.parentNode.querySelectorAll('.tabs-box-medic-inner');
-            
-
-            //remove active class
-            tabBoxInner.forEach(item => {
-                item.classList.remove('active');
-            });
-            tabLiInner.forEach(el => {
-                el.classList.remove('active');
-            });
-            element.classList.add('active');
-    
-            //add active class
-            switch (tabAttribute) {
-                case "python":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('language-python')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                    break;
-                case "scala":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('language-scala')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                  break;
-                default:              
-              }
-        });
-    });
-}
-
-//Third tabs
-if(document.querySelectorAll('.tab-li-inner').length !== 0) {
-
-    let tabLiSecond = document.querySelectorAll('.tab-li-inner'),
-        tabLiTop = document.querySelectorAll('.toptab-second'),
-        tabLi = document.querySelectorAll('.toptab-second p');
-
-    try {
-        tabLiTop.forEach(e => {        
-            e.nextElementSibling.classList.add('active');
-        });
-    } catch(e){}
-
-    tabLi.forEach(e => {        
-        e.firstChild.classList.add('active');
-    });
-
-
-    tabLiSecond.forEach(element => {
-        element.addEventListener('click', function(e) {
-            e.preventDefault();
-            let tabAttributeSecond = element.getAttribute('data-type'),
-                tabLiInnerSecond = element.parentNode.querySelectorAll('.tab-li-inner'),
-                tabBoxInnerSecond = element.parentNode.parentNode.parentNode.querySelectorAll('.tabs-box-medic-inner-second');
-            
-            //remove active class
-            tabBoxInnerSecond.forEach(item => {
-                item.classList.remove('active');
-            });
-            tabLiInnerSecond.forEach(el => {
-                el.classList.remove('active');
-            });
-            element.classList.add('active');
-    
-            //add active class
-            switch (tabAttributeSecond) {
-                case "medical":
-                    tabBoxInnerSecond.forEach(item => {
-                        if(item.classList.contains('language-medical')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                    break;
-                case "finance":
-                    tabBoxInnerSecond.forEach(item => {
-                        if(item.classList.contains('language-finance')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                  break;
-                case "legal":
-                tabBoxInnerSecond.forEach(item => {
-                    if(item.classList.contains('language-legal')) {
-                        item.classList.add('active');
-                    }                    
-                });
-                break;
-                default:              
-              }
-        });
-    });
-}
-
-//Forth tabs
-if(document.querySelectorAll('.tab-jsl').length !== 0) {
-    let tabLiForth = document.querySelectorAll('.tab-jsl');
-
-    tabLiForth.forEach(element => {
-        element.addEventListener('click', function(e) {
-            e.preventDefault();
-            let tabAttribute = element.getAttribute('data-type'),
-                tabLiInner = element.parentNode.querySelectorAll('.tab-jsl'),
-                tabBoxInner = element.parentNode.parentNode.parentNode.querySelectorAll('.python-inner');
-            
-
-            //remove active class
-            tabBoxInner.forEach(item => {
-                item.classList.remove('active');
-            });
-            tabLiInner.forEach(el => {
-                el.classList.remove('active');
-            });
-            element.classList.add('active');
-    
-            //add active class
-            switch (tabAttribute) {
-                case "spark-nlp-jsl":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('python-johnsnowlabs')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                    break;
-                case "johnsnowlabs":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('python-spark-nlp-jsl')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                  break;
-                default:              
-              }
-        });
-    });
-}
+tabs({
+    tabsWrapperSelector: '.tabs-model-aproach', 
+    tabsParentSelector: '.tabs-model-aproach-head', 
+    tabsSelector: '.tab-li-model-aproach', 
+    tabsContentSelector: '.tabs-python-scala-box', 
+    activeClass: 'tabheader_active'
+});
+tabs({
+    tabsWrapperSelector: '.tabs-python-scala-box', 
+    tabsParentSelector: '.tabs-python-scala-head', 
+    tabsSelector: '.tab-python-scala-li', 
+    tabsContentSelector: '.tabs-mfl-box', 
+    activeClass: 'tabheader_active'
+});
+tabs({
+    tabsWrapperSelector: '.tabs-mfl-box', 
+    tabsParentSelector: '.tabs-mfl-head', 
+    tabsSelector: '.tab-mfl-li', 
+    tabsContentSelector: '.tab-mfl-content', 
+    activeClass: 'tabheader_active'
+});
+tabs({
+    tabsWrapperSelector: '.tabs-box', 
+    tabsParentSelector: '.tabs-python-scala-head', 
+    tabsSelector: '.tab-python-scala-li', 
+    tabsContentSelector: '.tabs-box .highlighter-rouge', 
+    activeClass: 'tabheader_active'
+});
+tabs({
+    tabsWrapperSelector: '.tabs-box', 
+    tabsParentSelector: '.tabs-model-aproach-head', 
+    tabsSelector: '.tab-li-model-aproach', 
+    tabsContentSelector: '.tabs-python-scala-box', 
+    activeClass: 'tabheader_active'
+});
 
 </script>
 
