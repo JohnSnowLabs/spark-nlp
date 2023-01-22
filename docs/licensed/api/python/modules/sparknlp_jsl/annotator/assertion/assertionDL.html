@@ -321,8 +321,6 @@
 <span class="sd">        Choose the proportion of training dataset to be validated</span>
 <span class="sd">        against the model on each epoch. The value should be between 0.0 and 1.0</span>
 <span class="sd">        and by default it is 0.0 (no validation).</span>
-<span class="sd">    evaluationLogExtended</span>
-<span class="sd">       Select if you want to have mode eval.</span>
 <span class="sd">    testDataset</span>
 <span class="sd">        Path to test dataset. If set used to calculate statistic on it during training.</span>
 <span class="sd">    includeConfidence</span>
@@ -382,7 +380,7 @@
 <span class="sd">    &gt;&gt;&gt; assertion_model = assertionPipeline.fit(dataset)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="AssertionDLApproach.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">WORD_EMBEDDINGS</span><span class="p">]</span></div>
-<div class="viewcode-block" id="AssertionDLApproach.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="p">[</span><span class="n">InternalAnnotatorType</span><span class="o">.</span><span class="n">ASSERTION</span><span class="p">]</span></div>
+<div class="viewcode-block" id="AssertionDLApproach.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">InternalAnnotatorType</span><span class="o">.</span><span class="n">ASSERTION</span></div>
 
 <div class="viewcode-block" id="AssertionDLApproach.label"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.label">[docs]</a>    <span class="n">label</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="s2">&quot;Column with one label per document&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
@@ -413,10 +411,6 @@
 <div class="viewcode-block" id="AssertionDLApproach.validationSplit"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.validationSplit">[docs]</a>    <span class="n">validationSplit</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;validationSplit&quot;</span><span class="p">,</span>
                             <span class="s2">&quot;Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.&quot;</span><span class="p">,</span>
                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="AssertionDLApproach.evaluationLogExtended"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.evaluationLogExtended">[docs]</a>    <span class="n">evaluationLogExtended</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;evaluationLogExtended&quot;</span><span class="p">,</span>
-                                  <span class="s2">&quot;&quot;</span><span class="p">,</span>
-                                  <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AssertionDLApproach.testDataset"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.testDataset">[docs]</a>    <span class="n">testDataset</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;testDataset&quot;</span><span class="p">,</span>
                         <span class="s2">&quot;Path to test dataset. If set used to calculate statistic on it during training.&quot;</span><span class="p">,</span>
@@ -539,15 +533,6 @@
 <span class="sd">            value (float): The proportion of training dataset to be used as validation set.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">validationSplit</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="AssertionDLApproach.setEvaluationLogExtended"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setEvaluationLogExtended">[docs]</a>    <span class="k">def</span> <span class="nf">setEvaluationLogExtended</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a Annotation from a Spark `Row`.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            value (bool): Whether to use extended evaluation log or not.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">evaluationLogExtended</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="AssertionDLApproach.setTestDataset"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setTestDataset">[docs]</a>    <span class="k">def</span> <span class="nf">setTestDataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">SPARK</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -705,7 +690,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="AssertionDLModel.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">WORD_EMBEDDINGS</span><span class="p">]</span></div>
-<div class="viewcode-block" id="AssertionDLModel.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="p">[</span><span class="n">InternalAnnotatorType</span><span class="o">.</span><span class="n">ASSERTION</span><span class="p">]</span></div>
+<div class="viewcode-block" id="AssertionDLModel.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">InternalAnnotatorType</span><span class="o">.</span><span class="n">ASSERTION</span></div>
 
 <div class="viewcode-block" id="AssertionDLModel.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertionDL/index.html#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;AssertionDLModel&quot;</span></div>
 

@@ -268,9 +268,10 @@
               
   <h1>Source code for sparknlp_jsl.utils.ner_utils</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">unicode_literals</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">from</span> <span class="nn">sparknlp_jsl.utils.imports</span> <span class="kn">import</span> <span class="n">is_module_importable</span>
 
 
 <div class="viewcode-block" id="get_charts"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/ner_utils/index.html#sparknlp_jsl.utils.ner_utils.get_charts">[docs]</a><span class="k">def</span> <span class="nf">get_charts</span><span class="p">(</span><span class="n">log_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">):</span>
@@ -280,6 +281,8 @@
 <span class="sd">    :param log_file:  path to the log file</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">is_module_importable</span><span class="p">(</span><span class="n">lib</span><span class="o">=</span><span class="s1">&#39;matplotlib&#39;</span><span class="p">,</span><span class="n">raise_exception</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">pip_name</span><span class="o">=</span><span class="s1">&#39;matplotlib&#39;</span> <span class="p">)</span>
+    <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
     <span class="kn">from</span> <span class="nn">sparknlp_jsl.utils.log_parse</span> <span class="kn">import</span> <span class="n">__parse_logfile</span><span class="p">,</span> <span class="n">__aggregate_entities</span>
     <span class="n">metrics</span><span class="p">,</span> <span class="n">avg_metrics</span><span class="p">,</span> <span class="n">graph</span> <span class="o">=</span> <span class="n">__parse_logfile</span><span class="p">(</span><span class="n">log_file</span><span class="p">)</span>
     <span class="n">chart_metrics</span> <span class="o">=</span> <span class="n">__aggregate_entities</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span>
@@ -320,6 +323,9 @@
 
 <span class="sd">    :param log_path: path to the log file</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">is_module_importable</span><span class="p">(</span><span class="s1">&#39;matplotlib&#39;</span><span class="p">,</span><span class="kc">True</span><span class="p">,</span><span class="s1">&#39;matplotlib&#39;</span> <span class="p">)</span>
+    <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">log_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">lines</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
 
