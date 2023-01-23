@@ -33,7 +33,7 @@ pyspark_version = "3.2.3"
 # ones.
 extensions = [
     "sphinx.ext.viewcode",
-    "sphinx.ext.autosectionlabel",
+    # "sphinx.ext.autosectionlabel",
     # "sphinx.ext.autosummary",
     "numpydoc",  # handle NumPy documentation formatted docstrings.
     "sphinx-prompt",
@@ -62,6 +62,7 @@ exclude_patterns = [
     "**/_tf_graph_builders_1x/**",
     "**/_tf_graph_builders/**",
     "**/_templates/**",
+    "**/_autoapi/**"
 ]
 
 
@@ -71,6 +72,7 @@ html_logo = "_static/logo.png"
 html_favicon = "_static/fav.ico"
 
 suppress_warnings = ["toc.excluded"]
+add_module_names = False
 
 # -- Options for HTML output -------------------------------------------------
 
