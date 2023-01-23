@@ -11,11 +11,11 @@ model
 {%- endcapture -%}
 
 {%- capture model_description -%}
-Extracts and classifies instances of relations between named entities. For this, relation pairs
-need to be defined with `setRelationPairs`, to specify between which entities the extraction should be done.
+Extracts and classifies instances of relations between named entities.
 
 For pretrained models please see the
 [Models Hub](https://nlp.johnsnowlabs.com/models?task=Relation+Extraction) for available models.
+
 {%- endcapture -%}
 
 {%- capture model_input_anno -%}
@@ -220,9 +220,13 @@ val result = pipeline.fit(data).transform(data)
 {%- endcapture -%}
 
 {%- capture approach_description -%}
-Trains a TensorFlow model for relation extraction. The Tensorflow graph in `.pb` format needs to be specified with
-`setModelFile`. The result is a RelationExtractionModel.
-To start training, see the parameters that need to be set in the Parameters section.
+Trains a TensorFlow model for relation extraction. 
+
+To train a custom relation extraction model, you need to first creat a Tensorflow graph using either the `TfGraphBuilder` annotator or the `tf_graph` module. Then, set the path to the Tensorflow graph using the method `.setModelFile("path/to/tensorflow_graph.pb")`.
+
+If the parameter `relationDirectionCol` is set, the model will be trained using the direction information (see the parameter decription for details). Otherwise, the model won't have direction between the relation of the entities.
+
+After training a model (using the `.fit()` method), the resulting object is of class `RelationExtractionModel`.
 {%- endcapture -%}
 
 {%- capture approach_input_anno -%}

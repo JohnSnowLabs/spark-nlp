@@ -10,6 +10,12 @@ model
 
 This annotator creates a `CHUNK` column with metadata useful for training an Assertion Status Detection model (see [AssertionDL](https://nlp.johnsnowlabs.com/docs/en/licensed_annotators#assertiondl)).
 
+In some cases, there may be issues while creating the chunk column when using token indices that can lead to loss of data to train assertion status models.
+
+The `AssertionChunkConverter` annotator uses both begin and end indices of the tokens as input to add a more robust metadata to the chunk column in a way that improves the reliability of the indices and avoid loss of data.
+
+> *NOTE*: Chunk begin and end indices in the assertion status model training dataframe can be populated using the new version of ALAB module.
+
 {%- endcapture -%}
 
 {%- capture model_input_anno -%}

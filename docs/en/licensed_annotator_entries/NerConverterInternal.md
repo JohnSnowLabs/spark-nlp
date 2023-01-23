@@ -9,7 +9,10 @@ model
 {%- capture model_description -%}
 Converts a IOB or IOB2 representation of NER to a user-friendly one,
 by associating the tokens of recognized entities and their label.
-Chunks with no associated entity (tagged "O") are filtered.
+Chunks with no associated entity (tagged "O") are filtered out.
+
+This licensed annotator adds extra functionality to the open-source version by adding the following parameters: `blackList`, `greedyMode`,  `threshold`, and `ignoreStopWords` that are not available in the [NerConverter](https://nlp.johnsnowlabs.com/docs/en/annotators#nerconverter) annotator.
+
 See also [Inside–outside–beginning (tagging)](https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93beginning_(tagging)) for more information.
 {%- endcapture -%}
 

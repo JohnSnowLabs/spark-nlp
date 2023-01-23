@@ -7,8 +7,14 @@ model
 {%- endcapture -%}
 
 {%- capture model_description -%}
-Filters and outputs combinations of relations between extracted entities, for further processing.
-This annotator is especially useful to create inputs for the RelationExtractionDLModel.
+Filters entities' dependency relations.
+
+The annotator filters desired relation pairs (defined by the parameter realtionPairs), and store those on the output column.
+
+Filtering the possible relations can be useful to perform additional analysis for a specific use case (e.g., checking adverse drug reactions and drug realations), which can be the input for further analysis using a pretrained `RelationExtractionDLModel`.
+
+For example, the [ner_clinical](https://nlp.johnsnowlabs.com/2021/03/31/ner_clinical_en.html) NER model can identify `PROBLEM`, `TEST`, and `TREATMENT` entities. By using the `RENerChunksFilter`, one can filter only the relations between `PROBLEM` and `TREATMENT`  entities only, removing any relation between the other entities, to further analyze the  associations between clinical problems and treatments.
+
 {%- endcapture -%}
 
 {%- capture model_input_anno -%}
