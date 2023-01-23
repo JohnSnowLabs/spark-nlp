@@ -55,7 +55,14 @@ intersphinx_mapping = {
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+exclude_patterns = [
+    "_build",
+    "Thumbs.db",
+    ".DS_Store",
+    "**/_tf_graph_builders_1x/**",
+    "**/_tf_graph_builders/**",
+    "**/_templates/**",
+]
 
 
 # The name of an image file (relative to this directory) to place at the top
@@ -98,6 +105,7 @@ autoapi_template_dir = "_templates/_autoapi"
 autoapi_add_toctree_entry = False
 # autoapi_member_order = "groupwise"
 autoapi_keep_files = True
+autoapi_ignore = exclude_patterns
 # autoapi_generate_api_docs = False
 # autoapi_python_use_implicit_namespaces = True
 
