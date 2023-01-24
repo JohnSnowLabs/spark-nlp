@@ -1,6 +1,6 @@
 ---
 layout: model
-title: SDOH Alcohol Usege For Classification
+title: SDOH Alcohol Usage For Classification
 author: John Snow Labs
 name: genericclassifier_sdoh_alcohol_usage_sbiobert_cased_mli
 date: 2023-01-14
