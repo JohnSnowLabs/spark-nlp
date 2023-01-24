@@ -101,12 +101,11 @@ val ocr_corrected = new ImageToText()
     .setConfidenceThreshold(70) 
     .setIgnoreResolution(False)
 
-val pipeline = new PipelineModel.setStages(Array(
-    pdf_to_image,
-    ocr,
-    cleaner,
-    ocr_corrected
-))
+val pipeline = new PipelineModel().setStages(Array(
+    pdf_to_image, 
+    ocr, 
+    cleaner, 
+    ocr_corrected))
 
 val pdf_example = "data/pdfs/noised.pdf"
 val pdf_example_df = spark.read.format("binaryFile").load(pdf_example).cache()

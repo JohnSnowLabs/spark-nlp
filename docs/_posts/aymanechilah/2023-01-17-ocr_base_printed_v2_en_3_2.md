@@ -102,12 +102,10 @@ val draw_regions = new ImageDrawRegions()
     .setRectColor(Color.green) 
     .setRotated(True)
 
-val pipeline = new PipelineModel.setStages(Array(
-    binary_to_image,
-    text_detector,
-    ocr,
-    draw_regions
-))
+val pipeline = new PipelineModel().setStages(Array(binary_to_image, 
+    text_detector, 
+    ocr, 
+    draw_regions))
 
 val imagePath = pkg_resources.resource_filename("sparkocr", "resources/ocr/images/check.jpg")
 val image_df = spark.read.format("binaryFile").load(imagePath)

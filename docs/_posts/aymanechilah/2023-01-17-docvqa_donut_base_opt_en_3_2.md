@@ -76,10 +76,9 @@ val visual_question_answering = VisualQuestionAnswering()
     .setQuestionsCol("questions")
 
 # OCR pipeline
-val pipeline = new PipelineModel.setStages(Array(
-    binary_to_image,
-    visual_question_answering
-))
+val pipeline = new PipelineModel().setStages(Array(
+    binary_to_image, 
+    visual_question_answering))
 
 val test_image_path = pkg_resources.resource_filename("sparkocr", "resources/ocr/vqa/agenda.png")
 val bin_df = spark.read.format("binaryFile").load(test_image_path)

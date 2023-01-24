@@ -71,10 +71,9 @@ val doc_class = VisualDocumentClassifierV3()
     .setOutputCol("label")
 
 # OCR pipeline
-val pipeline = new PipelineModel.setStages(Array(
-    binary_to_image,
-    doc_class
-))
+val pipeline = new PipelineModel().setStages(Array(
+    binary_to_image, 
+    doc_class))
 
 val test_image_path = pkg_resources.resource_filename("sparkocr", "resources/ocr/visualdoc/00556614_00556648.tif")
 val bin_df = spark.read.format("binaryFile").load(test_image_path).limit(50)

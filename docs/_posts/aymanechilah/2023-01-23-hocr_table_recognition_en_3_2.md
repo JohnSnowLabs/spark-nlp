@@ -137,15 +137,14 @@ val hocr_to_table = new HocrToTextTable()
     .setRegionCol("table_regions") 
     .setOutputCol("tables")
 
-val pipeline = new PipelineModel.setStages(Array(
-    binary_to_image,
-    table_detector,
-    splitter,
-    text_detector,
-    draw_regions,
-    img_to_hocr,
-    hocr_to_table
-))
+val pipeline = new PipelineModel().setStages(Array(
+    binary_to_image, 
+    table_detector, 
+    splitter, 
+    text_detector, 
+    draw_regions, 
+    img_to_hocr, 
+    hocr_to_table))
 
 val imagePath = "data/tab_images_hocr_1/table4_1.jpg"
 val image_df= spark.read.format("binaryFile").load(imagePath)

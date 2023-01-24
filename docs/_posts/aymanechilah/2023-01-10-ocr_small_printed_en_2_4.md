@@ -108,13 +108,12 @@ val draw_annotations = new ImageDrawAnnotations()
     .setFontSize(14) 
     .setRectColor(Color.red)
 
-val pipeline = new PipelineModel.setStages(Array(
-    binary_to_image,
-    text_detector,
-    ocr,
-    tokenizer,
-    draw_annotations
-))
+val pipeline = new PipelineModel().setStages(Array(
+    binary_to_image, 
+    text_detector, 
+    ocr, 
+    tokenizer, 
+    draw_annotations))
 
 val image_path = pkg_resources.resource_filename("sparkocr", "resources/ocr/images/check.jpg"")
 val image_example_df = spark.read.format("binaryFile").load(image_path)
