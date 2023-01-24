@@ -132,7 +132,7 @@ trait TensorflowForClassification {
       tags: Map[String, Int],
       scores: Array[Float]): Array[(String, String)] = {
     scores.zipWithIndex.flatMap(x =>
-      Map(tags.find(_._2 == x._2).map(_._1).toString -> x._1.toString))
+      Map(tags.find(_._2 == x._2).map(_._1).getOrElse("NA") -> x._1.toString))
   }
 
   def constructAnnotationForSequenceClassifier(
