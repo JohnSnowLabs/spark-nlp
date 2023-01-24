@@ -97,7 +97,6 @@ class Finisher(AnnotatorTransformer):
     includeMetadata = Param(Params._dummy(), "includeMetadata", "annotation metadata format", typeConverter=TypeConverters.toBoolean)
     outputAsArray = Param(Params._dummy(), "outputAsArray", "finisher generates an Array with the results instead of string", typeConverter=TypeConverters.toBoolean)
     parseEmbeddingsVectors = Param(Params._dummy(), "parseEmbeddingsVectors", "whether to include embeddings vectors in the process", typeConverter=TypeConverters.toBoolean)
-
     name = "Finisher"
 
     @keyword_only
@@ -109,7 +108,8 @@ class Finisher(AnnotatorTransformer):
             outputAsArray=True,
             parseEmbeddingsVectors=False,
             valueSplitSymbol="#",
-            annotationSplitSymbol="@"
+            annotationSplitSymbol="@",
+            outputCols=[]
         )
 
     @keyword_only
@@ -204,3 +204,13 @@ class Finisher(AnnotatorTransformer):
         """
         return self._set(parseEmbeddingsVectors=value)
 
+    def getInputCols(self):
+        """Gets input columns name of annotations."""
+        return self.getOrDefault(self.inputCols)
+
+    def getOutputCols(self):
+        """Gets output columns name of annotations."""
+        if len(self.getOrDefault(self.outputCols)) == 0:
+            return ["finished_" + input_col for input_col in self.getInputCols()]
+        else:
+            return self.getOrDefault(self.outputCols)
