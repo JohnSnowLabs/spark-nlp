@@ -142,6 +142,7 @@ data:
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/12.Named_Entity_Disambiguation.ipynb
         - title: Clinical Summarization/QA
           id: clinical_summarization
+          hide: yes
           image: 
               src: /assets/images/Clinical_Summarization_QA.svg
           excerpt: This demo shows how to summarize clinical texts.

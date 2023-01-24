@@ -31,6 +31,7 @@ Has aggregation operations?: True
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/table_qa_table_question_answering_tapas_en_4.2.0_3.0_1664530457710.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/table_qa_table_question_answering_tapas_en_4.2.0_3.0_1664530457710.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

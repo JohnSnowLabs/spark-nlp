@@ -1,3 +1,9 @@
+PATH
+  remote: _plugins/jekyll-incremental
+  specs:
+    jekyll-incremental (0.1.0)
+      jekyll (~> 3.9)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -297,6 +303,7 @@ DEPENDENCIES
   elasticsearch (~> 7.10)
   github-pages (= 227)
   jekyll (~> 3.9)
+  jekyll-incremental (= 0.1.0)!
   nokogiri (>= 1.13.9)
   wdm (~> 0.1.0)
   webrick

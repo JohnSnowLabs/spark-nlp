@@ -91,21 +91,10 @@ data:
             url: https://demo.johnsnowlabs.com/ocr/DEID_PDF_GDPR
           - text: Colab
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/DEID_PDF.ipynb   
-        - title: Detect PHI Entities for Deidentification
-          id: detect_phi_entities
-          image: 
-              src: /assets/images/Detect_PHI_Entities.svg
-          excerpt: This demo shows how Protected Health Information (PHI) that may need to be de-identified can be extracted using Spark NLP model.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/NER_DEMOGRAPHICS/
-          - text: Colab
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_DEMOGRAPHICS.ipynb        
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/ocr/DEID_PDF.ipynb        
         - title: Deidentify free text documents
           id: deidentify_free_text_documents
+          hide: yes
           image: 
               src: /assets/images/Deidentify_free_text_documents.svg
           excerpt: Deidentify free text documents by either masking or obfuscating PHI information using out of the box Spark NLP models that enforce GDPR and HIPPA compliance.
