@@ -127,7 +127,8 @@ class EmbeddingsFinisher(AnnotatorTransformer):
         super(EmbeddingsFinisher, self).__init__(classname="com.johnsnowlabs.nlp.EmbeddingsFinisher")
         self._setDefault(
             cleanAnnotations=False,
-            outputAsVector=False
+            outputAsVector=False,
+            outputCols=[]
         )
 
     @keyword_only
@@ -187,3 +188,13 @@ class EmbeddingsFinisher(AnnotatorTransformer):
 
         return self._set(outputAsVector=value)
 
+    def getInputCols(self):
+        """Gets input columns name of annotations."""
+        return self.getOrDefault(self.inputCols)
+
+    def getOutputCols(self):
+        """Gets output columns name of annotations."""
+        if len(self.getOrDefault(self.outputCols)) == 0:
+            return ["finished_" + input_col for input_col in self.getInputCols()]
+        else:
+            return self.getOrDefault(self.outputCols)
