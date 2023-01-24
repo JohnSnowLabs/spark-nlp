@@ -43,7 +43,8 @@ binary_to_image = BinaryToImage() \
     .setImageType(ImageType.TYPE_3BYTE_BGR)
 
 ocr = ImageToText() \
-   .setOutputCol("text")
+    .setInputCol("image") \
+    .setOutputCol("text")
 
 pipeline = PipelineModel(stages=[
     binary_to_image,

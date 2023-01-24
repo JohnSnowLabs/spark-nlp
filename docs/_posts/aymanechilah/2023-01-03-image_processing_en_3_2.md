@@ -35,9 +35,9 @@ To avoid this, it is proposed the use of different image processing algorithms o
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
-image_path = pkg_resources.resource_filename("sparkocr", "resources/ocr/images/check.jpg")
-image_example_df = spark.read.format("binaryFile").load(image_path)
-image_df = BinaryToImage().transform(image_example_df).cache()
+binary_to_image = BinaryToImage() \
+    .setInputCol("content")  \
+    .setOutputCol("image") 
 
 scaled_image_df = ImageTransformer() \
     .addScalingTransform(2) \
@@ -86,13 +86,59 @@ multiple_image = GPUImageTransformer() \
     .setInputCol("image") \
     .setOutputCol("multiple_image") \
     .transform(image_df)
+
+pipeline_scaled = PipelineModel(stages=[
+    binary_to_image,
+    scaled_image_df
+])
+
+pipeline_thresholded = PipelineModel(stages=[
+    binary_to_image,
+    thresholded_image
+])
+
+pipeline_eroded = PipelineModel(stages=[
+    binary_to_image,
+    eroded_image
+])
+
+pipeline_dilated = PipelineModel(stages=[
+    binary_to_image,
+    dilated_image
+])
+
+pipeline_removebg = PipelineModel(stages=[
+    binary_to_image,
+    removebg_image
+])
+
+pipeline_deblured = PipelineModel(stages=[
+    binary_to_image,
+    deblured_image
+])
+
+pipeline_multiple = PipelineModel(stages=[
+    binary_to_image,
+    multiple_image
+])
+
+image_path = pkg_resources.resource_filename("sparkocr", "resources/ocr/images/check.jpg")
+image_example_df = spark.read.format("binaryFile").load(image_path)
+
+result_scaled = pipeline_scaled.transform(image_example_df).cache()
+result_thresholded = pipeline_thresholded.transform(image_example_df).cache()
+result_eroded = pipeline_eroded.transform(image_example_df).cache()
+result_dilated = pipeline_dilated.transform(image_example_df).cache()
+result_removebg = pipeline_removebg.transform(image_example_df).cache()
+result_deblured = pipeline_deblured.transform(image_example_df).cache()
+result_multiple = pipeline_multiple.transform(image_example_df).cache()
 ```
 ```scala
-val image_path = pkg_resources.resource_filename("sparkocr", "resources/ocr/images/check.jpg")
-val image_example_df = spark.read.format("binaryFile").load(image_path)
-val image_df = new BinaryToImage().transform(image_example_df).cache()
+val binary_to_image = new BinaryToImage() 
+    .setInputCol("content")  
+    .setOutputCol("image") 
 
-val scaled_image_df = new ImageTransformer()
+val scaled_image_df = new ImageTransformer() 
     .addScalingTransform(2) 
     .setInputCol("image") 
     .setOutputCol("scaled_image") 
@@ -139,6 +185,52 @@ val multiple_image = new GPUImageTransformer()
     .setInputCol("image") 
     .setOutputCol("multiple_image") 
     .transform(image_df)
+
+val pipeline_scaled = new PipelineModel.setStages(Array(
+    binary_to_image,
+    scaled_image_df
+))
+
+val pipeline_thresholded = new PipelineModel.setStages(Array(
+    binary_to_image,
+    thresholded_image
+))
+
+val pipeline_eroded = new PipelineModel.setStages(Array(
+    binary_to_image,
+    eroded_image
+))
+
+val pipeline_dilated = new PipelineModel.setStages(Array(
+    binary_to_image,
+    dilated_image
+))
+
+val pipeline_removebg = new PipelineModel.setStages(Array(
+    binary_to_image,
+    removebg_image
+))
+
+val pipeline_deblured = new PipelineModel.setStages(Array(
+    binary_to_image,
+    deblured_image
+))
+
+val pipeline_multiple = new PipelineModel.setStages(Array(
+    binary_to_image,
+    multiple_image
+))
+
+val image_path = pkg_resources.resource_filename("sparkocr", "resources/ocr/images/check.jpg")
+val image_example_df = spark.read.format("binaryFile").load(image_path)
+
+val result_scaled = pipeline_scaled.transform(image_example_df).cache()
+val result_thresholded = pipeline_thresholded.transform(image_example_df).cache()
+val result_eroded = pipeline_eroded.transform(image_example_df).cache()
+val result_dilated = pipeline_dilated.transform(image_example_df).cache()
+val result_removebg = pipeline_removebg.transform(image_example_df).cache()
+val result_deblured = pipeline_deblured.transform(image_example_df).cache()
+val result_multiple = pipeline_multiple.transform(image_example_df).cache()
 ```
 </div>
 

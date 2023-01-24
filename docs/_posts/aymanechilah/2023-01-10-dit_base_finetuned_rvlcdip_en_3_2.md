@@ -39,6 +39,7 @@ The abstract from the paper is the following: Image Transformer has recently ach
 
 ```python
 binary_to_image = BinaryToImage()\
+    .setInputCol("content") \
     .setOutputCol("image") \
     .setImageType(ImageType.TYPE_3BYTE_BGR)
 
@@ -60,6 +61,7 @@ results = pipeline.transform(bin_df).cache()
 ```
 ```scala
 val binary_to_image = new BinaryToImage()
+    .setInputCol("content") 
     .setOutputCol("image") 
     .setImageType(ImageType.TYPE_3BYTE_BGR)
 

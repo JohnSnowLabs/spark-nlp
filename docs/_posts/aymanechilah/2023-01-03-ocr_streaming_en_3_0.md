@@ -39,6 +39,7 @@ In addition to these datasets, Tesseract also uses a technique called adaptive t
 ```python
 # Transform binary to image
 pdf_to_image = PdfToImage() \
+    .setInputCol("content") \
     .setOutputCol("image")
 
 # Run OCR for each region
@@ -82,6 +83,7 @@ spark.table("result").select("timestamp","pagenum", "path", "text").show(10)
 ```scala
 # Transform binary to image
 val pdf_to_image = new PdfToImage() 
+    .setInputCol("content") 
     .setOutputCol("image")
 
 # Run OCR for each region
@@ -116,8 +118,8 @@ val result = pipeline.transform(pdf_stream_df).withColumn("timestamp", current_t
 
 # store results to memory table
 val query = result.writeStream 
-    .format('memory') 
-    .queryName('result') 
+    .format("memory") 
+    .queryName("result") 
     .start()
 
 # show results

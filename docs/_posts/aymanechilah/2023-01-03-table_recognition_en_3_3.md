@@ -40,6 +40,7 @@ On the ICDAR2013 table competition dataset, CascadeTabNet achieved an F1-score o
 
 ```python
 binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
     .setOutputCol("image") \
     .setImageType(ImageType.TYPE_3BYTE_BGR)
 
@@ -112,6 +113,7 @@ tables_results = pipeline_table.transform(df).cache()
 ```
 ```scala
 val binary_to_image = new BinaryToImage() 
+    .setInputCol("content")
     .setOutputCol("image") 
     .setImageType(ImageType.TYPE_3BYTE_BGR)
 

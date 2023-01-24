@@ -36,6 +36,7 @@ DocVQA seeks to inspire a “purpose-driven” point of view in Document Analysi
 
 ```python
 binary_to_image = BinaryToImage()\
+    .setInputCol("content") \
     .setOutputCol("image") \
     .setImageType(ImageType.TYPE_3BYTE_BGR)
 
@@ -64,6 +65,7 @@ results.select(results.answers).show(truncate=False)
 ```
 ```scala
 val binary_to_image = new BinaryToImage()
+    .setInputCol("content") 
     .setOutputCol("image") 
     .setImageType(ImageType.TYPE_3BYTE_BGR)
 

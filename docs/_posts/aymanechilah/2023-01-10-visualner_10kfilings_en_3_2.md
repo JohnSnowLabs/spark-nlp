@@ -38,6 +38,7 @@ This model is a Visual NER team aimed to extract the main key points in the summ
 
 ```python
 binary_to_image = BinaryToImage()\
+    .setInputCol("content") \
     .setOutputCol("image") \
     .setImageType(ImageType.TYPE_3BYTE_BGR)
 
@@ -86,6 +87,7 @@ results.withColumn('filename', path_array.getItem(f.size(path_array)- 1)) \
 ```
 ```scala
 val binary_to_image = new BinaryToImage()
+    .setInputCol("content")
     .setOutputCol("image") 
     .setImageType(ImageType.TYPE_3BYTE_BGR)
 

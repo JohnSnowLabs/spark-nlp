@@ -39,6 +39,7 @@ In addition to these datasets, Tesseract also uses a technique called adaptive t
 
 ```python
 pdf_to_hocr = PdfToHocr() \
+        .setInputCol("content") \
         .setOutputCol("hocr")
 
 tokenizer = HocrTokenizer() \
@@ -101,6 +102,7 @@ result = result.filter(result.pagenum == 1)
 ```
 ```scala
 val pdf_to_hocr = new PdfToHocr() 
+        .setInputCol("content") 
         .setOutputCol("hocr")
 
 val tokenizer = new HocrTokenizer() 

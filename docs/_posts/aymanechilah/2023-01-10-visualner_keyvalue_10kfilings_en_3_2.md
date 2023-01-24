@@ -36,6 +36,7 @@ This is a Form Recognition / Key Value extraction model, trained on the summary 
 
 ```python
 binary_to_image = BinaryToImage()\
+    .setInputCol("content") \
     .setOutputCol("image") \
     .setImageType(ImageType.TYPE_3BYTE_BGR)
 
@@ -84,6 +85,7 @@ results.withColumn('filename', path_array.getItem(f.size(path_array)- 1)) \
 ```
 ```scala
 val binary_to_image = new BinaryToImage()
+    .setInputCol("content") 
     .setOutputCol("image") 
     .setImageType(ImageType.TYPE_3BYTE_BGR)
 
