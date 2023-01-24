@@ -79,11 +79,10 @@ val draw_regions = new ImageDrawRegions()
     .setOutputCol("image_with_regions") 
     .setRectColor(Color.red)
 
-val pipeline = new PipelineModel.setStages(Array(
-    binary_to_image,
-    table_detector,
-    draw_regions
-))
+val pipeline = new PipelineModel().setStages(Array(
+    binary_to_image, 
+    table_detector, 
+    draw_regions))
 
 # Download image:
 # !wget -q https://github.com/JohnSnowLabs/spark-ocr-workshop/raw/4.0.0-release-candidate/jupyter/data/tab_images/cTDaR_t10168.jpg

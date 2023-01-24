@@ -84,11 +84,10 @@ val ocr = new ImageToText()
     .setOutputCol("text") 
     .setConfidenceThreshold(60)
 
-val pipeline = new PipelineModel.setStages(Array(
-    pdf_to_text,
-    pdf_to_image,
-    ocr
-))
+val pipeline = new PipelineModel().setStages(Array(
+    pdf_to_text, 
+    pdf_to_image, 
+    ocr))
 
 val pdf_path = pkg_resources.resource_filename("sparkocr", "resources/ocr/pdfs/*.pdf")
 val pdf_example_df = spark.read.format("binaryFile").load(pdf_path).cache()

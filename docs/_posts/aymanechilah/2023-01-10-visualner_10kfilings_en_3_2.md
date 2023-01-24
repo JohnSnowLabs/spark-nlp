@@ -115,13 +115,12 @@ val draw = new ImageDrawAnnotations()
     .setRectColor(Color.red)
 
 # OCR pipeline
-val pipeline = new PipelineModel.setStages(Array(
-    binary_to_image,
-    img_to_hocr,
-    tokenizer,
-    doc_ner,
-    draw
-))
+val pipeline = new PipelineModel().setStages(Array(
+    binary_to_image, 
+    img_to_hocr, 
+    tokenizer, 
+    doc_ner, 
+    draw))
 
 val bin_df = spark.read.format("binaryFile").load("data/t01.jpg")
 

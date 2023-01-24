@@ -196,13 +196,12 @@ val drawRegions = new ImageDrawRegions()
     .setRectColor(Color.gray)
     
 # OCR pipeline
-val pipeline = new Pipeline.setStages(Array(
-    binary_to_image,
-    ocr,
-    deidentification_nlp_pipeline(input_column="text"),
-    position_finder,
-    drawRegions
-))
+val pipeline = new Pipeline().setStages(Array(
+    binary_to_image, 
+    ocr, 
+    deidentification_nlp_pipeline(input_column="text"), 
+    position_finder, 
+    drawRegions))
 
 val image_path = pkg_resources.resource_filename(Array("sparkocr", "resources/ocr/images/p1.jpg"))
 val image_df = spark.read.format("binaryFile").load(image_path)

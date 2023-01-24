@@ -104,12 +104,11 @@ val draw_regions = new ImageDrawRegions()
     .setRectColor(Color.green) 
     .setRotated(True)
 
-val pipeline = new PipelineModel.setStages(Array(
-    binary_to_image,
-    text_detector,
-    ocr,
-    draw_regions
-))
+val pipeline = new PipelineModel().setStages(Array(
+    binary_to_image, 
+    text_detector, 
+    ocr, 
+    draw_regions))
 
 # Download image:
 # !wget -q https://github.com/JohnSnowLabs/spark-ocr-workshop/raw/4.0.0-release-candidate/jupyter/data/handwritten/handwritten_example.jpg

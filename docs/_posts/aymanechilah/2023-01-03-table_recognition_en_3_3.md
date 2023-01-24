@@ -169,16 +169,15 @@ val ocr = new ImageToText()
     .setKeepLayout(True) 
     .setOutputSpaceCharacterWidth(8)
 
-val pipeline_table = new PipelineModel.setStages(Array(
-    binary_to_image,
-    table_detector,
-    draw_regions,
-    fill_regions,
-    splitter,
-    cell_detector,
-    table_recognition,
-    ocr
-))
+val pipeline_table = new PipelineModel().setStages(Array(
+    binary_to_image, 
+    table_detector, 
+    draw_regions, 
+    fill_regions, 
+    splitter, 
+    cell_detector, 
+    table_recognition, 
+    ocr))
 
 val imagePath = "/content/cTDaR_t10096.jpg"
 val df = spark.read.format("binaryFile").load(imagePath)

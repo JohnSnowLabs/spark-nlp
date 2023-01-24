@@ -93,10 +93,9 @@ val ocr = new ImageToText()
     .setConfidenceThreshold(60)
 
 # OCR pipeline
-val pipeline = new PipelineModel.setStages(Array(
-    pdf_to_image,
-    ocr
-))
+val pipeline = new PipelineModel().setStages(Array(
+    pdf_to_image, 
+    ocr))
 
 # fill path to folder with PDF's here
 val dataset_path = "data/pdfs/*.pdf"

@@ -147,16 +147,15 @@ val draw_regions = new ImageDrawRegions()
         .setOutputCol("image_with_regions") 
         .setRectColor(Color.red)
 
-val pipeline1 = new PipelineModel.setStages(Array(
-        pdf_to_hocr,
-        tokenizer,
-        pdf_to_image,
-        table_detector,
-        image_scaler,
-        draw_regions,
-        hocr_to_table
-))
-
+val pipeline1 = new PipelineModel().setStages(Array(
+         pdf_to_hocr, 
+         tokenizer, 
+         pdf_to_image, 
+         table_detector, 
+         image_scaler, 
+         draw_regions, 
+         hocr_to_table))
+        
 val test_image_path = "data/pdfs/f1120.pdf"
 val bin_df = spark.read.format("binaryFile").load(test_image_path)
 
