@@ -1,6 +1,6 @@
 ---
 layout: model
-title: SDOH Alcohol Usege For Binary Classification
+title: SDOH Alcohol Usage For Binary Classification
 author: John Snow Labs
 name: genericclassifier_sdoh_alcohol_usage_binary_sbiobert_cased_mli
 date: 2023-01-14
