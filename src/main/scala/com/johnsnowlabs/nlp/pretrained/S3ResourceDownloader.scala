@@ -20,7 +20,7 @@ import com.amazonaws.services.s3.model.ObjectMetadata
 import com.johnsnowlabs.client.aws.AWSGateway
 import com.johnsnowlabs.client.gcp.GCPGateway
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.util.FileHelper
+import com.johnsnowlabs.util.{ConfigHelper, FileHelper}
 import org.apache.commons.io.IOUtils
 import org.apache.hadoop.fs.Path
 import org.apache.spark.sql.SparkSession
@@ -95,12 +95,21 @@ class S3ResourceDownloader(
           case s3Path() => {
             val destinationS3URI = cachePath.toString.replace("s3:", "s3a:")
             val sourceS3URI = s"s3a://$bucket/$s3FilePath"
-            val destinationKey = unzipInExternalCloudStorage(
-              ResourceHelper.spark,
-              sourceS3URI,
-              destinationS3URI,
-              "S3")
-            Option(destinationKey)
+            val zipFile = sourceS3URI.split("/").last
+            val modelName = zipFile.substring(0, zipFile.indexOf(".zip"))
+
+            val modelExists = doesModelExistInExternalCloudStorage(modelName, destinationS3URI)
+            if (!modelExists) {
+              val destinationKey = unzipInExternalCloudStorage(
+                ResourceHelper.spark,
+                sourceS3URI,
+                destinationS3URI,
+                "S3")
+              Option(destinationKey)
+            } else {
+              Option(destinationS3URI + "/" + modelName)
+            }
+
           }
           case gcpStoragePath() => {
             val sourceS3URI = s"s3a://$bucket/$s3FilePath"
@@ -118,6 +127,18 @@ class S3ResourceDownloader(
         }
       }
     }
+  }
+
+  private def doesModelExistInExternalCloudStorage(
+      modelName: String,
+      destinationS3URI: String): Boolean = {
+    val (accessKeyId, secretKey, sessionToken) = ConfigHelper.getHadoopS3Config
+    val awsDestinationGateway = new AWSGateway(accessKeyId, secretKey, sessionToken)
+    val (destinationBucketName, destinationKey) = ResourceHelper.parseS3URI(destinationS3URI)
+
+    val modelPath = destinationKey + "/" + modelName
+
+    awsDestinationGateway.doesS3FolderExist(destinationBucketName, modelPath)
   }
 
   private def unzipInExternalCloudStorage(
