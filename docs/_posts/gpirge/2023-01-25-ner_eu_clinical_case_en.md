@@ -8,7 +8,7 @@ tags: [clinical, licensed, ner, en]
 task: Named Entity Recognition
 language: en
 edition: Healthcare NLP 4.2.7
-spark_version: 3.2
+spark_version: 3.0
 supported: true
 annotator: MedicalNerModel
 article_header:
@@ -168,27 +168,13 @@ The corpus used for model training is provided by European Clinical Case Corpus 
 ## Benchmarking
 
 ```bash
-+------------------+-----+-----+----+-----+---------+------+------+
-|            entity|   tp|   fp|  fn|total|precision|recall|    f1|
-+------------------+-----+-----+----+-----+---------+------+------+
-|         date_time| 54.0|  7.0|15.0| 69.0|   0.8852|0.7826|0.8308|
-|units_measurements|111.0| 48.0|12.0|123.0|   0.6981|0.9024|0.7872|
-|clinical_condition| 93.0| 47.0|81.0|174.0|   0.6643|0.5345|0.5924|
-|           patient|119.0| 16.0| 5.0|124.0|   0.8815|0.9597|0.9189|
-|    clinical_event|331.0|126.0|89.0|420.0|   0.7243|0.7881|0.7548|
-|          bodypart|171.0| 58.0|84.0|255.0|   0.7467|0.6706|0.7066|
-+------------------+-----+-----+----+-----+---------+------+------+
-
-+------------------+
-|             macro|
-+------------------+
-|0.7651227527536523|
-+------------------+
-
-None
-+-----------------+
-|            micro|
-+-----------------+
-|0.745399289259285|
-+-----------------+
+             label     tp     fp    fn  total  precision  recall      f1
+         date_time   54.0    7.0  15.0   69.0     0.8852  0.7826  0.8308
+units_measurements  111.0   48.0  12.0  123.0     0.6981  0.9024  0.7872
+clinical_condition   93.0   47.0  81.0  174.0     0.6643  0.5345  0.5924
+           patient  119.0   16.0   5.0  124.0     0.8815  0.9597  0.9189
+    clinical_event  331.0  126.0  89.0  420.0     0.7243  0.7881  0.7548
+          bodypart  171.0   58.0  84.0  255.0     0.7467  0.6706  0.7066
+            macro     -      -      -     -         -       -     0.7651
+            micro     -      -      -     -         -       -     0.7454
 ```
