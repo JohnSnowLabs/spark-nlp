@@ -174,7 +174,7 @@ result = result.filter(result.pagenum == 1)
 
 ```bash
 path	modificationTime	length	hocr	height_dimension	width_dimension	pagenum	token	image	total_pages	documentnum	table_regions	scaled_image	image_with_regions	tables	exception	table_index
-file:/content/f11...	2023-01-23 08:16:...	3471478	<div title="bbox ...	791	611	1	[{token, 0, 2, 23...	{file:/content/f1...	1	0	{0, 0, 32.839153,...	{file:/content/f1...	{file:/content/f1...	{{0, 0, 0.0, 0.0,...	null	0
+file:/content/f11...	2023-01-23 08:16:...	3471478	<div title="bbox ...	791	611	1	[{token, 0, 2, 23...	{file:/content/f1...	1	0	{0, 0, 32.839153,...	{file:/content/f1...	{file:/content/f1...	{0, 0, 0.0, 0.0,...	null	0
 ```
 
 ```bash
