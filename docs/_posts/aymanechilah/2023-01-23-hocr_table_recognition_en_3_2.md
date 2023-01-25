@@ -163,7 +163,7 @@ val result = pipeline.transform(image_df).cache()
 
 ```bash
 text_regions	table_image	pagenum	modificationTime	path	table_regions	length	image	image_with_regions	hocr	tables	exception	table_index
-[{0, 0, 566.32025...	{file:/content/ta...	0	2023-01-23 08:21:...	file:/content/tab...	{0, 0, 40.0, 0.0,...	172124	{file:/content/ta...	{file:/content/ta...	<?xml version="1....	{{0, 0, 0.0, 0.0,...	null	0
+[{0, 0, 566.32025...	{file:/content/ta...	0	2023-01-23 08:21:...	file:/content/tab...	{0, 0, 40.0, 0.0,...	172124	{file:/content/ta...	{file:/content/ta...	<?xml version="1....	{0, 0, 0.0, 0.0,...	null	0
 ```
 
 ```bash
