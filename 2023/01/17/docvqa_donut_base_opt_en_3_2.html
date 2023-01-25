@@ -26,10 +26,10 @@
 
   gtag('config', 'UA-70312582-1');
 
-</script><title>LayoutLMv2 model for document understanding</title><meta property="og:title" content=""/>
+</script><title>Document Visual Question Answering optimized with DONUT</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionPretrained model for text and understanding. This model was trained on FUNSD dataset.Predicted EntitiesLive DemoOpen in ColabDownloadCopy S3 URIHow to use  PythonScalaNLU  bin_to_image = BinaryToImage()\    .setOutputCol("image")ocr = ImageToHocr()\    .setInputCol("image")\    .setOutputCol("hocr")\    ....">
-<link rel="canonical" href="/2022/01/05/layoutlmv2_funsd_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<meta name="description" content="DescriptionDocument understanding transformer (Donut) model pretrained for Document Visual Question Answering (DocVQA) task in the dataset is from Document Visual Question Answering competition and consists of 50K questions defined on more than 12K documents. This model was optimized with ONNX.Donut is a new method ...">
+<link rel="canonical" href="/2023/01/17/docvqa_donut_base_opt_en_3_2.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -425,110 +425,109 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/xyutech/2022-01-05-layoutlmv2_funsd_en.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/aymanechilah/2023-01-17-docvqa_donut_base_opt_en_3_2.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jan 05, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-01-05T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>LayoutLMv2 model for document understanding</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="LayoutLMv2 model for document understanding"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-01-05T00:00:00+00:00">
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jan 17, 2023</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-01-17T00:00:00+00:00"></div><header class="main-docs have_subtitle">
+          <h1>Document Visual Question Answering optimized with DONUT</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Document Visual Question Answering optimized with DONUT"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-01-17T00:00:00+00:00">
     <meta itemprop="keywords" content="en,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>Pretrained model for text and understanding. This model was trained on FUNSD dataset.</p>
+<p>Document understanding transformer (Donut) model pretrained for Document Visual Question Answering (DocVQA) task in the dataset is from Document Visual Question Answering <a href="https://rrc.cvc.uab.es/?ch=17">competition</a> and consists of 50K questions defined on more than 12K documents. This model was optimized with ONNX.
+Donut is a new method of document understanding that utilizes an OCR-free end-to-end Transformer model. Donut does not require off-the-shelf OCR engines/APIs, yet it shows state-of-the-art performances on various visual document understanding tasks, such as visual document classification or information extraction (a.k.a. document parsing). Paper link <a href="https://arxiv.org/abs/2111.15664">OCR-free Document Understanding Transformer</a> developed by Geewook Kim, Teakgyu Hong, Moonbin Yim, Jeongyeon Nam, Jinyoung Park, Jinyeong Yim, Wonseok Hwang, Sangdoo Yun, Dongyoon Han and Seunghyun Park.
+DocVQA seeks to inspire a “purpose-driven” point of view in Document Analysis and Recognition research, where the document content is extracted and used to respond to high-level tasks defined by the human consumers of this information.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/ocr/layoutlmv2_funsd_en_3.3.0_2.4_1641364259640.zip" class="button button-orange button-orange-trans arr button-icon hidden">Download</a>
-<a href="s3://auxdata.johnsnowlabs.com/clinical/ocr/layoutlmv2_funsd_en_3.3.0_2.4_1641364259640.zip" class="button button-orange button-orange-trans button-icon button-copy-s3">Copy S3 URI</a></p>
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-ocr-workshop/blob/master/jupyter/Cards/SparkOcrVisualQuestionAnswering_opt.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/ocr/docvqa_donut_base_opt_en_4.3.0_3.0_1673269990047.zip" class="button button-orange button-orange-trans arr button-icon">Download</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
 <div class="tabs-box">
   <div class="tabs-model-aproach-head"><button class="tab-li-model-aproach tabheader_active">Python</button><button class="tab-li-model-aproach">Scala</button><button class="tab-li-model-aproach">NLU</button></div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bin_to_image</span> <span class="o">=</span> <span class="n">BinaryToImage</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span>
-<span class="n">ocr</span> <span class="o">=</span> <span class="n">ImageToHocr</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"hocr"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setIgnoreResolution</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOcrParams</span><span class="p">([</span><span class="s">"preserve_interword_spaces=0"</span><span class="p">])</span>
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">HocrTokenizer</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"hocr"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
-<span class="n">doc_ner</span> <span class="o">=</span> <span class="n">VisualDocumentNerV2</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"layoutlmv2_funsd"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/ocr"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"token"</span><span class="p">,</span> <span class="s">"image"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"entities"</span><span class="p">)</span>
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-    <span class="n">bin_to_image</span><span class="p">,</span>
-    <span class="n">ocr</span><span class="p">,</span>
-    <span class="n">tokenizer</span><span class="p">,</span>
-    <span class="n">doc_ner</span>
-    <span class="p">])</span>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">binary_to_image</span> <span class="o">=</span> <span class="n">BinaryToImage</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"content"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setImageType</span><span class="p">(</span><span class="n">ImageType</span><span class="p">.</span><span class="n">TYPE_3BYTE_BGR</span><span class="p">)</span>
+
+<span class="n">visual_question_answering</span> <span class="o">=</span> <span class="n">VisualQuestionAnswering</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"docvqa_donut_base_opt"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/ocr"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">([</span><span class="s">"image"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"answers"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setQuestionsCol</span><span class="p">(</span><span class="s">"questions"</span><span class="p">)</span>
+
+<span class="c1"># OCR pipeline
+</span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">binary_to_image</span><span class="p">,</span>
+    <span class="n">visual_question_answering</span>
+<span class="p">])</span>
+
+<span class="n">test_image_path</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="p">.</span><span class="n">resource_filename</span><span class="p">(</span><span class="s">'sparkocr'</span><span class="p">,</span> <span class="s">'resources/ocr/vqa/agenda.png'</span><span class="p">)</span>
+<span class="n">bin_df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"binaryFile"</span><span class="p">).</span><span class="n">load</span><span class="p">(</span><span class="n">test_image_path</span><span class="p">)</span>
+
+<span class="n">questions</span> <span class="o">=</span> <span class="p">[[</span><span class="s">"When it finish the Coffee Break?"</span><span class="p">,</span> <span class="s">"Who is giving the Introductory Remarks?"</span><span class="p">,</span> <span class="s">"Who is going to take part of the individual interviews?"</span><span class="p">]]</span>
+<span class="n">questions_df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([</span><span class="n">questions</span><span class="p">])</span>
+<span class="n">questions_df</span> <span class="o">=</span> <span class="n">questions_df</span><span class="p">.</span><span class="n">withColumnRenamed</span><span class="p">(</span><span class="s">"_1"</span><span class="p">,</span> <span class="s">"questions"</span><span class="p">)</span>
+<span class="n">image_and_questions</span> <span class="o">=</span> <span class="n">bin_df</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">questions_df</span><span class="p">)</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">image_and_questions</span><span class="p">).</span><span class="n">cache</span><span class="p">()</span>
+<span class="n">results</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="n">results</span><span class="p">.</span><span class="n">answers</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">var</span> <span class="n">bin2imTransformer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">BinaryToImage</span><span class="o">()</span>
-<span class="nv">bin2imTransformer</span><span class="o">.</span><span class="py">setImageType</span><span class="o">(</span><span class="nv">ImageType</span><span class="o">.</span><span class="py">TYPE_3BYTE_BGR</span><span class="o">)</span>
-<span class="k">val</span> <span class="nv">ocr</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ImageToHocr</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"hocr"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setIgnoreResolution</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setOcrParams</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"preserve_interword_spaces=0"</span><span class="o">))</span>
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">HocrTokenizer</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"hocr"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
-<span class="k">val</span> <span class="nv">visualDocumentNER</span> <span class="k">=</span> <span class="nc">VisualDocumentNERv2</span>
-    <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"layoutlmv2_funsd"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/ocr"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"token"</span><span class="o">,</span> <span class="s">"image"</span><span class="o">))</span>
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
-        <span class="n">bin2imTransformer</span><span class="o">,</span>
-        <span class="n">ocr</span><span class="o">,</span>
-        <span class="n">tokenizer</span><span class="o">,</span>
-        <span class="n">visualDocumentNER</span>
-    <span class="o">)</span>
-<span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">binary_to_image</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">BinaryToImage</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"content"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setImageType</span><span class="o">(</span><span class="nv">ImageType</span><span class="o">.</span><span class="py">TYPE_3BYTE_BGR</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">visual_question_answering</span> <span class="k">=</span> <span class="nc">VisualQuestionAnswering</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"docvqa_donut_base_opt"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/ocr"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"image"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"answers"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setQuestionsCol</span><span class="o">(</span><span class="s">"questions"</span><span class="o">)</span>
+
+<span class="k">#</span> <span class="nc">OCR</span> <span class="n">pipeline</span>
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PipelineModel</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+    <span class="n">binary_to_image</span><span class="o">,</span> 
+    <span class="n">visual_question_answering</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">test_image_path</span> <span class="k">=</span> <span class="nv">pkg_resources</span><span class="o">.</span><span class="py">resource_filename</span><span class="o">(</span><span class="s">"sparkocr"</span><span class="o">,</span> <span class="s">"resources/ocr/vqa/agenda.png"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">bin_df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">).</span><span class="py">load</span><span class="o">(</span><span class="n">test_image_path</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">questions</span> <span class="k">=</span> <span class="nc">Array</span><span class="o">(</span><span class="s">"When it finish the Coffee Break?"</span><span class="o">,</span> <span class="s">"Who is giving the Introductory Remarks?"</span><span class="o">,</span> <span class="s">"Who is going to take part of the individual interviews?"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">questions_df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">createDataFrame</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">questions</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">questions_df</span> <span class="k">=</span> <span class="nv">questions_df</span><span class="o">.</span><span class="py">withColumnRenamed</span><span class="o">(</span><span class="s">"_1"</span><span class="o">,</span> <span class="s">"questions"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">image_and_questions</span> <span class="k">=</span> <span class="nv">bin_df</span><span class="o">.</span><span class="py">join</span><span class="o">(</span><span class="n">questions_df</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">results</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">image_and_questions</span><span class="o">).</span><span class="py">cache</span><span class="o">()</span>
+<span class="k">val</span> <span class="nv">results</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="nv">results</span><span class="o">.</span><span class="py">answers</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="n">truncate</span><span class="k">=</span><span class="nc">False</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
 
-<h2 class="model-param" id="model-information">Model Information</h2>
+<h2 id="example">Example</h2>
 
-<table class="table-model">
-  <tbody>
-    <tr>
-      <td>Model Name:</td>
-      <td>layoutlmv2_funsd</td>
-    </tr>
-    <tr>
-      <td>Type:</td>
-      <td>ocr</td>
-    </tr>
-    <tr>
-      <td>Compatibility:</td>
-      <td>Visual NLP 3.3.0+</td>
-    </tr>
-    <tr>
-      <td>License:</td>
-      <td>Licensed</td>
-    </tr>
-    <tr>
-      <td>Edition:</td>
-      <td>Official</td>
-    </tr>
-    <tr>
-      <td>Language:</td>
-      <td>en</td>
-    </tr>
-    <tr>
-      <td>Size:</td>
-      <td>736.2 MB</td>
-    </tr>
-  </tbody>
-</table>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-01-05T00:00:00+00:00"><!-- start custom article footer snippet -->
+<h3 id="input">Input:</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|questions                                                                                                                                                                                                                    |
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|[ When it finish the Coffee Break?,  Who is giving the Introductory Remarks?, Who is going to take part of the individual interviews?
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+</code></pre></div></div>
+<p><img src="../../_examples_ocr/image12.png" alt="Screenshot" /></p>
+
+<h3 id="output">Output:</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|answers                                                                                                                                                                                                  |
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|[ When it finish the Coffee Break? -&gt;  11:39 a.m.,  Who is giving the Introductory Remarks? -&gt;  lee a. waller, trrf vice presi- ident,  Who is going to take part of the individual interviews? -&gt;  trrf]|
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+</code></pre></div></div>
+
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2023-01-17T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -679,7 +678,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/01/05/redl_drugprot_biobert_en.html">Extract relations between drugs and proteins (ReDL)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/01/06/bert_token_classifier_ner_anatomy_en.html">Detect Anatomical Regions (MedicalBertForTokenClassifier)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2023/01/17/docvqa_donut_base_en_3_2.html">Document Visual Question Answering with DONUT</a></div><div class="next nav_link"><span>NEXT</span><a href="/2023/01/17/ocr_base_handwritten_v2_en_3_2.html">Оcr base v2 for handwritten text</a></div></div></div>
 
 </div>
 </div>

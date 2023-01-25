@@ -26,10 +26,10 @@
 
   gtag('config', 'UA-70312582-1');
 
-</script><title>LayoutLMv3 finetuned on funsd</title><meta property="og:title" content=""/>
+</script><title>Table recognition</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis NER model is based on LayoutLMV3 pre-trained model and fine-tuned with FUNSD datasetPredicted EntitiesLive DemoOpen in ColabDownloadCopy S3 URIHow to use  PythonScalaNLU  ocr = ImageToHocr()\            .setInputCol("image")\            .setOutputCol("hocr")\            .setIgnoreResolution(False)\  ...">
-<link rel="canonical" href="/2022/07/16/layoutlmv3_finetuned_funsd_en_3_2.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<meta name="description" content="DescriptionThis model shows the capabilities for table recognition and free-text extraction using OCR techniques.For table recognition is proposed a CascadTabNet model. CascadeTabNet is a machine learning model for table detection in document images. It is based on a cascaded architecture, which is a two-stage proce...">
+<link rel="canonical" href="/2023/01/03/table_recognition_en_3_3.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -425,79 +425,192 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/kolia1985/2022-07-16-layoutlmv3_finetuned_funsd_en_3_2.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/aymanechilah/2023-01-03-table_recognition_en_3_3.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jul 16, 2022</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-07-16T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>LayoutLMv3 finetuned on funsd</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="LayoutLMv3 finetuned on funsd"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2022-07-16T00:00:00+00:00">
-    <meta itemprop="keywords" content="en,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jan 03, 2023</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-01-03T00:00:00+00:00"></div><header class="main-docs have_subtitle">
+          <h1>Table recognition</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Table recognition"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>licensed</li><li>ocr</li><li>table_recognition</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-01-03T00:00:00+00:00">
+    <meta itemprop="keywords" content="en,licensed,ocr,table_recognition"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This NER model is based on LayoutLMV3 pre-trained model and fine-tuned with FUNSD dataset</p>
+<p>This model shows the capabilities for table recognition and free-text extraction using OCR techniques.
+For table recognition is proposed a CascadTabNet model. 
+CascadeTabNet is a machine learning model for table detection in document images. It is based on a cascaded architecture, which is a two-stage process where the model first detects candidate regions that may contain tables, and then classifies these regions as tables or non-tables. The model is trained using a dataset of document images, where the tables have been manually annotated.</p>
+
+<p>The benchmark results show that the model is able to detect tables in document images with high accuracy.
+On the ICDAR2013 table competition dataset, CascadeTabNet achieved an F1-score of 0.85, which is considered a good score in this dataset. On the COCO-Text dataset, the model achieved a precision of 0.82 and a recall of 0.79, which are also considered good scores. In addition, the model has been evaluated on the UNLV dataset, where it achieved a precision of 0.87 and a recall of 0.83.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/ocr/layoutlmv3_finetuned_funsd_en_3.14.0_3.2_1657982560895.zip" class="button button-orange button-orange-trans arr button-icon hidden">Download</a>
-<a href="s3://auxdata.johnsnowlabs.com/clinical/ocr/layoutlmv3_finetuned_funsd_en_3.14.0_3.2_1657982560895.zip" class="button button-orange button-orange-trans button-icon button-copy-s3">Copy S3 URI</a></p>
+<a href="https://github.com/JohnSnowLabs/spark-ocr-workshop/blob/master/tutorials/Certification_Trainings/2.2.Spark_OCR_training_Table_recognition.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
+<button class="button button-orange" disabled="">Download</button></p>
 
 <h2 id="how-to-use">How to use</h2>
 
 <div class="tabs-box">
   <div class="tabs-model-aproach-head"><button class="tab-li-model-aproach tabheader_active">Python</button><button class="tab-li-model-aproach">Scala</button><button class="tab-li-model-aproach">NLU</button></div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ocr</span> <span class="o">=</span> <span class="n">ImageToHocr</span><span class="p">()</span>\
-            <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span>\
-            <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"hocr"</span><span class="p">)</span>\
-            <span class="p">.</span><span class="n">setIgnoreResolution</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>\
-            <span class="p">.</span><span class="n">setOcrParams</span><span class="p">([</span><span class="s">"preserve_interword_spaces=0"</span><span class="p">])</span>
-        <span class="n">doc_ner</span> <span class="o">=</span> <span class="n">VisualDocumentNerV21</span><span class="p">()</span>\
-            <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"layoutlmv3_finetuned_funsd"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"public/ocr/models"</span><span class="p">)</span> \
-            <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"hocr"</span><span class="p">)</span>\
-            <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"entity"</span><span class="p">)</span>
 
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">binary_to_image</span> <span class="o">=</span> <span class="n">BinaryToImage</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"content"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setImageType</span><span class="p">(</span><span class="n">ImageType</span><span class="p">.</span><span class="n">TYPE_3BYTE_BGR</span><span class="p">)</span>
+
+<span class="c1"># Detect tables on the page using pretrained model
+# It can be finetuned for have more accurate results for more specific documents
+</span><span class="n">table_detector</span> <span class="o">=</span> <span class="n">ImageTableDetector</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"general_model_table_detection_v2"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/ocr"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"region"</span><span class="p">)</span>
+
+<span class="c1"># Draw detected region's with table to the page
+</span><span class="n">draw_regions</span> <span class="o">=</span> <span class="n">ImageDrawRegions</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputRegionsCol</span><span class="p">(</span><span class="s">"region"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image_with_regions"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setRectColor</span><span class="p">(</span><span class="n">Color</span><span class="p">.</span><span class="n">red</span><span class="p">)</span>
+
+<span class="c1"># Extract table regions to separate images
+</span><span class="n">splitter</span> <span class="o">=</span> <span class="n">ImageSplitRegions</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputRegionsCol</span><span class="p">(</span><span class="s">"region"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"table_image"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setDropCols</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span>
+
+<span class="c1"># Detect cells on the table image
+</span><span class="n">cell_detector</span> <span class="o">=</span> <span class="n">ImageTableCellDetector</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"table_image"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"cells"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setAlgoType</span><span class="p">(</span><span class="s">"morphops"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setDrawDetectedLines</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># Extract text from the detected cells 
+</span><span class="n">table_recognition</span> <span class="o">=</span> <span class="n">ImageCellsToTextTable</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"table_image"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setCellsCol</span><span class="p">(</span><span class="s">'cells'</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setMargin</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setStrip</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'table'</span><span class="p">)</span>
+
+<span class="c1"># Erase detected table regions
+</span><span class="n">fill_regions</span> <span class="o">=</span> <span class="n">ImageDrawRegions</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputRegionsCol</span><span class="p">(</span><span class="s">"region"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image_1"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setRectColor</span><span class="p">(</span><span class="n">Color</span><span class="p">.</span><span class="n">white</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setFilledRect</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># OCR
+</span><span class="n">ocr</span> <span class="o">=</span> <span class="n">ImageToText</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image_1"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOcrParams</span><span class="p">([</span><span class="s">"preserve_interword_spaces=1"</span><span class="p">,</span> <span class="p">])</span> \
+    <span class="p">.</span><span class="n">setKeepLayout</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputSpaceCharacterWidth</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+
+<span class="n">pipeline_table</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">binary_to_image</span><span class="p">,</span>
+    <span class="n">table_detector</span><span class="p">,</span>
+    <span class="n">draw_regions</span><span class="p">,</span>
+    <span class="n">fill_regions</span><span class="p">,</span>
+    <span class="n">splitter</span><span class="p">,</span>
+    <span class="n">cell_detector</span><span class="p">,</span>
+    <span class="n">table_recognition</span><span class="p">,</span>
+    <span class="n">ocr</span>
+<span class="p">])</span>
+
+<span class="n">imagePath</span> <span class="o">=</span> <span class="s">"/content/cTDaR_t10096.jpg"</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"binaryFile"</span><span class="p">).</span><span class="n">load</span><span class="p">(</span><span class="n">imagePath</span><span class="p">)</span>
+
+<span class="n">tables_results</span> <span class="o">=</span> <span class="n">pipeline_table</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">).</span><span class="n">cache</span><span class="p">()</span>
 </code></pre></div>  </div>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">binary_to_image</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">BinaryToImage</span><span class="o">()</span> 
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"content"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setImageType</span><span class="o">(</span><span class="nv">ImageType</span><span class="o">.</span><span class="py">TYPE_3BYTE_BGR</span><span class="o">)</span>
 
+<span class="k">#</span> <span class="nc">Detect</span> <span class="n">tables</span> <span class="n">on</span> <span class="n">the</span> <span class="n">page</span> <span class="n">using</span> <span class="n">pretrained</span> <span class="n">model</span>
+<span class="k">#</span> <span class="nc">It</span> <span class="n">can</span> <span class="n">be</span> <span class="n">finetuned</span> <span class="k">for</span> <span class="n">have</span> <span class="n">more</span> <span class="n">accurate</span> <span class="n">results</span> <span class="k">for</span> <span class="n">more</span> <span class="n">specific</span> <span class="n">documents</span>
+<span class="k">val</span> <span class="nv">table_detector</span> <span class="k">=</span> <span class="nc">ImageTableDetector</span>
+    <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"general_model_table_detection_v2"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/ocr"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"region"</span><span class="o">)</span>
+
+<span class="k">#</span> <span class="nc">Draw</span> <span class="n">detected</span> <span class="n">region</span><span class="ss">'s</span> <span class="k">with</span> <span class="n">table</span> <span class="n">to</span> <span class="n">the</span> <span class="n">page</span>
+<span class="k">val</span> <span class="nv">draw_regions</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ImageDrawRegions</span><span class="o">()</span> 
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setInputRegionsCol</span><span class="o">(</span><span class="s">"region"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image_with_regions"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setRectColor</span><span class="o">(</span><span class="nv">Color</span><span class="o">.</span><span class="py">red</span><span class="o">)</span>
+
+<span class="k">#</span> <span class="nc">Extract</span> <span class="n">table</span> <span class="n">regions</span> <span class="n">to</span> <span class="n">separate</span> <span class="n">images</span>
+<span class="k">val</span> <span class="nv">splitter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ImageSplitRegions</span><span class="o">()</span> 
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setInputRegionsCol</span><span class="o">(</span><span class="s">"region"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"table_image"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setDropCols</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+
+<span class="k">#</span> <span class="nc">Detect</span> <span class="n">cells</span> <span class="n">on</span> <span class="n">the</span> <span class="n">table</span> <span class="n">image</span>
+<span class="k">val</span> <span class="nv">cell_detector</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ImageTableCellDetector</span><span class="o">()</span> 
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"table_image"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"cells"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setAlgoType</span><span class="o">(</span><span class="s">"morphops"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setDrawDetectedLines</span><span class="o">(</span><span class="nc">True</span><span class="o">)</span>
+
+<span class="k">#</span> <span class="nc">Extract</span> <span class="n">text</span> <span class="n">from</span> <span class="n">the</span> <span class="n">detected</span> <span class="n">cells</span> 
+<span class="k">val</span> <span class="nv">table_recognition</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ImageCellsToTextTable</span><span class="o">()</span> 
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"table_image"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setCellsCol</span><span class="o">(</span><span class="s">"cells"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setMargin</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setStrip</span><span class="o">(</span><span class="nc">True</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"table"</span><span class="o">)</span>
+
+<span class="k">#</span> <span class="nc">Erase</span> <span class="n">detected</span> <span class="n">table</span> <span class="n">regions</span>
+<span class="k">val</span> <span class="nv">fill_regions</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ImageDrawRegions</span><span class="o">()</span> 
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setInputRegionsCol</span><span class="o">(</span><span class="s">"region"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image_1"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setRectColor</span><span class="o">(</span><span class="nv">Color</span><span class="o">.</span><span class="py">white</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setFilledRect</span><span class="o">(</span><span class="nc">True</span><span class="o">)</span>
+
+<span class="k">#</span> <span class="nc">OCR</span>
+<span class="k">val</span> <span class="nv">ocr</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ImageToText</span><span class="o">()</span> 
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image_1"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setOcrParams</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"preserve_interword_spaces=1"</span><span class="o">,</span> <span class="o">))</span> 
+    <span class="o">.</span><span class="py">setKeepLayout</span><span class="o">(</span><span class="nc">True</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setOutputSpaceCharacterWidth</span><span class="o">(</span><span class="mi">8</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline_table</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PipelineModel</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+    <span class="n">binary_to_image</span><span class="o">,</span> 
+    <span class="n">table_detector</span><span class="o">,</span> 
+    <span class="n">draw_regions</span><span class="o">,</span> 
+    <span class="n">fill_regions</span><span class="o">,</span> 
+    <span class="n">splitter</span><span class="o">,</span> 
+    <span class="n">cell_detector</span><span class="o">,</span> 
+    <span class="n">table_recognition</span><span class="o">,</span> 
+    <span class="n">ocr</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">imagePath</span> <span class="k">=</span> <span class="s">"/content/cTDaR_t10096.jpg"</span>
+<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">).</span><span class="py">load</span><span class="o">(</span><span class="n">imagePath</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">tables_results</span> <span class="k">=</span> <span class="nv">pipeline_table</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">df</span><span class="o">).</span><span class="py">cache</span><span class="o">()</span>
+</code></pre></div>  </div>
 </div>
 
-<h2 class="model-param" id="model-information">Model Information</h2>
+<h2 id="result">Result</h2>
 
-<table class="table-model">
-  <tbody>
-    <tr>
-      <td>Model Name:</td>
-      <td>layoutlmv3_finetuned_funsd</td>
-    </tr>
-    <tr>
-      <td>Type:</td>
-      <td>ocr</td>
-    </tr>
-    <tr>
-      <td>Compatibility:</td>
-      <td>Visual NLP 3.14.0+</td>
-    </tr>
-    <tr>
-      <td>License:</td>
-      <td>Licensed</td>
-    </tr>
-    <tr>
-      <td>Edition:</td>
-      <td>Official</td>
-    </tr>
-    <tr>
-      <td>Language:</td>
-      <td>en</td>
-    </tr>
-    <tr>
-      <td>Size:</td>
-      <td>467.0 MB</td>
-    </tr>
-  </tbody>
-</table>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-07-16T00:00:00+00:00"><!-- start custom article footer snippet -->
+<p><img src="../../_examples_ocr/image9_out.png" alt="Screenshot" /></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+--------------------+--------------------+--------------------+--------------------+-------+--------------------+--------------------+--------------------+------+--------------------+--------------------+--------------------+-----------------+---------+--------------------+--------------------+
+|         table_image|              region|  image_with_regions|             image_1|pagenum|    modificationTime|                path|               image|length|               cells|        output_image|               table|       confidence|exception|                text|           positions|
++--------------------+--------------------+--------------------+--------------------+-------+--------------------+--------------------+--------------------+------+--------------------+--------------------+--------------------+-----------------+---------+--------------------+--------------------+
+|<span class="o">{</span>file:/content/cT...|<span class="o">{</span>0, 0, 214.0, 437...|<span class="o">{</span>file:/content/cT...|<span class="o">{</span>file:/content/cT...|      0|2022-09-28 18:54:...|file:/content/cTD...|<span class="o">{</span>file:/content/cT...|385071|[[[[0, 0, 408, 32...|<span class="o">{</span>file:/content/cT...|<span class="o">{</span>0, 0, 0.0, 0.0,...|95.43954744611467|     null|                 ...|[<span class="o">{[{</span> , 0, 170.0, ...|
++--------------------+--------------------+--------------------+--------------------+-------+--------------------+--------------------+--------------------+------+--------------------+--------------------+--------------------+-----------------+---------+--------------------+--------------------+
+</code></pre></div></div>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2023-01-03T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -648,7 +761,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2022/07/15/distilbert_embeddings_finetuned_sarcasm_classification_en_3_0.html">English DistilBERT Embeddings Cased model (from mrm8488)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2022/07/18/biobert_pubmed_base_cased_v1.2_en_3_0.html">BioBERT Embeddings (Pubmed)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2023/01/03/pdf_processing_en_3_2.html">Pdf processing</a></div><div class="next nav_link"><span>NEXT</span><a href="/2023/01/03/finqa_bert_en.html">Financial Question Answering (Bert)</a></div></div></div>
 
 </div>
 </div>
