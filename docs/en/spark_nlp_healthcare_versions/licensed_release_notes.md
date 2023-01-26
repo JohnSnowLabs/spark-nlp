@@ -5,7 +5,7 @@ seotitle: Spark NLP for Healthcare | John Snow Labs
 title: Spark NLP for Healthcare Release Notes
 permalink: /docs/en/spark_nlp_healthcare_versions/licensed_release_notes
 key: docs-licensed-release-notes
-modify_date: 2023-01-16
+modify_date: 2023-01-26
 show_nav: true
 sidebar:
     nav: sparknlp-healthcare
@@ -13,11 +13,11 @@ sidebar:
 
 <div class="h3-box" markdown="1">
 
-## 4.2.7
+## 4.2.8
 
 #### Highlights
 
-+ 3 new oncological NER models
++ 4 new clinical named entity recognition models (3 oncology, 1 others)
 + 5 new Social Determenant of Health text classification models
 + New `DocumentMLClassifierApproach` annotator for training text classification models using SVM and Logistic Regression using TfIdf
 + New `Resolution2Chunk` annotator to map entity resolver outputs (terminology codes) to other clinical terminologies
@@ -31,22 +31,23 @@ sidebar:
     - Added confidence score in the `DocumentLogRegClassifierApproach` metadata
     - Fixed non-deterministic Relation Extraction DL Models (30+ models updated in the model hub)
     - Fixed incompatible PretrainedPipelines with PySpark v3.2.x and v3.3.x 
-    - Fixed validation parameter for internal annotators
     - Fixed `ZIP` label issue on `faker` mode with `setZipCodeTag` parameter in `Deidentification` 
     - Fixed obfuscated numbers have the same number of chars as the original ones 
-    - Fixed name obfuscation hashes in `Deidentification` for the Romanian language 
+    - Fixed name obfuscation hashes in `Deidentification` for romanian language 
+    - Fixed LightPipeline validation parameter for internal annotators
+    - LightPipeline support for `GenericClassifier` (`FeatureAssembler`) 
 + New and updated notebooks
     -  New [Clinical Text Classification with Spark_NLP Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/30.Clinical_Text_Classification_with_Spark_NLP.ipynb) 
     - New [Clinical Text Classification with DocumentMLClassifier Notebook](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/30.1.Text_Classification_with_DocumentMLClassifier.ipynb)
     - Updated [ALAB Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Annotation_Lab/Complete_ALab_Module_SparkNLP_JSL.ipynb) 
 + New and updated demos
     - [SOCIAL DETERMINANT](https://demo.johnsnowlabs.com/healthcare/SOCIAL_DETERMINANT/) demo
-+ 8 new clinical models and pipelines added & updated in total
++ 9 new clinical models and pipelines added & updated in total
 
 
-#### 3 New Oncological NER Models
+#### 4 New Clinical Named Entity Recognition Models (3 Oncology, 1 Others)
 
-We are releasing 3 new oncological NER models that were trained by using `embeddings_healthcare_100d` embeddings model.
+- We are releasing 3 new oncological NER models that were trained by using `embeddings_healthcare_100d` embeddings model.
 
 | model name                                     | description                                                                                         | predicted entities                     |
 |----------------------------------------------- |-----------------------------------------------------------------------------------------------------|--------------------------------------- |
@@ -83,6 +84,36 @@ text = "The patient presented a mass in her left breast, and a possible metastas
 |liver             |Anatomical_Site |
 +------------------+----------------+
 ```
+
+
+- We are releasing new oncological NER models that used for model training is provided by European Clinical Case Corpus (E3C), a project aimed at offering a freely available multilingual corpus of semantically annotated clinical narratives.
+
+
+*Example*:
+
+```python
+...
+ner = MedicalNerModel.pretrained('ner_eu_clinical_case', "en", "clinical/models") \
+	.setInputCols(["sentence", "token", "embeddings"]) \
+	.setOutputCol("ner")
+
+text = """A 3-year-old boy with autistic disorder on hospital of pediatric ward A at university hospital. He has no family history of illness or autistic spectrum disorder."""
+```
+
+*Result*:
+
+```bash
++------------------------------+------------------+
+|chunk                         |ner_label         |
++------------------------------+------------------+
+|A 3-year-old boy              |patient           |
+|autistic disorder             |clinical_condition|
+|He                            |patient           |
+|illness                       |clinical_event    |
+|autistic spectrum disorder    |clinical_condition|
++------------------------------+------------------+
+```
+
 
 #### 5 New Social Determinant of Health Text Classification  Models
 
@@ -361,21 +392,17 @@ sample_text = """The patient is a 28 years old female with a history of gestatio
 ```
 
 
-#### Important Announcement:
-
-`Router` and `AnnotationMerger` are not compatible with LightPipeline anymore due to the latest type validation checks introduced in open source Spark NLP. This issue will be resolved in the upcoming releases. 
-
-
 #### Core Improvements and Bug Fixes
 
 - Added chunk confidence score in the `RelationExtractionModel` metadata
 - Added confidence score in the `DocumentLogRegClassifierApproach` metadata
 - Fixed non-deterministic Relation Extraction DL Models (30+ models updated in the model hub)
 - Fixed incompatible PretrainedPipelines with PySpark v3.2.x and v3.3.x 
-- Fixed validation parameter for internal annotators
 - Fixed `ZIP` label issue on `faker` mode with `setZipCodeTag` parameter in `Deidentification` 
 - Fixed obfuscated numbers have the same number of chars as the original ones 
 - Fixed name obfuscation hashes in `Deidentification` for romanian language 
+- Fixed LightPipeline validation parameter for internal annotators
+- LightPipeline support for `GenericClassifier` (`FeatureAssembler`)
 
 
 #### New and Updated Notebooks
@@ -390,11 +417,12 @@ sample_text = """The patient is a 28 years old female with a history of gestatio
 + [SOCIAL DETERMINANT](https://demo.johnsnowlabs.com/healthcare/SOCIAL_DETERMINANT/) demo
 
 
-#### 8 New Clinical Models and Pipelines Added & Updated in Total
+#### 9 New Clinical Models and Pipelines Added & Updated in Total
 
 + `ner_oncology_anatomy_general_healthcare`
 + `ner_oncology_biomarker_healthcare`
 + `ner_oncology_unspecific_posology_healthcare`
++ `ner_eu_clinical_case`
 + `genericclassifier_sdoh_economics_binary_sbiobert_cased_mli`
 + `genericclassifier_sdoh_substance_usage_binary_sbiobert_cased_mli`
 + `genericclassifier_sdoh_tobacco_usage_sbiobert_cased_mli`
