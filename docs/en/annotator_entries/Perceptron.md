@@ -20,7 +20,7 @@ The default model is `"pos_anc"`, if no name is provided.
 For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Part+of+Speech+Tagging).
 Additionally, pretrained pipelines are available for this module, see [Pipelines](https://nlp.johnsnowlabs.com/docs/en/pipelines).
 
-For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb).
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/french/Train-Perceptron-French.ipynb).
 {%- endcapture -%}
 
 {%- capture model_input_anno -%}

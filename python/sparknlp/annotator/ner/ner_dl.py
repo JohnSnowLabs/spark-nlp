@@ -429,7 +429,7 @@ class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate, HasEngine):
     ``"ner_dl"`` requires the WordEmbeddings ``"glove_100d"``.
 
     For extended examples of usage, see the `Examples
-    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb>`__.
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/model-downloader/Create%20custom%20pipeline%20-%20NerDL.ipynb>`__.
 
     ==================================== ======================
     Input Annotation types               Output Annotation type

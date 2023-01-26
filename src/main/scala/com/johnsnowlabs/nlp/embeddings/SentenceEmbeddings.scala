@@ -31,7 +31,7 @@ import org.apache.spark.sql.{DataFrame, Dataset}
   * This can be configured with `setPoolingStrategy`, which either be `"AVERAGE"` or `"SUM"`.
   *
   * For more extended examples see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.1_Text_classification_examples_in_SparkML_SparkNLP.ipynb Spark NLP Workshop]].
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/text-similarity/Spark_NLP_Spark_ML_Text_Similarity.ipynb Examples]].
   * and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/SentenceEmbeddingsTestSpec.scala SentenceEmbeddingsTestSpec]].
   *

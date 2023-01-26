@@ -24,7 +24,7 @@ val nerTagger = NerCrfModel.pretrained()
 The default model is `"ner_crf"`, if no name is provided.
 For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition).
 
-For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/model-downloader/Running_Pretrained_pipelines.ipynb).
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/crf-ner/ner_dl_crf.ipynb).
 {%- endcapture -%}
 
 {%- capture model_input_anno -%}

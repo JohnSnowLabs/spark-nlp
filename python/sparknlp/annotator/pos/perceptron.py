@@ -179,7 +179,7 @@ class PerceptronModel(AnnotatorModel):
     `Pipelines <https://nlp.johnsnowlabs.com/docs/en/pipelines>`__.
 
     For extended examples of usage, see the `Examples
-    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb>`__.
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/french/Train-Perceptron-French.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type

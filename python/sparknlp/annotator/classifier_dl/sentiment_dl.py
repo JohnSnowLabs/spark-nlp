@@ -236,7 +236,7 @@ class SentimentDLModel(AnnotatorModel, HasStorageRef, HasEngine):
     <https://nlp.johnsnowlabs.com/models?task=Sentiment+Analysis>`__.
 
     For extended examples of usage, see the `Examples
-    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.Text_Classification_with_ClassifierDL.ipynb>`__.
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/classification/SentimentDL_train_multiclass_sentiment_classifier.ipynb>`__.
 
     ======================= ======================
     Input Annotation types  Output Annotation type

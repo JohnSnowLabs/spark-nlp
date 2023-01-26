@@ -281,7 +281,7 @@ class NerCrfModel(AnnotatorModel):
     <https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition>`__.
 
     For extended examples of usage, see the `Examples
-    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/model-downloader/Running_Pretrained_pipelines.ipynb>`__.
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/crf-ner/ner_dl_crf.ipynb>`__.
 
     ========================================= ======================
     Input Annotation types                    Output Annotation type
