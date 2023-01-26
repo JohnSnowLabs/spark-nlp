@@ -24,8 +24,7 @@ The default model is `"spellcheck_norvig"`, if no name is provided.
 For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Spell+Check).
 
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb)
-and the [NorvigSweetingTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingTestSpec.scala).
+For extended examples of see the [NorvigSweetingTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingTestSpec.scala).
 {%- endcapture -%}
 
 {%- capture model_input_anno -%}
@@ -133,8 +132,7 @@ Inspired by Norvig model and [SymSpell](https://github.com/wolfgarbe/SymSpell).
 
 For instantiated/pretrained models, see NorvigSweetingModel.
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb)
-and the [NorvigSweetingTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingTestSpec.scala).
+For extended examples of usage, see the [NorvigSweetingTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingTestSpec.scala).
 {%- endcapture -%}
 
 {%- capture approach_input_anno -%}

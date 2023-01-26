@@ -37,8 +37,8 @@ class WordSegmenterApproach(AnnotatorApproach):
     The helper class :class:`.POS` might be useful to read training data into
     data frames.
 
-    For extended examples of usage, see the `Spark NLP Workshop
-    <https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/annotation/chinese/word_segmentation>`__.
+    For extended examples of usage, see the `Examples
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/chinese/word_segmentation>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -284,8 +284,8 @@ class WordSegmenterModel(AnnotatorModel):
     values are provided. For available pretrained models please see the `Models
     Hub <https://nlp.johnsnowlabs.com/models?task=Word+Segmentation>`__.
 
-    For extended examples of usage, see the `Spark NLP Workshop
-    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/chinese/word_segmentation/words_segmenter_demo.ipynb>`__.
+    For extended examples of usage, see the `Examples
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/jupyter/annotation/chinese/word_segmentation/words_segmenter_demo.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
