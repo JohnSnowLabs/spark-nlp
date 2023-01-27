@@ -301,7 +301,7 @@ trait ReadSentimentDLTensorflowModel extends ReadTensorflowModel {
 
   override val tfFile: String = "sentimentdl_tensorflow"
 
-  def readTensorflow(instance: SentimentDLModel, path: String, spark: SparkSession): Unit = {
+  def readModel(instance: SentimentDLModel, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_sentimentdl_tf", initAllTables = true)
     instance.setModelIfNotSet(spark, tf)
@@ -310,7 +310,7 @@ trait ReadSentimentDLTensorflowModel extends ReadTensorflowModel {
     instance.set(instance.classes, encoder.tags)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 }
 
 /** This is the companion object of [[SentimentDLModel]]. Please refer to that class for the

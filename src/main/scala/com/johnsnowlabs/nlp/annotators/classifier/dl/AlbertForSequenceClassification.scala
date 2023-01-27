@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
+import com.johnsnowlabs.ml.ai.AlbertClassification
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
   ReadSentencePieceModel,
@@ -233,7 +234,7 @@ class AlbertForSequenceClassification(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowAlbertClassification]] = None
+  private var _model: Option[Broadcast[AlbertClassification]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
@@ -243,7 +244,7 @@ class AlbertForSequenceClassification(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowAlbertClassification(
+          new AlbertClassification(
             tensorflowWrapper,
             spp,
             configProtoBytes = getConfigProtoBytes,
@@ -255,7 +256,7 @@ class AlbertForSequenceClassification(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowAlbertClassification = _model.get.value
+  def getModelIfNotSet: AlbertClassification = _model.get.value
 
   /** Whether to lowercase tokens or not (Default: `false`).
     *
@@ -341,15 +342,13 @@ trait ReadablePretrainedAlbertForSequenceModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadAlbertForSequenceTensorflowModel
-    extends ReadTensorflowModel
-    with ReadSentencePieceModel {
+trait ReadAlbertForSequenceDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[AlbertForSequenceClassification] =>
 
   override val tfFile: String = "albert_classification_tensorflow"
   override val sppFile: String = "albert_spp"
 
-  def readTensorflow(
+  def readModel(
       instance: AlbertForSequenceClassification,
       path: String,
       spark: SparkSession): Unit = {
@@ -359,7 +358,7 @@ trait ReadAlbertForSequenceTensorflowModel
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): AlbertForSequenceClassification = {
 
@@ -403,4 +402,4 @@ trait ReadAlbertForSequenceTensorflowModel
   */
 object AlbertForSequenceClassification
     extends ReadablePretrainedAlbertForSequenceModel
-    with ReadAlbertForSequenceTensorflowModel
+    with ReadAlbertForSequenceDLModel

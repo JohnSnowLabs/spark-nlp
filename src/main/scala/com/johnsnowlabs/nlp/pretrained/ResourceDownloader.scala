@@ -18,10 +18,10 @@ package com.johnsnowlabs.nlp.pretrained
 
 import com.johnsnowlabs.client.aws.AWSGateway
 import com.johnsnowlabs.nlp.annotators._
-import com.johnsnowlabs.nlp.annotators.audio.Wav2Vec2ForCTC
+import com.johnsnowlabs.nlp.annotators.audio.{HubertForCTC, Wav2Vec2ForCTC}
 import com.johnsnowlabs.nlp.annotators.classifier.dl._
 import com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel
-import com.johnsnowlabs.nlp.annotators.cv.ViTForImageClassification
+import com.johnsnowlabs.nlp.annotators.cv.{ViTForImageClassification, SwinForImageClassification}
 import com.johnsnowlabs.nlp.annotators.er.EntityRulerModel
 import com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
@@ -691,11 +691,14 @@ object PythonResourceDownloader {
     "XlmRoBertaForQuestionAnswering" -> XlmRoBertaForQuestionAnswering,
     "SpanBertCorefModel" -> SpanBertCorefModel,
     "ViTForImageClassification" -> ViTForImageClassification,
+    "SwinForImageClassification" -> SwinForImageClassification,
     "Wav2Vec2ForCTC" -> Wav2Vec2ForCTC,
+    "HubertForCTC" -> HubertForCTC,
     "CamemBertForTokenClassification" -> CamemBertForTokenClassification,
     "TableAssembler" -> TableAssembler,
     "TapasForQuestionAnswering" -> TapasForQuestionAnswering,
-    "CamemBertForSequenceClassification" -> CamemBertForSequenceClassification)
+    "CamemBertForSequenceClassification" -> CamemBertForSequenceClassification,
+    "CamemBertForQuestionAnswering" -> CamemBertForQuestionAnswering)
 
   def downloadModel(
       readerStr: String,
