@@ -666,8 +666,6 @@ package object annotator {
   type HubertForCTC =
     com.johnsnowlabs.nlp.annotators.audio.HubertForCTC
 
-  object HubertForCTC
-      extends ReadablePretrainedHubertForAudioModel
-      with ReadHubertForAudioDLModel
+  object HubertForCTC extends ReadablePretrainedHubertForAudioModel with ReadHubertForAudioDLModel
 
 }

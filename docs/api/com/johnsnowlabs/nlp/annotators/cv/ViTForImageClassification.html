@@ -151,12 +151,24 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
     </li><li class="current-entities indented5">
                         <span class="separator"></span>
-                        <a class="trait" href="ReadViTForImageTensorflowModel.html" title=""></a>
-                        <a href="ReadViTForImageTensorflowModel.html" title="">ReadViTForImageTensorflowModel</a>
+                        <a class="trait" href="ReadSwinForImageDLModel.html" title=""></a>
+                        <a href="ReadSwinForImageDLModel.html" title="">ReadSwinForImageDLModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadViTForImageDLModel.html" title=""></a>
+                        <a href="ReadViTForImageDLModel.html" title="">ReadViTForImageDLModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedSwinForImageModel.html" title=""></a>
+                        <a href="ReadablePretrainedSwinForImageModel.html" title="">ReadablePretrainedSwinForImageModel</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedViTForImageModel.html" title=""></a>
                         <a href="ReadablePretrainedViTForImageModel.html" title="">ReadablePretrainedViTForImageModel</a>
+                      </li><li class="current-entities indented5">
+                        <a class="object" href="SwinForImageClassification$.html" title="This is the companion object of SwinForImageClassification."></a>
+                        <a class="class" href="SwinForImageClassification.html" title="SwinImageClassification is an image classifier based on Swin."></a>
+                        <a href="SwinForImageClassification.html" title="SwinImageClassification is an image classifier based on Swin.">SwinForImageClassification</a>
                       </li><li class="current-entities indented5">
                         <a class="object" href="ViTForImageClassification$.html" title="This is the companion object of ViTForImageClassification."></a>
                         <a class="class" href="" title="Vision Transformer (ViT) for image classification."></a>
@@ -232,7 +244,12 @@ substantially fewer computational resources to train.</i></p><h4>Example</h4><pr
             Linear Supertypes
           </span>
           <div class="superTypes hiddenContent"><a href="../../HasEngine.html" class="extype" name="com.johnsnowlabs.nlp.HasEngine">HasEngine</a>, <a href="../../../ml/tensorflow/WriteTensorflowModel.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.WriteTensorflowModel">WriteTensorflowModel</a>, <a href="../../HasImageFeatureProperties.html" class="extype" name="com.johnsnowlabs.nlp.HasImageFeatureProperties">HasImageFeatureProperties</a>, <a href="../../HasBatchedAnnotateImage.html" class="extype" name="com.johnsnowlabs.nlp.HasBatchedAnnotateImage">HasBatchedAnnotateImage</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.cv.ViTForImageClassification">ViTForImageClassification</a>], <a href="../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.cv.ViTForImageClassification">ViTForImageClassification</a>], <a href="../../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a>, <a href="../../RawAnnotator.html" class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.cv.ViTForImageClassification">ViTForImageClassification</a>], <a href="../../HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a>, <a href="../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a>, <a href="../../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a>, <a href="../../ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a>, <a href="../../HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a>, <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span>, <span class="extype" name="org.apache.spark.ml.util.MLWritable">MLWritable</span>, <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.cv.ViTForImageClassification">ViTForImageClassification</a>], <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span>, <span class="extype" name="org.apache.spark.ml.PipelineStage">PipelineStage</span>, <span class="extype" name="org.apache.spark.internal.Logging">Logging</span>, <span class="extype" name="org.apache.spark.ml.param.Params">Params</span>, <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.apache.spark.ml.util.Identifiable">Identifiable</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
-        </div></div>
+        </div><div class="toggleContainer block">
+            <span class="toggle">
+              Known Subclasses
+            </span>
+            <div class="subClasses hiddenContent"><a href="SwinForImageClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.cv.SwinForImageClassification">SwinForImageClassification</a></div>
+          </div></div>
         
 
       <div id="mbrsel">
@@ -1257,9 +1274,9 @@ config_proto.SerializeToString()
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.cv.ViTForImageClassification#getModelIfNotSet" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
-      <a id="getModelIfNotSet:com.johnsnowlabs.ml.tensorflow.TensorflowViTClassifier"></a><a id="getModelIfNotSet:TensorflowViTClassifier"></a>
+      <a id="getModelIfNotSet:com.johnsnowlabs.ml.ai.ViTClassifier"></a><a id="getModelIfNotSet:ViTClassifier"></a>
       <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/cv/ViTForImageClassification.html#getModelIfNotSet:com.johnsnowlabs.ml.tensorflow.TensorflowViTClassifier" title="Permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/cv/ViTForImageClassification.html#getModelIfNotSet:com.johnsnowlabs.ml.ai.ViTClassifier" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -1268,7 +1285,7 @@ config_proto.SerializeToString()
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">getModelIfNotSet</span><span class="result">: <a href="../../../ml/tensorflow/TensorflowViTClassifier.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowViTClassifier">TensorflowViTClassifier</a></span>
+        <span class="name">getModelIfNotSet</span><span class="result">: <span class="extype" name="com.johnsnowlabs.ml.ai.ViTClassifier">ViTClassifier</span></span>
       </span>
       
       <p class="shortcomment cmt"></p>
