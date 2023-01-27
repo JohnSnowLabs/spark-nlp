@@ -201,7 +201,7 @@ case class CoNLL(
       sentences.clear()
 
       if (result._1.nonEmpty) {
-        Some(doc.toString, sentences.toList, if (includeDocId) docId else None)
+        Some(result._1, result._2, if (includeDocId) docId else None)
       } else
         None
     }
