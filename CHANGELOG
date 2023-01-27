@@ -1,4 +1,14 @@
 ========
+4.2.8
+========
+----------------
+Bug Fixes & Enhancements
+----------------
+* Fix the issue with optional keys (labels) in metadata when using XXXForSequenceClassitication annotators. This fixes `Some(neg) -> 0.13602075` as `neg -> 0.13602075` to be in harmony with all the other classifiers. https://github.com/JohnSnowLabs/spark-nlp/pull/13396
+* Introducing a config to skip `LightPipeline` validation for `inputCols` on the Python side for projects depending on Spark NLP. This toggle should only be used for specific annotators that do not follow the convention of predefined `inputAnnotatorTypes` and `outputAnnotatorType`.
+
+
+========
 4.2.7
 ========
 ----------------
