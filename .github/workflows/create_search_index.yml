@@ -5,6 +5,10 @@ on:
     branches:
       - master
 
+concurrency:
+  # Make sure only workflow run at a time for create_search_index.yml
+  group: ${{ github.workflow }}
+
 jobs:
   jekyll:
     runs-on: ubuntu-latest
@@ -18,22 +22,57 @@ jobs:
           ruby-version: 2.7
           working-directory: docs
           bundler-cache: true
-      - name: Index changed posts
+      - name: Download artifacts
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          workflow: create_search_index.yml
+          workflow_conclusion: success
+          name: jekyll-build
+          path: docs
+          if_no_artifact_found: ignore
+      - name: Extract artifacts
+        working-directory: docs
+        run: >
+          (7z x -o_site/ jekyll-content.zip
+          && rm jekyll-content.zip
+          && mv _site/.jekyll-metadata ./
+          && mv _site/backup-models.json ./
+          && mv _site/backup-benchmarking.json ./
+          && mv _site/backup-references.json ./)
+          || true
+      - name: Incremental build
+        id: incremental-build
         env:
           ELASTICSEARCH_URL: ${{ secrets.ELASTICSEARCH_URL }}
           ELASTICSEARCH_ACCESS_TOKEN: ${{ secrets.ELASTICSEARCH_ACCESS_TOKEN }}
+          ELASTICSEARCH_INDEX_NAME: ${{ secrets.ELASTICSEARCH_INDEX_NAME }}
+          SEARCH_ORIGIN: ${{ secrets.SEARCH_ORIGIN }}
         working-directory: docs
         run: |
-          git diff --name-only ${{github.event.before}}..${{github.event.after}} > changes.txt
-          git diff --name-only ${{github.event.after}}..${{github.event.before}} >> changes.txt
-          bundle exec jekyll build
-      - uses: actions/setup-node@v2
+          bundle exec jekyll build --incremental
+        continue-on-error: ${{ steps.incremental-build.outputs.require_full_build == 'true' }}
+      - name: Full build
+        id: full-build
+        if: ${{ steps.incremental-build.outputs.require_full_build == 'true' }}
+        env:
+          ELASTICSEARCH_URL: ${{ secrets.ELASTICSEARCH_URL }}
+          ELASTICSEARCH_ACCESS_TOKEN: ${{ secrets.ELASTICSEARCH_ACCESS_TOKEN }}
+          ELASTICSEARCH_INDEX_NAME: ${{ secrets.ELASTICSEARCH_INDEX_NAME }}
+          SEARCH_ORIGIN: ${{ secrets.SEARCH_ORIGIN }}
+        working-directory: docs
+        run: |
+          rm -f .jekyll-metadata
+          FULL_BUILD=1 bundle exec jekyll build --incremental
+      - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
           cache: yarn
           cache-dependency-path: docs/_frontend/yarn.lock
       - name: Build frontend
         working-directory: docs/_frontend
+        env:
+          SEARCH_ORIGIN: ${{ secrets.SEARCH_ORIGIN }}
         run: |
           yarn
           yarn run build
@@ -43,3 +82,19 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs/_site
+      - name: Zip contents for artifacts
+        uses: vimtor/action-zip@v1
+        with:
+          files: >
+            ./docs/_site/
+            ./docs/.jekyll-metadata
+            ./docs/backup-models.json
+            ./docs/backup-benchmarking.json
+            ./docs/backup-references.json
+          dest: jekyll-content.zip
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: jekyll-build
+          path: |
+            ./jekyll-content.zip

@@ -28,6 +28,7 @@ Pretrained RobertaForSequenceClassification model, adapted from Hugging Face and
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/roberta_classifier_uganda_labor_market_interview_text_classification_en_4.1.0_3.0_1662768117133.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/roberta_classifier_uganda_labor_market_interview_text_classification_en_4.1.0_3.0_1662768117133.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

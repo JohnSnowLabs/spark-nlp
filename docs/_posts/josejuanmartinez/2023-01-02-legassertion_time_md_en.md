@@ -10,6 +10,7 @@ language: en
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -26,7 +27,8 @@ This is a medium (md) Assertion Status Model aimed to detect temporality (PRESEN
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/legal/LEGASSERTION_TEMPORALITY){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legassertion_time_md_en_1.0.0_3.0_1672687111582.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legassertion_time_md_en_1.0.0_3.0_1672687111582.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legassertion_time_md_en_1.0.0_3.0_1672687111582.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

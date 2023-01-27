@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 4.2.4
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -17,7 +18,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This Generic Classifier model is intended for detecting tobacco use in clinical notes and trained by using GenericClassifierApproach annotator. `Present:` if the patient was a current consumer of alcohol. `Past:` the patient was a consumer in the past and had quit. `Never:` if the patient had never consumed alcohol. `None: ` if there was no related text.
+This Generic Classifier model is intended for detecting tobacco use in clinical notes and trained by using GenericClassifierApproach annotator. `Present:` if the patient was a current consumer of tobacco. `Past:` the patient was a consumer in the past and had quit. `Never:` if the patient had never consumed tobacco. `None: ` if there was no related text.
 
 ## Predicted Entities
 
@@ -26,7 +27,8 @@ This Generic Classifier model is intended for detecting tobacco use in clinical 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/genericclassifier_sdoh_tobacco_usage_sbiobert_cased_mli_en_4.2.4_3.0_1673697468673.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/genericclassifier_sdoh_tobacco_usage_sbiobert_cased_mli_en_4.2.4_3.0_1673697468673.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/genericclassifier_sdoh_tobacco_usage_sbiobert_cased_mli_en_4.2.4_3.0_1673697468673.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

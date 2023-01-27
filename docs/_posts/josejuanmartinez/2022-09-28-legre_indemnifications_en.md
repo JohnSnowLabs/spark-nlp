@@ -33,7 +33,8 @@ There are bigger models in Models Hub trained also with directed relationships.
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/legal/LEGALRE_INDEMNIFICATION/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legre_indemnifications_en_1.0.0_3.0_1664361611044.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legre_indemnifications_en_1.0.0_3.0_1664361611044.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legre_indemnifications_en_1.0.0_3.0_1664361611044.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

@@ -24,6 +24,7 @@ Pretrained DistilBERT Embeddings model, adapted from Hugging Face and curated to
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_embeddings_finetuned_sarcasm_classification_en_4.0.0_3.0_1657884379182.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/distilbert_embeddings_finetuned_sarcasm_classification_en_4.0.0_3.0_1657884379182.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

@@ -28,6 +28,7 @@ This model was imported from `Hugging Face` and it's been fine-tuned for the Rus
 [Live Demo](https://demo.johnsnowlabs.com/public/CLASSIFICATION_RU_TOXIC/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_RU_TOXIC.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_sequence_classifier_toxicity_ru_3.3.4_2.4_1640162987772.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bert_sequence_classifier_toxicity_ru_3.3.4_2.4_1640162987772.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

@@ -28,6 +28,7 @@ This model is fine-tuned on the SST-2 and is recommended for use in sentiment an
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/sent_bert_wiki_books_sst2_en_3.2.0_3.0_1630412133457.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/sent_bert_wiki_books_sst2_en_3.2.0_3.0_1630412133457.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

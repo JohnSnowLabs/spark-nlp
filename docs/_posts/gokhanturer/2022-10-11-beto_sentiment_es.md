@@ -28,6 +28,7 @@ Model trained with TASS 2020 corpus (around ~5k tweets) of several dialects of S
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/beto_sentiment_es_4.2.0_3.2_1665504729919.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/beto_sentiment_es_4.2.0_3.2_1665504729919.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

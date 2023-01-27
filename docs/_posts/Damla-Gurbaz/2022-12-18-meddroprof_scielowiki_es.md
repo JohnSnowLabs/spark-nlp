@@ -27,7 +27,8 @@ NER model that detects professions and occupations in Spanish texts. Trained wit
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_PROFESSIONS_ES/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_PROFESSIONS_ES.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/meddroprof_scielowiki_es_4.2.2_3.0_1671367707210.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/meddroprof_scielowiki_es_4.2.2_3.0_1671367707210.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/meddroprof_scielowiki_es_4.2.2_3.0_1671367707210.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

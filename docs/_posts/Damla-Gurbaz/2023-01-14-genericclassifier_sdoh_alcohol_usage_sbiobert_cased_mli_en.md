@@ -1,6 +1,6 @@
 ---
 layout: model
-title: SDOH Alcohol Usege For Classification
+title: SDOH Alcohol Usage For Classification
 author: John Snow Labs
 name: genericclassifier_sdoh_alcohol_usage_sbiobert_cased_mli
 date: 2023-01-14
@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 4.2.4
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -26,7 +27,8 @@ This Generic Classifier model is intended for detecting alcohol use in clinical 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/genericclassifier_sdoh_alcohol_usage_sbiobert_cased_mli_en_4.2.4_3.0_1673698550774.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/genericclassifier_sdoh_alcohol_usage_sbiobert_cased_mli_en_4.2.4_3.0_1673698550774.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/genericclassifier_sdoh_alcohol_usage_sbiobert_cased_mli_en_4.2.4_3.0_1673698550774.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

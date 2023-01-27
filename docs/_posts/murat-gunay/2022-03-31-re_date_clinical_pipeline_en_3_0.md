@@ -26,7 +26,8 @@ This pretrained pipeline is built on the top of [re_date_clinical](https://nlp.j
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb#scrollTo=d5wI11ptz7hi){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/re_date_clinical_pipeline_en_3.4.1_3.0_1648734471721.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/re_date_clinical_pipeline_en_3.4.1_3.0_1648734471721.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/re_date_clinical_pipeline_en_3.4.1_3.0_1648734471721.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 
 ## How to use

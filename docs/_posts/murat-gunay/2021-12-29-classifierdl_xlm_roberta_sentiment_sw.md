@@ -28,6 +28,7 @@ This model identifies positive or negative sentiments in Swahili texts.
 [Live Demo](https://demo.johnsnowlabs.com/public/SENTIMENT_SW/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SENTIMENT_SW.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/classifierdl_xlm_roberta_sentiment_sw_3.3.4_3.0_1640766370034.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/classifierdl_xlm_roberta_sentiment_sw_3.3.4_3.0_1640766370034.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
