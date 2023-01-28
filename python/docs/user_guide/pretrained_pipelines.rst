@@ -51,3 +51,15 @@ Available Pipelines
 ===================
 
 Please see the `Pipelines Page <https://nlp.johnsnowlabs.com/docs/en/pipelines>`_ for all available pipelines.
+
+Alternatively you can also check for pretrained
+pipelines using :meth:`.ResourceDownloader.showPublicPipelines`.
+
+>>> ResourceDownloader.showPublicPipelines("en")
++------------------+------+---------+
+| Pipeline         | lang | version |
++------------------+------+---------+
+| dependency_parse | en   | 2.0.2   |
+| check_spelling   | en   | 2.1.0   |
+| match_datetime   | en   | 2.1.0   |
+|  ...             | ...  | ...     |
