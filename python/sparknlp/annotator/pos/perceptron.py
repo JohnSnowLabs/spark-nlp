@@ -44,8 +44,8 @@ class PerceptronApproach(AnnotatorApproach):
                             ...
 
 
-    For extended examples of usage, see the `Spark NLP Workshop
-    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/french/Train-Perceptron-French.ipynb>`__.
+    For extended examples of usage, see the `Examples
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/french/Train-Perceptron-French.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -178,8 +178,8 @@ class PerceptronModel(AnnotatorModel):
     Additionally, pretrained pipelines are available for this module, see
     `Pipelines <https://nlp.johnsnowlabs.com/docs/en/pipelines>`__.
 
-    For extended examples of usage, see the `Spark NLP Workshop
-    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb>`__.
+    For extended examples of usage, see the `Examples
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/french/Train-Perceptron-French.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type

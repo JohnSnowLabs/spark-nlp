@@ -57,7 +57,7 @@ import org.slf4j.{Logger, LoggerFactory}
   * models please see the [[https://nlp.johnsnowlabs.com/models Models Hub]].
   *
   * For extended examples of usage, see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/coreference-resolution/Coreference_Resolution_SpanBertCorefModel.ipynb Spark NLP Workshop]]
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/coreference-resolution/Coreference_Resolution_SpanBertCorefModel.ipynb Examples]]
   *
   * '''References:'''
   *   - [[https://github.com/mandarjoshi90/coref]]
