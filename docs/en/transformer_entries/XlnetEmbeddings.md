@@ -34,7 +34,7 @@ xlnet = XlnetEmbeddings.load("/xlnet_large_cased_en_2.5.0_2.4_1588074397954") \
 ```
 The default model is `"xlnet_base_cased"`, if no name is provided.
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/ner_xlnet.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/dl-ner/ner_xlnet.ipynb)
 and the [XlnetEmbeddingsTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/XlnetEmbeddingsTestSpec.scala).
 
 **Sources :**

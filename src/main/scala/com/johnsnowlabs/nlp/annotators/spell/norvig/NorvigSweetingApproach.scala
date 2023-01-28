@@ -41,8 +41,6 @@ import org.apache.spark.sql.{AnalysisException, Dataset}
   * For instantiated/pretrained models, see [[NorvigSweetingModel]].
   *
   * For extended examples of usage, see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb Spark NLP Workshop]]
-  * and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingTestSpec.scala NorvigSweetingTestSpec]].
   *
   * ==Example==

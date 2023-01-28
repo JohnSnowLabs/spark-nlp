@@ -70,7 +70,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   * The default model is `"xlnet_base_cased"`, if no name is provided.
   *
   * For extended examples of usage, see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/ner_xlnet.ipynb Spark NLP Workshop]]
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/dl-ner/ner_xlnet.ipynb Examples]]
   * and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/XlnetEmbeddingsTestSpec.scala XlnetEmbeddingsTestSpec]].
   * To see which models are compatible and how to import them see

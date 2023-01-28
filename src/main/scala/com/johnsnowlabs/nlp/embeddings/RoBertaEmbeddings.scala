@@ -53,7 +53,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   * please see the [[https://nlp.johnsnowlabs.com/models?task=Embeddings Models Hub]].
   *
   * For extended examples of usage, see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBERTa.ipynb Spark NLP Workshop]]
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBERTa.ipynb Examples]]
   * and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/RoBertaEmbeddingsTestSpec.scala RoBertaEmbeddingsTestSpec]].
   * To see which models are compatible and how to import them see

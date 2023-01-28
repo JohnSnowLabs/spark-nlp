@@ -18,7 +18,7 @@ Excluding the label, this can be done with for example
 
 Optionally the user can provide an entity dictionary file with `setExternalFeatures` for better accuracy.
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/crf-ner/ner_dl_crf.ipynb).
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/crf-ner/ner_dl_crf.ipynb).
 {%- endcapture -%}
 
 {%- capture input_anno -%}
