@@ -1,5 +1,10 @@
 # Spark NLP Examples
 
-We have moved all the examples to a repository dedicated to showcasing Spark NLP use cases!
+Under construction
 
-Let's go! [spark-nlp-workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop)
+Required maintained examples
+
+- Python
+- Scala
+- Java
+- Docker
