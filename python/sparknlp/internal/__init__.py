@@ -1,4 +1,4 @@
-#  Copyright 2017-2022 John Snow Labs
+#  Copyright 2017-2023 John Snow Labs
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -491,3 +491,9 @@ class _CamemBertQuestionAnsweringLoader(ExtendedJavaWrapper):
         super(_CamemBertQuestionAnsweringLoader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForQuestionAnswering.loadSavedModel", path,
             jspark)
+
+
+class _RobertaQAToZeroShotNerLoader(ExtendedJavaWrapper):
+    def __init__(self, path):
+        super(_RobertaQAToZeroShotNerLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.ner.dl.ZeroShotNerModel.load", path)
