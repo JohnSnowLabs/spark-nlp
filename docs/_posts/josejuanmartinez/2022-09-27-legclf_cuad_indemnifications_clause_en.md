@@ -36,7 +36,8 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/finance/CLASSIFY_LEGAL_CLAUSES/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_cuad_indemnifications_clause_en_1.0.0_3.0_1664272531526.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_cuad_indemnifications_clause_en_1.0.0_3.0_1664272531526.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_cuad_indemnifications_clause_en_1.0.0_3.0_1664272531526.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -108,7 +109,7 @@ In-house annotations on CUAD dataset
            label  precision    recall  f1-score   support
 indemnifications       1.00      0.83      0.91        12
            other       0.83      1.00      0.91        10
-        accuracy         -         -       0.91        22
+        accuracy          -         -      0.91        22
        macro avg       0.92      0.92      0.91        22
     weighted avg       0.92      0.91      0.91        22
 ```

@@ -34,7 +34,8 @@ IMPORTANT: Chunk Mappers work with exact matches, so before using Chunk Mapping,
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/finance/FIN_LEG_COMPANY_AUGMENTATION/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finmapper_edgar_companyname_en_1.0.0_3.2_1660817326595.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finmapper_edgar_companyname_en_1.0.0_3.2_1660817326595.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/finance/models/finmapper_edgar_companyname_en_1.0.0_3.2_1660817326595.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -64,69 +65,49 @@ ner_converter = nlp.NerConverter()\
         .setInputCols(["document","token","ner"])\
         .setOutputCol("ner_chunk")
 
+# Optional: To normalize the ORG name using NASDAQ data before the mapping
+##########################################################################
 chunkToDoc = nlp.Chunk2Doc()\
         .setInputCols("ner_chunk")\
         .setOutputCol("ner_chunk_doc")
 
-sentence_embeddings = nlp.UniversalSentenceEncoder.pretrained("tfhub_use", "en") \
+chunk_embeddings = nlp.UniversalSentenceEncoder.pretrained("tfhub_use", "en") \
       .setInputCols("ner_chunk_doc") \
       .setOutputCol("sentence_embeddings")
     
-resolver = finance.SentenceEntityResolverModel.pretrained("finel_edgar_company_name", "en", "finance/models") \
+use_er_model = finance.SentenceEntityResolverModel.pretrained("finel_edgar_company_name", "en", "finance/models") \
       .setInputCols(["ner_chunk_doc", "sentence_embeddings"]) \
       .setOutputCol("normalized")\
       .setDistanceFunction("EUCLIDEAN")
+##########################################################################
 
+cm = finance.ChunkMapperModel()\
+      .pretrained("finmapper_edgar_companyname", "en", "finance/models")\
+      .setInputCols(["normalized"])\ # or ner_chunk for non normalized versions
+      .setOutputCol("mappings")
 
-nlpPipeline = Pipeline(stages=[
+nlpPipeline = nlp.Pipeline(stages=[
         documentAssembler,
         tokenizer,
         embeddings,
         ner_model,
         ner_converter,
         chunkToDoc,
-        sentence_embeddings,
-        resolver])
+        chunk_embeddings,
+        use_er_model,
+        cm
+])
 
-text = [""]
-test_data = spark.createDataFrame([text]).toDF("text")
+text = """NIKE Inc is an American multinational corporation that is engaged in the design, development, manufacturing, and worldwide marketing and sales of footwear, 
+apparel, equipment, accessories, and services"""
+
+test_data = spark.createDataFrame([[text]]).toDF("text")
+
 model = nlpPipeline.fit(test_data)
 
-lp = LightPipeline(model)
-res = lp.fullAnnotate("Jamestown Invest LLC is a direct-to-consumer platform for Commercial Real Estate Investments launched by a global real estate institution.")
+lp = nlp.LightPipeline(model)
 
-# This will return the first normalized record found, which is the most similar
-first_result = res[0]['normalized']['all_k_resolutions'].split(':::')[0] # Jamestown Invest 1, LLC
-
-
-documentAssembler = nlp.DocumentAssembler()\
-        .setInputCol("text")\
-        .setOutputCol("document")
-
-chunkAssembler = nlp.Doc2Chunk() \
-    .setInputCols("document") \
-    .setOutputCol("chunk") \
-    .setIsArray(False)
-
-CM = finance.ChunkMapperModel()\
-      .pretrained("finmapper_edgar_companyname", "en", "finance/models")\
-      .setInputCols(["chunk"])\
-      .setOutputCol("mappings")
-      
-cm_pipeline = Pipeline(stages=[documentAssembler, chunkAssembler, CM])
-fit_cm_pipeline = cm_pipeline.fit(test_data)
-
-df = spark.createDataFrame([[first_result]]).toDF("text")
-r = fit_cm_pipeline.transform(df).collect()
-
-json_dict = dict()
-json_dict['mappings'] = []
-for n in r[0]['mappings']:
-    json_dict['mappings'].append([str(n.annotatorType), n.begin, n.end, str(n.result), {k:v for k,v in n.metadata.items()}])
-print(json.dumps(json_dict))
-
-
-
+lp.annotate(text)
 ```
 
 </div>

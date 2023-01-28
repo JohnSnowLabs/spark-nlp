@@ -10,7 +10,7 @@ language: en
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
-annotator: FinanceNerModel
+annotator: LegalNerModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -30,7 +30,8 @@ This is a Legal Named Entity Recognition Model to identify the Subject (who), Ac
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_warranty_en_1.0.0_3.0_1666013884679.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_warranty_en_1.0.0_3.0_1666013884679.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legner_warranty_en_1.0.0_3.0_1666013884679.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -111,7 +112,7 @@ In-house annotated examples from CUAD legal dataset
 ## Benchmarking
 
 ```bash
-                    label     precision    recall  f1-score   support
+                     label  precision    recall  f1-score   support
                 B-WARRANTY     0.8993    0.9178    0.9085       146
          B-WARRANTY_ACTION     1.0000    0.9318    0.9647        44
 B-WARRANTY_INDIRECT_OBJECT     1.0000    0.9474    0.9730        19
@@ -122,6 +123,6 @@ I-WARRANTY_INDIRECT_OBJECT     0.8333    0.8333    0.8333         6
         I-WARRANTY_SUBJECT     1.0000    0.9444    0.9714        36
                          O     0.9758    0.9772    0.9765      3381
                   accuracy        -        -       0.9698      5690
-                 macro avg     0.9428    0.9407    0.9410      5690
-              weighted avg     0.9700    0.9698    0.9698      5690
+                 macro-avg     0.9428    0.9407    0.9410      5690
+              weighted-avg     0.9700    0.9698    0.9698      5690
 ```

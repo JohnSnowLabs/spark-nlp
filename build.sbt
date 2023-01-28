@@ -6,7 +6,7 @@ name := getPackageName(is_m1, is_gpu, is_aarch64)
 
 organization := "com.johnsnowlabs.nlp"
 
-version := "4.2.6"
+version := "4.2.8"
 
 (ThisBuild / scalaVersion) := scalaVer
 
@@ -32,7 +32,7 @@ Compile / doc / target := baseDirectory.value / "docs/api"
 
 // exclude memory-intensive modules from coverage
 coverageExcludedPackages := ".*nlp.embeddings.*;.*ml.tensorflow.*;.*nlp.annotators.classifier.dl.*;" +
-  ".*nlp.annotators.seq2seq.*"
+  ".*nlp.annotators.seq2seq.*;.*ml.*"
 
 licenses += "Apache-2.0" -> url("https://opensource.org/licenses/Apache-2.0")
 

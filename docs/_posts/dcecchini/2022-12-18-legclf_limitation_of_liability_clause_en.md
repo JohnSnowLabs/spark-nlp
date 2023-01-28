@@ -34,7 +34,8 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_limitation_of_liability_clause_en_1.0.0_3.0_1671393635939.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_limitation_of_liability_clause_en_1.0.0_3.0_1671393635939.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_limitation_of_liability_clause_en_1.0.0_3.0_1671393635939.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -107,11 +108,11 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 
 ```bash
 
-|                   label |   precision |   recall |   f1-score |   support |
-|------------------------:|------------:|---------:|-----------:|----------:|
-| limitation-of-liability |        0.93 |     0.90 |       0.91 |        29 |
-|                   other |        0.93 |     0.95 |       0.94 |        39 |
-|                accuracy |           - |        - |       0.93 |        68 |
-|               macro-avg |        0.93 |     0.92 |       0.92 |        68 |
-|            weighted-avg |        0.93 |     0.93 |       0.93 |        68 |
+                   label    precision    recall    f1-score    support 
+ limitation-of-liability         0.93      0.90        0.91         29 
+                   other         0.93      0.95        0.94         39 
+                accuracy            -         -        0.93         68 
+               macro-avg         0.93      0.92        0.92         68 
+            weighted-avg         0.93      0.93        0.93         68
+
 ```

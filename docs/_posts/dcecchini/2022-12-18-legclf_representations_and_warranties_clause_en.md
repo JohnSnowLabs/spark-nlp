@@ -34,7 +34,8 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_representations_and_warranties_clause_en_1.0.0_3.0_1671393649249.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_representations_and_warranties_clause_en_1.0.0_3.0_1671393649249.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_representations_and_warranties_clause_en_1.0.0_3.0_1671393649249.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -107,11 +108,11 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 
 ```bash
 
-|                          label |   precision |   recall |   f1-score |   support |
-|-------------------------------:|------------:|---------:|-----------:|----------:|
-|                          other |        0.92 |     0.90 |       0.91 |        39 |
-| representations-and-warranties |        0.86 |     0.89 |       0.88 |        28 |
-|                       accuracy |           - |        - |        0.9 |        67 |
-|                      macro-avg |        0.89 |     0.90 |       0.89 |        67 |
-|                   weighted-avg |        0.90 |     0.90 |        0.9 |        67 |
+                          label    precision    recall    f1-score    support 
+                          other         0.92      0.90        0.91         39 
+ representations-and-warranties         0.86      0.89        0.88         28 
+                       accuracy            -         -         0.9         67 
+                      macro-avg         0.89      0.90        0.89         67 
+                   weighted-avg         0.90      0.90         0.9         67
+
 ```

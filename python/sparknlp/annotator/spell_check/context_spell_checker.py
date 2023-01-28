@@ -393,18 +393,6 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
         """
         return self._set(weightedDistPath=path)
 
-    def setWeightedDistPath(self, path):
-        """Sets the path to the file containing the weights for the levenshtein
-        distance.
-
-        Parameters
-        ----------
-        path : str
-            Path to the file containing the weights for the levenshtein
-            distance.
-        """
-        return self._set(weightedDistPath=path)
-
     def setMaxWindowLen(self, length):
         """Sets the maximum size for the window used to remember history prior
         to every correction.

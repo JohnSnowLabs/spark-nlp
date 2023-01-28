@@ -29,6 +29,7 @@ Persons-`PER`, Facilities-`FAC`, Products-`PRO`, Locations-`LOC`, Organizations-
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/personer_cc_300d_fa_2.7.0_2.4_1607339059321.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/personer_cc_300d_fa_2.7.0_2.4_1607339059321.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

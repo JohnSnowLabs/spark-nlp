@@ -132,7 +132,7 @@ Then we can create some data to classify and use ``transform(data)`` to get the 
 Pretrained Models
 =================
 
-Model annotators have a ``pretrained()`` on it’s static object, to retrieve the public pre-trained
+Model annotators have a ``pretrained()`` on it's static object, to retrieve the public pre-trained
 version of a model.
 
 >>> import sparknlp
@@ -144,6 +144,21 @@ version of a model.
 ``pretrained(name, language, extra_location)`` will by default, bring a default pre-trained model.
 Sometimes we offer more than one model, in which case, you may have to use name, language or extra
 location to download them.
+
+For a complete list of available pretrained models, head to the `Spark NLP Models
+<https://nlp.johnsnowlabs.com/models>`__. Alternatively you can also check for pretrained
+models of a particular annotator using :meth:`.ResourceDownloader.showPublicModels`.
+
+>>> ResourceDownloader.showPublicModels("ClassifierDLModel", "en")
++-------------------------+------+---------+
+| Model                   | lang | version |
++-------------------------+------+---------+
+| classifierdl_use_trec6  |  en  | 2.5.0   |
+| classifierdl_use_trec50 |  en  | 2.5.0   |
+| classifierdl_use_spam   |  en  | 2.5.3   |
+| ...                     |  en  | ...     |
+
+
 
 Common Functions
 ================

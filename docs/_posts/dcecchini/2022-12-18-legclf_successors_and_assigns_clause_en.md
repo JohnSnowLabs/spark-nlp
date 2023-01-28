@@ -34,7 +34,8 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_successors_and_assigns_clause_en_1.0.0_3.0_1671393638580.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_successors_and_assigns_clause_en_1.0.0_3.0_1671393638580.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_successors_and_assigns_clause_en_1.0.0_3.0_1671393638580.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -107,11 +108,10 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 
 ```bash
 
-|                  label |   precision |   recall |   f1-score |   support |
-|-----------------------:|------------:|---------:|-----------:|----------:|
-|                  other |        1.00 |     0.95 |       0.97 |        39 |
-| successors-and-assigns |        0.94 |     1.00 |       0.97 |        33 |
-|               accuracy |           - |        - |       0.97 |        72 |
-|              macro-avg |        0.97 |     0.97 |       0.97 |        72 |
-|           weighted-avg |        0.97 |     0.97 |       0.97 |        72 |
+                  label    precision    recall    f1-score    support 
+                  other         1.00      0.95        0.97         39 
+ successors-and-assigns         0.94      1.00        0.97         33 
+               accuracy            -         -        0.97         72 
+              macro-avg         0.97      0.97        0.97         72 
+           weighted-avg         0.97      0.97        0.97         72
 ```

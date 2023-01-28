@@ -29,7 +29,8 @@ Unlike the Longformer model, this model is lighter in terms of inference time.
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_administrative_services_agreement_bert_en_1.0.0_3.0_1670584332931.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_administrative_services_agreement_bert_en_1.0.0_3.0_1670584332931.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_administrative_services_agreement_bert_en_1.0.0_3.0_1670584332931.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -37,6 +38,7 @@ Unlike the Longformer model, this model is lighter in terms of inference time.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  
 document_assembler = nlp.DocumentAssembler()\
@@ -86,13 +88,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-                                   precision    recall  f1-score   support
-
+                            label  precision    recall  f1-score   support
 administrative-services-agreement       1.00      0.88      0.94        26
                             other       0.96      1.00      0.98        65
-
-                         accuracy                           0.97        91
-                        macro avg       0.98      0.94      0.96        91
-                     weighted avg       0.97      0.97      0.97        91
-
+                         accuracy          -         -      0.97        91
+                        macro-avg       0.98      0.94      0.96        91
+                     weighted-avg       0.97      0.97      0.97        91
 ```

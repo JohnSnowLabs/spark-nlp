@@ -27,7 +27,8 @@ This is a `md` version of German Legal Judgement Text Classifier written in Germ
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_judgement_medium_de_1.0.0_3.0_1668064600984.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_judgement_medium_de_1.0.0_3.0_1668064600984.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_judgement_medium_de_1.0.0_3.0_1668064600984.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -96,16 +97,12 @@ An in-house augmented version of [this dataset](https://zenodo.org/record/393649
 ## Benchmarking
 
 ```bash
-
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
   conclusion       0.74      0.79      0.76       189
   definition       0.91      0.88      0.90       160
        other       0.85      0.82      0.83       163
  subsumption       0.71      0.70      0.70       159
-
-    accuracy                           0.80       671
-   macro avg       0.80      0.80      0.80       671
-weighted avg       0.80      0.80      0.80       671
-
+    accuracy          -         -      0.80       671
+   macro-avg       0.80      0.80      0.80       671
+weighted-avg       0.80      0.80      0.80       671
 ```

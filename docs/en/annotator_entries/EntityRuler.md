@@ -16,11 +16,11 @@ CHUNK
 {%- endcapture -%}
 
 {%- capture model_api_link -%}
-[EntityRulerModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/er/EntityRulerModel)
+[EntityRulerModel](/api/com/johnsnowlabs/nlp/annotators/er/EntityRulerModel)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[EntityRulerModel](/api/python/reference/autosummary/python/sparknlp/annotator/er/entity_ruler/index.html#sparknlp.annotator.er.entity_ruler.EntityRulerModel)
+[EntityRulerModel](/api/python/reference/autosummary/sparknlp/annotator/er/entity_ruler/index.html#sparknlp.annotator.er.entity_ruler.EntityRulerModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -185,11 +185,11 @@ result.selectExpr("explode(entities)").show(false)
 {%- endcapture -%}
 
 {%- capture approach_api_link -%}
-[EntityRulerApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/er/EntityRulerApproach)
+[EntityRulerApproach](/api/com/johnsnowlabs/nlp/annotators/er/EntityRulerApproach)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[EntityRulerApproach](/api/python/reference/autosummary/python/sparknlp/annotator/er/entity_ruler/index.html#sparknlp.annotator.er.entity_ruler.EntityRulerApproach)
+[EntityRulerApproach](/api/python/reference/autosummary/sparknlp/annotator/er/entity_ruler/index.html#sparknlp.annotator.er.entity_ruler.EntityRulerApproach)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

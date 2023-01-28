@@ -24,7 +24,7 @@ import java.io.File
 import java.nio.file.{Files, Paths}
 import java.util.UUID
 
-class SentencePieceWrapper(var sppModel: Array[Byte]) extends Serializable {
+private[johnsnowlabs] class SentencePieceWrapper(var sppModel: Array[Byte]) extends Serializable {
 
   @transient private var mspp: SentencePieceProcessor = _
 

@@ -24,6 +24,7 @@ This pretrained pipeline classifies Urdu news into up to 7 categories.
 [Live Demo](https://demo.johnsnowlabs.com/public/CLASSIFICATION_UR_NEWS/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_UR_NEWS.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/classifierdl_bert_news_pipeline_ur_3.4.0_3.0_1644402089229.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/classifierdl_bert_news_pipeline_ur_3.4.0_3.0_1644402089229.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

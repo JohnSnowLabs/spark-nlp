@@ -282,7 +282,7 @@ trait ReadClassifierDLTensorflowModel extends ReadTensorflowModel {
 
   override val tfFile: String = "classifierdl_tensorflow"
 
-  def readTensorflow(instance: ClassifierDLModel, path: String, spark: SparkSession): Unit = {
+  def readModel(instance: ClassifierDLModel, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_classifierdl_tf", initAllTables = true)
     instance.setModelIfNotSet(spark, tf)
@@ -291,7 +291,7 @@ trait ReadClassifierDLTensorflowModel extends ReadTensorflowModel {
     instance.set(instance.classes, encoder.tags)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 }
 
 /** This is the companion object of [[ClassifierDLModel]]. Please refer to that class for the

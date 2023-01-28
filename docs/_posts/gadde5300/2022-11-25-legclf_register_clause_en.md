@@ -36,7 +36,8 @@ This model is a Binary Classifier (True, False) for the `register` clause type. 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_register_clause_en_1.0.0_3.0_1669377990833.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_register_clause_en_1.0.0_3.0_1669377990833.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_register_clause_en_1.0.0_3.0_1669377990833.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -44,6 +45,7 @@ This model is a Binary Classifier (True, False) for the `register` clause type. 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  documentAssembler = nlp.DocumentAssembler() \
          .setInputCol("clause_text") \
@@ -90,15 +92,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
        other       0.93      1.00      0.96        39
     register       1.00      0.91      0.95        32
-
-    accuracy                           0.96        71
-   macro avg       0.96      0.95      0.96        71
-weighted avg       0.96      0.96      0.96        71
-
-
+    accuracy          -         -      0.96        71
+   macro-avg       0.96      0.95      0.96        71
+weighted-avg       0.96      0.96      0.96        71
 ```

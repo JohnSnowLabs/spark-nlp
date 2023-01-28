@@ -28,6 +28,7 @@ Persons-`PER`, Locations-`LOC`, Organizations-`ORG`, Product-`PRO`, Date-`DATE`,
 [Live Demo](https://demo.johnsnowlabs.com/public/PP_EXPLAIN_DOCUMENT_FI/){:.button.button-orange}{:target="_blank"}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/PP_EXPLAIN_DOCUMENT.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/finnish_ner_6B_300_fi_2.6.0_2.4_1598965807718.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/finnish_ner_6B_300_fi_2.6.0_2.4_1598965807718.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use 
 

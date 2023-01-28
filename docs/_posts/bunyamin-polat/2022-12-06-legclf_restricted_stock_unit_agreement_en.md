@@ -31,7 +31,8 @@ If not, let us know and we can carry out another approach for you: getting chunk
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_restricted_stock_unit_agreement_en_1.0.0_3.0_1670358322057.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_restricted_stock_unit_agreement_en_1.0.0_3.0_1670358322057.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_restricted_stock_unit_agreement_en_1.0.0_3.0_1670358322057.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -116,12 +117,10 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 
 ```bash
 
-                                 precision    recall  f1-score   support
-
+                          label   precision    recall  f1-score   support
                           other       0.99      0.99      0.99        80
 restricted-stock-unit-agreement       0.97      0.97      0.97        39
-
-                       accuracy                           0.98       119
+                       accuracy         -         -       0.98       119
                       macro-avg       0.98      0.98      0.98       119
                    weighted-avg       0.98      0.98      0.98       119
 

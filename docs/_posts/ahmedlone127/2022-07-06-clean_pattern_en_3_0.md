@@ -29,6 +29,7 @@ The clean_pattern is a pretrained pipeline that we can use to process text with 
 [Live Demo](https://demo.johnsnowlabs.com/public/NER_EN_18/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_EN.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/clean_pattern_en_4.0.0_3.0_1657137560119.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/clean_pattern_en_4.0.0_3.0_1657137560119.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

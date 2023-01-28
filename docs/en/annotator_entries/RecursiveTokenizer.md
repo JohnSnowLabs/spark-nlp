@@ -16,11 +16,11 @@ TOKEN
 {%- endcapture -%}
 
 {%- capture model_api_link -%}
-[RecursiveTokenizerModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/RecursiveTokenizerModel)
+[RecursiveTokenizerModel](/api/com/johnsnowlabs/nlp/annotators/RecursiveTokenizerModel)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[RecursiveTokenizerModel](/api/python/reference/autosummary/python/sparknlp/annotator/token/recursive_tokenizer/index.html#sparknlp.annotator.token.recursive_tokenizer.RecursiveTokenizerModel)
+[RecursiveTokenizerModel](/api/python/reference/autosummary/sparknlp/annotator/token/recursive_tokenizer/index.html#sparknlp.annotator.token.recursive_tokenizer.RecursiveTokenizerModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -111,11 +111,11 @@ result.select("token.result").show(false)
 {%- endcapture -%}
 
 {%- capture approach_api_link -%}
-[RecursiveTokenizer](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/RecursiveTokenizer)
+[RecursiveTokenizer](/api/com/johnsnowlabs/nlp/annotators/RecursiveTokenizer)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[RecursiveTokenizer](/api/python/reference/autosummary/python/sparknlp/annotator/token/recursive_tokenizer/index.html#sparknlp.annotator.token.recursive_tokenizer.RecursiveTokenizer)
+[RecursiveTokenizer](/api/python/reference/autosummary/sparknlp/annotator/token/recursive_tokenizer/index.html#sparknlp.annotator.token.recursive_tokenizer.RecursiveTokenizer)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

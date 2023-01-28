@@ -28,6 +28,7 @@ Detect 4 different types of entities in Indian text.
 [Live Demo](https://demo.johnsnowlabs.com/public/NER_BN/){:.button.button-orange}
 [Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bengaliner_cc_300d_bn_2.7.3_2.4_1612957259511.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bengaliner_cc_300d_bn_2.7.3_2.4_1612957259511.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

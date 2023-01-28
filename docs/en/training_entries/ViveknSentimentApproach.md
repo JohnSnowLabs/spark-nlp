@@ -138,11 +138,11 @@ result.select("final_sentiment").show(false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[ViveknSentimentApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentApproach)
+[ViveknSentimentApproach](/api/com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentApproach)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[ViveknSentimentApproach](/api/python/reference/autosummary/python/sparknlp/annotator/sentiment/vivekn_sentiment/index.html#sparknlp.annotator.sentiment.vivekn_sentiment.ViveknSentimentApproach)
+[ViveknSentimentApproach](/api/python/reference/autosummary/sparknlp/annotator/sentiment/vivekn_sentiment/index.html#sparknlp.annotator.sentiment.vivekn_sentiment.ViveknSentimentApproach)
 {%- endcapture -%}
 
 {%- capture source_link -%}

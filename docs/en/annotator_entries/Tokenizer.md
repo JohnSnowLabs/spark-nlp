@@ -19,11 +19,11 @@ TOKEN
 {%- endcapture -%}
 
 {%- capture model_api_link -%}
-[TokenizerModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/TokenizerModel)
+[TokenizerModel](/api/com/johnsnowlabs/nlp/annotators/TokenizerModel)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[TokenizerModel](/api/python/reference/autosummary/python/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.TokenizerModel)
+[TokenizerModel](/api/python/reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.TokenizerModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -95,11 +95,11 @@ result.selectExpr("token.result").show(false)
 {%- endcapture -%}
 
 {%- capture approach_api_link -%}
-[Tokenizer](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/Tokenizer)
+[Tokenizer](/api/com/johnsnowlabs/nlp/annotators/Tokenizer)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[Tokenizer](/api/python/reference/autosummary/python/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer)
+[Tokenizer](/api/python/reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

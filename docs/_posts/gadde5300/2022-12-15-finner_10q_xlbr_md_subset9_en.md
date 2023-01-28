@@ -28,7 +28,8 @@ This is a large (`md`) model, trained with 200K sentences.
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_10q_xlbr_md_subset9_en_1.0.0_3.0_1671082597318.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_10q_xlbr_md_subset9_en_1.0.0_3.0_1671082597318.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/finance/models/finner_10q_xlbr_md_subset9_en_1.0.0_3.0_1671082597318.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -36,6 +37,7 @@ This is a large (`md`) model, trained with 200K sentences.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  
 documentAssembler = nlp.DocumentAssembler() \
@@ -168,7 +170,7 @@ An in-house modified version of https://huggingface.co/datasets/nlpaueb/finer-13
 
 ```bash
 
-label                                                        precision    recall  f1-score   support                                                
+label                                                              precision    recall  f1-score   support                                                
 B-PaymentsToAcquireBusinessesNetOfCashAcquired                        0.9801    0.9610    0.9705       154
 B-PreferredStockDividendRatePercentage                                0.9822    1.0000    0.9910       166
 B-PreferredStockSharesAuthorized                                      1.0000    1.0000    1.0000       113
@@ -187,5 +189,4 @@ O                                                                     0.9989    
 accuracy                                                                   -         -    0.9954     81288
 macro-avg                                                             0.9481    0.9177    0.9244     81288
 weighted-avg                                                          0.9957    0.9954    0.9952     81288
-
 ```

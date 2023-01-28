@@ -27,7 +27,8 @@ This model is a Bert-based model that can be used to classify Swiss Judgement do
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_bert_swiss_judgements_de_1.0.0_3.0_1666863676063.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_bert_swiss_judgements_de_1.0.0_3.0_1666863676063.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_bert_swiss_judgements_de_1.0.0_3.0_1666863676063.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -97,15 +98,14 @@ Training data is available [here](https://zenodo.org/record/7109926#.Y1gJwexBw8E
 ## Benchmarking
 
 ```bash
-| label         | precision | recall | f1-score | support |
-|---------------|-----------|--------|----------|---------|
-| civil-law     | 0.93      | 0.96   | 0.94     | 809     |
-| insurance-law | 0.92      | 0.94   | 0.93     | 357     |
-| other         | 0.76      | 0.70   | 0.73     | 23      |
-| penal-law     | 0.97      | 0.95   | 0.96     | 913     |
-| public-law    | 0.94      | 0.94   | 0.94     | 1048    |
-| social-law    | 0.97      | 0.95   | 0.96     | 719     |
-| accuracy      |   -       |   -    | 0.95     | 3869    |
-| macro-avg     | 0.92      | 0.91   | 0.91     | 3869    |
-| weighted-avg  | 0.95      | 0.95   | 0.95     | 3869    | 
+label          precision  recall  f1-score  support 
+civil-law      0.93       0.96    0.94      809     
+insurance-law  0.92       0.94    0.93      357     
+other          0.76       0.70    0.73      23      
+penal-law      0.97       0.95    0.96      913     
+public-law     0.94       0.94    0.94      1048    
+social-law     0.97       0.95    0.96      719     
+accuracy         -          -     0.95      3869    
+macro-avg      0.92       0.91    0.91      3869    
+weighted-avg   0.95       0.95    0.95      3869 
 ```

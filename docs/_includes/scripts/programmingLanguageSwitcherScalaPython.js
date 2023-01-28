@@ -1,282 +1,101 @@
-/* 
-jQuery(document).ready(function(){  
-    $( ".scala-button" ).click(function() {
-        $(this).closest( ".tabs-box" ).find(".scala-button").removeClass('code-selector-un-active').addClass( "code-selector-active" );        
+'use strict';
 
-        //remove  active class from all other buttons
-        $(this).closest( ".tabs-box" ).find(".nlu-button").removeClass('code-selector-active').addClass('code-selector-un-active');
-        $(this).closest( ".tabs-box" ).find(".python-button").removeClass('code-selector-active').addClass('code-selector-un-active');
+function tabs({tabsWrapperSelector, tabsParentSelector, tabsSelector, tabsContentSelector, activeClass}) {
+    //Tabs
 
-        //toggle language snippets
-        $(this).closest( ".tabs-box" ).find( ".language-scala" ).show();
-        $(this).closest( ".tabs-box" ).find( ".language-python, .nlu-block" ).hide();
-    });
+    const tabsWrapper = document.querySelectorAll(tabsWrapperSelector);
 
-    $( ".python-button" ).click(function() {
-        //set current button to active class and remove unactive class
-        $(this).closest( ".tabs-box" ).find(".python-button").removeClass('code-selector-un-active').addClass( "code-selector-active" ); 
+    //Detecting all tabs
+    tabsWrapper.forEach(tab => {
+        const tabsParent = tab.querySelector(tabsParentSelector),
+                tabsLi = tab.querySelectorAll(tabsSelector),
+                tabsContent = tab.querySelectorAll(tabsContentSelector);
 
-        //remove  active class from all other buttons
-        $(this).closest( ".tabs-box" ).find(".nlu-button").removeClass('code-selector-active').addClass('code-selector-un-active');
-        $(this).closest( ".tabs-box" ).find(".scala-button").removeClass('code-selector-active').addClass('code-selector-un-active');
-
-
-        //toggle language snippets
-        $(this).closest( ".tabs-box" ).find( ".language-python" ).show();
-        $(this).closest( ".tabs-box" ).find( ".nlu-block, .language-scala" ).hide();
-    });
-
-    $( ".nlu-button" ).click(function() {
-        //set current button to active class and remove unactive class
-        $(this).closest( ".tabs-box" ).find(".nlu-button").removeClass('code-selector-un-active').addClass( "code-selector-active" );        
-
-        //remove  active class from all other buttons
-        $(this).closest( ".tabs-box" ).find(".scala-button").removeClass('code-selector-active').addClass('code-selector-un-active');
-        $(this).closest( ".tabs-box" ).find(".python-button").removeClass('code-selector-active').addClass('code-selector-un-active');
-
-        //toggle language snippets        
-        $(this).closest( ".tabs-box" ).find( ".language-python, .language-scala" ).hide();
-        $(this).closest( ".tabs-box" ).find( ".nlu-block" ).show();
-    });
-}); */
-
-/* function togglePython1() {
-
-    //set current button to active class and remove unactive class
-    $( ".python-button" ).addClass( "code-selector-active" );
-
-
-    //toggle language snippets
-    $( ".tabs-box .language-python" ).show();
-    $( ".tabs-box .nlu-block" ).hide();
-    $( ".tabs-box .language-scala" ).hide();
-}
-
-function defer(method) { //wait until jquery ready
-    if (window.jQuery) {
-        method();
-    } else {
-        setTimeout(function() { defer(method); }, 15);
-    }
-}
-
-defer(function () { // load inital language
-    togglePython1();
-}); */
-
-
-if((document.querySelectorAll('.model-wrap').length !== 0) || (document.querySelectorAll('.tabs-new').length !== 0)) {
-
-    let tabLi = document.querySelectorAll('.tabs-new .tab-li');
-
-    if((document.querySelectorAll('.model-wrap').length !== 0)) {
-        tabLi = document.querySelectorAll('.model-wrap .tab-li');
-    } 
-    
-    let tabLiTopF = document.querySelectorAll('.top_tab_li'),
-        pythonInner = document.querySelectorAll('.python-inner');
-
-    tabLiTopF.forEach(e => {        
-        e.nextElementSibling.classList.add('active');
-    });
-    pythonInner.forEach(e => {
-        e.firstElementChild.classList.remove('language-python');
-    });
-
-    tabLi.forEach(element => {
-        element.addEventListener('click', function(e) {
-            e.preventDefault();
-            let tabAttribute = element.getAttribute('data-type'),
-                tabLiInner = element.parentNode.querySelectorAll('.tab-li'),
-                tabBoxInner = element.parentNode.parentNode.parentNode.querySelectorAll('.highlighter-rouge');
+        //Hiding all tabs
+        function hideTabsContent() {
+            if(Array.from(tabsLi).length != 0) {
+                tabsContent.forEach(item => {
+                    item.style.display = 'none';
+                }); 
+            }
             
-            //remove active class from NLU
-            tabBoxInner.forEach(item => {
-                item.classList.remove('active');
-                if(item.classList.contains('nlu-block')) {
-                    item.classList.remove('language-python');
-                }  
-                
-            });
-            tabLiInner.forEach(el => {
-                el.classList.remove('active');
-                el.classList.remove('code-selector-active');
-            });
-            element.classList.add('active');
+            if(Array.from(tabsLi).length != 0) {
+                tabsLi.forEach(item => {
+                    item.classList.remove(activeClass);
+                }); 
+            }
+        }
+
+        //Show active tabs
+        function showTabContent(i = 0) {
+            if(Array.from(tabsContent).length != 0) {
+                tabsContent[i].style.display = "block";
+            }
+            if(Array.from(tabsLi).length != 0) {
+                tabsLi[i].classList.add(activeClass);            
+            }
+        }
+
+        //Changing the tabs
+        if(tabsParent != null) {
+            tabsParent.addEventListener('click', (event) => {
+                const target = event.target;
     
-            //add active class
-            switch (tabAttribute) {
-                case "python":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('language-python')) {
-                            item.classList.add('active');
-                        }                    
+                if(target && target.classList.contains(tabsSelector.slice(1))) {
+                    tabsLi.forEach((item, i) => {
+                        if(target == item) {
+                            hideTabsContent();
+                            try{showTabContent(i);}catch(e){}
+                        }
                     });
-                    break;
-                case "scala":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('language-scala')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                  break;
-                  case "nlu":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('nlu-block')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                  break;
-                default:              
-              }
-        });
+                }
+            });
+        }        
+        
+        hideTabsContent();
+        showTabContent();
     });
 }
 
-//Second tabs
-if(document.querySelectorAll('.tab-li-second').length !== 0) {
-    let tabLi = document.querySelectorAll('.tab-li-second');
-
-    tabLi.forEach(element => {
-        element.addEventListener('click', function(e) {
-            e.preventDefault();
-            let tabAttribute = element.getAttribute('data-type'),
-                tabLiInner = element.parentNode.querySelectorAll('.tab-li-second'),
-                tabBoxInner = element.parentNode.parentNode.parentNode.querySelectorAll('.tabs-box-medic-inner');
-            
-
-            //remove active class
-            tabBoxInner.forEach(item => {
-                item.classList.remove('active');
-            });
-            tabLiInner.forEach(el => {
-                el.classList.remove('active');
-            });
-            element.classList.add('active');
-    
-            //add active class
-            switch (tabAttribute) {
-                case "python":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('language-python')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                    break;
-                case "scala":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('language-scala')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                  break;
-                default:              
-              }
-        });
-    });
-}
-
-//Third tabs
-if(document.querySelectorAll('.tab-li-inner').length !== 0) {
-
-    let tabLiSecond = document.querySelectorAll('.tab-li-inner'),
-        tabLiTop = document.querySelectorAll('.toptab-second'),
-        tabLi = document.querySelectorAll('.toptab-second p');
-
-
-    tabLiTop.forEach(e => {        
-        e.nextElementSibling.classList.add('active');
-    });
-
-    tabLi.forEach(e => {        
-        e.firstChild.classList.add('active');
-    });
-
-
-    tabLiSecond.forEach(element => {
-        element.addEventListener('click', function(e) {
-            e.preventDefault();
-            let tabAttributeSecond = element.getAttribute('data-type'),
-                tabLiInnerSecond = element.parentNode.querySelectorAll('.tab-li-inner'),
-                tabBoxInnerSecond = element.parentNode.parentNode.parentNode.querySelectorAll('.tabs-box-medic-inner-second');
-            
-            //remove active class
-            tabBoxInnerSecond.forEach(item => {
-                item.classList.remove('active');
-            });
-            tabLiInnerSecond.forEach(el => {
-                el.classList.remove('active');
-            });
-            element.classList.add('active');
-    
-            //add active class
-            switch (tabAttributeSecond) {
-                case "medical":
-                    tabBoxInnerSecond.forEach(item => {
-                        if(item.classList.contains('language-medical')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                    break;
-                case "finance":
-                    tabBoxInnerSecond.forEach(item => {
-                        if(item.classList.contains('language-finance')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                  break;
-                case "legal":
-                tabBoxInnerSecond.forEach(item => {
-                    if(item.classList.contains('language-legal')) {
-                        item.classList.add('active');
-                    }                    
-                });
-                break;
-                default:              
-              }
-        });
-    });
-}
-
-//Forth tabs
-if(document.querySelectorAll('.tab-jsl').length !== 0) {
-    let tabLiForth = document.querySelectorAll('.tab-jsl');
-
-    tabLiForth.forEach(element => {
-        element.addEventListener('click', function(e) {
-            e.preventDefault();
-            let tabAttribute = element.getAttribute('data-type'),
-                tabLiInner = element.parentNode.querySelectorAll('.tab-jsl'),
-                tabBoxInner = element.parentNode.parentNode.parentNode.querySelectorAll('.python-inner');
-            
-
-            //remove active class
-            tabBoxInner.forEach(item => {
-                item.classList.remove('active');
-            });
-            tabLiInner.forEach(el => {
-                el.classList.remove('active');
-            });
-            element.classList.add('active');
-    
-            //add active class
-            switch (tabAttribute) {
-                case "spark-nlp-jsl":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('python-johnsnowlabs')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                    break;
-                case "johnsnowlabs":
-                    tabBoxInner.forEach(item => {
-                        if(item.classList.contains('python-spark-nlp-jsl')) {
-                            item.classList.add('active');
-                        }                    
-                    });
-                  break;
-                default:              
-              }
-        });
-    });
-}
+tabs({
+    tabsWrapperSelector: '.tabs-model-aproach', 
+    tabsParentSelector: '.tabs-model-aproach-head', 
+    tabsSelector: '.tab-li-model-aproach', 
+    tabsContentSelector: '.tabs-python-scala-box', 
+    activeClass: 'tabheader_active'
+});
+tabs({
+    tabsWrapperSelector: '.tabs-python-scala-box', 
+    tabsParentSelector: '.tabs-python-scala-head', 
+    tabsSelector: '.tab-python-scala-li', 
+    tabsContentSelector: '.tabs-mfl-box', 
+    activeClass: 'tabheader_active'
+});
+tabs({
+    tabsWrapperSelector: '.tabs-mfl-box', 
+    tabsParentSelector: '.tabs-mfl-head', 
+    tabsSelector: '.tab-mfl-li', 
+    tabsContentSelector: '.tab-mfl-content', 
+    activeClass: 'tabheader_active'
+});
+tabs({
+    tabsWrapperSelector: '.tabs-box', 
+    tabsParentSelector: '.tabs-python-scala-head', 
+    tabsSelector: '.tab-python-scala-li', 
+    tabsContentSelector: '.tabs-box .highlighter-rouge', 
+    activeClass: 'tabheader_active'
+});
+tabs({
+    tabsWrapperSelector: '.tabs-box', 
+    tabsParentSelector: '.tabs-model-aproach-head', 
+    tabsSelector: '.tab-li-model-aproach', 
+    tabsContentSelector: '.tabs-python-scala-box', 
+    activeClass: 'tabheader_active'
+});
+tabs({
+    tabsWrapperSelector: '.tabs-box', 
+    tabsParentSelector: '.tabs-model-aproach-head', 
+    tabsSelector: '.tab-li-model-aproach', 
+    tabsContentSelector: '.tabs-box .highlighter-rouge', 
+    activeClass: 'tabheader_active'
+});

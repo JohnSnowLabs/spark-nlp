@@ -32,7 +32,8 @@ Relate scale items and their measurements according to NIHSS guidelines.
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/RE_NIHSS/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/redl_nihss_biobert_en_3.3.2_3.0_1637038860417.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/redl_nihss_biobert_en_3.3.2_3.0_1637038860417.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/redl_nihss_biobert_en_3.3.2_3.0_1637038860417.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 
 ## How to use
@@ -158,17 +159,17 @@ nlu.load("en.extract_relation.nihss").predict("""There , her initial NIHSS score
 
 
 ```bash
-| chunk1                                | entity1      |   entity1_begin |   entity1_end | entity2     |   chunk2 |   entity2_begin |   entity2_end | relation   |
-|:--------------------------------------|:-------------|----------------:|--------------:|:------------|---------:|----------------:|--------------:|:-----------|
-| initial NIHSS score                   | NIHSS        |              12 |            30 | Measurement |        4 |              36 |            36 | Has_Value  |
-| left leg                              | 6a_LeftLeg   |             111 |           118 | Measurement |        2 |              89 |            89 | Has_Value  |
-| subtle ataxia in her left arm and leg | 7_LimbAtaxia |             149 |           185 | Measurement |        2 |             124 |           124 | Has_Value  |
-| left leg                              | 6a_LeftLeg   |             111 |           118 | Measurement |        4 |              36 |            36 | 0          |
-| initial NIHSS score                   | NIHSS        |              12 |            30 | Measurement |        2 |             124 |           124 | 0          |
-| subtle ataxia in her left arm and leg | 7_LimbAtaxia |             149 |           185 | Measurement |        4 |              36 |            36 | 0          |
-| subtle ataxia in her left arm and leg | 7_LimbAtaxia |             149 |           185 | Measurement |        2 |              89 |            89 | 0          |
-
-
++---------+-----------+-------------+-----------+-----------+------------+-------------+-----------+--------------------+----------+
+| relation|    entity1|entity1_begin|entity1_end|     chunk1|     entity2|entity2_begin|entity2_end|              chunk2|confidence|
++---------+-----------+-------------+-----------+-----------+------------+-------------+-----------+--------------------+----------+
+|Has_Value|      NIHSS|           20|         30|NIHSS score| Measurement|           36|         36|                   4| 0.9998851|
+|Has_Value|Measurement|           89|         89|          2|  6a_LeftLeg|          111|        118|            left leg| 0.9987311|
+|        0|Measurement|           89|         89|          2| Measurement|          124|        124|                   2|0.97510725|
+|        0|Measurement|           89|         89|          2|7_LimbAtaxia|          156|        185|ataxia in her lef...|  0.999889|
+|        0| 6a_LeftLeg|          111|        118|   left leg| Measurement|          124|        124|                   2|0.99989617|
+|        0| 6a_LeftLeg|          111|        118|   left leg|7_LimbAtaxia|          156|        185|ataxia in her lef...| 0.9999521|
+|Has_Value|Measurement|          124|        124|          2|7_LimbAtaxia|          156|        185|ataxia in her lef...| 0.9896319|
++---------+-----------+-------------+-----------+-----------+------------+-------------+-----------+--------------------+----------+
 ```
 
 

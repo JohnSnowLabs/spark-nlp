@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2022 John Snow Labs
+ * Copyright 2017-2023 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,14 +18,14 @@ package com.johnsnowlabs.nlp.pretrained
 
 import com.johnsnowlabs.client.aws.AWSGateway
 import com.johnsnowlabs.nlp.annotators._
-import com.johnsnowlabs.nlp.annotators.audio.Wav2Vec2ForCTC
+import com.johnsnowlabs.nlp.annotators.audio.{HubertForCTC, Wav2Vec2ForCTC}
 import com.johnsnowlabs.nlp.annotators.classifier.dl._
 import com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel
-import com.johnsnowlabs.nlp.annotators.cv.ViTForImageClassification
+import com.johnsnowlabs.nlp.annotators.cv.{ViTForImageClassification, SwinForImageClassification}
 import com.johnsnowlabs.nlp.annotators.er.EntityRulerModel
 import com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
-import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
+import com.johnsnowlabs.nlp.annotators.ner.dl.{NerDLModel, ZeroShotNerModel}
 import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel
 import com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
@@ -691,26 +691,42 @@ object PythonResourceDownloader {
     "XlmRoBertaForQuestionAnswering" -> XlmRoBertaForQuestionAnswering,
     "SpanBertCorefModel" -> SpanBertCorefModel,
     "ViTForImageClassification" -> ViTForImageClassification,
+    "SwinForImageClassification" -> SwinForImageClassification,
     "Wav2Vec2ForCTC" -> Wav2Vec2ForCTC,
+    "HubertForCTC" -> HubertForCTC,
     "CamemBertForTokenClassification" -> CamemBertForTokenClassification,
     "TableAssembler" -> TableAssembler,
     "TapasForQuestionAnswering" -> TapasForQuestionAnswering,
-    "CamemBertForSequenceClassification" -> CamemBertForSequenceClassification)
+    "CamemBertForSequenceClassification" -> CamemBertForSequenceClassification,
+    "CamemBertForQuestionAnswering" -> CamemBertForQuestionAnswering,
+    "ZeroShotNerModel" -> ZeroShotNerModel)
+
+  // List pairs of types such as the one with key type can load a pretrained model from the value type
+  val typeMapper: Map[String, String] = Map("ZeroShotNerModel" -> "RoBertaForQuestionAnswering")
 
   def downloadModel(
       readerStr: String,
       name: String,
       language: String = null,
       remoteLoc: String = null): PipelineStage = {
+
     val reader = keyToReader.getOrElse(
-      readerStr,
+      if (typeMapper.contains(readerStr)) typeMapper(readerStr) else readerStr,
       throw new RuntimeException(s"Unsupported Model: $readerStr"))
+
     val correctedFolder = Option(remoteLoc).getOrElse(ResourceDownloader.publicLoc)
-    ResourceDownloader.downloadModel(
+
+    val model = ResourceDownloader.downloadModel(
       reader.asInstanceOf[DefaultParamsReadable[PipelineStage]],
       name,
       Option(language),
       correctedFolder)
+
+    // Cast the model to the required type. This has to be done for each entry in the typeMapper map
+    if (typeMapper.contains(readerStr) && readerStr == "ZeroShotNerModel")
+      ZeroShotNerModel(model)
+    else
+      model
   }
 
   def downloadPipeline(

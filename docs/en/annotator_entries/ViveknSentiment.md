@@ -27,11 +27,11 @@ SENTIMENT
 {%- endcapture -%}
 
 {%- capture model_api_link -%}
-[ViveknSentimentModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentModel)
+[ViveknSentimentModel](/api/com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentModel)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[ViveknSentimentModel](/api/python/reference/autosummary/python/sparknlp/annotator/sentiment/vivekn_sentiment/index.html#sparknlp.annotator.sentiment.vivekn_sentiment.ViveknSentimentModel)
+[ViveknSentimentModel](/api/python/reference/autosummary/sparknlp/annotator/sentiment/vivekn_sentiment/index.html#sparknlp.annotator.sentiment.vivekn_sentiment.ViveknSentimentModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -175,11 +175,11 @@ result.select("final_sentiment").show(false)
 {%- endcapture -%}
 
 {%- capture approach_api_link -%}
-[ViveknSentimentApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentApproach)
+[ViveknSentimentApproach](/api/com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentApproach)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[ViveknSentimentApproach](/api/python/reference/autosummary/python/sparknlp/annotator/sentiment/vivekn_sentiment/index.html#sparknlp.annotator.sentiment.vivekn_sentiment.ViveknSentimentApproach)
+[ViveknSentimentApproach](/api/python/reference/autosummary/sparknlp/annotator/sentiment/vivekn_sentiment/index.html#sparknlp.annotator.sentiment.vivekn_sentiment.ViveknSentimentApproach)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

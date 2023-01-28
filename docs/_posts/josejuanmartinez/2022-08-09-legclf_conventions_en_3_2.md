@@ -4,9 +4,9 @@ title: Conventions Classification
 author: John Snow Labs
 name: legclf_conventions
 date: 2022-08-09
-tags: [es, legal, conventions, classification, en, licensed]
+tags: [es, legal, conventions, classification, licensed]
 task: Text Classification
-language: en
+language: es
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -37,7 +37,8 @@ This model was originally trained with 3799 legal texts (see the original work [
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_conventions_en_1.0.0_3.2_1660056648122.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_conventions_es_1.0.0_3.2_1660056648122.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_conventions_es_1.0.0_3.2_1660056648122.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -58,7 +59,7 @@ tokenizer = nlp.Tokenizer() \
     .setInputCols("sentence") \
     .setOutputCol("token")
 
-tokenClassifier = nlp.RoBertaForSequenceClassification.pretrained("legclf_conventions","en", "legal/models") \
+tokenClassifier = nlp.RoBertaForSequenceClassification.pretrained("legclf_conventions","es", "legal/models") \
     .setInputCols(["sentence", "token"]) \
     .setOutputCol("class")
 
@@ -94,7 +95,7 @@ result = pipeline.fit(data).transform(data)
 |Edition:|Official|
 |Input Labels:|[document, token]|
 |Output Labels:|[class]|
-|Language:|en|
+|Language:|es|
 |Size:|466.6 MB|
 |Case sensitive:|true|
 |Max sentence length:|128|
@@ -107,7 +108,7 @@ This model was originally trained with 3799 legal texts (see the original work [
 
 ```bash
 label            precision  recall   f1-score  support
-accuracy           -          -      0.90      120
+accuracy            -          -     0.90      120
 macro-avg        0.90       0.91     0.90      120
 weighted-avg     0.90       0.90     0.90      120
 ```     

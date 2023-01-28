@@ -137,11 +137,11 @@ result.select("ner.result").show(false)
 {%- endcapture -%}
 
 {%- capture model_api_link -%}
-[NerDLModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLModel)
+[NerDLModel](/api/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLModel)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[NerDLModel](/api/python/reference/autosummary/python/sparknlp/annotator/ner/ner_dl/index.html#sparknlp.annotator.ner.ner_dl.NerDLModel)
+[NerDLModel](/api/python/reference/autosummary/sparknlp/annotator/ner/ner_dl/index.html#sparknlp.annotator.ner.ner_dl.NerDLModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -315,11 +315,11 @@ val pipelineModel = pipeline.fit(trainingData)
 {%- endcapture -%}
 
 {%- capture approach_api_link -%}
-[NerDLApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLApproach)
+[NerDLApproach](/api/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLApproach)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[NerDLApproach](/api/python/reference/autosummary/python/sparknlp/annotator/ner/ner_dl/index.html#sparknlp.annotator.ner.ner_dl.NerDLApproach)
+[NerDLApproach](/api/python/reference/autosummary/sparknlp/annotator/ner/ner_dl/index.html#sparknlp.annotator.ner.ner_dl.NerDLApproach)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

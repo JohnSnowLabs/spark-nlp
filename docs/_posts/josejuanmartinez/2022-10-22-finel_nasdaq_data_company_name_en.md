@@ -20,7 +20,7 @@ use_language_switcher: "Python-Scala-Java"
 
 This is a Financial Entity Resolver model, trained to obtain normalized versions of Company Names, registered in NASDAQ. You can use this model after extracting a company name using any NER, and you will obtain the official name of the company as per NASDAQ database.
 
-After this, you can use `finel_nasdaq_data_company_name` to augment and obtain more information about a company using NASDAQ datasource, including Ticker, Sector, Location, Currency, etc.
+After this, you can use `finmapper_nasdaq_data_company_name` to augment and obtain more information about a company using NASDAQ datasource, including Ticker, Sector, Location, Currency, etc.
 
 ## Predicted Entities
 
@@ -29,7 +29,8 @@ After this, you can use `finel_nasdaq_data_company_name` to augment and obtain m
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/finance/ER_EDGAR_CRUNCHBASE/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finel_nasdaq_data_company_name_en_1.0.0_3.0_1666473632696.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finel_nasdaq_data_company_name_en_1.0.0_3.0_1666473632696.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/finance/models/finel_nasdaq_data_company_name_en_1.0.0_3.0_1666473632696.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -56,7 +57,7 @@ use_er_model = finance.SentenceEntityResolverModel.pretrained('finel_nasdaq_data
 
 prediction_Model = PipelineModel(stages=[documentAssembler, use, use_er_model])
 
-test_pred = prediction_Model.transform(testsdf).cache()
+test_pred = prediction_Model.transform(testsdf)
 ```
 
 </div>

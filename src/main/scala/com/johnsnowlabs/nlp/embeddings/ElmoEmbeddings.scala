@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
+import com.johnsnowlabs.ml.ai.Elmo
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.util.LoadExternalModel.{modelSanityCheck, notSupportedEngineError}
 import com.johnsnowlabs.ml.util.ModelEngine
@@ -210,7 +211,7 @@ class ElmoEmbeddings(override val uid: String)
     "poolingLayer",
     "Set ELMO pooling layer to: word_emb, lstm_outputs1, lstm_outputs2, or elmo")
 
-  private var _model: Option[Broadcast[TensorflowElmo]] = None
+  private var _model: Option[Broadcast[Elmo]] = None
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -279,10 +280,7 @@ class ElmoEmbeddings(override val uid: String)
 
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowElmo(
-            tensorflow,
-            batchSize = $(batchSize),
-            configProtoBytes = getConfigProtoBytes)))
+          new Elmo(tensorflow, batchSize = $(batchSize), configProtoBytes = getConfigProtoBytes)))
     }
 
     this
@@ -308,7 +306,7 @@ class ElmoEmbeddings(override val uid: String)
     }
   }
 
-  def getModelIfNotSet: TensorflowElmo = _model.get.value
+  def getModelIfNotSet: Elmo = _model.get.value
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
@@ -353,12 +351,12 @@ trait ReadElmoDLModel extends ReadTensorflowModel {
 
   override val tfFile: String = "elmo_tensorflow"
 
-  def readTensorflow(instance: ElmoEmbeddings, path: String, spark: SparkSession): Unit = {
+  def readModel(instance: ElmoEmbeddings, path: String, spark: SparkSession): Unit = {
     val tf = readTensorflowModel(path, spark, "_elmo_tf", initAllTables = true)
     instance.setModelIfNotSet(spark, tf)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): ElmoEmbeddings = {
 

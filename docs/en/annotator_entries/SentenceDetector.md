@@ -116,11 +116,11 @@ result.selectExpr("explode(sentence) as sentences").show(false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[SentenceDetector](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/sbd/pragmatic/SentenceDetector)
+[SentenceDetector](/api/com/johnsnowlabs/nlp/annotators/sbd/pragmatic/SentenceDetector)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[SentenceDetector](/api/python/reference/autosummary/python/sparknlp/annotator/sentence/sentence_detector/index.html#sparknlp.annotator.sentence.sentence_detector.SentenceDetector)
+[SentenceDetector](/api/python/reference/autosummary/sparknlp/annotator/sentence/sentence_detector/index.html#sparknlp.annotator.sentence.sentence_detector.SentenceDetector)
 {%- endcapture -%}
 
 {%- capture source_link -%}

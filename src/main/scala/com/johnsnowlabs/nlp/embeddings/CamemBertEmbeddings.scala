@@ -1,7 +1,12 @@
 package com.johnsnowlabs.nlp.embeddings
 
+import com.johnsnowlabs.ml.ai.CamemBert
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.tensorflow.sentencepiece._
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
+  ReadSentencePieceModel,
+  SentencePieceWrapper,
+  WriteSentencePieceModel
+}
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadSentencePieceAsset,
   modelSanityCheck,
@@ -194,7 +199,7 @@ class CamemBertEmbeddings(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowCamemBert]] = None
+  private var _model: Option[Broadcast[CamemBert]] = None
 
   def setModelIfNotSet(
       spark: SparkSession,
@@ -203,7 +208,7 @@ class CamemBertEmbeddings(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowCamemBert(
+          new CamemBert(
             tensorflowWrapper,
             spp,
             configProtoBytes = getConfigProtoBytes,
@@ -214,7 +219,7 @@ class CamemBertEmbeddings(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowCamemBert = _model.get.value
+  def getModelIfNotSet: CamemBert = _model.get.value
 
   /** Set Embeddings dimensions for the CamemBERT model Only possible to set this when the first
     * time is saved dimension is not changeable, it comes from CamemBERT config file
@@ -301,7 +306,7 @@ class CamemBertEmbeddings(override val uid: String)
     writeTensorflowModelV2(
       path,
       spark,
-      getModelIfNotSet.tensorflow,
+      getModelIfNotSet.tensorflowWrapper,
       "_camembert",
       CamemBertEmbeddings.tfFile,
       configProtoBytes = getConfigProtoBytes)
@@ -340,14 +345,14 @@ trait ReadCamemBertDLModel extends ReadTensorflowModel with ReadSentencePieceMod
   override val tfFile: String = "camembert_tensorflow"
   override val sppFile: String = "camembert_spp"
 
-  def readTensorflow(instance: CamemBertEmbeddings, path: String, spark: SparkSession): Unit = {
+  def readModel(instance: CamemBertEmbeddings, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_camembert_tf", initAllTables = false)
     val spp = readSentencePieceModel(path, spark, "_camembert_spp", sppFile)
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): CamemBertEmbeddings = {
 

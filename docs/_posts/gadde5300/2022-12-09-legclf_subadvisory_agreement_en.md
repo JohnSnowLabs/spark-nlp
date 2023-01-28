@@ -31,7 +31,8 @@ If not, let us know and we can carry out another approach for you: getting chunk
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_subadvisory_agreement_en_1.0.0_3.0_1670579448932.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_subadvisory_agreement_en_1.0.0_3.0_1670579448932.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_subadvisory_agreement_en_1.0.0_3.0_1670579448932.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -39,6 +40,7 @@ If not, let us know and we can carry out another approach for you: getting chunk
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  
 document_assembler = nlp.DocumentAssembler()\
@@ -99,13 +101,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-                       precision    recall  f1-score   support
-
-                other       0.94      0.96      0.95        76
-subadvisory-agreement       0.87      0.80      0.83        25
-
-             accuracy                           0.92       101
-            macro avg       0.90      0.88      0.89       101
-         weighted avg       0.92      0.92      0.92       101
-
+                label precision recall  f1-score  support
+                other      0.94   0.96      0.95       76
+subadvisory-agreement      0.87   0.80      0.83       25
+             accuracy         -      -      0.92      101
+            macro-avg      0.90   0.88      0.89      101
+         weighted-avg      0.92   0.92      0.92      101
 ```

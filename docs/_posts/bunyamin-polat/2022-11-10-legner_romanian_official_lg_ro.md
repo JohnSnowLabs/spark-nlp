@@ -27,7 +27,8 @@ This is a large version NER model that extracts following 14 entities from Roman
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/legal/LEGNER_ROMANIAN_OFFICIAL/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_romanian_official_lg_ro_1.0.0_3.0_1668084251147.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_romanian_official_lg_ro_1.0.0_3.0_1668084251147.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legner_romanian_official_lg_ro_1.0.0_3.0_1668084251147.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -150,22 +151,22 @@ Dataset is available [here](https://zenodo.org/record/7025333#.Y2zsquxBx83).
 ## Benchmarking
 
 ```bash
-| label                 | precision | recall | f1-score | support |
-| DATE                  | 0.9036    | 0.9223 | 0.9128   | 193     |
-| DECISION              | 0.9831    | 0.9831 | 0.9831   | 59      |
-| DECREE                | 0.5000    | 1.0000 | 0.6667   | 1       |
-| DIRECTIVE             | 1.0000    | 0.6667 | 0.8000   | 3       |
-| EMERGENCY_ORDINANCE   | 1.0000    | 0.9615 | 0.9804   | 26      |
-| LAW                   | 0.9619    | 0.9806 | 0.9712   | 103     |
-| LOC                   | 0.9110    | 0.8365 | 0.8721   | 159     |
-| ORDER                 | 0.9767    | 1.0000 | 0.9882   | 42      |
-| ORDINANCE             | 1.0000    | 0.9500 | 0.9744   | 20      |
-| ORG                   | 0.8899    | 0.8879 | 0.8889   | 455     |
-| PER                   | 0.9091    | 0.9821 | 0.9442   | 112     |
-| REGULATION            | 0.9118    | 0.8378 | 0.8732   | 37      |
-| REPORT                | 0.7778    | 0.7778 | 0.7778   | 9       |
-| TREATY                | 1.0000    | 1.0000 | 1.0000   | 3       |
-| micro-avg             | 0.9139    | 0.9116 | 0.9127   | 1222    |
-| macro-avg             | 0.9089    | 0.9133 | 0.9024   | 1222    |
-| weighted-avg          | 0.9143    | 0.9116 | 0.9124   | 1222    |
+label                  precision  recall  f1-score  support 
+DATE                   0.9036     0.9223  0.9128    193     
+DECISION               0.9831     0.9831  0.9831    59      
+DECREE                 0.5000     1.0000  0.6667    1       
+DIRECTIVE              1.0000     0.6667  0.8000    3       
+EMERGENCY_ORDINANCE    1.0000     0.9615  0.9804    26      
+LAW                    0.9619     0.9806  0.9712    103     
+LOC                    0.9110     0.8365  0.8721    159     
+ORDER                  0.9767     1.0000  0.9882    42      
+ORDINANCE              1.0000     0.9500  0.9744    20      
+ORG                    0.8899     0.8879  0.8889    455     
+PER                    0.9091     0.9821  0.9442    112     
+REGULATION             0.9118     0.8378  0.8732    37      
+REPORT                 0.7778     0.7778  0.7778    9       
+TREATY                 1.0000     1.0000  1.0000    3       
+micro-avg              0.9139     0.9116  0.9127    1222    
+macro-avg              0.9089     0.9133  0.9024    1222    
+weighted-avg           0.9143     0.9116  0.9124    1222
 ```

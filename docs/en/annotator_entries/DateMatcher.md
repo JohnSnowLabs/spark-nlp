@@ -110,11 +110,11 @@ result.selectExpr("date").show(false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[DateMatcher](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/DateMatcher)
+[DateMatcher](/api/com/johnsnowlabs/nlp/annotators/DateMatcher)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[DateMatcher](/api/python/reference/autosummary/python/sparknlp/annotator/matcher/date_matcher/index.html#sparknlp.annotator.matcher.date_matcher.DateMatcher)
+[DateMatcher](/api/python/reference/autosummary/sparknlp/annotator/matcher/date_matcher/index.html#sparknlp.annotator.matcher.date_matcher.DateMatcher)
 {%- endcapture -%}
 
 {%- capture source_link -%}

@@ -96,11 +96,11 @@ result.select("token.result").show(false)
 {%- endcapture -%}
 
 {%- capture model_api_link -%}
-[WordSegmenterModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ws/WordSegmenterModel)
+[WordSegmenterModel](/api/com/johnsnowlabs/nlp/annotators/ws/WordSegmenterModel)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[WordSegmenterModel](/api/python/reference/autosummary/python/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel)
+[WordSegmenterModel](/api/python/reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -118,7 +118,7 @@ For instantiated/pretrained models, see WordSegmenterModel.
 
 To train your own model, a training dataset consisting of
 [Part-Of-Speech tags](https://en.wikipedia.org/wiki/Part-of-speech_tagging) is required. The data has to be loaded
-into a dataframe, where the column is an [Annotation](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/Annotation) of type `"POS"`. This can be
+into a dataframe, where the column is an [Annotation](/api/com/johnsnowlabs/nlp/Annotation) of type `"POS"`. This can be
 set with `setPosColumn`.
 
 **Tip**: The helper class [POS](/docs/en/training#pos-dataset) might be useful to read training data into data frames.
@@ -209,11 +209,11 @@ val pipelineModel = pipeline.fit(trainingDataSet)
 {%- endcapture -%}
 
 {%- capture approach_api_link -%}
-[WordSegmenterApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ws/WordSegmenterApproach)
+[WordSegmenterApproach](/api/com/johnsnowlabs/nlp/annotators/ws/WordSegmenterApproach)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[WordSegmenterApproach](/api/python/reference/autosummary/python/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach)
+[WordSegmenterApproach](/api/python/reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

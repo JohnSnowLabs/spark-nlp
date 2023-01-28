@@ -28,11 +28,11 @@ SENTIMENT
 {%- endcapture -%}
 
 {%- capture model_api_link -%}
-[SentimentDetectorModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/sda/pragmatic/SentimentDetectorModel)
+[SentimentDetectorModel](/api/com/johnsnowlabs/nlp/annotators/sda/pragmatic/SentimentDetectorModel)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[SentimentDetectorModel](/api/python/reference/autosummary/python/sparknlp/annotator/sentiment/sentiment_detector/index.html#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetectorModel)
+[SentimentDetectorModel](/api/python/reference/autosummary/sparknlp/annotator/sentiment/sentiment_detector/index.html#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetectorModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -181,11 +181,11 @@ result.selectExpr("sentimentScore.result").show(false)
 {%- endcapture -%}
 
 {%- capture approach_api_link -%}
-[SentimentDetector](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/sda/pragmatic/SentimentDetector)
+[SentimentDetector](/api/com/johnsnowlabs/nlp/annotators/sda/pragmatic/SentimentDetector)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[SentimentDetector](/api/python/reference/autosummary/python/sparknlp/annotator/sentiment/sentiment_detector/index.html#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector)
+[SentimentDetector](/api/python/reference/autosummary/sparknlp/annotator/sentiment/sentiment_detector/index.html#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

@@ -48,11 +48,11 @@ SENTENCE_EMBEDDINGS
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[BertSentenceEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddings)
+[BertSentenceEmbeddings](/api/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddings)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[BertSentenceEmbeddings](/api/python/reference/autosummary/python/sparknlp/annotator/embeddings/bert_sentence_embeddings/index.html#sparknlp.annotator.embeddings.bert_sentence_embeddings.BertSentenceEmbeddings)
+[BertSentenceEmbeddings](/api/python/reference/autosummary/sparknlp/annotator/embeddings/bert_sentence_embeddings/index.html#sparknlp.annotator.embeddings.bert_sentence_embeddings.BertSentenceEmbeddings)
 {%- endcapture -%}
 
 {%- capture source_link -%}

@@ -26,7 +26,8 @@ This pretrained pipeline is built on the top of [ner_risk_factors_biobert](https
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_RISK_FACTORS/){:.button.button-orange.button-orange-trans.arr.button-icon}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_RISK_FACTORS.ipynb){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_risk_factors_biobert_pipeline_en_3.4.1_3.0_1647871536746.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_risk_factors_biobert_pipeline_en_3.4.1_3.0_1647871536746.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/ner_risk_factors_biobert_pipeline_en_3.4.1_3.0_1647871536746.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 
 ## How to use

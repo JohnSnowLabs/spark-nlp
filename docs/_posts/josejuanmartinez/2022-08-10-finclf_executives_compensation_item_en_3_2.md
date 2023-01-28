@@ -33,7 +33,8 @@ Take into consideration the embeddings of this model allows up to 512 tokens. If
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_executives_compensation_item_en_1.0.0_3.2_1660154405348.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_executives_compensation_item_en_1.0.0_3.2_1660154405348.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/finance/models/finclf_executives_compensation_item_en_1.0.0_3.2_1660154405348.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -104,7 +105,7 @@ Weak labelling on documents from Edgar database
                   label  precision    recall  f1-score   support
 executives_compensation       0.93      0.94      0.94       104
                   other       0.93      0.92      0.92        83
-               accuracy        -         -        0.93       187
+               accuracy          -         -      0.93       187
               macro-avg       0.93      0.93      0.93       187
            weighted-avg       0.93      0.93      0.93       187
 ```

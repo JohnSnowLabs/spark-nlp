@@ -70,11 +70,11 @@ WORD_EMBEDDINGS
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[AlbertEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/AlbertEmbeddings)
+[AlbertEmbeddings](/api/com/johnsnowlabs/nlp/embeddings/AlbertEmbeddings)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[AlbertEmbeddings](/api/python/reference/autosummary/python/sparknlp/annotator/embeddings/albert_embeddings/index.html#sparknlp.annotator.embeddings.albert_embeddings.AlbertEmbeddings)
+[AlbertEmbeddings](/api/python/reference/autosummary/sparknlp/annotator/embeddings/albert_embeddings/index.html#sparknlp.annotator.embeddings.albert_embeddings.AlbertEmbeddings)
 {%- endcapture -%}
 
 {%- capture source_link -%}

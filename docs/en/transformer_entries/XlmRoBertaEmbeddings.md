@@ -53,11 +53,11 @@ WORD_EMBEDDINGS
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[XlmRoBertaEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/XlmRoBertaEmbeddings)
+[XlmRoBertaEmbeddings](/api/com/johnsnowlabs/nlp/embeddings/XlmRoBertaEmbeddings)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[XlmRoBertaEmbeddings](/api/python/reference/autosummary/python/sparknlp/annotator/embeddings/xlm_roberta_embeddings/index.html#sparknlp.annotator.embeddings.xlm_roberta_embeddings.XlmRoBertaEmbeddings)
+[XlmRoBertaEmbeddings](/api/python/reference/autosummary/sparknlp/annotator/embeddings/xlm_roberta_embeddings/index.html#sparknlp.annotator.embeddings.xlm_roberta_embeddings.XlmRoBertaEmbeddings)
 {%- endcapture -%}
 
 {%- capture source_link -%}

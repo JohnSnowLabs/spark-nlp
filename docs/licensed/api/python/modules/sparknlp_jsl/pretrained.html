@@ -277,7 +277,7 @@
 <span class="kn">from</span> <span class="nn">py4j.protocol</span> <span class="kn">import</span> <span class="n">Py4JJavaError</span>
 
 <div class="viewcode-block" id="printProgress"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/pretrained/index.html#sparknlp_jsl.pretrained.printProgress">[docs]</a><span class="k">def</span> <span class="nf">printProgress</span><span class="p">(</span><span class="n">stop</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Prints a progress bar to the console every 2.5 seconds.</span>
 
 <span class="sd">    Args:</span>
@@ -300,12 +300,12 @@
 
 
 <div class="viewcode-block" id="InternalResourceDownloader"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/pretrained/index.html#sparknlp_jsl.pretrained.InternalResourceDownloader">[docs]</a><span class="k">class</span> <span class="nc">InternalResourceDownloader</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Downlod internal resources from S3</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Downlod internal resources from S3</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="InternalResourceDownloader.downloadModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/pretrained/index.html#sparknlp_jsl.pretrained.InternalResourceDownloader.downloadModel">[docs]</a>    <span class="k">def</span> <span class="nf">downloadModel</span><span class="p">(</span><span class="n">reader</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">language</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Download a model from S3</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Download a model from S3</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            reader (class): The reader class to use to load the model.</span>
@@ -334,7 +334,7 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="InternalResourceDownloader.showPrivateModels"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/pretrained/index.html#sparknlp_jsl.pretrained.InternalResourceDownloader.showPrivateModels">[docs]</a>    <span class="k">def</span> <span class="nf">showPrivateModels</span><span class="p">(</span><span class="n">annotator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Show private models available for download</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Show private models available for download</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            annotator (str, optional): The annotator to filter by. Defaults to None.</span>
@@ -345,7 +345,7 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="InternalResourceDownloader.showPrivatePipelines"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/pretrained/index.html#sparknlp_jsl.pretrained.InternalResourceDownloader.showPrivatePipelines">[docs]</a>    <span class="k">def</span> <span class="nf">showPrivatePipelines</span><span class="p">(</span><span class="n">lang</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Show private pipelines available for download</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Show private pipelines available for download</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            lang (str, optional): The language to filter by. Defaults to None.</span>
@@ -355,18 +355,18 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="InternalResourceDownloader.showUnCategorizedResources"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/pretrained/index.html#sparknlp_jsl.pretrained.InternalResourceDownloader.showUnCategorizedResources">[docs]</a>    <span class="k">def</span> <span class="nf">showUnCategorizedResources</span><span class="p">():</span>
-        <span class="sd">&quot;&quot;&quot;Show uncategorized resources available for download.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Show uncategorized resources available for download.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">_internal</span><span class="o">.</span><span class="n">_ShowUnCategorizedResources</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">())</span></div>
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="InternalResourceDownloader.showAvailableAnnotators"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/pretrained/index.html#sparknlp_jsl.pretrained.InternalResourceDownloader.showAvailableAnnotators">[docs]</a>    <span class="k">def</span> <span class="nf">showAvailableAnnotators</span><span class="p">():</span>
-        <span class="sd">&quot;&quot;&quot;Show available annotators.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Show available annotators.&quot;&quot;&quot;</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">_internal</span><span class="o">.</span><span class="n">_ShowAvailableAnnotators</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">())</span></div>
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="InternalResourceDownloader.returnPrivateModels"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/pretrained/index.html#sparknlp_jsl.pretrained.InternalResourceDownloader.returnPrivateModels">[docs]</a>    <span class="k">def</span> <span class="nf">returnPrivateModels</span><span class="p">(</span><span class="n">annotator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return private models available for download.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return private models available for download.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            annotator (str, optional): The annotator to filter by. Defaults to None.</span>
@@ -381,7 +381,7 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="InternalResourceDownloader.returnPrivatePipelines"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/pretrained/index.html#sparknlp_jsl.pretrained.InternalResourceDownloader.returnPrivatePipelines">[docs]</a>    <span class="k">def</span> <span class="nf">returnPrivatePipelines</span><span class="p">(</span><span class="n">lang</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return private pipelines available for download.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return private pipelines available for download.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            lang (str, optional): The language to filter by. Defaults to None.</span>
