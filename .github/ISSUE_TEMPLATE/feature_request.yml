@@ -1,0 +1,34 @@
+name: "Feature Request"
+description: Suggest a new Spark NLP feature
+labels: [ "Feature request" ]
+assignees: "maziyarpanahi"
+
+body:
+  - type: textarea
+    id: description
+    validations:
+      required: true
+    attributes:
+      label: Description
+      description: |
+        Is your feature request related to a problem? Why do you want this feature? 
+        Please provide a clear and concise description of what the problem is. Also link GitHub issues when applicable.
+      placeholder: |
+        I have this problem I want to solve in Spark NLP, but ...
+        Implementing this new feature would help ...
+  - type: textarea
+    id: solution
+    validations:
+      required: true
+    attributes:
+      label: Preferred Solution
+      description: |
+        A clear and concise description of what you want to happen.
+  - type: textarea
+    id: additional-context
+    validations:
+      required: true
+    attributes:
+      label: Additional Context
+      description: |
+        Add any other context or screenshots about the feature request here.
