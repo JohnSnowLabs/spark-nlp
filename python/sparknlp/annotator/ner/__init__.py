@@ -1,4 +1,4 @@
-#  Copyright 2017-2022 John Snow Labs
+#  Copyright 2017-2023 John Snow Labs
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -17,3 +17,4 @@ from sparknlp.annotator.ner.ner_converter import *
 from sparknlp.annotator.ner.ner_crf import *
 from sparknlp.annotator.ner.ner_dl import *
 from sparknlp.annotator.ner.ner_overwriter import *
+from sparknlp.annotator.ner.zero_shot_ner_model import *
