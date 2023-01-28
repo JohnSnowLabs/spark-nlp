@@ -75,4 +75,12 @@ object ConfigHelper {
     sparkSession.sparkContext.hadoopConfiguration.get("hadoop.tmp.dir")
   }
 
+  def getHadoopS3Config: (String, String, String) = {
+    val accessKey = sparkSession.sparkContext.hadoopConfiguration.get("fs.s3a.access.key")
+    val secretKey = sparkSession.sparkContext.hadoopConfiguration.get("fs.s3a.secret.key")
+    val sessionToken = sparkSession.sparkContext.hadoopConfiguration.get("fs.s3a.session.token")
+
+    (accessKey, secretKey, sessionToken)
+  }
+
 }

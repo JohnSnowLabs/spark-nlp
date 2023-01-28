@@ -109,8 +109,20 @@ class AWSGateway(
       client.getObjectMetadata(bucket, s3FilePath)
       true
     } catch {
-      case e: AmazonServiceException => if (e.getStatusCode == 404) false else throw e
+      case exception: AmazonServiceException =>
+        if (exception.getStatusCode == 404) false else throw exception
     }
+  }
+
+  def doesS3FolderExist(bucket: String, s3FilePath: String): Boolean = {
+    try {
+      val listObjects = client.listObjectsV2(bucket, s3FilePath)
+      listObjects.getObjectSummaries.size() > 0
+    } catch {
+      case exception: AmazonServiceException =>
+        if (exception.getStatusCode == 404) false else throw exception
+    }
+
   }
 
   def getS3Object(bucket: String, s3FilePath: String, tmpFile: File): ObjectMetadata = {
