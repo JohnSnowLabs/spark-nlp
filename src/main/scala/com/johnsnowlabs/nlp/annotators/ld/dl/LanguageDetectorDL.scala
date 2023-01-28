@@ -52,7 +52,7 @@ import scala.collection.immutable.ListMap
   * [[https://nlp.johnsnowlabs.com/models?task=Language+Detection Models Hub]].
   *
   * For extended examples of usage, see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/language-detection/Language_Detection_and_Indentification.ipynb Spark NLP Workshop]]
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/language-detection/Language_Detection_and_Indentification.ipynb Examples]]
   * And the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ld/dl/LanguageDetectorDLTestSpec.scala LanguageDetectorDLTestSpec]].
   *

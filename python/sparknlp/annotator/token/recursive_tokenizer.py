@@ -28,8 +28,8 @@ class RecursiveTokenizer(AnnotatorApproach):
     - ``infixes``: Strings that will be split when found at the middle of token.
     - ``whitelist``: Whitelist of strings not to split
 
-    For extended examples of usage, see the `Spark NLP Workshop
-    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/7.Context_Spell_Checker.ipynb>`__.
+    For extended examples of usage, see the `Examples
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/italian/Training_Context_Spell_Checker_Italian.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type

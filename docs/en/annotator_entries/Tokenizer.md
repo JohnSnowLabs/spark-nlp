@@ -38,7 +38,7 @@ This class represents a non fitted tokenizer. Fitting it will cause the internal
 Identifies tokens with tokenization open standards. A few rules will help customizing it if defaults do not fit user needs.
 
 For extended examples of usage see the
-[Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb)
+[Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/document-normalizer/document_normalizer_notebook.ipynb)
 and [Tokenizer test class](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/TokenizerTestSpec.scala)
 {%- endcapture -%}
 

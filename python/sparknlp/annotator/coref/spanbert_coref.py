@@ -41,7 +41,7 @@ class SpanBertCorefModel(AnnotatorModel,
     <https://nlp.johnsnowlabs.com/models?q=coref>`__.
 
     For extended examples of usage, see the
-    `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/coreference-resolution/Coreference_Resolution_SpanBertCorefModel.ipynb>`__.
+    `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/coreference-resolution/Coreference_Resolution_SpanBertCorefModel.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type

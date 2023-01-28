@@ -16,7 +16,7 @@ Excluding the label, this can be done with for example
   - a [WordEmbeddingsModel](/docs/en/annotators#wordembeddings)
   (any word embeddings can be chosen, e.g. [BertEmbeddings](/docs/en/transformers#bertembeddings) for BERT based embeddings).
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/training/english/dl-ner).
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/dl-ner).
 {%- endcapture -%}
 
 {%- capture input_anno -%}

@@ -39,7 +39,7 @@ class LanguageDetectorDL(AnnotatorModel, HasStorageRef, HasEngine):
 
     For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Language+Detection>`__.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/language-detection/Language_Detection_and_Indentification.ipynb>`__.
+    For extended examples of usage, see the `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/language-detection/Language_Detection_and_Indentification.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type

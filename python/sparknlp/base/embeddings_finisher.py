@@ -34,7 +34,8 @@ class EmbeddingsFinisher(AnnotatorTransformer):
     require a ``featureCol``.
 
     For more extended examples see the
-    `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.1_Text_classification_examples_in_SparkML_SparkNLP.ipynb>`__.
+    `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/text-similarity/Spark_NLP_Spark_ML_Text_Similarity.ipynb
+>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type

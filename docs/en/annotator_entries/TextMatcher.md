@@ -33,7 +33,7 @@ Annotator to match exact phrases (by token) provided in a file against a Documen
 A text file of predefined phrases must be provided with `setEntities`.
 
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/text-matcher-pipeline/extractor.ipynb)
 and the [TextMatcherTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/TextMatcherTestSpec.scala).
 {%- endcapture -%}
 

@@ -30,7 +30,7 @@ The pooling layer can be set with `setPoolingLayer` to the following values:
   - `"elmo"`: the weighted sum of the 3 layers, where the weights are trainable. This tensor has shape `[batch_size, max_length, 1024]`.
 
 For extended examples of usage, see the
-[Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/ner_elmo.ipynb)
+[Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/dl-ner/ner_elmo.ipynb)
 and the [ElmoEmbeddingsTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/ElmoEmbeddingsTestSpec.scala).
 
 **Sources:**
