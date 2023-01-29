@@ -4,7 +4,7 @@ title: Legal Due Authorization Clause Binary Classifier
 author: John Snow Labs
 name: legclf_due_authorization_clause
 date: 2023-01-29
-tags: [en, legal, classification, due, authorization, clauses, due_authorization, licensed, tensorflow]
+tags: [en, legal, classification, tax, treatment, clauses, due_authorization, licensed, tensorflow]
 task: Text Classification
 language: en
 edition: Legal NLP 1.0.0
@@ -37,8 +37,8 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_due_authorization_clause_en_1.0.0_3.0_1674993442404.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_due_authorization_clause_en_1.0.0_3.0_1674993442404.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_due_authorization_clause_en_1.0.0_3.0_1674993500619.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_due_authorization_clause_en_1.0.0_3.0_1674993500619.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
