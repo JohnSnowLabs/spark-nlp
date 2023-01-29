@@ -27,8 +27,7 @@ import org.apache.spark.sql.{Dataset, Row}
   * results from Spark NLP Pipelines. The Finisher outputs annotation(s) values into `String`.
   *
   * For more extended examples on document pre-processing see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/model-downloader/Create%20custom%20pipeline%20-%20NerDL.ipynb
- Examples]].
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/model-downloader/Create%20custom%20pipeline%20-%20NerDL.ipynb Examples]].
   *
   * ==Example==
   * {{{
