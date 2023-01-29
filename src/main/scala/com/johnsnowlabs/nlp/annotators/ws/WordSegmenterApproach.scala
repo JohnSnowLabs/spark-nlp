@@ -45,9 +45,7 @@ import scala.collection.mutable.{Map => MMap}
   * `setPosColumn`.
   *
   * '''Tip''': The helper class [[com.johnsnowlabs.nlp.training.POS POS]] might be useful to read
-  * training data into data frames.
-  *nl
-  * For extended examples of usage, see the
+  * training data into data frames. nl For extended examples of usage, see the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/chinese/word_segmentation Examples]]
   * and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/WordSegmenterTest.scala WordSegmenterTest]].

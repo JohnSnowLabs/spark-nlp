@@ -57,7 +57,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   *
   * For extended examples of usage, see the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/dl-ner/ner_elmo.ipynb Examples]]
- * and the
+  * and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/ElmoEmbeddingsTestSpec.scala ElmoEmbeddingsTestSpec]].
   *
   * '''References:'''
