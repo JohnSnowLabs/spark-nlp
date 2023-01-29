@@ -13,7 +13,7 @@ supported: true
 engine: tensorflow
 annotator: LegalClassifierDLModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -46,6 +46,7 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 document_assembler = nlp.DocumentAssembler()\
@@ -110,12 +111,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-
                     label  precision    recall  f1-score   support
                     other       0.94      0.77      0.85        39
 reimbursement-of-expenses       0.77      0.94      0.85        32
                  accuracy          -         -      0.85        71
                 macro-avg       0.85      0.85      0.85        71
              weighted-avg       0.86      0.85      0.85        71
-
 ```
