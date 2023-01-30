@@ -17,14 +17,27 @@ from sparknlp.annotator.classifier_dl import RoBertaForQuestionAnswering
 
 
 class ZeroShotNerModel(RoBertaForQuestionAnswering, HasEngine):
-    """
-    Zero shot named entity recognition based on RoBertaForQuestionAnswering.
+    """ZeroShotNerModel implements zero shot named entity recognition by utilizing RoBERTa
+    transformer models fine tuned on a question answering task.
 
-    ==========================================  ======================
-    Input Annotation types                      Output Annotation type
-    ==========================================  ======================
-    ``DOCUMENT, TOKEN``                         ``NAMED_ENTITY``
-    ==========================================  ======================
+    Its input is a list of document annotations and it automatically generates questions which are
+    used to recognize entities. The definitions of entities is given by a dictionary structures,
+    specifying a set of questions for each entity. The model is based on
+    RoBertaForQuestionAnswering.
+
+    Pretrained models can be loaded with ``pretrained`` of the companion object:
+
+    .. code-block:: python
+
+       zeroShotNer = ZeroShotNerModel.pretrained() \\
+           .setInputCols(["document"]) \\
+           .setOutputCol("zer_shot_ner")
+
+    ====================== ======================
+    Input Annotation types Output Annotation type
+    ====================== ======================
+    ``DOCUMENT, TOKEN``    ``NAMED_ENTITY``
+    ====================== ======================
 
     Parameters
     ----------
@@ -37,55 +50,58 @@ class ZeroShotNerModel(RoBertaForQuestionAnswering, HasEngine):
 
     predictionThreshold
         Minimal confidence score to encode an entity (Default: 0.01f)
-
     ignoreEntities
         A list of entity labels which are discarded from the output.
 
+    References
+    ----------
+    `RoBERTa: A Robustly Optimized BERT Pretraining Approach <https://arxiv.org/abs/1907.11692>`__ : for details about the RoBERTa transformer
+    :class:`.RoBertaForQuestionAnswering` : for the SparkNLP implementation of RoBERTa question  answering
+
     Examples
     --------
-    --------
-    >>> document_assembler = DocumentAssembler() \
-    ...     .setInputCol("text") \
+    >>> document_assembler = DocumentAssembler() \\
+    ...     .setInputCol("text") \\
     ...     .setOutputCol("document")
-    >>> sentence_detector = SentenceDetector()\
-    ...     .setInputCols(["document"])\
+    >>> sentence_detector = SentenceDetector() \\
+    ...     .setInputCols(["document"]) \\
     ...     .setOutputCol("sentence")
-    >>> tokenizer = Tokenizer()\
-    ...     .setInputCols(["sentence"])\
+    >>> tokenizer = Tokenizer() \\
+    ...     .setInputCols(["sentence"]) \\
     ...     .setOutputCol("token")
-    >>> zero_shot_ner = ZeroShotNerModel()\
-    ...     .pretrained() \
+    >>> zero_shot_ner = ZeroShotNerModel() \\
+    ...     .pretrained() \\
     ...     .setEntityDefinitions(
     ...         {
     ...             "NAME": ["What is his name?", "What is my name?", "What is her name?"],
     ...             "CITY": ["Which city?", "Which is the city?"]
-    ...         })\
-    ...     .setInputCols(["sentence", "token"])\
-    ...     .setOutputCol("zero_shot_ner")\
+    ...         }) \\
+    ...     .setInputCols(["sentence", "token"]) \\
+    ...     .setOutputCol("zero_shot_ner") \\
     >>> data = spark.createDataFrame(
     ...         [["My name is Clara, I live in New York and Hellen lives in Paris."]]
     ...     ).toDF("text")
-    >>> Pipeline() \
-    ...     .setStages([document_assembler, sentence_detector, tokenizer, zero_shot_ner]) \
-    ...     .fit(data) \
-    ...     .transform(data) \
-    ...     .selectExpr("document", "explode(zero_shot_ner) AS entity")\
+    >>> Pipeline() \\
+    ...     .setStages([document_assembler, sentence_detector, tokenizer, zero_shot_ner]) \\
+    ...     .fit(data) \\
+    ...     .transform(data) \\
+    ...     .selectExpr("document", "explode(zero_shot_ner) AS entity") \\
     ...     .select(
     ...         "document.result",
     ...         "entity.result",
     ...         "entity.metadata.word",
     ...         "entity.metadata.confidence",
-    ...         "entity.metadata.question")\
+    ...         "entity.metadata.question") \\
     ...     .show(truncate=False)
-        +-----------------------------------------------------------------+------+------+----------+------------------+
-        |result                                                           |result|word  |confidence|question          |
-        +-----------------------------------------------------------------+------+------+----------+------------------+
-        |[My name is Clara, I live in New York and Hellen lives in Paris.]|B-CITY|Paris |0.5328949 |Which is the city?|
-        |[My name is Clara, I live in New York and Hellen lives in Paris.]|B-NAME|Clara |0.9360068 |What is my name?  |
-        |[My name is Clara, I live in New York and Hellen lives in Paris.]|B-CITY|New   |0.83294415|Which city?       |
-        |[My name is Clara, I live in New York and Hellen lives in Paris.]|I-CITY|York  |0.83294415|Which city?       |
-        |[My name is Clara, I live in New York and Hellen lives in Paris.]|B-NAME|Hellen|0.45366877|What is her name? |
-        +-----------------------------------------------------------------+------+------+----------+------------------+
+    +-----------------------------------------------------------------+------+------+----------+------------------+
+    |result                                                           |result|word  |confidence|question          |
+    +-----------------------------------------------------------------+------+------+----------+------------------+
+    |[My name is Clara, I live in New York and Hellen lives in Paris.]|B-CITY|Paris |0.5328949 |Which is the city?|
+    |[My name is Clara, I live in New York and Hellen lives in Paris.]|B-NAME|Clara |0.9360068 |What is my name?  |
+    |[My name is Clara, I live in New York and Hellen lives in Paris.]|B-CITY|New   |0.83294415|Which city?       |
+    |[My name is Clara, I live in New York and Hellen lives in Paris.]|I-CITY|York  |0.83294415|Which city?       |
+    |[My name is Clara, I live in New York and Hellen lives in Paris.]|B-NAME|Hellen|0.45366877|What is her name? |
+    +-----------------------------------------------------------------+------+------+----------+------------------+
     """
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
     outputAnnotatorType = AnnotatorType.NAMED_ENTITY
