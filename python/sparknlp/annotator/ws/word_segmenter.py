@@ -65,6 +65,15 @@ class WordSegmenterApproach(AnnotatorApproach):
     Special Issue on Word Formation and Chinese Language Processing, 2003, pp. 29-48.
     ACLWeb, https://aclanthology.org/O03-4002.
 
+    References
+    ----------
+
+    `[1] <https://aclanthology.org/O03-4002.pdf>`__ Xue, Nianwen. “Chinese Word
+    Segmentation as Character Tagging.” International Journal of Computational
+    Linguistics & Chinese Language Processing, Volume 8, Number 1, February 2003:
+    Special Issue on Word Formation and Chinese Language Processing, 2003, pp. 29-48.
+    ACLWeb, https://aclanthology.org/O03-4002.
+
     ====================== ======================
     Input Annotation types Output Annotation type
     ====================== ======================
