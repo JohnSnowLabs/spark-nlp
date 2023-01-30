@@ -6,7 +6,7 @@ name := getPackageName(is_m1, is_gpu, is_aarch64)
 
 organization := "com.johnsnowlabs.nlp"
 
-version := "4.2.8"
+version := "4.3.0"
 
 (ThisBuild / scalaVersion) := scalaVer
 
