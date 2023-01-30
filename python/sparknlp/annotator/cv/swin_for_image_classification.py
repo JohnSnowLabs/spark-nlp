@@ -23,14 +23,14 @@ class SwinForImageClassification(AnnotatorModel,
                                  HasEngine):
     """SwinImageClassification is an image classifier based on Swin.
 
-     The Swin Transformer was proposed in Swin Transformer: Hierarchical Vision
-     Transformer using Shifted Windows by Ze Liu, Yutong Lin, Yue Cao, Han Hu, Yixuan
-     Wei, Zheng Zhang, Stephen Lin, Baining Guo.
+    The Swin Transformer was proposed in Swin Transformer: Hierarchical Vision
+    Transformer using Shifted Windows by Ze Liu, Yutong Lin, Yue Cao, Han Hu, Yixuan
+    Wei, Zheng Zhang, Stephen Lin, Baining Guo.
 
-     It is basically a hierarchical Transformer whose representation is computed with
-     shifted windows. The shifted windowing scheme brings greater efficiency by limiting
-     self-attention computation to non-overlapping local windows while also allowing for
-     cross-window connection.
+    It is basically a hierarchical Transformer whose representation is computed with
+    shifted windows. The shifted windowing scheme brings greater efficiency by limiting
+    self-attention computation to non-overlapping local windows while also allowing for
+    cross-window connection.
 
     .. code-block:: python
 
@@ -49,35 +49,34 @@ class SwinForImageClassification(AnnotatorModel,
     NLP 🚀. The Spark NLP Workshop example shows how to import them
     https://github.com/JohnSnowLabs/spark-nlp/discussions/5669 and to see more extended
     examples, see
-    `SwinForImageClassificationTest <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/cv/SwinForImageClassificationTest.scala >`__.
-
-    **Paper Abstract:**
-
-    *This paper presents a new vision Transformer, called Swin Transformer, that capably
-    *serves as a general-purpose backbone for computer vision. Challenges in adapting
-    *Transformer from language to vision arise from differences between the two domains,
-    *such as large variations in the scale of visual entities and the high resolution of
-    *pixels in images compared to words in text. To address these differences, we
-    *propose a hierarchical Transformer whose representation is computed with Shifted
-    *windows. The shifted windowing scheme brings greater efficiency by limiting
-    *self-attention computation to non-overlapping local windows while also allowing for
-    *cross-window connection. This hierarchical architecture has the flexibility to
-    *model at various scales and has linear computational complexity with respect to
-    *image size. These qualities of Swin Transformer make it compatible with a broad
-    *range of vision tasks, including image classification (87.3 top-1 accuracy on
-    *ImageNet-1K) and dense prediction tasks such as object detection (58.7 box AP and
-    *51.1 mask AP on COCO test- dev) and semantic segmentation (53.5 mIoU on ADE20K
-    *val). Its performance surpasses the previous state-of-the- art by a large margin of
-    *+2.7 box AP and +2.6 mask AP on COCO, and +3.2 mIoU on ADE20K, demonstrating the
-    *potential of Transformer-based models as vision backbones. The hierarchical design
-    *and the shifted window approach also prove beneficial for all-MLP architectures.*
-
+    `SwinForImageClassificationTest <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/cv/SwinForImageClassificationTest.scala>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
     ====================== ======================
     ``IMAGE``              ``CATEGORY``
     ====================== ======================
+
+    **Paper Abstract:**
+
+    *This paper presents a new vision Transformer, called Swin Transformer, that capably
+    serves as a general-purpose backbone for computer vision. Challenges in adapting
+    Transformer from language to vision arise from differences between the two domains,
+    such as large variations in the scale of visual entities and the high resolution of
+    pixels in images compared to words in text. To address these differences, we
+    propose a hierarchical Transformer whose representation is computed with Shifted
+    windows. The shifted windowing scheme brings greater efficiency by limiting
+    self-attention computation to non-overlapping local windows while also allowing for
+    cross-window connection. This hierarchical architecture has the flexibility to
+    model at various scales and has linear computational complexity with respect to
+    image size. These qualities of Swin Transformer make it compatible with a broad
+    range of vision tasks, including image classification (87.3 top-1 accuracy on
+    ImageNet-1K) and dense prediction tasks such as object detection (58.7 box AP and
+    51.1 mask AP on COCO test- dev) and semantic segmentation (53.5 mIoU on ADE20K
+    val). Its performance surpasses the previous state-of-the- art by a large margin of
+    +2.7 box AP and +2.6 mask AP on COCO, and +3.2 mIoU on ADE20K, demonstrating the
+    potential of Transformer-based models as vision backbones. The hierarchical design
+    and the shifted window approach also prove beneficial for all-MLP architectures.*
 
     References
     ----------
@@ -97,7 +96,7 @@ class SwinForImageClassification(AnnotatorModel,
     >>> from sparknlp.base import *
     >>> from sparknlp.annotator import *
     >>> from pyspark.ml import Pipeline
-    >>> imageDF: DataFrame = spark.read \\
+    >>> imageDF = spark.read \\
     ...     .format("image") \\
     ...     .option("dropInvalid", value = True) \\
     ...     .load("src/test/resources/image/")
@@ -110,7 +109,23 @@ class SwinForImageClassification(AnnotatorModel,
     ...     .setOutputCol("class")
     >>> pipeline = Pipeline().setStages([imageAssembler, imageClassifier])
     >>> pipelineDF = pipeline.fit(imageDF).transform(imageDF)
-
+    >>> pipelineDF \\
+    ...   .selectExpr("reverse(split(image.origin, '/'))[0] as image_name", "class.result") \\
+    ...   .show(truncate=False)
+    +-----------------+----------------------------------------------------------+
+    |image_name       |result                                                    |
+    +-----------------+----------------------------------------------------------+
+    |palace.JPEG      |[palace]                                                  |
+    |egyptian_cat.jpeg|[tabby, tabby cat]                                        |
+    |hippopotamus.JPEG|[hippopotamus, hippo, river horse, Hippopotamus amphibius]|
+    |hen.JPEG         |[hen]                                                     |
+    |ostrich.JPEG     |[ostrich, Struthio camelus]                               |
+    |junco.JPEG       |[junco, snowbird]                                         |
+    |bluetick.jpg     |[bluetick]                                                |
+    |chihuahua.jpg    |[Chihuahua]                                               |
+    |tractor.JPEG     |[tractor]                                                 |
+    |ox.JPEG          |[ox]                                                      |
+    +-----------------+----------------------------------------------------------+
     """
     name = "SwinForImageClassification"
 

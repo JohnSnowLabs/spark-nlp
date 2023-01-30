@@ -1,20 +1,28 @@
 {%- capture title -%}
-ViTForImageClassification
+SwinForImageClassification
 {%- endcapture -%}
 
 {%- capture description -%}
-Vision Transformer (ViT) for image classification.
+SwinImageClassification is an image classifier based on Swin.
 
-ViT is a transformer based alternative to the convolutional neural networks usually used for
-image recognition tasks.
+The Swin Transformer was proposed in Swin Transformer: Hierarchical Vision Transformer using
+Shifted Windows by Ze Liu, Yutong Lin, Yue Cao, Han Hu, Yixuan Wei, Zheng Zhang, Stephen Lin,
+Baining Guo.
+
+It is basically a hierarchical Transformer whose representation is computed with shifted
+windows. The shifted windowing scheme brings greater efficiency by limiting self-attention
+computation to non-overlapping local windows while also allowing for cross-window connection.
 
 Pretrained models can be loaded with `pretrained` of the companion object:
+
 ```
-val imageClassifier = ViTForImageClassification.pretrained()
+val imageClassifier = SwinForImageClassification.pretrained()
   .setInputCols("image_assembler")
   .setOutputCol("class")
 ```
-The default model is `"image_classifier_vit_base_patch16_224"`, if no name is provided.
+
+The default model is `"image_classifier_swin_base_patch_4_window_7_224"`, if no name is
+provided.
 
 For available pretrained models please see the
 [Models Hub](https://nlp.johnsnowlabs.com/models?task=Image+Classification).
@@ -23,24 +31,30 @@ Models from the HuggingFace 🤗 Transformers library are also compatible with S
 Spark NLP Workshop example shows how to import them
 https://github.com/JohnSnowLabs/spark-nlp/discussions/5669 and to see more extended
 examples, see
-[ViTImageClassificationTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/cv/ViTImageClassificationTestSpec.scala).
+[SwinForImageClassificationTest](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/cv/SwinForImageClassificationTest.scala).
 
 **References:**
 
-[An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale](https://arxiv.org/abs/2010.11929)
+[Swin Transformer: Hierarchical Vision Transformer using Shifted Windows](https://arxiv.org/pdf/2103.14030.pdf)
 
 **Paper Abstract:**
 
-*While the Transformer architecture has become the de-facto standard for natural language
-processing tasks, its applications to computer vision remain limited. In vision, attention is
-either applied in conjunction with convolutional networks, or used to replace certain
-components of convolutional networks while keeping their overall structure in place. We show
-that this reliance on CNNs is not necessary and a pure transformer applied directly to
-sequences of image patches can perform very well on image classification tasks. When
-pre-trained on large amounts of data and transferred to multiple mid-sized or small image
-recognition benchmarks (ImageNet, CIFAR-100, VTAB, etc.), Vision Transformer (ViT) attains
-excellent results compared to state-of-the-art convolutional networks while requiring
-substantially fewer computational resources to train.*
+*This paper presents a new vision Transformer, called Swin Transformer, that capably serves
+as a general-purpose backbone for computer vision. Challenges in adapting Transformer from
+language to vision arise from differences between the two domains, such as large variations in
+the scale of visual entities and the high resolution of pixels in images compared to words in
+text. To address these differences, we propose a hierarchical Transformer whose representation
+is computed with Shifted windows. The shifted windowing scheme brings greater efficiency by
+limiting self-attention computation to non-overlapping local windows while also allowing for
+cross-window connection. This hierarchical architecture has the flexibility to model at
+various scales and has linear computational complexity with respect to image size. These
+qualities of Swin Transformer make it compatible with a broad range of vision tasks, including
+image classification (87.3 top-1 accuracy on ImageNet-1K) and dense prediction tasks such as
+object detection (58.7 box AP and 51.1 mask AP on COCO test- dev) and semantic segmentation
+(53.5 mIoU on ADE20K val). Its performance surpasses the previous state-of-the- art by a large
+margin of +2.7 box AP and +2.6 mask AP on COCO, and +3.2 mIoU on ADE20K, demonstrating the
+potential of Transformer-based models as vision backbones. The hierarchical design and the
+shifted window approach also prove beneficial for all-MLP architectures.*
 {%- endcapture -%}
 
 {%- capture input_anno -%}
@@ -57,16 +71,18 @@ from sparknlp.base import *
 from sparknlp.annotator import *
 from pyspark.ml import Pipeline
 
-imageDF: DataFrame = spark.read \\
-    .format("image") \\
-    .option("dropInvalid", value = True) \\
+imageDF: DataFrame = spark.read \
+    .format("image") \
+    .option("dropInvalid", value = True) \
     .load("src/test/resources/image/")
-imageAssembler = ImageAssembler() \\
-    .setInputCol("image") \\
+
+imageAssembler = ImageAssembler() \
+    .setInputCol("image") \
     .setOutputCol("image_assembler")
-imageClassifier = ViTForImageClassification \\
-    .pretrained() \\
-    .setInputCols(["image_assembler"]) \\
+
+imageClassifier = SwinForImageClassification \
+    .pretrained() \
+    .setInputCols(["image_assembler"]) \
     .setOutputCol("class")
 
 pipeline = Pipeline().setStages([imageAssembler, imageClassifier])
@@ -79,7 +95,7 @@ pipelineDF \
 |image_name       |result                                                    |
 +-----------------+----------------------------------------------------------+
 |palace.JPEG      |[palace]                                                  |
-|egyptian_cat.jpeg|[Egyptian cat]                                            |
+|egyptian_cat.jpeg|[tabby, tabby cat]                                        |
 |hippopotamus.JPEG|[hippopotamus, hippo, river horse, Hippopotamus amphibius]|
 |hen.JPEG         |[hen]                                                     |
 |ostrich.JPEG     |[ostrich, Struthio camelus]                               |
@@ -89,6 +105,7 @@ pipelineDF \
 |tractor.JPEG     |[tractor]                                                 |
 |ox.JPEG          |[ox]                                                      |
 +-----------------+----------------------------------------------------------+
+
 {%- endcapture -%}
 
 {%- capture scala_example -%}
@@ -105,7 +122,7 @@ val imageAssembler = new ImageAssembler()
   .setInputCol("image")
   .setOutputCol("image_assembler")
 
-val imageClassifier = ViTForImageClassification
+val imageClassifier = SwinForImageClassification
   .pretrained()
   .setInputCols("image_assembler")
   .setOutputCol("class")
@@ -120,7 +137,7 @@ pipelineDF
 |image_name       |result                                                    |
 +-----------------+----------------------------------------------------------+
 |palace.JPEG      |[palace]                                                  |
-|egyptian_cat.jpeg|[Egyptian cat]                                            |
+|egyptian_cat.jpeg|[tabby, tabby cat]                                        |
 |hippopotamus.JPEG|[hippopotamus, hippo, river horse, Hippopotamus amphibius]|
 |hen.JPEG         |[hen]                                                     |
 |ostrich.JPEG     |[ostrich, Struthio camelus]                               |
@@ -133,15 +150,15 @@ pipelineDF
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[ViTForImageClassification](/api/com/johnsnowlabs/nlp/annotators/cv/ViTForImageClassification)
+[SwinForImageClassification](/api/com/johnsnowlabs/nlp/annotators/cv/SwinForImageClassification)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[ViTForImageClassification](/api/python/reference/autosummary/sparknlp/annotator/cv/vit_for_image_classification/index.html#sparknlp.annotator.cv.vit_for_image_classification.ViTForImageClassification)
+[SwinForImageClassification](/api/python/reference/autosummary/sparknlp/annotator/cv/swin_for_image_classification/index.html#sparknlp.annotator.cv.swin_for_image_classification.SwinForImageClassification)
 {%- endcapture -%}
 
 {%- capture source_link -%}
-[ViTForImageClassification](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/cv/ViTForImageClassification.scala)
+[SwinForImageClassification](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/cv/SwinForImageClassification.scala)
 {%- endcapture -%}
 
 {% include templates/anno_template.md
