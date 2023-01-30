@@ -1,157 +1,150 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-01-30T13:09:11+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
-</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">Hocr for table recognition</title><link href="/2023/01/23/hocr_table_recognition_en_3_2.html" rel="alternate" type="text/html" title="Hocr for table recognition" /><published>2023-01-23T00:00:00+00:00</published><updated>2023-01-23T00:00:00+00:00</updated><id>/2023/01/23/hocr_table_recognition_en_3_2</id><content type="html" xml:base="/2023/01/23/hocr_table_recognition_en_3_2.html">## Description
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-01-30T23:26:37+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">Hocr for table recognition</title><link href="/2023/01/23/hocr_table_recognition_en_3_2.html" rel="alternate" type="text/html" title="Hocr for table recognition" /><published>2023-01-23T00:00:00+00:00</published><updated>2023-01-23T00:00:00+00:00</updated><id>/2023/01/23/hocr_table_recognition_en_3_2</id><content type="html" xml:base="/2023/01/23/hocr_table_recognition_en_3_2.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
-Table structure recognition based on hocr with Tesseract architecture. 
+&lt;p&gt;Table structure recognition based on hocr with Tesseract architecture.&lt;/p&gt;
 
-Tesseract has been trained on a variety of datasets to improve its recognition capabilities. These datasets include images of text in various languages and scripts, as well as images with different font styles, sizes, and orientations. The training process involves feeding the engine with a large number of images and their corresponding text, allowing the engine to learn the patterns and characteristics of different text styles. One of the most important datasets used in training Tesseract is the UNLV dataset, which contains over 400,000 images of text in different languages, scripts, and font styles. This dataset is widely used in the OCR community and has been instrumental in improving the accuracy of Tesseract. Other datasets that have been used in training Tesseract include the ICDAR dataset, the IIIT-HWS dataset, and the RRC-GV-WS dataset.
+&lt;p&gt;Tesseract has been trained on a variety of datasets to improve its recognition capabilities. These datasets include images of text in various languages and scripts, as well as images with different font styles, sizes, and orientations. The training process involves feeding the engine with a large number of images and their corresponding text, allowing the engine to learn the patterns and characteristics of different text styles. One of the most important datasets used in training Tesseract is the UNLV dataset, which contains over 400,000 images of text in different languages, scripts, and font styles. This dataset is widely used in the OCR community and has been instrumental in improving the accuracy of Tesseract. Other datasets that have been used in training Tesseract include the ICDAR dataset, the IIIT-HWS dataset, and the RRC-GV-WS dataset.&lt;/p&gt;
 
-In addition to these datasets, Tesseract also uses a technique called adaptive training, where the engine can continuously improve its recognition capabilities by learning from new images and text. This allows Tesseract to adapt to new text styles and languages, and improve its overall accuracy.
+&lt;p&gt;In addition to these datasets, Tesseract also uses a technique called adaptive training, where the engine can continuously improve its recognition capabilities by learning from new images and text. This allows Tesseract to adapt to new text styles and languages, and improve its overall accuracy.&lt;/p&gt;
 
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
 
-## Predicted Entities
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;a href=&quot;https://github.com/JohnSnowLabs/spark-ocr-workshop/tree/master/jupyter/Cards/SparkOcrImageTableRecognitionWHOCR.ipynb&quot; class=&quot;button button-orange button-orange-trans co button-icon&quot;&gt;Open in Colab&lt;/a&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Download&lt;/button&gt;&lt;/p&gt;
 
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-[Open in Colab](https://github.com/JohnSnowLabs/spark-ocr-workshop/tree/master/jupyter/Cards/SparkOcrImageTableRecognitionWHOCR.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Download&lt;/button&gt;
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
 
-## How to use
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;binary_to_image&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BinaryToImage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;content&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;  \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; 
 
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
+&lt;span class=&quot;n&quot;&gt;table_detector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ImageTableDetector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;general_model_table_detection_v2&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clinical/ocr&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;table_regions&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-```python
-binary_to_image = BinaryToImage() \
-    .setInputCol(&quot;content&quot;)  \
-    .setOutputCol(&quot;image&quot;) 
+&lt;span class=&quot;n&quot;&gt;splitter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ImageSplitRegions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputRegionsCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;table_regions&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;table_image&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setDropCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setImageType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ImageType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TYPE_BYTE_GRAY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setExplodeCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([])&lt;/span&gt;
 
-table_detector = ImageTableDetector.pretrained(&quot;general_model_table_detection_v2&quot;, &quot;en&quot;, &quot;clinical/ocr&quot;) \
-    .setInputCol(&quot;image&quot;) \
-    .setOutputCol(&quot;table_regions&quot;)
+&lt;span class=&quot;n&quot;&gt;text_detector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ImageTextDetectorV2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_text_detector_v2&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clinical/ocr&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text_regions&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setWithRefiner&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-splitter = ImageSplitRegions() \
-    .setInputCol(&quot;image&quot;) \
-    .setInputRegionsCol(&quot;table_regions&quot;) \
-    .setOutputCol(&quot;table_image&quot;) \
-    .setDropCols(&quot;image&quot;) \
-    .setImageType(ImageType.TYPE_BYTE_GRAY) \
-    .setExplodeCols([])
+&lt;span class=&quot;n&quot;&gt;draw_regions&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ImageDrawRegions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputRegionsCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text_regions&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_with_regions&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setRectColor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;green&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setRotated&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-text_detector = ImageTextDetectorV2.pretrained(&quot;image_text_detector_v2&quot;, &quot;en&quot;, &quot;clinical/ocr&quot;) \
-    .setInputCol(&quot;image&quot;) \
-    .setOutputCol(&quot;text_regions&quot;) \
-    .setWithRefiner(True)
+&lt;span class=&quot;n&quot;&gt;img_to_hocr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ImageToTextV2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ocr_small_printed&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clinical/ocr&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;text_regions&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setUsePandasUdf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputFormat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OcrOutputFormat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;HOCR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hocr&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setGroupImages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-draw_regions = ImageDrawRegions() \
-    .setInputCol(&quot;image&quot;) \
-    .setInputRegionsCol(&quot;text_regions&quot;) \
-    .setOutputCol(&quot;image_with_regions&quot;) \
-    .setRectColor(Color.green) \
-    .setRotated(True)
+&lt;span class=&quot;n&quot;&gt;hocr_to_table&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HocrToTextTable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hocr&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setRegionCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;table_regions&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;tables&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-img_to_hocr = ImageToTextV2().pretrained(&quot;ocr_small_printed&quot;, &quot;en&quot;, &quot;clinical/ocr&quot;) \
-    .setInputCols([&quot;image&quot;, &quot;text_regions&quot;]) \
-    .setUsePandasUdf(False) \
-    .setOutputFormat(OcrOutputFormat.HOCR) \
-    .setOutputCol(&quot;hocr&quot;) \
-    .setGroupImages(False)
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;binary_to_image&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;table_detector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;splitter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;text_detector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;draw_regions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;img_to_hocr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;hocr_to_table&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
 
-hocr_to_table = HocrToTextTable() \
-    .setInputCol(&quot;hocr&quot;) \
-    .setRegionCol(&quot;table_regions&quot;) \
-    .setOutputCol(&quot;tables&quot;)
+&lt;span class=&quot;n&quot;&gt;imagePath&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;data/tab_images_hocr_1/table4_1.jpg&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;image_df&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;binaryFile&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imagePath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-pipeline = PipelineModel(stages=[
-    binary_to_image,
-    table_detector,
-    splitter,
-    text_detector,
-    draw_regions,
-    img_to_hocr,
-    hocr_to_table
-])
+&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;image_df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cache&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;binary_to_image&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;BinaryToImage&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;content&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;  
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
 
-imagePath = &quot;data/tab_images_hocr_1/table4_1.jpg&quot;
-image_df= spark.read.format(&quot;binaryFile&quot;).load(imagePath)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;table_detector&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ImageTableDetector&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;general_model_table_detection_v2&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clinical/ocr&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;table_regions&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-result = pipeline.transform(image_df).cache()
-```
-```scala
-val binary_to_image = new BinaryToImage() 
-    .setInputCol(&quot;content&quot;)  
-    .setOutputCol(&quot;image&quot;) 
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;splitter&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ImageSplitRegions&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputRegionsCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;table_regions&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;table_image&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setDropCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setImageType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;ImageType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;TYPE_BYTE_GRAY&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setExplodeCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;())&lt;/span&gt;
 
-val table_detector = new ImageTableDetector
-    .pretrained(&quot;general_model_table_detection_v2&quot;, &quot;en&quot;, &quot;clinical/ocr&quot;) 
-    .setInputCol(&quot;image&quot;) 
-    .setOutputCol(&quot;table_regions&quot;)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;text_detector&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ImageTextDetectorV2&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_text_detector_v2&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clinical/ocr&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text_regions&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setWithRefiner&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-val splitter = new ImageSplitRegions() 
-    .setInputCol(&quot;image&quot;) 
-    .setInputRegionsCol(&quot;table_regions&quot;) 
-    .setOutputCol(&quot;table_image&quot;) 
-    .setDropCols(&quot;image&quot;) 
-    .setImageType(ImageType.TYPE_BYTE_GRAY) 
-    .setExplodeCols(Array())
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;draw_regions&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ImageDrawRegions&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputRegionsCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text_regions&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_with_regions&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setRectColor&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;green&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setRotated&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-val text_detector = new ImageTextDetectorV2
-    .pretrained(&quot;image_text_detector_v2&quot;, &quot;en&quot;, &quot;clinical/ocr&quot;) 
-    .setInputCol(&quot;image&quot;) 
-    .setOutputCol(&quot;text_regions&quot;) 
-    .setWithRefiner(True)
+&lt;span class=&quot;n&quot;&gt;img_to_hocr&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ImageToTextV2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ocr_small_printed&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clinical/ocr&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;text_regions&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setUsePandasUdf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputFormat&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;OcrOutputFormat&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;HOCR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hocr&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setGroupImages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-val draw_regions = new ImageDrawRegions() 
-    .setInputCol(&quot;image&quot;) 
-    .setInputRegionsCol(&quot;text_regions&quot;) 
-    .setOutputCol(&quot;image_with_regions&quot;) 
-    .setRectColor(Color.green) 
-    .setRotated(True)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;hocr_to_table&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;HocrToTextTable&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hocr&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setRegionCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;table_regions&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;tables&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-img_to_hocr = ImageToTextV2()
-    .pretrained(&quot;ocr_small_printed&quot;, &quot;en&quot;, &quot;clinical/ocr&quot;) 
-    .setInputCols(Array(&quot;image&quot;, &quot;text_regions&quot;)) 
-    .setUsePandasUdf(False) 
-    .setOutputFormat(OcrOutputFormat.HOCR) 
-    .setOutputCol(&quot;hocr&quot;) 
-    .setGroupImages(False)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;binary_to_image&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; 
+    &lt;span class=&quot;n&quot;&gt;table_detector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; 
+    &lt;span class=&quot;n&quot;&gt;splitter&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; 
+    &lt;span class=&quot;n&quot;&gt;text_detector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; 
+    &lt;span class=&quot;n&quot;&gt;draw_regions&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; 
+    &lt;span class=&quot;n&quot;&gt;img_to_hocr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; 
+    &lt;span class=&quot;n&quot;&gt;hocr_to_table&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
 
-val hocr_to_table = new HocrToTextTable() 
-    .setInputCol(&quot;hocr&quot;) 
-    .setRegionCol(&quot;table_regions&quot;) 
-    .setOutputCol(&quot;tables&quot;)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;imagePath&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;data/tab_images_hocr_1/table4_1.jpg&quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;image_df&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;binaryFile&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imagePath&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-val pipeline = new PipelineModel().setStages(Array(
-    binary_to_image, 
-    table_detector, 
-    splitter, 
-    text_detector, 
-    draw_regions, 
-    img_to_hocr, 
-    hocr_to_table))
-
-val imagePath = &quot;data/tab_images_hocr_1/table4_1.jpg&quot;
-val image_df= spark.read.format(&quot;binaryFile&quot;).load(imagePath)
-
-val result = pipeline.transform(image_df).cache()
-```
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;image_df&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;cache&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
 &lt;/div&gt;
 
-## Example
+&lt;h2 id=&quot;example&quot;&gt;Example&lt;/h2&gt;
 
-### Input:
-![Screenshot](../../_examples_ocr/image13.png)
+&lt;h3 id=&quot;input&quot;&gt;Input:&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/examples_ocr/image13.png&quot; alt=&quot;Screenshot&quot; /&gt;&lt;/p&gt;
 
-### Output:
-![Screenshot](../../_examples_ocr/image13_out.png)
+&lt;h3 id=&quot;output&quot;&gt;Output:&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/examples_ocr/image13_out.png&quot; alt=&quot;Screenshot&quot; /&gt;&lt;/p&gt;
 
-```bash
-text_regions	table_image	pagenum	modificationTime	path	table_regions	length	image	image_with_regions	hocr	tables	exception	table_index
-[{0, 0, 566.32025...	{file:/content/ta...	0	2023-01-23 08:21:...	file:/content/tab...	{0, 0, 40.0, 0.0,...	172124	{file:/content/ta...	{file:/content/ta...	&lt;?xml version=&quot;1....	{0, 0, 0.0, 0.0,...	null	0
-```
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;text_regions	table_image	pagenum	modificationTime	path	table_regions	length	image	image_with_regions	hocr	tables	exception	table_index
+&lt;span class=&quot;o&quot;&gt;[{&lt;/span&gt;0, 0, 566.32025...	&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;file:/content/ta...	0	2023-01-23 08:21:...	file:/content/tab...	&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;0, 0, 40.0, 0.0,...	172124	&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;file:/content/ta...	&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;file:/content/ta...	&amp;lt;?xml &lt;span class=&quot;nv&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;1....	{0, 0, 0.0, 0.0,...	null	0
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-```bash
-Filename: table4_1.jpg
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Filename: table4_1.jpg
 Page:     0
 Table:    0
 4
@@ -177,203 +170,196 @@ col0	col1	col2	col3
 18	SHAFT SEALING	90	710	200
 19	TOTAL FIELD COSTS	952.000	877.000	1,829,000
 20	ARCHITECT-ENGINEER SERVICES			53,000
-21	OWNER'S COSTS			218,000
+21	OWNER&lt;span class=&quot;s1&quot;&gt;'S COSTS			218,000
 22	CONTINGENCY			534.0001
-```</content><author><name>John Snow Labs</name></author><category term="en" /><category term="licensed" /><summary type="html">Description Table structure recognition based on hocr with Tesseract architecture. Tesseract has been trained on a variety of datasets to improve its recognition capabilities. These datasets include images of text in various languages and scripts, as well as images with different font styles, sizes, and orientations. The training process involves feeding the engine with a large number of images and their corresponding text, allowing the engine to learn the patterns and characteristics of different text styles. One of the most important datasets used in training Tesseract is the UNLV dataset, which contains over 400,000 images of text in different languages, scripts, and font styles. This dataset is widely used in the OCR community and has been instrumental in improving the accuracy of Tesseract. Other datasets that have been used in training Tesseract include the ICDAR dataset, the IIIT-HWS dataset, and the RRC-GV-WS dataset. In addition to these datasets, Tesseract also uses a technique called adaptive training, where the engine can continuously improve its recognition capabilities by learning from new images and text. This allows Tesseract to adapt to new text styles and languages, and improve its overall accuracy. Predicted Entities Live Demo Open in Colab Download How to use PythonScalaNLU binary_to_image = BinaryToImage() \ .setInputCol(&quot;content&quot;) \ .setOutputCol(&quot;image&quot;) table_detector = ImageTableDetector.pretrained(&quot;general_model_table_detection_v2&quot;, &quot;en&quot;, &quot;clinical/ocr&quot;) \ .setInputCol(&quot;image&quot;) \ .setOutputCol(&quot;table_regions&quot;) splitter = ImageSplitRegions() \ .setInputCol(&quot;image&quot;) \ .setInputRegionsCol(&quot;table_regions&quot;) \ .setOutputCol(&quot;table_image&quot;) \ .setDropCols(&quot;image&quot;) \ .setImageType(ImageType.TYPE_BYTE_GRAY) \ .setExplodeCols([]) text_detector = ImageTextDetectorV2.pretrained(&quot;image_text_detector_v2&quot;, &quot;en&quot;, &quot;clinical/ocr&quot;) \ .setInputCol(&quot;image&quot;) \ .setOutputCol(&quot;text_regions&quot;) \ .setWithRefiner(True) draw_regions = ImageDrawRegions() \ .setInputCol(&quot;image&quot;) \ .setInputRegionsCol(&quot;text_regions&quot;) \ .setOutputCol(&quot;image_with_regions&quot;) \ .setRectColor(Color.green) \ .setRotated(True) img_to_hocr = ImageToTextV2().pretrained(&quot;ocr_small_printed&quot;, &quot;en&quot;, &quot;clinical/ocr&quot;) \ .setInputCols([&quot;image&quot;, &quot;text_regions&quot;]) \ .setUsePandasUdf(False) \ .setOutputFormat(OcrOutputFormat.HOCR) \ .setOutputCol(&quot;hocr&quot;) \ .setGroupImages(False) hocr_to_table = HocrToTextTable() \ .setInputCol(&quot;hocr&quot;) \ .setRegionCol(&quot;table_regions&quot;) \ .setOutputCol(&quot;tables&quot;) pipeline = PipelineModel(stages=[ binary_to_image, table_detector, splitter, text_detector, draw_regions, img_to_hocr, hocr_to_table ]) imagePath = &quot;data/tab_images_hocr_1/table4_1.jpg&quot; image_df= spark.read.format(&quot;binaryFile&quot;).load(imagePath) result = pipeline.transform(image_df).cache() val binary_to_image = new BinaryToImage() .setInputCol(&quot;content&quot;) .setOutputCol(&quot;image&quot;) val table_detector = new ImageTableDetector .pretrained(&quot;general_model_table_detection_v2&quot;, &quot;en&quot;, &quot;clinical/ocr&quot;) .setInputCol(&quot;image&quot;) .setOutputCol(&quot;table_regions&quot;) val splitter = new ImageSplitRegions() .setInputCol(&quot;image&quot;) .setInputRegionsCol(&quot;table_regions&quot;) .setOutputCol(&quot;table_image&quot;) .setDropCols(&quot;image&quot;) .setImageType(ImageType.TYPE_BYTE_GRAY) .setExplodeCols(Array()) val text_detector = new ImageTextDetectorV2 .pretrained(&quot;image_text_detector_v2&quot;, &quot;en&quot;, &quot;clinical/ocr&quot;) .setInputCol(&quot;image&quot;) .setOutputCol(&quot;text_regions&quot;) .setWithRefiner(True) val draw_regions = new ImageDrawRegions() .setInputCol(&quot;image&quot;) .setInputRegionsCol(&quot;text_regions&quot;) .setOutputCol(&quot;image_with_regions&quot;) .setRectColor(Color.green) .setRotated(True) img_to_hocr = ImageToTextV2() .pretrained(&quot;ocr_small_printed&quot;, &quot;en&quot;, &quot;clinical/ocr&quot;) .setInputCols(Array(&quot;image&quot;, &quot;text_regions&quot;)) .setUsePandasUdf(False) .setOutputFormat(OcrOutputFormat.HOCR) .setOutputCol(&quot;hocr&quot;) .setGroupImages(False) val hocr_to_table = new HocrToTextTable() .setInputCol(&quot;hocr&quot;) .setRegionCol(&quot;table_regions&quot;) .setOutputCol(&quot;tables&quot;) val pipeline = new PipelineModel().setStages(Array( binary_to_image, table_detector, splitter, text_detector, draw_regions, img_to_hocr, hocr_to_table)) val imagePath = &quot;data/tab_images_hocr_1/table4_1.jpg&quot; val image_df= spark.read.format(&quot;binaryFile&quot;).load(imagePath) val result = pipeline.transform(image_df).cache() Example Input: Output: text_regions table_image pagenum modificationTime path table_regions length image image_with_regions hocr tables exception table_index [{0, 0, 566.32025... {file:/content/ta... 0 2023-01-23 08:21:... file:/content/tab... {0, 0, 40.0, 0.0,... 172124 {file:/content/ta... {file:/content/ta... &amp;lt;?xml version=&quot;1.... {0, 0, 0.0, 0.0,... null 0 Filename: table4_1.jpg Page: 0 Table: 0 4 col0 col1 col2 col3 0 MATERIAL LABOR TOTAL 1 SURFACE FACILITIES None None None 2 BUILDINGS AND STRUCTURES 29,380 33,640 63,020 3 MAJOR EQUIPMENT 46,350 4,570 50,920 4 BULK MATERIAL 29,040 16,410 45,450 5 SITE DEVELOPMENT 7,570 4,730 12,300 6 SHAFTS AND HOISTS None None None 7 MAJOR EQUIPMENT 24,500 8,300 32,800 8 SHAFTS AND LINING 58,100 31,400 89,500 9 UNDERGROUND FACILITIES None None None 10 EXCAVATIONS AND STRUCTURES 2,510 4,510 7,020 11 MAJOR EQUIPMENT 3,170 220 3,390 12 BULK MATERIAL 1,960 1,470 3,430 13 MINING None None None 14 MAJOR EQUIPMENT 64,700 64,700 15 MINE CONSTRUCTION 582,330 655,640 1,237,970 16 BACKFULLING None None None 17 MINE BACKFILLING 102,300 116,000 218,300 18 SHAFT SEALING 90 710 200 19 TOTAL FIELD COSTS 952.000 877.000 1,829,000 20 ARCHITECT-ENGINEER SERVICES 53,000 21 OWNER'S COSTS 218,000 22 CONTINGENCY 534.0001</summary></entry><entry><title type="html">Hocr for table recognition pdf</title><link href="/2023/01/23/hocr_table_recognition_pdf_en_3_2.html" rel="alternate" type="text/html" title="Hocr for table recognition pdf" /><published>2023-01-23T00:00:00+00:00</published><updated>2023-01-23T00:00:00+00:00</updated><id>/2023/01/23/hocr_table_recognition_pdf_en_3_2</id><content type="html" xml:base="/2023/01/23/hocr_table_recognition_pdf_en_3_2.html">## Description
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="licensed" /><summary type="html">Description Table structure recognition based on hocr with Tesseract architecture. Tesseract has been trained on a variety of datasets to improve its recognition capabilities. These datasets include images of text in various languages and scripts, as well as images with different font styles, sizes, and orientations. The training process involves feeding the engine with a large number of images and their corresponding text, allowing the engine to learn the patterns and characteristics of different text styles. One of the most important datasets used in training Tesseract is the UNLV dataset, which contains over 400,000 images of text in different languages, scripts, and font styles. This dataset is widely used in the OCR community and has been instrumental in improving the accuracy of Tesseract. Other datasets that have been used in training Tesseract include the ICDAR dataset, the IIIT-HWS dataset, and the RRC-GV-WS dataset. In addition to these datasets, Tesseract also uses a technique called adaptive training, where the engine can continuously improve its recognition capabilities by learning from new images and text. This allows Tesseract to adapt to new text styles and languages, and improve its overall accuracy. Predicted Entities Live Demo Open in Colab Download How to use PythonScalaNLU binary_to_image = BinaryToImage() \ .setInputCol(&quot;content&quot;) \ .setOutputCol(&quot;image&quot;) table_detector = ImageTableDetector.pretrained(&quot;general_model_table_detection_v2&quot;, &quot;en&quot;, &quot;clinical/ocr&quot;) \ .setInputCol(&quot;image&quot;) \ .setOutputCol(&quot;table_regions&quot;) splitter = ImageSplitRegions() \ .setInputCol(&quot;image&quot;) \ .setInputRegionsCol(&quot;table_regions&quot;) \ .setOutputCol(&quot;table_image&quot;) \ .setDropCols(&quot;image&quot;) \ .setImageType(ImageType.TYPE_BYTE_GRAY) \ .setExplodeCols([]) text_detector = ImageTextDetectorV2.pretrained(&quot;image_text_detector_v2&quot;, &quot;en&quot;, &quot;clinical/ocr&quot;) \ .setInputCol(&quot;image&quot;) \ .setOutputCol(&quot;text_regions&quot;) \ .setWithRefiner(True) draw_regions = ImageDrawRegions() \ .setInputCol(&quot;image&quot;) \ .setInputRegionsCol(&quot;text_regions&quot;) \ .setOutputCol(&quot;image_with_regions&quot;) \ .setRectColor(Color.green) \ .setRotated(True) img_to_hocr = ImageToTextV2().pretrained(&quot;ocr_small_printed&quot;, &quot;en&quot;, &quot;clinical/ocr&quot;) \ .setInputCols([&quot;image&quot;, &quot;text_regions&quot;]) \ .setUsePandasUdf(False) \ .setOutputFormat(OcrOutputFormat.HOCR) \ .setOutputCol(&quot;hocr&quot;) \ .setGroupImages(False) hocr_to_table = HocrToTextTable() \ .setInputCol(&quot;hocr&quot;) \ .setRegionCol(&quot;table_regions&quot;) \ .setOutputCol(&quot;tables&quot;) pipeline = PipelineModel(stages=[ binary_to_image, table_detector, splitter, text_detector, draw_regions, img_to_hocr, hocr_to_table ]) imagePath = &quot;data/tab_images_hocr_1/table4_1.jpg&quot; image_df= spark.read.format(&quot;binaryFile&quot;).load(imagePath) result = pipeline.transform(image_df).cache() val binary_to_image = new BinaryToImage() .setInputCol(&quot;content&quot;) .setOutputCol(&quot;image&quot;) val table_detector = new ImageTableDetector .pretrained(&quot;general_model_table_detection_v2&quot;, &quot;en&quot;, &quot;clinical/ocr&quot;) .setInputCol(&quot;image&quot;) .setOutputCol(&quot;table_regions&quot;) val splitter = new ImageSplitRegions() .setInputCol(&quot;image&quot;) .setInputRegionsCol(&quot;table_regions&quot;) .setOutputCol(&quot;table_image&quot;) .setDropCols(&quot;image&quot;) .setImageType(ImageType.TYPE_BYTE_GRAY) .setExplodeCols(Array()) val text_detector = new ImageTextDetectorV2 .pretrained(&quot;image_text_detector_v2&quot;, &quot;en&quot;, &quot;clinical/ocr&quot;) .setInputCol(&quot;image&quot;) .setOutputCol(&quot;text_regions&quot;) .setWithRefiner(True) val draw_regions = new ImageDrawRegions() .setInputCol(&quot;image&quot;) .setInputRegionsCol(&quot;text_regions&quot;) .setOutputCol(&quot;image_with_regions&quot;) .setRectColor(Color.green) .setRotated(True) img_to_hocr = ImageToTextV2() .pretrained(&quot;ocr_small_printed&quot;, &quot;en&quot;, &quot;clinical/ocr&quot;) .setInputCols(Array(&quot;image&quot;, &quot;text_regions&quot;)) .setUsePandasUdf(False) .setOutputFormat(OcrOutputFormat.HOCR) .setOutputCol(&quot;hocr&quot;) .setGroupImages(False) val hocr_to_table = new HocrToTextTable() .setInputCol(&quot;hocr&quot;) .setRegionCol(&quot;table_regions&quot;) .setOutputCol(&quot;tables&quot;) val pipeline = new PipelineModel().setStages(Array( binary_to_image, table_detector, splitter, text_detector, draw_regions, img_to_hocr, hocr_to_table)) val imagePath = &quot;data/tab_images_hocr_1/table4_1.jpg&quot; val image_df= spark.read.format(&quot;binaryFile&quot;).load(imagePath) val result = pipeline.transform(image_df).cache() Example Input: Output: text_regions table_image pagenum modificationTime path table_regions length image image_with_regions hocr tables exception table_index [{0, 0, 566.32025... {file:/content/ta... 0 2023-01-23 08:21:... file:/content/tab... {0, 0, 40.0, 0.0,... 172124 {file:/content/ta... {file:/content/ta... &amp;lt;?xml version=&quot;1.... {0, 0, 0.0, 0.0,... null 0 Filename: table4_1.jpg Page: 0 Table: 0 4 col0 col1 col2 col3 0 MATERIAL LABOR TOTAL 1 SURFACE FACILITIES None None None 2 BUILDINGS AND STRUCTURES 29,380 33,640 63,020 3 MAJOR EQUIPMENT 46,350 4,570 50,920 4 BULK MATERIAL 29,040 16,410 45,450 5 SITE DEVELOPMENT 7,570 4,730 12,300 6 SHAFTS AND HOISTS None None None 7 MAJOR EQUIPMENT 24,500 8,300 32,800 8 SHAFTS AND LINING 58,100 31,400 89,500 9 UNDERGROUND FACILITIES None None None 10 EXCAVATIONS AND STRUCTURES 2,510 4,510 7,020 11 MAJOR EQUIPMENT 3,170 220 3,390 12 BULK MATERIAL 1,960 1,470 3,430 13 MINING None None None 14 MAJOR EQUIPMENT 64,700 64,700 15 MINE CONSTRUCTION 582,330 655,640 1,237,970 16 BACKFULLING None None None 17 MINE BACKFILLING 102,300 116,000 218,300 18 SHAFT SEALING 90 710 200 19 TOTAL FIELD COSTS 952.000 877.000 1,829,000 20 ARCHITECT-ENGINEER SERVICES 53,000 21 OWNER'S COSTS 218,000 22 CONTINGENCY 534.0001</summary></entry><entry><title type="html">Hocr for table recognition pdf</title><link href="/2023/01/23/hocr_table_recognition_pdf_en_3_2.html" rel="alternate" type="text/html" title="Hocr for table recognition pdf" /><published>2023-01-23T00:00:00+00:00</published><updated>2023-01-23T00:00:00+00:00</updated><id>/2023/01/23/hocr_table_recognition_pdf_en_3_2</id><content type="html" xml:base="/2023/01/23/hocr_table_recognition_pdf_en_3_2.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
-Table structure recognition based on hocr with Tesseract architecture, for PDF documents. 
+&lt;p&gt;Table structure recognition based on hocr with Tesseract architecture, for PDF documents.&lt;/p&gt;
 
-Tesseract has been trained on a variety of datasets to improve its recognition capabilities. These datasets include images of text in various languages and scripts, as well as images with different font styles, sizes, and orientations. The training process involves feeding the engine with a large number of images and their corresponding text, allowing the engine to learn the patterns and characteristics of different text styles. One of the most important datasets used in training Tesseract is the UNLV dataset, which contains over 400,000 images of text in different languages, scripts, and font styles. This dataset is widely used in the OCR community and has been instrumental in improving the accuracy of Tesseract. Other datasets that have been used in training Tesseract include the ICDAR dataset, the IIIT-HWS dataset, and the RRC-GV-WS dataset.
+&lt;p&gt;Tesseract has been trained on a variety of datasets to improve its recognition capabilities. These datasets include images of text in various languages and scripts, as well as images with different font styles, sizes, and orientations. The training process involves feeding the engine with a large number of images and their corresponding text, allowing the engine to learn the patterns and characteristics of different text styles. One of the most important datasets used in training Tesseract is the UNLV dataset, which contains over 400,000 images of text in different languages, scripts, and font styles. This dataset is widely used in the OCR community and has been instrumental in improving the accuracy of Tesseract. Other datasets that have been used in training Tesseract include the ICDAR dataset, the IIIT-HWS dataset, and the RRC-GV-WS dataset.&lt;/p&gt;
 
-In addition to these datasets, Tesseract also uses a technique called adaptive training, where the engine can continuously improve its recognition capabilities by learning from new images and text. This allows Tesseract to adapt to new text styles and languages, and improve its overall accuracy.
+&lt;p&gt;In addition to these datasets, Tesseract also uses a technique called adaptive training, where the engine can continuously improve its recognition capabilities by learning from new images and text. This allows Tesseract to adapt to new text styles and languages, and improve its overall accuracy.&lt;/p&gt;
 
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
 
-## Predicted Entities
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;a href=&quot;https://github.com/JohnSnowLabs/spark-ocr-workshop/tree/master/jupyter/Cards/SparkOCRPdfToTable.ipynb&quot; class=&quot;button button-orange button-orange-trans co button-icon&quot;&gt;Open in Colab&lt;/a&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Download&lt;/button&gt;&lt;/p&gt;
 
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-[Open in Colab](https://github.com/JohnSnowLabs/spark-ocr-workshop/tree/master/jupyter/Cards/SparkOCRPdfToTable.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Download&lt;/button&gt;
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
 
-## How to use
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;pdf_to_hocr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PdfToHocr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;content&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hocr&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
+&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HocrTokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hocr&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
 
-```python
-pdf_to_hocr = PdfToHocr() \
-        .setInputCol(&quot;content&quot;) \
-        .setOutputCol(&quot;hocr&quot;)
+&lt;span class=&quot;n&quot;&gt;pdf_to_image&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PdfToImage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;content&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setPageNumCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;tmp_pagenum&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setImageType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ImageType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TYPE_3BYTE_BGR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-tokenizer = HocrTokenizer() \
-        .setInputCol(&quot;hocr&quot;) \
-        .setOutputCol(&quot;token&quot;) \
+&lt;span class=&quot;n&quot;&gt;table_detector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ImageTableDetector&lt;/span&gt; \
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;general_model_table_detection_v2&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;public/ocr/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;table_regions&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setScoreThreshold&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.9&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setApplyCorrection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setScaleWidthToCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;width_dimension&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setScaleHeightToCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;height_dimension&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-pdf_to_image = PdfToImage() \
-        .setInputCol(&quot;content&quot;) \
-        .setOutputCol(&quot;image&quot;) \
-        .setPageNumCol(&quot;tmp_pagenum&quot;) \
-        .setImageType(ImageType.TYPE_3BYTE_BGR)
+&lt;span class=&quot;n&quot;&gt;image_scaler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ImageScaler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setWidthCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;width_dimension&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setHeightCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;height_dimension&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-table_detector = ImageTableDetector \
-        .pretrained(&quot;general_model_table_detection_v2&quot;, &quot;en&quot;, &quot;public/ocr/models&quot;) \
-        .setInputCol(&quot;image&quot;) \
-        .setOutputCol(&quot;table_regions&quot;) \
-        .setScoreThreshold(0.9) \
-        .setApplyCorrection(True) \
-        .setScaleWidthToCol(&quot;width_dimension&quot;) \
-        .setScaleHeightToCol(&quot;height_dimension&quot;)
+&lt;span class=&quot;n&quot;&gt;hocr_to_table&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HocrToTextTable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hocr&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setRegionCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;table_regions&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;tables&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-image_scaler = ImageScaler() \
-        .setWidthCol(&quot;width_dimension&quot;) \
-        .setHeightCol(&quot;height_dimension&quot;)
+&lt;span class=&quot;n&quot;&gt;draw_annotations&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ImageDrawAnnotations&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;scaled_image&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputChunksCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;tables&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_with_annotations&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setFilledRect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setFontSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setRectColor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;red&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-hocr_to_table = HocrToTextTable() \
-        .setInputCol(&quot;hocr&quot;) \
-        .setRegionCol(&quot;table_regions&quot;) \
-        .setOutputCol(&quot;tables&quot;)
+&lt;span class=&quot;n&quot;&gt;draw_regions&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ImageDrawRegions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;scaled_image&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputRegionsCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;table_regions&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_with_regions&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setRectColor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;red&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-draw_annotations = ImageDrawAnnotations() \
-        .setInputCol(&quot;scaled_image&quot;) \
-        .setInputChunksCol(&quot;tables&quot;) \
-        .setOutputCol(&quot;image_with_annotations&quot;) \
-        .setFilledRect(False) \
-        .setFontSize(5) \
-        .setRectColor(Color.red)
+&lt;span class=&quot;n&quot;&gt;pipeline1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;pdf_to_hocr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;pdf_to_image&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;table_detector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;image_scaler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;draw_regions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;hocr_to_table&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
 
-draw_regions = ImageDrawRegions() \
-        .setInputCol(&quot;scaled_image&quot;) \
-        .setInputRegionsCol(&quot;table_regions&quot;) \
-        .setOutputCol(&quot;image_with_regions&quot;) \
-        .setRectColor(Color.red)
+&lt;span class=&quot;n&quot;&gt;test_image_path&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;data/pdfs/f1120.pdf&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;bin_df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;binaryFile&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;test_image_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-pipeline1 = PipelineModel(stages=[
-        pdf_to_hocr,
-        tokenizer,
-        pdf_to_image,
-        table_detector,
-        image_scaler,
-        draw_regions,
-        hocr_to_table
-])
+&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bin_df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cache&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;drop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;tmp_pagenum&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;filter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pagenum&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pdf_to_hocr&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PdfToHocr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; 
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;content&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hocr&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-test_image_path = &quot;data/pdfs/f1120.pdf&quot;
-bin_df = spark.read.format(&quot;binaryFile&quot;).load(test_image_path)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;HocrTokenizer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; 
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hocr&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
 
-result = pipeline1.transform(bin_df).cache().drop(&quot;tmp_pagenum&quot;)
-result = result.filter(result.pagenum == 1)
-```
-```scala
-val pdf_to_hocr = new PdfToHocr() 
-        .setInputCol(&quot;content&quot;) 
-        .setOutputCol(&quot;hocr&quot;)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pdf_to_image&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PdfToImage&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; 
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;content&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setPageNumCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;tmp_pagenum&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setImageType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;ImageType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;TYPE_3BYTE_BGR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-val tokenizer = new HocrTokenizer() 
-        .setInputCol(&quot;hocr&quot;) 
-        .setOutputCol(&quot;token&quot;) 
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;table_detector&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ImageTableDetector&lt;/span&gt; 
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;general_model_table_detection_v2&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;public/ocr/models&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;table_regions&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setScoreThreshold&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.9&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setApplyCorrection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setScaleWidthToCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;width_dimension&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setScaleHeightToCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;height_dimension&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-val pdf_to_image = new PdfToImage() 
-        .setInputCol(&quot;content&quot;) 
-        .setOutputCol(&quot;image&quot;) 
-        .setPageNumCol(&quot;tmp_pagenum&quot;) 
-        .setImageType(ImageType.TYPE_3BYTE_BGR)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;image_scaler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ImageScaler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; 
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setWidthCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;width_dimension&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setHeightCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;height_dimension&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-val table_detector = ImageTableDetector 
-        .pretrained(&quot;general_model_table_detection_v2&quot;, &quot;en&quot;, &quot;public/ocr/models&quot;) 
-        .setInputCol(&quot;image&quot;) 
-        .setOutputCol(&quot;table_regions&quot;) 
-        .setScoreThreshold(0.9) 
-        .setApplyCorrection(True) 
-        .setScaleWidthToCol(&quot;width_dimension&quot;) 
-        .setScaleHeightToCol(&quot;height_dimension&quot;)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;hocr_to_table&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;HocrToTextTable&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; 
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hocr&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setRegionCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;table_regions&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;tables&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-val image_scaler = new ImageScaler() 
-        .setWidthCol(&quot;width_dimension&quot;) 
-        .setHeightCol(&quot;height_dimension&quot;)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;draw_annotations&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ImageDrawAnnotations&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; 
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;scaled_image&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputChunksCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;tables&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_with_annotations&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setFilledRect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setFontSize&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setRectColor&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;red&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-val hocr_to_table = new HocrToTextTable() 
-        .setInputCol(&quot;hocr&quot;) 
-        .setRegionCol(&quot;table_regions&quot;) 
-        .setOutputCol(&quot;tables&quot;)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;draw_regions&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ImageDrawRegions&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; 
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;scaled_image&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputRegionsCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;table_regions&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_with_regions&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setRectColor&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;red&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-val draw_annotations = new ImageDrawAnnotations() 
-        .setInputCol(&quot;scaled_image&quot;) 
-        .setInputChunksCol(&quot;tables&quot;) 
-        .setOutputCol(&quot;image_with_annotations&quot;) 
-        .setFilledRect(False) 
-        .setFontSize(5) 
-        .setRectColor(Color.red)
-
-val draw_regions = new ImageDrawRegions() 
-        .setInputCol(&quot;scaled_image&quot;) 
-        .setInputRegionsCol(&quot;table_regions&quot;) 
-        .setOutputCol(&quot;image_with_regions&quot;) 
-        .setRectColor(Color.red)
-
-val pipeline1 = new PipelineModel().setStages(Array(
-         pdf_to_hocr, 
-         tokenizer, 
-         pdf_to_image, 
-         table_detector, 
-         image_scaler, 
-         draw_regions, 
-         hocr_to_table))
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline1&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
+         &lt;span class=&quot;n&quot;&gt;pdf_to_hocr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; 
+         &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; 
+         &lt;span class=&quot;n&quot;&gt;pdf_to_image&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; 
+         &lt;span class=&quot;n&quot;&gt;table_detector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; 
+         &lt;span class=&quot;n&quot;&gt;image_scaler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; 
+         &lt;span class=&quot;n&quot;&gt;draw_regions&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; 
+         &lt;span class=&quot;n&quot;&gt;hocr_to_table&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
         
-val test_image_path = &quot;data/pdfs/f1120.pdf&quot;
-val bin_df = spark.read.format(&quot;binaryFile&quot;).load(test_image_path)
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;test_image_path&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;data/pdfs/f1120.pdf&quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;bin_df&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;binaryFile&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;test_image_path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-val result = pipeline1.transform(bin_df).cache().drop(&quot;tmp_pagenum&quot;)
-result = result.filter(result.pagenum == 1)
-```
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bin_df&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;cache&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;drop&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;tmp_pagenum&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;filter&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pagenum&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
 &lt;/div&gt;
 
-## Example
+&lt;h2 id=&quot;example&quot;&gt;Example&lt;/h2&gt;
 
-### Input:
-![Screenshot](../../_examples_ocr/image14.png)
+&lt;h3 id=&quot;input&quot;&gt;Input:&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/examples_ocr/image14.png&quot; alt=&quot;Screenshot&quot; /&gt;&lt;/p&gt;
 
-### Output:
-![Screenshot](../../_examples_ocr/image14_out.png)
+&lt;h3 id=&quot;output&quot;&gt;Output:&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/examples_ocr/image14_out.png&quot; alt=&quot;Screenshot&quot; /&gt;&lt;/p&gt;
 
-```bash
-path	modificationTime	length	hocr	height_dimension	width_dimension	pagenum	token	image	total_pages	documentnum	table_regions	scaled_image	image_with_regions	tables	exception	table_index
-file:/content/f11...	2023-01-23 08:16:...	3471478	&lt;div title=&quot;bbox ...	791	611	1	[{token, 0, 2, 23...	{file:/content/f1...	1	0	{0, 0, 32.839153,...	{file:/content/f1...	{file:/content/f1...	{0, 0, 0.0, 0.0,...	null	0
-```
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;path	modificationTime	length	hocr	height_dimension	width_dimension	pagenum	token	image	total_pages	documentnum	table_regions	scaled_image	image_with_regions	tables	exception	table_index
+file:/content/f11...	2023-01-23 08:16:...	3471478	&amp;lt;div &lt;span class=&quot;nv&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;bbox ...	791	611	1	[{token, 0, 2, 23...	{file:/content/f1...	1	0	{0, 0, 32.839153,...	{file:/content/f1...	{file:/content/f1...	{0, 0, 0.0, 0.0,...	null	0
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-```bash
-Filename: f1120.pdf
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Filename: f1120.pdf
 Page:     1
 Table:    0
 5
 col0	col1	col2	col3	col4
-0	Schedule C	Dividends instructions , ) Inclusions , and Sp...	( a ) Dividends inclusions and	( b ) %	( c ) Special ( a ) × deductions ( b )
+0	Schedule C	Dividends instructions , &lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; Inclusions , and Sp...	&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt; a &lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; Dividends inclusions and	&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt; b &lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; %	&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt; c &lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; Special &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt; a &lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; × deductions &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt; b &lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 1	1	Dividends from less - than - 20 % - owned dome...	234	50	None
 2	2	Dividends from 20 % - or - more - owned domest...	324123	65	None
 3	3	Dividends on certain debt - financed stock of ...	324	instructions see	None
-4	4	Dividends on certain preferred stock of less -...	234	23 . 3	None
-5	5	Dividends on certain preferred stock of 20 % -...	42134	26 . 7	None
+4	4	Dividends on certain preferred stock of less -...	234	23 &lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt; 3	None
+5	5	Dividends on certain preferred stock of 20 % -...	42134	26 &lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt; 7	None
 6	6	Dividends from less - than - 20 % - owned fore...	4234	50	None
 7	7	Dividends from 20 % - or - more - owned foreig...	4234	65	None
 8	8	Dividends from wholly owned foreign subsidiaries	42348987	100	None
-9	9	Subtotal . Add lines 1 through 8 . See instruc...	987	instructions see	None
+9	9	Subtotal &lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt; Add lines 1 through 8 &lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt; See instruc...	987	instructions see	None
 10	10	Dividends from domestic corporations received ...	9786	100	None
-11	11	Dividends from affiliated group members .	789	100	None
+11	11	Dividends from affiliated group members &lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;	789	100	None
 12	12	Dividends from certain FSCs	0.00	100	None
-13	13	Foreign - source portion of dividends received...	421.34	100	None
+13	13	Foreign - &lt;span class=&quot;nb&quot;&gt;source &lt;/span&gt;portion of dividends received...	421.34	100	None
 14	14	Dividends from foreign corporations not includ...	2341.23	None	None
-15	15	Section 965 ( a ) inclusion .	1234.14	instructions see	None
+15	15	Section 965 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt; a &lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; inclusion &lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;	1234.14	instructions see	None
 16	16a	Subpart F inclusions derived from the sale by ...	46.54	100	None
 17	b	Subpart F inclusions derived from hybrid divid...	6453.65	None	None
-18	c	Other ( attach inclusions Form ( s ) 5471 from...	985.76	None	None
-19	17	Global Intangible Low - Taxed Income ( GILTI )...	23.41	None	None
-20	18	Gross - up for foreign taxes deemed paid	1.01	None	None
+18	c	Other &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt; attach inclusions Form &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt; s &lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 5471 from...	985.76	None	None
+19	17	Global Intangible Low - Taxed Income &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt; GILTI &lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;...	23.41	None	None
+20	18	Gross - up &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;foreign taxes deemed paid	1.01	None	None
 21	19	IC - DISC and former DISC dividends not includ...	3123.91	None	None
 22	20	Other dividends	12.23	None	None
-23	21	Deduction for dividends paid on certain prefer...			1.23
-24	22	Section 250 deduction ( attach Form 8993 )			3.41
-25	23	Total dividends and inclusions . Add column ( ...	2341.23	None	None
-```</content><author><name>John Snow Labs</name></author><category term="en" /><category term="licensed" /><summary type="html">Description Table structure recognition based on hocr with Tesseract architecture, for PDF documents. Tesseract has been trained on a variety of datasets to improve its recognition capabilities. These datasets include images of text in various languages and scripts, as well as images with different font styles, sizes, and orientations. The training process involves feeding the engine with a large number of images and their corresponding text, allowing the engine to learn the patterns and characteristics of different text styles. One of the most important datasets used in training Tesseract is the UNLV dataset, which contains over 400,000 images of text in different languages, scripts, and font styles. This dataset is widely used in the OCR community and has been instrumental in improving the accuracy of Tesseract. Other datasets that have been used in training Tesseract include the ICDAR dataset, the IIIT-HWS dataset, and the RRC-GV-WS dataset. In addition to these datasets, Tesseract also uses a technique called adaptive training, where the engine can continuously improve its recognition capabilities by learning from new images and text. This allows Tesseract to adapt to new text styles and languages, and improve its overall accuracy. Predicted Entities Live Demo Open in Colab Download How to use PythonScalaNLU pdf_to_hocr = PdfToHocr() \ .setInputCol(&quot;content&quot;) \ .setOutputCol(&quot;hocr&quot;) tokenizer = HocrTokenizer() \ .setInputCol(&quot;hocr&quot;) \ .setOutputCol(&quot;token&quot;) \ pdf_to_image = PdfToImage() \ .setInputCol(&quot;content&quot;) \ .setOutputCol(&quot;image&quot;) \ .setPageNumCol(&quot;tmp_pagenum&quot;) \ .setImageType(ImageType.TYPE_3BYTE_BGR) table_detector = ImageTableDetector \ .pretrained(&quot;general_model_table_detection_v2&quot;, &quot;en&quot;, &quot;public/ocr/models&quot;) \ .setInputCol(&quot;image&quot;) \ .setOutputCol(&quot;table_regions&quot;) \ .setScoreThreshold(0.9) \ .setApplyCorrection(True) \ .setScaleWidthToCol(&quot;width_dimension&quot;) \ .setScaleHeightToCol(&quot;height_dimension&quot;) image_scaler = ImageScaler() \ .setWidthCol(&quot;width_dimension&quot;) \ .setHeightCol(&quot;height_dimension&quot;) hocr_to_table = HocrToTextTable() \ .setInputCol(&quot;hocr&quot;) \ .setRegionCol(&quot;table_regions&quot;) \ .setOutputCol(&quot;tables&quot;) draw_annotations = ImageDrawAnnotations() \ .setInputCol(&quot;scaled_image&quot;) \ .setInputChunksCol(&quot;tables&quot;) \ .setOutputCol(&quot;image_with_annotations&quot;) \ .setFilledRect(False) \ .setFontSize(5) \ .setRectColor(Color.red) draw_regions = ImageDrawRegions() \ .setInputCol(&quot;scaled_image&quot;) \ .setInputRegionsCol(&quot;table_regions&quot;) \ .setOutputCol(&quot;image_with_regions&quot;) \ .setRectColor(Color.red) pipeline1 = PipelineModel(stages=[ pdf_to_hocr, tokenizer, pdf_to_image, table_detector, image_scaler, draw_regions, hocr_to_table ]) test_image_path = &quot;data/pdfs/f1120.pdf&quot; bin_df = spark.read.format(&quot;binaryFile&quot;).load(test_image_path) result = pipeline1.transform(bin_df).cache().drop(&quot;tmp_pagenum&quot;) result = result.filter(result.pagenum == 1) val pdf_to_hocr = new PdfToHocr() .setInputCol(&quot;content&quot;) .setOutputCol(&quot;hocr&quot;) val tokenizer = new HocrTokenizer() .setInputCol(&quot;hocr&quot;) .setOutputCol(&quot;token&quot;) val pdf_to_image = new PdfToImage() .setInputCol(&quot;content&quot;) .setOutputCol(&quot;image&quot;) .setPageNumCol(&quot;tmp_pagenum&quot;) .setImageType(ImageType.TYPE_3BYTE_BGR) val table_detector = ImageTableDetector .pretrained(&quot;general_model_table_detection_v2&quot;, &quot;en&quot;, &quot;public/ocr/models&quot;) .setInputCol(&quot;image&quot;) .setOutputCol(&quot;table_regions&quot;) .setScoreThreshold(0.9) .setApplyCorrection(True) .setScaleWidthToCol(&quot;width_dimension&quot;) .setScaleHeightToCol(&quot;height_dimension&quot;) val image_scaler = new ImageScaler() .setWidthCol(&quot;width_dimension&quot;) .setHeightCol(&quot;height_dimension&quot;) val hocr_to_table = new HocrToTextTable() .setInputCol(&quot;hocr&quot;) .setRegionCol(&quot;table_regions&quot;) .setOutputCol(&quot;tables&quot;) val draw_annotations = new ImageDrawAnnotations() .setInputCol(&quot;scaled_image&quot;) .setInputChunksCol(&quot;tables&quot;) .setOutputCol(&quot;image_with_annotations&quot;) .setFilledRect(False) .setFontSize(5) .setRectColor(Color.red) val draw_regions = new ImageDrawRegions() .setInputCol(&quot;scaled_image&quot;) .setInputRegionsCol(&quot;table_regions&quot;) .setOutputCol(&quot;image_with_regions&quot;) .setRectColor(Color.red) val pipeline1 = new PipelineModel().setStages(Array( pdf_to_hocr, tokenizer, pdf_to_image, table_detector, image_scaler, draw_regions, hocr_to_table)) val test_image_path = &quot;data/pdfs/f1120.pdf&quot; val bin_df = spark.read.format(&quot;binaryFile&quot;).load(test_image_path) val result = pipeline1.transform(bin_df).cache().drop(&quot;tmp_pagenum&quot;) result = result.filter(result.pagenum == 1) Example Input: Output: path modificationTime length hocr height_dimension width_dimension pagenum token image total_pages documentnum table_regions scaled_image image_with_regions tables exception table_index file:/content/f11... 2023-01-23 08:16:... 3471478 &amp;lt;div title=&quot;bbox ... 791 611 1 [{token, 0, 2, 23... {file:/content/f1... 1 0 {0, 0, 32.839153,... {file:/content/f1... {file:/content/f1... {0, 0, 0.0, 0.0,... null 0 Filename: f1120.pdf Page: 1 Table: 0 5 col0 col1 col2 col3 col4 0 Schedule C Dividends instructions , ) Inclusions , and Sp... ( a ) Dividends inclusions and ( b ) % ( c ) Special ( a ) × deductions ( b ) 1 1 Dividends from less - than - 20 % - owned dome... 234 50 None 2 2 Dividends from 20 % - or - more - owned domest... 324123 65 None 3 3 Dividends on certain debt - financed stock of ... 324 instructions see None 4 4 Dividends on certain preferred stock of less -... 234 23 . 3 None 5 5 Dividends on certain preferred stock of 20 % -... 42134 26 . 7 None 6 6 Dividends from less - than - 20 % - owned fore... 4234 50 None 7 7 Dividends from 20 % - or - more - owned foreig... 4234 65 None 8 8 Dividends from wholly owned foreign subsidiaries 42348987 100 None 9 9 Subtotal . Add lines 1 through 8 . See instruc... 987 instructions see None 10 10 Dividends from domestic corporations received ... 9786 100 None 11 11 Dividends from affiliated group members . 789 100 None 12 12 Dividends from certain FSCs 0.00 100 None 13 13 Foreign - source portion of dividends received... 421.34 100 None 14 14 Dividends from foreign corporations not includ... 2341.23 None None 15 15 Section 965 ( a ) inclusion . 1234.14 instructions see None 16 16a Subpart F inclusions derived from the sale by ... 46.54 100 None 17 b Subpart F inclusions derived from hybrid divid... 6453.65 None None 18 c Other ( attach inclusions Form ( s ) 5471 from... 985.76 None None 19 17 Global Intangible Low - Taxed Income ( GILTI )... 23.41 None None 20 18 Gross - up for foreign taxes deemed paid 1.01 None None 21 19 IC - DISC and former DISC dividends not includ... 3123.91 None None 22 20 Other dividends 12.23 None None 23 21 Deduction for dividends paid on certain prefer... 1.23 24 22 Section 250 deduction ( attach Form 8993 ) 3.41 25 23 Total dividends and inclusions . Add column ( ... 2341.23 None None</summary></entry><entry><title type="html">Legal NER (Parties, Dates, Alias, Former names, Document Type - lg)</title><link href="/2023/01/21/legner_contract_doc_parties_lg_en.html" rel="alternate" type="text/html" title="Legal NER (Parties, Dates, Alias, Former names, Document Type - lg)" /><published>2023-01-21T00:00:00+00:00</published><updated>2023-01-21T00:00:00+00:00</updated><id>/2023/01/21/legner_contract_doc_parties_lg_en</id><content type="html" xml:base="/2023/01/21/legner_contract_doc_parties_lg_en.html">## Description
+23	21	Deduction &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;dividends paid on certain prefer...			1.23
+24	22	Section 250 deduction &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt; attach Form 8993 &lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;			3.41
+25	23	Total dividends and inclusions &lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt; Add column &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt; ...	2341.23	None	None
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="licensed" /><summary type="html">Description Table structure recognition based on hocr with Tesseract architecture, for PDF documents. Tesseract has been trained on a variety of datasets to improve its recognition capabilities. These datasets include images of text in various languages and scripts, as well as images with different font styles, sizes, and orientations. The training process involves feeding the engine with a large number of images and their corresponding text, allowing the engine to learn the patterns and characteristics of different text styles. One of the most important datasets used in training Tesseract is the UNLV dataset, which contains over 400,000 images of text in different languages, scripts, and font styles. This dataset is widely used in the OCR community and has been instrumental in improving the accuracy of Tesseract. Other datasets that have been used in training Tesseract include the ICDAR dataset, the IIIT-HWS dataset, and the RRC-GV-WS dataset. In addition to these datasets, Tesseract also uses a technique called adaptive training, where the engine can continuously improve its recognition capabilities by learning from new images and text. This allows Tesseract to adapt to new text styles and languages, and improve its overall accuracy. Predicted Entities Live Demo Open in Colab Download How to use PythonScalaNLU pdf_to_hocr = PdfToHocr() \ .setInputCol(&quot;content&quot;) \ .setOutputCol(&quot;hocr&quot;) tokenizer = HocrTokenizer() \ .setInputCol(&quot;hocr&quot;) \ .setOutputCol(&quot;token&quot;) \ pdf_to_image = PdfToImage() \ .setInputCol(&quot;content&quot;) \ .setOutputCol(&quot;image&quot;) \ .setPageNumCol(&quot;tmp_pagenum&quot;) \ .setImageType(ImageType.TYPE_3BYTE_BGR) table_detector = ImageTableDetector \ .pretrained(&quot;general_model_table_detection_v2&quot;, &quot;en&quot;, &quot;public/ocr/models&quot;) \ .setInputCol(&quot;image&quot;) \ .setOutputCol(&quot;table_regions&quot;) \ .setScoreThreshold(0.9) \ .setApplyCorrection(True) \ .setScaleWidthToCol(&quot;width_dimension&quot;) \ .setScaleHeightToCol(&quot;height_dimension&quot;) image_scaler = ImageScaler() \ .setWidthCol(&quot;width_dimension&quot;) \ .setHeightCol(&quot;height_dimension&quot;) hocr_to_table = HocrToTextTable() \ .setInputCol(&quot;hocr&quot;) \ .setRegionCol(&quot;table_regions&quot;) \ .setOutputCol(&quot;tables&quot;) draw_annotations = ImageDrawAnnotations() \ .setInputCol(&quot;scaled_image&quot;) \ .setInputChunksCol(&quot;tables&quot;) \ .setOutputCol(&quot;image_with_annotations&quot;) \ .setFilledRect(False) \ .setFontSize(5) \ .setRectColor(Color.red) draw_regions = ImageDrawRegions() \ .setInputCol(&quot;scaled_image&quot;) \ .setInputRegionsCol(&quot;table_regions&quot;) \ .setOutputCol(&quot;image_with_regions&quot;) \ .setRectColor(Color.red) pipeline1 = PipelineModel(stages=[ pdf_to_hocr, tokenizer, pdf_to_image, table_detector, image_scaler, draw_regions, hocr_to_table ]) test_image_path = &quot;data/pdfs/f1120.pdf&quot; bin_df = spark.read.format(&quot;binaryFile&quot;).load(test_image_path) result = pipeline1.transform(bin_df).cache().drop(&quot;tmp_pagenum&quot;) result = result.filter(result.pagenum == 1) val pdf_to_hocr = new PdfToHocr() .setInputCol(&quot;content&quot;) .setOutputCol(&quot;hocr&quot;) val tokenizer = new HocrTokenizer() .setInputCol(&quot;hocr&quot;) .setOutputCol(&quot;token&quot;) val pdf_to_image = new PdfToImage() .setInputCol(&quot;content&quot;) .setOutputCol(&quot;image&quot;) .setPageNumCol(&quot;tmp_pagenum&quot;) .setImageType(ImageType.TYPE_3BYTE_BGR) val table_detector = ImageTableDetector .pretrained(&quot;general_model_table_detection_v2&quot;, &quot;en&quot;, &quot;public/ocr/models&quot;) .setInputCol(&quot;image&quot;) .setOutputCol(&quot;table_regions&quot;) .setScoreThreshold(0.9) .setApplyCorrection(True) .setScaleWidthToCol(&quot;width_dimension&quot;) .setScaleHeightToCol(&quot;height_dimension&quot;) val image_scaler = new ImageScaler() .setWidthCol(&quot;width_dimension&quot;) .setHeightCol(&quot;height_dimension&quot;) val hocr_to_table = new HocrToTextTable() .setInputCol(&quot;hocr&quot;) .setRegionCol(&quot;table_regions&quot;) .setOutputCol(&quot;tables&quot;) val draw_annotations = new ImageDrawAnnotations() .setInputCol(&quot;scaled_image&quot;) .setInputChunksCol(&quot;tables&quot;) .setOutputCol(&quot;image_with_annotations&quot;) .setFilledRect(False) .setFontSize(5) .setRectColor(Color.red) val draw_regions = new ImageDrawRegions() .setInputCol(&quot;scaled_image&quot;) .setInputRegionsCol(&quot;table_regions&quot;) .setOutputCol(&quot;image_with_regions&quot;) .setRectColor(Color.red) val pipeline1 = new PipelineModel().setStages(Array( pdf_to_hocr, tokenizer, pdf_to_image, table_detector, image_scaler, draw_regions, hocr_to_table)) val test_image_path = &quot;data/pdfs/f1120.pdf&quot; val bin_df = spark.read.format(&quot;binaryFile&quot;).load(test_image_path) val result = pipeline1.transform(bin_df).cache().drop(&quot;tmp_pagenum&quot;) result = result.filter(result.pagenum == 1) Example Input: Output: path modificationTime length hocr height_dimension width_dimension pagenum token image total_pages documentnum table_regions scaled_image image_with_regions tables exception table_index file:/content/f11... 2023-01-23 08:16:... 3471478 &amp;lt;div title=&quot;bbox ... 791 611 1 [{token, 0, 2, 23... {file:/content/f1... 1 0 {0, 0, 32.839153,... {file:/content/f1... {file:/content/f1... {0, 0, 0.0, 0.0,... null 0 Filename: f1120.pdf Page: 1 Table: 0 5 col0 col1 col2 col3 col4 0 Schedule C Dividends instructions , ) Inclusions , and Sp... ( a ) Dividends inclusions and ( b ) % ( c ) Special ( a ) × deductions ( b ) 1 1 Dividends from less - than - 20 % - owned dome... 234 50 None 2 2 Dividends from 20 % - or - more - owned domest... 324123 65 None 3 3 Dividends on certain debt - financed stock of ... 324 instructions see None 4 4 Dividends on certain preferred stock of less -... 234 23 . 3 None 5 5 Dividends on certain preferred stock of 20 % -... 42134 26 . 7 None 6 6 Dividends from less - than - 20 % - owned fore... 4234 50 None 7 7 Dividends from 20 % - or - more - owned foreig... 4234 65 None 8 8 Dividends from wholly owned foreign subsidiaries 42348987 100 None 9 9 Subtotal . Add lines 1 through 8 . See instruc... 987 instructions see None 10 10 Dividends from domestic corporations received ... 9786 100 None 11 11 Dividends from affiliated group members . 789 100 None 12 12 Dividends from certain FSCs 0.00 100 None 13 13 Foreign - source portion of dividends received... 421.34 100 None 14 14 Dividends from foreign corporations not includ... 2341.23 None None 15 15 Section 965 ( a ) inclusion . 1234.14 instructions see None 16 16a Subpart F inclusions derived from the sale by ... 46.54 100 None 17 b Subpart F inclusions derived from hybrid divid... 6453.65 None None 18 c Other ( attach inclusions Form ( s ) 5471 from... 985.76 None None 19 17 Global Intangible Low - Taxed Income ( GILTI )... 23.41 None None 20 18 Gross - up for foreign taxes deemed paid 1.01 None None 21 19 IC - DISC and former DISC dividends not includ... 3123.91 None None 22 20 Other dividends 12.23 None None 23 21 Deduction for dividends paid on certain prefer... 1.23 24 22 Section 250 deduction ( attach Form 8993 ) 3.41 25 23 Total dividends and inclusions . Add column ( ... 2341.23 None None</summary></entry><entry><title type="html">Legal NER (Parties, Dates, Alias, Former names, Document Type - lg)</title><link href="/2023/01/21/legner_contract_doc_parties_lg_en.html" rel="alternate" type="text/html" title="Legal NER (Parties, Dates, Alias, Former names, Document Type - lg)" /><published>2023-01-21T00:00:00+00:00</published><updated>2023-01-21T00:00:00+00:00</updated><id>/2023/01/21/legner_contract_doc_parties_lg_en</id><content type="html" xml:base="/2023/01/21/legner_contract_doc_parties_lg_en.html">## Description
 
 MPORTANT: Don't run this model on the whole legal agreement. Instead:
 - Split by paragraphs. You can use [notebook 1](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings_JSL) in Finance or Legal as inspiration;
