@@ -19,13 +19,13 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained T5ForConditionalGeneration model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `finetune-translation-t5-super-tiny-standard-bahasa-cased` is a Malay model originally trained by `mesolitica`.
+Pretrained T5ForConditionalGeneration model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `finetune-translation-t5-super-super-tiny-standard-bahasa-cased` is a Malay model originally trained by `mesolitica`.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/t5_finetune_translation_super_tiny_standard_bahasa_cased_ms_4.3.0_3.0_1675102226403.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/t5_finetune_translation_super_tiny_standard_bahasa_cased_ms_4.3.0_3.0_1675102226403.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/t5_finetune_translation_super_tiny_standard_bahasa_cased_ms_4.3.0_3.0_1675102214685.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/t5_finetune_translation_super_tiny_standard_bahasa_cased_ms_4.3.0_3.0_1675102214685.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -77,10 +77,10 @@ val result = pipeline.fit(data).transform(data)
 |Input Labels:|[documents]|
 |Output Labels:|[t5]|
 |Language:|ms|
-|Size:|78.8 MB|
+|Size:|37.7 MB|
 
 ## References
 
-- https://huggingface.co/mesolitica/finetune-translation-t5-super-tiny-standard-bahasa-cased
+- https://huggingface.co/mesolitica/finetune-translation-t5-super-super-tiny-standard-bahasa-cased
 - https://github.com/huseinzol05/malay-dataset/tree/master/translation/laser
 - https://github.com/huseinzol05/malaya/tree/master/session/translation/hf-t5
