@@ -102,6 +102,24 @@ import java.io.File
   *
   * val pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier))
   * val pipelineDF = pipeline.fit(imageDF).transform(imageDF)
+  *
+  * pipelineDF
+  *   .selectExpr("reverse(split(image.origin, '/'))[0] as image_name", "class.result")
+  *   .show(truncate = false)
+  * +-----------------+----------------------------------------------------------+
+  * |image_name       |result                                                    |
+  * +-----------------+----------------------------------------------------------+
+  * |palace.JPEG      |[palace]                                                  |
+  * |egyptian_cat.jpeg|[Egyptian cat]                                            |
+  * |hippopotamus.JPEG|[hippopotamus, hippo, river horse, Hippopotamus amphibius]|
+  * |hen.JPEG         |[hen]                                                     |
+  * |ostrich.JPEG     |[ostrich, Struthio camelus]                               |
+  * |junco.JPEG       |[junco, snowbird]                                         |
+  * |bluetick.jpg     |[bluetick]                                                |
+  * |chihuahua.jpg    |[Chihuahua]                                               |
+  * |tractor.JPEG     |[tractor]                                                 |
+  * |ox.JPEG          |[ox]                                                      |
+  * +-----------------+----------------------------------------------------------+
   * }}}
   *
   * @param uid

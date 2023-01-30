@@ -33,11 +33,12 @@ import java.util
 import scala.collection.JavaConverters._
 
 /** ZeroShotNerModel implements zero shot named entity recognition by utilizing RoBERTa
-  * transformer models fine tuned on a question answering task. Its input is a list of document
-  * annotations and it automatically generates questions which are used to recognize entities. The
-  * definitions of entities is given by a dictionary structures, specifying a set of questions for
-  * each entity. The model is based on RoBertaForQuestionAnswering from the open source SparkNLP
-  * project.
+  * transformer models fine tuned on a question answering task.
+  *
+  * Its input is a list of document annotations and it automatically generates questions which are
+  * used to recognize entities. The definitions of entities is given by a dictionary structures,
+  * specifying a set of questions for each entity. The model is based on
+  * RoBertaForQuestionAnswering.
   *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{

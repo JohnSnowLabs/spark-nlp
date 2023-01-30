@@ -1,5 +1,5 @@
 {%- capture title -%}
-Doc2Vec 1
+Doc2Vec
 {%- endcapture -%}
 
 {%- capture model_description -%}
