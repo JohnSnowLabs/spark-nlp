@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Question Answering (RoBerta, CUAD)
+title: Legal Question Answering (RoBerta, CUAD, Large)
 author: John Snow Labs
 name: legqa_roberta_cuad_large
 date: 2023-01-30
