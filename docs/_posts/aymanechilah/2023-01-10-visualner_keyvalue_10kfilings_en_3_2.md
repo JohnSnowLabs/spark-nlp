@@ -137,10 +137,10 @@ val results.withColumn("filename", path_array.getItem(f.size(path_array)- 1))
 ## Example
 
 ### Input:
-![Screenshot](../../_examples_ocr/image11.jpg)
+![Screenshot](/assets/images/examples_ocr/image11.jpg)
 
 ### Output:
-![Screenshot](../../_examples_ocr/image11_out.png)
+![Screenshot](/assets/images/examples_ocr/image11_out.png)
 
 ```bash
 +--------+---------------------------------------------------------------------------------------------------------------------------------------------------------+

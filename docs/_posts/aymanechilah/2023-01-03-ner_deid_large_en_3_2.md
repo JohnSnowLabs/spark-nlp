@@ -213,10 +213,10 @@ val result = pipeline.fit(image_df).transform(image_df).cache()
 ## Example
 
 ### Input:
-![Screenshot](../../_examples_ocr/image8.png)
+![Screenshot](/assets/images/examples_ocr/image8.png)
 
 ### Output:
-![Screenshot](../../_examples_ocr/image8_out.png)
+![Screenshot](/assets/images/examples_ocr/image8_out.png)
 ```bash
 +------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 |ner_chunk                                                                                                                                                                                                                                                                                                   |

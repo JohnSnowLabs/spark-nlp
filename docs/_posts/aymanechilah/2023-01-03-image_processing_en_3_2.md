@@ -230,8 +230,8 @@ val result_multiple = pipeline_multiple.transform(image_example_df).cache()
 ## Example
 
 ### Input:
-![Screenshot](../../_examples_ocr/image2.png)
+![Screenshot](/assets/images/examples_ocr/image2.png)
 
 ### Output:
-![Screenshot](../../_examples_ocr/image2_out2.png)
+![Screenshot](/assets/images/examples_ocr/image2_out2.png)
 

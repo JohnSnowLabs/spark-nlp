@@ -156,10 +156,10 @@ val result = pipeline.transform(image_df).cache()
 ## Example
 
 ### Input:
-![Screenshot](../../_examples_ocr/image13.png)
+![Screenshot](/assets/images/examples_ocr/image13.png)
 
 ### Output:
-![Screenshot](../../_examples_ocr/image13_out.png)
+![Screenshot](/assets/images/examples_ocr/image13_out.png)
 
 ```bash
 text_regions	table_image	pagenum	modificationTime	path	table_regions	length	image	image_with_regions	hocr	tables	exception	table_index

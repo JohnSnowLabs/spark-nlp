@@ -103,7 +103,7 @@ val results.select(results.answers).show(truncate=False)
 |[ When it finish the Coffee Break?,  Who is giving the Introductory Remarks?, Who is going to take part of the individual interviews?
 +---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 ```
-![Screenshot](../../_examples_ocr/image12.png)
+![Screenshot](/assets/images/examples_ocr/image12.png)
 
 ### Output:
 ```bash

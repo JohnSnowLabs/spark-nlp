@@ -98,10 +98,10 @@ val result = pipeline.transform(image_df)
 ## Example
 
 ### Input:
-![Screenshot](../../_examples_ocr/image5.png)
+![Screenshot](/assets/images/examples_ocr/image5.png)
 
 ### Output:
-![Screenshot](../../_examples_ocr/image5_out.png)
+![Screenshot](/assets/images/examples_ocr/image5_out.png)
 
 
 {:.model-param}

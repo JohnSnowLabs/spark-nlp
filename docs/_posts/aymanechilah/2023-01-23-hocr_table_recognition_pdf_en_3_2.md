@@ -167,10 +167,10 @@ result = result.filter(result.pagenum == 1)
 ## Example
 
 ### Input:
-![Screenshot](../../_examples_ocr/image14.png)
+![Screenshot](/assets/images/examples_ocr/image14.png)
 
 ### Output:
-![Screenshot](../../_examples_ocr/image14_out.png)
+![Screenshot](/assets/images/examples_ocr/image14_out.png)
 
 ```bash
 path	modificationTime	length	hocr	height_dimension	width_dimension	pagenum	token	image	total_pages	documentnum	table_regions	scaled_image	image_with_regions	tables	exception	table_index
