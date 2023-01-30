@@ -19,7 +19,11 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Legal RoBerta-based Question Answering model, trained on squad-v2, finetuned on CUAD dataset (base)
+Legal RoBerta-based Question Answering model, trained on squad-v2, finetuned on CUAD dataset (base). In order to use it, a specific prompt is required. This is an example of it for extracting PARTIES:
+
+```
+"Highlight the parts (if any) of this contract related to "Parties" that should be reviewed by a lawyer. Details: The two or more parties who signed the contract"
+```
 
 ## Predicted Entities
 
@@ -53,16 +57,16 @@ documentAssembler,
 spanClassifier
 ])
 
-  text = """THIS CREDIT AGREEMENT is dated as of April 29, 2010, and is made by and
-        among P.H. GLATFELTER COMPANY, a Pennsylvania corporation ( the "COMPANY") and
-        certain of its subsidiaries. Identified on the signature pages hereto (each a
-        "BORROWER" and collectively, the "BORROWERS"), each of the GUARANTORS (as
-        hereinafter defined), the LENDERS (as hereinafter defined), PNC BANK, NATIONAL
-        ASSOCIATION, in its capacity as agent for the Lenders under this Agreement
-        (hereinafter referred to in such capacity as the "ADMINISTRATIVE AGENT"), and,
-        for the limited purpose of public identification in trade tables, PNC CAPITAL
-        MARKETS LLC and CITIZENS BANK OF PENNSYLVANIA, as joint arrangers and joint
-        bookrunners, and CITIZENS BANK OF PENNSYLVANIA, as syndication agent.""".replace('\n',' ')
+text = """THIS CREDIT AGREEMENT is dated as of April 29, 2010, and is made by and
+      among P.H. GLATFELTER COMPANY, a Pennsylvania corporation ( the "COMPANY") and
+      certain of its subsidiaries. Identified on the signature pages hereto (each a
+      "BORROWER" and collectively, the "BORROWERS"), each of the GUARANTORS (as
+      hereinafter defined), the LENDERS (as hereinafter defined), PNC BANK, NATIONAL
+      ASSOCIATION, in its capacity as agent for the Lenders under this Agreement
+      (hereinafter referred to in such capacity as the "ADMINISTRATIVE AGENT"), and,
+      for the limited purpose of public identification in trade tables, PNC CAPITAL
+      MARKETS LLC and CITIZENS BANK OF PENNSYLVANIA, as joint arrangers and joint
+      bookrunners, and CITIZENS BANK OF PENNSYLVANIA, as syndication agent.""".replace('\n',' ')
         
         
 question = ['"Highlight the parts (if any) of this contract related to "Parties" that should be reviewed by a lawyer. Details: The two or more parties who signed the contract"']
