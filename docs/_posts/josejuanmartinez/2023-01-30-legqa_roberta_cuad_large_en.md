@@ -43,7 +43,7 @@ documentAssembler = nlp.MultiDocumentAssembler()\
         .setInputCols(["question", "context"])\
         .setOutputCols(["document_question", "document_context"])
 
-spanClassifier = nlp.RoBertaForQuestionAnswering.pretrained("legqa_roberta","en", "legal/models") \
+spanClassifier = nlp.RoBertaForQuestionAnswering.pretrained("legqa_roberta_cuad_large","en", "legal/models") \
 .setInputCols(["document_question", "document_context"]) \
 .setOutputCol("answer") \
 .setCaseSensitive(True)
