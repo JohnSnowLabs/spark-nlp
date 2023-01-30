@@ -152,6 +152,7 @@ Additionally, these transformers are available to generate embeddings.
 {% include templates/anno_table_entry.md path="./transformers" name="XlnetEmbeddings" summary="XLNet is a new unsupervised language representation learning method based on a novel generalized permutation language modeling objective."%}
 {% include templates/anno_table_entry.md path="./transformers" name="XlnetForTokenClassification" summary="XlnetForTokenClassification can load XLNet Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks."%}
 {% include templates/anno_table_entry.md path="./transformers" name="XlnetForSequenceClassification" summary="XlnetForSequenceClassification can load XLNet Models with sequence classification/regression head on top e.g. for multi-class document classification tasks."%}
+{% include templates/anno_table_entry.md path="./transformers" name="ZeroShotNer" summary="ZeroShotNerModel implements zero shot named entity recognition by utilizing RoBERTa transformer models fine tuned on a question answering task."%}
 
 </div>
 
