@@ -85,7 +85,7 @@ val results = pipeline.transform(bin_df).cache()
 ## Example
 
 ### Input:
-![Screenshot](../../_examples_ocr/image1.png)
+![Screenshot](/assets/images/examples_ocr/image1.png)
 
 ### Output:
 ```bash

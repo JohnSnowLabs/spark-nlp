@@ -117,10 +117,10 @@ val result = pipeline.transform(image_df).cache()
 ## Example
 
 ### Input:
-![Screenshot](../../_examples_ocr/image2.png)
+![Screenshot](/assets/images/examples_ocr/image2.png)
 
 ### Output:
-![Screenshot](../../_examples_ocr/image2_out3.png)
+![Screenshot](/assets/images/examples_ocr/image2_out3.png)
 ```bash
 STARBUCKS STORE #10208
 11302 EUCLID AVENUE

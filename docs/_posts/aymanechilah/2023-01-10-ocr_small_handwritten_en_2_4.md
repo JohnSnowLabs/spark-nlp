@@ -123,10 +123,10 @@ val result = pipeline.transform(image_df).cache()
 ## Example
 
 ### Input:
-![Screenshot](../../_examples_ocr/image3.png)
+![Screenshot](/assets/images/examples_ocr/image3.png)
 
 ### Output:
-![Screenshot](../../_examples_ocr/image3_out2.png)
+![Screenshot](/assets/images/examples_ocr/image3_out2.png)
 
 
 ```bash

@@ -118,10 +118,10 @@ val results = pipeline.transform(pdf_example_df).cache()
 ## Example
 
 ### Input:
-![Screenshot](../../_examples_ocr/image4.png)
+![Screenshot](/assets/images/examples_ocr/image4.png)
 
 ### Output:
-![Screenshot](../../_examples_ocr/image4_out.png)
+![Screenshot](/assets/images/examples_ocr/image4_out.png)
 
 ```bash
 Detected text:

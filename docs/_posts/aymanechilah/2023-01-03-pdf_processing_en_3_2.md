@@ -100,7 +100,7 @@ val result = pipeline().transform(pdf_example_df).cache()
 
 ### Input:
 Representation of images 2 and 3 of the example:
-![Screenshot](../../_examples_ocr/image7.png)
+![Screenshot](/assets/images/examples_ocr/image7.png)
 
 ### Output:
 ```bash

@@ -103,10 +103,10 @@ val result = pipeline.transform(image_df)
 ## Example
 
 ### Input:
-![Screenshot](../../_examples_ocr/image6.png)
+![Screenshot](/assets/images/examples_ocr/image6.png)
 
 ### Output:
-![Screenshot](../../_examples_ocr/image6_out.png)
+![Screenshot](/assets/images/examples_ocr/image6_out.png)
 
 
 
