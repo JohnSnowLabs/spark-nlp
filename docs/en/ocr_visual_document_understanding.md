@@ -58,6 +58,44 @@ to 10 different classes (Resume, News, Note, Advertisement, Scientific, Report, 
 
 {% include programmingLanguageSelectScalaPython.html %}
 
+```python
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read \
+    .format("binaryFile") \
+    .load(imagePath)
+
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
+
+ocr = ImageToHocr() \
+    .setInputCol("image") \
+    .setOutputCol("hocr")
+
+document_classifier = VisualDocumentClassifier() \
+  .pretrained("visual_document_classifier_tobacco3482", "en", "clinical/ocr") \
+  .setMaxSentenceLength(128) \
+  .setInputCol("hocr") \
+  .setLabelCol("label") \
+  .setConfidenceCol("conf")
+
+# Define pipeline
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    ocr,
+    document_classifier,
+    
+])
+
+result = pipeline.transform(df)
+result.select("label").show()
+```
+
 ```scala
 import com.johnsnowlabs.ocr.transformers.*
 import com.johnsnowlabs.ocr.OcrContext.implicits._
@@ -90,44 +128,6 @@ pipeline.setStages(Array(
 val modelPipeline = pipeline.fit(df)
 
 val result =  modelPipeline.transform(df)
-result.select("label").show()
-```
-
-```python
-from pyspark.ml import PipelineModel
-from sparkocr.transformers import *
-
-imagePath = "path to image"
-
-# Read image file as binary file
-df = spark.read 
-    .format("binaryFile")
-    .load(imagePath)
-
-binary_to_image = BinaryToImage() \
-    .setInputCol("content") \
-    .setOutputCol("image")
-
-ocr = ImageToHocr() \
-    .setInputCol("image") \
-    .setOutputCol("hocr")
-
-document_classifier = VisualDocumentClassifier() \
-  .pretrained("visual_document_classifier_tobacco3482", "en", "clinical/ocr") \
-  .setMaxSentenceLength(128) \
-  .setInputCol("hocr") \
-  .setLabelCol("label") \
-  .setConfidenceCol("conf")
-
-# Define pipeline
-pipeline = PipelineModel(stages=[
-    binary_to_image,
-    ocr,
-    document_classifier,
-    
-])
-
-result = pipeline.transform(df)
 result.select("label").show()
 ```
 
@@ -183,6 +183,41 @@ scanned receipt images.
 
 {% include programmingLanguageSelectScalaPython.html %}
 
+```python
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read \
+    .format("binaryFile") \
+    .load(imagePath)
+
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
+ocr = ImageToHocr() \
+    .setInputCol("image") \
+    .setOutputCol("hocr")
+
+document_ner = VisualDocumentNer() \
+  .pretrained("visual_document_NER_SROIE0526", "en", "public/ocr/models") \
+  .setMaxSentenceLength(512) \
+  .setInputCol("hocr") \
+  .setLabelCol("label") 
+
+# Define pipeline
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    ocr,
+    document_ner,
+])
+
+result = pipeline.transform(df)
+result.select("entities").show()
+```
+
 ```scala
 import com.johnsnowlabs.ocr.transformers.*
 import com.johnsnowlabs.ocr.OcrContext.implicits._
@@ -214,41 +249,6 @@ pipeline.setStages(Array(
 val modelPipeline = pipeline.fit(df)
 val result =  modelPipeline.transform(df)
 
-result.select("entities").show()
-```
-
-```python
-from pyspark.ml import PipelineModel
-from sparkocr.transformers import *
-
-imagePath = "path to image"
-
-# Read image file as binary file
-df = spark.read 
-    .format("binaryFile")
-    .load(imagePath)
-
-binary_to_image = BinaryToImage() \
-    .setInputCol("content") \
-    .setOutputCol("image")
-ocr = ImageToHocr() \
-    .setInputCol("image") \
-    .setOutputCol("hocr")
-
-document_ner = VisualDocumentNer() \
-  .pretrained("visual_document_NER_SROIE0526", "en", "public/ocr/models") \
-  .setMaxSentenceLength(512) \
-  .setInputCol("hocr") \
-  .setLabelCol("label") 
-
-# Define pipeline
-pipeline = PipelineModel(stages=[
-    binary_to_image,
-    ocr,
-    document_ner,
-])
-
-result = pipeline.transform(df)
 result.select("entities").show()
 ```
 
@@ -302,6 +302,50 @@ The dataset comprises 199 real, fully annotated, scanned forms.
 
 {% include programmingLanguageSelectScalaPython.html %}
 
+```python
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read \
+    .format("binaryFile") \
+    .load(imagePath)
+
+binToImage = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
+
+ocr = ImageToHocr()\
+    .setInputCol("image")\
+    .setOutputCol("hocr")\
+    .setIgnoreResolution(False)\
+    .setOcrParams(["preserve_interword_spaces=0"])
+
+tokenizer = HocrTokenizer()\
+    .setInputCol("hocr")\
+    .setOutputCol("token")
+
+ner = VisualDocumentNerV2()\
+    .pretrained("layoutlmv2_funsd", "en", "clinical/ocr")\
+    .setInputCols(["token", "image"])\
+    .setOutputCol("entities")
+
+pipeline = PipelineModel(stages=[
+    binToImage,
+    ocr,
+    tokenizer,
+    ner
+    ])
+
+result = pipeline.transform(df)
+result.withColumn('filename', path\_array.getItem(f.size(path_array)- 1)) \
+    .withColumn("exploded_entities", f.explode("entities")) \
+    .select("filename", "exploded_entities") \
+    .show(truncate=False)
+```
+
 ```scala
 import com.johnsnowlabs.ocr.transformers.*
 import com.johnsnowlabs.ocr.OcrContext.implicits._
@@ -342,50 +386,6 @@ val results = pipeline
   .cache()
 
 result.select("entities").show()
-```
-
-```python
-from pyspark.ml import PipelineModel
-from sparkocr.transformers import *
-
-imagePath = "path to image"
-
-# Read image file as binary file
-df = spark.read 
-    .format("binaryFile")
-    .load(imagePath)
-
-binToImage = BinaryToImage() \
-    .setInputCol("content") \
-    .setOutputCol("image")
-
-ocr = ImageToHocr()\
-    .setInputCol("image")\
-    .setOutputCol("hocr")\
-    .setIgnoreResolution(False)\
-    .setOcrParams(["preserve_interword_spaces=0"])
-
-tokenizer = HocrTokenizer()\
-    .setInputCol("hocr")\
-    .setOutputCol("token")
-
-ner = VisualDocumentNerV2()\
-    .pretrained("layoutlmv2_funsd", "en", "clinical/ocr")\
-    .setInputCols(["token", "image"])\
-    .setOutputCol("entities")
-
-pipeline = PipelineModel(stages=[
-    binToImage,
-    ocr,
-    tokenizer,
-    ner
-    ])
-
-result = pipeline.transform(df)
-result.withColumn('filename', path\_array.getItem(f.size(path_array)- 1)) \
-    .withColumn("exploded_entities", f.explode("entities")) \
-    .select("filename", "exploded_entities") \
-    .show(truncate=False)
 ```
 
 </div>
@@ -442,6 +442,52 @@ It can detect relations only for key/value in same line.
 
 {% include programmingLanguageSelectScalaPython.html %}
 
+```python
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read \
+    .format("binaryFile") \
+    .load(imagePath)
+
+binToImage = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
+
+ocr = ImageToHocr()\
+    .setInputCol("image")\
+    .setOutputCol("hocr")\
+    .setIgnoreResolution(False)\
+    .setOcrParams(["preserve_interword_spaces=0"])
+
+tokenizer = HocrTokenizer()\
+    .setInputCol("hocr")\
+    .setOutputCol("token")
+
+ner = VisualDocumentNerV2()\
+    .pretrained("layoutlmv2_funsd", "en", "clinical/ocr")\
+    .setInputCols(["token", "image"])\
+    .setOutputCol("entities")
+
+rel_extractor = FormRelationExtractor() \
+    .setInputCol("entities") \
+    .setOutputCol("relations")
+
+pipeline = PipelineModel(stages=[
+    binToImage,
+    ocr,
+    tokenizer,
+    ner,
+    rel_extractor
+    ])
+
+result = pipeline.transform(df)
+result.select(explode("relations")).show(3, False)
+```
+
 ```scala
 import com.johnsnowlabs.ocr.transformers.*
 import com.johnsnowlabs.ocr.OcrContext.implicits._
@@ -487,52 +533,6 @@ val results = pipeline
   .cache()
 
 results.select(explode("relations")).show(3, False)
-```
-
-```python
-from pyspark.ml import PipelineModel
-from sparkocr.transformers import *
-
-imagePath = "path to image"
-
-# Read image file as binary file
-df = spark.read 
-    .format("binaryFile")
-    .load(imagePath)
-
-binToImage = BinaryToImage() \
-    .setInputCol("content") \
-    .setOutputCol("image")
-
-ocr = ImageToHocr()\
-    .setInputCol("image")\
-    .setOutputCol("hocr")\
-    .setIgnoreResolution(False)\
-    .setOcrParams(["preserve_interword_spaces=0"])
-
-tokenizer = HocrTokenizer()\
-    .setInputCol("hocr")\
-    .setOutputCol("token")
-
-ner = VisualDocumentNerV2()\
-    .pretrained("layoutlmv2_funsd", "en", "clinical/ocr")\
-    .setInputCols(["token", "image"])\
-    .setOutputCol("entities")
-
-rel_extractor = FormRelationExtractor() \
-    .setInputCol("entities") \
-    .setOutputCol("relations")
-
-pipeline = PipelineModel(stages=[
-    binToImage,
-    ocr,
-    tokenizer,
-    ner,
-    rel_extractor
-    ])
-
-result = pipeline.transform(df)
-result.select(explode("relations")).show(3, False)
 ```
 
 </div>
