@@ -49,11 +49,11 @@ result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler() 
-      .setInputCols(Array("text")) 
-      .setOutputCols(Array("document"))
+      .setInputCols("text")
+      .setOutputCols("document")
        
 val t5 = T5Transformer.pretrained("t5_comment_summarization4designtutor","xx") 
-    .setInputCols(Array("document"))
+    .setInputCols("document")
     .setOutputCol("answers")
    
 val pipeline = new Pipeline().setStages(Array(documentAssembler, t5))
