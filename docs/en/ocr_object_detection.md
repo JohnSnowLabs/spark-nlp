@@ -63,8 +63,8 @@ from sparkocr.transformers import *
 imagePath = "path to image"
 
 # Read image file as binary file
-df = spark.read 
-    .format("binaryFile")
+df = spark.read \
+    .format("binaryFile") \
     .load(imagePath)
 
 binary_to_image = BinaryToImage() \
@@ -183,8 +183,8 @@ from sparkocr.transformers import *
 imagePath = "path to image"
 
 # Read image file as binary file
-df = spark.read 
-    .format("binaryFile")
+df = spark.read \
+    .format("binaryFile") \
     .load(imagePath)
 
 binary_to_image = BinaryToImage() \
@@ -316,8 +316,8 @@ from sparkocr.transformers import *
 imagePath = "path to image"
 
 # Read image file as binary file
-df = spark.read 
-    .format("binaryFile")
+df = spark.read \
+    .format("binaryFile") \
     .load(imagePath)
 
 binary_to_image = BinaryToImage() \
