@@ -275,7 +275,7 @@ imageToPdf = ImageToPdf() \
 
 # Call transformers
 image_df = binaryToImage.transform(df)
-pdf_df =  pdfToImage.transform(image_df)
+pdf_df =  imageToPdf.transform(image_df)
 
 pdf_df.select("content").show()
 ```
@@ -300,7 +300,7 @@ val imageToPdf = new ImageToPdf()
 
 // Call transformers
 val image_df = binaryToImage.transform(df)
-val pdf_df =  pdfToImage.transform(image_df)
+val pdf_df =  imageToPdf.transform(image_df)
 
 pdf_df.select("content").show()
 ```
@@ -3551,8 +3551,8 @@ from sparkocr.transformers import *
 imagePath = "path to image"
 
 # Read image file as binary file
-df = spark.read 
-    .format("binaryFile")
+df = spark.read \
+    .format("binaryFile") \
     .load(imagePath)
 
 binary_to_image = BinaryToImage() \
