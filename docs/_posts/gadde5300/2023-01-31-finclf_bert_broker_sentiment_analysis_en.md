@@ -132,7 +132,7 @@ result.select("text", "class.result").show(truncate=False)
 +----------+
 |result    |
 +----------+
-|[Negative]|
+|[Neutral] |
 +----------+
 ```
 
