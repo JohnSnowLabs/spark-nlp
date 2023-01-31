@@ -67,6 +67,9 @@ def start(gpu=False,
           m1=False,
           aarch64=False,
           memory="16G",
+          cache_folder="",
+          log_folder="",
+          cluster_tmp_dir="",
           params=None,
           real_time_output=False,
           output_level=1):
@@ -157,6 +160,13 @@ def start(gpu=False,
         else:
             spark_jars_packages = spark_nlp_config.maven_spark3
 
+        if cache_folder != '':
+            builder.config("spark.jsl.settings.pretrained.cache_folder", cache_folder)
+        if log_folder != '':
+            builder.config("spark.jsl.settings.annotator.log_folder", log_folder)
+        if cluster_tmp_dir != '':
+            builder.config("spark.jsl.settings.storage.cluster_tmp_dir", cluster_tmp_dir)
+
         if params.get("spark.jars.packages") is None:
             builder.config("spark.jars.packages", spark_jars_packages)
 
@@ -190,6 +200,13 @@ def start(gpu=False,
                     spark_jars_packages = spark_nlp_config.maven_gpu_spark3
                 else:
                     spark_jars_packages = spark_nlp_config.maven_spark3
+
+                if cache_folder != '':
+                    spark_conf.set("spark.jsl.settings.pretrained.cache_folder", cache_folder)
+                if log_folder != '':
+                    spark_conf.set("spark.jsl.settings.annotator.log_folder", log_folder)
+                if cluster_tmp_dir != '':
+                    spark_conf.set("spark.jsl.settings.storage.cluster_tmp_dir", cluster_tmp_dir)
 
                 if params.get("spark.jars.packages") is None:
                     spark_conf.set("spark.jars.packages", spark_jars_packages)
