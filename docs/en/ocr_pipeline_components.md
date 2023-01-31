@@ -349,6 +349,7 @@ Read PDF document, run OCR and render results to PDF document.
 
 ```python
 from sparkocr.transformers import *
+from sparkocr.enums import PageSegmentationMode
 
 pdfPath = "path to pdf"
 
@@ -393,6 +394,7 @@ with open("test.pdf", "wb") as file:
 ```scala
 import org.apache.spark.ml.Pipeline
 import com.johnsnowlabs.ocr.transformers._
+import com.johnsnowlabs.ocr.OcrContext.implicits._
 
 val pdfPath = "path to pdf"
 
@@ -1691,8 +1693,8 @@ from sparkocr.utils import display_image
 imagePath = "path to image"
 
 # Read image file as binary file
-df = spark.read 
-    .format("binaryFile")
+df = spark.read \
+    .format("binaryFile") \
     .load(imagePath)
 
 binary_to_image = BinaryToImage() \
@@ -1712,9 +1714,9 @@ pipeline = PipelineModel(stages=[
 
 result = pipeline.transform(df)
 
-for r in result.select("image", "corrected_image").collect():
+for r in result.select("image", "binarized_image").collect():
     display_image(r.image)
-    display_image(r.corrected_image)
+    display_image(r.binarized_image)
 ```
 
 ```scala
@@ -1802,8 +1804,8 @@ from sparkocr.utils import display_image
 imagePath = "path to image"
 
 # Read image file as binary file
-df = spark.read 
-    .format("binaryFile")
+df = spark.read \
+    .format("binaryFile") \
     .load(imagePath)
 
 binary_to_image = BinaryToImage() \
@@ -1811,7 +1813,7 @@ binary_to_image = BinaryToImage() \
     .setOutputCol("image")
 
 adaptive_thresholding = ImageAdaptiveThresholding() \
-    .setInputCol("scaled_image") \
+    .setInputCol("image") \
     .setOutputCol("binarized_image") \
     .setBlockSize(21) \
     .setOffset(73)
@@ -1823,9 +1825,9 @@ pipeline = PipelineModel(stages=[
 
 result = pipeline.transform(df)
 
-for r in result.select("image", "corrected_image").collect():
+for r in result.select("image", "binarized_image").collect():
     display_image(r.image)
-    display_image(r.corrected_image)
+    display_image(r.binarized_image)
 ```
 
 ```scala
@@ -2307,8 +2309,8 @@ from sparkocr.transformers import *
 imagePath = "path to image"
 
 # Read image file as binary file
-df = spark.read 
-    .format("binaryFile")
+df = spark.read \
+    .format("binaryFile") \
     .load(imagePath)
 
 binary_to_image = BinaryToImage() \
@@ -2385,18 +2387,18 @@ It supports following operation:
 ```python
 from pyspark.ml import PipelineModel
 from sparkocr.transformers import *
+from sparkocr.enums import MorphologyOperationType
 
 imagePath = "path to image"
 
 # Read image file as binary file
-df = spark.read 
-    .format("binaryFile")
+df = spark.read \
+    .format("binaryFile") \
     .load(imagePath)
 
 binary_to_image = BinaryToImage() \
     .setInputCol("content") \
     .setOutputCol("image") \
-    .setOperation(MorphologyOperationType.OPENING)
 
 adaptive_thresholding = ImageAdaptiveThresholding() \
     .setInputCol("image") \
@@ -2407,7 +2409,8 @@ adaptive_thresholding = ImageAdaptiveThresholding() \
 opening = ImageMorphologyOperation() \
     .setInputCol("corrected_image") \
     .setOutputCol("opening_image") \
-    .setkernelSize(1)
+    .setKernelSize(1) \
+    .setOperation(MorphologyOperationType.OPENING)
 
 pipeline = PipelineModel(stages=[
     binary_to_image,
@@ -2480,18 +2483,18 @@ for r in result.select("image", "corrected_image").collect():
 ```python
 from pyspark.ml import PipelineModel
 from sparkocr.transformers import *
+from sparkocr.enums import MorphologyOperationType
 
 imagePath = "path to image"
 
 # Read image file as binary file
-df = spark.read 
-    .format("binaryFile")
+df = spark.read \
+    .format("binaryFile") \
     .load(imagePath)
 
 binary_to_image = BinaryToImage() \
     .setInputCol("content") \
-    .setOutputCol("image") \
-    .setOperation(MorphologyOperationType.OPENING)
+    .setOutputCol("image")
 
 cropper = ImageCropper() \
     .setInputCol("image") \
@@ -2583,8 +2586,8 @@ from sparkocr.transformers import *
 imagePath = "path to image"
 
 # Read image file as binary file
-df = spark.read 
-    .format("binaryFile")
+df = spark.read \
+    .format("binaryFile") \
     .load(imagePath)
 
 binary_to_image = BinaryToImage() \
@@ -2677,8 +2680,8 @@ from sparkocr.transformers import *
 imagePath = "path to image"
 
 # Read image file as binary file
-df = spark.read 
-    .format("binaryFile")
+df = spark.read \
+    .format("binaryFile") \
     .load(imagePath)
 
 binary_to_image = BinaryToImage() \
@@ -2690,9 +2693,9 @@ layout_analyzer = ImageLayoutAnalyzer() \
   .setInputCol("image") \
   .setOutputCol("regions")
 
-splitter = ImageSplitRegions()
-  .setInputCol("image")
-  .setRegionCol("regions")
+splitter = ImageSplitRegions() \
+  .setInputCol("image") \
+  .setInputRegionsCol("regions") \
   .setOutputCol("region_image")
 
 # Define pipeline
@@ -2728,7 +2731,7 @@ val layoutAnalyzer = new ImageLayoutAnalyzer()
 
 val splitter = new ImageSplitRegions()
   .setInputCol("image")
-  .setRegionCol("regions")
+  .setInputRegionsCol("regions")
   .setOutputCol("region_image")
 
 // Define pipeline
@@ -2793,8 +2796,8 @@ from sparkocr.transformers import *
 imagePath = "path to image"
 
 # Read image file as binary file
-df = spark.read 
-    .format("binaryFile")
+df = spark.read \
+    .format("binaryFile") \
     .load(imagePath)
 
 binary_to_image = BinaryToImage() \
@@ -2823,7 +2826,7 @@ pipeline = PipelineModel(stages=[
     binary_to_image,
     ocr,
     tokenizer,
-    image_with_annotations
+    draw_annotations
 ])
 
 result = pipeline.transform(df)
@@ -2919,8 +2922,8 @@ from sparkocr.transformers import *
 imagePath = "path to image"
 
 # Read image file as binary file
-df = spark.read 
-    .format("binaryFile")
+df = spark.read \
+    .format("binaryFile") \
     .load(imagePath)
 
 binary_to_image = BinaryToImage() \
@@ -2934,7 +2937,7 @@ layout_analyzer = ImageLayoutAnalyzer() \
 
 draw = ImageDrawRegions() \
   .setInputCol("image") \
-  .setRegionCol("regions") \
+  .setInputRegionsCol("regions") \
   .setOutputCol("image_with_regions")
 
 # Define pipeline
@@ -2969,7 +2972,7 @@ val layoutAnalyzer = new ImageLayoutAnalyzer()
 
 val draw = new ImageDrawRegions()
   .setInputCol("image")
-  .setRegionCol("regions")
+  .setInputRegionsCol("regions")
   .setOutputCol("image_with_regions")
 
 // Define pipeline
@@ -3052,8 +3055,8 @@ from sparkocr.transformers import *
 imagePath = "path to image"
 
 # Read image file as binary file
-df = spark.read 
-    .format("binaryFile")
+df = spark.read \
+    .format("binaryFile") \
     .load(imagePath)
 
 binary_to_image = BinaryToImage() \
@@ -3167,8 +3170,8 @@ from sparkocr.transformers import *
 imagePath = "path to image"
 
 # Read image file as binary file
-df = spark.read 
-    .format("binaryFile")
+df = spark.read \
+    .format("binaryFile") \
     .load(imagePath)
 
 binary_to_image = BinaryToImage() \
@@ -3276,8 +3279,8 @@ from sparkocr.transformers import *
 imagePath = "path to image"
 
 # Read image file as binary file
-df = spark.read 
-    .format("binaryFile")
+df = spark.read \
+    .format("binaryFile") \
     .load(imagePath)
 
 binary_to_image = BinaryToImage() \
@@ -3371,8 +3374,8 @@ from sparkocr.transformers import *
 imagePath = "path to image"
 
 # Read image file as binary file
-df = spark.read 
-    .format("binaryFile")
+df = spark.read \
+    .format("binaryFile") \
     .load(imagePath)
 
 binary_to_image = BinaryToImage() \
@@ -4114,8 +4117,8 @@ from sparkocr.transformers import *
 imagePath = "path to image"
 
 # Read image file as binary file
-df = spark.read 
-    .format("binaryFile")
+df = spark.read \
+    .format("binaryFile") \
     .load(imagePath)
 
 binary_to_image = BinaryToImage() \
