@@ -27,7 +27,8 @@ This model is a [German-MedBERT](https://opus4.kobv.de/opus4-rhein-waal/frontdoo
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_sequence_classifier_health_mentions_medbert_de_4.0.2_3.0_1660133738049.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_sequence_classifier_health_mentions_medbert_de_4.0.2_3.0_1660133738049.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/bert_sequence_classifier_health_mentions_medbert_de_4.0.2_3.0_1660133738049.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

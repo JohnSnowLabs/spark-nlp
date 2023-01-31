@@ -29,6 +29,7 @@ This model was imported from `Hugging Face` and it's been fine-tuned for 6 Scand
 [Live Demo](https://demo.johnsnowlabs.com/public/NER_SCANDINAVIAN/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_token_classifier_scandi_ner_xx_3.3.2_2.4_1639044930234.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bert_token_classifier_scandi_ner_xx_3.3.2_2.4_1639044930234.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

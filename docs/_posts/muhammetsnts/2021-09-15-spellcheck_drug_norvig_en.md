@@ -27,7 +27,8 @@ This model detects and corrects spelling errors of drugs in your input text base
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/spellcheck_drug_norvig_en_3.2.2_3.0_1631700986904.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/spellcheck_drug_norvig_en_3.2.2_3.0_1631700986904.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/spellcheck_drug_norvig_en_3.2.2_3.0_1631700986904.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

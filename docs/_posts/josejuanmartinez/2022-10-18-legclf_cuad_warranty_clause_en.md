@@ -38,7 +38,8 @@ There are other models in this dataset with similar title, but the difference is
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/finance/CLASSIFY_LEGAL_CLAUSES/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_cuad_warranty_clause_en_1.0.0_3.0_1666097671097.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_cuad_warranty_clause_en_1.0.0_3.0_1666097671097.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_cuad_warranty_clause_en_1.0.0_3.0_1666097671097.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

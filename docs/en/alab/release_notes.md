@@ -6,7 +6,7 @@ seotitle: Release Notes | John Snow Labs
 title: Release Notes
 permalink: /docs/en/alab/release_notes
 key: docs-training
-modify_date: "2023-01-01"
+modify_date: "2023-01-21"
 use_language_switcher: "Python-Scala"
 show_nav: true
 sidebar:
@@ -15,159 +15,86 @@ sidebar:
 
 <div class="h3-box" markdown="1">
 
-## 4.5.0
+## 4.6.2
 
-Release date: **01-01-2023**
+Release date: **21-01-2023**
 
-Over the last year, Annotation Lab has grown to be much more than a document annotation tool. It became a full-fledged AI system, capable of testing pre-trained models and rules, applying them to new datasets, training, and tuning models, and exporting them to be deployed in production. All those features together with the new Playground concept presented in the current release notes contributed to the transformation of the Annotation Lab into the **NLP Lab**.
-A new Playground feature is released as part of the NLP Lab’s Hub that allows users to quickly test any model and/or rule on a snippet of text without the need to create a project and import tasks. 
-NLP Lab also supports the training of Legal and Finance models and Model evaluation for classification projects. 
-As always the release includes some stabilization and bug fixes for issues reported by our user community. Below are the details of what has been included in this release.
-
-## NLP Lab's Playground 
-NLP Lab introduces the Playground feature where users can directly deploy and test models and/or rules. In previous versions, the pre-annotation servers could only be deployed from within a given project. With the addition of the Playground, models can easily be deployed and tested on a sample text without going through the project setup wizard. Any model or rule can now be selected and deployed for testing by clicking on the "Open in Playground" button.
-
-![Playground deployment](https://user-images.githubusercontent.com/33893292/209965776-1c0a6b07-5526-496e-97f8-4b7a2cf2a6d1.gif)
-
-Rules are deployable in the Playground from the rules page. When a particular rule is deployed in the playground, the user can also change the parameters of the rules on the right side of the page. After saving the changes users need to click on the "Deploy" button to refresh the results of the pre-annotation on the provided text.
-
-![ruledeploy](https://user-images.githubusercontent.com/33893292/209978724-355fd3a2-aab4-4c38-869d-4f3432c657d3.gif)
-
-Deployment of models and rules is supported by floating and air-gapped licenses. Healthcare, Legal, and Finance models require a license with their respective scopes to be deployed in Playground. Unlike pre-annotation servers, only one playground can be deployed at any given time.
-
-## Export trained models to the S3 bucket
-
-With this release, users can easily export trained models to a given s3 bucket. This feature is available on the Available Models page under the Hub tab. Users need to enter the S3 bucket path, S3 access key, and S3 secret key to upload the model to the S3 bucket.
-
- ![ezgif com-gif-maker (1)](https://user-images.githubusercontent.com/73094423/210034029-4b1816bd-78dd-4551-ae6e-0303b58be8f0.gif)
+NLP Lab 4.6.2 comes with support for zero-shot learning via prompts. Prompt engineering is a very recent but rapidly growing discipline that aims to guide language models such as GPT-3 to generate specific and desired outputs, such as answering a question or writing a coherent story. This version of the NLP Lab, adds support for the creation and use of prompts for entities and relations identification within text documents. 
+The goal of prompt engineering in this context is designing and crafting some questions, which are fed into a question-answering model together with some input text. The purpose is to guide the language model to generate specific and desired outputs, such as identifying entities or relations within the input text. 
+This release offers features such as creation and editing of prompts, a dedicated section for prompts management and sharing inside the resources Hub, an optimized configuration page allowing mixing models, prompts, and rules into the same project, and support for quick prompts deployments and testing to the Playground.
 
 
-## Support Training of Finance and Legal Models
-With this release, users can perform training of Legal and Finance models depending on the available license(s). When training a new model in the NLP Lab, users have the option to select what library to use. Two options were available up until now: Open source and Healthcare. This release adds two new options: Legal and Finance. This helps differentiate the library used for training the models. The new options are only available when at least one valid license with the corresponding scope is added to the License page.
-
-![Screenshot 2022-12-29 at 10 47 38 PM](https://user-images.githubusercontent.com/33893292/209985787-e03f9125-c716-4897-a1c9-47f91191d9bc.png)
-
-## Improvements
-### Keyword-based Search at task level
-
-Finding tokens on the Visual NER project was restricted to only one page, and searching for keywords from the labeling page on a text-based project was not available.
-
-NLP Lab supports task-level keyword-based searches. The keyword-based search feature will work for text and Visual NER projects alike.
-
-- The search will work on all paginated pages.
-- It is also possible to navigate between search results, even if that result is located on another page.
-
-**Important**
-
-Previously this feature was implemented with the help of <search> tag in the Visual NER project configurations. With the implementation of search at task level, the previous search tag should be removed from existing visual NER projects.
-
- _**Config to be removed from all existing Visual NER project:**_
-
-```
-<Search name="search" toName="image" placeholder="Search"/>
-```
-
-![text-search](https://user-images.githubusercontent.com/45035063/209945478-541a9d48-33b4-418c-8ea1-08d87b249e85.gif)
-
-![vOCR-search](https://user-images.githubusercontent.com/45035063/209945481-b4b3127b-ce2a-49af-a3cd-f35dbe7771a9.gif)
+## Prompts on the Hub
+The resources Hub has a new page dedicated to prompts. It allows users to easily discover and explore the existing prompts or create new prompts for identifying entities or relations. Currently, NLP Lab supports prompts for Healthcare, Finance, and Legal domains applied using pre-trained question-answering language models published on the NLP Models Hub and available to download in one click. The main advantage behind the use of prompts in entity or relation recognition is the ease of definition. Non-technical domain experts can easily create prompts, test and edit them on the playground on custom text snippets and, when ready, deploy them for pre-annotation as part of larger NLP projects. 
+Together with rules, prompts are very handy in situations where no pre-trained models exist, for the target entities and domains. With rules and prompts the annotators never start their projects from scratch but can capitalize on the power of zero-shot models and rules to help them pre-annotate the simple entities and relations and speed up the annotation process. As such the NLP Lab ensures fewer manual annotations are required from any given task.
 
 
-### Chunk-based Search in Visual NER tasks
+  - **Creating NER Prompts**
 
-In previous versions, users could only run token-based searches at page level. The search feature did not support searching a collection of tokens as a single chunk. With this release, users can find a chunk of tokens in the Visual NER task.
+NER prompts, can be used to identify entities in natural language text documents. Those can be created based on healthcare, finance, and legal zero-shot models selectable from the "Domain" dropdown. For one prompt, the user adds one or more questions for which the answer represents the target entity to annotate.
 
-![chunk-search](https://user-images.githubusercontent.com/45035063/209945712-c175f74a-b232-47f9-b807-4966ff54d976.gif)
+   ![entity_prompt](https://user-images.githubusercontent.com/26042994/211890279-2ea02cd5-36fa-4b56-86fd-38b0c20ba880.gif)
 
-### Model Evaluation for Classification Projects
+  - **Creating Relation Prompts**
 
-![Screen Shot 2022-12-14 at 6 01 34 PM](https://user-images.githubusercontent.com/45035063/210033230-1044c26e-8925-4077-8113-dccca09ed736.png)
+Prompts can also be used to identify relations between entities for healthcare, finance, and legal domains. The domain-specific zero-shot model to use for detecting relation can be selected from the "Domain" dropdown. The relation prompts are defined by a pair of entities related by a predicate. The entities can be selected from the available dropdowns listing all entities available in the current NLP Lab (included in available NER models or rules) for the specified domain. 
+   
+   ![relation_prompt](https://user-images.githubusercontent.com/26042994/211890317-362f193c-b80b-4caa-b242-69df6fa8a257.gif)
 
-Up until now, the Annotation Lab only supported test and model evaluation for the NER-based projects. From this version on, NLP Lab supports test and model evaluation for Classification project as well. Evaluation results can now be downloaded if needed. 
+## A simplified configuration wizard allows the reuse of models, rules, and prompts
+The project configuration page was simplified by grouping into one page all available resources that can be reused for pre-annotation: models, rules, and prompts. Users can easily mix and match the relevant resources and add them to their configuration. 
 
-### Hide and Unhide Regions in NER project 
+![updated_configuration_page](https://user-images.githubusercontent.com/26042994/211890361-14c5b17c-762d-4d0a-a6a6-0ac235565aa0.gif)
 
-In this version, we support the hide/show annotated token regions feature in the text-based project in the same way as it was available in the Visual NER project.
+**Note:** One project configuration can only reuse the prompts defined by one single zero-shot model. Prompts created based on multiple zero-shot models (e.g. finance or legal or healthcare) cannot be mixed into the same project because of high resource consumption. Furthermore, all prompts require a license with a scope that matches the domain of the prompt.
 
-![hide-unhide-region](https://user-images.githubusercontent.com/45035063/209945808-f99043cd-a9fc-41a8-a85f-41bebea73512.gif)
+## Experiment with prompts in Playground
+NLP Lab's Playground supports the deployment and testing of prompts. Users can quickly test the results of applying a prompt on custom text, can easily edit the prompt, save it, and deploy it right away to see the change in the pre-annotation results.
 
-### Ground Truth can only be set/unset by the owner of the completion
+![demo3](https://user-images.githubusercontent.com/33893292/213699722-543d13f6-c410-4398-83a1-26a832a032ca.gif)
 
-With this version, we have improved the feature to set/unset ground truth for a completion submitted by an annotator. Now, for the Manager/Project Owner/Reviewer, the button to set/unset ground truth is disabled. The ground truth can only be updated by the annotator who submitted the completion or is unset when a submitted completion is rejected by a reviewer. 
+## Zero-Shot Models available in the NLP Models Hub
+NLP Models Hub now lists the newly released zero-shot models that are used to define prompts. These models need to be downloaded to NLP Lab instance before prompts can be created. A valid license must be available for the models to be downloaded to NLP Lab.
 
-![Screen Recording 2022-12-29 at 3 23 25 PM](https://user-images.githubusercontent.com/17021686/209933021-33b4c98a-fbbc-46e4-aae1-b858e8c73fe6.gif)
-
-
-### Finite Zoom Out Level in Visual NER tasks
-
-Previously, users could zoom in and zoom out again on images while working with the Visual NER project, but the user could not get what the last stage of zoom-out was. Now, when the user zooms out of the image if it is the last phase then the zoom-out button will automatically be disabled so the user knows where to stop zooming out next.
-
-![image](https://user-images.githubusercontent.com/73094423/210032879-36b86d98-5f13-40ea-836b-f2b61d63f4bf.png)
-
-### Taxonomy Location Customizable from the Project Configuration
-
-There are many different views available for each project template. This diversity can be confusing for users. For eliminating this complexity, the View tab was removed from the project configuration page and replaced by an “orientation” option that can be directly applied to the project configuration. Orientation will decide, where the taxonomy (labels, choices, text, images, etc.) will be located on the labeling screen i.e. placed at the top, bottom or next to the annotation screen.
-
-<img width="1140" alt="Screenshot 2022-12-30 at 10 57 13 AM" src="https://user-images.githubusercontent.com/33893292/210036948-70185f91-e0c9-4dbc-af75-622f2185a08f.png">
-
-### Pre-annotation CPU requirement message in Visual NER projects
-
-By default, the pre-annotation server uses 2 CPUs. For Visual NER pre-annotation, it is likely that 2 CPUs are not enough. Now a friendly message is shown during the deployment of Visual NER pre-annotation if the CPU count is less than or equal to 2.
-
+![Zero-shot-models](https://user-images.githubusercontent.com/26042994/211890478-3aa90dfc-f474-42c8-a73f-ce6c3efecbbe.png)
 
 ## Bug Fixes
 
-- **Expanding the text on the Labelling page visually does not expand the labeling area**
+- **Error while deploying classification model to the playground**
 
-Previously, expanding the text area on the labeling page did not make any changes in the text expansion. This issue has been fixed. Now, expanding the text will change the text area to full-screen mode.
+  Previously, deploying the classification model to the playground had some issues which have been fixed in this version.
 
-- **Revoking granted analytics request do not update the revoked section** 
+- **Information on the model's details not visible completely on the playground **
 
-Earlier, when an analytics request was revoked, the corresponding entry was not shown in the revoked section. We have fixed this issue. With NLP Lab 4.5.0, the revoked entries are available in the revoked section. Also, when an analytics request is revoked, in the revoked section, two new actions, Accept and Delete, are available.
+  In this version, we have fixed an issue related to the visibility of the information for Edition, Uploaded by, and Source inside the Models Detail accordion. Now, the UI can handle long model names on the playground page.
 
-- **Show Confidence score in Regions option is not working properly for non-Visual NER tasks**
+- **Undo and Reset buttons are not working**
 
-For none Visual NER tasks, enabling/disabling "Show Confidence score in Regions" from Layout did not change the UI. The changes only appear when the page was reloaded or when the Versions tab was clicked. This issue has been fixed in this version.
+  With release 4.6.2, issues regarding undo/redo buttons in the labeling page for annotated tokens have been fixed. Now, the Undo and Redo button works as expected.
 
-- **Username validation is missing when creating a new user**
+- **Finance and Legal models cannot be downloaded to NLP Lab with a floating license from Models Hub**
 
-With this version, the issue related to the missing validation of the username when creating a new user has been fixed.
+  Earlier, users were not able to download the Finance and Legal model from the NLP Models HUB page using floating licenses. This issue has been fixed. Now, legal and finance models are downloadable in the NLP lab using a floating license.
 
-- **Issues with role selection on Teams page**
+- **Pre-annotation server cannot be deployed for Visual NER**
 
-When a user was added to the project team as a new team member, the recently added user name was still visible in the search bar. This issue has been fixed.
+  This version also fixes the issue of failing to deploy the pre-annotation server for Visual NER models.
 
-- **Clicking on the eye icon to hide a labeled region removes the region from the Annotations widget**
+- **Draft saved is seen for submitted completion**
 
-Previously, when a user clicked on the eye icon to hide a label, the labeled region was removed from the Annotations widget. Furthermore, the color of the label was also changed in the panel. This issue has been fixed.
+  Previously, in the NER task when the user clicked on regions of a previously submitted completion and viewed the versions submitted by the users, a draft was saved. A draft should not be created and saved for submitted completions. This issue was fixed in 4.6.2.
 
-- **Deployed legal and finance models servers are not associated with their respective licenses**
+- **Training fails for NER when embedding_clinical is used and the license type is open-source**
 
-In the previous version, when a Legal and Finance model server was deployed, the respective licenses were not associated with their deployed server. The availability of the Legal and Finance license was checked when the models were deployed. Version 4.5.0 fixes this bug.
+  Earlier it was not possible to train a NER model with the open-source library using embeddings_clinical. This issue has been fixed. Hence users can now train open-sourced models with embeddings_clinical.
 
-- **Model Evaluation cannot be triggered using an air-gapped healthcare license with scope training/inference**
+- **UI goes blank for the Visual NER project when an annotation is saved and the next button is clicked**
 
-The issue of triggering Model Evaluation using an air-gapped healthcare license with the training/inference scope has been fixed. 
+  In the previous version, annotators were not served the next task after clicking the Next button. A blank page with a console error was seen. Now the next task is served in the Visual NER project without any error.
 
-- **When user enabled "Allow user for custom selection of regions", token values are missing in JSON export**
+- **Pre-annotation server cannot be deployed for RE model**
 
-Earlier, when the user annotates tokens while enabling "Allow user for custom selection of regions" and exports the completion. The token values were missing from the JSON export. In this version, the issue is fixed, and all the token fields and values are available in the JSON
-
-- **Pre-annotation server with pending status is not removed when the user deletes the server from the cluster page**
-
-Deleting the pre-annotation server with status pending from the cluster page did not delete the pod from Kubernetes and created multiple pre-annotation pods. This issue has been fixed. 
-
-- **Project export with space in the name is allowed to be imported**
-
-In the earlier version, the users could import previously exported projects with space in the project's name. Though the project was listed on the projects page, the project could not be deleted. Also, the user was unable to perform any operations on the project.
-
-- **The “Only Assigned” checkbox overlaps the review dialog box**
-
-The overlap between the “Only Assigned” checkbox and the review dialog box was fixed. 
-
-- **Open-source Models cannot be downloaded in the NLP Lab without a license**
-
-Previously open-source models could not be downloaded from the NLP models hub when there was no license uploaded. This issue has been fixed. Now all open-source licenses are downloadable without any issue.
-
+  There was an issue with the deployment of trained NER models with a relation extraction model. This issue has been fixed in this version.
 
 </div><div class="prev_ver h3-box" markdown="1">
 
@@ -176,7 +103,9 @@ Previously open-source models could not be downloaded from the NLP models hub wh
 </div>
 
 <ul class="pagination owl-carousel pagination_big">
-    <li class="active"><a href="annotation_labs_releases/release_notes_4_5_0">4.5.0</a></li>
+    <li class="active"><a href="annotation_labs_releases/release_notes_4_6_2">4.6.2</a></li>
+    <li><a href="annotation_labs_releases/release_notes_4_5_1">4.5.1</a></li>
+    <li><a href="annotation_labs_releases/release_notes_4_5_0">4.5.0</a></li>
     <li><a href="annotation_labs_releases/release_notes_4_4_1">4.4.1</a></li>
     <li><a href="annotation_labs_releases/release_notes_4_4_0">4.4.0</a></li>
     <li><a href="annotation_labs_releases/release_notes_4_3_0">4.3.0</a></li>

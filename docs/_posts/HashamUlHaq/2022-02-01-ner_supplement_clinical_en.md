@@ -32,7 +32,8 @@ This model is trained to extract benefits of using drugs for certain conditions.
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_supplement_clinical_en_3.3.4_3.0_1643674915917.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_supplement_clinical_en_3.3.4_3.0_1643674915917.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/ner_supplement_clinical_en_3.3.4_3.0_1643674915917.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 
 ## How to use

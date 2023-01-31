@@ -27,7 +27,8 @@ This pretrained model maps diseases with their corresponding `category`, `descri
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/26.Chunk_Mapping.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/kegg_disease_mapper_en_4.2.2_3.0_1668794743905.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/kegg_disease_mapper_en_4.2.2_3.0_1668794743905.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/kegg_disease_mapper_en_4.2.2_3.0_1668794743905.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

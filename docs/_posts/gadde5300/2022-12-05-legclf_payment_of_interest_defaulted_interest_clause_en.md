@@ -35,7 +35,8 @@ This model is a Binary Classifier (True, False) for the `payment-of-interest-def
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_payment_of_interest_defaulted_interest_clause_en_1.0.0_3.0_1670246828417.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_payment_of_interest_defaulted_interest_clause_en_1.0.0_3.0_1670246828417.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_payment_of_interest_defaulted_interest_clause_en_1.0.0_3.0_1670246828417.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

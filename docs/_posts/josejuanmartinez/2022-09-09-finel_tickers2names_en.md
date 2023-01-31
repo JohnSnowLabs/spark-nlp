@@ -27,7 +27,8 @@ This is an Entity Resolution / Entity Linking model, which is able to provide Co
 {:.btn-box}
 [Live Demo](https://nlp.johnsnowlabs.com/financial_company_normalization){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finel_tickers2names_en_1.0.0_3.2_1662733866127.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finel_tickers2names_en_1.0.0_3.2_1662733866127.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/finance/models/finel_tickers2names_en_1.0.0_3.2_1662733866127.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

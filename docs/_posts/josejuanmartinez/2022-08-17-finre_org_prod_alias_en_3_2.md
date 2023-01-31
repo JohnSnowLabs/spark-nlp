@@ -30,7 +30,8 @@ This model can be used to extract Aliases of Companies or Product names. An "Ali
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finre_org_prod_alias_en_1.0.0_3.2_1660739200247.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finre_org_prod_alias_en_1.0.0_3.2_1660739200247.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/finance/models/finre_org_prod_alias_en_1.0.0_3.2_1660739200247.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

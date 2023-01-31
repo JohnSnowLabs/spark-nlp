@@ -35,7 +35,8 @@ This model is a [BioBERT-based](https://github.com/dmis-lab/biobert) classifier.
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_sequence_classifier_pico_biobert_en_3.4.1_3.0_1644265236813.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_sequence_classifier_pico_biobert_en_3.4.1_3.0_1644265236813.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/bert_sequence_classifier_pico_biobert_en_3.4.1_3.0_1644265236813.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 
 ## How to use

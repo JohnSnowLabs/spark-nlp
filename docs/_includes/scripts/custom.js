@@ -154,3 +154,21 @@ if(document.querySelector('.pagination_big')) {
     }
   }
 }
+// copy to clipboard
+if (document.querySelector('.button-copy-s3')) {
+  let btnCopy = document.querySelectorAll('.button-copy-s3');
+
+  btnCopy.forEach((element) => {
+    //add span Copied!
+    element.insertAdjacentHTML('beforeend', '<span>Copied!</span>');
+
+    element.addEventListener('click', function (e) {
+      e.preventDefault();
+      element.classList.add('copied');
+      setTimeout(function () {
+        element.classList.remove('copied');
+      }, 3000);
+      navigator.clipboard.writeText(element.href);
+    });
+  });
+}
