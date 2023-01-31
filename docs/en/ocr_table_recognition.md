@@ -301,7 +301,7 @@ binary_to_image = BinaryToImage()
 binary_to_image.setImageType(ImageType.TYPE_BYTE_GRAY)
 binary_to_image.setInputCol("content")
 
-cell_detector = TableCellDetector()
+cell_detector = ImageTableCellDetector()
 cell_detector.setInputCol("image")
 cell_detector.setOutputCol("cells")
 cell_detector.setKeepInput(True)
@@ -321,7 +321,7 @@ pipeline = PipelineModel(stages=[
 
 result = pipeline.transform(df)
 
-results.select("table") \
+result.select("table") \
     .withColumn("cells", f.explode(f.col("table.chunks"))) \
     .select([f.col("cells")[i].getField("chunkText").alias(f"col{i}") for i in
              range(0, 7)]) \
