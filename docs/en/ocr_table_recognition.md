@@ -48,6 +48,44 @@ It's based on CascadeTabNet which used Cascade mask Region-based CNN High-Resolu
 
 {% include programmingLanguageSelectScalaPython.html %}
 
+```python
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read \
+    .format("binaryFile") \
+    .load(imagePath)
+
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
+
+# Define transformer for detect tables
+table_detector = ImageTableDetector \
+  .pretrained("general_model_table_detection_v2", "en", "clinical/ocr") \
+  .setInputCol("image") \
+  .setOutputCol("table_regions")
+
+draw_regions = ImageDrawRegions() \
+  .setInputCol("image") \
+  .setInputRegionsCol("table_regions") \
+  .setOutputCol("image_with_regions")
+
+
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    table_detector,
+    draw_regions
+])
+
+data = pipeline.transform(df)
+
+display_images(data, "image_with_regions")
+```
+
 ```scala
 import com.johnsnowlabs.ocr.transformers.*
 import com.johnsnowlabs.ocr.OcrContext.implicits._
@@ -81,44 +119,6 @@ pipeline = PipelineModel(stages=[
 val data = pipeline.transform(df)
 
 data.storeImage("image_with_regions")
-```
-
-```python
-from pyspark.ml import PipelineModel
-from sparkocr.transformers import *
-
-imagePath = "path to image"
-
-# Read image file as binary file
-df = spark.read 
-    .format("binaryFile")
-    .load(imagePath)
-
-binary_to_image = BinaryToImage() \
-    .setInputCol("content") \
-    .setOutputCol("image")
-
-# Define transformer for detect tables
-table_detector = ImageTableDetector \
-  .pretrained("general_model_table_detection_v2", "en", "clinical/ocr") \
-  .setInputCol("image") \
-  .setOutputCol("table_regions")
-
-draw_regions = ImageDrawRegions() \
-  .setInputCol("image") \
-  .setInputRegionsCol("table_regions") \
-  .setOutputCol("image_with_regions")
-
-
-pipeline = PipelineModel(stages=[
-    binary_to_image,
-    table_detector,
-    draw_regions
-])
-
-data = pipeline.transform(df)
-
-display_images(data, "image_with_regions")
 ```
 
 </div>
@@ -171,6 +171,36 @@ Current implementation support few algorithm for extract cells:
 
 {% include programmingLanguageSelectScalaPython.html %}
 
+```python
+from pyspark.ml import PipelineModel
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read \
+    .format("binaryFile") \
+    .load(imagePath)
+
+binary_to_image = BinaryToImage() \
+    .setInputCol("content") \
+    .setOutputCol("image")
+
+# Define transformer for detect cells
+transformer = ImageTableCellDetector() \
+  .setInputCol("image") \
+  .setOutputCol("cells") \
+  .setAlgoParams("row_treshold=0.05")
+
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    transformer
+])
+
+data = pipeline.transform(df)
+data.select("cells").show()
+```
+
 ```scala
 import com.johnsnowlabs.ocr.transformers.*
 import com.johnsnowlabs.ocr.OcrContext.implicits._
@@ -190,36 +220,6 @@ val transformer = new ImageTableCellDetector()
 
 val data = transformer.transform(df)
 
-data.select("cells").show()
-```
-
-```python
-from pyspark.ml import PipelineModel
-from sparkocr.transformers import *
-
-imagePath = "path to image"
-
-# Read image file as binary file
-df = spark.read 
-    .format("binaryFile")
-    .load(imagePath)
-
-binary_to_image = BinaryToImage() \
-    .setInputCol("content") \
-    .setOutputCol("image")
-
-# Define transformer for detect cells
-transformer = ImageTableCellDetector \
-  .setInputCol("image") \
-  .setOutputCol("cells") \
-  .setAlgoParams("row_treshold=0.05")
-
-pipeline = PipelineModel(stages=[
-    binary_to_image,
-    transformer
-])
-
-data = pipeline.transform(df)
 data.select("cells").show()
 ```
 
@@ -285,6 +285,49 @@ to _outputCol_ as TableContainer structure.
 
 {% include programmingLanguageSelectScalaPython.html %}
 
+```python
+from pyspark.ml import PipelineModel
+import pyspark.sql.functions as f
+from sparkocr.transformers import *
+
+imagePath = "path to image"
+
+# Read image file as binary file
+df = spark.read \
+    .format("binaryFile") \
+    .load(imagePath)
+
+binary_to_image = BinaryToImage()
+binary_to_image.setImageType(ImageType.TYPE_BYTE_GRAY)
+binary_to_image.setInputCol("content")
+
+cell_detector = TableCellDetector()
+cell_detector.setInputCol("image")
+cell_detector.setOutputCol("cells")
+cell_detector.setKeepInput(True)
+
+table_recognition = ImageCellsToTextTable()
+table_recognition.setInputCol("image")
+table_recognition.setCellsCol('cells')
+table_recognition.setMargin(2)
+table_recognition.setStrip(True)
+table_recognition.setOutputCol('table')
+
+pipeline = PipelineModel(stages=[
+    binary_to_image,
+    cell_detector,
+    table_recognition
+])
+
+result = pipeline.transform(df)
+
+results.select("table") \
+    .withColumn("cells", f.explode(f.col("table.chunks"))) \
+    .select([f.col("cells")[i].getField("chunkText").alias(f"col{i}") for i in
+             range(0, 7)]) \
+    .show(20, False)
+```
+
 ```scala
 import org.apache.spark.ml.Pipeline
 import com.johnsnowlabs.ocr.transformers.*
@@ -324,49 +367,6 @@ results.select("tables")
   .select((0 until 7).map(i => col("cells")(i).getField("chunkText").alias(s"col$i")): _*)
   .show(false)
 
-```
-
-```python
-from pyspark.ml import PipelineModel
-import pyspark.sql.functions as f
-from sparkocr.transformers import *
-
-imagePath = "path to image"
-
-# Read image file as binary file
-df = spark.read 
-    .format("binaryFile")
-    .load(imagePath)
-
-binary_to_image = BinaryToImage()
-binary_to_image.setImageType(ImageType.TYPE_BYTE_GRAY)
-binary_to_image.setInputCol("content")
-
-cell_detector = TableCellDetector()
-cell_detector.setInputCol("image")
-cell_detector.setOutputCol("cells")
-cell_detector.setKeepInput(True)
-
-table_recognition = ImageCellsToTextTable()
-table_recognition.setInputCol("image")
-table_recognition.setCellsCol('cells')
-table_recognition.setMargin(2)
-table_recognition.setStrip(True)
-table_recognition.setOutputCol('table')
-
-pipeline = PipelineModel(stages=[
-    binary_to_image,
-    cell_detector,
-    table_recognition
-])
-
-result = pipeline.transform(df)
-
-results.select("table") \
-    .withColumn("cells", f.explode(f.col("table.chunks"))) \
-    .select([f.col("cells")[i].getField("chunkText").alias(f"col{i}") for i in
-             range(0, 7)]) \
-    .show(20, False)
 ```
 
 </div>
