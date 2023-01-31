@@ -591,11 +591,19 @@ object ResourceDownloader {
     val (bucketName, keyPrefix) = ResourceHelper.parseS3URI(path)
 
     val (accessKey, secretKey, sessionToken) = ConfigHelper.getHadoopS3Config
-    val privateS3Defined = accessKey != null && secretKey != null && sessionToken != null
+    val region = ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalRegion)
+    val privateS3Defined =
+      accessKey != null && secretKey != null && sessionToken != null && region.nonEmpty
 
     val awsGateway =
-      if (privateS3Defined) new AWSGateway(accessKey, secretKey, sessionToken)
-      else new AWSGateway(credentialsType = "public")
+      if (privateS3Defined)
+        new AWSGateway(accessKey, secretKey, sessionToken, region = region)
+      else {
+        if (accessKey != null || secretKey != null || sessionToken != null)
+          logger.info(
+            "Not all configs set for private S3 access. Defaulting to public downloader.")
+        new AWSGateway(credentialsType = "public")
+      }
 
     val tmpDirectory = SparkFiles.getRootDirectory()
     awsGateway.downloadFilesFromDirectory(bucketName, keyPrefix, new File(tmpDirectory))
