@@ -68,7 +68,7 @@ object LoadExternalModel {
     require(f.isDirectory, s"Folder $modelPath is not folder")
 
     /*Check if the assets path is correct*/
-    val assetsPath = Paths.get(modelPath, "/assets").toString
+    val assetsPath = Paths.get(modelPath, "assets").toString
     val assetsPathFile = new File(assetsPath)
     require(assetsPathFile.exists, s"Folder $assetsPath not found")
     require(assetsPathFile.isDirectory, s"Folder $assetsPath is not folder")
@@ -108,7 +108,7 @@ object LoadExternalModel {
   }
 
   def loadTextAsset(assetPath: String, assetName: String): Array[String] = {
-    val assetFile = checkAndCreateFile(assetPath + "/assets", assetName)
+    val assetFile = checkAndCreateFile(Paths.get(assetPath, "assets").toString, assetName)
 
     // Convert to URL first to access correct file protocol
     val assetResource =
@@ -124,7 +124,7 @@ object LoadExternalModel {
     *   SentencePieceWrapper
     */
   def loadSentencePieceAsset(assetPath: String, assetName: String): SentencePieceWrapper = {
-    val assetFile = checkAndCreateFile(assetPath + "/assets", assetName)
+    val assetFile = checkAndCreateFile(Paths.get(assetPath, "assets").toString, assetName)
     SentencePieceWrapper.read(assetFile.toString)
   }
 
@@ -136,7 +136,7 @@ object LoadExternalModel {
     *   JSON as String to be parsed later
     */
   def loadJsonStringAsset(assetPath: String, assetName: String): String = {
-    val assetFile = checkAndCreateFile(assetPath + "/assets", assetName)
+    val assetFile = checkAndCreateFile(Paths.get(assetPath, "assets").toString, assetName)
     val vocabStream = ResourceHelper.getResourceStream(assetFile.getAbsolutePath)
     Source.fromInputStream(vocabStream).mkString
   }

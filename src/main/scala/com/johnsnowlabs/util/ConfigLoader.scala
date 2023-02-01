@@ -36,8 +36,8 @@ object ConfigLoader {
     getConfigInfo(ConfigHelper.pretrainedS3BucketKey, "auxdata.johnsnowlabs.com") ++
       getConfigInfo(ConfigHelper.pretrainedCommunityS3BucketKey, "community.johnsnowlabs.com") ++
       getConfigInfo(ConfigHelper.pretrainedS3PathKey, "") ++
-      getConfigInfo(ConfigHelper.pretrainedCacheFolder, homeDirectory + "/cache_pretrained") ++
-      getConfigInfo(ConfigHelper.annotatorLogFolder, homeDirectory + "/annotator_logs") ++
+      getConfigInfo(ConfigHelper.pretrainedCacheFolder, java.nio.file.Paths.get(homeDirectory, "cache_pretrained").toString) ++
+      getConfigInfo(ConfigHelper.annotatorLogFolder, java.nio.file.Paths.get(homeDirectory, "annotator_logs").toString) ++
       getConfigInfo(ConfigHelper.accessKeyId, "") ++
       getConfigInfo(ConfigHelper.secretAccessKey, "") ++
       getConfigInfo(ConfigHelper.sessionToken, "") ++
