@@ -1139,12 +1139,7 @@ For pretrained models please use AssertionDLModel and see the
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 <span class="n">chunk</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Doc2Chunk</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"doc_chunk"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setChunkCol</span><span class="p">(</span><span class="s">"chunk"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setStartCol</span><span class="p">(</span><span class="s">"tkn_start"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setStartColByTokenIndex</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setFailOnMissing</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setLowerCase</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"doc_chunk"</span><span class="p">)</span>
 <span class="n">token</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Tokenizer</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'document'</span><span class="p">])</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'token'</span><span class="p">)</span>
@@ -5745,9 +5740,9 @@ setRefFileFormat and setRefSep.</p>
     <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_deid_enriched"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">]).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
 
-<span class="n">nerConverter</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">NerConverter</span><span class="p">()</span> \
+<span class="n">nerConverter</span> <span class="o">=</span> <span class="n">medical</span><span class="p">.</span><span class="n">NerConverterInternal</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_con"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
 <span class="c1"># Deidentification
 </span><span class="n">deIdentification</span> <span class="o">=</span> <span class="n">medical</span><span class="p">.</span><span class="n">DeIdentification</span><span class="p">()</span> \
