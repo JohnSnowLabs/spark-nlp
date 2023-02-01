@@ -77,8 +77,8 @@ object ResourceHelper {
       .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
       .config("spark.kryoserializer.buffer.max", "1000M")
       .config("spark.driver.maxResultSize", "0")
-      .config(ConfigHelper.awsExternalAccessKeyId, awsAccessKeyId)
-      .config(ConfigHelper.awsExternalSecretAccessKey, awsSecretAccessKey)
+      .config("spark.hadoop.fs.s3a.access.key", awsAccessKeyId)
+      .config("spark.hadoop.fs.s3a.secret.key", awsSecretAccessKey)
       .config(ConfigHelper.awsExternalRegion, region)
       .config(
         "spark.hadoop.fs.s3a.aws.credentials.provider",
@@ -93,7 +93,7 @@ object ResourceHelper {
       require(
         awsSessionToken.isDefined,
         "AWS Session token needs to be provided for TemporaryAWSCredentialsProvider.")
-      sparkSession.config(ConfigHelper.awsExternalSessionToken, awsSessionToken.get)
+      sparkSession.config("spark.hadoop.fs.s3a.session.token", awsSessionToken.get)
     }
 
     sparkSession.getOrCreate()
