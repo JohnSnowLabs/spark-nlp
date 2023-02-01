@@ -44,7 +44,7 @@ That cluster can be then replicated (cloned) for production purposes later on.
 ## Configuring Databricks for Spark NLP and MLFlow
 In `Databricks Runtime Version`, select any **Standard** runtime, **not ML** ones.. These ones add their version of MLFlow, and some incompatibilities may arise. For this example, we have used `8.3 (includes Apache Spark 3.1.1, Scala 2.12)`
 
-The cluster instantiated is prepared to use Spark NLP, but to make it production-ready using MLFlow, we need to add the MLFlow jar, in addition to the Spark NLP jar, as shown in the "Experiment Tracking" section. 
+The cluster instantiated is prepared to use Spark NLP, but to make it production-ready using MLFlow, we need to add the MLFlow jar, in addition to the Spark NLP jar, as shown in the "Experiment Tracking" section.
 
 In that case, we did it instantiating adding both jars (`"spark.jars.packages":" com.johnsnowlabs.nlp:spark-nlp_2.12:3.3.2,org.mlflow:mlflow-spark:1.21.0"`) into the SparkSession. However, in Databricks, you don't instantiate programatically a session, but you configure it in the Compute screen, selecting your Spark NLP cluster, and then going to `Configuration -> Advanced Options -> Sparl -> Spark Config`, as shown in the following image:
 
@@ -109,7 +109,7 @@ lemmatizer = LemmatizerModel.pretrained() \
     .setOutputCol("prediction")  # It's mandatory to call it prediction
 
 pipeline = Pipeline(stages=[
-  documentAssembler, 
+  documentAssembler,
   tokenizer,
   lemmatizer
  ])
@@ -129,7 +129,7 @@ conda_env = {
     'dependencies': [
         'python=3.8.8',
         {
-            "pip": [              
+            "pip": [
               'pyspark==3.1.1',
               'mlflow==1.21.0',
               'spark-nlp==3.3.2'
@@ -254,7 +254,7 @@ This is an example of how the notebook looks like:
 ### 3. Externally, with the MLFlow Serve REST API
 Instead of chosing a Batch Inference, you can select REST API. This will lead you to another screen, when the model will be loaded for production purposes in an independent cluster. Once deployed, you will be able to:
 1) Check the endpoint URL to consume the model externally;
-2) Test the endpoint writing a json (in our example, 'text' is our first input col of the pipeline, so it shoud look similar to: 
+2) Test the endpoint writing a json (in our example, 'text' is our first input col of the pipeline, so it shoud look similar to:
 ```
 {"text": "This is a test of how the lemmatizer works"}
 ```
@@ -335,7 +335,7 @@ annotationType = T.StructType([
             T.StructField('metadata', T.MapType(T.StringType(), T.StringType()), False),
             T.StructField('embeddings', T.ArrayType(T.FloatType()), False)
         ])
-		
+
 spark_res = spark.createDataFrame(res_spark[0], schema=annotationType)
 ```
 
@@ -353,7 +353,7 @@ dbutils.notebook.exit(json.dumps({
   "results": txt_results
 }))
 ```
-#### Configuring the job 
+#### Configuring the job
 
 Last, but not least. We need to precreate the job, so that we run it from the API. We could do that using the API as well, but we will show you how to do it using the UI.
 
@@ -411,7 +411,7 @@ This is the first article of the “Serving Spark NLP via API” series, showcas
 
 ## Background
 
-[Spark NLP](https://towardsdatascience.com/introduction-to-spark-nlp-foundations-and-basic-components-part-i-c83b7629ed59) is a Natural Language Understanding Library built on top of Apache Spark, leveranging Spark MLLib pipelines, that allows you to run NLP models at scale, including SOTA Transformers. Therefore, it’s the only production-ready NLP platform that allows you to go from a simple PoC on 1 driver node, to scale to multiple nodes in a cluster, to process big amounts of data, in a matter of minutes. 
+[Spark NLP](https://towardsdatascience.com/introduction-to-spark-nlp-foundations-and-basic-components-part-i-c83b7629ed59) is a Natural Language Understanding Library built on top of Apache Spark, leveranging Spark MLLib pipelines, that allows you to run NLP models at scale, including SOTA Transformers. Therefore, it’s the only production-ready NLP platform that allows you to go from a simple PoC on 1 driver node, to scale to multiple nodes in a cluster, to process big amounts of data, in a matter of minutes.
 
 Before starting, if you want to know more about all the advantages of using Spark NLP (as the ability to work at scale on [air-gapped environments](https://nlp.johnsnowlabs.com/docs/en/install#offline), for instance) we recommend you to take a look at the following resources:
 
@@ -439,7 +439,7 @@ This is first of a series of 2 articles that explain four options you can use to
 
  4. Using MLFlow serve API in Databricks (see Part 2/2 here);
 
-All of them have their strenghts and weaknesses, so let’s go over them in detail.
+All of them have their Strengths and weaknesses, so let’s go over them in detail.
 
 </div><div class="h3-box" markdown="1">
 
@@ -454,7 +454,7 @@ They offer a seamless integratation with OpenCV, LightGBM, Microsoft Cognitive T
 
 </div><div class="h3-box" markdown="1">
 
-### Strenghts
+### Strengths
 
 * *Ready-to-use server*
 
@@ -511,43 +511,43 @@ Now, let’s create a Spark NLP for Healthcare pipeline to carry out Entity Reso
     **document_assembler =** *DocumentAssembler*()\
           **.**setInputCol("text")\
           **.**setOutputCol("document")
-    
+
     **sentenceDetectorDL =** *SentenceDetectorDLModel***.**pretrained("sentence_detector_dl_healthcare", "en", 'clinical/models') \
           **.**setInputCols(["document"]) \
           **.**setOutputCol("sentence")
-    
+
     **tokenizer =** *Tokenizer*()\
           **.**setInputCols(["sentence"])\
           **.**setOutputCol("token")
-    
+
     **word_embeddings =** *WordEmbeddingsModel***.**pretrained("embeddings_clinical", "en", "clinical/models")\
       **.**setInputCols(["sentence", "token"])\
       **.**setOutputCol("word_embeddings")
-    
+
     **clinical_ner =** *MedicalNerModel***.**pretrained("ner_clinical", "en", "clinical/models") \
           **.**setInputCols(["sentence", "token", "word_embeddings"]) \
           **.**setOutputCol("ner")
-    
+
     **ner_converter_icd =** *NerConverterInternal*() \
           **.**setInputCols(["sentence", "token", "ner"]) \
           **.**setOutputCol("ner_chunk")\
           **.**setWhiteList(['PROBLEM'])\
           **.**setPreservePosition(**False**)
-    
+
     **c2doc =** *Chunk2Doc*()\
           **.**setInputCols("ner_chunk")\
-          **.**setOutputCol("ner_chunk_doc") 
-    
+          **.**setOutputCol("ner_chunk_doc")
+
     **sbert_embedder =** *BertSentenceEmbeddings***.**pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
           **.**setInputCols(["ner_chunk_doc"])\
           **.**setOutputCol("sentence_embeddings")\
           **.**setCaseSensitive(**False**)
-        
+
     **icd_resolver =** *SentenceEntityResolverModel***.**pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models") \
          **.**setInputCols(["ner_chunk", "sentence_embeddings"]) \
          **.**setOutputCol("icd10cm_code")\
          **.**setDistanceFunction("EUCLIDEAN")
-        
+
     **resolver_pipeline =** *Pipeline*(
         stages **=** [
             document_assembler,
@@ -583,12 +583,12 @@ Now, let’s spin up a server using Synapse ML Spark Serving. It will consist of
         **.**option("name", "benchmark_api") \
         **.**load() \
         **.**parseRequest("benchmark_api", data**.**schema)
-    
+
 
     **#2: Applying transform to the dataframe using our Spark NLP pipeline
     serving_output =** resolver_p_model**.**transform(serving_input) \
         **.**makeReply("icd10cm_code")
-    
+
 
     **#3: Returning the response in json format**
     **server =** serving_output**.**writeStream \
@@ -625,7 +625,7 @@ Read more about the performance advantages of using *LightPipelines *in [this ar
 
 </div><div class="h3-box" markdown="1">
 
-### Strenghts
+### Strengths
 
 * *Quickest approach*
 
@@ -661,7 +661,7 @@ The aim of this file is to create a suitable Docker Image with all the OS and Py
 
     **FROM **ubuntu:18.04
     **RUN **apt-get update && apt-get -y update
-    
+
     **RUN **apt-get -y update \
         && apt-get install -y wget \
         && apt-get install -y jq \
@@ -671,10 +671,10 @@ The aim of this file is to create a suitable Docker Image with all the OS and Py
         && pip3 -q install pip --upgrade \
         && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
              /usr/share/man /usr/share/doc /usr/share/doc-base
-    
+
     **ENV **PYSPARK_DRIVER_PYTHON=python3
     **ENV **PYSPARK_PYTHON=python3
-    
+
     **ENV **LC_ALL=C.UTF-8
     **ENV **LANG=C.UTF-8
 
@@ -728,13 +728,13 @@ This file is the entry point of our Docker container, which carries out the foll
             export $s
         done
     }
-    
+
     **export_json **"/content/sparknlp_keys.json"
-    
+
 
     **# Installs the proper version of Spark NLP for Healthcare
     pip install **--upgrade spark-nlp-jsl==$JSL_VERSION --user --extra-index-url https://pypi.johnsnowlabs.com/$SECRET
-    
+
     if [ $? != 0 ];
     then
         exit 1
@@ -776,9 +776,9 @@ Then, the startup event to preload the pipelines and start a Spark NLP Session:
             license_keys **=** json**.**load(f)
 
      **   spark =** sparknlp_jsl**.**start(secret**=**license_keys['SECRE
-        
+
         **pipelines**['ner_profiling_clinical'] **=** *PretrainedPipeline*('ner_profiling_clinical', 'en', 'clinical/models')
-        
+
         **pipelines**['clinical_deidentification'] **=** *PretrainedPipeline*("clinical_deidentification", "en", "clinical/models")
 
 Finally, let’s run a uvicorn server, listening on port 8515 to the endpoints declared before:
@@ -817,7 +817,7 @@ Lets import some libraries
 Then, let’s create a clinical note
 
     **ner_text =** """
-    *A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus ( T2DM ), one prior episode of HTG-induced pancreatitis three years prior to presentation , associated with an acute hepatitis , and obesity with a body mass index ( BMI ) of 33.5 kg/m2 , presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting. The patient was prescribed 1 capsule of Advil 10 mg for 5 days and magnesium hydroxide 100mg/1ml suspension PO. 
+    *A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus ( T2DM ), one prior episode of HTG-induced pancreatitis three years prior to presentation , associated with an acute hepatitis , and obesity with a body mass index ( BMI ) of 33.5 kg/m2 , presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting. The patient was prescribed 1 capsule of Advil 10 mg for 5 days and magnesium hydroxide 100mg/1ml suspension PO.
     He was seen by the endocrinology service and she was discharged on 40 units of insulin glargine at night , 12 units of insulin lispro with meals , and metformin 1000 mg two times a day.*
     """
 
