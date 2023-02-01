@@ -36,19 +36,13 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
   *   .setInputCol("text")
   *   .setOutputCol("document")
   *
-  * val date = new DateMatcher()
-  *   .setInputCols("document")
-  *   .setOutputCol("date")
-  *
   * val inputFormats = Array("yyyy", "yyyy/dd/MM", "MM/yyyy", "yyyy")
   * val outputFormat = "yyyy/MM/dd"
   *
   * val date = new DateMatcher()
   *   .setInputCols("document")
   *   .setOutputCol("date")
-  *   .setAnchorDateYear(1900)
-  *   .setInputFormats(inputFormats)
-  *   .setOutputFormat(outputFormat)
+  *
   *
   * val date2Chunk = new Date2Chunk()
   *   .setInputCols("date")
@@ -93,8 +87,8 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
   *   parameter values through setters and getters, respectively.
   */
 class Date2Chunk(override val uid: String)
-    extends AnnotatorModel[Token2Chunk]
-    with HasSimpleAnnotate[Token2Chunk] {
+    extends AnnotatorModel[Date2Chunk]
+    with HasSimpleAnnotate[Date2Chunk] {
 
   /** Output Annotator Type : CHUNK
     *
@@ -102,7 +96,7 @@ class Date2Chunk(override val uid: String)
     */
   override val outputAnnotatorType: AnnotatorType = CHUNK
 
-  /** Input Annotator Type : TOKEN
+  /** Input Annotator Type : DATE
     *
     * @group anno
     */
