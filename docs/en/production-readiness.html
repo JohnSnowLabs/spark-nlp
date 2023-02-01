@@ -647,7 +647,7 @@ lemmatizer = LemmatizerModel.pretrained() \
     .setOutputCol("prediction")  # It's mandatory to call it prediction
 
 pipeline = Pipeline(stages=[
-  documentAssembler, 
+  documentAssembler,
   tokenizer,
   lemmatizer
  ])
@@ -666,7 +666,7 @@ pipeline = Pipeline(stages=[
     'dependencies': [
         'python=3.8.8',
         {
-            "pip": [              
+            "pip": [
               'pyspark==3.1.1',
               'mlflow==1.21.0',
               'spark-nlp==3.3.2'
@@ -861,7 +861,7 @@ annotationType = T.StructType([
             T.StructField('metadata', T.MapType(T.StringType(), T.StringType()), False),
             T.StructField('embeddings', T.ArrayType(T.FloatType()), False)
         ])
-		
+
 spark_res = spark.createDataFrame(res_spark[0], schema=annotationType)
 </code></pre></div>  </div>
 
@@ -977,7 +977,7 @@ Body:
     </li>
   </ol>
 
-  <p>All of them have their strenghts and weaknesses, so let’s go over them in detail.</p>
+  <p>All of them have their Strengths and weaknesses, so let’s go over them in detail.</p>
 
 </div>
 <div class="h3-box">
@@ -996,7 +996,7 @@ Body:
 </div>
 <div class="h3-box">
 
-  <h3 id="strenghts">Strenghts</h3>
+  <h3 id="strengths">Strengths</h3>
 
   <ul>
     <li>
@@ -1095,18 +1095,18 @@ Body:
 
 **c2doc =** *Chunk2Doc*()\
       **.**setInputCols("ner_chunk")\
-      **.**setOutputCol("ner_chunk_doc") 
+      **.**setOutputCol("ner_chunk_doc")
 
 **sbert_embedder =** *BertSentenceEmbeddings***.**pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
       **.**setInputCols(["ner_chunk_doc"])\
       **.**setOutputCol("sentence_embeddings")\
       **.**setCaseSensitive(**False**)
-    
+
 **icd_resolver =** *SentenceEntityResolverModel***.**pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models") \
      **.**setInputCols(["ner_chunk", "sentence_embeddings"]) \
      **.**setOutputCol("icd10cm_code")\
      **.**setDistanceFunction("EUCLIDEAN")
-    
+
 **resolver_pipeline =** *Pipeline*(
     stages **=** [
         document_assembler,
@@ -1197,7 +1197,7 @@ res **=** requests**.**post("http://localhost:9999/benchmark_api", data= json**.
 </div>
 <div class="h3-box">
 
-  <h3 id="strenghts-1">Strenghts</h3>
+  <h3 id="strengths-1">Strengths</h3>
 
   <ul>
     <li>
@@ -1380,9 +1380,9 @@ pipelines **=** {}
         license_keys **=** json**.**load(f)
 
  **   spark =** sparknlp_jsl**.**start(secret**=**license_keys['SECRE
-    
+
     **pipelines**['ner_profiling_clinical'] **=** *PretrainedPipeline*('ner_profiling_clinical', 'en', 'clinical/models')
-    
+
     **pipelines**['clinical_deidentification'] **=** *PretrainedPipeline*("clinical_deidentification", "en", "clinical/models")
 </code></pre></div>  </div>
 
@@ -1429,7 +1429,7 @@ pipelines **=** {}
   <p>Then, let’s create a clinical note</p>
 
   <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>**ner_text =** """
-*A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus ( T2DM ), one prior episode of HTG-induced pancreatitis three years prior to presentation , associated with an acute hepatitis , and obesity with a body mass index ( BMI ) of 33.5 kg/m2 , presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting. The patient was prescribed 1 capsule of Advil 10 mg for 5 days and magnesium hydroxide 100mg/1ml suspension PO. 
+*A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus ( T2DM ), one prior episode of HTG-induced pancreatitis three years prior to presentation , associated with an acute hepatitis , and obesity with a body mass index ( BMI ) of 33.5 kg/m2 , presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting. The patient was prescribed 1 capsule of Advil 10 mg for 5 days and magnesium hydroxide 100mg/1ml suspension PO.
 He was seen by the endocrinology service and she was discharged on 40 units of insulin glargine at night , 12 units of insulin lispro with meals , and metformin 1000 mg two times a day.*
 """
 </code></pre></div>  </div>

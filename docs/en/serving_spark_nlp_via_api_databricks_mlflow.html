@@ -616,14 +616,14 @@ You can find two more approaches (first, using FastAPI and second, using Synapse
 </div>
 <div class="h3-box">
 
-  <h3 id="strenghts">Strenghts</h3>
+  <h3 id="strengths">Strengths</h3>
 
   <ul>
     <li>
       <p><em>Easily configurable and scalable clusters in Databricks</em></p>
     </li>
     <li>
-      <p><em>Seamless integration of SPark NLP and Databricks for automatically creating Spark NLP clusters (check <a href="https://www.johnsnowlabs.com/databricks/">Install on Databricks URL</a>)</em></p>
+      <p><em>Seamless integration of Spark NLP and Databricks for automatically creating Spark NLP clusters (check <a href="https://www.johnsnowlabs.com/databricks/">Install on Databricks URL</a>)</em></p>
     </li>
     <li>
       <p><em>Integration with MLFlow, experiment tracking, etc.</em></p>
@@ -743,7 +743,7 @@ lemmatizer = LemmatizerModel.pretrained() \
     .setOutputCol("prediction")  # It's mandatory to call it prediction
 
 pipeline = Pipeline(stages=[
-  documentAssembler, 
+  documentAssembler,
   tokenizer,
   lemmatizer
  ])
@@ -764,7 +764,7 @@ p_model = pipeline.fit( spark.createDataFrame([[""]]).toDF("text") )
     'dependencies': [
         'python=3.8.8',
         {
-            "pip": [              
+            "pip": [
               'pyspark==3.1.1',
               'mlflow==1.21.0',
               'spark-nlp==[YOUR_SPARKNLP_VERSION]'
@@ -978,7 +978,7 @@ annotationType = T.StructType([
             T.StructField('metadata', T.MapType(T.StringType(), T.StringType()), False),
             T.StructField('embeddings', T.ArrayType(T.FloatType()), False)
         ])
-		
+
 spark_res = spark.createDataFrame(res_spark[0], schema=annotationType)
 </code></pre></div>  </div>
 
@@ -1046,7 +1046,7 @@ spark_res = spark.createDataFrame(res_spark[0], schema=annotationType)
   <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{"notebook_output": {
   "status": "OK",
   "results": ["This", "is", "a", "example", "of", "how", "lemmatizer", "work"]
-}}    
+}}
 </code></pre></div>  </div>
 
   <p>The notebook will be prepared in the job, but idle, until you call it programatically, what will instantiate a run.</p>

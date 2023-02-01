@@ -615,7 +615,7 @@
 </div>
 <div class="h3-box">
 
-  <h3 id="strenghts">Strenghts</h3>
+  <h3 id="strengths">Strengths</h3>
 
   <ul>
     <li>
@@ -714,18 +714,18 @@ ner_converter_icd = NerConverterInternal() \
 
 c2doc = Chunk2Doc()\
       .setInputCols("ner_chunk")\
-      .setOutputCol("ner_chunk_doc") 
+      .setOutputCol("ner_chunk_doc")
 
 sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
       .setInputCols(["ner_chunk_doc"])\
       .setOutputCol("sentence_embeddings")\
       .setCaseSensitive(False)
-    
+
 icd_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models") \
      .setInputCols(["ner_chunk", "sentence_embeddings"]) \
      .setOutputCol("icd10cm_code")\
      .setDistanceFunction("EUCLIDEAN")
-    
+
 resolver_pipeline = Pipeline(
     stages = [
         document_assembler,
