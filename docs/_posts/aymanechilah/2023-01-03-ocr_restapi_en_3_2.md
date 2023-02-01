@@ -94,7 +94,7 @@ r = requests.post(data=payload, headers=headers, url=f"http://{SERVER_HOST}:{SER
 ### Input:
 ![Screenshot](/assets/images/examples_ocr/image2.png)
 
-### Output:
+## Output text
 
 ```bash
 Response:

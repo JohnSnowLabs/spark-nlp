@@ -97,11 +97,19 @@ val result = pipeline.transform(image_df)
 
 ## Example
 
-### Input:
+{%- capture input_image -%}
 ![Screenshot](/assets/images/examples_ocr/image5.png)
+{%- endcapture -%}
 
-### Output:
+{%- capture output_image -%}
 ![Screenshot](/assets/images/examples_ocr/image5_out.png)
+{%- endcapture -%}
+
+
+{% include templates/input_output_image.md
+input_image=input_image
+output_image=output_image
+%}
 
 
 {:.model-param}

@@ -138,11 +138,21 @@ val results.withColumn("filename", path_array.getItem(f.size(path_array)- 1))
 
 ## Example
 
-### Input:
-![Screenshot](/assets/images/examples_ocr/image10.jpeg)
+{%- capture input_image -%}
+![Screenshot](/assets/images/examples_ocr/image10.jpg)
+{%- endcapture -%}
 
-### Output:
+{%- capture output_image -%}
 ![Screenshot](/assets/images/examples_ocr/image10_out.png)
+{%- endcapture -%}
+
+
+{% include templates/input_output_image.md
+input_image=input_image
+output_image=output_image
+%}
+
+## Output text
 
 ```bash
 +--------+----------------------------------------------------------------------------------------------------------------------------------------------------------+

@@ -120,11 +120,21 @@ val result = pipeline.transform(image_df).cache()
 
 ## Example
 
-### Input:
+{%- capture input_image -%}
 ![Screenshot](/assets/images/examples_ocr/image3.png)
+{%- endcapture -%}
 
-### Output:
+{%- capture output_image -%}
 ![Screenshot](/assets/images/examples_ocr/image3_out2.png)
+{%- endcapture -%}
+
+
+{% include templates/input_output_image.md
+input_image=input_image
+output_image=output_image
+%}
+
+## Output text
 ```bash
 This is an example of handwritten
 beerxt
