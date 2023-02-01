@@ -5179,7 +5179,6 @@ html,
   height: 100%;
   width: 100%; }
 
-/* start custom scss snippet */
 /****Vars****/
 body {
   font-size: 16px;
@@ -5882,6 +5881,45 @@ ol.list1 {
   overflow: auto;
   height: 100%;
   left: auto !important; }
+
+/***Lightbox***/
+.input_output_modal {
+  position: fixed;
+  padding: 30px;
+  width: 1000px;
+  top: 10%;
+  right: 0;
+  margin: auto;
+  overflow: auto;
+  height: 86%;
+  left: 0;
+  display: none;
+  z-index: 9999; }
+  .input_output_modal.open {
+    display: block; }
+  .input_output_modal img {
+    width: 100%;
+    height: auto; }
+  .input_output_modal .close-modal {
+    position: absolute;
+    right: 10px;
+    top: 10px; }
+
+.input_output_img img {
+  cursor: pointer; }
+
+#overview {
+  position: fixed;
+  z-index: 999;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  right: 0;
+  display: none;
+  top: 0;
+  background: rgba(0, 0, 0, 0.5); }
+  #overview.open {
+    display: block; }
 
 @media (min-width: 1700px) {
   .layout--page--aside:not(.layout--page--sidebar) {
@@ -7703,6 +7741,9 @@ code {
   .learn-hub.container {
     width: 768px; }
 
+  .input_output_modal {
+    width: 90%; }
+
   .learn-hub-inner {
     background: #FFFFFF;
     box-shadow: 0px 5px 15px rgba(158, 222, 250, 0.25);
@@ -7904,10 +7945,6 @@ code {
   .sponsor figure {
     padding: 20px !important; }
 
-  /* .tab-header button {
-  	margin: 10px;
-  	min-width: 220px;
-  } */
   .tabcontent h3 {
     margin: 35px 0; }
 
@@ -8175,6 +8212,9 @@ code {
     min-height: 61px;
     font-size: 17px;
     line-height: 19px; }
+
+  .input_output_modal {
+    height: auto; }
 
   .has_nlu .tab-li-model-aproach {
     min-width: 100%;

@@ -534,12 +534,74 @@
 </div>
 
 <h2 id="example">Example</h2>
+<div class="input_output_wrapper">
+  <div class="input_output_inner">
+    <div class="input_output_title">Input image</div>
 
-<h3 id="input">Input:</h3>
-<p><img src="/assets/images/examples_ocr/image3.png" alt="Screenshot" /></p>
 
-<h3 id="output">Output:</h3>
-<p><img src="/assets/images/examples_ocr/image3_out2.png" alt="Screenshot" /></p>
+<figure class="shadow input_output_img">
+
+      <p><img src="/assets/images/examples_ocr/image3.png" alt="Screenshot" /></p>
+
+    </figure>
+
+
+
+        </div>
+        <div class="input_output_inner">
+          <div class="input_output_title">Output image</div>
+
+
+<figure class="shadow input_output_img">
+
+      <p><img src="/assets/images/examples_ocr/image3_out2.png" alt="Screenshot" /></p>
+
+    </figure>
+
+
+  </div>
+  <!-- The Modal/Lightbox -->
+<div id="overview"></div>
+  <div id="myModal" class="input_output_modal shadow">
+      <a href="#" class="close-modal"><i class="fas fa-times"></i></a>
+      <img src="" alt="" />
+  </div>
+</div>
+
+<script> 
+try {
+      const imgCont = document.querySelectorAll('.input_output_img img'),
+            modelImg = document.querySelector('#myModal img'),
+            close = document.querySelector('.close-modal'),
+            overview = document.querySelector('#overview'),
+            model = document.querySelector('#myModal');
+
+      let currentSrc = '';
+
+      imgCont.forEach(item => {
+            item.addEventListener('click', (e) => {
+                  currentSrc = item.src;
+                  modelImg.src = currentSrc;
+                  model.classList.add('open');
+                  overview.classList.add('open');
+            })
+      })
+
+      close.addEventListener('click', (e) => {
+            e.preventDefault();
+            model.classList.remove('open');
+            overview.classList.remove('open');
+      }) 
+      overview.addEventListener('click', () => {
+            model.classList.remove('open');
+            overview.classList.remove('open');
+      })
+
+} catch(e){}
+</script>
+
+<h2 id="output-text">Output text</h2>
+
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>This is an example of handwritten
 beerxt
 Let<span class="s1">'s # check the performance !
@@ -952,6 +1014,7 @@ if (document.querySelector('.button-copy-s3')) {
     });
   });
 }
+
 
 
 </script></div></div>

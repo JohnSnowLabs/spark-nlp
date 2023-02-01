@@ -579,12 +579,73 @@
 </div>
 
 <h2 id="example">Example</h2>
+<div class="input_output_wrapper">
+  <div class="input_output_inner">
+    <div class="input_output_title">Input image</div>
 
-<h3 id="input">Input:</h3>
-<p><img src="/assets/images/examples_ocr/image14.png" alt="Screenshot" /></p>
 
-<h3 id="output">Output:</h3>
-<p><img src="/assets/images/examples_ocr/image14_out.png" alt="Screenshot" /></p>
+<figure class="shadow input_output_img">
+
+      <p><img src="/assets/images/examples_ocr/image14.png" alt="Screenshot" /></p>
+
+    </figure>
+
+
+
+        </div>
+        <div class="input_output_inner">
+          <div class="input_output_title">Output image</div>
+
+
+<figure class="shadow input_output_img">
+
+      <p><img src="/assets/images/examples_ocr/image14_out.png" alt="Screenshot" /></p>
+
+    </figure>
+
+
+  </div>
+  <!-- The Modal/Lightbox -->
+<div id="overview"></div>
+  <div id="myModal" class="input_output_modal shadow">
+      <a href="#" class="close-modal"><i class="fas fa-times"></i></a>
+      <img src="" alt="" />
+  </div>
+</div>
+
+<script> 
+try {
+      const imgCont = document.querySelectorAll('.input_output_img img'),
+            modelImg = document.querySelector('#myModal img'),
+            close = document.querySelector('.close-modal'),
+            overview = document.querySelector('#overview'),
+            model = document.querySelector('#myModal');
+
+      let currentSrc = '';
+
+      imgCont.forEach(item => {
+            item.addEventListener('click', (e) => {
+                  currentSrc = item.src;
+                  modelImg.src = currentSrc;
+                  model.classList.add('open');
+                  overview.classList.add('open');
+            })
+      })
+
+      close.addEventListener('click', (e) => {
+            e.preventDefault();
+            model.classList.remove('open');
+            overview.classList.remove('open');
+      }) 
+      overview.addEventListener('click', () => {
+            model.classList.remove('open');
+            overview.classList.remove('open');
+      })
+
+} catch(e){}
+</script>
+
+<h2 id="output-text">Output text</h2>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>path	modificationTime	length	hocr	height_dimension	width_dimension	pagenum	token	image	total_pages	documentnum	table_regions	scaled_image	image_with_regions	tables	exception	table_index
 file:/content/f11...	2023-01-23 08:16:...	3471478	&lt;div <span class="nv">title</span><span class="o">=</span><span class="s2">"bbox ...	791	611	1	[{token, 0, 2, 23...	{file:/content/f1...	1	0	{0, 0, 32.839153,...	{file:/content/f1...	{file:/content/f1...	{0, 0, 0.0, 0.0,...	null	0
@@ -622,7 +683,6 @@ col0	col1	col2	col3	col4
 24	22	Section 250 deduction <span class="o">(</span> attach Form 8993 <span class="o">)</span>			3.41
 25	23	Total dividends and inclusions <span class="nb">.</span> Add column <span class="o">(</span> ...	2341.23	None	None
 </code></pre></div></div>
-
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2023-01-23T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
@@ -1029,6 +1089,7 @@ if (document.querySelector('.button-copy-s3')) {
     });
   });
 }
+
 
 
 </script></div></div>
