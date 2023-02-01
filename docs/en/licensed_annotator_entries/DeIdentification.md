@@ -377,7 +377,7 @@ clinical_sensitive_entities = medical.NerModel \
     .pretrained("ner_deid_enriched", "en", "clinical/models") \
     .setInputCols(["sentence", "token", "embeddings"]).setOutputCol("ner")
 
-nerConverter = nlp.NerConverter() \
+nerConverter = medical.NerConverterInternal() \
     .setInputCols(["sentence", "token", "ner"]) \
     .setOutputCol("ner_chunk")
 
