@@ -116,11 +116,22 @@ val result = pipeline.transform(image_df).cache()
 
 ## Example
 
-### Input:
+{%- capture input_image -%}
 ![Screenshot](/assets/images/examples_ocr/image2.png)
+{%- endcapture -%}
 
-### Output:
+{%- capture output_image -%}
 ![Screenshot](/assets/images/examples_ocr/image2_out3.png)
+{%- endcapture -%}
+
+
+{% include templates/input_output_image.md
+input_image=input_image
+output_image=output_image
+%}
+
+## Output text
+
 ```bash
 STARBUCKS STORE #10208
 11302 EUCLID AVENUE

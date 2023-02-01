@@ -155,11 +155,21 @@ val result = pipeline.transform(image_df).cache()
 
 ## Example
 
-### Input:
+{%- capture input_image -%}
 ![Screenshot](/assets/images/examples_ocr/image13.png)
+{%- endcapture -%}
 
-### Output:
+{%- capture output_image -%}
 ![Screenshot](/assets/images/examples_ocr/image13_out.png)
+{%- endcapture -%}
+
+
+{% include templates/input_output_image.md
+input_image=input_image
+output_image=output_image
+%}
+
+## Output text
 
 ```bash
 text_regions	table_image	pagenum	modificationTime	path	table_regions	length	image	image_with_regions	hocr	tables	exception	table_index

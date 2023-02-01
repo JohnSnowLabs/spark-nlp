@@ -166,11 +166,21 @@ result = result.filter(result.pagenum == 1)
 
 ## Example
 
-### Input:
+{%- capture input_image -%}
 ![Screenshot](/assets/images/examples_ocr/image14.png)
+{%- endcapture -%}
 
-### Output:
+{%- capture output_image -%}
 ![Screenshot](/assets/images/examples_ocr/image14_out.png)
+{%- endcapture -%}
+
+
+{% include templates/input_output_image.md
+input_image=input_image
+output_image=output_image
+%}
+
+## Output text
 
 ```bash
 path	modificationTime	length	hocr	height_dimension	width_dimension	pagenum	token	image	total_pages	documentnum	table_regions	scaled_image	image_with_regions	tables	exception	table_index
@@ -210,6 +220,3 @@ col0	col1	col2	col3	col4
 24	22	Section 250 deduction ( attach Form 8993 )			3.41
 25	23	Total dividends and inclusions . Add column ( ...	2341.23	None	None
 ```
-
-
-

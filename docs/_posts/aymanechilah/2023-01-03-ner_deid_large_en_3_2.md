@@ -212,11 +212,22 @@ val result = pipeline.fit(image_df).transform(image_df).cache()
 
 ## Example
 
-### Input:
+{%- capture input_image -%}
 ![Screenshot](/assets/images/examples_ocr/image8.png)
+{%- endcapture -%}
 
-### Output:
+{%- capture output_image -%}
 ![Screenshot](/assets/images/examples_ocr/image8_out.png)
+{%- endcapture -%}
+
+
+{% include templates/input_output_image.md
+input_image=input_image
+output_image=output_image
+%}
+
+## Output text
+
 ```bash
 +------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 |ner_chunk                                                                                                                                                                                                                                                                                                   |
@@ -240,7 +251,7 @@ val result = pipeline.fit(image_df).transform(image_df).cache()
 ## Data Source
 
 Trained on augmented 2010 i2b2 challenge data with 'embeddings_clinical'.
-https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/
+[https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/](https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/)
 
 ## Benchmarking
 
