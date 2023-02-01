@@ -21,7 +21,7 @@ import com.johnsnowlabs.nlp.annotators._
 import com.johnsnowlabs.nlp.annotators.audio.{HubertForCTC, Wav2Vec2ForCTC}
 import com.johnsnowlabs.nlp.annotators.classifier.dl._
 import com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel
-import com.johnsnowlabs.nlp.annotators.cv.{ViTForImageClassification, SwinForImageClassification}
+import com.johnsnowlabs.nlp.annotators.cv.{SwinForImageClassification, ViTForImageClassification}
 import com.johnsnowlabs.nlp.annotators.er.EntityRulerModel
 import com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
@@ -47,7 +47,7 @@ import org.apache.hadoop.fs.FileSystem
 import org.apache.spark.SparkFiles
 import org.apache.spark.ml.util.DefaultParamsReadable
 import org.apache.spark.ml.{PipelineModel, PipelineStage}
-import org.slf4j.LoggerFactory
+import org.slf4j.{Logger, LoggerFactory}
 
 import java.io.File
 import java.net.URI
@@ -83,7 +83,7 @@ trait ResourceDownloader {
 
 object ResourceDownloader {
 
-  private val logger = LoggerFactory.getLogger(this.getClass.toString)
+  private val logger: Logger = LoggerFactory.getLogger(this.getClass.toString)
 
   val fileSystem: FileSystem = OutputHelper.getFileSystem
 
@@ -98,7 +98,8 @@ object ResourceDownloader {
 
   val publicLoc = "public/models"
 
-  private val cache = mutable.Map[ResourceRequest, PipelineStage]()
+  private val cache: mutable.Map[ResourceRequest, PipelineStage] =
+    mutable.Map[ResourceRequest, PipelineStage]()
 
   lazy val sparkVersion: Version = {
     val spark_version = ResourceHelper.spark.version
@@ -589,9 +590,22 @@ object ResourceDownloader {
 
     val (bucketName, keyPrefix) = ResourceHelper.parseS3URI(path)
 
-    val tmpDirectory = SparkFiles.getRootDirectory()
+    val (accessKey, secretKey, sessionToken) = ConfigHelper.getHadoopS3Config
+    val region = ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalRegion)
+    val privateS3Defined =
+      accessKey != null && secretKey != null && sessionToken != null && region.nonEmpty
 
-    val awsGateway = new AWSGateway()
+    val awsGateway =
+      if (privateS3Defined)
+        new AWSGateway(accessKey, secretKey, sessionToken, region = region)
+      else {
+        if (accessKey != null || secretKey != null || sessionToken != null)
+          logger.info(
+            "Not all configs set for private S3 access. Defaulting to public downloader.")
+        new AWSGateway(credentialsType = "public")
+      }
+
+    val tmpDirectory = SparkFiles.getRootDirectory()
     awsGateway.downloadFilesFromDirectory(bucketName, keyPrefix, new File(tmpDirectory))
 
     Paths.get(tmpDirectory, keyPrefix).toUri
