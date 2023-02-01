@@ -379,7 +379,7 @@ clinical_sensitive_entities = medical.NerModel \
 
 nerConverter = nlp.NerConverter() \
     .setInputCols(["sentence", "token", "ner"]) \
-    .setOutputCol("ner_con")
+    .setOutputCol("ner_chunk")
 
 # Deidentification
 deIdentification = medical.DeIdentification() \
