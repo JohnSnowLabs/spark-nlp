@@ -674,4 +674,8 @@ package object annotator {
     com.johnsnowlabs.nlp.annotators.ner.dl.ZeroShotNerModel
 
   object ZeroShotNerModel extends ReadablePretrainedZeroShotNer with ReadZeroShotNerDLModel
+
+  type Date2Chunk = com.johnsnowlabs.nlp.annotators.Date2Chunk
+
+  object Date2Chunk extends DefaultParamsReadable[Date2Chunk]
 }
