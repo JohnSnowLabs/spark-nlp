@@ -20,7 +20,7 @@ data:
           activemenu: public_health
       source: yes
       source:
-        - title: Classify Self Report Age - Tweet  
+        - title: Classify Self-Reported Age from Posts  
           id: classify_self_report_age_tweet   
           image: 
               src: /assets/images/Classify_Self_Report_Age_Tweet.svg
@@ -32,7 +32,7 @@ data:
           - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/PUBLIC_HEALTH_MB4SC.ipynb
-        - title: Detect Adverse Drug Events in Tweet   
+        - title: Detect Adverse Drug Events from Posts   
           id: detect_adverse_drug_events_tweet    
           image: 
               src: /assets/images/Detect_Adverse_Drug_Events_in_Tweet.svg
@@ -44,7 +44,7 @@ data:
           - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/PUBLIC_HEALTH_MB4SC.ipynb
-        - title: Classify Self-Reported Covid-19 Symptoms - Tweet 
+        - title: Classify Self-Reported Covid-19 Symptoms from Posts 
           id: classify_self_reported_covid_symptoms_tweet     
           image: 
               src: /assets/images/Classify_Self-Reported_Covid19_Symptoms_Tweet.svg
@@ -56,7 +56,7 @@ data:
           - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/PUBLIC_HEALTH_MB4SC.ipynb
-        - title: Classify Stance / Premise About Health Mandates in Tweets 
+        - title: Classify Stance About Public Health Mandates from Posts
           id: classify_stance_premise_about_health_mandates_tweets      
           image: 
               src: /assets/images/Classify_Stance_Premise_About_Health_Mandates_in_Tweets.svg
@@ -92,7 +92,7 @@ data:
           - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/PUBLIC_HEALTH_MB4SC.ipynb
-        - title: Classify Self Report Vaccination Status - Tweet 
+        - title: Classify Self Report Vaccination Status from Posts
           id: classify_self_report_vaccination_status_tweet          
           image: 
               src: /assets/images/Classify_Self_Report_Vaccination_Status_Tweet.svg
