@@ -59,7 +59,7 @@ import org.apache.spark.sql.SparkSession
   * [[https://nlp.johnsnowlabs.com/models?task=Translation Models Hub]].
   *
   * For extended examples of usage, see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TRANSLATION_MARIAN.ipynb Spark NLP Workshop]]
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/multilingual/Translation_Marian.ipynb Examples]]
   * and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/MarianTransformerTestSpec.scala MarianTransformerTestSpec]].
   *
