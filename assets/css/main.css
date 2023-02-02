@@ -5894,7 +5894,7 @@ ol.list1 {
   height: 86%;
   left: 0;
   display: none;
-  z-index: 9999; }
+  z-index: 99999; }
   .input_output_modal.open {
     display: block; }
   .input_output_modal img {
@@ -5910,7 +5910,7 @@ ol.list1 {
 
 #overview {
   position: fixed;
-  z-index: 999;
+  z-index: 9999;
   width: 100%;
   height: 100%;
   left: 0;
