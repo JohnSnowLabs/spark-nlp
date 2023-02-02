@@ -33,42 +33,8 @@ The corpus used for model training is provided by European Clinical Case Corpus 
 [Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/ner_eu_clinical_case_fr_4.2.8_3.0_1675293960896.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
-
-document_assembler = DocumentAssembler()\
-	.setInputCol("text")\
-	.setOutputCol("document")
  
-sentenceDetectorDL = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\
-	.setInputCols(["document"])\
-	.setOutputCol("sentence")
 
-tokenizer = Tokenizer()\
-	.setInputCols(["sentence"])\
-	.setOutputCol("token")
-
-word_embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d","fr")\
-	.setInputCols(["sentence","token"])\
-	.setOutputCol("embeddings")
-
-ner = MedicalNerModel.pretrained('ner_eu_clinical_case', "fr", "clinical/models") \
-	.setInputCols(["sentence", "token", "embeddings"]) \
-	.setOutputCol("ner")
- 
-ner_converter = NerConverter()\
-	.setInputCols(["sentence", "token", "ner"])\
-	.setOutputCol("ner_chunk")
-
-pipeline = pipeline(stages=[
-	document_assembler,
-	sentenceDetectorDL,
-	tokenizer,
-	word_embeddings,
-	ner,
-	ner_converter])
-
-data = spark.createDataFrame([["""Un garçon de 3 ans atteint d'un trouble autistique à l'hôpital du service pédiatrique A de l'hôpital universitaire. Il n'a pas d'antécédents familiaux de troubles ou de maladies du spectre autistique. Le garçon a été diagnostiqué avec un trouble de communication sévère, avec des difficultés d'interaction sociale et un traitement sensoriel retardé. Les tests sanguins étaient normaux (thyréostimuline (TSH), hémoglobine, volume globulaire moyen (MCV) et ferritine). L'endoscopie haute a également montré une tumeur sous-muqueuse provoquant une obstruction subtotale de la sortie gastrique. Devant la suspicion d'une tumeur stromale gastro-intestinale, une gastrectomie distale a été réalisée. L'examen histopathologique a révélé une prolifération de cellules fusiformes dans la couche sous-muqueuse."""]]).toDF("text")
-
-result = pipeline.fit(data).transform(data)
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
@@ -93,11 +59,11 @@ ner = MedicalNerModel.pretrained('ner_eu_clinical_case', "fr", "clinical/models"
 	.setInputCols(["sentence", "token", "embeddings"]) \
 	.setOutputCol("ner")
  
-ner_converter = NerConverter()\
+ner_converter = NerConverterInternal()\
 	.setInputCols(["sentence", "token", "ner"])\
 	.setOutputCol("ner_chunk")
 
-pipeline = pipeline(stages=[
+pipeline = Pipeline(stages=[
 	document_assembler,
 	sentenceDetectorDL,
 	tokenizer,
@@ -130,7 +96,7 @@ val ner_model = MedicalNerModel.pretrained("ner_eu_clinical_case", "fr", "clinic
     .setInputCols(Array("sentence", "token", "embeddings"))
     .setOutputCol("ner")
 
-val ner_converter = new NerConverter()
+val ner_converter = new NerConverterInternal()
     .setInputCols(Array("sentence", "token", "ner"))
     .setOutputCol("ner_chunk")
 
