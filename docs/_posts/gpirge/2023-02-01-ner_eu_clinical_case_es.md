@@ -34,45 +34,11 @@ The corpus used for model training is provided by European Clinical Case Corpus 
 
 ## How to use
 
-document_assembler = DocumentAssembler() \
-    .setInputCol('text') \
-    .setOutputCol('document')
 
-sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx") \
-  .setInputCols(["document"]) \
-  .setOutputCol("sentence")
-
-tokenizer = Tokenizer() \
-    .setInputCols(['sentence']) \
-    .setOutputCol('token')
-
-embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d","es")\
-    .setInputCols(["sentence","token"])\
-    .setOutputCol("embeddings")
-
-ner_model = MedicalNerModel.load('models/ner_eu_clinical_case')\
-    .setInputCols(["sentence", "token", "embeddings"])\
-    .setOutputCol("ner")\
-    
-ner_converter = NerConverter()\
-    .setInputCols(['sentence', 'token', 'ner'])\
-    .setOutputCol('ner_chunk')
-
-pipeline = Pipeline(stages=[
-    document_assembler, 
-    sentence_detector,
-    tokenizer,
-    embeddings,
-    ner_model,
-    ner_converter   
-])
-
-example = spark.createDataFrame([["""Un niño de 3 años con trastorno autista en el hospital de la sala pediátrica A del hospital universitario. No tiene antecedentes familiares de enfermedad o trastorno del espectro autista. El niño fue diagnosticado con un trastorno de comunicación severo, con dificultades de interacción social y retraso en el procesamiento sensorial. Los análisis de sangre fueron normales (hormona estimulante de la tiroides (TSH), hemoglobina, volumen corpuscular medio (MCV) y ferritina). La endoscopia alta también mostró un tumor submucoso que causaba una obstrucción subtotal de la salida gástrica. Ante la sospecha de tumor del estroma gastrointestinal, se realizó gastrectomía distal. El examen histopatológico reveló proliferación de células fusiformes en la capa submucosa."""]]).toDF("text")
-
-result = pipeline.fit(example).transform(example)
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
 	.setInputCol("text")\
@@ -90,15 +56,15 @@ word_embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d","es")\
 	.setInputCols(["sentence","token"])\
 	.setOutputCol("embeddings")
 
-ner = MedicalNerModel.pretrained('ner_eu_clinical_case', "es", "clinical/models") \
+ner = MedicalNerModel.pretrained("ner_eu_clinical_case", "es", "clinical/models") \
 	.setInputCols(["sentence", "token", "embeddings"]) \
 	.setOutputCol("ner")
  
-ner_converter = NerConverter()\
+ner_converter = NerConverterInternal()\
 	.setInputCols(["sentence", "token", "ner"])\
 	.setOutputCol("ner_chunk")
 
-pipeline = pipeline(stages=[
+pipeline = Pipeline(stages=[
 	document_assembler,
 	sentenceDetectorDL,
 	tokenizer,
@@ -111,41 +77,41 @@ data = spark.createDataFrame([["""Un niño de 3 años con trastorno autista en e
 result = pipeline.fit(data).transform(data)
 ```
 ```scala
-document_assembler = DocumentAssembler()\
-	.setInputCol("text")\
+val document_assembler = new DocumentAssembler()
+	.setInputCol("text")
 	.setOutputCol("document")
  
-sentenceDetectorDL = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\
-	.setInputCols(["document"])\
+val sentenceDetectorDL = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
+	.setInputCols("document")
 	.setOutputCol("sentence")
 
-tokenizer = Tokenizer()\
-	.setInputCols(["sentence"])\
+val tokenizer = new Tokenizer()
+	.setInputCols("sentence")
 	.setOutputCol("token")
 
-word_embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d","es")\
-	.setInputCols(["sentence","token"])\
+val word_embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d","es")
+	.setInputCols(Array("sentence","token"))
 	.setOutputCol("embeddings")
 
-ner = MedicalNerModel.pretrained('ner_eu_clinical_case', "es", "clinical/models") \
-	.setInputCols(["sentence", "token", "embeddings"]) \
+val ner = MedicalNerModel.pretrained("ner_eu_clinical_case", "es", "clinical/models")
+	.setInputCols(Array("sentence", "token", "embeddings"))
 	.setOutputCol("ner")
  
-ner_converter = NerConverter()\
-	.setInputCols(["sentence", "token", "ner"])\
+val ner_converter = new NerConverterInternal()
+	.setInputCols(Array("sentence", "token", "ner"))
 	.setOutputCol("ner_chunk")
 
-pipeline = pipeline(stages=[
+val pipeline = new Pipeline().setStages(Array(
 	document_assembler,
 	sentenceDetectorDL,
 	tokenizer,
 	word_embeddings,
 	ner,
-	ner_converter])
+	ner_converter))
 
-data = spark.createDataFrame([["""Un niño de 3 años con trastorno autista en el hospital de la sala pediátrica A del hospital universitario. No tiene antecedentes familiares de enfermedad o trastorno del espectro autista. El niño fue diagnosticado con un trastorno de comunicación severo, con dificultades de interacción social y retraso en el procesamiento sensorial. Los análisis de sangre fueron normales (hormona estimulante de la tiroides (TSH), hemoglobina, volumen corpuscular medio (MCV) y ferritina). La endoscopia alta también mostró un tumor submucoso que causaba una obstrucción subtotal de la salida gástrica. Ante la sospecha de tumor del estroma gastrointestinal, se realizó gastrectomía distal. El examen histopatológico reveló proliferación de células fusiformes en la capa submucosa."""]]).toDF("text")
+val data =  Seq("""Un niño de 3 años con trastorno autista en el hospital de la sala pediátrica A del hospital universitario. No tiene antecedentes familiares de enfermedad o trastorno del espectro autista. El niño fue diagnosticado con un trastorno de comunicación severo, con dificultades de interacción social y retraso en el procesamiento sensorial. Los análisis de sangre fueron normales (hormona estimulante de la tiroides (TSH), hemoglobina, volumen corpuscular medio (MCV) y ferritina). La endoscopia alta también mostró un tumor submucoso que causaba una obstrucción subtotal de la salida gástrica. Ante la sospecha de tumor del estroma gastrointestinal, se realizó gastrectomía distal. El examen histopatológico reveló proliferación de células fusiformes en la capa submucosa.""").toDS.toDF("text")
 
-result = pipeline.fit(data).transform(data)
+val result = pipeline.fit(data).transform(data)
 ```
 </div>
 
