@@ -13,7 +13,7 @@ supported: true
 engine: tensorflow
 annotator: LegalClassifierDLModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -39,6 +39,7 @@ Unlike the Longformer model, this model is lighter in terms of inference time.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 document_assembler = nlp.DocumentAssembler()\
@@ -103,12 +104,10 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 ## Benchmarking
 
 ```bash
-
                         label  precision    recall  f1-score   support
                         other       0.95      0.97      0.96        73
 second-supplemental-indenture       0.95      0.90      0.92        39
                      accuracy          -         -      0.95       112
                     macro-avg       0.95      0.94      0.94       112
                  weighted-avg       0.95      0.95      0.95       112
-
 ```
