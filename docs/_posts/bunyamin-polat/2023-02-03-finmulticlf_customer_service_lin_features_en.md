@@ -13,7 +13,7 @@ supported: true
 engine: tensorflow
 annotator: MultiClassifierDLModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -49,6 +49,7 @@ This is a Multilabel Text Classification model that can help you classify a chat
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler() \
     .setInputCol("text") \
