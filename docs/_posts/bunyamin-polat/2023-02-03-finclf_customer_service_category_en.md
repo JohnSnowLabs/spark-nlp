@@ -13,7 +13,7 @@ supported: true
 engine: tensorflow
 annotator: FinanceClassifierDLModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,6 +37,7 @@ This is a Text Classification model that can help you classify a chat message fr
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler() \
     .setInputCol("text") \
