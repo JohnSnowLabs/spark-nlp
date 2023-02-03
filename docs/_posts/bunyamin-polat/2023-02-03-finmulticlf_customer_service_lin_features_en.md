@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Multilabel Classification of Linguistic Features (Customer Service)
+title: Multilabel Classification of Customer Service (Linguistic features)
 author: John Snow Labs
 name: finmulticlf_customer_service_lin_features
 date: 2023-02-03
