@@ -53,8 +53,8 @@ import org.json4s.jackson.JsonMethods._
   * For available pretrained models please see the
   * [[https://nlp.johnsnowlabs.com/models?task=Image+Classification Models Hub]].
   *
-  * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The
-  * Spark NLP Workshop example shows how to import them
+  * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To
+  * see which models are compatible and how to import them see
   * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]] and to see more extended
   * examples, see
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/cv/SwinForImageClassificationTest.scala SwinForImageClassificationTest]].
