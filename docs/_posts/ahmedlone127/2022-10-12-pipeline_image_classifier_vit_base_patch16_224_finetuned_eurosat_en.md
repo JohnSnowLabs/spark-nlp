@@ -10,6 +10,7 @@ language: en
 edition: Spark NLP 4.2.1
 spark_version: 3.0
 supported: true
+recommended: true
 annotator: PipelineModel
 article_header:
   type: cover

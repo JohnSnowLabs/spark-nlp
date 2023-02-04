@@ -190,10 +190,10 @@ nlu.load("en.relation.adverse_drug_events.clinical.biobert").predict("""Been tak
 
 
 ```bash
-| relation | entity1 | entity1_begin | entity1_end | chunk1    | entity2 | entity2_begin | entity2_end | chunk2         | confidence |
-|---------:|:--------|--------------:|------------:|:----------|:--------|--------------:|------------:|:---------------|-----------:|
-|        1 | DRUG    |            12 |          18 | Lipitor   | ADE     |            52 |          65 | severe fatigue |   0.999317 |
-|        0 | DRUG    |            97 |         105 | voltarene | ADE     |           144 |         156 | muscle cramps  |   0.774904 |
+|   relation | entity1   |   entity1_begin |   entity1_end | chunk1    | entity2   |   entity2_begin |   entity2_end | chunk2         |   confidence |
+|-----------:|:----------|----------------:|--------------:|:----------|:----------|----------------:|--------------:|:---------------|-------------:|
+|          1 | DRUG      |              12 |            18 | Lipitor   | ADE       |              52 |            65 | severe fatigue |     0.998156 |
+|          1 | DRUG      |              97 |           105 | voltarene | ADE       |             144 |           156 | muscle cramps  |     0.985513 |
 ```
 
 

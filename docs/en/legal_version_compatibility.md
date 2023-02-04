@@ -26,6 +26,8 @@ Please find technical documentation about how to install it [here](https://nlu.j
 | 1.5.0      | 4.2.4        |
 | 1.6.0      | 4.2.5       |
 
+Check which version of Spark NLP, Visual NLP or even Clinical NLP are included in `johnsnowlabs` versions [here](https://nlu.johnsnowlabs.com/docs/en/jsl-release-notes)
+
 Legal NLP is also supported in Annotation Lab from Alab 4.2.3 version on!
 
 </div>
