@@ -33,7 +33,7 @@ import org.apache.spark.sql.Dataset
   * be set directly as an [[com.johnsnowlabs.nlp.util.io.ExternalResource ExternalResource]].
   *
   * For extended examples of usage, see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/text-matcher-pipeline/extractor.ipynb Examples]]
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/text-matcher-pipeline/extractor.ipynb Examples]]
   * and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/TextMatcherTestSpec.scala TextMatcherTestSpec]].
   *

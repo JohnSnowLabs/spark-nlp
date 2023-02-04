@@ -39,7 +39,7 @@ import org.apache.spark.sql.{Dataset, Row}
   * classifier or any other functions that require `featureCol`.
   *
   * For more extended examples see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/text-similarity/Spark_NLP_Spark_ML_Text_Similarity.ipynb Examples]].
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/text-similarity/Spark_NLP_Spark_ML_Text_Similarity.ipynb Examples]].
   *
   * ==Example==
   * {{{

@@ -30,7 +30,7 @@ import org.apache.spark.sql.{DataFrame, Dataset, Row}
   * (Default: `disabled`). For possible options please refer the parameters section.
   *
   * For more extended examples on document pre-processing see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/document-assembler/Loading_Documents_With_DocumentAssembler.ipynb Examples]].
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/document-assembler/Loading_Documents_With_DocumentAssembler.ipynb Examples]].
   *
   * ==Example==
   * {{{

@@ -39,7 +39,7 @@ object PoolingStrategy {
   * [[com.johnsnowlabs.nlp.annotators.ner.NerConverter NerConverter]] outputs.
   *
   * For extended examples of usage, see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/embeddings/ChunkEmbeddings.ipynb Examples]]
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/embeddings/ChunkEmbeddings.ipynb Examples]]
   * and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/ChunkEmbeddingsTestSpec.scala ChunkEmbeddingsTestSpec]].
   *
