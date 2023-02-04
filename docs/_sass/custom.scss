@@ -1,5 +1,3 @@
-	/* start custom scss snippet */
-
 /****Vars****/
 $color-blue: #1E77B7;
 $color-darkblue: #536B76;
@@ -906,6 +904,54 @@ ol.list1 {
 	height: 100%;
 	left: auto !important;
 }
+
+/***Lightbox***/
+
+.input_output_modal {
+	position: fixed;
+	padding: 30px;
+	width: 1000px;
+	top: 10%;
+	right: 0;
+	margin: auto;
+	overflow: auto;
+	height: 86%;
+	left: 0;
+	display: none;
+	z-index: 99999;	
+	&.open {
+		display: block;
+	}
+	img {
+		width: 100%;
+		height: auto;
+	}
+	.close-modal {
+		position: absolute;
+		right: 10px;
+		top: 10px;
+	}
+}
+
+.input_output_img img {
+	cursor: pointer;
+}
+
+#overview {
+	position: fixed;
+	z-index: 9999;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	right: 0;
+	display: none;
+	top: 0;
+	background: rgba(0, 0, 0, 0.5);
+	&.open {
+		display: block;
+	}
+}
+
 
 @media (min-width: 1700px) {
 	.layout--page--aside {
@@ -3239,6 +3285,9 @@ code {
 	.learn-hub.container {
 		width: 768px;
 	}
+	.input_output_modal {
+		width: 90%;
+	}
 	.learn-hub-inner {
 		background: #FFFFFF;
 		box-shadow: 0px 5px 15px rgba(158, 222, 250, 0.25);
@@ -3479,10 +3528,6 @@ code {
 	.sponsor figure {
 		padding: 20px !important;
 	}
-	/* .tab-header button {
-		margin: 10px;
-		min-width: 220px;
-	} */
 	.tabcontent h3 {
 		margin: 35px 0;
 	}
@@ -3794,6 +3839,9 @@ code {
 		min-height: 61px;
 		font-size: 17px;
 		line-height: 19px;
+	}
+	.input_output_modal {
+		height: auto;
 	}
 	.has_nlu {
 		.tab-li-model-aproach {

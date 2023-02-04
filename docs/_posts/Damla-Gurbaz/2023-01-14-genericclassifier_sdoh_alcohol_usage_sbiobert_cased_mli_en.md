@@ -1,6 +1,6 @@
 ---
 layout: model
-title: SDOH Alcohol Usege For Classification
+title: SDOH Alcohol Usage For Classification
 author: John Snow Labs
 name: genericclassifier_sdoh_alcohol_usage_sbiobert_cased_mli
 date: 2023-01-14
@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 4.2.4
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

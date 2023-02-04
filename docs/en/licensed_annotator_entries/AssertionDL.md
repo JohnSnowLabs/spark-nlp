@@ -430,12 +430,7 @@ document = nlp.DocumentAssembler()\
     .setOutputCol("document")
 chunk = nlp.Doc2Chunk()\
     .setInputCols("document")\
-    .setOutputCol("doc_chunk")\
-    .setChunkCol("chunk")\
-    .setStartCol("tkn_start")\
-    .setStartColByTokenIndex(True)\
-    .setFailOnMissing(False)\
-    .setLowerCase(False)
+    .setOutputCol("doc_chunk")
 token = nlp.Tokenizer()\
     .setInputCols(['document'])\
     .setOutputCol('token')
