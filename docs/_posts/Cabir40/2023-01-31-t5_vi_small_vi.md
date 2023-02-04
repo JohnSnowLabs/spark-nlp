@@ -1,0 +1,84 @@
+---
+layout: model
+title: Vietnamese T5ForConditionalGeneration Small Cased model (from NlpHUST)
+author: John Snow Labs
+name: t5_vi_small
+date: 2023-01-31
+tags: [vi, open_source, t5, tensorflow]
+task: Text Generation
+language: vi
+edition: Spark NLP 4.3.0
+spark_version: 3.0
+supported: true
+engine: tensorflow
+annotator: T5Transformer
+article_header:
+  type: cover
+use_language_switcher: "Python-Scala-Java"
+---
+
+## Description
+
+Pretrained T5ForConditionalGeneration model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `t5-vi-en-small` is a Vietnamese model originally trained by `NlpHUST`.
+
+{:.btn-box}
+<button class="button button-orange" disabled>Live Demo</button>
+<button class="button button-orange" disabled>Open in Colab</button>
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/t5_vi_small_vi_4.3.0_3.0_1675156710542.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/t5_vi_small_vi_4.3.0_3.0_1675156710542.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+
+## How to use
+
+
+
+<div class="tabs-box" markdown="1">
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+documentAssembler = DocumentAssembler() \
+    .setInputCols("text") \
+    .setOutputCols("document")
+
+t5 = T5Transformer.pretrained("t5_vi_small","vi") \
+    .setInputCols("document") \
+    .setOutputCol("answers")
+    
+pipeline = Pipeline(stages=[documentAssembler, t5])
+
+data = spark.createDataFrame([["PUT YOUR STRING HERE"]]).toDF("text")
+
+result = pipeline.fit(data).transform(data)
+```
+```scala
+val documentAssembler = new DocumentAssembler() 
+      .setInputCols("text")
+      .setOutputCols("document")
+       
+val t5 = T5Transformer.pretrained("t5_vi_small","vi") 
+    .setInputCols("document")
+    .setOutputCol("answers")
+   
+val pipeline = new Pipeline().setStages(Array(documentAssembler, t5))
+
+val data = Seq("PUT YOUR STRING HERE").toDS.toDF("text")
+
+val result = pipeline.fit(data).transform(data)
+```
+</div>
+
+{:.model-param}
+## Model Information
+
+{:.table-model}
+|---|---|
+|Model Name:|t5_vi_small|
+|Compatibility:|Spark NLP 4.3.0+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[documents]|
+|Output Labels:|[t5]|
+|Language:|vi|
+|Size:|819.8 MB|
+
+## References
+
+- https://huggingface.co/NlpHUST/t5-vi-en-small
