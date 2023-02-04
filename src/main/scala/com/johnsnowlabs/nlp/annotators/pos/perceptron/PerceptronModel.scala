@@ -42,7 +42,7 @@ import org.apache.spark.ml.util.Identifiable
   * [[https://nlp.johnsnowlabs.com/docs/en/pipelines Pipelines]].
   *
   * For extended examples of usage, see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/french/Train-Perceptron-French.ipynb Examples]].
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/french/Train-Perceptron-French.ipynb Examples]].
   *
   * ==Example==
   * {{{

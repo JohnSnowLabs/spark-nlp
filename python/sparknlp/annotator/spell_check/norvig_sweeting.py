@@ -271,7 +271,7 @@ class NorvigSweetingModel(AnnotatorModel):
 
 
     For extended examples of usage, see the `Examples
-    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb>`__.
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
