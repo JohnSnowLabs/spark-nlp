@@ -21,7 +21,7 @@ val chunker = new Chunker()
 When defining the regular expressions, tags enclosed in angle brackets are treated as groups, so here specifically
 `"<NNP>+"` means 1 or more nouns in succession. Additional patterns can also be set with `addRegexParsers`.
 
-For more extended examples see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb))
+For more extended examples see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/chunking/Chunk_Extraction_with_Chunker.ipynb))
 and the  [ChunkerTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ChunkerTestSpec.scala).
 {%- endcapture -%}
 

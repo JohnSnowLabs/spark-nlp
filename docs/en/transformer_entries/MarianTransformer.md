@@ -22,7 +22,7 @@ val marian = MarianTransformer.pretrained()
 The default model is `"opus_mt_en_fr"`, default language is `"xx"` (meaning multi-lingual), if no values are provided.
 For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Translation).
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TRANSLATION_MARIAN.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/multilingual/Translation_Marian.ipynb)
 and the [MarianTransformerTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/MarianTransformerTestSpec.scala).
 
 **Sources** :

@@ -27,7 +27,7 @@ import scala.collection.mutable.ArrayBuffer
   * input.
   *
   * For more extended examples on document pre-processing see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb Spark NLP Workshop]].
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/token-assembler/Assembling_Tokens_to_Documents.ipynb Examples]].
   *
   * ==Example==
   * {{{

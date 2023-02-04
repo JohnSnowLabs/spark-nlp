@@ -16,8 +16,8 @@ val embeddings = DeBertaEmbeddings.pretrained()
 The default model is `"deberta_v3_base"`, if no name is provided.
 
 For extended examples see [DeBertaEmbeddingsTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/DeBertaEmbeddingsTestSpec.scala).
-Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
-example shows how to import them https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
+Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are 
+compatible and how to import them see https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
 
 It builds on RoBERTa with disentangled attention and enhanced mask decoder training with half of the data used in RoBERTa.
 

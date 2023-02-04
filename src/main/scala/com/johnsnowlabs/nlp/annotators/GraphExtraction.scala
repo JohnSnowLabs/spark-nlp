@@ -572,14 +572,14 @@ class GraphExtraction(override val uid: String)
 
   private def entitiesWarnMessage: String = {
     val notebooksURI =
-      "https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/"
+      "https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/"
     val relationshipTypesNotebook =
       s"$notebooksURI/graph-extraction/graph_extraction_roots_paths.ipynb"
     val displayNotebook = s"$notebooksURI/graph-extraction/graph_extraction_helper_display.ipynb"
     val message =
       s"You can try using relationshipTypes parameter, check this notebook: $relationshipTypesNotebook \n" +
         s"You can also use spark-nlp-display to visualize Dependency Parser and NER output to help identify the kind of relations you can extract" +
-        s", check this notebook: $displayNotebook"
+        s", check this example: $displayNotebook"
     message
   }
 

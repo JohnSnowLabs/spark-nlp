@@ -27,8 +27,7 @@ provided.
 For available pretrained models please see the
 [Models Hub](https://nlp.johnsnowlabs.com/models?task=Image+Classification).
 
-Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The
-Spark NLP Workshop example shows how to import them
+Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are compatible and how to import them see
 https://github.com/JohnSnowLabs/spark-nlp/discussions/5669 and to see more extended
 examples, see
 [SwinForImageClassificationTest](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/cv/SwinForImageClassificationTest.scala).
