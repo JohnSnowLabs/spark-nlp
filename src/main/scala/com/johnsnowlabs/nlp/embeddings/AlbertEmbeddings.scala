@@ -70,7 +70,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   * The default model is `"albert_base_uncased"`, if no name is provided.
   *
   * For extended examples of usage, see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/dl-ner/ner_albert.ipynb Examples]]
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dl-ner/ner_albert.ipynb Examples]]
   * and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/AlbertEmbeddingsTestSpec.scala AlbertEmbeddingsTestSpec]].
   * To see which models are compatible and how to import them see

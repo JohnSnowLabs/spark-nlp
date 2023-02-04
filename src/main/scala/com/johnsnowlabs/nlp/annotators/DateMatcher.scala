@@ -46,7 +46,7 @@ import scala.util.matching.Regex
   * [[https://nlp.johnsnowlabs.com/docs/en/pipelines Pipelines]].
   *
   * For extended examples of usage, see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/MultiDateMatcherMultiLanguage_en.ipynb Examples]]
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/MultiDateMatcherMultiLanguage_en.ipynb Examples]]
   * and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/DateMatcherTestSpec.scala DateMatcherTestSpec]].
   *

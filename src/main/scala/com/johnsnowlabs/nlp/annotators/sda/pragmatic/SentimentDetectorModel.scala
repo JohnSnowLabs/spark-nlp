@@ -42,7 +42,7 @@ import org.apache.spark.ml.util.Identifiable
   * `true`.
   *
   * For extended examples of usage, see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/dictionary-sentiment/sentiment.ipynb Examples]]
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dictionary-sentiment/sentiment.ipynb Examples]]
   * and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/pragmatic/PragmaticSentimentTestSpec.scala SentimentTestSpec]].
   *

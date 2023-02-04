@@ -56,7 +56,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   *     has shape `[batch_size, max_length, 1024]`.
   *
   * For extended examples of usage, see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/dl-ner/ner_elmo.ipynb Examples]]
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dl-ner/ner_elmo.ipynb Examples]]
   * and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/ElmoEmbeddingsTestSpec.scala ElmoEmbeddingsTestSpec]].
   *

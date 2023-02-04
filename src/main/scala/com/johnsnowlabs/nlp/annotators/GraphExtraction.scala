@@ -572,7 +572,7 @@ class GraphExtraction(override val uid: String)
 
   private def entitiesWarnMessage: String = {
     val notebooksURI =
-      "https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/"
+      "https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/"
     val relationshipTypesNotebook =
       s"$notebooksURI/graph-extraction/graph_extraction_roots_paths.ipynb"
     val displayNotebook = s"$notebooksURI/graph-extraction/graph_extraction_helper_display.ipynb"

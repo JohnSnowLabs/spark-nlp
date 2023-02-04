@@ -65,7 +65,7 @@ object CandidateStrategy {
   * For extended examples of usage, see the article
   * [[https://towardsdatascience.com/training-a-contextual-spell-checker-for-italian-language-66dda528e4bf Training a Contextual Spell Checker for Italian Language]],
   * the
-  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/italian/Training_Context_Spell_Checker_Italian.ipynb Examples]]
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/italian/Training_Context_Spell_Checker_Italian.ipynb Examples]]
   * and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerTestSpec.scala ContextSpellCheckerTestSpec]].
   *

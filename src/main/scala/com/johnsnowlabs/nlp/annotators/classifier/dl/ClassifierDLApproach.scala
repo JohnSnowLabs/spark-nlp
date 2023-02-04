@@ -78,8 +78,8 @@ import scala.util.Random
   * }}}
   *
   * For extended examples of usage, see the Examples
-  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/scala/training/Train%20Multi-Class%20Text%20Classification%20on%20News%20Articles.scala [1]]]
-  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/classification/ClassifierDL_Train_multi_class_news_category_classifier.ipynb [2]]]
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/scala/training/Train%20Multi-Class%20Text%20Classification%20on%20News%20Articles.scala [1]]]
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/ClassifierDL_Train_multi_class_news_category_classifier.ipynb [2]]]
   * and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLTestSpec.scala ClassifierDLTestSpec]].
   *

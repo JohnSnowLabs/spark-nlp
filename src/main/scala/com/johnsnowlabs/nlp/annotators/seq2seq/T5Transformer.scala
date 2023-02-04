@@ -62,7 +62,7 @@ import org.apache.spark.sql.SparkSession
   * please see the [[https://nlp.johnsnowlabs.com/models?q=t5 Models Hub]].
   *
   * For extended examples of usage, see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/question-answering/Question_Answering_and_Summarization_with_T5.ipynb Examples]]
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/question-answering/Question_Answering_and_Summarization_with_T5.ipynb Examples]]
   * and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/T5TestSpec.scala T5TestSpec]].
   *

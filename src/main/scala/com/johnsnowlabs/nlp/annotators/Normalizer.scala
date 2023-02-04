@@ -29,7 +29,7 @@ import org.apache.spark.sql.Dataset
   * from text following a regex pattern and transforms words based on a provided dictionary
   *
   * For extended examples of usage, see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/document-normalizer/document_normalizer_notebook.ipynb Examples]].
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/document-normalizer/document_normalizer_notebook.ipynb Examples]].
   *
   * ==Example==
   * {{{
