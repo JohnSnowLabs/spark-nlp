@@ -1,0 +1,44 @@
+-DOCSTART- POS O NER
+John NNP I-NP PER
+Smith NNP I-NP PER
+works VBZ I-VP O
+at IN I-PP O
+Airbus NNP I-NP ORG
+Germany NNP B-NP LOC
+. . O O
+
+-DOCSTART- POS 1 NER
+John NNP I-NP PER
+Smith NNP I-NP PER
+works VBZ I-VP O
+at IN I-PP O
+Airbus NNP I-NP ORG
+Germany NNP B-NP LOC
+. . O O
+
+-DOCSTART- POS -2- NER
+John NNP I-NP PER
+Smith NNP I-NP PER
+works VBZ I-VP O
+at IN I-PP O
+Airbus NNP I-NP ORG
+Germany NNP B-NP LOC
+. . O O
+
+-DOCSTART- POS -3-1- NER
+John NNP I-NP PER
+Smith NNP I-NP PER
+works VBZ I-VP O
+at IN I-PP O
+Airbus NNP I-NP ORG
+Germany NNP B-NP LOC
+. . O O
+
+-DOCSTART- POS 3-2 NER
+John NNP I-NP PER
+Smith NNP I-NP PER
+works VBZ I-VP O
+at IN I-PP O
+Airbus NNP I-NP ORG
+Germany NNP B-NP LOC
+. . O O
