@@ -11,6 +11,9 @@ used to recognize entities. The definitions of entities is given by a dictionary
 specifying a set of questions for each entity. The model is based on
 RoBertaForQuestionAnswering.
 
+For more extended examples see the
+[Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/named-entity-recognition/ZeroShot_NER.ipynb).
+
 Pretrained models can be loaded with `pretrained` of the companion object:
 
 ```scala
