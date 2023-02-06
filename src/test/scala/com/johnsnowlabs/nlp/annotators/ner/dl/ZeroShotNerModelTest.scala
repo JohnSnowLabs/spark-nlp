@@ -42,12 +42,14 @@ class ZeroShotNerModelTest extends AnyFlatSpec {
       .overwrite
       .save("./tmp_roberta_for_qa")
 
-    ZeroShotNerModel
+    val loadedZeroShotNerModel = ZeroShotNerModel
       .load("./tmp_roberta_for_qa")
       .setCaseSensitive(true)
-      .write
-      .overwrite
+      .setPredictionThreshold(0.1f)
+
+    loadedZeroShotNerModel.write.overwrite
       .save("./tmp_roberta_for_qa_zero_ner")
+
   }
 
   "ZeroShotRobertaNer" should "run zero shot NER and check the number of entities returned" taggedAs SlowTest in {
@@ -110,5 +112,9 @@ class ZeroShotNerModelTest extends AnyFlatSpec {
 
     results.select("zero_shot_ner.result").show(1, false)
     results.select("ner_chunks.result").show(1, false)
+
+    println(zeroShotNer.getEntityDefinitionsStr.mkString("Array(", ", ", ")"))
+    println(zeroShotNer.getIgnoreEntities.mkString("Array(", ", ", ")"))
+    println(zeroShotNer.getEntities.mkString("Array(", ", ", ")"))
   }
 }
