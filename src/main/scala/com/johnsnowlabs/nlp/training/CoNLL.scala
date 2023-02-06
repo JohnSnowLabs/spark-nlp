@@ -29,7 +29,8 @@ import scala.collection.mutable.ArrayBuffer
 case class CoNLLDocument(
     text: String,
     nerTagged: Seq[NerTaggedSentence],
-    posTagged: Seq[PosTaggedSentence])
+    posTagged: Seq[PosTaggedSentence],
+    docId: Option[String])
 
 /** Helper class to load a CoNLL type dataset for training.
   *
@@ -131,14 +132,19 @@ case class CoNLLDocument(
   *   Index of the column for NER Label in the dataset
   * @param conllPosIndex
   *   Index of the column for the POS tags in the dataset
+  * @param conllDocIdCol
+  *   Name of the column for the text in the dataset
   * @param conllTextCol
-  *   Index of the column for the text in the dataset
+  *   Name of the column for the text in the dataset
   * @param labelCol
   *   Name of the `NAMED_ENTITY` Annotator type column
   * @param explodeSentences
   *   Whether to explode each sentence to a separate row
   * @param delimiter
   *   Delimiter used to separate columns inside CoNLL file
+  * @param includeDocId
+  *   Whether to try and parse the document id from the third item in the -DOCSTART- line (X if
+  *   not found)
   */
 case class CoNLL(
     documentCol: String = "document",
@@ -147,10 +153,12 @@ case class CoNLL(
     posCol: String = "pos",
     conllLabelIndex: Int = 3,
     conllPosIndex: Int = 1,
+    conllDocIdCol: String = "doc_id",
     conllTextCol: String = "text",
     labelCol: String = "label",
     explodeSentences: Boolean = true,
-    delimiter: String = " ") {
+    delimiter: String = " ",
+    includeDocId: Boolean = false) {
   /*
     Reads Dataset in CoNLL format and pack it into docs
    */
@@ -165,6 +173,7 @@ case class CoNLL(
   }
 
   def readLines(lines: Array[String]): Seq[CoNLLDocument] = {
+    var docId: Option[String] = None
     val doc = new StringBuilder()
     val lastSentence = ArrayBuffer.empty[(IndexedTaggedWord, IndexedTaggedWord)]
 
@@ -187,22 +196,26 @@ case class CoNLL(
 
     def closeDocument = {
 
-      val result = (doc.toString, sentences.toList)
+      val result = (doc.toString, sentences.toList, docId)
       doc.clear()
       sentences.clear()
 
-      if (result._1.nonEmpty)
-        Some(result._1, result._2)
-      else
+      if (result._1.nonEmpty) {
+        Some(result._1, result._2, if (includeDocId) docId else None)
+      } else
         None
     }
 
     val docs = lines
+
+
       .flatMap { line =>
         val items = line.trim.split(delimiter)
         if (items.nonEmpty && items(0) == "-DOCSTART-") {
           addSentence()
-          closeDocument
+          val closedDoc = closeDocument
+          docId = items.lift(2)
+          closedDoc
         } else if (items.length <= 1) {
           if (!explodeSentences && (doc.nonEmpty && !doc.endsWith(
               System.lineSeparator) && lastSentence.nonEmpty)) {
@@ -233,11 +246,12 @@ case class CoNLL(
 
     addSentence()
 
-    val last = if (doc.nonEmpty) Seq((doc.toString, sentences.toList)) else Seq.empty
+    val last = if (doc.nonEmpty) Seq((doc.toString, sentences.toList, docId)) else Seq.empty
 
-    (docs ++ last).map { case (text, textSentences) =>
-      val (ner, pos) = textSentences.unzip
-      CoNLLDocument(text, ner, pos)
+    (docs ++ last).map {
+      case (text, textSentences: Seq[(NerTaggedSentence, PosTaggedSentence)], docId) =>
+        val (ner, pos) = textSentences.unzip
+        CoNLLDocument(text, ner, pos, docId)
     }
   }
 
@@ -274,6 +288,9 @@ case class CoNLL(
     PosTagged.pack(sentences)
   }
 
+  def removeSurroundingHyphens(text: String) =
+    "-(.+)-".r.findFirstMatchIn(text).map(_.group(1)).getOrElse(text)
+
   val annotationType: ArrayType = ArrayType(Annotation.dataType)
 
   def getAnnotationType(
@@ -290,6 +307,7 @@ case class CoNLL(
   }
 
   def schema: StructType = {
+    val docId = StructField(conllDocIdCol, StringType)
     val text = StructField(conllTextCol, StringType)
     val doc = getAnnotationType(documentCol, AnnotatorType.DOCUMENT)
     val sentence = getAnnotationType(sentenceCol, AnnotatorType.DOCUMENT)
@@ -297,7 +315,10 @@ case class CoNLL(
     val pos = getAnnotationType(posCol, AnnotatorType.POS)
     val label = getAnnotationType(labelCol, AnnotatorType.NAMED_ENTITY)
 
-    StructType(Seq(text, doc, sentence, token, pos, label))
+    if (includeDocId)
+      StructType(Seq(docId, text, doc, sentence, token, pos, label))
+    else
+      StructType(Seq(text, doc, sentence, token, pos, label))
   }
 
   private def coreTransformation(doc: CoNLLDocument) = {
@@ -307,14 +328,22 @@ case class CoNLL(
     val sentences = packSentence(text, doc.nerTagged)
     val tokenized = packTokenized(text, doc.nerTagged)
     val posTagged = packPosTagged(doc.posTagged)
-
     (text, docs, sentences, tokenized, posTagged, labels)
   }
 
+  private def coreTransformationWithDocId(doc: CoNLLDocument) = {
+    val docId = removeSurroundingHyphens(doc.docId.getOrElse("X"))
+    val (text, docs, sentences, tokenized, posTagged, labels) = coreTransformation(doc)
+    (docId, text, docs, sentences, tokenized, posTagged, labels)
+  }
+
   def packDocs(docs: Seq[CoNLLDocument], spark: SparkSession): Dataset[_] = {
-    import spark.implicits._
-    val rows = docs.map(coreTransformation).toDF.rdd
-    spark.createDataFrame(rows, schema)
+    val preDf = if (includeDocId) {
+      spark.createDataFrame(docs.map(coreTransformationWithDocId))
+    } else {
+      spark.createDataFrame(docs.map(coreTransformation))
+    }
+    spark.createDataFrame(preDf.rdd, schema)
   }
 
   def readDataset(
@@ -328,15 +357,16 @@ case class CoNLL(
         .wholeTextFiles(path, minPartitions = parallelism)
         .flatMap { case (_, content) =>
           val lines = content.split(System.lineSeparator)
-          readLines(lines).map(doc => coreTransformation(doc))
+          readLines(lines)
         }
         .persist(storageLevel)
 
-      val df = spark
-        .createDataFrame(rdd)
-        .toDF(conllTextCol, documentCol, sentenceCol, tokenCol, posCol, labelCol)
-
-      spark.createDataFrame(df.rdd, schema)
+      val preDf = if (includeDocId) {
+        spark.createDataFrame(rdd.map(coreTransformationWithDocId))
+      } else {
+        spark.createDataFrame(rdd.map(coreTransformation))
+      }
+      spark.createDataFrame(preDf.rdd, schema)
     } else {
       val er = ExternalResource(path, readAs, Map("format" -> "text"))
       packDocs(readDocs(er), spark)
