@@ -39,7 +39,7 @@ import org.json4s.jackson.JsonMethods._
   * pre-processed an array of floats.
   *
   * Note that this annotator is currently not supported on Apple Silicon processors such as the
-  * M1. This is due to the processor not supporting instructions for XLA.
+  * M1/M2 (Apple Silicon). This is due to the processor not supporting instructions for XLA.
   *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{

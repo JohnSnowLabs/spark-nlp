@@ -13,7 +13,7 @@ object Dependencies {
   /* required for different hardware */
   val is_gpu: String = System.getProperty("is_gpu", "false")
   val is_opt: String = System.getProperty("is_opt", "false")
-  val is_m1: String = System.getProperty("is_m1", "false")
+  val is_silicon: String = System.getProperty("is_silicon", "false")
   val is_aarch64: String = System.getProperty("is_aarch64", "false")
 
   /* only used for unit tests */
@@ -27,11 +27,11 @@ object Dependencies {
   /** ------- Spark version end ------- */
 
   /** Package attributes */
-  def getPackageName(is_m1: String, is_gpu: String, is_aarch64: String): String = {
+  def getPackageName(is_silicon: String, is_gpu: String, is_aarch64: String): String = {
     if (is_gpu.equals("true")) {
       "spark-nlp-gpu"
-    } else if (is_m1.equals("true")) {
-      "spark-nlp-m1"
+    } else if (is_silicon.equals("true")) {
+      "spark-nlp-silicon"
     } else if (is_aarch64.equals("true")) {
       "spark-nlp-aarch64"
     } else {
