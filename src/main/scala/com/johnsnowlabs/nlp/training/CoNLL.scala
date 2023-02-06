@@ -207,6 +207,8 @@ case class CoNLL(
     }
 
     val docs = lines
+
+
       .flatMap { line =>
         val items = line.trim.split(delimiter)
         if (items.nonEmpty && items(0) == "-DOCSTART-") {
