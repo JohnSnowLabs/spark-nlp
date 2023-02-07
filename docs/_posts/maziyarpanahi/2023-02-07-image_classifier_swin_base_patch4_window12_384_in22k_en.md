@@ -21,7 +21,7 @@ use_language_switcher: "Python-Scala-Java"
 
 Pretrained Swin model for Image Classification, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.
 
-            Swin Transformer was introduced in the paper [Swin Transformer: Hierarchical Vision Transformer using Shifted Windows](https://arxiv.org/abs/2103.14030) by Liu et al.
+Swin Transformer was introduced in the paper [Swin Transformer: Hierarchical Vision Transformer using Shifted Windows](https://arxiv.org/abs/2103.14030) by Liu et al.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
