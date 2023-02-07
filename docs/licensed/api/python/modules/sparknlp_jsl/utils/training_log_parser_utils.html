@@ -280,7 +280,7 @@
 
 
 <div class="viewcode-block" id="split_tag"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/training_log_parser_utils/index.html#sparknlp_jsl.utils.training_log_parser_utils.split_tag">[docs]</a><span class="k">def</span> <span class="nf">split_tag</span><span class="p">(</span><span class="n">chunk_tag</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    split chunk tag into IOBES prefix and chunk_type</span>
 <span class="sd">    e.g.</span>
 <span class="sd">    B-PER -&gt; (B, PER)</span>
@@ -292,7 +292,7 @@
 
 
 <div class="viewcode-block" id="is_chunk_end"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/training_log_parser_utils/index.html#sparknlp_jsl.utils.training_log_parser_utils.is_chunk_end">[docs]</a><span class="k">def</span> <span class="nf">is_chunk_end</span><span class="p">(</span><span class="n">prev_tag</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    check if the previous chunk ended between the previous and current word</span>
 <span class="sd">    e.g.</span>
 <span class="sd">    (B-PER, I-PER) -&gt; False</span>
@@ -315,7 +315,7 @@
 
 
 <div class="viewcode-block" id="is_chunk_start"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/training_log_parser_utils/index.html#sparknlp_jsl.utils.training_log_parser_utils.is_chunk_start">[docs]</a><span class="k">def</span> <span class="nf">is_chunk_start</span><span class="p">(</span><span class="n">prev_tag</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    check if a new chunk started between the previous and current word</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">prefix1</span><span class="p">,</span> <span class="n">chunk_type1</span> <span class="o">=</span> <span class="n">split_tag</span><span class="p">(</span><span class="n">prev_tag</span><span class="p">)</span>
@@ -333,7 +333,7 @@
 
 
 <div class="viewcode-block" id="calc_metrics"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/training_log_parser_utils/index.html#sparknlp_jsl.utils.training_log_parser_utils.calc_metrics">[docs]</a><span class="k">def</span> <span class="nf">calc_metrics</span><span class="p">(</span><span class="n">tp</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">percent</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    compute overall precision, recall and FB1 (default values are 0.0)</span>
 <span class="sd">    if percent is True, return 100 * original decimal value</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -347,7 +347,7 @@
 
 
 <div class="viewcode-block" id="count_chunks"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/training_log_parser_utils/index.html#sparknlp_jsl.utils.training_log_parser_utils.count_chunks">[docs]</a><span class="k">def</span> <span class="nf">count_chunks</span><span class="p">(</span><span class="n">true_seqs</span><span class="p">,</span> <span class="n">pred_seqs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    true_seqs: a list of true tags</span>
 <span class="sd">    pred_seqs: a list of predicted tags</span>
 <span class="sd">    return:</span>
@@ -408,7 +408,7 @@
 
 <div class="viewcode-block" id="get_result"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/training_log_parser_utils/index.html#sparknlp_jsl.utils.training_log_parser_utils.get_result">[docs]</a><span class="k">def</span> <span class="nf">get_result</span><span class="p">(</span><span class="n">correct_chunks</span><span class="p">,</span> <span class="n">true_chunks</span><span class="p">,</span> <span class="n">pred_chunks</span><span class="p">,</span>
                <span class="n">correct_counts</span><span class="p">,</span> <span class="n">true_counts</span><span class="p">,</span> <span class="n">pred_counts</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    if verbose, print overall performance, as well as performance per chunk type;</span>
 <span class="sd">    otherwise, simply return overall prec, rec, f1 scores</span>
 <span class="sd">    &quot;&quot;&quot;</span>

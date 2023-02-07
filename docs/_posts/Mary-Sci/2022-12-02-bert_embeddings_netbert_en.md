@@ -10,6 +10,7 @@ language: en
 edition: Spark NLP 4.2.4
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -23,6 +24,7 @@ Pretrained BertForMaskedLM model, adapted from Hugging Face and curated to provi
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_embeddings_netbert_en_4.2.4_3.0_1670022703984.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bert_embeddings_netbert_en_4.2.4_3.0_1670022703984.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

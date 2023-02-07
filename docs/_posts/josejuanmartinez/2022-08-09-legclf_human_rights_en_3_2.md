@@ -58,7 +58,8 @@ This model was originally trained with 6089 legal texts (see the original work [
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_human_rights_en_1.0.0_3.2_1660057114857.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_human_rights_en_1.0.0_3.2_1660057114857.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_human_rights_en_1.0.0_3.2_1660057114857.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -129,7 +130,7 @@ This model was originally trained on 6089 legal texts (see the original work [he
 
 ```bash
 label             precision  recall    f1-score    support
-accuracy            -          -       0.91        98
+accuracy             -          -      0.91        98
 macro-avg         0.92       0.91      0.91        98
 weighted-avg      0.92       0.90      0.91        98
 ```       

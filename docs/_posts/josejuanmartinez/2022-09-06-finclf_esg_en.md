@@ -28,7 +28,8 @@ If you look for an augmented version of this model, with more fine-grain vertica
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/finance/FINCLF_ESG/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_esg_en_1.0.0_3.2_1662472406140.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_esg_en_1.0.0_3.2_1662472406140.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/finance/models/finclf_esg_en_1.0.0_3.2_1662472406140.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -109,7 +110,7 @@ In-house annotations from scrapped annual reports and tweets about ESG
 Environmental        0.99      0.97      0.98        97
        Social        0.95      0.96      0.95       162
    Governance        0.91      0.90      0.91        71
-     accuracy          -         -       0.95       330
+     accuracy           -         -      0.95       330
     macro-avg        0.95      0.94      0.95       330
  weighted-avg        0.95      0.95      0.95       330
 ```  

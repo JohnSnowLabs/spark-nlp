@@ -27,6 +27,7 @@ A pre-trained pipeline containing NerDl Model. The NER model trained on OntoNote
 [Live Demo](https://demo.johnsnowlabs.com/public/NER_EN_18/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/onto_recognize_entities_bert_base_en_2.7.0_2.4_1607509662244.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/onto_recognize_entities_bert_base_en_2.7.0_2.4_1607509662244.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

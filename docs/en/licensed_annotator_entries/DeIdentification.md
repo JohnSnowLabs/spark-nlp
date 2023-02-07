@@ -28,6 +28,10 @@ DOCUMENT
 [DeIdentificationModel](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/deid/DeIdentificationModel)
 {%- endcapture -%}
 
+{%- capture model_python_api_link -%}
+[DeIdentificationModel](https://nlp.johnsnowlabs.com/licensed/api/python/reference/autosummary/sparknlp_jsl/annotator/deid/deIdentification/index.html#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel)
+{%- endcapture -%}
+
 {%- capture model_python_finance -%}
 from johnsnowlabs import * 
 documentAssembler = nlp.DocumentAssembler()\
@@ -373,9 +377,9 @@ clinical_sensitive_entities = medical.NerModel \
     .pretrained("ner_deid_enriched", "en", "clinical/models") \
     .setInputCols(["sentence", "token", "embeddings"]).setOutputCol("ner")
 
-nerConverter = nlp.NerConverter() \
+nerConverter = medical.NerConverterInternal() \
     .setInputCols(["sentence", "token", "ner"]) \
-    .setOutputCol("ner_con")
+    .setOutputCol("ner_chunk")
 
 # Deidentification
 deIdentification = medical.DeIdentification() \
@@ -734,6 +738,9 @@ val pipeline = new Pipeline().setStages(Array(
 [DeIdentification](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/deid/DeIdentification)
 {%- endcapture -%}
 
+{%- capture approach_python_api_link -%}
+[DeIdentification](https://nlp.johnsnowlabs.com/licensed/api/python/reference/autosummary/sparknlp_jsl/annotator/deid/deIdentification/index.html#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification)
+{%- endcapture -%}
 
 {% include templates/licensed_approach_model_medical_fin_leg_template.md
 title=title
@@ -743,6 +750,7 @@ model_description=model_description
 model_input_anno=model_input_anno
 model_output_anno=model_output_anno
 model_api_link=model_api_link
+model_python_api_link=model_python_api_link
 model_python_finance=model_python_finance
 model_python_legal=model_python_legal
 model_scala_finance=model_scala_finance
@@ -757,4 +765,5 @@ approach_scala_medical=approach_scala_medical
 approach_scala_legal=approach_scala_legal
 approach_scala_finance=approach_scala_finance
 approach_api_link=approach_api_link
+approach_python_api_link=approach_python_api_link
 %}

@@ -28,7 +28,8 @@ This is a large (`md`) model, trained with 200K sentences.
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_10q_xlbr_md_subset7_en_1.0.0_3.0_1671081068821.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_10q_xlbr_md_subset7_en_1.0.0_3.0_1671081068821.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/finance/models/finner_10q_xlbr_md_subset7_en_1.0.0_3.0_1671081068821.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -36,6 +37,7 @@ This is a large (`md`) model, trained with 200K sentences.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  
 documentAssembler = nlp.DocumentAssembler() \
@@ -173,5 +175,4 @@ O                                                               0.9997    0.9986
 accuracy                                                             -         -    0.9967    151536
 macro-avg                                                       0.9210    0.9378    0.9282    151536
 weighted-avg                                                    0.9968    0.9967    0.9967    151536
-
 ```

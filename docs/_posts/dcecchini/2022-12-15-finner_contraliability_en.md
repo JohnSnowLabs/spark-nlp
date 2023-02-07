@@ -31,7 +31,8 @@ Please note this model requires some tokenization configuration to extract the c
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_contraliability_en_1.0.0_3.0_1671136444267.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_contraliability_en_1.0.0_3.0_1671136444267.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/finance/models/finner_contraliability_en_1.0.0_3.0_1671136444267.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -152,13 +153,14 @@ In-house annotations on Earning Calls and 10-K Filings combined.
 ## Benchmarking
 
 ```bash
-| label              | precision | recall | f1-score | support |
-|--------------------|-----------|--------|----------|---------|
-| B-CONTRA_LIABILITY | 0.7660    | 0.7200 | 0.7423   | 50      |
-| B-LIABILITY        | 0.8947    | 0.8990 | 0.8969   | 208     |
-| I-CONTRA_LIABILITY | 0.7838    | 0.6304 | 0.6988   | 46      |
-| I-LIABILITY        | 0.8780    | 0.8929 | 0.8854   | 411     |
-| accuracy           | -         | -      | 0.9805   | 8299    |
-| macro-avg          | 0.8626    | 0.8267 | 0.8429   | 8299    |
-| weighted-avg       | 0.9803    | 0.9805 | 0.9803   | 8299    |
+
+label               precision  recall  f1-score  support 
+B-CONTRA_LIABILITY  0.7660     0.7200  0.7423    50      
+B-LIABILITY         0.8947     0.8990  0.8969    208     
+I-CONTRA_LIABILITY  0.7838     0.6304  0.6988    46      
+I-LIABILITY         0.8780     0.8929  0.8854    411     
+accuracy            -          -       0.9805    8299    
+macro-avg           0.8626     0.8267  0.8429    8299    
+weighted-avg        0.9803     0.9805  0.9803    8299
+
 ```

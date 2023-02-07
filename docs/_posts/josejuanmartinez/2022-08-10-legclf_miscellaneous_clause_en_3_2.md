@@ -35,7 +35,8 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/finance/CLASSIFY_LEGAL_CLAUSES/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_miscellaneous_clause_en_1.0.0_3.2_1660123735778.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_miscellaneous_clause_en_1.0.0_3.2_1660123735778.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_miscellaneous_clause_en_1.0.0_3.2_1660123735778.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -106,7 +107,7 @@ Legal documents, scrapped from the Internet, and classified in-house
         label  precision    recall  f1-score   support
 miscellaneous       0.93      0.61      0.74        23
         other       0.85      0.98      0.91        54
-     accuracy         -         -       0.87        77
+     accuracy          -         -      0.87        77
     macro-avg       0.89      0.80      0.83        77
  weighted-avg       0.88      0.87      0.86        77
 ```

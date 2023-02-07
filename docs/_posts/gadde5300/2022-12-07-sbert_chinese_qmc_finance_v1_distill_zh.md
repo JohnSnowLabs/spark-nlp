@@ -24,6 +24,7 @@ Pretrained Financial BERT Sentence Embeddings model, adapted from Hugging Face a
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/sbert_chinese_qmc_finance_v1_distill_zh_4.2.4_3.0_1670422277212.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/sbert_chinese_qmc_finance_v1_distill_zh_4.2.4_3.0_1670422277212.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -31,6 +32,7 @@ Pretrained Financial BERT Sentence Embeddings model, adapted from Hugging Face a
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 sentence_embeddings = BertSentenceEmbeddings.pretrained("sbert_chinese_qmc_finance_v1_distill", "zh")\
   .setInputCols(["sentence"])\

@@ -33,6 +33,9 @@ sidebar:
 + Core improvements and bug fixes
 + New and updated notebooks
 + New and updated demos
+    + [MEDICAL QUESTION ANSWERING](https://demo.johnsnowlabs.com/healthcare/MEDICAL_QUESTION_ANSWERING/) 
+    + [SMOKING STATUS](https://demo.johnsnowlabs.com/healthcare/SMOKING_STATUS/)
+    + [MENTAL HEALTH DEPRESSION](https://demo.johnsnowlabs.com/healthcare/MENTAL_HEALTH_DEPRESSION/)
 + 5 new clinical models and pipelines added & updated in total
 
 
@@ -306,8 +309,6 @@ You can check [Clinical DeIdentification](https://github.com/JohnSnowLabs/spark-
 #### New `AssertionChunkConverter` Annotator to Prepare Assertion Model Training Dataset From Chunk Indices
 
 In some cases, there may be issues while creating the chunk column by using token indices and losing some data while training and testing the assertion status model if there are issues in these token indices. So we developed a new `AssertionChunkConverter` annotator that takes **begin and end indices of the chunks** as input and creates an extended chunk column with metadata that can be used for assertion status detection model training.
-
-*NOTE*: Chunk begin and end indices in the assertion status model training dataframe can be populated using the new version of ALAB module.
 
 *Example*:
 
@@ -628,7 +629,7 @@ text = """Pathology showed tumor cells, which were positive for estrogen and pro
 
 + [MEDICAL QUESTION ANSWERING](https://demo.johnsnowlabs.com/healthcare/MEDICAL_QUESTION_ANSWERING/) 
 + [SMOKING STATUS](https://demo.johnsnowlabs.com/healthcare/SMOKING_STATUS/)
-+ [MEDICAL TEXT SUMMARIZATION](https://demo.johnsnowlabs.com/healthcare/MEDICAL_TEXT_SUMMARIZATION/)
++ [MENTAL HEALTH DEPRESSION](https://demo.johnsnowlabs.com/healthcare/MENTAL_HEALTH_DEPRESSION/)
 
 
 
@@ -649,64 +650,4 @@ For all Spark NLP for healthcare models, please check: [Models Hub Page](https:/
 ## Versions
 
 </div>
-
-<ul class="pagination">
-    <li>
-        <a href="release_notes_4_2_3">Version 4.2.3</a>
-    </li>
-    <li>
-        <strong>Version 4.2.4</strong>
-    </li>
-</ul>
-<ul class="pagination owl-carousel pagination_big">
-    <li class="active"><a href="release_notes_4_2_4">4.2.4</a></li>
-    <li><a href="release_notes_4_2_1">4.2.3</a></li>
-    <li><a href="release_notes_4_2_1">4.2.2</a></li>
-    <li><a href="release_notes_4_2_1">4.2.1</a></li>
-    <li><a href="release_notes_4_2_0">4.2.0</a></li>
-    <li><a href="release_notes_4_1_0">4.1.0</a></li>
-    <li><a href="release_notes_4_0_2">4.0.2</a></li>
-    <li><a href="release_notes_4_0_0">4.0.0</a></li>
-    <li><a href="release_notes_3_5_3">3.5.3</a></li>
-    <li><a href="release_notes_3_5_2">3.5.2</a></li>
-    <li><a href="release_notes_3_5_2">3.5.2</a></li>
-    <li><a href="release_notes_3_5_1">3.5.1</a></li>
-    <li><a href="release_notes_3_5_0">3.5.0</a></li>
-    <li><a href="release_notes_3_4_2">3.4.2</a></li>
-    <li><a href="release_notes_3_4_1">3.4.1</a></li>
-    <li><a href="release_notes_3_4_0">3.4.0</a></li>
-    <li><a href="release_notes_3_3_4">3.3.4</a></li>
-    <li><a href="release_notes_3_3_2">3.3.2</a></li>
-    <li><a href="release_notes_3_3_1">3.3.1</a></li>
-    <li><a href="release_notes_3_3_0">3.3.0</a></li>
-    <li><a href="release_notes_3_2_3">3.2.3</a></li>
-    <li><a href="release_notes_3_2_2">3.2.2</a></li>
-    <li><a href="release_notes_3_2_1">3.2.1</a></li>
-    <li><a href="release_notes_3_2_0">3.2.0</a></li>
-    <li><a href="release_notes_3_1_3">3.1.3</a></li>
-    <li><a href="release_notes_3_1_2">3.1.2</a></li>
-    <li><a href="release_notes_3_1_1">3.1.1</a></li>
-    <li><a href="release_notes_3_1_0">3.1.0</a></li>
-    <li><a href="release_notes_3_0_3">3.0.3</a></li>
-    <li><a href="release_notes_3_0_2">3.0.2</a></li>
-    <li><a href="release_notes_3_0_1">3.0.1</a></li>
-    <li><a href="release_notes_3_0_0">3.0.0</a></li>
-    <li><a href="release_notes_2_7_6">2.7.6</a></li>
-    <li><a href="release_notes_2_7_5">2.7.5</a></li>
-    <li><a href="release_notes_2_7_4">2.7.4</a></li>
-    <li><a href="release_notes_2_7_3">2.7.3</a></li>
-    <li><a href="release_notes_2_7_2">2.7.2</a></li>
-    <li><a href="release_notes_2_7_1">2.7.1</a></li>
-    <li><a href="release_notes_2_7_0">2.7.0</a></li>
-    <li><a href="release_notes_2_6_2">2.6.2</a></li>
-    <li><a href="release_notes_2_6_0">2.6.0</a></li>
-    <li><a href="release_notes_2_5_5">2.5.5</a></li>
-    <li><a href="release_notes_2_5_3">2.5.3</a></li>
-    <li><a href="release_notes_2_5_2">2.5.2</a></li>
-    <li><a href="release_notes_2_5_0">2.5.0</a></li>
-    <li><a href="release_notes_2_4_6">2.4.6</a></li>
-    <li><a href="release_notes_2_4_5">2.4.5</a></li>
-    <li><a href="release_notes_2_4_2">2.4.2</a></li>
-    <li><a href="release_notes_2_4_1">2.4.1</a></li>
-    <li><a href="release_notes_2_4_0">2.4.0</a></li>
-</ul>
+{%- include docs-healthcare-pagination.html -%}

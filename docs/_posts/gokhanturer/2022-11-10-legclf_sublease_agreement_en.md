@@ -10,7 +10,7 @@ language: en
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
-annotator: ClassifierDLModel
+annotator: LegalClassifierDLModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -31,7 +31,8 @@ If not, let us know and we can carry out another approach for you: getting chunk
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_sublease_agreement_en_1.0.0_3.0_1668117647287.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_sublease_agreement_en_1.0.0_3.0_1668117647287.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_sublease_agreement_en_1.0.0_3.0_1668117647287.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -116,14 +117,11 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 
 ```bash
 
-                    precision    recall  f1-score   support
-
-             other       0.99      1.00      0.99        66
-sublease-agreement       1.00      0.97      0.99        35
-
-          accuracy                           0.99       101
-         macro avg       0.99      0.99      0.99       101
-      weighted avg       0.99      0.99      0.99       101
-
+             label precision recall  f1-score  support
+             other      0.99   1.00      0.99       66
+sublease-agreement      1.00   0.97      0.99       35
+          accuracy         -      -      0.99      101
+         macro-avg      0.99   0.99      0.99      101
+      weighted-avg      0.99   0.99      0.99      101
 
 ```

@@ -35,11 +35,11 @@ th {
 
 ## Dedicated Server
 
-Install Annotation Lab on a dedicated server to reduce the likelihood of conflicts or unexpected behavior.
+Install NLP Lab (Annotation Lab) on a dedicated server to reduce the likelihood of conflicts or unexpected behavior.
 
 ### Fresh install
 
-To install Annotation Lab run the following command:
+To install NLP Lab run the following command:
 
 ```bash
 wget https://setup.johnsnowlabs.com/annotationlab/install.sh -O - | sudo bash -s $VERSION
@@ -47,7 +47,7 @@ wget https://setup.johnsnowlabs.com/annotationlab/install.sh -O - | sudo bash -s
 
 Replace `$VERSION` in the above one liners with the version you want to install.
 
-For installing the latest available version of the Annotation Lab use:
+For installing the latest available version of the NLP Lab use:
 
 ```bash
 wget https://setup.johnsnowlabs.com/annotationlab/install.sh -O - | sudo bash -s --
@@ -57,7 +57,7 @@ wget https://setup.johnsnowlabs.com/annotationlab/install.sh -O - | sudo bash -s
 
 ### Upgrade
 
-To upgrade your Annotation Lab installation to a newer version, run the following command on a terminal:
+To upgrade your NLP Lab installation to a newer version, run the following command on a terminal:
 
 ```bash
 wget https://setup.johnsnowlabs.com/annotationlab/upgrade.sh -O - | sudo bash -s $VERSION
@@ -65,7 +65,7 @@ wget https://setup.johnsnowlabs.com/annotationlab/upgrade.sh -O - | sudo bash -s
 
 Replace `$VERSION` in the above one liners with the version you want to upgrade to.
 
-For upgrading to the latest version of the Annotation Lab, use:
+For upgrading to the latest version of the NLP Lab, use:
 
 ```bash
 wget https://setup.johnsnowlabs.com/annotationlab/upgrade.sh -O - | sudo bash -s --
@@ -73,23 +73,23 @@ wget https://setup.johnsnowlabs.com/annotationlab/upgrade.sh -O - | sudo bash -s
 
 > **NOTE:** The install/upgrade script displays the login credentials for the _admin_ user on the terminal.
 
-After running the install/upgrade script, the Annotation Lab is available at http://INSTANCE_IP or https://INSTANCE_IP
+After running the install/upgrade script, the NLP Lab is available at http://INSTANCE_IP or https://INSTANCE_IP
 
 <img class="image image--xl image__shadow" src="/assets/images/annotation_lab/4.1.0/loginScreenALAB.png" style="width:100%;"/>
 
-We have an aesthetically pleasing Sign-In Page with a section highlighting the key features of Annotation Lab using animated GIFs.
+We have an aesthetically pleasing Sign-In Page with a section highlighting the key features of NLP Lab using animated GIFs.
 
 ## AWS Marketplace
 
 Visit the [product page on AWS Marketplace](https://aws.amazon.com/marketplace/pp/prodview-nsww5rdpvou4w?sr=0-1&ref_=beagle&applicationId=AWSMPContessa) and follow the instructions on the video below to subscribe and deploy.
 
-<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='ebaewU4BcQA' -%}<div class="video-descr">Deploy Annotation Lab via AWS Marketplace</div></div></div>
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='ebaewU4BcQA' -%}<div class="video-descr">Deploy NLP Lab via AWS Marketplace</div></div></div>
 
 ## Azure Marketplace
 
 Visit the [product page on Azure Marketplace](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/johnsnowlabsinc1646051154808.annotation_lab?tab=Overview) and follow the instructions on the video below to subscribe and deploy.
 
-<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='e6aB3z5tB0k' -%}<div class="video-descr">Deploy Annotation Lab via Azure Marketplace</div></div></div>
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='e6aB3z5tB0k' -%}<div class="video-descr">Deploy NLP Lab via Azure Marketplace</div></div></div>
 
 ## EKS deployment
 
@@ -286,7 +286,7 @@ Edit annotationlab-installer.sh inside artifact folder as follows:
 
 ## AKS deployment
 
-To deploy Annotation Lab on Azure Kubernetes Service (AKS) a Kubernetes cluster needs to be created in Microsoft Azure.
+To deploy NLP Lab on Azure Kubernetes Service (AKS) a Kubernetes cluster needs to be created in Microsoft Azure.
 
 1. Login to your [Azure Portal](https://portal.azure.com/) and search for Kubernetes services.
 
@@ -363,7 +363,7 @@ To deploy Annotation Lab on Azure Kubernetes Service (AKS) a Kubernetes cluster 
         --set keycloak.secrets.admincreds.stringData.password=$(bash -c "echo ${password_gen_string}")
     ```
 
-11. Execute the `annotationlab-installer.sh` script to run the Annotation Lab installation.
+11. Execute the `annotationlab-installer.sh` script to run the NLP Lab installation.
 
     ```sh
     ./annotationlab-installer.sh
@@ -430,7 +430,7 @@ To deploy Annotation Lab on Azure Kubernetes Service (AKS) a Kubernetes cluster 
 
 ### Get Artifact
 
-Run the following command on a terminal to fetch the compressed artifact (_tarball_) of the Annotation Lab.
+Run the following command on a terminal to fetch the compressed artifact (_tarball_) of the NLP Lab.
 
 ```bash
 wget https://s3.amazonaws.com/auxdata.johnsnowlabs.com/annotationlab/annotationlab-$VERSION.tar.gz

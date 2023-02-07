@@ -305,14 +305,14 @@ val pipeline = new Pipeline().setStages(Array(
 
 val result = pipeline.fit(data).transform(data)
 
-
 {%- endcapture -%}
-
-
-
 
 {%- capture model_api_link -%}
 [NerConverterInternal](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/ner/NerConverterInternal)
+{%- endcapture -%}
+
+{%- capture model_python_api_link -%}
+[NerConverterInternal](https://nlp.johnsnowlabs.com/licensed/api/python/reference/autosummary/sparknlp_jsl/annotator/ner/ner_converter_internal/index.html#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal)
 {%- endcapture -%}
 
 {% include templates/licensed_approach_model_medical_fin_leg_template.md
@@ -327,4 +327,6 @@ model_python_legal=model_python_legal
 model_scala_legal=model_scala_legal
 model_python_finance=model_python_finance
 model_scala_finance=model_scala_finance
-model_api_link=model_api_link%}
+model_api_link=model_api_link
+model_python_api_link=model_python_api_link
+%}

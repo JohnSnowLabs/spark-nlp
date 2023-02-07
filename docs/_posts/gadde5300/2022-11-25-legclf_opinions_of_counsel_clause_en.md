@@ -36,7 +36,8 @@ This model is a Binary Classifier (True, False) for the `opinions-of-counsel` cl
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_opinions_of_counsel_clause_en_1.0.0_3.0_1669376845716.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_opinions_of_counsel_clause_en_1.0.0_3.0_1669376845716.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_opinions_of_counsel_clause_en_1.0.0_3.0_1669376845716.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -44,6 +45,7 @@ This model is a Binary Classifier (True, False) for the `opinions-of-counsel` cl
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  documentAssembler = nlp.DocumentAssembler() \
          .setInputCol("clause_text") \
@@ -90,15 +92,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-
-                     precision    recall  f1-score   support
-
+              label  precision    recall  f1-score   support
 opinions-of-counsel       1.00      1.00      1.00        24
               other       1.00      1.00      1.00        39
-
-           accuracy                           1.00        63
-          macro avg       1.00      1.00      1.00        63
-       weighted avg       1.00      1.00      1.00        63
-
-
+           accuracy          -         -      1.00        63
+          macro-avg       1.00      1.00      1.00        63
+       weighted-avg       1.00      1.00      1.00        63
 ```

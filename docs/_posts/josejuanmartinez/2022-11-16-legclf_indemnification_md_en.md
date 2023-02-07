@@ -35,7 +35,8 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/legal/CLASSIFY_LEGAL_DOCUMENTS/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_indemnification_md_en_1.0.0_3.0_1668607395735.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_indemnification_md_en_1.0.0_3.0_1668607395735.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_indemnification_md_en_1.0.0_3.0_1668607395735.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -43,6 +44,7 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler() \
      .setInputCol("clause_text") \
@@ -102,13 +104,11 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 ## Benchmarking
 
 ```bash
-                                  precision    recall  f1-score   support
-
+                           label  precision    recall  f1-score   support
 indemnification-and-contribution       0.96      0.89      0.93        28
                            other       0.93      0.97      0.95        39
-
-                        accuracy                           0.94        67
-                       macro avg       0.94      0.93      0.94        67
-                    weighted avg       0.94      0.94      0.94        67
+                        accuracy          -         -      0.94        67
+                       macro-avg       0.94      0.93      0.94        67
+                    weighted-avg       0.94      0.94      0.94        67
 
 ```

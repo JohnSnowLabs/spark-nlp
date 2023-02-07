@@ -27,7 +27,8 @@ This is a Lithuanian Sentiment Analysis Text Classifier, which will retrieve if 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_bert_sentiment_analysis_lt_1.0.0_3.0_1666475378253.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_bert_sentiment_analysis_lt_1.0.0_3.0_1666475378253.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/finance/models/finclf_bert_sentiment_analysis_lt_1.0.0_3.0_1666475378253.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -103,7 +104,7 @@ An in-house augmented version of [this dataset](https://www.kaggle.com/datasets/
        label    precision    recall  f1-score   support
          NEG       0.80      0.76      0.78       509
          POS       0.90      0.92      0.91      1167
-    accuracy        -         -        0.87      1676
+    accuracy         -         -       0.87      1676
    macro-avg       0.85      0.84      0.84      1676
 weighted-avg       0.87      0.87      0.87      1676
 ```

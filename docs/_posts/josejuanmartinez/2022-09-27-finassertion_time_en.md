@@ -27,7 +27,8 @@ This is an Assertion Status Model aimed to detect temporality (PRESENT, PAST, FU
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/finance/FINASSERTION_TEMPORALITY){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finassertion_time_en_1.0.0_3.0_1664274273525.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finassertion_time_en_1.0.0_3.0_1664274273525.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/finance/models/finassertion_time_en_1.0.0_3.0_1664274273525.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -37,22 +38,33 @@ This is an Assertion Status Model aimed to detect temporality (PRESENT, PAST, FU
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
-# YOUR NER HERE
-# ...
-embeddings = BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
-    .setInputCols(["sentence", "token"]) \
+document_assembler = nlp.DocumentAssembler()\
+    .setInputCol("text")\
+    .setOutputCol("document")
+
+tokenizer = nlp.Tokenizer()\
+    .setInputCols(["document"])\
+    .setOutputCol("token")
+
+embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
+    .setInputCols(["document", "token"]) \
     .setOutputCol("embeddings")
 
-chunk_converter = ChunkConverter() \
-    .setInputCols(["entity"]) \
+ner = finance.BertForTokenClassification.pretrained("finner_bert_roles","en","finance/models")\
+  .setInputCols("token", "document")\
+  .setOutputCol("ner")\
+  .setCaseSensitive(True)  
+
+chunk_converter = nlp.NerConverter() \
+    .setInputCols(["document", "token", "ner"]) \
     .setOutputCol("ner_chunk")
 
 assertion = finance.AssertionDLModel.pretrained("finassertion_time", "en", "finance/models")\
-    .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
+    .setInputCols(["document", "ner_chunk", "embeddings"]) \
     .setOutputCol("assertion")
     
-nlpPipeline = Pipeline(stages=[
-    documentAssembler, 
+nlpPipeline = nlp.Pipeline(stages=[
+    document_assembler, 
     tokenizer,
     embeddings,
     ner,
@@ -64,10 +76,9 @@ empty_data = spark.createDataFrame([[""]]).toDF("text")
 
 model = nlpPipeline.fit(empty_data)
 
-lp = LightPipeline(model)
+lp = nlp.LightPipeline(model)
 
-texts = ["Atlantic Inc headquarters could possibly be relocated to Delaware by the end of next year",
-        "John Crawford will be hired by Atlantic Inc as CTO"]
+texts = ["John Crawford will be hired by Atlantic Inc as CTO"]
 
 lp.annotate(texts)
 ```
@@ -78,12 +89,7 @@ lp.annotate(texts)
 
 ```bash
 chunk,begin,end,entity_type,assertion
-Atlantic Inc,0,11,ORG,POSSIBLE
-Delaware,57,64,LOC,POSSIBLE
-
-chunk,begin,end,entity_type,assertion
 CTO,47,49,ROLE,FUTURE
-Atlantic Inc,31,42,ORG,FUTURE
 ```
 
 {:.model-param}

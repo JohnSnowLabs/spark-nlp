@@ -275,7 +275,7 @@
 
 
 <div class="viewcode-block" id="WrongTFVersion"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/graph_builders/index.html#sparknlp_jsl._tf_graph_builders_1x.graph_builders.WrongTFVersion">[docs]</a><span class="k">class</span> <span class="nc">WrongTFVersion</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Exception raised for not-supported Tensorflow versions.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception raised for not-supported Tensorflow versions.</span>
 
 <span class="sd">    Currently supported versions are 1.15 and 2.xx.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -284,7 +284,7 @@
 
 
 <div class="viewcode-block" id="TFGraphBuilder"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/graph_builders/index.html#sparknlp_jsl._tf_graph_builders_1x.graph_builders.TFGraphBuilder">[docs]</a><span class="k">class</span> <span class="nc">TFGraphBuilder</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generic class to create the tensorflow graphs for &#39;ner_dl&#39;, &#39;generic_classifier&#39;,</span>
 <span class="sd">    &#39;assertion_dl&#39;, &#39;relation_extraction&#39; annotators in Healthcare NLP.</span>
 
@@ -296,7 +296,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="TFGraphBuilder.supports_auto_file_name"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/graph_builders/index.html#sparknlp_jsl._tf_graph_builders_1x.graph_builders.TFGraphBuilder.supports_auto_file_name">[docs]</a>    <span class="k">def</span> <span class="nf">supports_auto_file_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns if the model can be saved with an auto-generated file name.</span>
 
 <span class="sd">        Returns</span>
@@ -307,7 +307,7 @@
         <span class="k">return</span> <span class="kc">False</span></div>
 
 <div class="viewcode-block" id="TFGraphBuilder.get_model_filename"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/graph_builders/index.html#sparknlp_jsl._tf_graph_builders_1x.graph_builders.TFGraphBuilder.get_model_filename">[docs]</a>    <span class="k">def</span> <span class="nf">get_model_filename</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the model file name.</span>
 
 <span class="sd">        This method should be overridden in the child classes.</span>
@@ -320,7 +320,7 @@
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Not implemented.&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TFGraphBuilder.check_build_params"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/graph_builders/index.html#sparknlp_jsl._tf_graph_builders_1x.graph_builders.TFGraphBuilder.check_build_params">[docs]</a>    <span class="k">def</span> <span class="nf">check_build_params</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Checks if the build parameters are valid.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Checks if the build parameters are valid.</span>
 
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
@@ -339,7 +339,7 @@
                     <span class="p">)</span>
 
 <div class="viewcode-block" id="TFGraphBuilder.get_build_params"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/graph_builders/index.html#sparknlp_jsl._tf_graph_builders_1x.graph_builders.TFGraphBuilder.get_build_params">[docs]</a>    <span class="k">def</span> <span class="nf">get_build_params</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Returns the build parameters.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the build parameters.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -350,7 +350,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__build_params</span></div>
 
 <div class="viewcode-block" id="TFGraphBuilder.get_build_params_with_defaults"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/graph_builders/index.html#sparknlp_jsl._tf_graph_builders_1x.graph_builders.TFGraphBuilder.get_build_params_with_defaults">[docs]</a>    <span class="k">def</span> <span class="nf">get_build_params_with_defaults</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Returns the build parameters with the default values.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the build parameters with the default values.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -370,7 +370,7 @@
         <span class="k">return</span> <span class="n">build_params</span></div>
 
 <div class="viewcode-block" id="TFGraphBuilder.get_build_param"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/graph_builders/index.html#sparknlp_jsl._tf_graph_builders_1x.graph_builders.TFGraphBuilder.get_build_param">[docs]</a>    <span class="k">def</span> <span class="nf">get_build_param</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">build_param</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Returns the value of the given build parameter.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the value of the given build parameter.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -403,7 +403,7 @@
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No value for </span><span class="si">{</span><span class="n">build_param</span><span class="si">}</span><span class="s2"> found.&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TFGraphBuilder.get_model_build_params"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/graph_builders/index.html#sparknlp_jsl._tf_graph_builders_1x.graph_builders.TFGraphBuilder.get_model_build_params">[docs]</a>    <span class="k">def</span> <span class="nf">get_model_build_params</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Returns the build parameters for the model.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the build parameters for the model.</span>
 
 <span class="sd">        This class method needs to be overridden in the child classes.</span>
 
@@ -416,7 +416,7 @@
         <span class="k">return</span> <span class="p">{}</span></div>
 
 <div class="viewcode-block" id="TFGraphBuilder.get_model_build_param_explanations"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/graph_builders/index.html#sparknlp_jsl._tf_graph_builders_1x.graph_builders.TFGraphBuilder.get_model_build_param_explanations">[docs]</a>    <span class="k">def</span> <span class="nf">get_model_build_param_explanations</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Returns the explanations for the build parameters for the model.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the explanations for the build parameters for the model.</span>
 
 <span class="sd">        This class method needs to be overridden in the child classes.</span>
 
@@ -433,7 +433,7 @@
 
 
 <div class="viewcode-block" id="GenericClassifierTFGraphBuilder"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/graph_builders/index.html#sparknlp_jsl._tf_graph_builders_1x.graph_builders.GenericClassifierTFGraphBuilder">[docs]</a><span class="k">class</span> <span class="nc">GenericClassifierTFGraphBuilder</span><span class="p">(</span><span class="n">TFGraphBuilder</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class to create the the TF graphs for GenericClassifierApproach.</span>
 <span class="sd">    Extends the TFGraphBuilder base class.</span>
 
@@ -524,7 +524,7 @@
 
 
 <div class="viewcode-block" id="AssertionTFGraphBuilder"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/graph_builders/index.html#sparknlp_jsl._tf_graph_builders_1x.graph_builders.AssertionTFGraphBuilder">[docs]</a><span class="k">class</span> <span class="nc">AssertionTFGraphBuilder</span><span class="p">(</span><span class="n">TFGraphBuilder</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class to build the the TF graphs for AssertionDLApproach</span>
 
 <span class="sd">    Examples</span>
@@ -614,7 +614,7 @@
 
 
 <div class="viewcode-block" id="NerTFGraphBuilder"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/graph_builders/index.html#sparknlp_jsl._tf_graph_builders_1x.graph_builders.NerTFGraphBuilder">[docs]</a><span class="k">class</span> <span class="nc">NerTFGraphBuilder</span><span class="p">(</span><span class="n">TFGraphBuilder</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class to build the the TF graphs for MedicalNerApproach.</span>
 
 <span class="sd">    Examples</span>
@@ -710,7 +710,7 @@
 
 
 <div class="viewcode-block" id="RelationExtractionTFGraphBuilder"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/graph_builders/index.html#sparknlp_jsl._tf_graph_builders_1x.graph_builders.RelationExtractionTFGraphBuilder">[docs]</a><span class="k">class</span> <span class="nc">RelationExtractionTFGraphBuilder</span><span class="p">(</span><span class="n">GenericClassifierTFGraphBuilder</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class to build the the TF graphs for RelationExtractionApproach</span>
 
 <span class="sd">    Examples</span>
@@ -745,7 +745,7 @@
 
 
 <div class="viewcode-block" id="TFGraphBuilderFactory"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/graph_builders/index.html#sparknlp_jsl._tf_graph_builders_1x.graph_builders.TFGraphBuilderFactory">[docs]</a><span class="k">class</span> <span class="nc">TFGraphBuilderFactory</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Factory class to create the the different tensorflow graphs for ner_dl, generic_classifier, assertion_dl, relation_extraction annotators in spark-nlp healthcare</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -758,7 +758,7 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="TFGraphBuilderFactory.get_models"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/graph_builders/index.html#sparknlp_jsl._tf_graph_builders_1x.graph_builders.TFGraphBuilderFactory.get_models">[docs]</a>    <span class="k">def</span> <span class="nf">get_models</span><span class="p">():</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Method that return the available tf models in  spark-nlp healthcare</span>
 
 <span class="sd">        Examples</span>
@@ -771,7 +771,7 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="TFGraphBuilderFactory.build"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/graph_builders/index.html#sparknlp_jsl._tf_graph_builders_1x.graph_builders.TFGraphBuilderFactory.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">build_params</span><span class="p">,</span> <span class="n">model_location</span><span class="p">,</span> <span class="n">model_filename</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Method that create the tf graph.</span>
 
 <span class="sd">        Parameters</span>
@@ -833,7 +833,7 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="TFGraphBuilderFactory.print_model_params"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/graph_builders/index.html#sparknlp_jsl._tf_graph_builders_1x.graph_builders.TFGraphBuilderFactory.print_model_params">[docs]</a>    <span class="k">def</span> <span class="nf">print_model_params</span><span class="p">(</span><span class="n">model_name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Method that return the params allowed for the tf model.This method return the params with the description for every param.</span>
 
 <span class="sd">        Parameters</span>

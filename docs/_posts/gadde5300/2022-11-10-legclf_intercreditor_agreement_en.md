@@ -10,7 +10,7 @@ language: en
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
-annotator: ClassifierDLModel
+annotator: LegalClassifierDLModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -31,7 +31,8 @@ If not, let us know and we can carry out another approach for you: getting chunk
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_intercreditor_agreement_en_1.0.0_3.0_1668077666684.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_intercreditor_agreement_en_1.0.0_3.0_1668077666684.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_intercreditor_agreement_en_1.0.0_3.0_1668077666684.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -39,6 +40,7 @@ If not, let us know and we can carry out another approach for you: getting chunk
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  
 documentAssembler = nlp.DocumentAssembler() \
@@ -112,16 +114,10 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 ## Benchmarking
 
 ```bash
-
-                         precision    recall  f1-score   support
-
+                  label  precision    recall  f1-score   support
 intercreditor-agreement       0.88      0.85      0.87        34
                   other       0.93      0.95      0.94        73
-
-               accuracy                           0.92       107
-              macro avg       0.91      0.90      0.90       107
-           weighted avg       0.92      0.92      0.92       107
-
-
-
+               accuracy          -         -      0.92       107
+              macro-avg       0.91      0.90      0.90       107
+           weighted-avg       0.92      0.92      0.92       107
 ```

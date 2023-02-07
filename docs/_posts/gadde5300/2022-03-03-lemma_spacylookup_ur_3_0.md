@@ -23,6 +23,7 @@ This Urdu Lemmatizer is an scalable, production-ready version of the Rule-based 
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/lemma_spacylookup_ur_3.4.1_3.0_1646316529784.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/lemma_spacylookup_ur_3.4.1_3.0_1646316529784.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

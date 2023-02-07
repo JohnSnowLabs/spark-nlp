@@ -27,7 +27,8 @@ This is a `sm` version of Indian News Sentiment Analysis Text Classifier, which 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_indian_news_sentiment_en_1.0.0_3.0_1668058786154.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_indian_news_sentiment_en_1.0.0_3.0_1668058786154.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/finance/models/finclf_indian_news_sentiment_en_1.0.0_3.0_1668058786154.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -35,6 +36,7 @@ This is a `sm` version of Indian News Sentiment Analysis Text Classifier, which 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  
 document_assembler = nlp.DocumentAssembler() \
@@ -105,14 +107,10 @@ An in-house augmented version of [this dataset](https://www.kaggle.com/datasets/
 ## Benchmarking
 
 ```bash
-
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
     NEGATIVE       0.75      0.78      0.76     21441
     POSITIVE       0.73      0.69      0.71     18449
-
-    accuracy                           0.74     39890
-   macro avg       0.74      0.74      0.74     39890
-weighted avg       0.74      0.74      0.74     39890
-
+    accuracy         -         -       0.74     39890
+   macro-avg       0.74      0.74      0.74     39890
+weighted-avg       0.74      0.74      0.74     39890
 ```

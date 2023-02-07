@@ -10,7 +10,7 @@ language: en
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
-annotator: ClassifierDLModel
+annotator: LegalClassifierDLModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -36,7 +36,8 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/finance/CLASSIFY_LEGAL_CLAUSES/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_environmental_matters_clause_en_1.0.0_3.0_1664363148554.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_environmental_matters_clause_en_1.0.0_3.0_1664363148554.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_environmental_matters_clause_en_1.0.0_3.0_1664363148554.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -107,7 +108,7 @@ Legal documents, scrapped from the Internet, and classified in-house
                 label  precision    recall  f1-score   support
 environmental-matters       0.95      0.86      0.90        21
                 other       0.94      0.98      0.96        48
-             accuracy         -         -       0.94        69
+             accuracy          -         -      0.94        69
             macro-avg       0.94      0.92      0.93        69
          weighted-avg       0.94      0.94      0.94        69
 ```

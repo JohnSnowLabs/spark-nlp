@@ -60,11 +60,11 @@ WORD_EMBEDDINGS
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[ElmoEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/ElmoEmbeddings)
+[ElmoEmbeddings](/api/com/johnsnowlabs/nlp/embeddings/ElmoEmbeddings)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[ElmoEmbeddings](/api/python/reference/autosummary/python/sparknlp/annotator/embeddings/elmo_embeddings/index.html#sparknlp.annotator.embeddings.elmo_embeddings.ElmoEmbeddings)
+[ElmoEmbeddings](/api/python/reference/autosummary/sparknlp/annotator/embeddings/elmo_embeddings/index.html#sparknlp.annotator.embeddings.elmo_embeddings.ElmoEmbeddings)
 {%- endcapture -%}
 
 {%- capture source_link -%}

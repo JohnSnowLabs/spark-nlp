@@ -32,7 +32,8 @@ This model is an end-to-end trained BioBERT model, capable of Relating Drugs and
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/RE_ADE/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_ADE.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/redl_ade_biobert_en_3.1.2_3.0_1626105541347.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/redl_ade_biobert_en_3.1.2_3.0_1626105541347.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/redl_ade_biobert_en_3.1.2_3.0_1626105541347.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 
 ## How to use
@@ -189,10 +190,10 @@ nlu.load("en.relation.adverse_drug_events.clinical.biobert").predict("""Been tak
 
 
 ```bash
-| relation | entity1 | entity1_begin | entity1_end | chunk1    | entity2 | entity2_begin | entity2_end | chunk2         | confidence |
-|---------:|:--------|--------------:|------------:|:----------|:--------|--------------:|------------:|:---------------|-----------:|
-|        1 | DRUG    |            12 |          18 | Lipitor   | ADE     |            52 |          65 | severe fatigue |   0.999317 |
-|        0 | DRUG    |            97 |         105 | voltarene | ADE     |           144 |         156 | muscle cramps  |   0.774904 |
+|   relation | entity1   |   entity1_begin |   entity1_end | chunk1    | entity2   |   entity2_begin |   entity2_end | chunk2         |   confidence |
+|-----------:|:----------|----------------:|--------------:|:----------|:----------|----------------:|--------------:|:---------------|-------------:|
+|          1 | DRUG      |              12 |            18 | Lipitor   | ADE       |              52 |            65 | severe fatigue |     0.998156 |
+|          1 | DRUG      |              97 |           105 | voltarene | ADE       |             144 |           156 | muscle cramps  |     0.985513 |
 ```
 
 

@@ -134,7 +134,7 @@ result.selectExpr(""explode(corefs) AS coref"")
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[SpanBertCorefModel](/api/python/reference/autosummary/python/sparknlp/annotator/coref/spanbert_coref/index.html#python.sparknlp.annotator.coref.spanbert_coref.SpanBertCorefModel)
+[SpanBertCorefModel](/api/python/reference/autosummary/sparknlp/annotator/coref/spanbert_coref/index.html#python.sparknlp.annotator.coref.spanbert_coref.SpanBertCorefModel)
 {%- endcapture -%}
 
 {%- capture source_link -%}

@@ -103,11 +103,11 @@ result.select("label.result").show(false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[XlmRoBertaForSequenceClassification](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/XlmRoBertaForSequenceClassification)
+[XlmRoBertaForSequenceClassification](/api/com/johnsnowlabs/nlp/annotators/classifier/dl/XlmRoBertaForSequenceClassification)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[XlmRoBertaForSequenceClassification](/api/python/reference/autosummary/python/sparknlp/annotator/classifier_dl/xlm_roberta_for_sequence_classification/index.html#sparknlp.annotator.classifier_dl.xlm_roberta_for_sequence_classification.XlmRoBertaForSequenceClassification)
+[XlmRoBertaForSequenceClassification](/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/xlm_roberta_for_sequence_classification/index.html#sparknlp.annotator.classifier_dl.xlm_roberta_for_sequence_classification.XlmRoBertaForSequenceClassification)
 {%- endcapture -%}
 
 {%- capture source_link -%}

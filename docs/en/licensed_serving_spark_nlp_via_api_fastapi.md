@@ -60,7 +60,7 @@ Read more about the performance advantages of using *LightPipelines* in [this ar
 
 </div><div class="h3-box" markdown="1">
 
-### Strenghts
+### Strengths
 
 * *Quickest approach*
 
@@ -212,9 +212,9 @@ Then, the startup event to preload the pipelines and start a Spark NLP Session:
             license_keys = json.load(f)
 
     spark = sparknlp_jsl.start(secret=license_keys['SECRET'])
-        
+
     pipelines['ner_profiling_clinical'] = PretrainedPipeline('ner_profiling_clinical', 'en', 'clinical/models')
-        
+
     pipelines['clinical_deidentification'] = PretrainedPipeline("clinical_deidentification", "en", "clinical/models")
 
 Finally, let’s run a uvicorn server, listening on port 8515 to the endpoints declared before:
@@ -254,7 +254,7 @@ Lets import some libraries
 Then, let’s create a clinical note
 
     ner_text = """
-    A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus ( T2DM ), one prior episode of HTG-induced pancreatitis three years prior to presentation , associated with an acute hepatitis , and obesity with a body mass index ( BMI ) of 33.5 kg/m2 , presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting. The patient was prescribed 1 capsule of Advil 10 mg for 5 days and magnesium hydroxide 100mg/1ml suspension PO. 
+    A 28-year-old female with a history of gestational diabetes mellitus diagnosed eight years prior to presentation and subsequent type two diabetes mellitus ( T2DM ), one prior episode of HTG-induced pancreatitis three years prior to presentation , associated with an acute hepatitis , and obesity with a body mass index ( BMI ) of 33.5 kg/m2 , presented with a one-week history of polyuria , polydipsia , poor appetite , and vomiting. The patient was prescribed 1 capsule of Advil 10 mg for 5 days and magnesium hydroxide 100mg/1ml suspension PO.
     He was seen by the endocrinology service and she was discharged on 40 units of insulin glargine at night , 12 units of insulin lispro with meals , and metformin 1000 mg two times a day.
     """
 

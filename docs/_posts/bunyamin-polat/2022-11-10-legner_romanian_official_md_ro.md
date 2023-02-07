@@ -27,7 +27,8 @@ This is a medium version of NER model that extracts PER(Person), LOC(Location), 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/legal/LEGNER_ROMANIAN_OFFICIAL/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_romanian_official_md_ro_1.0.0_3.0_1668083301892.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_romanian_official_md_ro_1.0.0_3.0_1668083301892.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legner_romanian_official_md_ro_1.0.0_3.0_1668083301892.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -118,13 +119,13 @@ Dataset is available [here](https://zenodo.org/record/7025333#.Y2zsquxBx83).
 ## Benchmarking
 
 ```bash
-| label        | precision | recall | f1-score | support |
-| DATE         | 0.84      | 0.92   | 0.88     | 218     |
-| LEGAL        | 0.89      | 0.96   | 0.92     | 337     |
-| LOC          | 0.82      | 0.77   | 0.79     | 158     |
-| ORG          | 0.87      | 0.88   | 0.88     | 463     |
-| PER          | 0.97      | 0.97   | 0.97     | 87      |
-| micro-avg    | 0.87      | 0.90   | 0.89     | 1263    |
-| macro-avg    | 0.88      | 0.90   | 0.89     | 1263    |
-| weighted-avg | 0.87      | 0.90   | 0.89     | 1263    |
+label         precision  recall  f1-score  support
+DATE          0.84       0.92    0.88      218
+LEGAL         0.89       0.96    0.92      337
+LOC           0.82       0.77    0.79      158
+ORG           0.87       0.88    0.88      463
+PER           0.97       0.97    0.97      87
+micro-avg     0.87       0.90    0.89      1263
+macro-avg     0.88       0.90    0.89      1263
+weighted-avg  0.87       0.90    0.89      1263
 ```

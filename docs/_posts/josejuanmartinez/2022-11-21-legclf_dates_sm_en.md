@@ -27,7 +27,8 @@ This is a Text Classification model can help you classify if a paragraph talks a
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_dates_sm_en_1.0.0_3.0_1669034322560.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_dates_sm_en_1.0.0_3.0_1669034322560.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_dates_sm_en_1.0.0_3.0_1669034322560.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -35,6 +36,7 @@ This is a Text Classification model can help you classify if a paragraph talks a
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler() \
   .setInputCol("text") \
@@ -95,12 +97,12 @@ In-house annotations.
 ## Benchmarking
 
 ```bash
-label                  precision    recall  f1-score   support
+           label  precision    recall  f1-score   support
   EFFECTIVE_DATE       1.00      0.80      0.89         5
     RENEWAL_DATE       1.00      1.00      1.00         6
 TERMINATION_DATE       0.86      0.75      0.80         8
            other       0.91      1.00      0.95        21
-        accuracy           -        -        0.93        40
-       macro avg       0.94      0.89      0.91        40
-    weighted avg       0.93      0.93      0.92        40
+        accuracy          -         -      0.93        40
+       macro-avg       0.94      0.89      0.91        40
+    weighted-avg       0.93      0.93      0.92        40
 ```

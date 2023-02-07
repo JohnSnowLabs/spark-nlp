@@ -31,7 +31,8 @@ If your document needs to process more than 4096 tokens, you can try the followi
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_management_agreement_en_1.0.0_3.0_1671393667813.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_management_agreement_en_1.0.0_3.0_1671393667813.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_management_agreement_en_1.0.0_3.0_1671393667813.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -115,12 +116,11 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 
 ```bash
 
-|                label |   precision |   recall |   f1-score |   support |
-|---------------------:|------------:|---------:|-----------:|----------:|
-| management-agreement |        0.95 |     0.93 |       0.94 |       115 |
-|                other |        0.96 |     0.97 |       0.96 |       184 |
-|             accuracy |           - |        - |       0.95 |       299 |
-|            macro-avg |        0.95 |     0.95 |       0.95 |       299 |
-|         weighted-avg |        0.95 |     0.95 |       0.95 |       299 |
+                label    precision    recall    f1-score    support 
+ management-agreement         0.95      0.93        0.94        115 
+                other         0.96      0.97        0.96        184 
+             accuracy            -         -        0.95        299 
+            macro-avg         0.95      0.95        0.95        299 
+         weighted-avg         0.95      0.95        0.95        299
 
 ```

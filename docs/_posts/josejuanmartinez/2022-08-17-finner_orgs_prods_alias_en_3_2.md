@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Financial ORG, PRODUCT and ALIAS NER (Large)
+title: Financial ORG, PRODUCT and ALIAS NER (Small)
 author: John Snow Labs
 name: finner_orgs_prods_alias
 date: 2022-08-17
@@ -27,7 +27,8 @@ This is a large Named Entity Recognition model, trained with a subset of generic
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/finance/FINNER_ORGPROD){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_orgs_prods_alias_en_1.0.0_3.2_1660733832114.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_orgs_prods_alias_en_1.0.0_3.2_1660733832114.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/finance/models/finner_orgs_prods_alias_en_1.0.0_3.2_1660733832114.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
