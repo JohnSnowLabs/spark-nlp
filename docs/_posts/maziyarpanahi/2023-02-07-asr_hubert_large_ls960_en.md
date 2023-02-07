@@ -38,9 +38,13 @@ The large model fine-tuned on 960h of Librispeech on 16kHz sampled speech audio.
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
                 
-audio_assembler = AudioAssembler()     .setInputCol("audio_content")     .setOutputCol("audio_assembler")
+audio_assembler = AudioAssembler()\
+  .setInputCol("audio_content")\
+  .setOutputCol("audio_assembler")
 
-speech_to_text = HubertForCTC     .pretrained("asr_hubert_large_ls960", "en")    .setInputCols("audio_assembler")     .setOutputCol("text")
+speech_to_text = HubertForCTC.pretrained("asr_hubert_large_ls960", "en")\
+  .setInputCols("audio_assembler")\
+  .setOutputCol("text")
 
 pipeline = Pipeline(stages=[
   audio_assembler,
