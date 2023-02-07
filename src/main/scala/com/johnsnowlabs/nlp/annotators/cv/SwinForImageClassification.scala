@@ -47,7 +47,7 @@ import org.json4s.jackson.JsonMethods._
   *   .setInputCols("image_assembler")
   *   .setOutputCol("class")
   * }}}
-  * The default model is `"image_classifier_swin_base_patch_4_window_7_224"`, if no name is
+  * The default model is `"image_classifier_swin_base_patch4_window7_224"`, if no name is
   * provided.
   *
   * For available pretrained models please see the
@@ -260,7 +260,7 @@ trait ReadablePretrainedSwinForImageModel
     extends ParamsAndFeaturesReadable[SwinForImageClassification]
     with HasPretrained[SwinForImageClassification] {
   override val defaultModelName: Some[String] = Some(
-    "image_classifier_swin_base_patch_4_window_7_224")
+    "image_classifier_swin_base_patch4_window7_224")
 
   /** Java compliant-overrides */
   override def pretrained(): SwinForImageClassification = super.pretrained()
