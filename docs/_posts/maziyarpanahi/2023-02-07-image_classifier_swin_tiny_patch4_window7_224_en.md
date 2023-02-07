@@ -21,7 +21,7 @@ use_language_switcher: "Python-Scala-Java"
 
 Pretrained Swin model for Image Classification, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.
 
-            Swin Transformer was introduced in the paper [Swin Transformer: Hierarchical Vision Transformer using Shifted Windows](https://arxiv.org/abs/2103.14030) by Liu et al.
+Swin Transformer was introduced in the paper [Swin Transformer: Hierarchical Vision Transformer using Shifted Windows](https://arxiv.org/abs/2103.14030) by Liu et al.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
@@ -37,9 +37,13 @@ Pretrained Swin model for Image Classification, adapted from Hugging Face and cu
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
                 
-image_assembler = ImageAssembler()     .setInputCol("image")     .setOutputCol("image_assembler")
+image_assembler = ImageAssembler()\
+  .setInputCol("image")\
+  .setOutputCol("image_assembler")
 
-imageClassifier = SwinForImageClassification.pretrained("image_classifier_swin_tiny_patch4_window7_224", "en")    .setInputCols("image_assembler")     .setOutputCol("class")
+imageClassifier = SwinForImageClassification.pretrained("image_classifier_swin_tiny_patch4_window7_224", "en")\
+  .setInputCols("image_assembler")\
+  .setOutputCol("class")
 
 pipeline = Pipeline(stages=[
   image_assembler,
