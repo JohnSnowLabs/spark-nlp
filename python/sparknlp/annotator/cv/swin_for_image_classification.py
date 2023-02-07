@@ -39,7 +39,7 @@ class SwinForImageClassification(AnnotatorModel,
             .setOutputCol("class")
 
 
-    The default model is ``"image_classifier_swin_base_patch_4_window_7_224"``, if no name is
+    The default model is ``"image_classifier_swin_base_patch4_window7_224"``, if no name is
     provided.
 
     For available pretrained models please see the
@@ -225,7 +225,7 @@ class SwinForImageClassification(AnnotatorModel,
         return SwinForImageClassification(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="image_classifier_swin_base_patch_4_window_7_224", lang="en",
+    def pretrained(name="image_classifier_swin_base_patch4_window7_224", lang="en",
                    remote_loc=None):
         """Downloads and loads a pretrained model.
 
@@ -233,7 +233,7 @@ class SwinForImageClassification(AnnotatorModel,
         ----------
         name : str, optional
             Name of the pretrained model, by default
-            "image_classifier_swin_base_patch_4_window_7_224"
+            "image_classifier_swin_base_patch4_window7_224"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
