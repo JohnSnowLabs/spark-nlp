@@ -40,6 +40,9 @@ import scala.collection.JavaConverters._
   * specifying a set of questions for each entity. The model is based on
   * RoBertaForQuestionAnswering.
   *
+  * For more extended examples see the
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/named-entity-recognition/ZeroShot_NER.ipynb Examples]]
+  *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{
   * val zeroShotNer = ZeroShotNerModel.pretrained()
