@@ -25,6 +25,9 @@ class ZeroShotNerModel(RoBertaForQuestionAnswering, HasEngine):
     specifying a set of questions for each entity. The model is based on
     RoBertaForQuestionAnswering.
 
+    For more extended examples see the
+    `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/named-entity-recognition/ZeroShot_NER.ipynb>`__.
+
     Pretrained models can be loaded with ``pretrained`` of the companion object:
 
     .. code-block:: python
