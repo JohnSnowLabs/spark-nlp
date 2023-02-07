@@ -52,11 +52,11 @@ WORD_EMBEDDINGS
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[DistilBertEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/DistilBertEmbeddings)
+[DistilBertEmbeddings](/api/com/johnsnowlabs/nlp/embeddings/DistilBertEmbeddings)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[DistilBertEmbeddings](/api/python/reference/autosummary/python/sparknlp/annotator/embeddings/distil_bert_embeddings/index.html#sparknlp.annotator.embeddings.distil_bert_embeddings.DistilBertEmbeddings)
+[DistilBertEmbeddings](/api/python/reference/autosummary/sparknlp/annotator/embeddings/distil_bert_embeddings/index.html#sparknlp.annotator.embeddings.distil_bert_embeddings.DistilBertEmbeddings)
 {%- endcapture -%}
 
 {%- capture source_link -%}

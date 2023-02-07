@@ -164,11 +164,11 @@ result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[SentenceEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/SentenceEmbeddings)
+[SentenceEmbeddings](/api/com/johnsnowlabs/nlp/embeddings/SentenceEmbeddings)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[SentenceEmbeddings](/api/python/reference/autosummary/python/sparknlp/annotator/embeddings/sentence_embeddings/index.html#sparknlp.annotator.embeddings.sentence_embeddings.SentenceEmbeddings)
+[SentenceEmbeddings](/api/python/reference/autosummary/sparknlp/annotator/embeddings/sentence_embeddings/index.html#sparknlp.annotator.embeddings.sentence_embeddings.SentenceEmbeddings)
 {%- endcapture -%}
 
 {%- capture source_link -%}
