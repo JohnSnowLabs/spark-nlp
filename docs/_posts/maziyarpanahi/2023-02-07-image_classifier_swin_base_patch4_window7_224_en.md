@@ -37,9 +37,13 @@ Pretrained Swin model for Image Classification, adapted from Hugging Face and cu
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
                 
-image_assembler = ImageAssembler()     .setInputCol("image")     .setOutputCol("image_assembler")
+image_assembler = ImageAssembler()\
+  .setInputCol("image")\
+  .setOutputCol("image_assembler")
 
-imageClassifier = SwinForImageClassification.pretrained("image_classifier_swin_base_patch4_window7_224", "en")    .setInputCols("image_assembler")     .setOutputCol("class")
+imageClassifier = SwinForImageClassification.pretrained("image_classifier_swin_base_patch4_window7_224", "en")\
+  .setInputCols("image_assembler")\
+  .setOutputCol("class")
 
 pipeline = Pipeline(stages=[
   image_assembler,
