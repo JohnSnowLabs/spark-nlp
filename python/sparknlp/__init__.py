@@ -64,7 +64,7 @@ embeddings = annotator
 
 
 def start(gpu=False,
-          m1=False,
+          apple_silicon=False,
           aarch64=False,
           memory="16G",
           cache_folder="",
@@ -93,8 +93,8 @@ def start(gpu=False,
     ----------
     gpu : bool, optional
         Whether to enable GPU acceleration (must be set up correctly), by default False
-    m1 : bool, optional
-        Whether to enable M1 support for macOS
+    apple_silicon : bool, optional
+        Whether to enable Apple Silicon support for macOS
     aarch64 : bool, optional
         Whether to enable Linux Aarch64 support
     memory : str, optional
@@ -137,8 +137,8 @@ def start(gpu=False,
             # Spark NLP on CPU or GPU
             self.maven_spark3 = "com.johnsnowlabs.nlp:spark-nlp_2.12:{}".format(current_version)
             self.maven_gpu_spark3 = "com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:{}".format(current_version)
-            # Spark NLP on M1
-            self.maven_m1 = "com.johnsnowlabs.nlp:spark-nlp-m1_2.12:{}".format(current_version)
+            # Spark NLP on Apple Silicon
+            self.maven_silicon = "com.johnsnowlabs.nlp:spark-nlp-silicon_2.12:{}".format(current_version)
             # Spark NLP on Linux Aarch64
             self.maven_aarch64 = "com.johnsnowlabs.nlp:spark-nlp-aarch64_2.12:{}".format(current_version)
 
@@ -151,8 +151,8 @@ def start(gpu=False,
             .config("spark.kryoserializer.buffer.max", spark_nlp_config.serializer_max_buffer) \
             .config("spark.driver.maxResultSize", spark_nlp_config.driver_max_result_size)
 
-        if m1:
-            spark_jars_packages = spark_nlp_config.maven_m1
+        if apple_silicon:
+            spark_jars_packages = spark_nlp_config.maven_silicon
         elif aarch64:
             spark_jars_packages = spark_nlp_config.maven_aarch64
         elif gpu:
@@ -192,8 +192,8 @@ def start(gpu=False,
                 spark_conf.set("spark.kryoserializer.buffer.max", spark_nlp_config.serializer_max_buffer)
                 spark_conf.set("spark.driver.maxResultSize", spark_nlp_config.driver_max_result_size)
 
-                if m1:
-                    spark_jars_packages = spark_nlp_config.maven_m1
+                if apple_silicon:
+                    spark_jars_packages = spark_nlp_config.maven_silicon
                 elif aarch64:
                     spark_jars_packages = spark_nlp_config.maven_aarch64
                 elif gpu:
