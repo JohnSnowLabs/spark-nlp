@@ -488,7 +488,8 @@
 
 <span class="n">CM</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">ChunkMapperModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'finmapper_nasdaq_ticker_stock_screener'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'finance/models'</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"mappings"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"mappings"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setEnableFuzzyMatching</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>\
 
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">document_assembler</span><span class="p">,</span>
                                  <span class="n">tokenizer</span><span class="p">,</span> 
@@ -723,7 +724,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2023/01/19/finmapper_nasdaq_company_name_stock_screener_en.html">Mapping Companies to NASDAQ Stock Screener by Company Name</a></div><div class="next nav_link"><span>NEXT</span><a href="/2023/01/20/finpipe_header_subheader_en.html">Finance Pipeline (Headers / Subheaders)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2023/01/19/finmapper_nasdaq_company_name_stock_screener_en.html">Mapping Companies to NASDAQ Stock Screener by Company Name</a></div><div class="next nav_link"><span>NEXT</span><a href="/2023/01/20/roberta_qa_01_dialdoc_en.html">English RobertaForQuestionAnswering Cased model (from alistvt)</a></div></div></div>
 
 </div>
 </div>
