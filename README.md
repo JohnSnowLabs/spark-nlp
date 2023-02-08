@@ -136,6 +136,8 @@ documentation and examples
 - XLNet for Token & Sequence Classification
 - Longformer for Token & Sequence Classification
 - BERT for Token & Sequence Classification
+- BERT for Question Answering
+- CamemBERT for Question Answering
 - DistilBERT for Question Answering
 - ALBERT for Question Answering
 - RoBERTa for Question Answering
@@ -143,16 +145,19 @@ documentation and examples
 - XLM-RoBERTa for Question Answering
 - Longformer for Question Answering
 - Table Question Answering (TAPAS)
+- Zero-Shot NER Model
 - Neural Machine Translation (MarianMT)
 - Text-To-Text Transfer Transformer (Google T5)
 - Generative Pre-trained Transformer 2 (OpenAI GPT2)
 - Vision Transformer (ViT)
+- Swin Image Classification
 - Automatic Speech Recognition (Wav2Vec2)
+- Automatic Speech Recognition (HuBERT)
 - Named entity recognition (Deep learning)
 - Easy TensorFlow integration
 - GPU Support
 - Full integration with Spark ML functions
-- +8500 pre-trained models in +200 languages!
+- +9400 pre-trained models in +200 languages!
 - +3200 pre-trained pipelines in +200 languages!
 - Multi-lingual NER models: Arabic, Bengali, Chinese, Danish, Dutch, English, Finnish, French, German, Hebrew, Italian,
   Japanese, Korean, Norwegian, Persian, Polish, Portuguese, Russian, Spanish, Swedish, Urdu, and more.
@@ -182,7 +187,7 @@ $ java -version
 $ conda create -n sparknlp python=3.7 -y
 $ conda activate sparknlp
 # spark-nlp by default is based on pyspark 3.x
-$ pip install spark-nlp==4.3.0 pyspark==3.2.3
+$ pip install spark-nlp==4.3.0 pyspark==3.3.1
 ```
 
 In Python console or Jupyter `Python3` kernel:
@@ -654,7 +659,7 @@ launch the Jupyter from the same Python environment:
 $ conda create -n sparknlp python=3.8 -y
 $ conda activate sparknlp
 # spark-nlp by default is based on pyspark 3.x
-$ pip install spark-nlp==4.3.0 pyspark==3.2.3 jupyter
+$ pip install spark-nlp==4.3.0 pyspark==3.3.1 jupyter
 $ jupyter notebook
 ```
 

@@ -136,6 +136,8 @@ documentation and examples
 - XLNet for Token & Sequence Classification
 - Longformer for Token & Sequence Classification
 - BERT for Token & Sequence Classification
+- BERT for Question Answering
+- CamemBERT for Question Answering
 - DistilBERT for Question Answering
 - ALBERT for Question Answering
 - RoBERTa for Question Answering
@@ -143,16 +145,19 @@ documentation and examples
 - XLM-RoBERTa for Question Answering
 - Longformer for Question Answering
 - Table Question Answering (TAPAS)
+- Zero-Shot NER Model
 - Neural Machine Translation (MarianMT)
 - Text-To-Text Transfer Transformer (Google T5)
 - Generative Pre-trained Transformer 2 (OpenAI GPT2)
 - Vision Transformer (ViT)
+- Swin Image Classification
 - Automatic Speech Recognition (Wav2Vec2)
+- Automatic Speech Recognition (HuBERT)
 - Named entity recognition (Deep learning)
 - Easy TensorFlow integration
 - GPU Support
 - Full integration with Spark ML functions
-- +8500 pre-trained models in +200 languages!
+- +9400 pre-trained models in +200 languages!
 - +3200 pre-trained pipelines in +200 languages!
 - Multi-lingual NER models: Arabic, Bengali, Chinese, Danish, Dutch, English, Finnish, French, German, Hebrew, Italian,
   Japanese, Korean, Norwegian, Persian, Polish, Portuguese, Russian, Spanish, Swedish, Urdu, and more.
@@ -182,7 +187,7 @@ $ java -version
 $ conda create -n sparknlp python=3.7 -y
 $ conda activate sparknlp
 # spark-nlp by default is based on pyspark 3.x
-$ pip install spark-nlp==4.3.0 pyspark==3.2.3
+$ pip install spark-nlp==4.3.0 pyspark==3.3.1
 ```
 
 In Python console or Jupyter `Python3` kernel:
@@ -460,9 +465,9 @@ coordinates:
 ```xml
 <!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-silicon -->
 <dependency>
-  <groupId>com.johnsnowlabs.nlp</groupId>
-  <artifactId>spark-nlp-silicon_2.12</artifactId>
-  <version>4.3.0</version>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-silicon_2.12</artifactId>
+    <version>4.3.0</version>
 </dependency>
 ```
 
@@ -539,13 +544,13 @@ or manually:
 
 ```python
 spark = SparkSession.builder
-.appName("Spark NLP")
-.master("local[*]")
-.config("spark.driver.memory", "16G")
-.config("spark.driver.maxResultSize", "0")
-.config("spark.kryoserializer.buffer.max", "2000M")
-.config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:4.3.0")
-.getOrCreate()
+    .appName("Spark NLP")
+    .master("local[*]")
+    .config("spark.driver.memory", "16G")
+    .config("spark.driver.maxResultSize", "0")
+    .config("spark.kryoserializer.buffer.max", "2000M")
+    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:4.3.0")
+    .getOrCreate()
 ```
 
 If using local jars, you can use `spark.jars` instead for comma-delimited jar files. For cluster setups, of course,
@@ -654,7 +659,7 @@ launch the Jupyter from the same Python environment:
 $ conda create -n sparknlp python=3.8 -y
 $ conda activate sparknlp
 # spark-nlp by default is based on pyspark 3.x
-$ pip install spark-nlp==4.3.0 pyspark==3.2.3 jupyter
+$ pip install spark-nlp==4.3.0 pyspark==3.3.1 jupyter
 $ jupyter notebook
 ```
 
@@ -898,15 +903,15 @@ You can use `.config()` during SparkSession creation to set Spark NLP configurat
 from pyspark.sql import SparkSession
 
 spark = SparkSession.builder
-.master("local[*]")
-.config("spark.driver.memory", "16G")
-.config("spark.driver.maxResultSize", "0")
-.config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
-.config("spark.kryoserializer.buffer.max", "2000m")
-.config("spark.jsl.settings.pretrained.cache_folder", "sample_data/pretrained")
-.config("spark.jsl.settings.storage.cluster_tmp_dir", "sample_data/storage")
-.config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:4.3.0")
-.getOrCreate()
+    .master("local[*]")
+    .config("spark.driver.memory", "16G")
+    .config("spark.driver.maxResultSize", "0")
+    .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+    .config("spark.kryoserializer.buffer.max", "2000m")
+    .config("spark.jsl.settings.pretrained.cache_folder", "sample_data/pretrained")
+    .config("spark.jsl.settings.storage.cluster_tmp_dir", "sample_data/storage")
+    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:4.3.0")
+    .getOrCreate()
 ```
 
 **spark-shell:**
@@ -1120,8 +1125,8 @@ val italian_lemma = LemmatizerModel.pretrained("lemma_dxc", lang = "it")
 
 ```scala
 val french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_1556531457346/")
-        .setInputCols("document", "token")
-        .setOutputCol("pos")
+  .setInputCols("document", "token")
+  .setOutputCol("pos")
 ```
 
 #### Showing Available Models
@@ -1199,13 +1204,13 @@ Example of `SparkSession` with Fat JAR to have Spark NLP offline:
 
 ```python
 spark = SparkSession.builder
-.appName("Spark NLP")
-.master("local[*]")
-.config("spark.driver.memory", "16G")
-.config("spark.driver.maxResultSize", "0")
-.config("spark.kryoserializer.buffer.max", "2000M")
-.config("spark.jars", "/tmp/spark-nlp-assembly-4.3.0.jar")
-.getOrCreate()
+    .appName("Spark NLP")
+    .master("local[*]")
+    .config("spark.driver.memory", "16G")
+    .config("spark.driver.maxResultSize", "0")
+    .config("spark.kryoserializer.buffer.max", "2000M")
+    .config("spark.jars", "/tmp/spark-nlp-assembly-4.3.0.jar")
+    .getOrCreate()
 ```
 
 - You can download provided Fat JARs from each [release notes](https://github.com/JohnSnowLabs/spark-nlp/releases),

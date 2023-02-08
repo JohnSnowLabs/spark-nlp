@@ -16,7 +16,7 @@ $ java -version
 # should be Java 8 (Oracle or OpenJDK)
 $ conda create -n sparknlp python=3.7 -y
 $ conda activate sparknlp
-$ pip install spark-nlp==4.3.0 pyspark==3.2.3
+$ pip install spark-nlp==4.3.0 pyspark==3.3.1
 ```
 
 ## Google Colab Notebook
