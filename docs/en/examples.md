@@ -52,6 +52,5 @@ Run the following code in Kaggle Kernel and start using spark-nlp right away.
 
 ## Notebooks
 
-* [Tutorials and trainings](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials)
-* [Jupyter Notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter)
-* [Databricks Notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/databricks)
+* [Tutorials and articles](https://medium.com/spark-nlp)
+* [Jupyter Notebooks](https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples)
