@@ -178,7 +178,7 @@ source venv/bin/activate
 after install packages by running
 
 ```
-pip install pyspark==3.2.3 numpy
+pip install pyspark==3.3.1 numpy
 ```
 
 </div><div class="h3-box" markdown="1">
