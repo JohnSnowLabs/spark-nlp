@@ -41,56 +41,37 @@ It can be optionally combined with Entity Resolution to normalize first the name
 ```python
 
 document_assembler = nlp.DocumentAssembler()\
-      .setInputCol('text')\
-      .setOutputCol('document')
+    .setInputCol('text')\
+    .setOutputCol('document')
 
 tokenizer = nlp.Tokenizer()\
-      .setInputCols("document")\
-      .setOutputCol("token")
+    .setInputCols("document")\
+    .setOutputCol("token")
 
 embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
-        .setInputCols(["document", "token"]) \
-        .setOutputCol("embeddings")
+    .setInputCols(["document", "token"])\
+    .setOutputCol("embeddings")
 
 ner_model = finance.NerModel.pretrained('finner_orgs_prods_alias', 'en', 'finance/models')\
-        .setInputCols(["document", "token", "embeddings"])\
-        .setOutputCol("ner")
- 
+    .setInputCols(["document", "token", "embeddings"])\
+    .setOutputCol("ner")
+
 ner_converter = nlp.NerConverter()\
-      .setInputCols(["document", "token", "ner"])\
-      .setOutputCol("ner_chunk")
+    .setInputCols(["document", "token", "ner"])\
+    .setOutputCol("ner_chunk")
 
-# Optional: To normalize the ORG name using NASDAQ data before the mapping
-##########################################################################
-chunkToDoc = nlp.Chunk2Doc()\
-        .setInputCols("ner_chunk")\
-        .setOutputCol("ner_chunk_doc")
-
-chunk_embeddings = nlp.UniversalSentenceEncoder.pretrained("tfhub_use_lg", "en")\
-    .setInputCols(["ner_chunk_doc"])\
-    .setOutputCol("chunk_embeddings")
-
-use_er_model = finance.SentenceEntityResolverModel.pretrained('finel_nasdaq_data_company_name', 'en', 'finance/models')\
-    .setInputCols("chunk_embeddings")\
-    .setOutputCol('normalized')\
-    .setDistanceFunction("EUCLIDEAN")  
-##########################################################################
-
-CM = finance.ChunkMapperModel()\
-      .pretrained('finmapper_nasdaq_companyname', 'en', 'finance/models')\
-      .setInputCols(["normalized"])\ #or ner_chunk without normalization
-      .setOutputCol("mappings")
+CM = finance.ChunkMapperModel().pretrained('finmapper_nasdaq_companyname', 'en', 'finance/models')\
+    .setInputCols(["ner_chunk"])\
+    .setOutputCol("mappings")\
+    .setEnableFuzzyMatching(True)
 
 pipeline = nlp.Pipeline().setStages([document_assembler,
-                                 tokenizer, 
-                                 embeddings,
-                                 ner_model, 
-                                 ner_converter,
-                                 chunkToDoc, # Optional for normalization
-                                 chunk_embeddings, # Optional for normalization
-                                 use_er_model, # Optional for normalization
-                                 CM])
-                                 
+                          tokenizer, 
+                          embeddings,
+                          ner_model, 
+                          ner_converter,
+                          CM])
+                          
 text = """Altaba Inc. is a company which ..."""
 
 test_data = spark.createDataFrame([[text]]).toDF("text")
@@ -107,7 +88,13 @@ lp.fullAnnotate(text)
 ## Results
 
 ```bash
-[Row(mappings=[Row(annotatorType='labeled_dependency', begin=0, end=10, result='AABA', metadata={'sentence': '0', 'chunk': '0', 'entity': 'Altaba Inc.', 'relation': 'ticker', 'all_relations': ''}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=0, end=10, result='Altaba Inc.', metadata={'sentence': '0', 'chunk': '0', 'entity': 'Altaba Inc.', 'relation': 'company_name', 'all_relations': ''}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=0, end=10, result='Altaba', metadata={'sentence': '0', 'chunk': '0', 'entity': 'Altaba Inc.', 'relation': 'short_name', 'all_relations': ''}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=0, end=10, result='Asset Management', metadata={'sentence': '0', 'chunk': '0', 'entity': 'Altaba Inc.', 'relation': 'industry', 'all_relations': ''}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=0, end=10, result='Financial Services', metadata={'sentence': '0', 'chunk': '0', 'entity': 'Altaba Inc.', 'relation': 'sector', 'all_relations': ''}, embeddings=[])])]
+{
+    "ticker": "AABA",
+    "company_name": "Altaba Inc.",
+    "short_name": "Altaba",
+    "industry": "Asset Management",
+    "sector": "Financial Services"
+}
 ```
 
 {:.model-param}

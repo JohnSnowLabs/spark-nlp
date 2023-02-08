@@ -37,16 +37,16 @@ This models allows you to, given an extracter TICKER, retrieve all the parent / 
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = nlp.DocumentAssembler()\
-        .setInputCol("text")\
-        .setOutputCol("document")
-        
+    .setInputCol("text")\
+    .setOutputCol("document")
+
 sentenceDetector = nlp.SentenceDetector()\
-        .setInputCols(["document"])\
-        .setOutputCol("sentence")
+    .setInputCols(["document"])\
+    .setOutputCol("sentence")
 
 tokenizer = nlp.Tokenizer()\
-        .setInputCols(["sentence"])\
-        .setOutputCol("token")
+    .setInputCols(["sentence"])\
+    .setOutputCol("token")
 
 embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
     .setInputCols(["sentence", "token"]) \
@@ -54,25 +54,25 @@ embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en")
 
 ner_model = finance.NerModel.pretrained("finner_ticker", "en", "finance/models")\
     .setInputCols(["sentence", "token", "embeddings"])\
-    .setOutputCol("ner")\
+    .setOutputCol("ner")
 
 ner_converter = nlp.NerConverter()\
     .setInputCols(["sentence", "token", "ner"])\
     .setOutputCol("ner_chunk")
 
-CM = finance.ChunkMapperModel()\
-      .pretrained('finmapper_wikipedia_parentcompanies_ticker','en','finance/models')\
-      .setInputCols(["ner_chunk"])\
-      .setOutputCol("mappings")
+CM = finance.ChunkMapperModel().pretrained('finmapper_wikipedia_parentcompanies_ticker','en','finance/models')\
+    .setInputCols(["ner_chunk"])\
+    .setOutputCol("mappings")\
+    .setEnableFuzzyMatching(True)
 
 nlpPipeline = nlp.Pipeline(stages=[
-        documentAssembler,
-        sentenceDetector,
-        tokenizer,
-        embeddings,
-        ner_model,
-        ner_converter,
-        CM
+    documentAssembler,
+    sentenceDetector,
+    tokenizer,
+    embeddings,
+    ner_model,
+    ner_converter,
+    CM
 ])
 
 text = ["""ABG is a multinational corporation that is engaged in ..."""]
@@ -81,8 +81,7 @@ test_data = spark.createDataFrame([text]).toDF("text")
 
 model = nlpPipeline.fit(test_data)
 
-lp = nlp.LightPipeline(model)
-res= model.transform(test_data)
+result = model.transform(test_data)
 ```
 
 </div>
@@ -90,14 +89,16 @@ res= model.transform(test_data)
 ## Results
 
 ```bash
-{'mappings': ['ABSA Group Limited',
-   'ABSA Group Limited@http://www.wikidata.org/entity/Q58641733',
-   'ABSA Group Limited@ABSA Group Limited@en',
-   'ABSA Group Limited@http://www.wikidata.org/prop/direct/P749',
-   'ABSA Group Limited@is_parent_of',
-   'ABSA Group Limited@JOHANNESBURG STOCK EXCHANGE@en',
-   'ABSA Group Limited@باركليز@ar',
-   'ABSA Group Limited@http://www.wikidata.org/entity/Q245343'],
+{
+    "company_name": "ABSA Group Limited",
+    "uri": "ABSA Group Limited@http://www.wikidata.org/entity/Q58641733",
+    "language": "ABSA Group Limited@ABSA Group Limited@en",
+    "relationship": "ABSA Group Limited@http://www.wikidata.org/prop/direct/P749",
+    "relationship_label": "ABSA Group Limited@is_parent_of",
+    "exchange": "ABSA Group Limited@JOHANNESBURG STOCK EXCHANGE@en",
+    "related_company": "ABSA Group Limited@\u0628\u0627\u0631\u0643\u0644\u064a\u0632@ar",
+    "related_company_uri": "ABSA Group Limited@http://www.wikidata.org/entity/Q245343"
+}
 ```
 
 {:.model-param}
