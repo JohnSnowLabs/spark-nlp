@@ -13,7 +13,7 @@ sidebar:
 
 <div class="h3-box" markdown="1">
 
-## Installation
+## Installation with johnsnowlabs
 On Oct 4th, 2022 we released `johnsnowlabs` library, which eases the installation and session starting processes in an 
 almost transparent way for the user.
 
@@ -21,7 +21,7 @@ Finance NLP and Legal NLP are built on the top of a new John Snow Labs library, 
 If you are a former user of Spark NLP or Spark NLP for Healthcare, you will find this new way of deploying your Spark NLP clusters much more user-friendly!
 Clinical NLP (former Spark NLP for Healthcare) still can be run without johnsnowlabs library, although we highly recommend to install it with this new method.
 
-### 1. Installating johnsnowlabs
+### 1. Installing johnsnowlabs
 The first step you need to carry out is installing johnsnowlabs library. This is as easy as doing:
 
 ```!pip install johnsnowlabs```
