@@ -116,16 +116,4 @@ data:
           - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/PUBLIC_HEALTH_MENTION.ipynb
-        - title: Detect Social Determinants of Health
-          id: detect_social_determinants_health            
-          image: 
-              src: /assets/images/DetectSocialDeterminantsHealth.svg
-          excerpt: This demo shows how detect social determinants of health in medical text using Spark NLP Healthcare NER and Sequence Classification models.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/SOCIAL_DETERMINANT/ 
-          - text: Colab
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/SOCIAL_DETERMINANT.ipynb
 ---
