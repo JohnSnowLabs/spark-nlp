@@ -42,7 +42,7 @@ class CamemBertEmbeddings(AnnotatorModel,
         `Models Hub <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
 
         For extended examples of usage, see the
-        `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/blogposts/3.NER_with_BERT.ipynb>`__
+        `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/dl-ner/ner_bert.ipynb>`__
         and the
         `CamemBertEmbeddingsTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/CamemBertEmbeddingsTestSpec.scala>`__.
 

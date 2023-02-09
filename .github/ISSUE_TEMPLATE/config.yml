@@ -1,0 +1,9 @@
+blank_issues_enabled: true
+
+contact_links:
+  - name: Converting models from other libraries? Visit the Discussion to see which are compatible.
+    url: https://github.com/JohnSnowLabs/spark-nlp/discussions/5669
+    about: Discussion about importing models from other libraries
+  - name: Want to contribute a model? Visit the NLP Models Hub to upload your model.
+    url: https://nlp.johnsnowlabs.com/models
+    about: A place for sharing and discovering Spark NLP models and pipelines 

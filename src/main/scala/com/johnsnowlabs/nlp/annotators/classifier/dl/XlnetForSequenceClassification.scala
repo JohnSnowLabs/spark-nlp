@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
+import com.johnsnowlabs.ml.ai.XlnetClassification
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
   ReadSentencePieceModel,
@@ -233,7 +234,7 @@ class XlnetForSequenceClassification(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowXlnetClassification]] = None
+  private var _model: Option[Broadcast[XlnetClassification]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
@@ -243,7 +244,7 @@ class XlnetForSequenceClassification(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowXlnetClassification(
+          new XlnetClassification(
             tensorflowWrapper,
             spp,
             configProtoBytes = getConfigProtoBytes,
@@ -255,7 +256,7 @@ class XlnetForSequenceClassification(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowXlnetClassification = _model.get.value
+  def getModelIfNotSet: XlnetClassification = _model.get.value
 
   /** Whether to lowercase tokens or not
     *
@@ -340,15 +341,13 @@ trait ReadablePretrainedXlnetForSequenceModel
       remoteLoc: String): XlnetForSequenceClassification = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadXlnetForSequenceTensorflowModel
-    extends ReadTensorflowModel
-    with ReadSentencePieceModel {
+trait ReadXlnetForSequenceDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[XlnetForSequenceClassification] =>
 
   override val tfFile: String = "xlnet_classification_tensorflow"
   override val sppFile: String = "xlnet_spp"
 
-  def readTensorflow(
+  def readModel(
       instance: XlnetForSequenceClassification,
       path: String,
       spark: SparkSession): Unit = {
@@ -358,7 +357,7 @@ trait ReadXlnetForSequenceTensorflowModel
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): XlnetForSequenceClassification = {
 
@@ -402,4 +401,4 @@ trait ReadXlnetForSequenceTensorflowModel
   */
 object XlnetForSequenceClassification
     extends ReadablePretrainedXlnetForSequenceModel
-    with ReadXlnetForSequenceTensorflowModel
+    with ReadXlnetForSequenceDLModel

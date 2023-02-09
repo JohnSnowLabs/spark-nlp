@@ -16,7 +16,8 @@
 
 package com.johnsnowlabs.nlp.annotators.sentence_detector_dl
 
-import com.johnsnowlabs.ml.tensorflow.{TensorflowSentenceDetectorDL, TensorflowWrapper, Variables}
+import com.johnsnowlabs.ml.ai.SentenceDetectorDL
+import com.johnsnowlabs.ml.tensorflow.{TensorflowWrapper, Variables}
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach}
@@ -47,7 +48,7 @@ import scala.collection.mutable
   * `explodeSentences` is set to `true`.
   *
   * For extended examples of usage, see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/9.SentenceDetectorDL.ipynb Spark NLP Workshop]]
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/multilingual/SentenceDetectorDL.ipynb Examples]]
   * and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLSpec.scala SentenceDetectorDLSpec]].
   *
@@ -476,7 +477,7 @@ class SentenceDetectorDLApproach(override val uid: String)
     /** FIXME inspect ops for init */
     // graph.operations().foreach(println)
 
-    val tfModel = new TensorflowSentenceDetectorDL(
+    val tfModel = new SentenceDetectorDL(
       tfWrapper,
       outputLogsPath = if (getOutputLogsPath.nonEmpty) Some(getOutputLogsPath) else None)
 

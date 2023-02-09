@@ -16,7 +16,8 @@
 
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
-import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowTapas, TensorflowWrapper}
+import com.johnsnowlabs.ml.ai.Tapas
+import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowWrapper}
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadTextAsset,
   modelSanityCheck,
@@ -161,7 +162,7 @@ class TapasForQuestionAnswering(override val uid: String) extends BertForQuestio
   override val inputAnnotatorTypes: Array[String] =
     Array(AnnotatorType.TABLE, AnnotatorType.DOCUMENT)
 
-  private var _model: Option[Broadcast[TensorflowTapas]] = None
+  private var _model: Option[Broadcast[Tapas]] = None
 
   /** @group setParam */
   override def setModelIfNotSet(
@@ -170,7 +171,7 @@ class TapasForQuestionAnswering(override val uid: String) extends BertForQuestio
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowTapas(
+          new Tapas(
             tensorflowWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
@@ -184,7 +185,7 @@ class TapasForQuestionAnswering(override val uid: String) extends BertForQuestio
   }
 
   /** @group getParam */
-  override def getModelIfNotSet: TensorflowTapas = _model.get.value
+  override def getModelIfNotSet: Tapas = _model.get.value
 
   setDefault(batchSize -> 2, maxSentenceLength -> 512, caseSensitive -> false)
 
@@ -238,21 +239,18 @@ trait ReadablePretrainedTapasForQAModel
       remoteLoc: String): TapasForQuestionAnswering = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadTapasForQATensorflowModel extends ReadTensorflowModel {
+trait ReadTapasForQuestionAnsweringDLModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[TapasForQuestionAnswering] =>
 
   override val tfFile: String = "bert_classification_tensorflow"
 
-  def readTensorflow(
-      instance: TapasForQuestionAnswering,
-      path: String,
-      spark: SparkSession): Unit = {
+  def readModel(instance: TapasForQuestionAnswering, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_bert_classification_tf", initAllTables = false)
     instance.setModelIfNotSet(spark, tf)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): TapasForQuestionAnswering = {
 
@@ -296,4 +294,4 @@ trait ReadTapasForQATensorflowModel extends ReadTensorflowModel {
   */
 object TapasForQuestionAnswering
     extends ReadablePretrainedTapasForQAModel
-    with ReadTapasForQATensorflowModel
+    with ReadTapasForQuestionAnsweringDLModel

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2022 John Snow Labs
+ * Copyright 2017-2023 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,14 +18,14 @@ package com.johnsnowlabs.nlp.pretrained
 
 import com.johnsnowlabs.client.aws.AWSGateway
 import com.johnsnowlabs.nlp.annotators._
-import com.johnsnowlabs.nlp.annotators.audio.Wav2Vec2ForCTC
+import com.johnsnowlabs.nlp.annotators.audio.{HubertForCTC, Wav2Vec2ForCTC}
 import com.johnsnowlabs.nlp.annotators.classifier.dl._
 import com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel
-import com.johnsnowlabs.nlp.annotators.cv.ViTForImageClassification
+import com.johnsnowlabs.nlp.annotators.cv.{SwinForImageClassification, ViTForImageClassification}
 import com.johnsnowlabs.nlp.annotators.er.EntityRulerModel
 import com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
-import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel
+import com.johnsnowlabs.nlp.annotators.ner.dl.{NerDLModel, ZeroShotNerModel}
 import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel
 import com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
@@ -47,7 +47,7 @@ import org.apache.hadoop.fs.FileSystem
 import org.apache.spark.SparkFiles
 import org.apache.spark.ml.util.DefaultParamsReadable
 import org.apache.spark.ml.{PipelineModel, PipelineStage}
-import org.slf4j.LoggerFactory
+import org.slf4j.{Logger, LoggerFactory}
 
 import java.io.File
 import java.net.URI
@@ -83,7 +83,7 @@ trait ResourceDownloader {
 
 object ResourceDownloader {
 
-  private val logger = LoggerFactory.getLogger(this.getClass.toString)
+  private val logger: Logger = LoggerFactory.getLogger(this.getClass.toString)
 
   val fileSystem: FileSystem = OutputHelper.getFileSystem
 
@@ -98,7 +98,8 @@ object ResourceDownloader {
 
   val publicLoc = "public/models"
 
-  private val cache = mutable.Map[ResourceRequest, PipelineStage]()
+  private val cache: mutable.Map[ResourceRequest, PipelineStage] =
+    mutable.Map[ResourceRequest, PipelineStage]()
 
   lazy val sparkVersion: Version = {
     val spark_version = ResourceHelper.spark.version
@@ -589,9 +590,22 @@ object ResourceDownloader {
 
     val (bucketName, keyPrefix) = ResourceHelper.parseS3URI(path)
 
-    val tmpDirectory = SparkFiles.getRootDirectory()
+    val (accessKey, secretKey, sessionToken) = ConfigHelper.getHadoopS3Config
+    val region = ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalRegion)
+    val privateS3Defined =
+      accessKey != null && secretKey != null && sessionToken != null && region.nonEmpty
 
-    val awsGateway = new AWSGateway()
+    val awsGateway =
+      if (privateS3Defined)
+        new AWSGateway(accessKey, secretKey, sessionToken, region = region)
+      else {
+        if (accessKey != null || secretKey != null || sessionToken != null)
+          logger.info(
+            "Not all configs set for private S3 access. Defaulting to public downloader.")
+        new AWSGateway(credentialsType = "public")
+      }
+
+    val tmpDirectory = SparkFiles.getRootDirectory()
     awsGateway.downloadFilesFromDirectory(bucketName, keyPrefix, new File(tmpDirectory))
 
     Paths.get(tmpDirectory, keyPrefix).toUri
@@ -691,26 +705,42 @@ object PythonResourceDownloader {
     "XlmRoBertaForQuestionAnswering" -> XlmRoBertaForQuestionAnswering,
     "SpanBertCorefModel" -> SpanBertCorefModel,
     "ViTForImageClassification" -> ViTForImageClassification,
+    "SwinForImageClassification" -> SwinForImageClassification,
     "Wav2Vec2ForCTC" -> Wav2Vec2ForCTC,
+    "HubertForCTC" -> HubertForCTC,
     "CamemBertForTokenClassification" -> CamemBertForTokenClassification,
     "TableAssembler" -> TableAssembler,
     "TapasForQuestionAnswering" -> TapasForQuestionAnswering,
-    "CamemBertForSequenceClassification" -> CamemBertForSequenceClassification)
+    "CamemBertForSequenceClassification" -> CamemBertForSequenceClassification,
+    "CamemBertForQuestionAnswering" -> CamemBertForQuestionAnswering,
+    "ZeroShotNerModel" -> ZeroShotNerModel)
+
+  // List pairs of types such as the one with key type can load a pretrained model from the value type
+  val typeMapper: Map[String, String] = Map("ZeroShotNerModel" -> "RoBertaForQuestionAnswering")
 
   def downloadModel(
       readerStr: String,
       name: String,
       language: String = null,
       remoteLoc: String = null): PipelineStage = {
+
     val reader = keyToReader.getOrElse(
-      readerStr,
+      if (typeMapper.contains(readerStr)) typeMapper(readerStr) else readerStr,
       throw new RuntimeException(s"Unsupported Model: $readerStr"))
+
     val correctedFolder = Option(remoteLoc).getOrElse(ResourceDownloader.publicLoc)
-    ResourceDownloader.downloadModel(
+
+    val model = ResourceDownloader.downloadModel(
       reader.asInstanceOf[DefaultParamsReadable[PipelineStage]],
       name,
       Option(language),
       correctedFolder)
+
+    // Cast the model to the required type. This has to be done for each entry in the typeMapper map
+    if (typeMapper.contains(readerStr) && readerStr == "ZeroShotNerModel")
+      ZeroShotNerModel(model)
+    else
+      model
   }
 
   def downloadPipeline(

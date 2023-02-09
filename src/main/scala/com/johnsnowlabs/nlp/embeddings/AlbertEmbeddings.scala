@@ -16,8 +16,13 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
+import com.johnsnowlabs.ml.ai.Albert
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.tensorflow.sentencepiece._
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
+  ReadSentencePieceModel,
+  SentencePieceWrapper,
+  WriteSentencePieceModel
+}
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadSentencePieceAsset,
   modelSanityCheck,
@@ -65,7 +70,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   * The default model is `"albert_base_uncased"`, if no name is provided.
   *
   * For extended examples of usage, see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/ner_albert.ipynb Spark NLP Workshop]]
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dl-ner/ner_albert.ipynb Examples]]
   * and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/AlbertEmbeddingsTestSpec.scala AlbertEmbeddingsTestSpec]].
   * To see which models are compatible and how to import them see
@@ -258,7 +263,7 @@ class AlbertEmbeddings(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowAlbert]] = None
+  private var _model: Option[Broadcast[Albert]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
@@ -269,7 +274,7 @@ class AlbertEmbeddings(override val uid: String)
 
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowAlbert(
+          new Albert(
             tensorflowWrapper,
             spp,
             batchSize = $(batchSize),
@@ -280,7 +285,7 @@ class AlbertEmbeddings(override val uid: String)
     this
   }
 
-  def getModelIfNotSet: TensorflowAlbert = _model.get.value
+  def getModelIfNotSet: Albert = _model.get.value
 
   setDefault(batchSize -> 32, dimension -> 768, maxSentenceLength -> 128, caseSensitive -> false)
 
@@ -329,7 +334,7 @@ class AlbertEmbeddings(override val uid: String)
     writeTensorflowModelV2(
       path,
       spark,
-      getModelIfNotSet.tensorflow,
+      getModelIfNotSet.tensorflowWrapper,
       "_albert",
       AlbertEmbeddings.tfFile,
       configProtoBytes = getConfigProtoBytes)
@@ -373,13 +378,13 @@ trait ReadAlbertDLModel extends ReadTensorflowModel with ReadSentencePieceModel 
   override val tfFile: String = "albert_tensorflow"
   override val sppFile: String = "albert_spp"
 
-  def readTensorflow(instance: AlbertEmbeddings, path: String, spark: SparkSession): Unit = {
+  def readModel(instance: AlbertEmbeddings, path: String, spark: SparkSession): Unit = {
     val tf = readTensorflowModel(path, spark, "_albert_tf", initAllTables = false)
     val spp = readSentencePieceModel(path, spark, "_albert_spp", sppFile)
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): AlbertEmbeddings = {
 
