@@ -45,7 +45,7 @@ Other models can be found to detect other parts of the document, as Headers/Subh
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-legal_pipeline = nlp.PretrainedPipeline("finpipe_header_subheader", "en", "finance/models")
+legal_pipeline = nlp.PretrainedPipeline("legpipe_ner_contract_doc_parties_alias_former", "en", "legal/models")
 
 text = ['''This Consulting Agreement (the "Agreement"), made this 27t h day of March, 2017 is entered into by Immunotolerance, Inc., a Delaware corporation (the "Company"), and Alan Crane, an individual (the "Consultant").''']
 
