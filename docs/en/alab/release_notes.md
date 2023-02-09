@@ -6,7 +6,7 @@ seotitle: Release Notes | John Snow Labs
 title: Release Notes
 permalink: /docs/en/alab/release_notes
 key: docs-training
-modify_date: "2023-02-01"
+modify_date: "2023-02-08"
 use_language_switcher: "Python-Scala"
 show_nav: true
 sidebar:
@@ -15,15 +15,15 @@ sidebar:
 
 <div class="h3-box" markdown="1">
 
-## 4.6.3
+## 4.6.5
 
-Release date: **31-01-2023**
+Release date: **08-02-2023**
 
-NLP Lab v4.6.3 is available which includes improvements for Playground and Prompt Engineering features introduced in v4.5 and v4.6. Here are some of them:
-
-* Prompt (relation) using 2 different NER models is possible
-* Ability to add long texts with new lines in the playground 
-* Issue when finance models are directly deployed to playground from the Hub page is fixed
+NLP Lab v4.6.5, which includes significant optimizations and bugfixes for Project Analytics and the Prompt Engineering feature. The following are some of the key updates included in this release:
+	
+* The issue with the all_extracted_chunks chart not updating in the analytics page has now been resolved.	
+* The performance of project analytics operations has been improved, allowing for faster calculation of results.	
+* Limits have been added to the prompt description and prompt questions, ensuring that the text does not crash the UI.
 
 
 </div><div class="prev_ver h3-box" markdown="1">
@@ -33,7 +33,8 @@ NLP Lab v4.6.3 is available which includes improvements for Playground and Promp
 </div>
 
 <ul class="pagination owl-carousel pagination_big">
-    <li class="active"><a href="annotation_labs_releases/release_notes_4_6_2">4.6.3</a></li>
+    <li class="active"><a href="annotation_labs_releases/release_notes_4_6_5">4.6.5</a></li>
+    <li><a href="annotation_labs_releases/release_notes_4_6_3">4.6.3</a></li>
     <li><a href="annotation_labs_releases/release_notes_4_6_2">4.6.2</a></li>
     <li><a href="annotation_labs_releases/release_notes_4_5_1">4.5.1</a></li>
     <li><a href="annotation_labs_releases/release_notes_4_5_0">4.5.0</a></li>
