@@ -344,6 +344,16 @@
                                  <span class="s2">&quot;Whether relation direcition is encoded in RelationExtractionApproach.&quot;</span><span class="p">,</span>
                                  <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
+    <span class="n">useRelationDirection</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                                 <span class="s2">&quot;useRelationDirection&quot;</span><span class="p">,</span>
+                                 <span class="s2">&quot;Whether relation direcition is encoded in RelationExtractionApproach.&quot;</span><span class="p">,</span>
+                                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
+<div class="viewcode-block" id="TFGraphBuilder.outputAct"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.outputAct">[docs]</a>    <span class="n">outputAct</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                                 <span class="s2">&quot;outputAct&quot;</span><span class="p">,</span>
+                                 <span class="s2">&quot;Output activation function, used in GenericClassifier. Possible value are: softmax and sigmoid.&quot;</span><span class="p">,</span>
+                                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="TFGraphBuilder.setHiddenAct"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setHiddenAct">[docs]</a>    <span class="k">def</span> <span class="nf">setHiddenAct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Activation function for hidden layers, used in RelationExtractionApproach.</span>
 
@@ -476,6 +486,21 @@
 <div class="viewcode-block" id="TFGraphBuilder.getUseRelationDirection"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getUseRelationDirection">[docs]</a>    <span class="k">def</span> <span class="nf">getUseRelationDirection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Checks whether relation direction is encoded in RelationExtractionApproach.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">useRelationDirection</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TFGraphBuilder.settOutputAct"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.settOutputAct">[docs]</a>    <span class="k">def</span> <span class="nf">settOutputAct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Output activation function, used in GenericClassifier.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ---------</span>
+<span class="sd">        value : str</span>
+<span class="sd">            Output activation function: softmax or sigmoid</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputAct</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TFGraphBuilder.getOutputAct"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getOutputAct">[docs]</a>    <span class="k">def</span> <span class="nf">getOutputAct</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Output activation function, used in GenericClassifier.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outputAct</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TFGraphBuilder.setModelName"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setModelName">[docs]</a>    <span class="k">def</span> <span class="nf">setModelName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the model name</span>
@@ -633,7 +658,35 @@
                 <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;hidden_weights_l2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getHiddenWeightsL2</span><span class="p">()</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getBatchNorm</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;batch_norm&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getBatchNorm</span><span class="p">()</span>
-
+        <span class="k">elif</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s2">&quot;logreg_classifier&quot;</span><span class="p">:</span>
+            <span class="n">feature_column</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInputCols</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">feature_vector_annos</span> <span class="o">=</span> <span class="n">dataset</span> \
+                    <span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="n">feature_column</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> \
+                    <span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">feature_column</span><span class="p">)</span> \
+                    <span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="n">feature_column</span><span class="p">]</span>
+                <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;input_dim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">feature_vector_annos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">embeddings</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="k">raise</span><span class="p">(</span><span class="s2">&quot;Can&#39;t infer the size of the LogReg Clasasier input feature vector&quot;</span><span class="p">)</span>
+            <span class="n">labels_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getLabelColumn</span><span class="p">())</span><span class="o">.</span><span class="n">distinct</span><span class="p">()</span><span class="o">.</span><span class="n">collect</span><span class="p">())</span>
+            <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;output_dim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">labels_count</span>
+            <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;hidden_layers&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;output_act&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;sigmoid&quot;</span>
+        <span class="k">elif</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s2">&quot;svm_classifier&quot;</span><span class="p">:</span>
+            <span class="n">feature_column</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInputCols</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">feature_vector_annos</span> <span class="o">=</span> <span class="n">dataset</span> \
+                    <span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="n">feature_column</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> \
+                    <span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">feature_column</span><span class="p">)</span> \
+                    <span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="n">feature_column</span><span class="p">]</span>
+                <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;input_dim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">feature_vector_annos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">embeddings</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="k">raise</span><span class="p">(</span><span class="s2">&quot;Can&#39;t infer the size of the SVM Clasasier input feature vector&quot;</span><span class="p">)</span>
+            <span class="n">labels_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getLabelColumn</span><span class="p">())</span><span class="o">.</span><span class="n">distinct</span><span class="p">()</span><span class="o">.</span><span class="n">collect</span><span class="p">())</span>
+            <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;output_dim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">labels_count</span>
+            <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;hidden_layers&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;output_act&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;sigmoid&quot;</span>
+            <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;loss_func&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;hinge&quot;</span>
         <span class="k">elif</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;No model name specified.&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>

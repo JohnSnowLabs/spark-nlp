@@ -271,11 +271,13 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.types</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">functions</span> <span class="k">as</span> <span class="n">F</span>
 <span class="kn">from</span> <span class="nn">pyspark.sql.types</span> <span class="kn">import</span> <span class="n">StructType</span><span class="p">,</span> <span class="n">StructField</span><span class="p">,</span> <span class="n">IntegerType</span><span class="p">,</span> <span class="n">StringType</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="n">Tokenizer</span><span class="p">,</span> <span class="n">RegexTokenizer</span><span class="p">,</span> <span class="n">SentenceDetectorDLModel</span><span class="p">,</span> <span class="n">PerceptronModel</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="n">Pipeline</span><span class="p">,</span> <span class="n">DocumentAssembler</span><span class="p">,</span> <span class="n">LightPipeline</span>
 <span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">DataFrame</span> <span class="k">as</span> <span class="n">SparkDataFrame</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.types</span> <span class="kn">import</span> <span class="n">Row</span>
 <span class="kn">from</span> <span class="nn">sparknlp_jsl.utils.imports</span> <span class="kn">import</span> <span class="n">is_module_importable</span>
 
 <div class="viewcode-block" id="nlp_token_pipeline"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.nlp_token_pipeline">[docs]</a><span class="n">nlp_token_pipeline</span><span class="p">:</span> <span class="n">LightPipeline</span> <span class="o">=</span> <span class="kc">None</span></div>
@@ -289,6 +291,25 @@
 <div class="viewcode-block" id="regex_tokenizer"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.regex_tokenizer">[docs]</a><span class="n">regex_tokenizer</span><span class="p">:</span> <span class="n">RegexTokenizer</span> <span class="o">=</span> <span class="kc">None</span></div>
 <div class="viewcode-block" id="empty_df"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.empty_df">[docs]</a><span class="n">empty_df</span><span class="p">:</span> <span class="n">SparkDataFrame</span> <span class="o">=</span> <span class="kc">None</span></div>
 <div class="viewcode-block" id="pos"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.pos">[docs]</a><span class="n">pos</span><span class="p">:</span> <span class="n">PerceptronModel</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+<span class="n">_ROW_SCHEMA</span> <span class="o">=</span> <span class="n">ArrayType</span><span class="p">(</span><span class="n">StructType</span><span class="p">([</span>
+    <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;annotatorType&quot;</span><span class="p">,</span> <span class="n">StringType</span><span class="p">()),</span>
+    <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;begin&quot;</span><span class="p">,</span> <span class="n">IntegerType</span><span class="p">()),</span>
+    <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;end&quot;</span><span class="p">,</span> <span class="n">IntegerType</span><span class="p">()),</span>
+    <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;result&quot;</span><span class="p">,</span> <span class="n">StringType</span><span class="p">()),</span>
+    <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;metadata&quot;</span><span class="p">,</span> <span class="n">MapType</span><span class="p">(</span><span class="n">StringType</span><span class="p">(),</span> <span class="n">StringType</span><span class="p">())),</span>
+    <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;embeddings&quot;</span><span class="p">,</span> <span class="n">ArrayType</span><span class="p">(</span><span class="n">FloatType</span><span class="p">())),</span>
+<span class="p">]))</span>
+
+<span class="n">_DF_SCHEMA</span> <span class="o">=</span> <span class="n">StructType</span><span class="p">([</span>
+    <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;document_id&quot;</span><span class="p">,</span> <span class="n">StringType</span><span class="p">()),</span>
+    <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="n">StringType</span><span class="p">()),</span>
+    <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="n">_ROW_SCHEMA</span><span class="p">),</span>
+    <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="n">_ROW_SCHEMA</span><span class="p">),</span>
+    <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="n">_ROW_SCHEMA</span><span class="p">),</span>
+    <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;pos&quot;</span><span class="p">,</span> <span class="n">_ROW_SCHEMA</span><span class="p">),</span>
+    <span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="n">_ROW_SCHEMA</span><span class="p">)</span>
+<span class="p">])</span>
 
 
 <div class="viewcode-block" id="get_doc_assembler"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.get_doc_assembler">[docs]</a><span class="k">def</span> <span class="nf">get_doc_assembler</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">DocumentAssembler</span><span class="p">:</span>
@@ -718,10 +739,11 @@
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Attempting to process: </span><span class="si">{</span><span class="n">print_title</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
     <span class="n">n</span> <span class="o">=</span> <span class="n">lp_pipeline</span><span class="o">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="n">new_content</span><span class="p">)</span>
-
+      
     <span class="n">sent_tuples</span> <span class="o">=</span> <span class="p">{</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;sentence&#39;</span><span class="p">]):</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">begin</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">end</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;sentence&#39;</span><span class="p">]}</span>
     <span class="n">parsed</span> <span class="o">=</span> <span class="p">[(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;sentence&#39;</span><span class="p">]),</span> <span class="n">x</span><span class="o">.</span><span class="n">result</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">begin</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">end</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">result</span><span class="p">,</span> <span class="n">sent_tuples</span><span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;sentence&#39;</span><span class="p">]][</span><span class="mi">0</span><span class="p">])</span>
               <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;token&quot;</span><span class="p">],</span> <span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;pos&quot;</span><span class="p">])]</span>
+
 
     <span class="n">entities</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="s1">&#39;completions&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">title</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">excluded_task_titles</span> \
@@ -765,28 +787,35 @@
         <span class="n">text_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="n">df</span> <span class="o">=</span> <span class="n">text_df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-
+      
         <span class="n">tag_dict</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
             <span class="n">base_ix</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]</span>
             <span class="n">chunk_tokens</span> <span class="o">=</span> <span class="n">token_lp_pipeline</span><span class="o">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;chunk&#39;</span><span class="p">])[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;token&#39;</span><span class="p">]</span>
-
+        
             <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">token</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">chunk_tokens</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="n">iob</span> <span class="o">=</span> <span class="s1">&#39;B-&#39;</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">iob</span> <span class="o">=</span> <span class="s1">&#39;I-&#39;</span>
                 <span class="n">tag_dict</span><span class="p">[(</span><span class="n">base_ix</span> <span class="o">+</span> <span class="n">token</span><span class="o">.</span><span class="n">begin</span><span class="p">,</span> <span class="n">token</span><span class="o">.</span><span class="n">result</span><span class="p">)]</span> <span class="o">=</span> <span class="n">iob</span> <span class="o">+</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
-
+      
         <span class="n">s</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">parsed</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">s</span><span class="p">:</span>
                 <span class="n">conll_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
                 <span class="n">s</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="n">conll_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">tag_dict</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">p</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="s2">&quot;O&quot;</span><span class="p">)))</span>
-
+        
+            
+            <span class="k">if</span> <span class="n">tag_dict</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">])):</span>
+                  <span class="n">conll_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">tag_dict</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]))))</span>
+   
+            <span class="k">else</span><span class="p">:</span>
+                  <span class="n">conll_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="s2">&quot;O&quot;</span><span class="p">))</span>
+              
         <span class="n">conll_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        
 
         <span class="k">return</span> <span class="n">conll_lines</span>
 
@@ -812,6 +841,143 @@
         <span class="n">tuples</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)]</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">tuples</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;token&#39;</span><span class="p">,</span><span class="s1">&#39;begin&#39;</span><span class="p">,</span><span class="s1">&#39;end&#39;</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">df</span></div>
+
+<div class="viewcode-block" id="read_conll"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.read_conll">[docs]</a><span class="k">def</span> <span class="nf">read_conll</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">          spark: Spark session with spark-nlp-jsl jar</span>
+<span class="sd">          filepath: path to the conll file</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">          _type_: Spark DataFrame</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">global</span> <span class="n">_ROW_SCHEMA</span><span class="p">,</span> <span class="n">_DF_SCHEMA</span>
+
+        <span class="n">doc_indx</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">sentence_count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">sentence_samples</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="n">curr_sentence</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">token_rows</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">label_rows</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">pos_tag_rows</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">conll</span><span class="p">:</span>
+            
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">conll</span><span class="p">:</span>
+                
+                <span class="c1">#   sentence separator line</span>
+                <span class="k">if</span> <span class="n">line</span> <span class="ow">is</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">:</span>
+
+                    <span class="k">if</span> <span class="n">end</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                      <span class="n">sentence</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">t</span><span class="o">.</span><span class="n">result</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">token_rows</span><span class="p">])</span>
+                      <span class="n">sentence_samples</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                                <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="n">sentence</span><span class="p">,</span>
+                                <span class="s1">&#39;document_id&#39;</span><span class="p">:</span> <span class="n">doc_indx</span><span class="p">,</span>
+                                <span class="s1">&#39;document&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">Row</span><span class="p">(</span>
+                                    <span class="n">annotatorType</span><span class="o">=</span><span class="s1">&#39;document&#39;</span><span class="p">,</span>
+                                    <span class="n">begin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                                    <span class="n">end</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">sentence</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+                                    <span class="n">result</span><span class="o">=</span><span class="n">sentence</span><span class="p">,</span>
+                                    <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;training&#39;</span><span class="p">:</span> <span class="s1">&#39;true&#39;</span><span class="p">},</span>
+                                    <span class="n">embeddings</span><span class="o">=</span><span class="p">[]</span>
+                                <span class="p">)],</span>
+                                <span class="s1">&#39;sentence&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">Row</span><span class="p">(</span>
+                                    <span class="n">annotatorType</span><span class="o">=</span><span class="s1">&#39;document&#39;</span><span class="p">,</span>
+                                    <span class="n">begin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                                    <span class="n">end</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">sentence</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+                                    <span class="n">result</span><span class="o">=</span><span class="n">sentence</span><span class="p">,</span>
+                                    <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sentence&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span><span class="p">},</span>
+                                    <span class="n">embeddings</span><span class="o">=</span><span class="p">[]</span>
+                                <span class="p">)],</span>
+                                <span class="s1">&#39;sentence_indx&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">sentence_count</span><span class="p">),</span>
+                                <span class="s1">&#39;pos&#39;</span><span class="p">:</span> <span class="n">pos_tag_rows</span><span class="p">,</span>
+                                <span class="s1">&#39;token&#39;</span><span class="p">:</span> <span class="n">token_rows</span><span class="p">,</span>
+                                <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="n">label_rows</span>
+                            <span class="p">})</span>
+                      <span class="n">sentence_count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                      <span class="n">token_rows</span> <span class="o">=</span> <span class="p">[]</span>
+                      <span class="n">label_rows</span> <span class="o">=</span> <span class="p">[]</span>
+                      <span class="n">pos_tag_rows</span> <span class="o">=</span> <span class="p">[]</span>
+                      <span class="n">end</span> <span class="o">=</span> <span class="mi">0</span>
+
+                    <span class="k">continue</span>
+
+                <span class="c1">#   document string line</span>
+                <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;-DOCSTART-&#39;</span><span class="p">):</span>
+                    <span class="n">doc_start</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_doc_indx</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">_doc_indx</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">():</span>
+                      <span class="n">doc_indx</span> <span class="o">=</span> <span class="n">_doc_indx</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                      <span class="n">doc_indx</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="k">continue</span>
+
+                <span class="c1">#   token-level information line</span>
+                <span class="n">token</span><span class="p">,</span> <span class="n">pos_tag</span><span class="p">,</span> <span class="n">chunk_tag</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                
+                <span class="n">begin</span> <span class="o">=</span> <span class="n">end</span>
+                <span class="n">end</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">token</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+                <span class="n">token_rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Row</span><span class="p">(</span>
+                    <span class="n">annotatorType</span><span class="o">=</span><span class="s1">&#39;token&#39;</span><span class="p">,</span>
+                    <span class="n">begin</span><span class="o">=</span><span class="n">begin</span><span class="p">,</span>
+                    <span class="n">end</span><span class="o">=</span><span class="n">end</span><span class="p">,</span>
+                    <span class="n">result</span><span class="o">=</span><span class="n">token</span><span class="p">,</span>
+                    <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sentence&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span><span class="p">},</span>
+                    <span class="n">embeddings</span><span class="o">=</span><span class="p">[]</span>
+                <span class="p">)),</span>
+
+                <span class="n">label_rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Row</span><span class="p">(</span>
+                    <span class="n">annotatorType</span><span class="o">=</span><span class="s1">&#39;named_entity&#39;</span><span class="p">,</span>
+                    <span class="n">begin</span><span class="o">=</span><span class="n">begin</span><span class="p">,</span>
+                    <span class="n">end</span><span class="o">=</span><span class="n">end</span><span class="p">,</span>
+                    <span class="n">result</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+                    <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sentence&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span><span class="s1">&#39;word&#39;</span><span class="p">:</span> <span class="n">token</span><span class="p">},</span>
+                    <span class="n">embeddings</span><span class="o">=</span><span class="p">[]</span>
+                <span class="p">))</span>
+
+                <span class="n">pos_tag_rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Row</span><span class="p">(</span>
+                    <span class="n">annotatorType</span><span class="o">=</span><span class="s1">&#39;pos&#39;</span><span class="p">,</span>
+                    <span class="n">begin</span><span class="o">=</span><span class="n">begin</span><span class="p">,</span>
+                    <span class="n">end</span><span class="o">=</span><span class="n">end</span><span class="p">,</span>
+                    <span class="n">result</span><span class="o">=</span><span class="n">pos_tag</span><span class="p">,</span>
+                    <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sentence&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span><span class="s1">&#39;word&#39;</span><span class="p">:</span><span class="n">token</span><span class="p">},</span>
+                    <span class="n">embeddings</span><span class="o">=</span><span class="p">[]</span>
+                <span class="p">))</span>
+
+                <span class="n">end</span> <span class="o">+=</span> <span class="mi">2</span>
+            
+            <span class="k">if</span> <span class="n">end</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>          
+              
+              <span class="n">sentence</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">t</span><span class="o">.</span><span class="n">result</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">token_rows</span><span class="p">])</span>
+              <span class="n">sentence_samples</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                  <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="n">sentence</span><span class="p">,</span>
+                  <span class="s1">&#39;document_id&#39;</span><span class="p">:</span> <span class="n">doc_indx</span><span class="p">,</span>
+                  <span class="s1">&#39;document&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">Row</span><span class="p">(</span>
+                      <span class="n">annotatorType</span><span class="o">=</span><span class="s1">&#39;document&#39;</span><span class="p">,</span>
+                      <span class="n">begin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                      <span class="n">end</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">sentence</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+                      <span class="n">result</span><span class="o">=</span><span class="n">sentence</span><span class="p">,</span>
+                      <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;training&#39;</span><span class="p">:</span> <span class="s1">&#39;true&#39;</span><span class="p">},</span>
+                      <span class="n">embeddings</span><span class="o">=</span><span class="p">[]</span>
+                  <span class="p">)],</span>
+                  <span class="s1">&#39;sentence&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">Row</span><span class="p">(</span>
+                      <span class="n">annotatorType</span><span class="o">=</span><span class="s1">&#39;document&#39;</span><span class="p">,</span>
+                      <span class="n">begin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                      <span class="n">end</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">sentence</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+                      <span class="n">result</span><span class="o">=</span><span class="n">sentence</span><span class="p">,</span>
+                      <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sentence&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span><span class="p">},</span>
+                      <span class="n">embeddings</span><span class="o">=</span><span class="p">[]</span>
+                  <span class="p">)],</span>
+                  <span class="c1"># &#39;sentence_indx&#39;: str(sentence_count),</span>
+                  <span class="s1">&#39;pos&#39;</span><span class="p">:</span> <span class="n">pos_tag_rows</span><span class="p">,</span>
+                  <span class="s1">&#39;token&#39;</span><span class="p">:</span> <span class="n">token_rows</span><span class="p">,</span>
+                  <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="n">label_rows</span>
+                  <span class="p">})</span>
+
+        <span class="k">return</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">sentence_samples</span><span class="p">,</span> <span class="n">_DF_SCHEMA</span><span class="p">)</span></div>
 </pre></div>
 
             </article>

@@ -302,11 +302,12 @@
 <span class="sd">        File name to load the mode from</span>
 <span class="sd">    fixImbalance</span>
 <span class="sd">        A flag indicating whenther to balance the trainig set</span>
+<span class="sd">    multiClass</span>
+<span class="sd">        Return only the label with the highest confidence score or all labels</span>
 <span class="sd">    featureScaling</span>
 <span class="sd">        Feature scaling method. Possible values are &#39;zscore&#39;, &#39;minmax&#39; or empty (no scaling)</span>
 <span class="sd">    outputLogsPath</span>
 <span class="sd">        Path to folder where logs will be saved. If no path is specified, no logs are generated</span>
-
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; import sparknlp</span>
@@ -371,6 +372,20 @@
 <div class="viewcode-block" id="GenericClassifierApproach.outputLogsPath"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/generic_classifier/generic_classifier/index.html#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.outputLogsPath">[docs]</a>    <span class="n">outputLogsPath</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;outputLogsPath&quot;</span><span class="p">,</span>
                            <span class="s2">&quot;Path to folder where logs will be saved. If no path is specified, no logs are generated&quot;</span><span class="p">,</span>
                            <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GenericClassifierApproach.multiClass"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/generic_classifier/generic_classifier/index.html#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.multiClass">[docs]</a>    <span class="n">multiClass</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;multiClass&quot;</span><span class="p">,</span> <span class="s2">&quot;Whether to return only the label with the highest confidence score or all labels&quot;</span><span class="p">,</span>
+                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GenericClassifierApproach.setMultiClass"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/generic_classifier/generic_classifier/index.html#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setMultiClass">[docs]</a>    <span class="k">def</span> <span class="nf">setMultiClass</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the model in multi class prediction mode (Default: false)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">           Whether to return only the label with the highest confidence score or all labels</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">multiClass</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="GenericClassifierApproach.setLabelCol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/generic_classifier/generic_classifier/index.html#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setLabelCol">[docs]</a>    <span class="k">def</span> <span class="nf">setLabelCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label_column</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets  Size for each batch in the optimization process</span>
@@ -496,7 +511,8 @@
             <span class="n">dropout</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
             <span class="n">fixImbalance</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="n">featureScaling</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-            <span class="n">outputLogsPath</span><span class="o">=</span><span class="s2">&quot;&quot;</span></div>
+            <span class="n">outputLogsPath</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="n">multiClass</span><span class="o">=</span><span class="kc">False</span></div>
         <span class="p">)</span>
 
 
@@ -510,6 +526,12 @@
 <span class="sd">    ========================================= ======================</span>
 <span class="sd">    ``FEATURE_VECTOR``                        ``CATEGORY``</span>
 <span class="sd">    ========================================= ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    multiClass</span>
+<span class="sd">        Return only the label with the highest confidence score or all labels</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -546,11 +568,27 @@
 
 <div class="viewcode-block" id="GenericClassifierModel.classes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/generic_classifier/generic_classifier/index.html#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierModel.classes">[docs]</a>    <span class="n">classes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;classes&quot;</span><span class="p">,</span> <span class="s2">&quot;Categorization classes&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="GenericClassifierModel.multiClass"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/generic_classifier/generic_classifier/index.html#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierModel.multiClass">[docs]</a>    <span class="n">multiClass</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;multiClass&quot;</span><span class="p">,</span> <span class="s2">&quot;Whether to return only the label with the highest confidence score or all labels&quot;</span><span class="p">,</span>
+                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GenericClassifierModel.setMultiClass"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/generic_classifier/generic_classifier/index.html#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierModel.setMultiClass">[docs]</a>    <span class="k">def</span> <span class="nf">setMultiClass</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the model in multi class prediction mode (Default: false)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">           Whether to return only the label with the highest confidence score or all labels</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">multiClass</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierModel&quot;</span><span class="p">,</span>
                  <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">GenericClassifierModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
             <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
+            <span class="n">multiClass</span><span class="o">=</span><span class="kc">False</span>
         <span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
