@@ -73,8 +73,8 @@ val clinical_ner = NerDLModel.pretrained("ner_clinical", "en", "clinical/models"
 val ner_converter = NerConverter()
   .setInputCols(Array("sentence", "token", "ner"))
   .setOutputCol("ner_chunk")
-val clinical_assertion_ml = AssertionLogRegModel.pretrained("assertion_ml", "en", "clinical/models") \
-    .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
+val clinical_assertion_ml = AssertionLogRegModel.pretrained("assertion_ml", "en", "clinical/models") 
+    .setInputCols(["sentence", "ner_chunk", "embeddings"]) 
     .setOutputCol("assertion")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, word_embeddings, clinical_ner, ner_converter, clinical_assertion_ml))

@@ -53,8 +53,8 @@ annotations = l_model.fullAnnotate(["i want to bring six of us to a bistro in to
 ```
 ```scala
 ...
-val embeddings = UniversalSentenceEncoder.pretrained("tfhub_use", lang="en") \
-.setInputCols(Array("document"))\
+val embeddings = UniversalSentenceEncoder.pretrained("tfhub_use", lang="en") 
+.setInputCols(Array("document"))
 .setOutputCol("sentence_embeddings")
 
 val classifier = ClassifierDLModel.pretrained("classifierdl_use_snips", "en").setInputCols(Array("sentence_embeddings")).setOutputCol("class")

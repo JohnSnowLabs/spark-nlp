@@ -59,16 +59,16 @@ snomed_lp = LightPipeline(snomed_pipelineModel)
 result = snomed_lp.fullAnnotate("Amputation stump")
 ```
 ```scala
-val document_assembler = DocumentAssembler()\
-.setInputCol("text")\
+val document_assembler = DocumentAssembler()
+.setInputCol("text")
 .setOutputCol("ner_chunk")
 
-val sbert_embedder = BertSentenceEmbeddings.pretrained("sbert_jsl_medium_uncased","en","clinical/models")\
-.setInputCols(["ner_chunk"])\
+val sbert_embedder = BertSentenceEmbeddings.pretrained("sbert_jsl_medium_uncased","en","clinical/models")
+.setInputCols(["ner_chunk"])
 .setOutputCol("sbert_embeddings")
 
-val snomed_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_snomed_bodyStructure_med", "en", "clinical/models") \
-.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+val snomed_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_snomed_bodyStructure_med", "en", "clinical/models") 
+.setInputCols(["ner_chunk", "sbert_embeddings"]) 
 .setOutputCol("snomed_code")
 
 val snomed_pipelineModel= new PipelineModel().setStages(Array(document_assembler, sbert_embedder, snomed_resolver))

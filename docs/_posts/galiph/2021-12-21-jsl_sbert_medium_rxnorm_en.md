@@ -42,8 +42,8 @@ sentence_embeddings = BertSentenceEmbeddings.pretrained("jsl_sbert_medium_rxnorm
         .setOutputCol("sbert_embeddings")
 ```
 ```scala
-val sentence_embeddings = BertSentenceEmbeddings.pretrained('jsl_sbert_medium_rxnorm', 'en','clinical/models')\
-      .setInputCols("sentence")\
+val sentence_embeddings = BertSentenceEmbeddings.pretrained('jsl_sbert_medium_rxnorm', 'en','clinical/models')
+      .setInputCols("sentence")
       .setOutputCol("sbert_embeddings")
 ```
 </div>

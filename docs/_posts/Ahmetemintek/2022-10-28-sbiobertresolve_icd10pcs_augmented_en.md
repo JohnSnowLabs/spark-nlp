@@ -95,7 +95,7 @@ val document_assembler = DocumentAssembler()
 .setOutputCol("document")
 
 
-val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")\
+val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
 .setInputCols(Array("document"))
 .setOutputCol("sentence")
 

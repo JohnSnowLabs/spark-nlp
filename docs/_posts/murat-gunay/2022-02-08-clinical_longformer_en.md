@@ -49,7 +49,7 @@ embeddings = LongformerEmbeddings.pretrained("clinical_longformer", "en")\
 val embeddings = LongformerEmbeddings.pretrained("clinical_longformer", "en")
 .setInputCols(Array("sentence", "token"))
 .setOutputCol("embeddings")
-.setCaseSensitive(True)\
+.setCaseSensitive(True)
 .setMaxSentenceLength(4096)
 ```
 

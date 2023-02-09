@@ -86,36 +86,36 @@ mapper_model = mapper_pipeline.fit(test_data)
 result= mapper_model.transform(test_data)
 ```
 ```scala
-val document_assembler = new DocumentAssembler()\
-    .setInputCol("text")\
+val document_assembler = new DocumentAssembler()
+    .setInputCol("text")
     .setOutputCol("document")
 
-val sentence_detector = new SentenceDetector()\
-    .setInputCols(Array("document"))\
+val sentence_detector = new SentenceDetector()
+    .setInputCols(Array("document"))
     .setOutputCol("sentence")
 
-val tokenizer = new Tokenizer()\
-    .setInputCols("sentence")\
+val tokenizer = new Tokenizer()
+    .setInputCols("sentence")
     .setOutputCol("token")
 
 val word_embeddings = WordEmbeddingsModel
-    .pretrained("embeddings_clinical", "en", "clinical/models")\
-    .setInputCols(Array("sentence", "token"))\
+    .pretrained("embeddings_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentence", "token"))
     .setOutputCol("embeddings")
 
 val ner_model = MedicalNerModel
-    .pretrained("ner_clinical", "en", "clinical/models")\
-    .setInputCols(Array("sentence", "token", "embeddings"))\
+    .pretrained("ner_clinical", "en", "clinical/models")
+    .setInputCols(Array("sentence", "token", "embeddings"))
     .setOutputCol("ner")
 
-val ner_converter = new NerConverterInternal()\
-    .setInputCols("sentence", "token", "ner")\
+val ner_converter = new NerConverterInternal()
+    .setInputCols("sentence", "token", "ner")
     .setOutputCol("ner_chunk")
 
 val chunkerMapper = ChunkMapperModel
-    .pretrained("icd10cm_mapper", "en", "clinical/models")\
-    .setInputCols(Array("ner_chunk"))\
-    .setOutputCol("mappings")\
+    .pretrained("icd10cm_mapper", "en", "clinical/models")
+    .setInputCols(Array("ner_chunk"))
+    .setOutputCol("mappings")
     .setRels(Array("icd10cm_code")) 
 
 val mapper_pipeline = new Pipeline().setStages(Array(

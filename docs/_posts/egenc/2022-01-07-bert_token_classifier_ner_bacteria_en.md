@@ -97,8 +97,8 @@ val ner_converter = new NerConverter()
 
 val pipeline =  new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier, ner_converter))
 
-val data = Seq("""Based on these genetic and phenotypic properties, we propose that strain SMSP (T) represents \
-a novel species of the genus Methanoregula, for which we propose the name Methanoregula formicica \
+val data = Seq("""Based on these genetic and phenotypic properties, we propose that strain SMSP (T) represents 
+a novel species of the genus Methanoregula, for which we propose the name Methanoregula formicica 
 sp. nov., with the type strain SMSP (T) (= NBRC 105244 (T) = DSM 22288 (T)).""").toDS.toDF("text")
 
 

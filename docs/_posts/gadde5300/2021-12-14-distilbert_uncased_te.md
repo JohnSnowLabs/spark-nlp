@@ -70,13 +70,13 @@ val sentence_detector  = SentenceDetector()
 .setInputCols("document")
 .setOutputCol("sentence")
 
-val tokenizer = Tokenizer()\
-.setInputCols("sentence") \
+val tokenizer = Tokenizer()
+.setInputCols("sentence") 
 .setOutputCol("token")
 
-val distilbert_loaded = DistilBertEmbeddings.pretrained("distilbert_uncased", "te"))\
-.setInputCols("sentence","token")\
-.setOutputCol("embeddings")\
+val distilbert_loaded = DistilBertEmbeddings.pretrained("distilbert_uncased", "te"))
+.setInputCols("sentence","token")
+.setOutputCol("embeddings")
 .setCaseSensitive(False)
 
 val nlp_pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, distilbert_loaded))

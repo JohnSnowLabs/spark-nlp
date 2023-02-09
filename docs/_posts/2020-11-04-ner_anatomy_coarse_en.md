@@ -56,8 +56,8 @@ results = model.transform(data)
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
   .setInputCols(Array("sentence", "token"))
   .setOutputCol("embeddings")
-val ner = MedicalNerModel.pretrained("ner_anatomy_coarse", "en", "clinical/models") \
-  .setInputCols(["sentence", "token", "embeddings"]) \
+val ner = MedicalNerModel.pretrained("ner_anatomy_coarse", "en", "clinical/models") 
+  .setInputCols(["sentence", "token", "embeddings"]) 
   .setOutputCol("ner")
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter))

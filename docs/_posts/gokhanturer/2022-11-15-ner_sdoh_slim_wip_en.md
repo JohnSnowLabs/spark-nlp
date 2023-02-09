@@ -89,12 +89,12 @@ val tokenizer = new Tokenizer()
     .setInputCols("sentence")
     .setOutputCol("token")
 
-val clinical_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-    .setInputCols(["sentence", "token"])\
+val clinical_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+    .setInputCols(["sentence", "token"])
     .setOutputCol("embeddings")
 
-val ner_model = MedicalNerModel.pretrained("ner_sdoh_slim_wip", "en", "clinical/models")\
-    .setInputCols(["sentence", "token", "embeddings"])\
+val ner_model = MedicalNerModel.pretrained("ner_sdoh_slim_wip", "en", "clinical/models")
+    .setInputCols(["sentence", "token", "embeddings"])
 
 val ner_converter = new NerConverter()
     .setInputCols(Array("sentence", "token", "ner"))

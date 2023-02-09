@@ -56,8 +56,8 @@ results = model.transform(data)
 val embeddings = BertEmbeddings.pretrained("biobert_pubmed_base_cased", "en")
       .setInputCols(Array("sentence", "token"))
       .setOutputCol("embeddings")
-val ner = NerDLModel.pretrained("ner_anatomy_coarse_biobert", "en", "clinical/models") \
-  .setInputCols(["sentence", "token", "embeddings"]) \
+val ner = NerDLModel.pretrained("ner_anatomy_coarse_biobert", "en", "clinical/models") 
+  .setInputCols(["sentence", "token", "embeddings"]) 
   .setOutputCol("ner")
 ...
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings, ner, ner_converter))

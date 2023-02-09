@@ -118,19 +118,19 @@ pipelineDF = pipelineModel.transform(imageDF)
 
 
 
-val imageAssembler = new ImageAssembler()\
+val imageAssembler = new ImageAssembler()
 
-.setInputCol("image")\
+.setInputCol("image")
 
 .setOutputCol("image_assembler")
 
 
 
-val imageClassifier = ViTForImageClassification\
+val imageClassifier = ViTForImageClassification
 
-.pretrained("image_classifier_vit_llama_alpaca_snake", "en")\
+.pretrained("image_classifier_vit_llama_alpaca_snake", "en")
 
-.setInputCols("image_assembler")\
+.setInputCols("image_assembler")
 
 .setOutputCol("class")
 
