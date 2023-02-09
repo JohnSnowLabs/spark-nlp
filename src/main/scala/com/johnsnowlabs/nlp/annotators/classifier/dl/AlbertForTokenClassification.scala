@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
+import com.johnsnowlabs.ml.ai.AlbertClassification
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
   ReadSentencePieceModel,
@@ -211,7 +212,7 @@ class AlbertForTokenClassification(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowAlbertClassification]] = None
+  private var _model: Option[Broadcast[AlbertClassification]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
@@ -221,7 +222,7 @@ class AlbertForTokenClassification(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowAlbertClassification(
+          new AlbertClassification(
             tensorflowWrapper,
             spp,
             configProtoBytes = getConfigProtoBytes,
@@ -233,7 +234,7 @@ class AlbertForTokenClassification(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowAlbertClassification = _model.get.value
+  def getModelIfNotSet: AlbertClassification = _model.get.value
 
   /** Whether to lowercase tokens or not
     *
@@ -313,13 +314,13 @@ trait ReadablePretrainedAlbertForTokenModel
       remoteLoc: String): AlbertForTokenClassification = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadAlbertForTokenTensorflowModel extends ReadTensorflowModel with ReadSentencePieceModel {
+trait ReadAlbertForTokenDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[AlbertForTokenClassification] =>
 
   override val tfFile: String = "albert_classification_tensorflow"
   override val sppFile: String = "albert_spp"
 
-  def readTensorflow(
+  def readModel(
       instance: AlbertForTokenClassification,
       path: String,
       spark: SparkSession): Unit = {
@@ -329,7 +330,7 @@ trait ReadAlbertForTokenTensorflowModel extends ReadTensorflowModel with ReadSen
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): AlbertForTokenClassification = {
 
@@ -373,4 +374,4 @@ trait ReadAlbertForTokenTensorflowModel extends ReadTensorflowModel with ReadSen
   */
 object AlbertForTokenClassification
     extends ReadablePretrainedAlbertForTokenModel
-    with ReadAlbertForTokenTensorflowModel
+    with ReadAlbertForTokenDLModel

@@ -52,7 +52,7 @@ import scala.collection.immutable.ListMap
   * [[https://nlp.johnsnowlabs.com/models?task=Language+Detection Models Hub]].
   *
   * For extended examples of usage, see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/language-detection/Language_Detection_and_Indentification.ipynb Spark NLP Workshop]]
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/language-detection/Language_Detection_and_Indentification.ipynb Examples]]
   * And the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ld/dl/LanguageDetectorDLTestSpec.scala LanguageDetectorDLTestSpec]].
   *
@@ -316,7 +316,7 @@ trait ReadLanguageDetectorDLTensorflowModel extends ReadTensorflowModel {
 
   override val tfFile: String = "ld_tensorflow"
 
-  def readTensorflow(instance: LanguageDetectorDL, path: String, spark: SparkSession): Unit = {
+  def readModel(instance: LanguageDetectorDL, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_ld_tf")
     instance.setModelIfNotSet(spark, tf)
@@ -326,7 +326,7 @@ trait ReadLanguageDetectorDLTensorflowModel extends ReadTensorflowModel {
     instance.set(instance.languages, r)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): LanguageDetectorDL = {
 

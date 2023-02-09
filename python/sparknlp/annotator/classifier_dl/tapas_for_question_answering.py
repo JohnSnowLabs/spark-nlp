@@ -38,7 +38,7 @@ class TapasForQuestionAnswering(BertForQuestionAnswering):
     ====================== ======================
     Input Annotation types Output Annotation type
     ====================== ======================
-    ``DOCUMENT, TABLE``   ``CHUNK``
+    ``DOCUMENT, TABLE``    ``CHUNK``
     ====================== ======================
 
     Parameters

@@ -23,7 +23,9 @@ import org.tensorflow.Graph
 
 import scala.collection.JavaConverters._
 
-class TensorflowSpell(val tensorflow: TensorflowWrapper, val verboseLevel: Verbose.Value)
+private[johnsnowlabs] class TensorflowSpell(
+    val tensorflow: TensorflowWrapper,
+    val verboseLevel: Verbose.Value)
     extends Logging
     with Serializable {
 

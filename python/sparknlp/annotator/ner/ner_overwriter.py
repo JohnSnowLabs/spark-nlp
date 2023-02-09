@@ -21,8 +21,8 @@ class NerOverwriter(AnnotatorModel):
 
     The input for this Annotator have to be entities that are already extracted,
     Annotator type ``NAMED_ENTITY``. The strings specified with
-    :meth:`.setStopWords` will have new entities assigned to, specified with
-    :meth:`.setNewResult`.
+    :meth:`.NerOverwriter.setStopWords` will have new entities assigned to, specified
+    with :meth:`.NerOverwriter.setNewResult`.
 
     ====================== ======================
     Input Annotation types Output Annotation type

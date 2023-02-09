@@ -213,18 +213,22 @@ class ResourceHelperTestSpec extends AnyFlatSpec {
       awsSecretAccessKey,
       awsSessionToken = Some(awsSessionToken))
 
-    val s3FolderPath = "s3://sparknlp-test/tf-hub-bert/model"
+    val s3FolderPath = "s3://sparknlp-test/public/tf-hub-bert/model"
+    val s3FolderPathPrivate = "s3://sparknlp-test/tf-hub-bert/model"
 
     val resourcePath = "src/test/resources/tf-hub-bert/model"
 
     val resourceFolderContent: Array[String] = new File(resourcePath).listFiles().map(_.getName)
 
     val localPath = ResourceHelper.copyToLocal(s3FolderPath)
-    new File(localPath).listFiles().foreach { f: File =>
-      assert(
-        resourceFolderContent.contains(f.getName),
-        s"File $f missing in copied temporary folder $localPath.")
-    }
+    val localPathForPrivateBucket = ResourceHelper.copyToLocal(s3FolderPathPrivate)
+
+    Seq(localPath, localPathForPrivateBucket).foreach(path =>
+      new File(path).listFiles().foreach { f: File =>
+        assert(
+          resourceFolderContent.contains(f.getName),
+          s"File $f missing in copied temporary folder $localPath.")
+      })
 
   }
 

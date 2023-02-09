@@ -27,7 +27,7 @@ import scala.collection.JavaConverters._
 import scala.collection.mutable.ArrayBuffer
 import scala.collection.{Map, mutable}
 
-class TensorflowNer(
+private[johnsnowlabs] class TensorflowNer(
     val tensorflow: TensorflowWrapper,
     val encoder: NerDatasetEncoder,
     override val verboseLevel: Verbose.Value)
