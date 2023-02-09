@@ -1,4 +1,4 @@
-# Spark NLP: State-of-the-Art Natural Language Processing
+ks# Spark NLP: State-of-the-Art Natural Language Processing
 
 <p align="center">
     <a href="https://github.com/JohnSnowLabs/spark-nlp/actions" alt="build">
@@ -228,8 +228,7 @@ result['entities']
 Output: ['Mona Lisa', 'Leonardo', 'Louvre', 'Paris']
 ```
 
-For more examples, you can visit our dedicated [repository](https://github.com/JohnSnowLabs/spark-nlp-workshop) to
-showcase all Spark NLP use cases!
+For more examples, you can visit our dedicated [examples](https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples) to showcase all Spark NLP use cases!
 
 ## Apache Spark Support
 
@@ -706,7 +705,7 @@ This script comes with the two options to define `pyspark` and `spark-nlp` versi
 !wget https://setup.johnsnowlabs.com/colab.sh -O - | bash /dev/stdin -p 3.2.3 -s 4.3.0
 ```
 
-[Spark NLP quick start on Google Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/quick_start_google_colab.ipynb)
+[Spark NLP quick start on Google Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/quick_start_google_colab.ipynb)
 is a live demo on Google Colab that performs named entity recognitions and sentiment analysis by using Spark NLP
 pretrained pipelines.
 
@@ -1227,8 +1226,8 @@ Example of using pretrained Models and Pipelines in offline:
 # french_pos = PerceptronModel.pretrained("pos_ud_gsd", lang="fr")
 # you download this model, extract it, and use .load
 french_pos = PerceptronModel.load("/tmp/pos_ud_gsd_fr_2.0.2_2.4_1556531457346/")
-.setInputCols("document", "token")
-.setOutputCol("pos")
+    .setInputCols("document", "token")
+    .setOutputCol("pos")
 
 # example for pipelines
 # instead of using PretrainedPipeline
@@ -1245,12 +1244,12 @@ PipelineModel.load("/tmp/explain_document_dl_en_2.0.2_2.4_1556530585689/")
 
 ## Examples
 
-Need more **examples**? Check out our dedicated [Spark NLP Showcase](https://github.com/JohnSnowLabs/spark-nlp-workshop)
+Need more **examples**? Check out our dedicated [Spark NLP Examples](https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples)
 repository to showcase all Spark NLP use cases!
 
 Also, don't forget to check [Spark NLP in Action](https://nlp.johnsnowlabs.com/demo) built by Streamlit.
 
-### All examples: [spark-nlp-workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop)
+### All examples: [spark-nlp/examples](https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples)
 
 ## FAQ
 
