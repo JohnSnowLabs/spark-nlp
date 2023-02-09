@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
+import com.johnsnowlabs.ml.ai.CamemBertClassification
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
   ReadSentencePieceModel,
@@ -233,7 +234,7 @@ class CamemBertForSequenceClassification(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowCamemBertClassification]] = None
+  private var _model: Option[Broadcast[CamemBertClassification]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
@@ -243,7 +244,7 @@ class CamemBertForSequenceClassification(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowCamemBertClassification(
+          new CamemBertClassification(
             tensorflowWrapper,
             spp,
             configProtoBytes = getConfigProtoBytes,
@@ -255,7 +256,7 @@ class CamemBertForSequenceClassification(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowCamemBertClassification = _model.get.value
+  def getModelIfNotSet: CamemBertClassification = _model.get.value
 
   /** Whether to lowercase tokens or not
     *
@@ -344,15 +345,13 @@ trait ReadablePretrainedCamemBertForSequenceModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadCamemBertForSequenceTensorflowModel
-    extends ReadTensorflowModel
-    with ReadSentencePieceModel {
+trait ReadCamemBertForSequenceDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[CamemBertForSequenceClassification] =>
 
   override val tfFile: String = "camembert_classification_tensorflow"
   override val sppFile: String = "camembert_spp"
 
-  def readTensorflow(
+  def readModel(
       instance: CamemBertForSequenceClassification,
       path: String,
       spark: SparkSession): Unit = {
@@ -363,7 +362,7 @@ trait ReadCamemBertForSequenceTensorflowModel
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(
       modelPath: String,
@@ -409,4 +408,4 @@ trait ReadCamemBertForSequenceTensorflowModel
   */
 object CamemBertForSequenceClassification
     extends ReadablePretrainedCamemBertForSequenceModel
-    with ReadCamemBertForSequenceTensorflowModel
+    with ReadCamemBertForSequenceDLModel

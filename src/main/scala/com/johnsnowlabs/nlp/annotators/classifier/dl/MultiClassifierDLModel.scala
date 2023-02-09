@@ -64,7 +64,7 @@ import org.apache.spark.sql.{Dataset, SparkSession}
   * each element (label) in y).
   *
   * For extended examples of usage, see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/classification/MultiClassifierDL_train_multi_label_E2E_challenge_classifier.ipynb Spark NLP Workshop]]
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/MultiClassifierDL_train_multi_label_E2E_challenge_classifier.ipynb Examples]]
   * and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/MultiClassifierDLTestSpec.scala MultiClassifierDLTestSpec]].
   *
@@ -313,10 +313,7 @@ trait ReadMultiClassifierDLTensorflowModel extends ReadTensorflowModel {
 
   override val tfFile: String = "multiclassifierdl_tensorflow"
 
-  def readTensorflow(
-      instance: MultiClassifierDLModel,
-      path: String,
-      spark: SparkSession): Unit = {
+  def readModel(instance: MultiClassifierDLModel, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_multiclassifierdl_tf", initAllTables = true)
     instance.setModelIfNotSet(spark, tf)
@@ -325,7 +322,7 @@ trait ReadMultiClassifierDLTensorflowModel extends ReadTensorflowModel {
     instance.set(instance.classes, encoder.tags)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 }
 
 /** This is the companion object of [[MultiClassifierDLModel]]. Please refer to that class for the

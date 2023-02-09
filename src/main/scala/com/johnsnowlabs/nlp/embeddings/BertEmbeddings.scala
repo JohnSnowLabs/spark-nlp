@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
+import com.johnsnowlabs.ml.ai.Bert
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadTextAsset,
@@ -50,7 +51,7 @@ import org.slf4j.{Logger, LoggerFactory}
   * [[https://nlp.johnsnowlabs.com/models?task=Embeddings Models Hub]].
   *
   * For extended examples of usage, see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/blogposts/3.NER_with_BERT.ipynb Spark NLP Workshop]]
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dl-ner/ner_bert.ipynb Examples]]
   * and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertEmbeddingsTestSpec.scala BertEmbeddingsTestSpec]].
   * To see which models are compatible and how to import them see
@@ -235,7 +236,7 @@ class BertEmbeddings(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowBert]] = None
+  private var _model: Option[Broadcast[Bert]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
@@ -244,7 +245,7 @@ class BertEmbeddings(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowBert(
+          new Bert(
             tensorflowWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
@@ -256,7 +257,7 @@ class BertEmbeddings(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowBert = _model.get.value
+  def getModelIfNotSet: Bert = _model.get.value
 
   /** Set Embeddings dimensions for the BERT model Only possible to set this when the first time
     * is saved dimension is not changeable, it comes from BERT config file
@@ -398,13 +399,13 @@ trait ReadBertDLModel extends ReadTensorflowModel {
 
   override val tfFile: String = "bert_tensorflow"
 
-  def readTensorflow(instance: BertEmbeddings, path: String, spark: SparkSession): Unit = {
+  def readModel(instance: BertEmbeddings, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_bert_tf", initAllTables = false)
     instance.setModelIfNotSet(spark, tf)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): BertEmbeddings = {
 
