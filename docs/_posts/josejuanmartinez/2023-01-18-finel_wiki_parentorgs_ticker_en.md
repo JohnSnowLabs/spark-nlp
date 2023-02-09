@@ -46,7 +46,7 @@ embeddings = nlp.UniversalSentenceEncoder.pretrained("tfhub_use", "en") \
       .setInputCols("ner_chunk") \
       .setOutputCol("sentence_embeddings")
     
-resolver = finance.SentenceEntityResolverModel.pretrained("finel_wiki_parentorgs_tickers", "en", "finance/models")\
+resolver = finance.SentenceEntityResolverModel.pretrained("finel_wiki_parentorgs_ticker", "en", "finance/models")\
       .setInputCols(["sentence_embeddings"]) \
       .setOutputCol("normalized_name")\
       .setDistanceFunction("EUCLIDEAN")
