@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp &#8212; Spark NLP 4.2.8 documentation</title>
+    <title>sparknlp &#8212; Spark NLP 4.3.0 documentation</title>
   
   
   
@@ -331,6 +331,7 @@
 <li class="toctree-l1"><a class="reference internal" href="base/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base</span></code></a><ul>
 <li class="toctree-l2"><a class="reference internal" href="base/audio_assembler/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.audio_assembler</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="base/chunk2_doc/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.chunk2_doc</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="base/date2_chunk/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.date2_chunk</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="base/doc2_chunk/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.doc2_chunk</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="base/document_assembler/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.document_assembler</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="base/embeddings_finisher/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.embeddings_finisher</span></code></a></li>
@@ -342,6 +343,7 @@
 <li class="toctree-l2"><a class="reference internal" href="base/light_pipeline/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.light_pipeline</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="base/recursive_pipeline/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.recursive_pipeline</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="base/table_assembler/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.table_assembler</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="base/token2_chunk/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.token2_chunk</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="base/token_assembler/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.token_assembler</span></code></a></li>
 </ul>
 </li>
@@ -403,7 +405,7 @@
 <h3>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">#</a></h3>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.start" title="sparknlp.start"><code class="xref py py-obj docutils literal notranslate"><span class="pre">start</span></code></a>([gpu, m1, aarch64, memory, cache_folder, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.start" title="sparknlp.start"><code class="xref py py-obj docutils literal notranslate"><span class="pre">start</span></code></a>([gpu, apple_silicon, aarch64, memory, ...])</p></td>
 <td><p>Starts a PySpark instance with default parameters for Spark NLP.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.version" title="sparknlp.version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">version</span></code></a>()</p></td>
@@ -413,7 +415,7 @@
 </table>
 <dl class="py function">
 <dt class="sig sig-object py" id="sparknlp.start">
-<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gpu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aarch64</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'16G'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cluster_tmp_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">real_time_output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../modules/sparknlp.html#start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.start" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gpu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">apple_silicon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aarch64</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'16G'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cluster_tmp_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">real_time_output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../modules/sparknlp.html#start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.start" title="Permalink to this definition">#</a></dt>
 <dd><p>Starts a PySpark instance with default parameters for Spark NLP.</p>
 <p>The default parameters would result in the equivalent of:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span> \
@@ -432,7 +434,7 @@
 <dd class="field-odd"><dl class="simple">
 <dt><strong>gpu</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether to enable GPU acceleration (must be set up correctly), by default False</p>
 </dd>
-<dt><strong>m1</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether to enable M1 support for macOS</p>
+<dt><strong>apple_silicon</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether to enable Apple Silicon support for macOS</p>
 </dd>
 <dt><strong>aarch64</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether to enable Linux Aarch64 support</p>
 </dd>
