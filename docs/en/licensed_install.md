@@ -43,10 +43,11 @@ If you are a user of Financial NLP, you will get that installed. If you are a Le
 We still have the way of downloading manually the license, in case the connection with `my.johnsnowlabs.com` is not an option for you.
 Just put your license json in the same folder of the notebook, and run:
 
-```nlp.install()```
+```
+nlp.install()
+```
 
 In colab, you can use this fancy widget to upload a file to your environment:
-In collab, you can use the upload widget like this:
 
 ```
 from google.colab import files
