@@ -1,201 +1,190 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-02-08T21:39:38+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
-</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">French CamemBertForQuestionAnswering Base squadFR (camembert_base_qa_fquad)</title><link href="/2023/02/08/camembert_base_qa_fquad_fr.html" rel="alternate" type="text/html" title="French CamemBertForQuestionAnswering Base squadFR (camembert_base_qa_fquad)" /><published>2023-02-08T00:00:00+00:00</published><updated>2023-02-08T00:00:00+00:00</updated><id>/2023/02/08/camembert_base_qa_fquad_fr</id><content type="html" xml:base="/2023/02/08/camembert_base_qa_fquad_fr.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-02-09T12:20:50+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">French CamemBertForQuestionAnswering Base squadFR (camembert_base_qa_fquad)</title><link href="/2023/02/08/camembert_base_qa_fquad_fr.html" rel="alternate" type="text/html" title="French CamemBertForQuestionAnswering Base squadFR (camembert_base_qa_fquad)" /><published>2023-02-08T00:00:00+00:00</published><updated>2023-02-08T00:00:00+00:00</updated><id>/2023/02/08/camembert_base_qa_fquad_fr</id><content type="html" xml:base="/2023/02/08/camembert_base_qa_fquad_fr.html">## Description
 
-&lt;p&gt;Pretrained CamemBertForQuestionAnswering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;camembert_base_qa_fquad &lt;/code&gt; is a French model originally fine-tuned on a combo of three French Q&amp;amp;A datasets:&lt;/p&gt;
+Pretrained CamemBertForQuestionAnswering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `camembert_base_qa_fquad ` is a French model originally fine-tuned on a combo of three French Q&amp;A datasets:
 
-&lt;ul&gt;
-  &lt;li&gt;PIAFv1.1&lt;/li&gt;
-  &lt;li&gt;FQuADv1.0&lt;/li&gt;
-  &lt;li&gt;SQuAD-FR (SQuAD automatically translated to French)&lt;/li&gt;
-&lt;/ul&gt;
+- PIAFv1.1
+- FQuADv1.0
+- SQuAD-FR (SQuAD automatically translated to French)
 
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+## Predicted Entities
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/camembert_base_qa_fquad_fr_4.3.0_3.2_1675865521345.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/camembert_base_qa_fquad_fr_4.3.0_3.2_1675865521345.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;Document_Assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MultiDocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-     &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;question&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;context&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-     &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document_question&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;document_context&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/camembert_base_qa_fquad_fr_4.3.0_3.2_1675865521345.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/camembert_base_qa_fquad_fr_4.3.0_3.2_1675865521345.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;span class=&quot;n&quot;&gt;Question_Answering&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CamemBertForQuestionAnswering&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;camembert_base_qa_fquad&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;fr&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-     &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document_question&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;document_context&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-     &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;answer&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-     &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setCaseSensitive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+## How to use
+
+
+
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+Document_Assembler = MultiDocumentAssembler()\
+     .setInputCols([&quot;question&quot;, &quot;context&quot;])\
+     .setOutputCols([&quot;document_question&quot;, &quot;document_context&quot;])
+
+Question_Answering = CamemBertForQuestionAnswering(&quot;camembert_base_qa_fquad&quot;,&quot;fr&quot;)\
+     .setInputCols([&quot;document_question&quot;, &quot;document_context&quot;])\
+     .setOutputCol(&quot;answer&quot;)\
+     .setCaseSensitive(True)
     
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Document_Assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Question_Answering&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+pipeline = Pipeline(stages=[Document_Assembler, Question_Answering])
 
-&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Où est-ce que je vis?&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Mon nom est Wolfgang et je vis à Berlin.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;question&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;context&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+data = spark.createDataFrame([[&quot;Où est-ce que je vis?&quot;,&quot;Mon nom est Wolfgang et je vis à Berlin.&quot;]]).toDF(&quot;question&quot;, &quot;context&quot;)
 
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;Document_Assembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;MultiDocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-     &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;question&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;context&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
-     &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document_question&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;document_context&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+result = pipeline.fit(data).transform(data)
+```
+```scala
+val Document_Assembler = new MultiDocumentAssembler()
+     .setInputCols(Array(&quot;question&quot;, &quot;context&quot;))
+     .setOutputCols(Array(&quot;document_question&quot;, &quot;document_context&quot;))
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;Question_Answering&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;CamemBertForQuestionAnswering&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;camembert_base_qa_fquad&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;fr&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-     &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document_question&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;document_context&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
-     &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;answer&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-     &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setCaseSensitive&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val Question_Answering = CamemBertForQuestionAnswering(&quot;camembert_base_qa_fquad&quot;,&quot;fr&quot;)
+     .setInputCols(Array(&quot;document_question&quot;, &quot;document_context&quot;))
+     .setOutputCol(&quot;answer&quot;)
+     .setCaseSensitive(True)
     
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Document_Assembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Question_Answering&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+val pipeline = new Pipeline().setStages(Array(Document_Assembler, Question_Answering))
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Seq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Où est-ce que je vis?&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Mon nom est Wolfgang et je vis à Berlin.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;toDS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;question&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;context&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val data = Seq(&quot;Où est-ce que je vis?&quot;,&quot;Mon nom est Wolfgang et je vis à Berlin.&quot;).toDS.toDF(&quot;question&quot;, &quot;context&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+val result = pipeline.fit(data).transform(data)
+```
 &lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;camembert_base_qa_fquad&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.3.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[document_question, document_context]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[answer]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;fr&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;411.9 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|camembert_base_qa_fquad|
+|Compatibility:|Spark NLP 4.3.0+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[document_question, document_context]|
+|Output Labels:|[answer]|
+|Language:|fr|
+|Size:|411.9 MB|
 
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+## References
 
-&lt;p&gt;https://huggingface.co/etalab-ia/camembert-base-squadFR-fquad-piaf&lt;/p&gt;
+https://huggingface.co/etalab-ia/camembert-base-squadFR-fquad-piaf
 
-&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
+## Benchmarking
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;f1&quot;&lt;/span&gt;: 80.61, &lt;span class=&quot;s2&quot;&gt;&quot;exact_match&quot;&lt;/span&gt;: 59.54&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="fr" /><category term="french" /><category term="question_answering" /><category term="camembert" /><category term="open_source" /><category term="tensorflow" /><summary type="html">Description Pretrained CamemBertForQuestionAnswering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. camembert_base_qa_fquad is a French model originally fine-tuned on a combo of three French Q&amp;amp;A datasets: PIAFv1.1 FQuADv1.0 SQuAD-FR (SQuAD automatically translated to French) Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU Document_Assembler = MultiDocumentAssembler()\ .setInputCols([&quot;question&quot;, &quot;context&quot;])\ .setOutputCols([&quot;document_question&quot;, &quot;document_context&quot;]) Question_Answering = CamemBertForQuestionAnswering(&quot;camembert_base_qa_fquad&quot;,&quot;fr&quot;)\ .setInputCols([&quot;document_question&quot;, &quot;document_context&quot;])\ .setOutputCol(&quot;answer&quot;)\ .setCaseSensitive(True) pipeline = Pipeline(stages=[Document_Assembler, Question_Answering]) data = spark.createDataFrame([[&quot;Où est-ce que je vis?&quot;,&quot;Mon nom est Wolfgang et je vis à Berlin.&quot;]]).toDF(&quot;question&quot;, &quot;context&quot;) result = pipeline.fit(data).transform(data) val Document_Assembler = new MultiDocumentAssembler() .setInputCols(Array(&quot;question&quot;, &quot;context&quot;)) .setOutputCols(Array(&quot;document_question&quot;, &quot;document_context&quot;)) val Question_Answering = CamemBertForQuestionAnswering(&quot;camembert_base_qa_fquad&quot;,&quot;fr&quot;) .setInputCols(Array(&quot;document_question&quot;, &quot;document_context&quot;)) .setOutputCol(&quot;answer&quot;) .setCaseSensitive(True) val pipeline = new Pipeline().setStages(Array(Document_Assembler, Question_Answering)) val data = Seq(&quot;Où est-ce que je vis?&quot;,&quot;Mon nom est Wolfgang et je vis à Berlin.&quot;).toDS.toDF(&quot;question&quot;, &quot;context&quot;) val result = pipeline.fit(data).transform(data) Model Information Model Name: camembert_base_qa_fquad Compatibility: Spark NLP 4.3.0+ License: Open Source Edition: Official Input Labels: [document_question, document_context] Output Labels: [answer] Language: fr Size: 411.9 MB References https://huggingface.co/etalab-ia/camembert-base-squadFR-fquad-piaf Benchmarking {&quot;f1&quot;: 80.61, &quot;exact_match&quot;: 59.54}</summary></entry><entry><title type="html">Zero-Shot Named Entity Recognition (Generic sample)</title><link href="/2023/02/08/zero_shot_ner_roberta_en.html" rel="alternate" type="text/html" title="Zero-Shot Named Entity Recognition (Generic sample)" /><published>2023-02-08T00:00:00+00:00</published><updated>2023-02-08T00:00:00+00:00</updated><id>/2023/02/08/zero_shot_ner_roberta_en</id><content type="html" xml:base="/2023/02/08/zero_shot_ner_roberta_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+```bash
+{&quot;f1&quot;: 80.61, &quot;exact_match&quot;: 59.54}
+```</content><author><name>John Snow Labs</name></author><category term="fr" /><category term="french" /><category term="question_answering" /><category term="camembert" /><category term="open_source" /><category term="tensorflow" /><summary type="html">Description Pretrained CamemBertForQuestionAnswering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. camembert_base_qa_fquad is a French model originally fine-tuned on a combo of three French Q&amp;amp;A datasets: PIAFv1.1 FQuADv1.0 SQuAD-FR (SQuAD automatically translated to French) Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU Document_Assembler = MultiDocumentAssembler()\ .setInputCols([&quot;question&quot;, &quot;context&quot;])\ .setOutputCols([&quot;document_question&quot;, &quot;document_context&quot;]) Question_Answering = CamemBertForQuestionAnswering(&quot;camembert_base_qa_fquad&quot;,&quot;fr&quot;)\ .setInputCols([&quot;document_question&quot;, &quot;document_context&quot;])\ .setOutputCol(&quot;answer&quot;)\ .setCaseSensitive(True) pipeline = Pipeline(stages=[Document_Assembler, Question_Answering]) data = spark.createDataFrame([[&quot;Où est-ce que je vis?&quot;,&quot;Mon nom est Wolfgang et je vis à Berlin.&quot;]]).toDF(&quot;question&quot;, &quot;context&quot;) result = pipeline.fit(data).transform(data) val Document_Assembler = new MultiDocumentAssembler() .setInputCols(Array(&quot;question&quot;, &quot;context&quot;)) .setOutputCols(Array(&quot;document_question&quot;, &quot;document_context&quot;)) val Question_Answering = CamemBertForQuestionAnswering(&quot;camembert_base_qa_fquad&quot;,&quot;fr&quot;) .setInputCols(Array(&quot;document_question&quot;, &quot;document_context&quot;)) .setOutputCol(&quot;answer&quot;) .setCaseSensitive(True) val pipeline = new Pipeline().setStages(Array(Document_Assembler, Question_Answering)) val data = Seq(&quot;Où est-ce que je vis?&quot;,&quot;Mon nom est Wolfgang et je vis à Berlin.&quot;).toDS.toDF(&quot;question&quot;, &quot;context&quot;) val result = pipeline.fit(data).transform(data) Model Information Model Name: camembert_base_qa_fquad Compatibility: Spark NLP 4.3.0+ License: Open Source Edition: Official Input Labels: [document_question, document_context] Output Labels: [answer] Language: fr Size: 411.9 MB References https://huggingface.co/etalab-ia/camembert-base-squadFR-fquad-piaf Benchmarking {&quot;f1&quot;: 80.61, &quot;exact_match&quot;: 59.54}</summary></entry><entry><title type="html">Zero-Shot Named Entity Recognition (Generic sample)</title><link href="/2023/02/08/zero_shot_ner_roberta_en.html" rel="alternate" type="text/html" title="Zero-Shot Named Entity Recognition (Generic sample)" /><published>2023-02-08T00:00:00+00:00</published><updated>2023-02-08T00:00:00+00:00</updated><id>/2023/02/08/zero_shot_ner_roberta_en</id><content type="html" xml:base="/2023/02/08/zero_shot_ner_roberta_en.html">## Description
 
-&lt;p&gt;This model is trained with Zero-Shot Named Entity Recognition (NER) approach and it can detect any kind of defined entities with no training dataset, just pretrained RoBERTa embeddings (included in the model).&lt;/p&gt;
+This model is trained with Zero-Shot Named Entity Recognition (NER) approach and it can detect any kind of defined entities with no training dataset, just pretrained RoBERTa embeddings (included in the model).
 
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+## Predicted Entities
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/zero_shot_ner_roberta_en_4.3.0_3.2_1675890474068.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/zero_shot_ner_roberta_en_4.3.0_3.2_1675890474068.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/zero_shot_ner_roberta_en_4.3.0_3.2_1675890474068.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/zero_shot_ner_roberta_en_4.3.0_3.2_1675890474068.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;span class=&quot;n&quot;&gt;sentenceDetector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SentenceDetector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+## How to use
 
-&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+documentAssembler = DocumentAssembler() \
+    .setInputCol(&quot;text&quot;) \
+    .setOutputCol(&quot;document&quot;)
+
+sentenceDetector = SentenceDetector() \
+    .setInputCols([&quot;document&quot;]) \
+    .setOutputCol(&quot;sentence&quot;)
+
+tokenizer = Tokenizer() \
+    .setInputCols([&quot;sentence&quot;]) \
+    .setOutputCol(&quot;token&quot;)
     
-&lt;span class=&quot;n&quot;&gt;zero_shot_ner&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ZeroShotNerModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;zero_shot_ner_roberta&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clincial/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;zero_shot_ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setEntityDefinitions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;s&quot;&gt;&quot;NAME&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;What is his name?&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;What is my name?&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;What is her name?&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
-            &lt;span class=&quot;s&quot;&gt;&quot;CITY&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Which city?&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Which is the city?&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+zero_shot_ner = ZeroShotNerModel.pretrained(&quot;zero_shot_ner_roberta&quot;, &quot;en&quot;, &quot;clincial/models&quot;)\
+    .setInputCols([&quot;sentence&quot;, &quot;token&quot;])\
+    .setOutputCol(&quot;zero_shot_ner&quot;)\
+    .setEntityDefinitions(
+        {
+            &quot;NAME&quot;: [&quot;What is his name?&quot;, &quot;What is my name?&quot;, &quot;What is her name?&quot;],
+            &quot;CITY&quot;: [&quot;Which city?&quot;, &quot;Which is the city?&quot;]
+        })
 
-&lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NerConverter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;zero_shot_ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_chunk&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+ner_converter = NerConverter()\
+    .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;zero_shot_ner&quot;])\
+    .setOutputCol(&quot;ner_chunk&quot;)\
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-    &lt;span class=&quot;n&quot;&gt;sentenceDetector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-    &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-    &lt;span class=&quot;n&quot;&gt;zero_shot_ner&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-    &lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+pipeline = Pipeline(stages = [
+    documentAssembler, 
+    sentenceDetector, 
+    tokenizer, 
+    zero_shot_ner, 
+    ner_converter])
 
-&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hellen works in London, Paris and Berlin. My name is Clara, I live in New York and Hellen lives in Paris.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-                              &lt;span class=&quot;s&quot;&gt;&quot;John is a man who works in London, London and London.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;StringType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+data = spark.createDataFrame([&quot;Hellen works in London, Paris and Berlin. My name is Clara, I live in New York and Hellen lives in Paris.&quot;,
+                              &quot;John is a man who works in London, London and London.&quot;], StringType()).toDF(&quot;text&quot;)
 
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+result = pipeline.fit(data).transform(data)
+```
+```scala
+val documentAssembler = new DocumentAssembler()
+    .setInputCol(&quot;text&quot;)
+    .setOutputCol(&quot;document&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;sentenceDetector&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SentenceDetector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val sentenceDetector = new SentenceDetector() 
+    .setInputCols(Array(&quot;document&quot;)) 
+    .setOutputCol(&quot;sentence&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val tokenizer = new Tokenizer() 
+    .setInputCols(Array(&quot;sentence&quot;)) 
+    .setOutputCol(&quot;token&quot;)
     
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;zero_shot_ner&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ZeroShotNerModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;zero_shot_ner_roberta&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clincial/models&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;zero_shot_ner&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setEntityDefinitions&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Map&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
-            &lt;span class=&quot;s&quot;&gt;&quot;NAME&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;What is his name?&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;What is my name?&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;What is her name?&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;),&lt;/span&gt;
-            &lt;span class=&quot;s&quot;&gt;&quot;CITY&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Which city?&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Which is the city?&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+val zero_shot_ner = ZeroShotNerModel.pretrained(&quot;zero_shot_ner_roberta&quot;, &quot;en&quot;, &quot;clincial/models&quot;)
+    .setInputCols(Array(&quot;sentence&quot;, &quot;token&quot;))
+    .setOutputCol(&quot;zero_shot_ner&quot;)
+    .setEntityDefinitions(Map(
+            &quot;NAME&quot;-&gt; Array(&quot;What is his name?&quot;, &quot;What is my name?&quot;, &quot;What is her name?&quot;),
+            &quot;CITY&quot;-&gt; Array(&quot;Which city?&quot;, &quot;Which is the city?&quot;)
+    ))
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ner_converter&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;NerConverter&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;zero_shot_ner&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_chunk&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val ner_converter = new NerConverter()
+    .setInputCols(Array(&quot;sentence&quot;, &quot;token&quot;, &quot;zero_shot_ner&quot;))
+    .setOutputCol(&quot;ner_chunk&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; 
-    &lt;span class=&quot;n&quot;&gt;sentenceDetector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; 
-    &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; 
-    &lt;span class=&quot;n&quot;&gt;zero_shot_ner&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; 
-    &lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+val pipeline = new .setStages(Array(
+    documentAssembler, 
+    sentenceDetector, 
+    tokenizer, 
+    zero_shot_ner, 
+    ner_converter))
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Seq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hellen works in London, Paris and Berlin. My name is Clara, I live in New York and Hellen lives in Paris.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
-                                     &lt;span class=&quot;s&quot;&gt;&quot;John is a man who works in London, London and London.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;toDS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val data = Seq(Array(&quot;Hellen works in London, Paris and Berlin. My name is Clara, I live in New York and Hellen lives in Paris.&quot;,
+                                     &quot;John is a man who works in London, London and London.&quot;)toDS().toDF(&quot;text&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+val result = pipeline.fit(data).transform(data)
+```
 &lt;/div&gt;
 
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+## Results
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+------+---------+--------+-----+---+----------+
+```bash
++------+---------+--------+-----+---+----------+
 | token|ner_label|sentence|begin|end|confidence|
 +------+---------+--------+-----+---+----------+
 |Hellen|   B-NAME|       0|    0|  5|0.13306311|
 | works|        O|       0|    7| 11|      null|
-|    &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;|        O|       0|   13| 14|      null|
+|    in|        O|       0|   13| 14|      null|
 |London|   B-CITY|       0|   16| 21| 0.4064213|
 |     ,|        O|       0|   22| 22|      null|
 | Paris|   B-CITY|       0|   24| 28|0.04597357|
@@ -209,22 +198,22 @@
 |     ,|        O|       1|   58| 58|      null|
 |     I|        O|       1|   60| 60|      null|
 |  live|        O|       1|   62| 65|      null|
-|    &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;|        O|       1|   67| 68|      null|
+|    in|        O|       1|   67| 68|      null|
 |   New|   B-CITY|       1|   70| 72|0.82799006|
 |  York|   I-CITY|       1|   74| 77|0.82799006|
 |   and|        O|       1|   79| 81|      null|
 |Hellen|   B-NAME|       1|   83| 88|0.40429682|
 | lives|        O|       1|   90| 94|      null|
-|    &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;|        O|       1|   96| 97|      null|
+|    in|        O|       1|   96| 97|      null|
 | Paris|   B-CITY|       1|   99|103|0.49216735|
 |     .|        O|       1|  104|104|      null|
 |  John|   B-NAME|       0|    0|  3|0.14063153|
 |    is|        O|       0|    5|  6|      null|
 |     a|        O|       0|    8|  8|      null|
 |   man|        O|       0|   10| 12|      null|
-|   &lt;span class=&quot;nb&quot;&gt;who&lt;/span&gt;|        O|       0|   14| 16|      null|
+|   who|        O|       0|   14| 16|      null|
 | works|        O|       0|   18| 22|      null|
-|    &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;|        O|       0|   24| 25|      null|
+|    in|        O|       0|   24| 25|      null|
 |London|   B-CITY|       0|   27| 32|0.15521188|
 |     ,|        O|       0|   33| 33|      null|
 |London|   B-CITY|       0|   35| 40|0.12151082|
@@ -232,515 +221,384 @@
 |London|   B-CITY|       0|   46| 51| 0.2650951|
 |     .|        O|       0|   52| 52|      null|
 +------+---------+--------+-----+---+----------+
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+```
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;zero_shot_ner_roberta&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.3.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[document_question, document_context]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[answer]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;463.8 MB&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Case sensitive:&lt;/td&gt;
-      &lt;td&gt;true&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Max sentence length:&lt;/td&gt;
-      &lt;td&gt;512&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="ner" /><category term="zero_shot" /><category term="roberta" /><category term="qa" /><category term="en" /><category term="open_source" /><category term="tensorflow" /><summary type="html">Description This model is trained with Zero-Shot Named Entity Recognition (NER) approach and it can detect any kind of defined entities with no training dataset, just pretrained RoBERTa embeddings (included in the model). Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) sentenceDetector = SentenceDetector() \ .setInputCols([&quot;document&quot;]) \ .setOutputCol(&quot;sentence&quot;) tokenizer = Tokenizer() \ .setInputCols([&quot;sentence&quot;]) \ .setOutputCol(&quot;token&quot;) zero_shot_ner = ZeroShotNerModel.pretrained(&quot;zero_shot_ner_roberta&quot;, &quot;en&quot;, &quot;clincial/models&quot;)\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;])\ .setOutputCol(&quot;zero_shot_ner&quot;)\ .setEntityDefinitions( { &quot;NAME&quot;: [&quot;What is his name?&quot;, &quot;What is my name?&quot;, &quot;What is her name?&quot;], &quot;CITY&quot;: [&quot;Which city?&quot;, &quot;Which is the city?&quot;] }) ner_converter = NerConverter()\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;zero_shot_ner&quot;])\ .setOutputCol(&quot;ner_chunk&quot;)\ pipeline = Pipeline(stages = [ documentAssembler, sentenceDetector, tokenizer, zero_shot_ner, ner_converter]) data = spark.createDataFrame([&quot;Hellen works in London, Paris and Berlin. My name is Clara, I live in New York and Hellen lives in Paris.&quot;, &quot;John is a man who works in London, London and London.&quot;], StringType()).toDF(&quot;text&quot;) result = pipeline.fit(data).transform(data) val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val sentenceDetector = new SentenceDetector() .setInputCols(Array(&quot;document&quot;)) .setOutputCol(&quot;sentence&quot;) val tokenizer = new Tokenizer() .setInputCols(Array(&quot;sentence&quot;)) .setOutputCol(&quot;token&quot;) val zero_shot_ner = ZeroShotNerModel.pretrained(&quot;zero_shot_ner_roberta&quot;, &quot;en&quot;, &quot;clincial/models&quot;) .setInputCols(Array(&quot;sentence&quot;, &quot;token&quot;)) .setOutputCol(&quot;zero_shot_ner&quot;) .setEntityDefinitions(Map( &quot;NAME&quot;-&amp;gt; Array(&quot;What is his name?&quot;, &quot;What is my name?&quot;, &quot;What is her name?&quot;), &quot;CITY&quot;-&amp;gt; Array(&quot;Which city?&quot;, &quot;Which is the city?&quot;) )) val ner_converter = new NerConverter() .setInputCols(Array(&quot;sentence&quot;, &quot;token&quot;, &quot;zero_shot_ner&quot;)) .setOutputCol(&quot;ner_chunk&quot;) val pipeline = new .setStages(Array( documentAssembler, sentenceDetector, tokenizer, zero_shot_ner, ner_converter)) val data = Seq(Array(&quot;Hellen works in London, Paris and Berlin. My name is Clara, I live in New York and Hellen lives in Paris.&quot;, &quot;John is a man who works in London, London and London.&quot;)toDS().toDF(&quot;text&quot;) val result = pipeline.fit(data).transform(data) Results +------+---------+--------+-----+---+----------+ | token|ner_label|sentence|begin|end|confidence| +------+---------+--------+-----+---+----------+ |Hellen| B-NAME| 0| 0| 5|0.13306311| | works| O| 0| 7| 11| null| | in| O| 0| 13| 14| null| |London| B-CITY| 0| 16| 21| 0.4064213| | ,| O| 0| 22| 22| null| | Paris| B-CITY| 0| 24| 28|0.04597357| | and| O| 0| 30| 32| null| |Berlin| B-CITY| 0| 34| 39|0.16265489| | .| O| 0| 40| 40| null| | My| O| 1| 42| 43| null| | name| O| 1| 45| 48| null| | is| O| 1| 50| 51| null| | Clara| B-NAME| 1| 53| 57| 0.9274031| | ,| O| 1| 58| 58| null| | I| O| 1| 60| 60| null| | live| O| 1| 62| 65| null| | in| O| 1| 67| 68| null| | New| B-CITY| 1| 70| 72|0.82799006| | York| I-CITY| 1| 74| 77|0.82799006| | and| O| 1| 79| 81| null| |Hellen| B-NAME| 1| 83| 88|0.40429682| | lives| O| 1| 90| 94| null| | in| O| 1| 96| 97| null| | Paris| B-CITY| 1| 99|103|0.49216735| | .| O| 1| 104|104| null| | John| B-NAME| 0| 0| 3|0.14063153| | is| O| 0| 5| 6| null| | a| O| 0| 8| 8| null| | man| O| 0| 10| 12| null| | who| O| 0| 14| 16| null| | works| O| 0| 18| 22| null| | in| O| 0| 24| 25| null| |London| B-CITY| 0| 27| 32|0.15521188| | ,| O| 0| 33| 33| null| |London| B-CITY| 0| 35| 40|0.12151082| | and| O| 0| 42| 44| null| |London| B-CITY| 0| 46| 51| 0.2650951| | .| O| 0| 52| 52| null| +------+---------+--------+-----+---+----------+ Model Information Model Name: zero_shot_ner_roberta Compatibility: Spark NLP 4.3.0+ License: Open Source Edition: Official Input Labels: [document_question, document_context] Output Labels: [answer] Language: en Size: 463.8 MB Case sensitive: true Max sentence length: 512</summary></entry><entry><title type="html">ASR HubertForCTC - asr_hubert_large_ls960</title><link href="/2023/02/07/asr_hubert_large_ls960_en.html" rel="alternate" type="text/html" title="ASR HubertForCTC - asr_hubert_large_ls960" /><published>2023-02-07T00:00:00+00:00</published><updated>2023-02-07T00:00:00+00:00</updated><id>/2023/02/07/asr_hubert_large_ls960_en</id><content type="html" xml:base="/2023/02/07/asr_hubert_large_ls960_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+{:.table-model}
+|---|---|
+|Model Name:|zero_shot_ner_roberta|
+|Compatibility:|Spark NLP 4.3.0+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[document_question, document_context]|
+|Output Labels:|[answer]|
+|Language:|en|
+|Size:|463.8 MB|
+|Case sensitive:|true|
+|Max sentence length:|512|</content><author><name>John Snow Labs</name></author><category term="ner" /><category term="zero_shot" /><category term="roberta" /><category term="qa" /><category term="en" /><category term="open_source" /><category term="tensorflow" /><summary type="html">Description This model is trained with Zero-Shot Named Entity Recognition (NER) approach and it can detect any kind of defined entities with no training dataset, just pretrained RoBERTa embeddings (included in the model). Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) sentenceDetector = SentenceDetector() \ .setInputCols([&quot;document&quot;]) \ .setOutputCol(&quot;sentence&quot;) tokenizer = Tokenizer() \ .setInputCols([&quot;sentence&quot;]) \ .setOutputCol(&quot;token&quot;) zero_shot_ner = ZeroShotNerModel.pretrained(&quot;zero_shot_ner_roberta&quot;, &quot;en&quot;, &quot;clincial/models&quot;)\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;])\ .setOutputCol(&quot;zero_shot_ner&quot;)\ .setEntityDefinitions( { &quot;NAME&quot;: [&quot;What is his name?&quot;, &quot;What is my name?&quot;, &quot;What is her name?&quot;], &quot;CITY&quot;: [&quot;Which city?&quot;, &quot;Which is the city?&quot;] }) ner_converter = NerConverter()\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;zero_shot_ner&quot;])\ .setOutputCol(&quot;ner_chunk&quot;)\ pipeline = Pipeline(stages = [ documentAssembler, sentenceDetector, tokenizer, zero_shot_ner, ner_converter]) data = spark.createDataFrame([&quot;Hellen works in London, Paris and Berlin. My name is Clara, I live in New York and Hellen lives in Paris.&quot;, &quot;John is a man who works in London, London and London.&quot;], StringType()).toDF(&quot;text&quot;) result = pipeline.fit(data).transform(data) val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val sentenceDetector = new SentenceDetector() .setInputCols(Array(&quot;document&quot;)) .setOutputCol(&quot;sentence&quot;) val tokenizer = new Tokenizer() .setInputCols(Array(&quot;sentence&quot;)) .setOutputCol(&quot;token&quot;) val zero_shot_ner = ZeroShotNerModel.pretrained(&quot;zero_shot_ner_roberta&quot;, &quot;en&quot;, &quot;clincial/models&quot;) .setInputCols(Array(&quot;sentence&quot;, &quot;token&quot;)) .setOutputCol(&quot;zero_shot_ner&quot;) .setEntityDefinitions(Map( &quot;NAME&quot;-&amp;gt; Array(&quot;What is his name?&quot;, &quot;What is my name?&quot;, &quot;What is her name?&quot;), &quot;CITY&quot;-&amp;gt; Array(&quot;Which city?&quot;, &quot;Which is the city?&quot;) )) val ner_converter = new NerConverter() .setInputCols(Array(&quot;sentence&quot;, &quot;token&quot;, &quot;zero_shot_ner&quot;)) .setOutputCol(&quot;ner_chunk&quot;) val pipeline = new .setStages(Array( documentAssembler, sentenceDetector, tokenizer, zero_shot_ner, ner_converter)) val data = Seq(Array(&quot;Hellen works in London, Paris and Berlin. My name is Clara, I live in New York and Hellen lives in Paris.&quot;, &quot;John is a man who works in London, London and London.&quot;)toDS().toDF(&quot;text&quot;) val result = pipeline.fit(data).transform(data) Results +------+---------+--------+-----+---+----------+ | token|ner_label|sentence|begin|end|confidence| +------+---------+--------+-----+---+----------+ |Hellen| B-NAME| 0| 0| 5|0.13306311| | works| O| 0| 7| 11| null| | in| O| 0| 13| 14| null| |London| B-CITY| 0| 16| 21| 0.4064213| | ,| O| 0| 22| 22| null| | Paris| B-CITY| 0| 24| 28|0.04597357| | and| O| 0| 30| 32| null| |Berlin| B-CITY| 0| 34| 39|0.16265489| | .| O| 0| 40| 40| null| | My| O| 1| 42| 43| null| | name| O| 1| 45| 48| null| | is| O| 1| 50| 51| null| | Clara| B-NAME| 1| 53| 57| 0.9274031| | ,| O| 1| 58| 58| null| | I| O| 1| 60| 60| null| | live| O| 1| 62| 65| null| | in| O| 1| 67| 68| null| | New| B-CITY| 1| 70| 72|0.82799006| | York| I-CITY| 1| 74| 77|0.82799006| | and| O| 1| 79| 81| null| |Hellen| B-NAME| 1| 83| 88|0.40429682| | lives| O| 1| 90| 94| null| | in| O| 1| 96| 97| null| | Paris| B-CITY| 1| 99|103|0.49216735| | .| O| 1| 104|104| null| | John| B-NAME| 0| 0| 3|0.14063153| | is| O| 0| 5| 6| null| | a| O| 0| 8| 8| null| | man| O| 0| 10| 12| null| | who| O| 0| 14| 16| null| | works| O| 0| 18| 22| null| | in| O| 0| 24| 25| null| |London| B-CITY| 0| 27| 32|0.15521188| | ,| O| 0| 33| 33| null| |London| B-CITY| 0| 35| 40|0.12151082| | and| O| 0| 42| 44| null| |London| B-CITY| 0| 46| 51| 0.2650951| | .| O| 0| 52| 52| null| +------+---------+--------+-----+---+----------+ Model Information Model Name: zero_shot_ner_roberta Compatibility: Spark NLP 4.3.0+ License: Open Source Edition: Official Input Labels: [document_question, document_context] Output Labels: [answer] Language: en Size: 463.8 MB Case sensitive: true Max sentence length: 512</summary></entry><entry><title type="html">ASR HubertForCTC - asr_hubert_large_ls960</title><link href="/2023/02/07/asr_hubert_large_ls960_en.html" rel="alternate" type="text/html" title="ASR HubertForCTC - asr_hubert_large_ls960" /><published>2023-02-07T00:00:00+00:00</published><updated>2023-02-07T00:00:00+00:00</updated><id>/2023/02/07/asr_hubert_large_ls960_en</id><content type="html" xml:base="/2023/02/07/asr_hubert_large_ls960_en.html">## Description
 
-&lt;p&gt;Hubert Model with a language modeling head on top for Connectionist Temporal Classification (CTC). 
-Hubert was proposed in HuBERT: Self-Supervised Speech Representation Learning by Masked Prediction of Hidden Units by Wei-Ning Hsu, Benjamin Bolte, Yao-Hung Hubert Tsai, Kushal Lakhotia, Ruslan Salakhutdinov, Abdelrahman Mohamed.&lt;/p&gt;
+Hubert Model with a language modeling head on top for Connectionist Temporal Classification (CTC). 
+Hubert was proposed in HuBERT: Self-Supervised Speech Representation Learning by Masked Prediction of Hidden Units by Wei-Ning Hsu, Benjamin Bolte, Yao-Hung Hubert Tsai, Kushal Lakhotia, Ruslan Salakhutdinov, Abdelrahman Mohamed.
 
-&lt;p&gt;The large model fine-tuned on 960h of Librispeech on 16kHz sampled speech audio. When using the model make sure that your speech input is also sampled at 16Khz.&lt;/p&gt;
+The large model fine-tuned on 960h of Librispeech on 16kHz sampled speech audio. When using the model make sure that your speech input is also sampled at 16Khz.
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_hubert_large_ls960_en_4.3.0_3.0_1675767067233.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/asr_hubert_large_ls960_en_4.3.0_3.0_1675767067233.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_hubert_large_ls960_en_4.3.0_3.0_1675767067233.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/asr_hubert_large_ls960_en_4.3.0_3.0_1675767067233.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;                
-&lt;span class=&quot;n&quot;&gt;audio_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AudioAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_content&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;speech_to_text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HubertForCTC&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;asr_hubert_large_ls960&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;audio_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;speech_to_text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+                
+audio_assembler = AudioAssembler()\
+  .setInputCol(&quot;audio_content&quot;)\
+  .setOutputCol(&quot;audio_assembler&quot;)
 
-&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+speech_to_text = HubertForCTC.pretrained(&quot;asr_hubert_large_ls960&quot;, &quot;en&quot;)\
+  .setInputCols(&quot;audio_assembler&quot;)\
+  .setOutputCol(&quot;text&quot;)
 
-&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;audioAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;AudioAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_content&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+pipeline = Pipeline(stages=[
+  audio_assembler,
+  speech_to_text,
+])
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;speechToText&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;HubertForCTC&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;asr_hubert_large_ls960&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+pipelineModel = pipeline.fit(audioDf)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;speechToText&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+pipelineDF = pipelineModel.transform(audioDf)
+```
+```scala
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val audioAssembler = new AudioAssembler()
+    .setInputCol(&quot;audio_content&quot;) 
+    .setOutputCol(&quot;audio_assembler&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+val speechToText = HubertForCTC
+    .pretrained(&quot;asr_hubert_large_ls960&quot;, &quot;en&quot;)
+    .setInputCols(&quot;audio_assembler&quot;) 
+    .setOutputCol(&quot;text&quot;) 
+
+val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText))
+
+val pipelineModel = pipeline.fit(audioDf)
+
+val pipelineDF = pipelineModel.transform(audioDf)
+```
 &lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;asr_hubert_large_ls960&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.3.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[audio_assembler]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[text]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;1.5 GB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|asr_hubert_large_ls960|
+|Compatibility:|Spark NLP 4.3.0+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[audio_assembler]|
+|Output Labels:|[text]|
+|Language:|en|
+|Size:|1.5 GB|
 
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+## References
 
-&lt;p&gt;&lt;a href=&quot;https://huggingface.co/facebook/hubert-large-ls960-ft&quot;&gt;https://huggingface.co/facebook/hubert-large-ls960-ft&lt;/a&gt;&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="hubert" /><category term="audio" /><category term="en" /><category term="english" /><category term="asr" /><category term="speech" /><category term="librispeech_asr" /><category term="tensorflow" /><summary type="html">Description Hubert Model with a language modeling head on top for Connectionist Temporal Classification (CTC). Hubert was proposed in HuBERT: Self-Supervised Speech Representation Learning by Masked Prediction of Hidden Units by Wei-Ning Hsu, Benjamin Bolte, Yao-Hung Hubert Tsai, Kushal Lakhotia, Ruslan Salakhutdinov, Abdelrahman Mohamed. The large model fine-tuned on 960h of Librispeech on 16kHz sampled speech audio. When using the model make sure that your speech input is also sampled at 16Khz. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU audio_assembler = AudioAssembler()\ .setInputCol(&quot;audio_content&quot;)\ .setOutputCol(&quot;audio_assembler&quot;) speech_to_text = HubertForCTC.pretrained(&quot;asr_hubert_large_ls960&quot;, &quot;en&quot;)\ .setInputCols(&quot;audio_assembler&quot;)\ .setOutputCol(&quot;text&quot;) pipeline = Pipeline(stages=[ audio_assembler, speech_to_text, ]) pipelineModel = pipeline.fit(audioDf) pipelineDF = pipelineModel.transform(audioDf) val audioAssembler = new AudioAssembler() .setInputCol(&quot;audio_content&quot;) .setOutputCol(&quot;audio_assembler&quot;) val speechToText = HubertForCTC .pretrained(&quot;asr_hubert_large_ls960&quot;, &quot;en&quot;) .setInputCols(&quot;audio_assembler&quot;) .setOutputCol(&quot;text&quot;) val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText)) val pipelineModel = pipeline.fit(audioDf) val pipelineDF = pipelineModel.transform(audioDf) Model Information Model Name: asr_hubert_large_ls960 Compatibility: Spark NLP 4.3.0+ License: Open Source Edition: Official Input Labels: [audio_assembler] Output Labels: [text] Language: en Size: 1.5 GB References https://huggingface.co/facebook/hubert-large-ls960-ft</summary></entry><entry><title type="html">SwinForImageClassification - image_classifier_swin_base_patch4_window12_384_in22k</title><link href="/2023/02/07/image_classifier_swin_base_patch4_window12_384_in22k_en.html" rel="alternate" type="text/html" title="SwinForImageClassification - image_classifier_swin_base_patch4_window12_384_in22k" /><published>2023-02-07T00:00:00+00:00</published><updated>2023-02-07T00:00:00+00:00</updated><id>/2023/02/07/image_classifier_swin_base_patch4_window12_384_in22k_en</id><content type="html" xml:base="/2023/02/07/image_classifier_swin_base_patch4_window12_384_in22k_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+[https://huggingface.co/facebook/hubert-large-ls960-ft](https://huggingface.co/facebook/hubert-large-ls960-ft)</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="hubert" /><category term="audio" /><category term="en" /><category term="english" /><category term="asr" /><category term="speech" /><category term="librispeech_asr" /><category term="tensorflow" /><summary type="html">Description Hubert Model with a language modeling head on top for Connectionist Temporal Classification (CTC). Hubert was proposed in HuBERT: Self-Supervised Speech Representation Learning by Masked Prediction of Hidden Units by Wei-Ning Hsu, Benjamin Bolte, Yao-Hung Hubert Tsai, Kushal Lakhotia, Ruslan Salakhutdinov, Abdelrahman Mohamed. The large model fine-tuned on 960h of Librispeech on 16kHz sampled speech audio. When using the model make sure that your speech input is also sampled at 16Khz. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU audio_assembler = AudioAssembler()\ .setInputCol(&quot;audio_content&quot;)\ .setOutputCol(&quot;audio_assembler&quot;) speech_to_text = HubertForCTC.pretrained(&quot;asr_hubert_large_ls960&quot;, &quot;en&quot;)\ .setInputCols(&quot;audio_assembler&quot;)\ .setOutputCol(&quot;text&quot;) pipeline = Pipeline(stages=[ audio_assembler, speech_to_text, ]) pipelineModel = pipeline.fit(audioDf) pipelineDF = pipelineModel.transform(audioDf) val audioAssembler = new AudioAssembler() .setInputCol(&quot;audio_content&quot;) .setOutputCol(&quot;audio_assembler&quot;) val speechToText = HubertForCTC .pretrained(&quot;asr_hubert_large_ls960&quot;, &quot;en&quot;) .setInputCols(&quot;audio_assembler&quot;) .setOutputCol(&quot;text&quot;) val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText)) val pipelineModel = pipeline.fit(audioDf) val pipelineDF = pipelineModel.transform(audioDf) Model Information Model Name: asr_hubert_large_ls960 Compatibility: Spark NLP 4.3.0+ License: Open Source Edition: Official Input Labels: [audio_assembler] Output Labels: [text] Language: en Size: 1.5 GB References https://huggingface.co/facebook/hubert-large-ls960-ft</summary></entry><entry><title type="html">SwinForImageClassification - image_classifier_swin_base_patch4_window12_384_in22k</title><link href="/2023/02/07/image_classifier_swin_base_patch4_window12_384_in22k_en.html" rel="alternate" type="text/html" title="SwinForImageClassification - image_classifier_swin_base_patch4_window12_384_in22k" /><published>2023-02-07T00:00:00+00:00</published><updated>2023-02-07T00:00:00+00:00</updated><id>/2023/02/07/image_classifier_swin_base_patch4_window12_384_in22k_en</id><content type="html" xml:base="/2023/02/07/image_classifier_swin_base_patch4_window12_384_in22k_en.html">## Description
 
-&lt;p&gt;Pretrained Swin model for Image Classification, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;/p&gt;
+Pretrained Swin model for Image Classification, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.
 
-&lt;p&gt;Swin Transformer was introduced in the paper &lt;a href=&quot;https://arxiv.org/abs/2103.14030&quot;&gt;Swin Transformer: Hierarchical Vision Transformer using Shifted Windows&lt;/a&gt; by Liu et al.&lt;/p&gt;
+Swin Transformer was introduced in the paper [Swin Transformer: Hierarchical Vision Transformer using Shifted Windows](https://arxiv.org/abs/2103.14030) by Liu et al.
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/image_classifier_swin_base_patch4_window12_384_in22k_en_4.3.0_3.0_1675783085913.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/image_classifier_swin_base_patch4_window12_384_in22k_en_4.3.0_3.0_1675783085913.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/image_classifier_swin_base_patch4_window12_384_in22k_en_4.3.0_3.0_1675783085913.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/image_classifier_swin_base_patch4_window12_384_in22k_en_4.3.0_3.0_1675783085913.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;                
-&lt;span class=&quot;n&quot;&gt;image_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ImageAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;imageClassifier&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SwinForImageClassification&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_classifier_swin_base_patch4_window12_384_in22k&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;class&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;image_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;imageClassifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+                
+image_assembler = ImageAssembler()\
+  .setInputCol(&quot;image&quot;)
+  .setOutputCol(&quot;image_assembler&quot;)
 
-&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imageDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+imageClassifier = SwinForImageClassification.pretrained(&quot;image_classifier_swin_base_patch4_window12_384_in22k&quot;, &quot;en&quot;)\
+  .setInputCols(&quot;image_assembler&quot;)\
+  .setOutputCol(&quot;class&quot;)
 
-&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imageDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;imageAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ImageAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+pipeline = Pipeline(stages=[
+  image_assembler,
+  imageClassifier,
+])
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;imageClassifier&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SwinForImageClassification&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_classifier_swin_base_patch4_window12_384_in22k&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;class&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+pipelineModel = pipeline.fit(imageDF)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imageAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;imageClassifier&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+pipelineDF = pipelineModel.transform(imageDF)
+```
+```scala
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imageDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val imageAssembler = new ImageAssembler()
+    .setInputCol(&quot;image&quot;)
+    .setOutputCol(&quot;image_assembler&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imageDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+val imageClassifier = SwinForImageClassification
+    .pretrained(&quot;image_classifier_swin_base_patch4_window12_384_in22k&quot;, &quot;en&quot;)
+    .setInputCols(&quot;image_assembler&quot;) 
+    .setOutputCol(&quot;class&quot;) 
+
+val pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier))
+
+val pipelineModel = pipeline.fit(imageDF)
+
+val pipelineDF = pipelineModel.transform(imageDF)
+```
 &lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;image_classifier_swin_base_patch4_window12_384_in22k&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.3.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[image_assembler]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[class]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;826.8 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|image_classifier_swin_base_patch4_window12_384_in22k|
+|Compatibility:|Spark NLP 4.3.0+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[image_assembler]|
+|Output Labels:|[class]|
+|Language:|en|
+|Size:|826.8 MB|
 
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+## References
 
-&lt;p&gt;&lt;a href=&quot;https://huggingface.co/microsoft/swin_base_patch4_window12_384_in22k&quot;&gt;https://huggingface.co/microsoft/swin_base_patch4_window12_384_in22k&lt;/a&gt;&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="swin" /><category term="image" /><category term="en" /><category term="english" /><category term="image_classification" /><category term="imagenet" /><category term="tensorflow" /><summary type="html">Description Pretrained Swin model for Image Classification, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. Swin Transformer was introduced in the paper Swin Transformer: Hierarchical Vision Transformer using Shifted Windows by Liu et al. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU image_assembler = ImageAssembler()\ .setInputCol(&quot;image&quot;) .setOutputCol(&quot;image_assembler&quot;) imageClassifier = SwinForImageClassification.pretrained(&quot;image_classifier_swin_base_patch4_window12_384_in22k&quot;, &quot;en&quot;)\ .setInputCols(&quot;image_assembler&quot;)\ .setOutputCol(&quot;class&quot;) pipeline = Pipeline(stages=[ image_assembler, imageClassifier, ]) pipelineModel = pipeline.fit(imageDF) pipelineDF = pipelineModel.transform(imageDF) val imageAssembler = new ImageAssembler() .setInputCol(&quot;image&quot;) .setOutputCol(&quot;image_assembler&quot;) val imageClassifier = SwinForImageClassification .pretrained(&quot;image_classifier_swin_base_patch4_window12_384_in22k&quot;, &quot;en&quot;) .setInputCols(&quot;image_assembler&quot;) .setOutputCol(&quot;class&quot;) val pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier)) val pipelineModel = pipeline.fit(imageDF) val pipelineDF = pipelineModel.transform(imageDF) Model Information Model Name: image_classifier_swin_base_patch4_window12_384_in22k Compatibility: Spark NLP 4.3.0+ License: Open Source Edition: Official Input Labels: [image_assembler] Output Labels: [class] Language: en Size: 826.8 MB References https://huggingface.co/microsoft/swin_base_patch4_window12_384_in22k</summary></entry><entry><title type="html">SwinForImageClassification - image_classifier_swin_base_patch4_window7_224</title><link href="/2023/02/07/image_classifier_swin_base_patch4_window7_224_en.html" rel="alternate" type="text/html" title="SwinForImageClassification - image_classifier_swin_base_patch4_window7_224" /><published>2023-02-07T00:00:00+00:00</published><updated>2023-02-07T00:00:00+00:00</updated><id>/2023/02/07/image_classifier_swin_base_patch4_window7_224_en</id><content type="html" xml:base="/2023/02/07/image_classifier_swin_base_patch4_window7_224_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+[https://huggingface.co/microsoft/swin_base_patch4_window12_384_in22k](https://huggingface.co/microsoft/swin_base_patch4_window12_384_in22k)</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="swin" /><category term="image" /><category term="en" /><category term="english" /><category term="image_classification" /><category term="imagenet" /><category term="tensorflow" /><summary type="html">Description Pretrained Swin model for Image Classification, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. Swin Transformer was introduced in the paper Swin Transformer: Hierarchical Vision Transformer using Shifted Windows by Liu et al. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU image_assembler = ImageAssembler()\ .setInputCol(&quot;image&quot;) .setOutputCol(&quot;image_assembler&quot;) imageClassifier = SwinForImageClassification.pretrained(&quot;image_classifier_swin_base_patch4_window12_384_in22k&quot;, &quot;en&quot;)\ .setInputCols(&quot;image_assembler&quot;)\ .setOutputCol(&quot;class&quot;) pipeline = Pipeline(stages=[ image_assembler, imageClassifier, ]) pipelineModel = pipeline.fit(imageDF) pipelineDF = pipelineModel.transform(imageDF) val imageAssembler = new ImageAssembler() .setInputCol(&quot;image&quot;) .setOutputCol(&quot;image_assembler&quot;) val imageClassifier = SwinForImageClassification .pretrained(&quot;image_classifier_swin_base_patch4_window12_384_in22k&quot;, &quot;en&quot;) .setInputCols(&quot;image_assembler&quot;) .setOutputCol(&quot;class&quot;) val pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier)) val pipelineModel = pipeline.fit(imageDF) val pipelineDF = pipelineModel.transform(imageDF) Model Information Model Name: image_classifier_swin_base_patch4_window12_384_in22k Compatibility: Spark NLP 4.3.0+ License: Open Source Edition: Official Input Labels: [image_assembler] Output Labels: [class] Language: en Size: 826.8 MB References https://huggingface.co/microsoft/swin_base_patch4_window12_384_in22k</summary></entry><entry><title type="html">SwinForImageClassification - image_classifier_swin_base_patch4_window7_224</title><link href="/2023/02/07/image_classifier_swin_base_patch4_window7_224_en.html" rel="alternate" type="text/html" title="SwinForImageClassification - image_classifier_swin_base_patch4_window7_224" /><published>2023-02-07T00:00:00+00:00</published><updated>2023-02-07T00:00:00+00:00</updated><id>/2023/02/07/image_classifier_swin_base_patch4_window7_224_en</id><content type="html" xml:base="/2023/02/07/image_classifier_swin_base_patch4_window7_224_en.html">## Description
 
-&lt;p&gt;Pretrained Swin model for Image Classification, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;/p&gt;
+Pretrained Swin model for Image Classification, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.
 
-&lt;p&gt;Swin Transformer was introduced in the paper &lt;a href=&quot;https://arxiv.org/abs/2103.14030&quot;&gt;Swin Transformer: Hierarchical Vision Transformer using Shifted Windows&lt;/a&gt; by Liu et al.&lt;/p&gt;
+Swin Transformer was introduced in the paper [Swin Transformer: Hierarchical Vision Transformer using Shifted Windows](https://arxiv.org/abs/2103.14030) by Liu et al.
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/image_classifier_swin_base_patch4_window7_224_en_4.3.0_3.0_1675783112124.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/image_classifier_swin_base_patch4_window7_224_en_4.3.0_3.0_1675783112124.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/image_classifier_swin_base_patch4_window7_224_en_4.3.0_3.0_1675783112124.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/image_classifier_swin_base_patch4_window7_224_en_4.3.0_3.0_1675783112124.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;                
-&lt;span class=&quot;n&quot;&gt;image_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ImageAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;imageClassifier&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SwinForImageClassification&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_classifier_swin_base_patch4_window7_224&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;class&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;image_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;imageClassifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+                
+image_assembler = ImageAssembler()\
+  .setInputCol(&quot;image&quot;)\
+  .setOutputCol(&quot;image_assembler&quot;)
 
-&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imageDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+imageClassifier = SwinForImageClassification.pretrained(&quot;image_classifier_swin_base_patch4_window7_224&quot;, &quot;en&quot;)\
+  .setInputCols(&quot;image_assembler&quot;)\
+  .setOutputCol(&quot;class&quot;)
 
-&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imageDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;imageAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ImageAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+pipeline = Pipeline(stages=[
+  image_assembler,
+  imageClassifier,
+])
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;imageClassifier&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SwinForImageClassification&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_classifier_swin_base_patch4_window7_224&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;class&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+pipelineModel = pipeline.fit(imageDF)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imageAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;imageClassifier&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+pipelineDF = pipelineModel.transform(imageDF)
+```
+```scala
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imageDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val imageAssembler = new ImageAssembler()
+    .setInputCol(&quot;image&quot;)
+    .setOutputCol(&quot;image_assembler&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imageDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+val imageClassifier = SwinForImageClassification
+    .pretrained(&quot;image_classifier_swin_base_patch4_window7_224&quot;, &quot;en&quot;)
+    .setInputCols(&quot;image_assembler&quot;) 
+    .setOutputCol(&quot;class&quot;) 
+
+val pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier))
+
+val pipelineModel = pipeline.fit(imageDF)
+
+val pipelineDF = pipelineModel.transform(imageDF)
+```
 &lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;image_classifier_swin_base_patch4_window7_224&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.3.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[image_assembler]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[class]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;665.2 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|image_classifier_swin_base_patch4_window7_224|
+|Compatibility:|Spark NLP 4.3.0+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[image_assembler]|
+|Output Labels:|[class]|
+|Language:|en|
+|Size:|665.2 MB|
 
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+## References
 
-&lt;p&gt;&lt;a href=&quot;https://huggingface.co/microsoft/swin_base_patch4_window7_224&quot;&gt;https://huggingface.co/microsoft/swin_base_patch4_window7_224&lt;/a&gt;&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="swin" /><category term="image" /><category term="en" /><category term="english" /><category term="image_classification" /><category term="imagenet" /><category term="tensorflow" /><summary type="html">Description Pretrained Swin model for Image Classification, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. Swin Transformer was introduced in the paper Swin Transformer: Hierarchical Vision Transformer using Shifted Windows by Liu et al. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU image_assembler = ImageAssembler()\ .setInputCol(&quot;image&quot;)\ .setOutputCol(&quot;image_assembler&quot;) imageClassifier = SwinForImageClassification.pretrained(&quot;image_classifier_swin_base_patch4_window7_224&quot;, &quot;en&quot;)\ .setInputCols(&quot;image_assembler&quot;)\ .setOutputCol(&quot;class&quot;) pipeline = Pipeline(stages=[ image_assembler, imageClassifier, ]) pipelineModel = pipeline.fit(imageDF) pipelineDF = pipelineModel.transform(imageDF) val imageAssembler = new ImageAssembler() .setInputCol(&quot;image&quot;) .setOutputCol(&quot;image_assembler&quot;) val imageClassifier = SwinForImageClassification .pretrained(&quot;image_classifier_swin_base_patch4_window7_224&quot;, &quot;en&quot;) .setInputCols(&quot;image_assembler&quot;) .setOutputCol(&quot;class&quot;) val pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier)) val pipelineModel = pipeline.fit(imageDF) val pipelineDF = pipelineModel.transform(imageDF) Model Information Model Name: image_classifier_swin_base_patch4_window7_224 Compatibility: Spark NLP 4.3.0+ License: Open Source Edition: Official Input Labels: [image_assembler] Output Labels: [class] Language: en Size: 665.2 MB References https://huggingface.co/microsoft/swin_base_patch4_window7_224</summary></entry><entry><title type="html">SwinForImageClassification - image_classifier_swin_base_patch4_window7_224_in22k</title><link href="/2023/02/07/image_classifier_swin_base_patch4_window7_224_in22k_en.html" rel="alternate" type="text/html" title="SwinForImageClassification - image_classifier_swin_base_patch4_window7_224_in22k" /><published>2023-02-07T00:00:00+00:00</published><updated>2023-02-07T00:00:00+00:00</updated><id>/2023/02/07/image_classifier_swin_base_patch4_window7_224_in22k_en</id><content type="html" xml:base="/2023/02/07/image_classifier_swin_base_patch4_window7_224_in22k_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+[https://huggingface.co/microsoft/swin_base_patch4_window7_224](https://huggingface.co/microsoft/swin_base_patch4_window7_224)</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="swin" /><category term="image" /><category term="en" /><category term="english" /><category term="image_classification" /><category term="imagenet" /><category term="tensorflow" /><summary type="html">Description Pretrained Swin model for Image Classification, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. Swin Transformer was introduced in the paper Swin Transformer: Hierarchical Vision Transformer using Shifted Windows by Liu et al. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU image_assembler = ImageAssembler()\ .setInputCol(&quot;image&quot;)\ .setOutputCol(&quot;image_assembler&quot;) imageClassifier = SwinForImageClassification.pretrained(&quot;image_classifier_swin_base_patch4_window7_224&quot;, &quot;en&quot;)\ .setInputCols(&quot;image_assembler&quot;)\ .setOutputCol(&quot;class&quot;) pipeline = Pipeline(stages=[ image_assembler, imageClassifier, ]) pipelineModel = pipeline.fit(imageDF) pipelineDF = pipelineModel.transform(imageDF) val imageAssembler = new ImageAssembler() .setInputCol(&quot;image&quot;) .setOutputCol(&quot;image_assembler&quot;) val imageClassifier = SwinForImageClassification .pretrained(&quot;image_classifier_swin_base_patch4_window7_224&quot;, &quot;en&quot;) .setInputCols(&quot;image_assembler&quot;) .setOutputCol(&quot;class&quot;) val pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier)) val pipelineModel = pipeline.fit(imageDF) val pipelineDF = pipelineModel.transform(imageDF) Model Information Model Name: image_classifier_swin_base_patch4_window7_224 Compatibility: Spark NLP 4.3.0+ License: Open Source Edition: Official Input Labels: [image_assembler] Output Labels: [class] Language: en Size: 665.2 MB References https://huggingface.co/microsoft/swin_base_patch4_window7_224</summary></entry><entry><title type="html">SwinForImageClassification - image_classifier_swin_base_patch4_window7_224_in22k</title><link href="/2023/02/07/image_classifier_swin_base_patch4_window7_224_in22k_en.html" rel="alternate" type="text/html" title="SwinForImageClassification - image_classifier_swin_base_patch4_window7_224_in22k" /><published>2023-02-07T00:00:00+00:00</published><updated>2023-02-07T00:00:00+00:00</updated><id>/2023/02/07/image_classifier_swin_base_patch4_window7_224_in22k_en</id><content type="html" xml:base="/2023/02/07/image_classifier_swin_base_patch4_window7_224_in22k_en.html">## Description
 
-&lt;p&gt;Pretrained Swin model for Image Classification, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;/p&gt;
+Pretrained Swin model for Image Classification, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.
 
-&lt;p&gt;Swin Transformer was introduced in the paper &lt;a href=&quot;https://arxiv.org/abs/2103.14030&quot;&gt;Swin Transformer: Hierarchical Vision Transformer using Shifted Windows&lt;/a&gt; by Liu et al.&lt;/p&gt;
+Swin Transformer was introduced in the paper [Swin Transformer: Hierarchical Vision Transformer using Shifted Windows](https://arxiv.org/abs/2103.14030) by Liu et al.
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/image_classifier_swin_base_patch4_window7_224_in22k_en_4.3.0_3.0_1675783139673.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/image_classifier_swin_base_patch4_window7_224_in22k_en_4.3.0_3.0_1675783139673.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/image_classifier_swin_base_patch4_window7_224_in22k_en_4.3.0_3.0_1675783139673.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/image_classifier_swin_base_patch4_window7_224_in22k_en_4.3.0_3.0_1675783139673.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;                
-&lt;span class=&quot;n&quot;&gt;image_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ImageAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;imageClassifier&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SwinForImageClassification&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_classifier_swin_base_patch4_window7_224_in22k&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;class&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;image_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;imageClassifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+                
+image_assembler = ImageAssembler()\
+  .setInputCol(&quot;image&quot;)\
+  .setOutputCol(&quot;image_assembler&quot;)
 
-&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imageDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+imageClassifier = SwinForImageClassification.pretrained(&quot;image_classifier_swin_base_patch4_window7_224_in22k&quot;, &quot;en&quot;)\
+  .setInputCols(&quot;image_assembler&quot;)\
+  .setOutputCol(&quot;class&quot;)
 
-&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imageDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;imageAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ImageAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+pipeline = Pipeline(stages=[
+  image_assembler,
+  imageClassifier,
+])
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;imageClassifier&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SwinForImageClassification&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_classifier_swin_base_patch4_window7_224_in22k&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;class&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+pipelineModel = pipeline.fit(imageDF)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imageAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;imageClassifier&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+pipelineDF = pipelineModel.transform(imageDF)
+```
+```scala
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imageDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val imageAssembler = new ImageAssembler()
+    .setInputCol(&quot;image&quot;)
+    .setOutputCol(&quot;image_assembler&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imageDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+val imageClassifier = SwinForImageClassification
+    .pretrained(&quot;image_classifier_swin_base_patch4_window7_224_in22k&quot;, &quot;en&quot;)
+    .setInputCols(&quot;image_assembler&quot;) 
+    .setOutputCol(&quot;class&quot;) 
+
+val pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier))
+
+val pipelineModel = pipeline.fit(imageDF)
+
+val pipelineDF = pipelineModel.transform(imageDF)
+```
 &lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;image_classifier_swin_base_patch4_window7_224_in22k&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.3.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[image_assembler]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[class]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;825.5 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|image_classifier_swin_base_patch4_window7_224_in22k|
+|Compatibility:|Spark NLP 4.3.0+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[image_assembler]|
+|Output Labels:|[class]|
+|Language:|en|
+|Size:|825.5 MB|
 
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+## References
 
-&lt;p&gt;&lt;a href=&quot;https://huggingface.co/microsoft/swin_base_patch4_window7_224_in22k&quot;&gt;https://huggingface.co/microsoft/swin_base_patch4_window7_224_in22k&lt;/a&gt;&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="swin" /><category term="image" /><category term="en" /><category term="english" /><category term="image_classification" /><category term="imagenet" /><category term="tensorflow" /><summary type="html">Description Pretrained Swin model for Image Classification, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. Swin Transformer was introduced in the paper Swin Transformer: Hierarchical Vision Transformer using Shifted Windows by Liu et al. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU image_assembler = ImageAssembler()\ .setInputCol(&quot;image&quot;)\ .setOutputCol(&quot;image_assembler&quot;) imageClassifier = SwinForImageClassification.pretrained(&quot;image_classifier_swin_base_patch4_window7_224_in22k&quot;, &quot;en&quot;)\ .setInputCols(&quot;image_assembler&quot;)\ .setOutputCol(&quot;class&quot;) pipeline = Pipeline(stages=[ image_assembler, imageClassifier, ]) pipelineModel = pipeline.fit(imageDF) pipelineDF = pipelineModel.transform(imageDF) val imageAssembler = new ImageAssembler() .setInputCol(&quot;image&quot;) .setOutputCol(&quot;image_assembler&quot;) val imageClassifier = SwinForImageClassification .pretrained(&quot;image_classifier_swin_base_patch4_window7_224_in22k&quot;, &quot;en&quot;) .setInputCols(&quot;image_assembler&quot;) .setOutputCol(&quot;class&quot;) val pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier)) val pipelineModel = pipeline.fit(imageDF) val pipelineDF = pipelineModel.transform(imageDF) Model Information Model Name: image_classifier_swin_base_patch4_window7_224_in22k Compatibility: Spark NLP 4.3.0+ License: Open Source Edition: Official Input Labels: [image_assembler] Output Labels: [class] Language: en Size: 825.5 MB References https://huggingface.co/microsoft/swin_base_patch4_window7_224_in22k</summary></entry><entry><title type="html">SwinForImageClassification - image_classifier_swin_tiny_patch4_window7_224</title><link href="/2023/02/07/image_classifier_swin_tiny_patch4_window7_224_en.html" rel="alternate" type="text/html" title="SwinForImageClassification - image_classifier_swin_tiny_patch4_window7_224" /><published>2023-02-07T00:00:00+00:00</published><updated>2023-02-07T00:00:00+00:00</updated><id>/2023/02/07/image_classifier_swin_tiny_patch4_window7_224_en</id><content type="html" xml:base="/2023/02/07/image_classifier_swin_tiny_patch4_window7_224_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+[https://huggingface.co/microsoft/swin_base_patch4_window7_224_in22k](https://huggingface.co/microsoft/swin_base_patch4_window7_224_in22k)</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="swin" /><category term="image" /><category term="en" /><category term="english" /><category term="image_classification" /><category term="imagenet" /><category term="tensorflow" /><summary type="html">Description Pretrained Swin model for Image Classification, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. Swin Transformer was introduced in the paper Swin Transformer: Hierarchical Vision Transformer using Shifted Windows by Liu et al. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU image_assembler = ImageAssembler()\ .setInputCol(&quot;image&quot;)\ .setOutputCol(&quot;image_assembler&quot;) imageClassifier = SwinForImageClassification.pretrained(&quot;image_classifier_swin_base_patch4_window7_224_in22k&quot;, &quot;en&quot;)\ .setInputCols(&quot;image_assembler&quot;)\ .setOutputCol(&quot;class&quot;) pipeline = Pipeline(stages=[ image_assembler, imageClassifier, ]) pipelineModel = pipeline.fit(imageDF) pipelineDF = pipelineModel.transform(imageDF) val imageAssembler = new ImageAssembler() .setInputCol(&quot;image&quot;) .setOutputCol(&quot;image_assembler&quot;) val imageClassifier = SwinForImageClassification .pretrained(&quot;image_classifier_swin_base_patch4_window7_224_in22k&quot;, &quot;en&quot;) .setInputCols(&quot;image_assembler&quot;) .setOutputCol(&quot;class&quot;) val pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier)) val pipelineModel = pipeline.fit(imageDF) val pipelineDF = pipelineModel.transform(imageDF) Model Information Model Name: image_classifier_swin_base_patch4_window7_224_in22k Compatibility: Spark NLP 4.3.0+ License: Open Source Edition: Official Input Labels: [image_assembler] Output Labels: [class] Language: en Size: 825.5 MB References https://huggingface.co/microsoft/swin_base_patch4_window7_224_in22k</summary></entry><entry><title type="html">SwinForImageClassification - image_classifier_swin_tiny_patch4_window7_224</title><link href="/2023/02/07/image_classifier_swin_tiny_patch4_window7_224_en.html" rel="alternate" type="text/html" title="SwinForImageClassification - image_classifier_swin_tiny_patch4_window7_224" /><published>2023-02-07T00:00:00+00:00</published><updated>2023-02-07T00:00:00+00:00</updated><id>/2023/02/07/image_classifier_swin_tiny_patch4_window7_224_en</id><content type="html" xml:base="/2023/02/07/image_classifier_swin_tiny_patch4_window7_224_en.html">## Description
 
-&lt;p&gt;Pretrained Swin model for Image Classification, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;/p&gt;
+Pretrained Swin model for Image Classification, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.
 
-&lt;p&gt;Swin Transformer was introduced in the paper &lt;a href=&quot;https://arxiv.org/abs/2103.14030&quot;&gt;Swin Transformer: Hierarchical Vision Transformer using Shifted Windows&lt;/a&gt; by Liu et al.&lt;/p&gt;
+Swin Transformer was introduced in the paper [Swin Transformer: Hierarchical Vision Transformer using Shifted Windows](https://arxiv.org/abs/2103.14030) by Liu et al.
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/image_classifier_swin_tiny_patch4_window7_224_en_4.3.0_3.0_1675783170631.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/image_classifier_swin_tiny_patch4_window7_224_en_4.3.0_3.0_1675783170631.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/image_classifier_swin_tiny_patch4_window7_224_en_4.3.0_3.0_1675783170631.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/image_classifier_swin_tiny_patch4_window7_224_en_4.3.0_3.0_1675783170631.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;                
-&lt;span class=&quot;n&quot;&gt;image_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ImageAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;imageClassifier&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SwinForImageClassification&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_classifier_swin_tiny_patch4_window7_224&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;class&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;image_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;imageClassifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+                
+image_assembler = ImageAssembler()\
+  .setInputCol(&quot;image&quot;)\
+  .setOutputCol(&quot;image_assembler&quot;)
 
-&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imageDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+imageClassifier = SwinForImageClassification.pretrained(&quot;image_classifier_swin_tiny_patch4_window7_224&quot;, &quot;en&quot;)\
+  .setInputCols(&quot;image_assembler&quot;)\
+  .setOutputCol(&quot;class&quot;)
 
-&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imageDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;imageAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ImageAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+pipeline = Pipeline(stages=[
+  image_assembler,
+  imageClassifier,
+])
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;imageClassifier&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SwinForImageClassification&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_classifier_swin_tiny_patch4_window7_224&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;class&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+pipelineModel = pipeline.fit(imageDF)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imageAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;imageClassifier&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+pipelineDF = pipelineModel.transform(imageDF)
+```
+```scala
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imageDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val imageAssembler = new ImageAssembler()
+    .setInputCol(&quot;image&quot;)
+    .setOutputCol(&quot;image_assembler&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imageDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+val imageClassifier = SwinForImageClassification
+    .pretrained(&quot;image_classifier_swin_tiny_patch4_window7_224&quot;, &quot;en&quot;)
+    .setInputCols(&quot;image_assembler&quot;) 
+    .setOutputCol(&quot;class&quot;) 
+
+val pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier))
+
+val pipelineModel = pipeline.fit(imageDF)
+
+val pipelineDF = pipelineModel.transform(imageDF)
+```
 &lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;image_classifier_swin_tiny_patch4_window7_224&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.3.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[image_assembler]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[class]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;216.2 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|image_classifier_swin_tiny_patch4_window7_224|
+|Compatibility:|Spark NLP 4.3.0+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[image_assembler]|
+|Output Labels:|[class]|
+|Language:|en|
+|Size:|216.2 MB|
 
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+## References
 
-&lt;p&gt;&lt;a href=&quot;https://huggingface.co/microsoft/swin_tiny_patch4_window7_224&quot;&gt;https://huggingface.co/microsoft/swin_tiny_patch4_window7_224&lt;/a&gt;&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="swin" /><category term="image" /><category term="en" /><category term="english" /><category term="image_classification" /><category term="imagenet" /><category term="tensorflow" /><summary type="html">Description Pretrained Swin model for Image Classification, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. Swin Transformer was introduced in the paper Swin Transformer: Hierarchical Vision Transformer using Shifted Windows by Liu et al. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU image_assembler = ImageAssembler()\ .setInputCol(&quot;image&quot;)\ .setOutputCol(&quot;image_assembler&quot;) imageClassifier = SwinForImageClassification.pretrained(&quot;image_classifier_swin_tiny_patch4_window7_224&quot;, &quot;en&quot;)\ .setInputCols(&quot;image_assembler&quot;)\ .setOutputCol(&quot;class&quot;) pipeline = Pipeline(stages=[ image_assembler, imageClassifier, ]) pipelineModel = pipeline.fit(imageDF) pipelineDF = pipelineModel.transform(imageDF) val imageAssembler = new ImageAssembler() .setInputCol(&quot;image&quot;) .setOutputCol(&quot;image_assembler&quot;) val imageClassifier = SwinForImageClassification .pretrained(&quot;image_classifier_swin_tiny_patch4_window7_224&quot;, &quot;en&quot;) .setInputCols(&quot;image_assembler&quot;) .setOutputCol(&quot;class&quot;) val pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier)) val pipelineModel = pipeline.fit(imageDF) val pipelineDF = pipelineModel.transform(imageDF) Model Information Model Name: image_classifier_swin_tiny_patch4_window7_224 Compatibility: Spark NLP 4.3.0+ License: Open Source Edition: Official Input Labels: [image_assembler] Output Labels: [class] Language: en Size: 216.2 MB References https://huggingface.co/microsoft/swin_tiny_patch4_window7_224</summary></entry><entry><title type="html">Chinese Financial NER (sm, bert_embeddings_mengzi_bert_base_fin)</title><link href="/2023/02/04/finner_finance_chinese_sm_zh.html" rel="alternate" type="text/html" title="Chinese Financial NER (sm, bert_embeddings_mengzi_bert_base_fin)" /><published>2023-02-04T00:00:00+00:00</published><updated>2023-02-04T00:00:00+00:00</updated><id>/2023/02/04/finner_finance_chinese_sm_zh</id><content type="html" xml:base="/2023/02/04/finner_finance_chinese_sm_zh.html">## Description
+[https://huggingface.co/microsoft/swin_tiny_patch4_window7_224](https://huggingface.co/microsoft/swin_tiny_patch4_window7_224)</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="swin" /><category term="image" /><category term="en" /><category term="english" /><category term="image_classification" /><category term="imagenet" /><category term="tensorflow" /><summary type="html">Description Pretrained Swin model for Image Classification, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. Swin Transformer was introduced in the paper Swin Transformer: Hierarchical Vision Transformer using Shifted Windows by Liu et al. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU image_assembler = ImageAssembler()\ .setInputCol(&quot;image&quot;)\ .setOutputCol(&quot;image_assembler&quot;) imageClassifier = SwinForImageClassification.pretrained(&quot;image_classifier_swin_tiny_patch4_window7_224&quot;, &quot;en&quot;)\ .setInputCols(&quot;image_assembler&quot;)\ .setOutputCol(&quot;class&quot;) pipeline = Pipeline(stages=[ image_assembler, imageClassifier, ]) pipelineModel = pipeline.fit(imageDF) pipelineDF = pipelineModel.transform(imageDF) val imageAssembler = new ImageAssembler() .setInputCol(&quot;image&quot;) .setOutputCol(&quot;image_assembler&quot;) val imageClassifier = SwinForImageClassification .pretrained(&quot;image_classifier_swin_tiny_patch4_window7_224&quot;, &quot;en&quot;) .setInputCols(&quot;image_assembler&quot;) .setOutputCol(&quot;class&quot;) val pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier)) val pipelineModel = pipeline.fit(imageDF) val pipelineDF = pipelineModel.transform(imageDF) Model Information Model Name: image_classifier_swin_tiny_patch4_window7_224 Compatibility: Spark NLP 4.3.0+ License: Open Source Edition: Official Input Labels: [image_assembler] Output Labels: [class] Language: en Size: 216.2 MB References https://huggingface.co/microsoft/swin_tiny_patch4_window7_224</summary></entry><entry><title type="html">Chinese Financial NER (sm, bert_embeddings_mengzi_bert_base_fin)</title><link href="/2023/02/04/finner_finance_chinese_sm_zh.html" rel="alternate" type="text/html" title="Chinese Financial NER (sm, bert_embeddings_mengzi_bert_base_fin)" /><published>2023-02-04T00:00:00+00:00</published><updated>2023-02-04T00:00:00+00:00</updated><id>/2023/02/04/finner_finance_chinese_sm_zh</id><content type="html" xml:base="/2023/02/04/finner_finance_chinese_sm_zh.html">## Description
 
 This is the small version of the NER model for Financial Chinese texts, trained in a subset of **ChFinAnn** (see &quot;Datasets used for training&quot;). 
 
