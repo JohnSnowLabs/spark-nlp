@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.cv.swin_for_image_classification &#8212; Spark NLP 4.2.8 documentation</title>
+    <title>sparknlp.annotator.cv.swin_for_image_classification &#8212; Spark NLP 4.3.0 documentation</title>
   
   
   
@@ -320,14 +320,14 @@
                                  <span class="n">HasEngine</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;SwinImageClassification is an image classifier based on Swin.</span>
 
-<span class="sd">     The Swin Transformer was proposed in Swin Transformer: Hierarchical Vision</span>
-<span class="sd">     Transformer using Shifted Windows by Ze Liu, Yutong Lin, Yue Cao, Han Hu, Yixuan</span>
-<span class="sd">     Wei, Zheng Zhang, Stephen Lin, Baining Guo.</span>
+<span class="sd">    The Swin Transformer was proposed in Swin Transformer: Hierarchical Vision</span>
+<span class="sd">    Transformer using Shifted Windows by Ze Liu, Yutong Lin, Yue Cao, Han Hu, Yixuan</span>
+<span class="sd">    Wei, Zheng Zhang, Stephen Lin, Baining Guo.</span>
 
-<span class="sd">     It is basically a hierarchical Transformer whose representation is computed with</span>
-<span class="sd">     shifted windows. The shifted windowing scheme brings greater efficiency by limiting</span>
-<span class="sd">     self-attention computation to non-overlapping local windows while also allowing for</span>
-<span class="sd">     cross-window connection.</span>
+<span class="sd">    It is basically a hierarchical Transformer whose representation is computed with</span>
+<span class="sd">    shifted windows. The shifted windowing scheme brings greater efficiency by limiting</span>
+<span class="sd">    self-attention computation to non-overlapping local windows while also allowing for</span>
+<span class="sd">    cross-window connection.</span>
 
 <span class="sd">    .. code-block:: python</span>
 
@@ -336,45 +336,44 @@
 <span class="sd">            .setOutputCol(&quot;class&quot;)</span>
 
 
-<span class="sd">    The default model is ``&quot;image_classifier_swin_base_patch_4_window_7_224&quot;``, if no name is</span>
+<span class="sd">    The default model is ``&quot;image_classifier_swin_base_patch4_window7_224&quot;``, if no name is</span>
 <span class="sd">    provided.</span>
 
 <span class="sd">    For available pretrained models please see the</span>
 <span class="sd">    `Models Hub &lt;https://nlp.johnsnowlabs.com/models?task=Image+Classification&gt;`__.</span>
 
 <span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with Spark</span>
-<span class="sd">    NLP 🚀. The Spark NLP Workshop example shows how to import them</span>
+<span class="sd">    NLP 🚀. To see which models are compatible and how to import them see</span>
 <span class="sd">    https://github.com/JohnSnowLabs/spark-nlp/discussions/5669 and to see more extended</span>
 <span class="sd">    examples, see</span>
-<span class="sd">    `SwinForImageClassificationTest &lt;https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/cv/SwinForImageClassificationTest.scala &gt;`__.</span>
-
-<span class="sd">    **Paper Abstract:**</span>
-
-<span class="sd">    *This paper presents a new vision Transformer, called Swin Transformer, that capably</span>
-<span class="sd">    *serves as a general-purpose backbone for computer vision. Challenges in adapting</span>
-<span class="sd">    *Transformer from language to vision arise from differences between the two domains,</span>
-<span class="sd">    *such as large variations in the scale of visual entities and the high resolution of</span>
-<span class="sd">    *pixels in images compared to words in text. To address these differences, we</span>
-<span class="sd">    *propose a hierarchical Transformer whose representation is computed with Shifted</span>
-<span class="sd">    *windows. The shifted windowing scheme brings greater efficiency by limiting</span>
-<span class="sd">    *self-attention computation to non-overlapping local windows while also allowing for</span>
-<span class="sd">    *cross-window connection. This hierarchical architecture has the flexibility to</span>
-<span class="sd">    *model at various scales and has linear computational complexity with respect to</span>
-<span class="sd">    *image size. These qualities of Swin Transformer make it compatible with a broad</span>
-<span class="sd">    *range of vision tasks, including image classification (87.3 top-1 accuracy on</span>
-<span class="sd">    *ImageNet-1K) and dense prediction tasks such as object detection (58.7 box AP and</span>
-<span class="sd">    *51.1 mask AP on COCO test- dev) and semantic segmentation (53.5 mIoU on ADE20K</span>
-<span class="sd">    *val). Its performance surpasses the previous state-of-the- art by a large margin of</span>
-<span class="sd">    *+2.7 box AP and +2.6 mask AP on COCO, and +3.2 mIoU on ADE20K, demonstrating the</span>
-<span class="sd">    *potential of Transformer-based models as vision backbones. The hierarchical design</span>
-<span class="sd">    *and the shifted window approach also prove beneficial for all-MLP architectures.*</span>
-
+<span class="sd">    `SwinForImageClassificationTest &lt;https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/cv/SwinForImageClassificationTest.scala&gt;`__.</span>
 
 <span class="sd">    ====================== ======================</span>
 <span class="sd">    Input Annotation types Output Annotation type</span>
 <span class="sd">    ====================== ======================</span>
 <span class="sd">    ``IMAGE``              ``CATEGORY``</span>
 <span class="sd">    ====================== ======================</span>
+
+<span class="sd">    **Paper Abstract:**</span>
+
+<span class="sd">    *This paper presents a new vision Transformer, called Swin Transformer, that capably</span>
+<span class="sd">    serves as a general-purpose backbone for computer vision. Challenges in adapting</span>
+<span class="sd">    Transformer from language to vision arise from differences between the two domains,</span>
+<span class="sd">    such as large variations in the scale of visual entities and the high resolution of</span>
+<span class="sd">    pixels in images compared to words in text. To address these differences, we</span>
+<span class="sd">    propose a hierarchical Transformer whose representation is computed with Shifted</span>
+<span class="sd">    windows. The shifted windowing scheme brings greater efficiency by limiting</span>
+<span class="sd">    self-attention computation to non-overlapping local windows while also allowing for</span>
+<span class="sd">    cross-window connection. This hierarchical architecture has the flexibility to</span>
+<span class="sd">    model at various scales and has linear computational complexity with respect to</span>
+<span class="sd">    image size. These qualities of Swin Transformer make it compatible with a broad</span>
+<span class="sd">    range of vision tasks, including image classification (87.3 top-1 accuracy on</span>
+<span class="sd">    ImageNet-1K) and dense prediction tasks such as object detection (58.7 box AP and</span>
+<span class="sd">    51.1 mask AP on COCO test- dev) and semantic segmentation (53.5 mIoU on ADE20K</span>
+<span class="sd">    val). Its performance surpasses the previous state-of-the- art by a large margin of</span>
+<span class="sd">    +2.7 box AP and +2.6 mask AP on COCO, and +3.2 mIoU on ADE20K, demonstrating the</span>
+<span class="sd">    potential of Transformer-based models as vision backbones. The hierarchical design</span>
+<span class="sd">    and the shifted window approach also prove beneficial for all-MLP architectures.*</span>
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
@@ -394,7 +393,7 @@
 <span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
 <span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
-<span class="sd">    &gt;&gt;&gt; imageDF: DataFrame = spark.read \\</span>
+<span class="sd">    &gt;&gt;&gt; imageDF = spark.read \\</span>
 <span class="sd">    ...     .format(&quot;image&quot;) \\</span>
 <span class="sd">    ...     .option(&quot;dropInvalid&quot;, value = True) \\</span>
 <span class="sd">    ...     .load(&quot;src/test/resources/image/&quot;)</span>
@@ -407,7 +406,23 @@
 <span class="sd">    ...     .setOutputCol(&quot;class&quot;)</span>
 <span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([imageAssembler, imageClassifier])</span>
 <span class="sd">    &gt;&gt;&gt; pipelineDF = pipeline.fit(imageDF).transform(imageDF)</span>
-
+<span class="sd">    &gt;&gt;&gt; pipelineDF \\</span>
+<span class="sd">    ...   .selectExpr(&quot;reverse(split(image.origin, &#39;/&#39;))[0] as image_name&quot;, &quot;class.result&quot;) \\</span>
+<span class="sd">    ...   .show(truncate=False)</span>
+<span class="sd">    +-----------------+----------------------------------------------------------+</span>
+<span class="sd">    |image_name       |result                                                    |</span>
+<span class="sd">    +-----------------+----------------------------------------------------------+</span>
+<span class="sd">    |palace.JPEG      |[palace]                                                  |</span>
+<span class="sd">    |egyptian_cat.jpeg|[tabby, tabby cat]                                        |</span>
+<span class="sd">    |hippopotamus.JPEG|[hippopotamus, hippo, river horse, Hippopotamus amphibius]|</span>
+<span class="sd">    |hen.JPEG         |[hen]                                                     |</span>
+<span class="sd">    |ostrich.JPEG     |[ostrich, Struthio camelus]                               |</span>
+<span class="sd">    |junco.JPEG       |[junco, snowbird]                                         |</span>
+<span class="sd">    |bluetick.jpg     |[bluetick]                                                |</span>
+<span class="sd">    |chihuahua.jpg    |[Chihuahua]                                               |</span>
+<span class="sd">    |tractor.JPEG     |[tractor]                                                 |</span>
+<span class="sd">    |ox.JPEG          |[ox]                                                      |</span>
+<span class="sd">    +-----------------+----------------------------------------------------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;SwinForImageClassification&quot;</span>
 
@@ -507,7 +522,7 @@
         <span class="k">return</span> <span class="n">SwinForImageClassification</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
 
     <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="SwinForImageClassification.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/swin_for_image_classification/index.html#sparknlp.annotator.cv.swin_for_image_classification.SwinForImageClassification.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;image_classifier_swin_base_patch_4_window_7_224&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="SwinForImageClassification.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/swin_for_image_classification/index.html#sparknlp.annotator.cv.swin_for_image_classification.SwinForImageClassification.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;image_classifier_swin_base_patch4_window7_224&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span>
                    <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
@@ -515,7 +530,7 @@
 <span class="sd">        ----------</span>
 <span class="sd">        name : str, optional</span>
 <span class="sd">            Name of the pretrained model, by default</span>
-<span class="sd">            &quot;image_classifier_swin_base_patch_4_window_7_224&quot;</span>
+<span class="sd">            &quot;image_classifier_swin_base_patch4_window7_224&quot;</span>
 <span class="sd">        lang : str, optional</span>
 <span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
 <span class="sd">        remote_loc : str, optional</span>

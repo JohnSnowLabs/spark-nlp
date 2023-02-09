@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.8 ScalaDoc  - com.johnsnowlabs.nlp.annotators.audio.Wav2Vec2ForCTC</title>
-          <meta name="description" content="Spark NLP 4.2.8 ScalaDoc - com.johnsnowlabs.nlp.annotators.audio.Wav2Vec2ForCTC" />
-          <meta name="keywords" content="Spark NLP 4.2.8 ScalaDoc com.johnsnowlabs.nlp.annotators.audio.Wav2Vec2ForCTC" />
+          <title>Spark NLP 4.3.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.audio.Wav2Vec2ForCTC</title>
+          <meta name="description" content="Spark NLP 4.3.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.audio.Wav2Vec2ForCTC" />
+          <meta name="keywords" content="Spark NLP 4.3.0 ScalaDoc com.johnsnowlabs.nlp.annotators.audio.Wav2Vec2ForCTC" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.8 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.3.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -207,7 +207,7 @@
 (CTC). Wav2Vec2 was proposed in wav2vec 2.0: A Framework for Self-Supervised Learning of
 Speech Representations by Alexei Baevski, Henry Zhou, Abdelrahman Mohamed, Michael Auli.</p><p>The annotator takes audio files and transcribes it as text. The audio needs to be provided
 pre-processed an array of floats.</p><p>Note that this annotator is currently not supported on Apple Silicon processors such as the
-M1. This is due to the processor not supporting instructions for XLA.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> speechToText = Wav2Vec2ForCTC.pretrained()
+M1/M2 (Apple Silicon). This is due to the processor not supporting instructions for XLA.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> speechToText = Wav2Vec2ForCTC.pretrained()
   .setInputCols(<span class="lit">"audio_assembler"</span>)
   .setOutputCol(<span class="lit">"text"</span>)</pre><p>The default model is <code>&quot;asr_wav2vec2_base_960h&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
 <a href="https://nlp.johnsnowlabs.com/models" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
