@@ -16,8 +16,13 @@
 
 package com.johnsnowlabs.nlp.annotators.seq2seq
 
+import com.johnsnowlabs.ml.ai.Marian
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.tensorflow.sentencepiece._
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
+  ReadSentencePieceModel,
+  SentencePieceWrapper,
+  WriteSentencePieceModel
+}
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadSentencePieceAsset,
   loadTextAsset,
@@ -54,7 +59,7 @@ import org.apache.spark.sql.SparkSession
   * [[https://nlp.johnsnowlabs.com/models?task=Translation Models Hub]].
   *
   * For extended examples of usage, see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TRANSLATION_MARIAN.ipynb Spark NLP Workshop]]
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/multilingual/Translation_Marian.ipynb Examples]]
   * and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/MarianTransformerTestSpec.scala MarianTransformerTestSpec]].
   *
@@ -285,7 +290,7 @@ class MarianTransformer(override val uid: String)
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
   /** The Tensorflow Marian Model */
-  private var _model: Option[Broadcast[TensorflowMarian]] = None
+  private var _model: Option[Broadcast[Marian]] = None
 
   /** @group setParam * */
   def setModelIfNotSet(
@@ -296,7 +301,7 @@ class MarianTransformer(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowMarian(
+          new Marian(
             tensorflow,
             sppSrc,
             sppTrg,
@@ -307,7 +312,7 @@ class MarianTransformer(override val uid: String)
   }
 
   /** @group setParam * */
-  def getModelIfNotSet: TensorflowMarian = _model.get.value
+  def getModelIfNotSet: Marian = _model.get.value
 
   setDefault(
     maxInputLength -> 40,
@@ -412,13 +417,13 @@ trait ReadablePretrainedMarianMTModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadMarianMTTensorflowModel extends ReadTensorflowModel with ReadSentencePieceModel {
+trait ReadMarianMTDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[MarianTransformer] =>
 
   override val tfFile: String = "marian_tensorflow"
   override val sppFile: String = "marian_spp"
 
-  def readTensorflow(instance: MarianTransformer, path: String, spark: SparkSession): Unit = {
+  def readModel(instance: MarianTransformer, path: String, spark: SparkSession): Unit = {
     val tf = readTensorflowModel(
       path,
       spark,
@@ -430,7 +435,7 @@ trait ReadMarianMTTensorflowModel extends ReadTensorflowModel with ReadSentenceP
     instance.setModelIfNotSet(spark, tf, sppSrc, sppTrg)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): MarianTransformer = {
 
@@ -483,5 +488,5 @@ trait ReadMarianMTTensorflowModel extends ReadTensorflowModel with ReadSentenceP
   */
 object MarianTransformer
     extends ReadablePretrainedMarianMTModel
-    with ReadMarianMTTensorflowModel
+    with ReadMarianMTDLModel
     with ReadSentencePieceModel

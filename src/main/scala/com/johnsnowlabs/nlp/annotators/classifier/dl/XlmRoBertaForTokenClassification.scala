@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
+import com.johnsnowlabs.ml.ai.XlmRoBertaClassification
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
   ReadSentencePieceModel,
@@ -211,7 +212,7 @@ class XlmRoBertaForTokenClassification(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowXlmRoBertaClassification]] = None
+  private var _model: Option[Broadcast[XlmRoBertaClassification]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
@@ -221,7 +222,7 @@ class XlmRoBertaForTokenClassification(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowXlmRoBertaClassification(
+          new XlmRoBertaClassification(
             tensorflowWrapper,
             spp,
             configProtoBytes = getConfigProtoBytes,
@@ -233,7 +234,7 @@ class XlmRoBertaForTokenClassification(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowXlmRoBertaClassification = _model.get.value
+  def getModelIfNotSet: XlmRoBertaClassification = _model.get.value
 
   /** Whether to lowercase tokens or not
     *
@@ -314,15 +315,13 @@ trait ReadablePretrainedXlmRoBertaForTokenModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadXlmRoBertaForTokenTensorflowModel
-    extends ReadTensorflowModel
-    with ReadSentencePieceModel {
+trait ReadXlmRoBertaForTokenDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[XlmRoBertaForTokenClassification] =>
 
   override val tfFile: String = "xlm_roberta_classification_tensorflow"
   override val sppFile: String = "xlmroberta_spp"
 
-  def readTensorflow(
+  def readModel(
       instance: XlmRoBertaForTokenClassification,
       path: String,
       spark: SparkSession): Unit = {
@@ -333,7 +332,7 @@ trait ReadXlmRoBertaForTokenTensorflowModel
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): XlmRoBertaForTokenClassification = {
 
@@ -377,4 +376,4 @@ trait ReadXlmRoBertaForTokenTensorflowModel
   */
 object XlmRoBertaForTokenClassification
     extends ReadablePretrainedXlmRoBertaForTokenModel
-    with ReadXlmRoBertaForTokenTensorflowModel
+    with ReadXlmRoBertaForTokenDLModel

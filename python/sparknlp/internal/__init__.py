@@ -1,4 +1,4 @@
-#  Copyright 2017-2022 John Snow Labs
+#  Copyright 2017-2023 John Snow Labs
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -446,15 +446,27 @@ class _ViTForImageClassification(ExtendedJavaWrapper):
             "com.johnsnowlabs.nlp.annotators.cv.ViTForImageClassification.loadSavedModel", path, jspark)
 
 
+class _SwinForImageClassification(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_SwinForImageClassification, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.cv.SwinForImageClassification.loadSavedModel", path, jspark)
+
+
 class _Wav2Vec2ForCTC(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_Wav2Vec2ForCTC, self).__init__(
             "com.johnsnowlabs.nlp.annotators.audio.Wav2Vec2ForCTC.loadSavedModel", path, jspark)
 
 
-class _CamemBertForTokenClassification(ExtendedJavaWrapper):
+class _HubertForCTC(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
-        super(_CamemBertForTokenClassification, self).__init__(
+        super(_HubertForCTC, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.audio.HubertForCTC.loadSavedModel", path, jspark)
+
+
+class _CamemBertForTokenClassificationLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_CamemBertForTokenClassificationLoader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForTokenClassification.loadSavedModel", path,
             jspark)
 
@@ -467,8 +479,21 @@ class _TapasForQuestionAnsweringLoader(ExtendedJavaWrapper):
             jspark)
 
 
-class _CamemBertForSequenceClassification(ExtendedJavaWrapper):
+class _CamemBertForSequenceClassificationLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
-        super(_CamemBertForSequenceClassification, self).__init__(
+        super(_CamemBertForSequenceClassificationLoader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForSequenceClassification.loadSavedModel", path,
             jspark)
+
+
+class _CamemBertQuestionAnsweringLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_CamemBertQuestionAnsweringLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForQuestionAnswering.loadSavedModel", path,
+            jspark)
+
+
+class _RobertaQAToZeroShotNerLoader(ExtendedJavaWrapper):
+    def __init__(self, path):
+        super(_RobertaQAToZeroShotNerLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.ner.dl.ZeroShotNerModel.load", path)

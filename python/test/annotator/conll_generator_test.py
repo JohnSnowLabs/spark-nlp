@@ -25,6 +25,6 @@ class CoNLLGeneratorTestSpec(unittest.TestCase):
         self.data = SparkContextForTest.spark.read.load("file:///" + os.getcwd() + "/../src/test/resources/conllgenerator/conllgenerator_nonint_token_metadata.parquet").cache()
 
     def runTest(self):
-        CoNLLGenerator.exportConllFiles(self.data, 'noninttokens2')  # with sentence
-        CoNLLGenerator.exportConllFiles(self.data, 'noninttokensst3', 'section')  # with section
+        CoNLLGenerator.exportConllFiles(self.data, './tmp_noninttokens2')  # with sentence
+        CoNLLGenerator.exportConllFiles(self.data, './tmp_noninttokensst3', 'section')  # with section
 

@@ -20,7 +20,7 @@ import com.amazonaws.services.s3.model.ObjectMetadata
 import com.johnsnowlabs.client.aws.AWSGateway
 import com.johnsnowlabs.client.gcp.GCPGateway
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.util.FileHelper
+import com.johnsnowlabs.util.{ConfigHelper, FileHelper}
 import org.apache.commons.io.IOUtils
 import org.apache.hadoop.fs.Path
 import org.apache.spark.sql.SparkSession
@@ -91,25 +91,45 @@ class S3ResourceDownloader(
         val s3Path = "^s3.*".r
         val gcpStoragePath = "^gs.*".r
 
+        val sourceS3URI = s"s3a://$bucket/$s3FilePath"
+        val zipFile = sourceS3URI.split("/").last
+        val modelName = zipFile.substring(0, zipFile.indexOf(".zip"))
+
         cachePath.toString match {
           case s3Path() => {
             val destinationS3URI = cachePath.toString.replace("s3:", "s3a:")
-            val sourceS3URI = s"s3a://$bucket/$s3FilePath"
-            val destinationKey = unzipInExternalCloudStorage(
-              ResourceHelper.spark,
-              sourceS3URI,
-              destinationS3URI,
-              "S3")
-            Option(destinationKey)
+            val modelExists =
+              doesModelExistInExternalCloudStorage(modelName, destinationS3URI, "S3")
+
+            if (!modelExists) {
+              val destinationKey = unzipInExternalCloudStorage(
+                ResourceHelper.spark,
+                sourceS3URI,
+                destinationS3URI,
+                "S3")
+              Option(destinationKey)
+            } else {
+              Option(destinationS3URI + "/" + modelName)
+            }
+
           }
           case gcpStoragePath() => {
             val sourceS3URI = s"s3a://$bucket/$s3FilePath"
-            val destination = unzipInExternalCloudStorage(
-              ResourceHelper.spark,
-              sourceS3URI,
-              cachePath.toString,
-              "GCP")
-            Option(destination)
+
+            val modelExists =
+              doesModelExistInExternalCloudStorage(modelName, cachePath.toString, "GCP")
+
+            if (!modelExists) {
+              val destination = unzipInExternalCloudStorage(
+                ResourceHelper.spark,
+                sourceS3URI,
+                cachePath.toString,
+                "GCP")
+              Option(destination)
+            } else {
+              Option(cachePath.toString + "/" + modelName)
+            }
+
           }
           case _ => {
             val destinationFile = new Path(cachePath.toString, resource.fileName)
@@ -118,6 +138,32 @@ class S3ResourceDownloader(
         }
       }
     }
+  }
+
+  private def doesModelExistInExternalCloudStorage(
+      modelName: String,
+      destinationURI: String,
+      destinationCloud: String): Boolean = {
+
+    destinationCloud match {
+      case "S3" => {
+        val (accessKeyId, secretKey, sessionToken) = ConfigHelper.getHadoopS3Config
+        val awsDestinationGateway = new AWSGateway(accessKeyId, secretKey, sessionToken)
+        val (destinationBucketName, destinationKey) = ResourceHelper.parseS3URI(destinationURI)
+
+        val modelPath = destinationKey + "/" + modelName
+
+        awsDestinationGateway.doesS3FolderExist(destinationBucketName, modelPath)
+      }
+      case "GCP" => {
+        val (gcpGateway, destinationBucketName, destinationStoragePath) = getGCPStorageConfig(
+          destinationURI)
+        val modelPath = destinationStoragePath + "/" + modelName
+
+        gcpGateway.doesFolderExist(destinationBucketName, modelPath)
+      }
+    }
+
   }
 
   private def unzipInExternalCloudStorage(
