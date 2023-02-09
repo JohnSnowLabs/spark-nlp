@@ -60,12 +60,12 @@ Make sure to check out our demos built by Streamlit to showcase Spark NLP in act
 
 <div class="block-wrapper"><div class="block-box" markdown="1">
 
-## Spark NLP Workshop
+## Spark NLP Examples
 
 If you prefer learning by example, check this repository:
 
 {:.btn-block}
-[Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop){:.button.button--primary.button--rounded.button--md}
+[Spark NLP Examples](https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples){:.button.button--primary.button--rounded.button--md}
 
 </div><div class="block-box" markdown="1">
 

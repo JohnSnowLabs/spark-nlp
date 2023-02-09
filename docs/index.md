@@ -386,7 +386,7 @@ data:
           url: /demo
         - text: Examples
           type: trans
-          url: https://github.com/JohnSnowLabs/spark-nlp-workshop
+          url: https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples
         - text: '<i class="fab fa-slack-hash"></i> Slack'
           type: trans
           url: https://join.slack.com/t/spark-nlp/shared_invite/zt-198dipu77-L3UWNe_AJ8xqDk0ivmih5Q
