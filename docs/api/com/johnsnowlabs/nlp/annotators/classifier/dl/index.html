@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.8 ScalaDoc  - com.johnsnowlabs.nlp.annotators.classifier.dl</title>
-          <meta name="description" content="Spark NLP 4.2.8 ScalaDoc - com.johnsnowlabs.nlp.annotators.classifier.dl" />
-          <meta name="keywords" content="Spark NLP 4.2.8 ScalaDoc com.johnsnowlabs.nlp.annotators.classifier.dl" />
+          <title>Spark NLP 4.3.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.classifier.dl</title>
+          <meta name="description" content="Spark NLP 4.3.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.classifier.dl" />
+          <meta name="keywords" content="Spark NLP 4.3.0 ScalaDoc com.johnsnowlabs.nlp.annotators.classifier.dl" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.8 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.3.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -811,8 +811,8 @@ extractive question-answering tasks like SQuAD (a linear layer on top of the hid
 output to compute span start logits and span end logits).</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> spanClassifier = BertForQuestionAnswering.pretrained()
   .setInputCols(<span class="std">Array</span>(<span class="lit">"document_question"</span>, <span class="lit">"document_context"</span>))
   .setOutputCol(<span class="lit">"answer"</span>)</pre><p>The default model is <code>&quot;bert_base_cased_qa_squad2&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Question+Answering" target="_blank">Models Hub</a>.</p><p>Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The
-Spark NLP Workshop example shows how to import them
+<a href="https://nlp.johnsnowlabs.com/models?task=Question+Answering" target="_blank">Models Hub</a>.</p><p>Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To
+see which models are compatible and how to import them see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a> and to see more extended
 examples, see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/BertForQuestionAnsweringTestSpec.scala" target="_blank">BertForQuestionAnsweringTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
@@ -1190,9 +1190,9 @@ preProcessingPipeline
   .setInputCols(<span class="lit">"sentence_embeddings"</span>)
   .setOutputCol(<span class="lit">"category"</span>)
   .setLabelColumn(<span class="lit">"label"</span>)
-  .setTestDataset(<span class="lit">"test_data"</span>)</pre><p>For extended examples of usage, see the Spark NLP Workshop
-<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/scala/training/Train%20Multi-Class%20Text%20Classification%20on%20News%20Articles.scala" target="_blank">[1</a>]
-<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.Text_Classification_with_ClassifierDL.ipynb" target="_blank">[2</a>]
+  .setTestDataset(<span class="lit">"test_data"</span>)</pre><p>For extended examples of usage, see the Examples
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/scala/training/Train%20Multi-Class%20Text%20Classification%20on%20News%20Articles.scala" target="_blank">[1</a>]
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/ClassifierDL_Train_multi_class_news_category_classifier.ipynb" target="_blank">[2</a>]
 and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLTestSpec.scala" target="_blank">ClassifierDLTestSpec</a>.</p><h4>Example</h4><p>In this example, the training data <code>&quot;sentiment.csv&quot;</code> has the form of</p><pre>text,label
 This movie is the best movie I have wached ever! In my opinion <span class="kw">this</span> movie can win an award.,<span class="num">0</span>
@@ -1259,7 +1259,7 @@ and is trained on the
 <a href="https://deepai.org/dataset/trec-6#:~:text=The%20TREC%20dataset%20is%20dataset,50%20has%20finer%2Dgrained%20labels" target="_blank">TREC-6</a>
 dataset. For available pretrained models please see the
 <a href="https://nlp.johnsnowlabs.com/models?task=Text+Classification" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.Text_Classification_with_ClassifierDL.ipynb" target="_blank">Spark NLP Workshop</a>
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/ClassifierDL_Train_multi_class_news_category_classifier.ipynb" target="_blank">Examples</a>
 and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLTestSpec.scala" target="_blank">ClassifierDLTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
@@ -1481,8 +1481,8 @@ Named-Entity-Recognition (NER) tasks.</p><p>Pretrained models can be loaded with
   .setOutputCol(<span class="lit">"label"</span>)</pre><p>The default model is <code>&quot;deberta_v3_xsmall_token_classifier_conll03&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
 <a href="https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition" target="_blank">Models Hub</a>.</p><p>and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/DeBertaForTokenClassificationTestSpec.scala" target="_blank">DeBertaForTokenClassificationTestSpec</a>.
-Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The
-Spark NLP Workshop example shows how to import them
+Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To
+see which models are compatible and how to import them see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.base._
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotator._
@@ -1928,7 +1928,7 @@ preProcessingPipeline
   .setOutputCol(<span class="lit">"category"</span>)
   .setLabelColumn(<span class="lit">"label"</span>)
   .setTestDataset(<span class="lit">"test_data"</span>)</pre><p>For extended examples of usage, see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/classification/MultiClassifierDL_train_multi_label_E2E_challenge_classifier.ipynb" target="_blank">Spark NLP Workshop</a>
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/MultiClassifierDL_train_multi_label_E2E_challenge_classifier.ipynb" target="_blank">Examples</a>
 and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/MultiClassifierDLTestSpec.scala" target="_blank">MultiClassifierDLTestSpec</a>.</p><h4>Example</h4><p>In this example, the training data has the form (Note: labels can be arbitrary)</p><pre>mr,ref
 <span class="lit">"name[Alimentum], area[city centre], familyFriendly[no], near[Burger King]"</span>,Alimentum is an adult establish found in the city centre area near Burger King.
@@ -2031,7 +2031,7 @@ of more than two classes; in the multi-label problem there is no constraint on h
 classes the instance can be assigned to. Formally, multi-label classification is the problem
 of finding a model that maps inputs x to binary vectors y (assigning a value of 0 or 1 for
 each element (label) in y).</p><p>For extended examples of usage, see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/classification/MultiClassifierDL_train_multi_label_E2E_challenge_classifier.ipynb" target="_blank">Spark NLP Workshop</a>
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/MultiClassifierDL_train_multi_label_E2E_challenge_classifier.ipynb" target="_blank">Examples</a>
 and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/MultiClassifierDLTestSpec.scala" target="_blank">MultiClassifierDLTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
@@ -3259,7 +3259,7 @@ preProcessingPipeline
   .setOutputCol(<span class="lit">"sentiment"</span>)
   .setLabelColumn(<span class="lit">"label"</span>)
   .setTestDataset(<span class="lit">"test_data"</span>)</pre><p>For extended examples of usage, see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/classification/SentimentDL_train_multiclass_sentiment_classifier.ipynb" target="_blank">Spark NLP Workshop</a>
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/SentimentDL_train_multiclass_sentiment_classifier.ipynb" target="_blank">Examples</a>
 and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/SentimentDLTestSpec.scala" target="_blank">SentimentDLTestSpec</a>.</p><h4>Example</h4><p>In this example, <code>sentiment.csv</code> is in the form</p><pre>text,label
 This movie is the best movie I have watched ever! In my opinion <span class="kw">this</span> movie can win an award.,<span class="num">0</span>
@@ -3322,7 +3322,7 @@ please see the documentation of that class.</p><p>Pretrained models can be loade
   .setOutputCol(<span class="lit">"sentiment"</span>)</pre><p>The default model is <code>&quot;sentimentdl_use_imdb&quot;</code>, if no name is provided. It is english sentiment
 analysis trained on the IMDB dataset. For available pretrained models please see the
 <a href="https://nlp.johnsnowlabs.com/models?task=Sentiment+Analysis" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.Text_Classification_with_ClassifierDL.ipynb" target="_blank">Spark NLP Workshop</a>
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/SentimentDL_train_multiclass_sentiment_classifier.ipynb" target="_blank">Examples</a>
 and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/SentimentDLTestSpec.scala" target="_blank">SentimentDLTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler

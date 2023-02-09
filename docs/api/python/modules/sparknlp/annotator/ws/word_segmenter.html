@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.ws.word_segmenter &#8212; Spark NLP 4.2.8 documentation</title>
+    <title>sparknlp.annotator.ws.word_segmenter &#8212; Spark NLP 4.3.0 documentation</title>
   
   
   
@@ -317,11 +317,27 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Trains a WordSegmenter which tokenizes non-english or non-whitespace</span>
 <span class="sd">    separated texts.</span>
 
-<span class="sd">    Many languages are not whitespace separated and their sentences are a</span>
-<span class="sd">    concatenation of many symbols, like Korean, Japanese or Chinese. Without</span>
-<span class="sd">    understanding the language, splitting the words into their corresponding</span>
-<span class="sd">    tokens is impossible. The WordSegmenter is trained to understand these</span>
-<span class="sd">    languages and split them into semantically correct parts.</span>
+<span class="sd">    Many languages are not whitespace separated and their sentences are a concatenation</span>
+<span class="sd">    of many symbols, like Korean, Japanese or Chinese. Without understanding the</span>
+<span class="sd">    language, splitting the words into their corresponding tokens is impossible. The</span>
+<span class="sd">    WordSegmenter is trained to understand these languages and split them into</span>
+<span class="sd">    semantically correct parts.</span>
+
+<span class="sd">    This annotator is based on the paper Chinese Word Segmentation as Character Tagging</span>
+<span class="sd">    [1]. Word segmentation is treated as a tagging problem. Each character is be tagged</span>
+<span class="sd">    as on of four different labels: LL (left boundary), RR (right boundary), MM (middle)</span>
+<span class="sd">    and LR (word by itself). The label depends on the position of the word in the</span>
+<span class="sd">    sentence. LL tagged words will combine with the word on the right. Likewise, RR</span>
+<span class="sd">    tagged words combine with words on the left. MM tagged words are treated as the</span>
+<span class="sd">    middle of the word and combine with either side. LR tagged words are words by</span>
+<span class="sd">    themselves.</span>
+
+<span class="sd">    Example (from [1], Example 3(a) (raw), 3(b) (tagged), 3(c) (translation)):</span>
+<span class="sd">        - 上海 计划 到 本 世纪 末 实现 人均 国内 生产 总值 五千 美元</span>
+<span class="sd">        - 上/LL 海/RR 计/LL 划/RR 到/LR 本/LR 世/LL 纪/RR 末/LR 实/LL 现/RR 人/LL 均/RR</span>
+<span class="sd">          国/LL 内/RR 生/LL 产/RR 总/LL值/RR 五/LL 千/RR 美/LL 元/RR</span>
+<span class="sd">        - Shanghai plans to reach the goal of 5,000 dollars in per capita GDP by the end</span>
+<span class="sd">          of the century.</span>
 
 <span class="sd">    For instantiated/pretrained models, see :class:`.WordSegmenterModel`.</span>
 
@@ -334,8 +350,17 @@
 <span class="sd">    The helper class :class:`.POS` might be useful to read training data into</span>
 <span class="sd">    data frames.</span>
 
-<span class="sd">    For extended examples of usage, see the `Spark NLP Workshop</span>
-<span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/annotation/chinese/word_segmentation&gt;`__.</span>
+<span class="sd">    For extended examples of usage, see the `Examples</span>
+<span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/chinese/word_segmentation&gt;`__.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    `[1] &lt;https://aclanthology.org/O03-4002.pdf&gt;`__ Xue, Nianwen. “Chinese Word</span>
+<span class="sd">    Segmentation as Character Tagging.” International Journal of Computational</span>
+<span class="sd">    Linguistics &amp; Chinese Language Processing, Volume 8, Number 1, February 2003:</span>
+<span class="sd">    Special Issue on Word Formation and Chinese Language Processing, 2003, pp. 29-48.</span>
+<span class="sd">    ACLWeb, https://aclanthology.org/O03-4002.</span>
 
 <span class="sd">    ====================== ======================</span>
 <span class="sd">    Input Annotation types Output Annotation type</span>
@@ -581,8 +606,8 @@
 <span class="sd">    values are provided. For available pretrained models please see the `Models</span>
 <span class="sd">    Hub &lt;https://nlp.johnsnowlabs.com/models?task=Word+Segmentation&gt;`__.</span>
 
-<span class="sd">    For extended examples of usage, see the `Spark NLP Workshop</span>
-<span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/chinese/word_segmentation/words_segmenter_demo.ipynb&gt;`__.</span>
+<span class="sd">    For extended examples of usage, see the `Examples</span>
+<span class="sd">    &lt;https://github.com/JohnSnowLabs/spark-nlp/blob/master/jupyter/annotation/chinese/word_segmentation/words_segmenter_demo.ipynb&gt;`__.</span>
 
 <span class="sd">    ====================== ======================</span>
 <span class="sd">    Input Annotation types Output Annotation type</span>

@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.8 ScalaDoc  - com.johnsnowlabs.nlp</title>
-          <meta name="description" content="Spark NLP 4.2.8 ScalaDoc - com.johnsnowlabs.nlp" />
-          <meta name="keywords" content="Spark NLP 4.2.8 ScalaDoc com.johnsnowlabs.nlp" />
+          <title>Spark NLP 4.3.0 ScalaDoc  - com.johnsnowlabs.nlp</title>
+          <meta name="description" content="Spark NLP 4.3.0 ScalaDoc - com.johnsnowlabs.nlp" />
+          <meta name="keywords" content="Spark NLP 4.3.0 ScalaDoc com.johnsnowlabs.nlp" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.8 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.3.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -728,8 +728,7 @@ root</pre></div></div>
       </span>
       
       <p class="shortcomment cmt">Converts a <code>CHUNK</code> type column back into <code>DOCUMENT</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Converts a <code>CHUNK</code> type column back into <code>DOCUMENT</code>. Useful when trying to re-tokenize or do
-further analysis on a <code>CHUNK</code> result.</p><p>For more extended examples on document pre-processing see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb" target="_blank">Spark NLP Workshop</a>.</p><h4>Example</h4><p>Location entities are extracted and converted back into <code>DOCUMENT</code> type for further processing</p><pre><span class="kw">import</span> spark.implicits._
+further analysis on a <code>CHUNK</code> result.</p><h4>Example</h4><p>Location entities are extracted and converted back into <code>DOCUMENT</code> type for further processing</p><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 <span class="kw">import</span> com.johnsnowlabs.nlp.Chunk2Doc
 
@@ -770,8 +769,7 @@ result.selectExpr(<span class="lit">"explode(chunkConverted)"</span>).show(<span
       <p class="shortcomment cmt">Converts <code>DOCUMENT</code> type annotations into <code>CHUNK</code> type with the contents of a <code>chunkCol</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Converts <code>DOCUMENT</code> type annotations into <code>CHUNK</code> type with the contents of a <code>chunkCol</code>.
 Chunk text must be contained within input <code>DOCUMENT</code>. May be either <code>StringType</code> or
 <code>ArrayType[StringType]</code> (using <a href="Doc2Chunk.html#setIsArray(value:Boolean):Doc2Chunk.this.type" class="extmbr" name="com.johnsnowlabs.nlp.Doc2Chunk#setIsArray">setIsArray</a>). Useful for annotators that require a CHUNK
-type input.</p><p>For more extended examples on document pre-processing see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb" target="_blank">Spark NLP Workshop</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+type input.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.{Doc2Chunk, DocumentAssembler}
 <span class="kw">import</span> org.apache.spark.ml.Pipeline
 
@@ -816,7 +814,7 @@ result.selectExpr(<span class="lit">"chunk.result"</span>, <span class="lit">"ch
 every Spark NLP pipeline. The <code>DocumentAssembler</code> can read either a <code>String</code> column or an
 <code>Array[String]</code>. Additionally, <a href="DocumentAssembler.html#setCleanupMode(v:String):DocumentAssembler.this.type" class="extmbr" name="com.johnsnowlabs.nlp.DocumentAssembler#setCleanupMode">setCleanupMode</a> can be used to pre-process the text
 (Default: <code>disabled</code>). For possible options please refer the parameters section.</p><p>For more extended examples on document pre-processing see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb" target="_blank">Spark NLP Workshop</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/document-assembler/Loading_Documents_With_DocumentAssembler.ipynb" target="_blank">Examples</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.DocumentAssembler
 
 <span class="kw">val</span> data = <span class="std">Seq</span>(<span class="lit">"Spark NLP is an open-source text processing library."</span>).toDF(<span class="lit">"text"</span>)
@@ -865,7 +863,7 @@ root
 <a href="embeddings/ChunkEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.ChunkEmbeddings">ChunkEmbeddings</a>.</p><p>By using <code>EmbeddingsFinisher</code> you can easily transform your embeddings into array of floats or
 vectors which are compatible with Spark ML functions such as LDA, K-mean, Random Forest
 classifier or any other functions that require <code>featureCol</code>.</p><p>For more extended examples see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.1_Text_classification_examples_in_SparkML_SparkNLP.ipynb" target="_blank">Spark NLP Workshop</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/text-similarity/Spark_NLP_Spark_ML_Text_Similarity.ipynb" target="_blank">Examples</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> org.apache.spark.ml.Pipeline
 <span class="kw">import</span> com.johnsnowlabs.nlp.{DocumentAssembler, EmbeddingsFinisher}
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotator.{Normalizer, StopWordsCleaner, Tokenizer, WordEmbeddingsModel}
@@ -976,7 +974,7 @@ resultWithSize.show(<span class="num">5</span>, <span class="num">80</span>)
       
       <p class="shortcomment cmt">Converts annotation results into a format that easier to use.</p><div class="fullcomment"><div class="comment cmt"><p>Converts annotation results into a format that easier to use. It is useful to extract the
 results from Spark NLP Pipelines. The Finisher outputs annotation(s) values into <code>String</code>.</p><p>For more extended examples on document pre-processing see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb" target="_blank">Spark NLP Workshop</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/model-downloader/Create%20custom%20pipeline%20-%20NerDL.ipynb" target="_blank">Examples</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 <span class="kw">import</span> com.johnsnowlabs.nlp.Finisher
 
@@ -1496,10 +1494,9 @@ root
       
       <p class="shortcomment cmt">Prepares data into a format that is processable by Spark NLP.</p><div class="fullcomment"><div class="comment cmt"><p>Prepares data into a format that is processable by Spark NLP. This is the entry point for
 every Spark NLP pipeline. The <code>MultiDocumentAssembler</code> can read either a <code>String</code> column or an
-<code>Array[String]</code>. Additionally, <a href="MultiDocumentAssembler.html#setCleanupMode(v:String):MultiDocumentAssembler.this.type" class="extmbr" name="com.johnsnowlabs.nlp.MultiDocumentAssembler#setCleanupMode">MultiDocumentAssembler.setCleanupMode</a> can be used to
-pre-process the text (Default: <code>disabled</code>). For possible options please refer the parameters
-section.</p><p>For more extended examples on document pre-processing see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb" target="_blank">Spark NLP Workshop</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+<code>Array[String]</code>. Additionally, <a href="MultiDocumentAssembler.html#setCleanupMode(v:String):MultiDocumentAssembler.this.type" class="extmbr" name="com.johnsnowlabs.nlp.MultiDocumentAssembler#setCleanupMode">setCleanupMode</a> can be used to pre-process the text
+(Default: <code>disabled</code>). For possible options please refer the parameters section.</p><p>For more extended examples on document pre-processing see the
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/document-assembler/Loading_Multiple_Documents.ipynb" target="_blank">Examples</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.MultiDocumentAssembler
 
 <span class="kw">val</span> data = <span class="std">Seq</span>(<span class="lit">"Spark NLP is an open-source text processing library."</span>).toDF(<span class="lit">"text"</span>)
@@ -1699,7 +1696,7 @@ document annotation in further annotators.</p><div class="fullcomment"><div clas
 have been normalized, lemmatized, normalized, spell checked, etc, in order to use this
 document annotation in further annotators. Requires <code>DOCUMENT</code> and <code>TOKEN</code> type annotations as
 input.</p><p>For more extended examples on document pre-processing see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb" target="_blank">Spark NLP Workshop</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/token-assembler/Assembling_Tokens_to_Documents.ipynb" target="_blank">Examples</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.DocumentAssembler
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotator.SentenceDetector
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotator.Tokenizer
