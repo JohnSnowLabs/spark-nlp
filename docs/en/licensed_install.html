@@ -550,17 +550,230 @@
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><div class="h3-box">
 
-  <h2 id="recommended-installation">Recommended installation</h2>
+  <h2 id="installation">Installation</h2>
   <p>On Oct 4th, 2022 we released <code class="language-plaintext highlighter-rouge">johnsnowlabs</code> library, which eases the installation and session starting processes in an 
-almost transparent way for the user. Check documentation <a href="https://nlu.johnsnowlabs.com/docs/en/install">here</a>. We highly recommend you to use this new library.</p>
+almost transparent way for the user.</p>
 
-  <p>If you want to proceed with a custom installation, check the details in the sections below.</p>
+  <p>Finance NLP and Legal NLP are built on the top of a new John Snow Labs library, called johnsnowlabs.
+If you are a former user of Spark NLP or Spark NLP for Healthcare, you will find this new way of deploying your Spark NLP clusters much more user-friendly!
+Clinical NLP (former Spark NLP for Healthcare) still can be run without johnsnowlabs library, although we highly recommend to install it with this new method.</p>
 
-  <h2 id="manual-installation-on-ubuntu">Manual installation on Ubuntu</h2>
+  <h3 id="installating-johnsnowlabs">1. Installating johnsnowlabs</h3>
+  <p>The first step you need to carry out is installing johnsnowlabs library. This is as easy as doing:</p>
 
-  <p>For installing John Snow Labs NLP libraries on an Ubuntu machine/VM please run the following command:</p>
+  <p><code class="language-plaintext highlighter-rouge">!pip install johnsnowlabs</code></p>
 
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://setup.johnsnowlabs.com/nlp/install.sh <span class="nt">-O</span> - | <span class="nb">sudo </span>bash <span class="nt">-s</span> <span class="nt">--</span> <span class="nt">-a</span> PATH_TO_LICENSE_JSON_FILE <span class="nt">-i</span> <span class="nt">-r</span>
+  <h3 id="installing-enterprise-nlp-finance-legal-clinical">2. Installing Enterprise NLP (Finance, Legal, Clinical)</h3>
+
+  <p>Import <code class="language-plaintext highlighter-rouge">johnsnowlabs</code> and use our one-liner <code class="language-plaintext highlighter-rouge">nlp.install()</code> to install all the dependencies, downloading the jars (yes, Spark NLP runs on top of the Java Virtual Machine!), preparing the cluster environment variables, licenses, etc!</p>
+
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from johnsnowlabs import *
+
+nlp.install(force_browser=True)
+</code></pre></div>  </div>
+
+  <p>The <code class="language-plaintext highlighter-rouge">force_browser=True</code> command gets rid of you uploading a license. It will open a popup to connect to our license server at <code class="language-plaintext highlighter-rouge">my.johnsnowlabs.com</code> retrieve the license for you, and install everything your license allows you to use!
+If you are a user of Financial NLP, you will get that installed. If you are a Legal user, then Legal NLP will be installed, or Clinical! Everything will be taken care on your behalf!</p>
+
+  <h4 id="optional-uploading-the-license-manually">Optional: Uploading the license manually</h4>
+  <p>We still have the way of downloading manually the license, in case the connection with <code class="language-plaintext highlighter-rouge">my.johnsnowlabs.com</code> is not an option for you.
+Just put your license json in the same folder of the notebook, and run:</p>
+
+  <pre><code class="language-nlp.install()```">
+In colab, you can use this fancy widget to upload a file to your environment:
+In collab, you can use the upload widget like this:
+
+</code></pre>
+  <p>from google.colab import files</p>
+
+  <p>print(‘Please Upload your John Snow Labs License using the button below’)
+license_keys = files.upload()</p>
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+And then do:
+
+</code></pre></div>  </div>
+  <p>nlp.install()</p>
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+### 3. Starting an Enterprise NLP cluster
+Another one-liner can be used to start your Enterprise Spark NLP cluster:
+
+</code></pre></div>  </div>
+  <p>spark = nlp.start()</p>
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>It will take into account the previous steps and your license and return a Spark Session.
+
+### 4. Ready to go!
+And you are done! Simple, isn't it?
+Find hundreds of notebooks using johnsnowlabs library here:
+
+- [Finance NLP notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/finance-nlp)
+- [Legal NLP notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/legal-nlp)
+- [Clinical NLP notebooks](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/healthcare-nlp)
+
+
+## Finance, Legal, Clinical NLP on Databricks
+
+- List of [tested runtimes](/docs/en/install#databricks-support).
+- Recommended instance type `Standard_F8s_v2 (16 GB Memory, 8 Cores)` or higher.
+- The installation takes around 15 minutes.
+
+### Connection via Databricks Partner connect
+
+Databricks has an integration of Spark NLP libraries via Partner Connect. If you are [eligible](https://docs.databricks.com/integrations/partner-connect/index.html?#requirements-1), you can [connect](https://docs.databricks.com/integrations/partner-connect/index.html?#quickstart-connect-to-a-partner-solution-using-partner-connect) your Databricks workspace to John Snow Labs. The Partner Connect wizard  will redirect you to John Snow Labs portal. After you fill-in/validate your information a 30-day trial license will be automatically generated for you. A new Databricks cluster will also be created, and all necessary resources to run the library on your account will be installed on your new cluster. Furthermore, a set of ready to use notebooks will be copied to your workspace, so you can start experimenting on your data right away. The trial license file will also be deployed to your environment and made available to your cluster.  
+
+The trial period is 30 days. You can use the trial period only once. After the trial period, we will contact you with a licensing offer.  
+
+- Start exploring preloaded notebooks `Workspace -&gt; Shared -&gt; John Snow Labs`
+
+
+### Automatic deployment of John Snow Labs NLP libraries from [www.johnsnowlabs.com/databricks](https://www.johnsnowlabs.com/databricks/)
+
+Alternatively, you can automatically deploy John Snow Labs libraries on Databricks by filling in the form available [here](https://www.johnsnowlabs.com/databricks/). This will allow you to start a 30-day free trial with no limit on the amount of processed data. You just need to provide a Databricks Access Token that is used by our deployment script to connect to your Databricks instance and install John Snow Labs NLP libraries on a cluster of your choice.
+
+- Start exploring preloaded notebooks `Workspace -&gt; Shared -&gt; John Snow Labs`
+
+### Automatic deployment via [my.JohnSnowLabs.com](https://my.JohnSnowLabs.com)
+
+Login to your account on my.JohnSnowLabs.com, navigate to 'My Subscriptions' page, and identify your license for Databricks. Click on the three dots as illustrated in the image below, then select the `Install On Cluster` option.
+
+&lt;img class="image image--xl" src="/assets/images/myJSLdeployment.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/&gt;
+
+On the install form, provide an access token for this account and then select the cluster where you want to install the libraries. Once it is done, you will get an email with information on the status of your deployment and on how to get started with the libraries. 
+
+&lt;img class="image image--xl" src="/assets/images/install_form.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/&gt;
+
+### Automatic deployment or upgrade from the Databricks workspace
+
+If you have already deployed the libraries in the past, you have a script `Workspace -&gt; Shared -&gt; John Snow Labs -&gt; Install JohnSnowLabs NLP`. If you attach it to any cluster and run it, it will reinstall the libraries on the respective cluster. 
+
+- This is also the recommended way to upgrade to the latest versions of the libraries.
+
+### Manual deployment of Enterprise Spark NLP
+Automatic deployment is the preferred option.
+
+1. Create a cluster with one of the [supported runtimes](/docs/en/install#databricks-support) if you don't have one already.
+2. On a new cluster or existing one you need to add the following to the `Advanced Options -&gt; Spark` tab, in `Spark.Config` box:
+
+    ```bash
+    spark.kryoserializer.buffer.max 1000M
+    spark.serializer org.apache.spark.serializer.KryoSerializer
+    ```
+      -  Please add the following to the `Advanced Options -&gt; Spark` tab, in `Environment Variables` box:
+
+    ```bash
+    AWS_ACCESS_KEY_ID=xxx
+    AWS_SECRET_ACCESS_KEY=yyy
+    SPARK_NLP_LICENSE=zzz
+    ```
+Note: Enterprise Spark NLP also support reading the license from the Databricks DFS, on the fixed location, `dbfs:/FileStore/johnsnowlabs/license.key`.
+The precedence for that location is the highest, so make sure that file is not containing any outdated license key.
+
+      -   (OPTIONAL) If the environment variables used to setup the AWS Access/Secret keys are conflicting with the credential provider chain in Databricks, you may not be able to access to other s3 buckets. To access both JSL repos with JSL AWS keys as well as your own s3 bucket with your own AWS keys), you need to use the following script, copy that to dbfs folder, then go to the Databricks console (init scripts menu) to add the init script for your cluster as follows:
+
+    ```bash
+    %scala
+    val script = """
+    #!/bin/bash
+
+    echo "******** Inject Spark NLP AWS Profile Credentials ******** "
+
+    mkdir ~/.aws/
+
+    cat &lt;&lt; EOF &gt; ~/.aws/credentials
+    [spark_nlp]
+    aws_access_key_id=&lt;YOUR_AWS_ACCESS_KEY&gt;
+    aws_secret_access_key=&lt;YOUR_AWS_SECRET_KEY&gt;
+    EOF
+
+    echo "******** End Inject Spark NLP AWS Profile Credentials  ******** "
+
+    """
+    ```
+
+3. In `Libraries` tab inside your cluster you need to follow these steps:
+ - [Lookup](https://nlp.johnsnowlabs.com/docs/en/licensed_version_compatibility) the version of Healhcare NLP vs. Spark NLP you will install.
+ - Install Spark NLP (Public): New -&gt; PyPI -&gt; `spark-nlp==${x.y.z_public_version}` -&gt; Install
+ - Install: New -&gt; Maven -&gt; Coordinates -&gt; `com.johnsnowlabs.nlp:spark-nlp_2.12:${x.y.z_public_version}` -&gt; Install
+ - Please add following jars:
+        - Install: New -&gt; Python Whl -&gt; upload `https://pypi.johnsnowlabs.com/${secret.code}/spark-nlp-jsl/spark_nlp_jsl-${x.y.z_healthcare_version}-py3-none-any.whl`
+        - Install: New -&gt; Jar -&gt; upload `https://pypi.johnsnowlabs.com/${secret.code}/spark-nlp-jsl-${x.y.z_healthcare_version}.jar`
+- (For Legal and Finance NLP) Install: New -&gt; PyPI -&gt; `johnsnowlabs-for-databricks==${x.y.z_healthcare_version}` -&gt; Install
+4. Now you can attach your notebook to the cluster and use Spark NLP!
+
+## Windows Support
+
+In order to fully take advantage of Spark NLP on Windows (8 or 10), you need to setup/install Apache Spark, Apache Hadoop, Java and a Pyton environment correctly by following the following instructions: [https://github.com/JohnSnowLabs/spark-nlp/discussions/1022](https://github.com/JohnSnowLabs/spark-nlp/discussions/1022)
+
+&lt;/div&gt;&lt;div class="h3-box" markdown="1"&gt;
+
+### How to correctly install Spark NLP on Windows
+
+Follow the below steps to set up Spark NLP with Spark 3.1.2:
+
+  1. Download [Adopt OpenJDK 1.8](https://adoptopenjdk.net/?variant=openjdk8&amp;jvmVariant=hotspot)
+     - Make sure it is 64-bit
+     - Make sure you install it in the root of your main drive `C:\java`.
+     - During installation after changing the path, select setting Path
+
+  2. Download the pre-compiled Hadoop binaries `winutils.exe`, `hadoop.dll` and put it in a folder called `C:\hadoop\bin` from [https://github.com/cdarlint/winutils/tree/master/hadoop-3.2.0/bin](https://github.com/cdarlint/winutils/tree/master/hadoop-3.2.0/bin)
+     - **Note:** The version above is for Spark 3.1.2, which was built for Hadoop 3.2.0. You might have to change the hadoop version in the link, depending on which Spark version you are using.
+
+  3. Download [Apache Spark 3.1.2](https://www.apache.org/dyn/closer.lua/spark/spark-3.1.2/spark-3.1.2-bin-hadoop3.2.tgz) and extract it to `C:\spark`.
+
+  4. Set/add environment variables for `HADOOP_HOME` to `C:\hadoop` and `SPARK_HOME` to `C:\spark`.
+
+  5. Add `%HADOOP_HOME%\bin` and `%SPARK_HOME%\bin` to the `PATH` environment variable.
+
+  6. Install [Microsoft Visual C++ 2010 Redistributed Package (x64)](https://www.microsoft.com/en-us/download/details.aspx?id=26999).
+
+  7. Create folders `C:\tmp` and `C:\tmp\hive`
+     - If you encounter issues with permissions to these folders, you might need
+       to change the permissions by running the following commands:
+       ```
+       %HADOOP_HOME%\bin\winutils.exe chmod 777 /tmp/hive
+       %HADOOP_HOME%\bin\winutils.exe chmod 777 /tmp/
+       ```
+
+&lt;/div&gt;&lt;div class="h3-box" markdown="1"&gt;
+
+### Requisites for PySpark
+
+We recommend using `conda` to manage your python environment on Windows.
+
+- Download [Miniconda for python 3.8](https://repo.anaconda.com/miniconda/Miniconda3-py38_4.11.0-Windows-x86_64.exe)
+- See [Quick Install](#quick-install) on how to set up a conda environment with
+  Spark NLP.
+- The following environment variables need to be set:
+  - `PYSPARK_python=python`
+  - Optionally, if you want to use the Jupyter Notebook runtime of Spark:
+    - first install it in the environment with `conda install notebook`
+    - then set `PYSPARK_DRIVER_python=jupyter`, `PYSPARK_DRIVER_python_OPTS=notebook`
+  - The environment variables can either be directly set in windows, or if only
+    the conda env will be used, with `conda env config vars set PYSPARK_python=python`.
+    After setting the variable with conda, you need to deactivate and re-activate
+    the environment.
+
+Now you can use the downloaded binary by navigating to `%SPARK_HOME%\bin` and
+running
+
+Either create a conda env for python 3.6, install *pyspark==3.1.2 spark-nlp numpy* and use Jupyter/python console, or in the same conda env you can go to spark bin for *pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.4.4*.
+
+&lt;img class="image image--xl" src="/assets/images/installation/90126972-c03e5500-dd64-11ea-8285-e4f76aa9e543.jpg" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/&gt;
+
+&lt;img class="image image--xl" src="/assets/images/installation/90127225-21662880-dd65-11ea-8b98-3a2c26cfa534.jpg" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/&gt;
+
+&lt;img class="image image--xl" src="/assets/images/installation/90127243-2925cd00-dd65-11ea-9b20-ba3353473a98.jpg" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/&gt;
+
+&lt;img class="image image--xl" src="/assets/images/installation/90126972-c03e5500-dd64-11ea-8285-e4f76aa9e543.jpg" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/&gt;
+
+&lt;/div&gt;&lt;div class="h3-box" markdown="1"&gt;
+
+## Non-johnsnowlabs Clinical NLP on Ubuntu 
+&gt; These instructions use non-johnsnowlabs installation syntax. For simplified installation with `johnsnowlabs` library, check first section.
+
+For installing John Snow Labs NLP libraries on an Ubuntu machine/VM please run the following command:
+
+```bash
+wget https://setup.johnsnowlabs.com/nlp/install.sh -O - | sudo bash -s -- -a PATH_TO_LICENSE_JSON_FILE -i -r
 </code></pre></div>  </div>
 
   <p>This script will install <code class="language-plaintext highlighter-rouge">Spark NLP</code>, <code class="language-plaintext highlighter-rouge">Enterprise Spark NLP</code>, <code class="language-plaintext highlighter-rouge">Spark OCR</code>, <code class="language-plaintext highlighter-rouge">NLU</code> and <code class="language-plaintext highlighter-rouge">Spark NLP Display</code> on the specified virtual environment. It will also create a special folder, <code class="language-plaintext highlighter-rouge">./JohnSnowLabs</code>,  dedicated to all resources necessary for using the libraries.  Under <code class="language-plaintext highlighter-rouge">./JohnSnowLabs/example_notebooks</code> you will find some ready to use example notebooks that you can use to test the libraries on your data.</p>
@@ -596,7 +809,10 @@ almost transparent way for the user. Check documentation <a href="https://nlu.jo
 </div>
 <div class="h3-box">
 
-  <h2 id="install-via-docker">Install via Docker</h2>
+  <h2 id="non-johnsnowlabs-clinical-nlp-via-docker">Non-johnsnowlabs Clinical NLP via Docker</h2>
+  <blockquote>
+    <p>These instructions use non-johnsnowlabs installation syntax. For simplified installation with <code class="language-plaintext highlighter-rouge">johnsnowlabs</code> library, check first section.</p>
+  </blockquote>
 
   <p>A docker image that contains all the required libraries for installing and running Enterprise Spark NLP libraries is also available. However, it does not contain the library itself, as it is licensed, and requires installation credentials.</p>
 
@@ -640,9 +856,12 @@ curl <span class="nt">-o</span> sparknlp_keys.txt https://raw.githubusercontent.
 </div>
 <div class="h3-box">
 
-  <h2 id="install-locally-on-python">Install locally on python</h2>
+  <h2 id="non-johnsnowlabs-clinical-nlp-on-python">Non-johnsnowlabs Clinical NLP on python</h2>
+  <blockquote>
+    <p>These instructions use non-johnsnowlabs installation syntax. For simplified installation with <code class="language-plaintext highlighter-rouge">johnsnowlabs</code> library, check first section.</p>
+  </blockquote>
 
-  <p>You can install the Enterprise Spark NLP libraries by using:</p>
+  <p>You can install the Clinical NLP by using:</p>
 
   <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install</span> <span class="nt">-q</span> spark-nlp-jsl<span class="o">==</span><span class="k">${</span><span class="nv">version</span><span class="k">}</span> <span class="nt">--extra-index-url</span> https://pypi.johnsnowlabs.com/<span class="k">${</span><span class="nv">secret</span><span class="p">.code</span><span class="k">}</span> <span class="nt">--upgrade</span>
 </code></pre></div>  </div>
@@ -674,7 +893,7 @@ You can do this setup via Amazon AWS Command Line Interface (AWSCLI).</p>
 </div>
 <div class="h3-box">
 
-  <h3 id="start-enterprise-spark-nlp-session-from-python">Start Enterprise Spark NLP Session from python</h3>
+  <h3 id="start-spark-nlp-session-from-python">Start Spark NLP Session from python</h3>
 
   <p>The following will initialize the spark session in case you have run the Jupyter Notebook directly. If you have started the notebook using
 pyspark this cell is just ignored.</p>
@@ -715,7 +934,7 @@ pyspark this cell is just ignored.</p>
 </div>
 <div class="h3-box">
 
-  <h3 id="enterprise-spark-nlp-cheatsheet">Enterprise Spark NLP Cheatsheet</h3>
+  <h3 id="cheatsheet">Cheatsheet</h3>
 
   <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install Spark NLP from PyPI</span>
 pip <span class="nb">install </span>spark-nlp<span class="o">==</span>3.2.3
@@ -737,9 +956,12 @@ spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2
 </div>
 <div class="h3-box">
 
-  <h2 id="install-locally-for-scala">Install locally for Scala</h2>
+  <h2 id="non-johnsnowlabs-clinical-nlp-for-scala">Non-johnsnowlabs Clinical NLP for Scala</h2>
+  <blockquote>
+    <p>These instructions use non-johnsnowlabs installation syntax, since <code class="language-plaintext highlighter-rouge">johnsnowlabs</code> is a Python library.</p>
+  </blockquote>
 
-  <h3 id="use-enterprise-spark-nlp-in-spark-shell">Use Enterprise Spark NLP in Spark shell</h3>
+  <h3 id="use-spark-nlp-in-spark-shell">Use Spark NLP in Spark shell</h3>
 
   <p>1.Download the fat jar for Enterprise Spark NLP</p>
 
@@ -761,7 +983,10 @@ spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2
 </div>
 <div class="h3-box">
 
-  <h3 id="use-enterprise-spark-nlp-in-sbt-project">Use Enterprise Spark NLP in Sbt project</h3>
+  <h2 id="non-johnsnowlabs-clinical-nlp-in-sbt-project">Non-johnsnowlabs Clinical NLP in Sbt project</h2>
+  <blockquote>
+    <p>These instructions use non-johnsnowlabs installation syntax. For simplified installation with <code class="language-plaintext highlighter-rouge">johnsnowlabs</code> library, check first section.</p>
+  </blockquote>
 
   <p>1.Download the fat jar for Enterprise Spark NLP.</p>
   <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aws s3 <span class="nb">cp</span> <span class="nt">--region</span> us-east-2 s3://pypi.johnsnowlabs.com/<span class="nv">$jsl_secret</span>/spark-nlp-jsl-<span class="nv">$jsl_version</span>.jar spark-nlp-jsl-<span class="nv">$jsl_version</span>.jar
@@ -789,205 +1014,9 @@ spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2
 </div>
 <div class="h3-box">
 
-  <h2 id="install-on-databricks">Install on Databricks</h2>
+  <h2 id="non-johnsnowlabs-clinical-nlp-on-colab">Non-johnsnowlabs Clinical NLP on Colab</h2>
 
-  <ul>
-    <li>List of <a href="/docs/en/install#databricks-support">tested runtimes</a>.</li>
-    <li>Recommended instance type <code class="language-plaintext highlighter-rouge">Standard_F8s_v2 (16 GB Memory, 8 Cores)</code> or higher.</li>
-    <li>The installation takes around 15 minutes.</li>
-  </ul>
-
-  <h3 id="connection-via-databricks-partner-connect">Connection via Databricks Partner connect</h3>
-
-  <p>Databricks has an integration of Spark NLP libraries via Partner Connect. If you are <a href="https://docs.databricks.com/integrations/partner-connect/index.html?#requirements-1">eligible</a>, you can <a href="https://docs.databricks.com/integrations/partner-connect/index.html?#quickstart-connect-to-a-partner-solution-using-partner-connect">connect</a> your Databricks workspace to John Snow Labs. The Partner Connect wizard  will redirect you to John Snow Labs portal. After you fill-in/validate your information a 30-day trial license will be automatically generated for you. A new Databricks cluster will also be created, and all necessary resources to run the library on your account will be installed on your new cluster. Furthermore, a set of ready to use notebooks will be copied to your workspace, so you can start experimenting on your data right away. The trial license file will also be deployed to your environment and made available to your cluster.</p>
-
-  <p>The trial period is 30 days. You can use the trial period only once. After the trial period, we will contact you with a licensing offer.</p>
-
-  <ul>
-    <li>Start exploring preloaded notebooks <code class="language-plaintext highlighter-rouge">Workspace -&gt; Shared -&gt; John Snow Labs</code></li>
-  </ul>
-
-  <h3 id="automatic-deployment-of-john-snow-labs-nlp-libraries-from-wwwjohnsnowlabscomdatabricks">Automatic deployment of John Snow Labs NLP libraries from <a href="https://www.johnsnowlabs.com/databricks/">www.johnsnowlabs.com/databricks</a></h3>
-
-  <p>Alternatively, you can automatically deploy John Snow Labs libraries on Databricks by filling in the form available <a href="https://www.johnsnowlabs.com/databricks/">here</a>. This will allow you to start a 30-day free trial with no limit on the amount of processed data. You just need to provide a Databricks Access Token that is used by our deployment script to connect to your Databricks instance and install John Snow Labs NLP libraries on a cluster of your choice.</p>
-
-  <ul>
-    <li>Start exploring preloaded notebooks <code class="language-plaintext highlighter-rouge">Workspace -&gt; Shared -&gt; John Snow Labs</code></li>
-  </ul>
-
-  <h3 id="automatic-deployment-via-myjohnsnowlabscom">Automatic deployment via <a href="https://my.JohnSnowLabs.com">my.JohnSnowLabs.com</a></h3>
-
-  <p>Login to your account on my.JohnSnowLabs.com, navigate to ‘My Subscriptions’ page, and identify your license for Databricks. Click on the three dots as illustrated in the image below, then select the <code class="language-plaintext highlighter-rouge">Install On Cluster</code> option.</p>
-
-  <p><img class="image image--xl" src="/assets/images/myJSLdeployment.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
-
-  <p>On the install form, provide an access token for this account and then select the cluster where you want to install the libraries. Once it is done, you will get an email with information on the status of your deployment and on how to get started with the libraries.</p>
-
-  <p><img class="image image--xl" src="/assets/images/install_form.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
-
-  <h3 id="automatic-deployment-or-upgrade-from-the-databricks-workspace">Automatic deployment or upgrade from the Databricks workspace</h3>
-
-  <p>If you have already deployed the libraries in the past, you have a script <code class="language-plaintext highlighter-rouge">Workspace -&gt; Shared -&gt; John Snow Labs -&gt; Install JohnSnowLabs NLP</code>. If you attach it to any cluster and run it, it will reinstall the libraries on the respective cluster.</p>
-
-  <ul>
-    <li>This is also the recommended way to upgrade to the latest versions of the libraries.</li>
-  </ul>
-
-  <h3 id="manual-deployment-of-enterprise-spark-nlp">Manual deployment of Enterprise Spark NLP</h3>
-  <p>Automatic deployment is the preferred option.</p>
-
-  <ol>
-    <li>Create a cluster with one of the <a href="/docs/en/install#databricks-support">supported runtimes</a> if you don’t have one already.</li>
-    <li>
-      <p>On a new cluster or existing one you need to add the following to the <code class="language-plaintext highlighter-rouge">Advanced Options -&gt; Spark</code> tab, in <code class="language-plaintext highlighter-rouge">Spark.Config</code> box:</p>
-
-      <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> spark.kryoserializer.buffer.max 1000M
- spark.serializer org.apache.spark.serializer.KryoSerializer
-</code></pre></div>      </div>
-      <ul>
-        <li>Please add the following to the <code class="language-plaintext highlighter-rouge">Advanced Options -&gt; Spark</code> tab, in <code class="language-plaintext highlighter-rouge">Environment Variables</code> box:</li>
-      </ul>
-
-      <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span>xxx
- <span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span>yyy
- <span class="nv">SPARK_NLP_LICENSE</span><span class="o">=</span>zzz
-</code></pre></div>      </div>
-      <p>Note: Enterprise Spark NLP also support reading the license from the Databricks DFS, on the fixed location, <code class="language-plaintext highlighter-rouge">dbfs:/FileStore/johnsnowlabs/license.key</code>.
-The precedence for that location is the highest, so make sure that file is not containing any outdated license key.</p>
-
-      <ul>
-        <li>(OPTIONAL) If the environment variables used to setup the AWS Access/Secret keys are conflicting with the credential provider chain in Databricks, you may not be able to access to other s3 buckets. To access both JSL repos with JSL AWS keys as well as your own s3 bucket with your own AWS keys), you need to use the following script, copy that to dbfs folder, then go to the Databricks console (init scripts menu) to add the init script for your cluster as follows:</li>
-      </ul>
-
-      <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> %scala
- val script <span class="o">=</span> <span class="s2">"""
- #!/bin/bash
-
- echo "</span><span class="k">********</span> Inject Spark NLP AWS Profile Credentials <span class="k">********</span> <span class="s2">"
-
- mkdir ~/.aws/
-
- cat &lt;&lt; EOF &gt; ~/.aws/credentials
- [spark_nlp]
- aws_access_key_id=&lt;YOUR_AWS_ACCESS_KEY&gt;
- aws_secret_access_key=&lt;YOUR_AWS_SECRET_KEY&gt;
- EOF
-
- echo "</span><span class="k">********</span> End Inject Spark NLP AWS Profile Credentials  <span class="k">********</span> <span class="s2">"
-
- """</span>
-</code></pre></div>      </div>
-    </li>
-    <li>In <code class="language-plaintext highlighter-rouge">Libraries</code> tab inside your cluster you need to follow these steps:
-      <ul>
-        <li><a href="https://nlp.johnsnowlabs.com/docs/en/licensed_version_compatibility">Lookup</a> the version of Healhcare NLP vs. Spark NLP you will install.</li>
-        <li>Install Spark NLP (Public): New -&gt; PyPI -&gt; <code class="language-plaintext highlighter-rouge">spark-nlp==${x.y.z_public_version}</code> -&gt; Install</li>
-        <li>Install: New -&gt; Maven -&gt; Coordinates -&gt; <code class="language-plaintext highlighter-rouge">com.johnsnowlabs.nlp:spark-nlp_2.12:${x.y.z_public_version}</code> -&gt; Install</li>
-        <li>Please add following jars:
-          <ul>
-            <li>Install: New -&gt; Python Whl -&gt; upload <code class="language-plaintext highlighter-rouge">https://pypi.johnsnowlabs.com/${secret.code}/spark-nlp-jsl/spark_nlp_jsl-${x.y.z_healthcare_version}-py3-none-any.whl</code></li>
-            <li>Install: New -&gt; Jar -&gt; upload <code class="language-plaintext highlighter-rouge">https://pypi.johnsnowlabs.com/${secret.code}/spark-nlp-jsl-${x.y.z_healthcare_version}.jar</code></li>
-          </ul>
-        </li>
-        <li>(For Legal and Finance NLP) Install: New -&gt; PyPI -&gt; <code class="language-plaintext highlighter-rouge">johnsnowlabs-for-databricks==${x.y.z_healthcare_version}</code> -&gt; Install</li>
-      </ul>
-    </li>
-    <li>Now you can attach your notebook to the cluster and use Spark NLP!</li>
-  </ol>
-
-  <h2 id="windows-support">Windows Support</h2>
-
-  <p>In order to fully take advantage of Spark NLP on Windows (8 or 10), you need to setup/install Apache Spark, Apache Hadoop, Java and a Pyton environment correctly by following the following instructions: <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/1022">https://github.com/JohnSnowLabs/spark-nlp/discussions/1022</a></p>
-
-</div>
-<div class="h3-box">
-
-  <h3 id="how-to-correctly-install-spark-nlp-on-windows">How to correctly install Spark NLP on Windows</h3>
-
-  <p>Follow the below steps to set up Spark NLP with Spark 3.1.2:</p>
-
-  <ol>
-    <li>Download <a href="https://adoptopenjdk.net/?variant=openjdk8&amp;jvmVariant=hotspot">Adopt OpenJDK 1.8</a>
-      <ul>
-        <li>Make sure it is 64-bit</li>
-        <li>Make sure you install it in the root of your main drive <code class="language-plaintext highlighter-rouge">C:\java</code>.</li>
-        <li>During installation after changing the path, select setting Path</li>
-      </ul>
-    </li>
-    <li>Download the pre-compiled Hadoop binaries <code class="language-plaintext highlighter-rouge">winutils.exe</code>, <code class="language-plaintext highlighter-rouge">hadoop.dll</code> and put it in a folder called <code class="language-plaintext highlighter-rouge">C:\hadoop\bin</code> from <a href="https://github.com/cdarlint/winutils/tree/master/hadoop-3.2.0/bin">https://github.com/cdarlint/winutils/tree/master/hadoop-3.2.0/bin</a>
-      <ul>
-        <li><strong>Note:</strong> The version above is for Spark 3.1.2, which was built for Hadoop 3.2.0. You might have to change the hadoop version in the link, depending on which Spark version you are using.</li>
-      </ul>
-    </li>
-    <li>
-      <p>Download <a href="https://www.apache.org/dyn/closer.lua/spark/spark-3.1.2/spark-3.1.2-bin-hadoop3.2.tgz">Apache Spark 3.1.2</a> and extract it to <code class="language-plaintext highlighter-rouge">C:\spark</code>.</p>
-    </li>
-    <li>
-      <p>Set/add environment variables for <code class="language-plaintext highlighter-rouge">HADOOP_HOME</code> to <code class="language-plaintext highlighter-rouge">C:\hadoop</code> and <code class="language-plaintext highlighter-rouge">SPARK_HOME</code> to <code class="language-plaintext highlighter-rouge">C:\spark</code>.</p>
-    </li>
-    <li>
-      <p>Add <code class="language-plaintext highlighter-rouge">%HADOOP_HOME%\bin</code> and <code class="language-plaintext highlighter-rouge">%SPARK_HOME%\bin</code> to the <code class="language-plaintext highlighter-rouge">PATH</code> environment variable.</p>
-    </li>
-    <li>
-      <p>Install <a href="https://www.microsoft.com/en-us/download/details.aspx?id=26999">Microsoft Visual C++ 2010 Redistributed Package (x64)</a>.</p>
-    </li>
-    <li>Create folders <code class="language-plaintext highlighter-rouge">C:\tmp</code> and <code class="language-plaintext highlighter-rouge">C:\tmp\hive</code>
-      <ul>
-        <li>If you encounter issues with permissions to these folders, you might need
-to change the permissions by running the following commands:
-          <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>%HADOOP_HOME%\bin\winutils.exe chmod 777 /tmp/hive
-%HADOOP_HOME%\bin\winutils.exe chmod 777 /tmp/
-</code></pre></div>          </div>
-        </li>
-      </ul>
-    </li>
-  </ol>
-
-</div>
-<div class="h3-box">
-
-  <h4 id="requisites-for-pyspark">Requisites for PySpark</h4>
-
-  <p>We recommend using <code class="language-plaintext highlighter-rouge">conda</code> to manage your python environment on Windows.</p>
-
-  <ul>
-    <li>Download <a href="https://repo.anaconda.com/miniconda/Miniconda3-py38_4.11.0-Windows-x86_64.exe">Miniconda for python 3.8</a></li>
-    <li>See <a href="#quick-install">Quick Install</a> on how to set up a conda environment with
-Spark NLP.</li>
-    <li>The following environment variables need to be set:
-      <ul>
-        <li><code class="language-plaintext highlighter-rouge">PYSPARK_python=python</code></li>
-        <li>Optionally, if you want to use the Jupyter Notebook runtime of Spark:
-          <ul>
-            <li>first install it in the environment with <code class="language-plaintext highlighter-rouge">conda install notebook</code></li>
-            <li>then set <code class="language-plaintext highlighter-rouge">PYSPARK_DRIVER_python=jupyter</code>, <code class="language-plaintext highlighter-rouge">PYSPARK_DRIVER_python_OPTS=notebook</code></li>
-          </ul>
-        </li>
-        <li>The environment variables can either be directly set in windows, or if only
-the conda env will be used, with <code class="language-plaintext highlighter-rouge">conda env config vars set PYSPARK_python=python</code>.
-After setting the variable with conda, you need to deactivate and re-activate
-the environment.</li>
-      </ul>
-    </li>
-  </ul>
-
-  <p>Now you can use the downloaded binary by navigating to <code class="language-plaintext highlighter-rouge">%SPARK_HOME%\bin</code> and
-running</p>
-
-  <p>Either create a conda env for python 3.6, install <em>pyspark==3.1.2 spark-nlp numpy</em> and use Jupyter/python console, or in the same conda env you can go to spark bin for <em>pyspark –packages com.johnsnowlabs.nlp:spark-nlp_2.12:3.4.4</em>.</p>
-
-  <p><img class="image image--xl" src="/assets/images/installation/90126972-c03e5500-dd64-11ea-8285-e4f76aa9e543.jpg" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
-
-  <p><img class="image image--xl" src="/assets/images/installation/90127225-21662880-dd65-11ea-8b98-3a2c26cfa534.jpg" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
-
-  <p><img class="image image--xl" src="/assets/images/installation/90127243-2925cd00-dd65-11ea-9b20-ba3353473a98.jpg" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
-
-  <p><img class="image image--xl" src="/assets/images/installation/90126972-c03e5500-dd64-11ea-8285-e4f76aa9e543.jpg" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
-
-</div>
-<div class="h3-box">
-
-  <h2 id="use-on-google-colab">Use on Google Colab</h2>
+  <p>This is the way to run Clinical NLP in Google Colab if you don’t use <code class="language-plaintext highlighter-rouge">johnsnowlabs</code> library.</p>
 
   <p>Run the following code in Google Colab notebook and start using Spark NLP right away.</p>
 
@@ -1038,7 +1067,10 @@ running</p>
 </div>
 <div class="h3-box">
 
-  <h2 id="install-on-gcp-dataproc">Install on GCP Dataproc</h2>
+  <h2 id="non-johnsnowlabs-clinical-nlp-on-gcp-dataproc">Non-johnsnowlabs Clinical NLP on GCP Dataproc</h2>
+  <blockquote>
+    <p>These instructions use non-johnsnowlabs installation syntax. For simplified installation with <code class="language-plaintext highlighter-rouge">johnsnowlabs</code> library, check first section.</p>
+  </blockquote>
 
   <ul>
     <li>You can follow the steps here for <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/platforms/dataproc">installation via IU</a></li>
@@ -1130,7 +1162,10 @@ Or you can set <code class="language-plaintext highlighter-rouge">.master('yarn'
 </div>
 <div class="h3-box">
 
-  <h2 id="install-on-aws-sagemaker">Install on AWS SageMaker</h2>
+  <h2 id="non-johnsnowlabs-clinical-nlp-on-aws-sagemaker">Non-johnsnowlabs Clinical NLP on AWS SageMaker</h2>
+  <blockquote>
+    <p>These instructions use non-johnsnowlabs installation syntax. For simplified installation with <code class="language-plaintext highlighter-rouge">johnsnowlabs</code> library, check first section.</p>
+  </blockquote>
 
   <ol>
     <li>Access AWS Sagemaker in AWS.</li>
@@ -1174,7 +1209,10 @@ Or you can set <code class="language-plaintext highlighter-rouge">.master('yarn'
 </div>
 <div class="h3-box">
 
-  <h2 id="install-with-poetry">Install with Poetry</h2>
+  <h2 id="non-johnsnowlabs-clinical-nlp-with-poetry">Non-johnsnowlabs Clinical NLP with Poetry</h2>
+  <blockquote>
+    <p>These instructions use non-johnsnowlabs installation syntax. For simplified installation with <code class="language-plaintext highlighter-rouge">johnsnowlabs</code> library, check first section.</p>
+  </blockquote>
 
   <p>This is a sample <code class="language-plaintext highlighter-rouge">project.toml</code> file which you can use with <code class="language-plaintext highlighter-rouge">poetry install</code> to setup spark NLP + the Healthcare python library <code class="language-plaintext highlighter-rouge">spark-nlp-jsl</code></p>
 
@@ -1204,7 +1242,10 @@ build-backend <span class="o">=</span> <span class="s2">"poetry.core.masonry.api
 </div>
 <div class="h3-box">
 
-  <h2 id="spark-nlp-for-healthcare-in-aws-emr">Spark-NLP for Healthcare in AWS EMR</h2>
+  <h2 id="non-johnsnowlabs-clinical-nlp-on-aws-emr">Non-johnsnowlabs Clinical NLP on AWS EMR</h2>
+  <blockquote>
+    <p>These instructions use non-johnsnowlabs installation syntax. For simplified installation with <code class="language-plaintext highlighter-rouge">johnsnowlabs</code> library, check first section.</p>
+  </blockquote>
 
   <p>In this page we explain how to setup Spark-NLP + Spark-NLP Healthcare in AWS EMR, using the AWS console.</p>
 
@@ -1259,7 +1300,10 @@ After you entered the route to S3 in which you place the <code class="language-p
 </div>
 <div class="h3-box">
 
-  <h2 id="amazon-linux-2-support">Amazon Linux 2 Support</h2>
+  <h2 id="non-johnsnowlabs-clinical-nlp-on-amazon-linux-2">Non-johnsnowlabs Clinical NLP on Amazon Linux 2</h2>
+  <blockquote>
+    <p>These instructions use non-johnsnowlabs installation syntax. For simplified installation with <code class="language-plaintext highlighter-rouge">johnsnowlabs</code> library, check first section.</p>
+  </blockquote>
 
   <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Update Package List &amp; Install  Required Packages</span>
 <span class="nb">sudo </span>yum update
@@ -1328,7 +1372,7 @@ os.environ.update(license_keys)
 </div>
 <div class="h3-box">
 
-  <h2 id="get-a-enterprise-spark-nlp-license">Get a Enterprise Spark NLP license</h2>
+  <h2 id="fancy-trying">Fancy trying?</h2>
 
   <p>You can ask for a free trial for Enterprise Spark NLP <a href="https://www.johnsnowlabs.com/install/">here</a>. This will automatically create a new account for you on <a href="https://my.johnsnowlabs.com/">my.JohnSnowLabs.com</a>. Login in to your new account and from <code class="language-plaintext highlighter-rouge">My Subscriptions</code> section, you can download your license key as a json file.</p>
 
