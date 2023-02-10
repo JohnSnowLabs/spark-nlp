@@ -324,6 +324,7 @@ python/tensorflow/bert/models/**
 **/tmp_*
 docs/_site/**
 docs/.sass-cache/**
+docs/*.json
 tst_shortcut_sd/
 src/*/resources/*.classes
 /word_segmenter_metrics/
