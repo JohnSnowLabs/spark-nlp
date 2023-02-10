@@ -28,6 +28,7 @@ Reference:
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/wordseg_gsd_ud_trad_zh_2.7.0_2.4_1611584735643.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/wordseg_gsd_ud_trad_zh_2.7.0_2.4_1611584735643.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

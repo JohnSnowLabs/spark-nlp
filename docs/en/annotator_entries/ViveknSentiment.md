@@ -14,7 +14,7 @@ For training your own model, please see the documentation of that class.
 The analyzer requires sentence boundaries to give a score in context.
 Tokenization is needed to make sure tokens are within bounds. Transitivity requirements are also required.
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb)
 and the [ViveknSentimentTestSpec](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/vivekn).
 {%- endcapture -%}
 
@@ -27,11 +27,11 @@ SENTIMENT
 {%- endcapture -%}
 
 {%- capture model_api_link -%}
-[ViveknSentimentModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentModel)
+[ViveknSentimentModel](/api/com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentModel)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[ViveknSentimentModel](/api/python/reference/autosummary/python/sparknlp/annotator/sentiment/vivekn_sentiment/index.html#sparknlp.annotator.sentiment.vivekn_sentiment.ViveknSentimentModel)
+[ViveknSentimentModel](/api/python/reference/autosummary/sparknlp/annotator/sentiment/vivekn_sentiment/index.html#sparknlp.annotator.sentiment.vivekn_sentiment.ViveknSentimentModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -49,7 +49,7 @@ Tokenization is needed to make sure tokens are within bounds. Transitivity requi
 
 The training data needs to consist of a column for normalized text and a label column (either `"positive"` or `"negative"`).
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb)
 and the [ViveknSentimentTestSpec](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/vivekn).
 {%- endcapture -%}
 
@@ -175,11 +175,11 @@ result.select("final_sentiment").show(false)
 {%- endcapture -%}
 
 {%- capture approach_api_link -%}
-[ViveknSentimentApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentApproach)
+[ViveknSentimentApproach](/api/com/johnsnowlabs/nlp/annotators/sda/vivekn/ViveknSentimentApproach)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[ViveknSentimentApproach](/api/python/reference/autosummary/python/sparknlp/annotator/sentiment/vivekn_sentiment/index.html#sparknlp.annotator.sentiment.vivekn_sentiment.ViveknSentimentApproach)
+[ViveknSentimentApproach](/api/python/reference/autosummary/sparknlp/annotator/sentiment/vivekn_sentiment/index.html#sparknlp.annotator.sentiment.vivekn_sentiment.ViveknSentimentApproach)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

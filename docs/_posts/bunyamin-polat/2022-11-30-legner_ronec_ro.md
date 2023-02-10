@@ -39,7 +39,8 @@ The `legner_ronec` is a Named Entity Recognition model trained on RONEC (ROmania
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_ronec_ro_1.0.0_3.0_1669842840646.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_ronec_ro_1.0.0_3.0_1669842840646.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legner_ronec_ro_1.0.0_3.0_1669842840646.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -132,7 +133,6 @@ Dataset is available [here](https://github.com/dumitrescustefan/ronec).
 
 ```bash
 label         precision  recall  f1-score  support
-
 DATETIME      0.90       0.90    0.90      1070
 EVENT         0.53       0.68    0.59      116
 LANGUAGE      0.98       0.95    0.97      44
@@ -144,7 +144,6 @@ ORDINAL       0.88       0.93    0.90      183
 ORG           0.81       0.83    0.82      779
 PERSON        0.89       0.91    0.90      2635
 WORK_OF_ART   0.73       0.57    0.64      140
-
 micro-avg     0.89       0.90    0.89      8276
 macro-avg     0.86       0.87    0.86      8276
 weighted-avg  0.89       0.90    0.89      8276

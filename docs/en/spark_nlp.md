@@ -3,7 +3,7 @@ layout: docs
 title: Spark NLP
 permalink: /docs/en/spark-nlp
 key: docs-spark_nlp
-modify_date: "2022-06-17"
+modify_date: "2023-02-09"
 header: true
 seotitle:
 show_nav: true
@@ -25,7 +25,7 @@ Spark NLP is built on top of **Apache Spark 3.x**. For using Spark NLP you need:
 
 **GPU (optional):**
 
-Spark NLP 4.2.5 is built with TensorFlow 2.7.1 and the following NVIDIA® software are only required for GPU support:
+Spark NLP 4.3.0 is built with TensorFlow 2.7.1 and the following NVIDIA® software are only required for GPU support:
 
 - NVIDIA® GPU drivers version 450.80.02 or higher
 - CUDA® Toolkit 11.2
@@ -53,7 +53,7 @@ Install Spark NLP in
 Join our channel, to ask for help and share your feedback. Developers and users can help each other getting started here.
 
 {:.btn-block}
-[Spark NLP Slack](https://www.johnsnowlabs.com/slack-redirect){:.button.button--info.button--rounded.button--md}
+[Spark NLP Slack](https://join.slack.com/t/spark-nlp/shared_invite/zt-198dipu77-L3UWNe_AJ8xqDk0ivmih5Q){:.button.button--info.button--rounded.button--md}
 
 </div><div class="block-box" markdown="1">
 
@@ -68,12 +68,12 @@ Make sure to check out our demos built by Streamlit to showcase Spark NLP in act
 
 <div class="block-wrapper"><div class="block-box" markdown="1">
 
-## Spark NLP Workshop
+## Spark NLP Examples
 
 If you prefer learning by example, check this repository:
 
 {:.btn-block}
-[Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop){:.button.button--primary.button--rounded.button--md}
+[Spark NLP Examples](https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples){:.button.button--primary.button--rounded.button--md}
 
 </div><div class="block-box" markdown="1">
 

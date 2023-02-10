@@ -59,7 +59,8 @@ The currently available entities are:
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_earning_calls_generic_md_en_1.0.0_3.0_1671135709181.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_earning_calls_generic_md_en_1.0.0_3.0_1671135709181.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/finance/models/finner_earning_calls_generic_md_en_1.0.0_3.0_1671135709181.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -184,31 +185,32 @@ In-house annotations on Earning Calls.
 ## Benchmarking
 
 ```bash
-|             entity |  precision |     recall |        f1 | support |
-|-------------------:|-----------:|-----------:|----------:|--------:|
-|             AMOUNT |  99.476440 |  99.650350 | 99.563319 |     573 |
-|              ASSET |  54.838710 |  50.000000 | 52.307692 |      31 |
-|     ASSET_INCREASE | 100.000000 |  33.333333 | 50.000000 |       1 |
-|                 CF |  44.827586 |  54.166667 | 49.056604 |      29 |
-|              COUNT |  61.290323 |  86.363636 | 71.698113 |      31 |
-|           CURRENCY |  99.095841 |  99.636364 | 99.365367 |     553 |
-|               DATE |  88.304094 |  96.178344 | 92.073171 |     171 |
-|            EXPENSE |  66.666667 |  50.602410 | 57.534247 |      63 |
-|   EXPENSE_DECREASE | 100.000000 |  60.000000 | 75.000000 |       3 |
-|   EXPENSE_INCREASE |  55.555556 |  55.555556 | 55.555556 |       9 |
-|                FCF |  78.947368 |  75.000000 | 76.923077 |      19 |
-|                KPI |  31.578947 |  28.571429 | 30.000000 |      19 |
-|       KPI_DECREASE |  33.333333 |  20.000000 | 25.000000 |       6 |
-|       KPI_INCREASE |  53.333333 |  38.095238 | 44.444444 |      15 |
-|          LIABILITY |  41.666667 |  47.619048 | 44.444444 |      24 |
-| LIABILITY_DECREASE | 100.000000 |  33.333333 | 50.000000 |       1 |
-|                ORG |  95.000000 |  95.000000 | 95.000000 |      20 |
-|         PERCENTAGE |  98.951049 |  99.472759 | 99.211218 |     572 |
-|             PROFIT |  77.973568 |  78.666667 | 78.318584 |     227 |
-|     PROFIT_DECLINE |  48.648649 |  48.648649 | 48.648649 |      37 |
-|    PROFIT_INCREASE |  69.285714 |  66.896552 | 68.070175 |     140 |
-|             TICKER |  94.736842 | 100.000000 | 97.297297 |      19 |
-| accuracy           |     -      |     -      | 0.9585    | 19083   |
-| macro avg          | 0.6513     | 0.5875     | 0.6067    | 19083   |
-| weighted avg       | 0.9577     | 0.9585     | 0.9577    | 19083   |
+
+label               precision   recall      f1         support 
+AMOUNT              99.476440   99.650350   99.563319  573     
+ASSET               54.838710   50.000000   52.307692  31      
+ASSET_INCREASE      100.000000  33.333333   50.000000  1       
+CF                  44.827586   54.166667   49.056604  29      
+COUNT               61.290323   86.363636   71.698113  31      
+CURRENCY            99.095841   99.636364   99.365367  553     
+DATE                88.304094   96.178344   92.073171  171     
+EXPENSE             66.666667   50.602410   57.534247  63      
+EXPENSE_DECREASE    100.000000  60.000000   75.000000  3       
+EXPENSE_INCREASE    55.555556   55.555556   55.555556  9       
+FCF                 78.947368   75.000000   76.923077  19      
+KPI                 31.578947   28.571429   30.000000  19      
+KPI_DECREASE        33.333333   20.000000   25.000000  6       
+KPI_INCREASE        53.333333   38.095238   44.444444  15      
+LIABILITY           41.666667   47.619048   44.444444  24      
+LIABILITY_DECREASE  100.000000  33.333333   50.000000  1       
+ORG                 95.000000   95.000000   95.000000  20      
+PERCENTAGE          98.951049   99.472759   99.211218  572     
+PROFIT              77.973568   78.666667   78.318584  227     
+PROFIT_DECLINE      48.648649   48.648649   48.648649  37      
+PROFIT_INCREASE     69.285714   66.896552   68.070175  140     
+TICKER              94.736842   100.000000  97.297297  19      
+accuracy            -           -           0.9585     19083   
+macro-avg           0.6513      0.5875      0.6067     19083   
+weighted-avg        0.9577      0.9585      0.9577     19083
+
 ```

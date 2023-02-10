@@ -24,6 +24,7 @@ Word Embeddings lookup annotator that maps tokens to vectors. In CBOW the distri
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/word2vec_cbow_legal_d300_cased_es_4.2.1_3.0_1668534832632.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/word2vec_cbow_legal_d300_cased_es_4.2.1_3.0_1668534832632.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

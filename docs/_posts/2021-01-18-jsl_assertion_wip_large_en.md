@@ -29,7 +29,8 @@ The deep neural network architecture for assertion status detection in Spark NLP
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/2.Clinical_Assertion_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/jsl_assertion_wip_large_en_2.6.5_2.4_1609091911183.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/jsl_assertion_wip_large_en_2.6.5_2.4_1609091911183.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/jsl_assertion_wip_large_en_2.6.5_2.4_1609091911183.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 
 {:.h2_title}

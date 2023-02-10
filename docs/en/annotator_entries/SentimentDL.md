@@ -21,7 +21,7 @@ The default model is `"sentimentdl_use_imdb"`, if no name is provided. It is eng
 the IMDB dataset.
 For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Sentiment+Analysis).
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.Text_Classification_with_ClassifierDL.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/classification/SentimentDL_train_multiclass_sentiment_classifier.ipynb)
 and the [SentimentDLTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/SentimentDLTestSpec.scala).
 {%- endcapture -%}
 
@@ -117,11 +117,11 @@ result.select("text", "sentiment.result").show(false)
 {%- endcapture -%}
 
 {%- capture model_api_link -%}
-[SentimentDLModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/SentimentDLModel)
+[SentimentDLModel](/api/com/johnsnowlabs/nlp/annotators/classifier/dl/SentimentDLModel)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[SentimentDLModel](/api/python/reference/autosummary/python/sparknlp/annotator/sentiment/sentiment_dl/index.html#sparknlp.annotator.sentiment.sentiment_dl.SentimentDLModel)
+[SentimentDLModel](/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/sentiment_dl/index.html#sparknlp.annotator.classifier_dl.sentiment_dl.SentimentDLModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -176,7 +176,7 @@ val classifier = new SentimentDLApproach()
   .setTestDataset("test_data")
 ```
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/classification/SentimentDL_train_multiclass_sentiment_classifier.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/classification/SentimentDL_train_multiclass_sentiment_classifier.ipynb)
 and the [SentimentDLTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/SentimentDLTestSpec.scala).
 {%- endcapture -%}
 
@@ -279,11 +279,11 @@ val pipelineModel = pipeline.fit(smallCorpus)
 {%- endcapture -%}
 
 {%- capture approach_api_link -%}
-[SentimentDLApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/SentimentDLApproach)
+[SentimentDLApproach](/api/com/johnsnowlabs/nlp/annotators/classifier/dl/SentimentDLApproach)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[SentimentDLApproach](/api/python/reference/autosummary/python/sparknlp/annotator/sentiment/sentiment_dl/index.html#sparknlp.annotator.sentiment.sentiment_dl.SentimentDLApproach)
+[SentimentDLApproach](/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/sentiment_dl/index.html#sparknlp.annotator.classifier_dl.sentiment_dl.SentimentDLApproach)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

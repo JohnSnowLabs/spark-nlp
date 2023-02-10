@@ -30,7 +30,8 @@ This is an NER model trained on SEC 10K documents, aimed to extract the followin
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/finance/FINPIPE_ORG_PER_DATE_ROLES/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_org_per_role_date_en_1.0.0_3.2_1661862246514.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_org_per_role_date_en_1.0.0_3.2_1661862246514.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/finance/models/finner_org_per_role_date_en_1.0.0_3.2_1661862246514.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

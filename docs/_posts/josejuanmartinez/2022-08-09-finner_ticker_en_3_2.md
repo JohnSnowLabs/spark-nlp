@@ -28,7 +28,8 @@ This is a light version of the model, trained on Tweets. You can find heavier mo
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/public/NER_TICKER/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_ticker_en_1.0.0_3.2_1660037397073.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_ticker_en_1.0.0_3.2_1660037397073.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/finance/models/finner_ticker_en_1.0.0_3.2_1660037397073.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

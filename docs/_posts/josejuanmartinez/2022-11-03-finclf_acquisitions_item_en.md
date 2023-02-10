@@ -10,7 +10,7 @@ language: en
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
-annotator: ClassifierDLModel
+annotator: FinanceClassifierDLModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -34,7 +34,8 @@ Take into consideration the embeddings of this model allows up to 512 tokens. If
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_acquisitions_item_en_1.0.0_3.0_1667484190818.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_acquisitions_item_en_1.0.0_3.0_1667484190818.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/finance/models/finclf_acquisitions_item_en_1.0.0_3.0_1667484190818.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -101,13 +102,10 @@ Weak labelling on documents from Edgar database
 ## Benchmarking
 
 ```bash
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
 acquisitions       0.95      0.89      0.92       136
        other       0.96      0.98      0.97       412
-
-    accuracy                           0.96       548
-   macro avg       0.95      0.94      0.95       548
-weighted avg       0.96      0.96      0.96       548
-
+    accuracy          -         -      0.96       548
+   macro-avg       0.95      0.94      0.95       548
+weighted-avg       0.96      0.96      0.96       548
 ```

@@ -4,7 +4,7 @@ Stemmer
 
 {%- capture description -%}
 Returns hard-stems out of words with the objective of retrieving the meaningful part of the word.
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb).
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/stemmer/Word_Stemming_with_Stemmer.ipynb).
 {%- endcapture -%}
 
 {%- capture input_anno -%}
@@ -90,11 +90,11 @@ result.selectExpr("stem.result").show(truncate = false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[Stemmer](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/Stemmer)
+[Stemmer](/api/com/johnsnowlabs/nlp/annotators/Stemmer)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[Stemmer](/api/python/reference/autosummary/python/sparknlp/annotator/stemmer/index.html#sparknlp.annotator.stemmer.Stemmer)
+[Stemmer](/api/python/reference/autosummary/sparknlp/annotator/stemmer/index.html#sparknlp.annotator.stemmer.Stemmer)
 {%- endcapture -%}
 
 {%- capture source_link -%}

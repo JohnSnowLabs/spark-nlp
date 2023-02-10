@@ -28,6 +28,7 @@ Pretrained RobertaForTokenClassification model, adapted from Hugging Face and cu
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/roberta_ner_NLP_CIC_WFU_Clinical_Cases_NER_Sents_Tokenized_bertin_roberta_base_spanish_fine_tuned_es_4.1.0_3.0_1660404679905.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/roberta_ner_NLP_CIC_WFU_Clinical_Cases_NER_Sents_Tokenized_bertin_roberta_base_spanish_fine_tuned_es_4.1.0_3.0_1660404679905.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

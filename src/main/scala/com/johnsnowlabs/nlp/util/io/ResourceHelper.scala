@@ -77,8 +77,8 @@ object ResourceHelper {
       .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
       .config("spark.kryoserializer.buffer.max", "1000M")
       .config("spark.driver.maxResultSize", "0")
-      .config(ConfigHelper.awsExternalAccessKeyId, awsAccessKeyId)
-      .config(ConfigHelper.awsExternalSecretAccessKey, awsSecretAccessKey)
+      .config("spark.hadoop.fs.s3a.access.key", awsAccessKeyId)
+      .config("spark.hadoop.fs.s3a.secret.key", awsSecretAccessKey)
       .config(ConfigHelper.awsExternalRegion, region)
       .config(
         "spark.hadoop.fs.s3a.aws.credentials.provider",
@@ -93,7 +93,7 @@ object ResourceHelper {
       require(
         awsSessionToken.isDefined,
         "AWS Session token needs to be provided for TemporaryAWSCredentialsProvider.")
-      sparkSession.config(ConfigHelper.awsExternalSessionToken, awsSessionToken.get)
+      sparkSession.config("spark.hadoop.fs.s3a.session.token", awsSessionToken.get)
     }
 
     sparkSession.getOrCreate()
@@ -204,7 +204,7 @@ object ResourceHelper {
     case awsE: AmazonServiceException =>
       println("Error while retrieving folder from S3. Make sure you have set the right " +
         "access keys with proper permissions in your configuration. For an example please see " +
-        "https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/mfa_ner_graphs_s3.ipynb")
+        "https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dl-ner/mfa_ner_graphs_s3.ipynb")
       throw awsE
     case e: Exception =>
       val copyToLocalErrorMessage: String =

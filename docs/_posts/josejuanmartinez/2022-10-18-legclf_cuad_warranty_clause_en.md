@@ -10,7 +10,7 @@ language: en
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
-annotator: ClassifierDLModel
+annotator: LegalClassifierDLModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -38,7 +38,8 @@ There are other models in this dataset with similar title, but the difference is
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/finance/CLASSIFY_LEGAL_CLAUSES/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_cuad_warranty_clause_en_1.0.0_3.0_1666097671097.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_cuad_warranty_clause_en_1.0.0_3.0_1666097671097.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_cuad_warranty_clause_en_1.0.0_3.0_1666097671097.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -104,7 +105,7 @@ CUAD dataset
       label     precision    recall  f1-score   support
        other       0.96      0.96      0.96        27
     warranty       0.93      0.93      0.93        14
-    accuracy        -         -        0.95        41
+    accuracy          -         -      0.95        41
    macro-avg       0.95      0.95      0.95        41
 weighted-avg       0.95      0.95      0.95        41
 ```

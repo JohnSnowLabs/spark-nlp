@@ -6,9 +6,6 @@ Doc2Chunk
 Converts `DOCUMENT` type annotations into `CHUNK` type with the contents of a `chunkCol`.
 Chunk text must be contained within input `DOCUMENT`. May be either `StringType` or `ArrayType[StringType]`
 (using setIsArray). Useful for annotators that require a CHUNK type input.
-
-For more extended examples on document pre-processing see the
-[Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb).
 {%- endcapture -%}
 
 {%- capture input_anno -%}
@@ -79,11 +76,11 @@ result.selectExpr("chunk.result", "chunk.annotatorType").show(false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[Doc2Chunk](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/Doc2Chunk)
+[Doc2Chunk](/api/com/johnsnowlabs/nlp/Doc2Chunk)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[Doc2Chunk](/api/python/reference/autosummary/python/sparknlp/base/doc2_chunk/index.html#sparknlp.base.doc2_chunk.Doc2Chunk)
+[Doc2Chunk](/api/python/reference/autosummary/sparknlp/base/doc2_chunk/index.html#sparknlp.base.doc2_chunk.Doc2Chunk)
 {%- endcapture -%}
 
 {%- capture source_link -%}

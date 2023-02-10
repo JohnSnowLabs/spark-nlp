@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp_jsl.utils.imports &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.utils.imports &#8212; Spark NLP  documentation</title>
   
   
   
@@ -258,6 +258,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../ner_utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.utils.ner_utils</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ocr_nlp_processor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.utils.ocr_nlp_processor</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ocr_utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.utils.ocr_utils</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../training_log_parser_utils/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.utils.training_log_parser_utils</span></code></a></li>
 </ul>
 
   </div>
@@ -297,15 +298,23 @@
 <h3>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">#</a></h3>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.utils.imports.is_module_importable" title="sparknlp_jsl.utils.imports.is_module_importable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_module_importable</span></code></a>(module_name)</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.utils.imports.is_module_importable" title="sparknlp_jsl.utils.imports.is_module_importable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_module_importable</span></code></a>(→ bool)</p></td>
+<td><p>Return True if Lib can be imported, False if not when raise_exception is False,</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py function">
 <dt class="sig sig-object py" id="sparknlp_jsl.utils.imports.is_module_importable">
-<span class="sig-name descname"><span class="pre">is_module_importable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/utils/imports.html#is_module_importable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.utils.imports.is_module_importable" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">is_module_importable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lib</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raise_exception</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pip_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'function'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/utils/imports.html#is_module_importable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.utils.imports.is_module_importable" title="Permalink to this definition">#</a></dt>
+<dd><p>Return True if Lib can be imported, False if not when raise_exception is False,
+otherwise raises Exception when not importable.
+:param lib: import name of module to test
+:param raise_exception: Should raise exception or not
+:param pip_name: If raise exception this is required. Part of the error message for install instruction
+:param message_type: Either ‘function’ or ‘module’ which will change the style of error message
+:return: True if importable, False if not when raise_exception is False,
+otherwise raises Exception when not importable.</p>
+</dd></dl>
 
 </section>
 </section>

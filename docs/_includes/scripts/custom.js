@@ -26,32 +26,6 @@ jQuery(document).ready(function($) {
   });
 });
 
-/*TABS*/
-/* function openTabCall(cityName){
-  // Declare all variables
-  var i, tabcontent, tablinks;
-
-  // Get all elements with class="tabcontent" and hide them
-  tabcontent = document.getElementsByClassName("tabcontent");
-  for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
-  }
-
-  // Get all elements with class="tablinks" and remove the class "active"
-  tablinks = document.getElementsByClassName("tablinks");
-  for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" active", "");
-  }
-
-  // Show the current tab, and add an "active" class to the button that opened the tab
-  document.getElementById(cityName).style.display = "block";
-}
-
-function openTab(evt, cityName) {
-  openTabCall(cityName);
-  evt.currentTarget.className += " active";
-} */
-
 /*OPen by URL*/
 jQuery(document).ready(function () {  
   const tabName = (window.location.hash || '').replace('#', '');
@@ -61,8 +35,8 @@ jQuery(document).ready(function () {
   }
 });
 
-//Accordion demos categories
-if(document.querySelector(".acc-top")) {
+try{
+  //Accordion demos categories
   let acc = document.getElementsByClassName("acc-top"),
     isResizeble = false;
 
@@ -87,11 +61,11 @@ for (let i = 0; i < acc.length; i++) {
     }
   });
 }
-}
+} catch(e){}
 
 
-//Show more in demos description
-if(document.querySelector('.tab-description')) {
+try {
+  //Show more in demos description
   let tabDescription = document.querySelectorAll('.tab-description');
 
   tabDescription.forEach(element => {
@@ -110,11 +84,11 @@ if(document.querySelector('.tab-description')) {
       this.parentElement.parentElement.classList.add('big-descr-close');
     });
   });
-}
+} catch(e){}
 
 
-//disable Colab link
-if(document.querySelector('.btn.disable')) {
+try{
+  //disable Colab link
   let btnDisable = document.querySelectorAll('.btn.disable');
 
   btnDisable.forEach(element => {
@@ -122,28 +96,85 @@ if(document.querySelector('.btn.disable')) {
       e.preventDefault();
     });
   });
-}
+} catch(e){}
 
 
-// Ancor click
+try {
+  // Ancor click
 const anchors = [].slice.call(document.querySelectorAll('.btn-box-install a')),
-      animationTime = 300,
-      framesCount = 20;
+animationTime = 300,
+framesCount = 20;
 
 anchors.forEach(function(item) {
-    item.addEventListener('click', function(e) {
-        e.preventDefault();
-        let coordY = document.querySelector(item.getAttribute('href')).getBoundingClientRect().top + window.pageYOffset -100;
-    
-        let scroller = setInterval(function() {
-            let scrollBy = coordY / framesCount;
-      
-      if(scrollBy > window.pageYOffset - coordY && window.innerHeight + window.pageYOffset < document.body.offsetHeight) {
-          window.scrollBy(0, scrollBy);
-      } else {
-                window.scrollTo(0, coordY);
-        clearInterval(scroller);
-      }
-        }, animationTime / framesCount);
-  });
+item.addEventListener('click', function(e) {
+  e.preventDefault();
+  let coordY = document.querySelector(item.getAttribute('href')).getBoundingClientRect().top + window.pageYOffset -100;
+
+  let scroller = setInterval(function() {
+      let scrollBy = coordY / framesCount;
+
+if(scrollBy > window.pageYOffset - coordY && window.innerHeight + window.pageYOffset < document.body.offsetHeight) {
+    window.scrollBy(0, scrollBy);
+} else {
+          window.scrollTo(0, coordY);
+  clearInterval(scroller);
+}
+  }, animationTime / framesCount);
+});
 }); 
+} catch(e){}
+
+
+try {
+  //Pagination active
+  let paginationItems = document.querySelectorAll('.pagination_big li'),
+      nextVersionContainer = document.querySelector('#nextver'),
+      previosVersionContainer = document.querySelector('#previosver'),
+      currentVersionContainer = document.querySelector('#currversion'),
+      currentPageTitle = document.querySelector('#section').innerText;
+
+  // Set active page and update version containers
+  for (let i = 0; i < paginationItems.length; i++) {
+    const item = paginationItems[i];
+    const itemTitle = item.firstElementChild.innerHTML;
+    if (itemTitle === currentPageTitle) {
+      item.classList.add('active');
+      currentVersionContainer.textContent = itemTitle;       
+      if(item.previousElementSibling) {
+        previosVersionContainer.textContent = item.previousElementSibling.innerText; 
+        previosVersionContainer.parentElement.href += item.previousElementSibling.innerText.replaceAll('.', '_');
+      } else {
+        previosVersionContainer.parentElement.parentElement.classList.add('hide');
+      }
+      if(item.nextElementSibling) {
+        nextVersionContainer.textContent = item.nextElementSibling.innerText;
+        nextVersionContainer.parentElement.href += item.nextElementSibling.innerText.replaceAll('.', '_');
+      } else {
+        nextVersionContainer.parentElement.parentElement.classList.add('hide');
+      }         
+      break;
+    }
+  }
+} catch(e){}
+
+
+try{
+  // copy to clipboard
+  let btnCopy = document.querySelectorAll('.button-copy-s3');
+
+  btnCopy.forEach((element) => {
+    //add span Copied!
+    element.insertAdjacentHTML('beforeend', '<span>Copied!</span>');
+
+    element.addEventListener('click', function (e) {
+      e.preventDefault();
+      element.classList.add('copied');
+      setTimeout(function () {
+        element.classList.remove('copied');
+      }, 3000);
+      navigator.clipboard.writeText(element.href);
+    });
+  });
+} catch(e){}
+
+document.getElementById("year").innerHTML = new Date().getFullYear();

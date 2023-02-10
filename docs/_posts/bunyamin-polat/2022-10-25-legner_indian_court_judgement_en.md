@@ -10,7 +10,7 @@ language: en
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
-annotator: FinanceNerModel
+annotator: LegalNerModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -27,7 +27,8 @@ This is an NER model trained on Indian court dataset, aimed to extract the follo
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_indian_court_judgement_en_1.0.0_3.0_1666698501448.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_indian_court_judgement_en_1.0.0_3.0_1666698501448.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legner_indian_court_judgement_en_1.0.0_3.0_1666698501448.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -166,22 +167,21 @@ Training data is available [here](https://github.com/Legal-NLP-EkStep/legal_NER#
 ## Benchmarking
 
 ```bash
-| label        | precision | recall | f1-score | support |
-|--------------|-----------|--------|----------|---------|
-| CASE_NUMBER  | 0.83      | 0.80   | 0.82     | 112     |
-| COURT        | 0.92      | 0.94   | 0.93     | 140     |
-| DATE         | 0.97      | 0.97   | 0.97     | 204     |
-| GPE          | 0.81      | 0.75   | 0.78     | 95      |
-| JUDGE        | 0.84      | 0.86   | 0.85     | 57      |
-| ORG          | 0.75      | 0.76   | 0.76     | 131     |
-| OTHER_PERSON | 0.83      | 0.90   | 0.86     | 241     |
-| PETITIONER   | 0.76      | 0.61   | 0.68     | 36      |
-| PRECEDENT    | 0.84      | 0.84   | 0.84     | 127     |
-| PROVISION    | 0.90      | 0.94   | 0.92     | 220     |
-| RESPONDENT   | 0.64      | 0.70   | 0.67     | 23      |
-| STATUTE      | 0.92      | 0.96   | 0.94     | 157     |
-| WITNESS      | 0.93      | 0.78   | 0.85     | 87      |
-| micro-avg    | 0.87      | 0.87   | 0.87     | 1630    |
-| macro-avg    | 0.84      | 0.83   | 0.83     | 1630    |
-| weighted-avg | 0.87      | 0.87   | 0.87     | 1630    |
+label         precision  recall  f1-score  support 
+CASE_NUMBER   0.83       0.80    0.82      112     
+COURT         0.92       0.94    0.93      140     
+DATE          0.97       0.97    0.97      204     
+GPE           0.81       0.75    0.78      95      
+JUDGE         0.84       0.86    0.85      57      
+ORG           0.75       0.76    0.76      131     
+OTHER_PERSON  0.83       0.90    0.86      241     
+PETITIONER    0.76       0.61    0.68      36      
+PRECEDENT     0.84       0.84    0.84      127     
+PROVISION     0.90       0.94    0.92      220     
+RESPONDENT    0.64       0.70    0.67      23      
+STATUTE       0.92       0.96    0.94      157     
+WITNESS       0.93       0.78    0.85      87      
+micro-avg     0.87       0.87    0.87      1630    
+macro-avg     0.84       0.83    0.83      1630    
+weighted-avg  0.87       0.87    0.87      1630
 ```

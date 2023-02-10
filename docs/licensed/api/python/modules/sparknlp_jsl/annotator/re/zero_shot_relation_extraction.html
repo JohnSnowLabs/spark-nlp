@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.annotator.re.zero_shot_relation_extraction &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.annotator.re.zero_shot_relation_extraction &#8212; Spark NLP  documentation</title>
   
   
   
@@ -267,13 +267,13 @@
             <article class="bd-article" role="main">
               
   <h1>Source code for sparknlp_jsl.annotator.re.zero_shot_relation_extraction</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span></span><span class="kn">from</span> <span class="nn">sparknlp_jsl.common</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp_jsl.annotator.classification.medical_bert_for_sequence_classification</span> <span class="kn">import</span> \
     <span class="n">MedicalBertForSequenceClassification</span>
 
 
 <div class="viewcode-block" id="ZeroShotRelationExtractionModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/zero_shot_relation_extraction/index.html#sparknlp_jsl.annotator.re.zero_shot_relation_extraction.ZeroShotRelationExtractionModel">[docs]</a><span class="k">class</span> <span class="nc">ZeroShotRelationExtractionModel</span><span class="p">(</span><span class="n">MedicalBertForSequenceClassification</span><span class="p">,</span> <span class="n">HasEngine</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    ZeroShotRelationExtractionModel implements zero shot binary relations extraction by utilizing BERT transformer</span>
 <span class="sd">    models trained on the NLI (Natural Language Inference) task. The model inputs consists of documents/sentences and</span>
 <span class="sd">    paired NER chunks, usually obtained by RENerChunksFilter. The definitions of relations which are extracted is given</span>
@@ -371,6 +371,7 @@
 <span class="sd">    +-------+----------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="ZeroShotRelationExtractionModel.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/zero_shot_relation_extraction/index.html#sparknlp_jsl.annotator.re.zero_shot_relation_extraction.ZeroShotRelationExtractionModel.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span></div>
+<div class="viewcode-block" id="ZeroShotRelationExtractionModel.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/zero_shot_relation_extraction/index.html#sparknlp_jsl.annotator.re.zero_shot_relation_extraction.ZeroShotRelationExtractionModel.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CATEGORY</span></div>
 
 <div class="viewcode-block" id="ZeroShotRelationExtractionModel.predictionThreshold"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/zero_shot_relation_extraction/index.html#sparknlp_jsl.annotator.re.zero_shot_relation_extraction.ZeroShotRelationExtractionModel.predictionThreshold">[docs]</a>    <span class="n">predictionThreshold</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                                 <span class="s2">&quot;predictionThreshold&quot;</span><span class="p">,</span>
@@ -382,8 +383,14 @@
                        <span class="s2">&quot;Whether or not a pair of entities can be categorized by multiple relations (Default: False)&quot;</span><span class="p">,</span>
                        <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="ZeroShotRelationExtractionModel.getClasses"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/zero_shot_relation_extraction/index.html#sparknlp_jsl.annotator.re.zero_shot_relation_extraction.ZeroShotRelationExtractionModel.getClasses">[docs]</a>    <span class="k">def</span> <span class="nf">getClasses</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the list of entities which are recognized</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;getClasses&quot;</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="ZeroShotRelationExtractionModel.setRelationalCategories"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/zero_shot_relation_extraction/index.html#sparknlp_jsl.annotator.re.zero_shot_relation_extraction.ZeroShotRelationExtractionModel.setRelationalCategories">[docs]</a>    <span class="k">def</span> <span class="nf">setRelationalCategories</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">categories</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set definitions of relational categories</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set definitions of relational categories</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -406,14 +413,14 @@
         <span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="ZeroShotRelationExtractionModel.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/zero_shot_relation_extraction/index.html#sparknlp_jsl.annotator.re.zero_shot_relation_extraction.ZeroShotRelationExtractionModel.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="s2">&quot;clinical/models&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="ZeroShotRelationExtractionModel.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/zero_shot_relation_extraction/index.html#sparknlp_jsl.annotator.re.zero_shot_relation_extraction.ZeroShotRelationExtractionModel.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;zero_shot_re&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="s2">&quot;clinical/models&quot;</span><span class="p">):</span>
         <span class="kn">from</span> <span class="nn">sparknlp_jsl.pretrained</span> <span class="kn">import</span> <span class="n">InternalResourceDownloader</span>
         <span class="k">return</span> <span class="n">InternalResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">ZeroShotRelationExtractionModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
                                                         <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div>
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="ZeroShotRelationExtractionModel.loadSavedModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/zero_shot_relation_extraction/index.html#sparknlp_jsl.annotator.re.zero_shot_relation_extraction.ZeroShotRelationExtractionModel.loadSavedModel">[docs]</a>    <span class="k">def</span> <span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

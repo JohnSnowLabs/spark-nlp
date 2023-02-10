@@ -25,10 +25,13 @@ Pretrained VIT  model, adapted from Hugging Face and curated to provide scalabil
 
 `Rottweiler`, `Shiba Inu`, `Chow Chow dog`, `Siberian Husky`, `German Shepherd`, `Pug`, `Border Collie`, `Golden Retriever`, `Tibetan Mastiff`
 
+
+
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_image_classifier_vit_dog_races_en_4.2.1_3.0_1665537840878.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/pipeline_image_classifier_vit_dog_races_en_4.2.1_3.0_1665537840878.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

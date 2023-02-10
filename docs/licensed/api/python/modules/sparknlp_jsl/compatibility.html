@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.compatibility &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.compatibility &#8212; Spark NLP  documentation</title>
   
   
   
@@ -267,13 +267,14 @@
             <article class="bd-article" role="main">
               
   <h1>Source code for sparknlp_jsl.compatibility</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Class to check what are the models compatibles with our distribution.</span>
+<span></span><span class="sd">&quot;&quot;&quot;Verifies which models are compatible with the current distribution.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
 
 
-
 <div class="viewcode-block" id="Compatibility"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/compatibility/index.html#sparknlp_jsl.compatibility.Compatibility">[docs]</a><span class="k">class</span> <span class="nc">Compatibility</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Verifies which models are compatible with the current distribution.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spark</span><span class="p">:</span> <span class="n">SparkSession</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">spark</span> <span class="o">=</span> <span class="n">spark</span>
@@ -281,23 +282,25 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">instance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">_jvm</span><span class="o">.</span><span class="n">com</span><span class="o">.</span><span class="n">johnsnowlabs</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">Compatibility</span><span class="p">()</span>
 
 <div class="viewcode-block" id="Compatibility.findVersion"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/compatibility/index.html#sparknlp_jsl.compatibility.Compatibility.findVersion">[docs]</a>    <span class="k">def</span> <span class="nf">findVersion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;all&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; It returns the private models that are compatible with the current library version.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the private models that are compatible with the current library version.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        model : str</span>
-<span class="sd">            Name of the model that you try to find.If the model name is &#39;all&#39; that method will return all private models.</span>
+<span class="sd">            Name of the model that you try to find.</span>
+<span class="sd">            If &#39;all&#39; (default), returns all private models.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">findVersion</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">result</span></div>
 
 <div class="viewcode-block" id="Compatibility.showVersion"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/compatibility/index.html#sparknlp_jsl.compatibility.Compatibility.showVersion">[docs]</a>    <span class="k">def</span> <span class="nf">showVersion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;all&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;It prints the private models that are compatibles with the current library version.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Prints the private models that are compatibles with the current library version.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        model : str</span>
-<span class="sd">            Name of the model that you try to find.If the model name is &#39;all&#39; that method will print all private models.</span>
+<span class="sd">            Name of the model that you try to find.</span>
+<span class="sd">            If &#39;all&#39; (default), prints all private models.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">showStringVersion</span><span class="p">(</span><span class="n">model</span><span class="p">))</span></div></div>
 </pre></div>

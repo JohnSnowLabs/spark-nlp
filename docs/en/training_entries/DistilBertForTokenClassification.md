@@ -11,7 +11,7 @@ transformers library. After the training process is done, the model checkpoint
 can be loaded by this annotator. This is done with `loadSavedModel` (for loading
 the transformers model) and `load` for the saved Spark NLP model.
 
-For an extended example see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBertForTokenClassification.ipynb).
+For an extended example see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBertForTokenClassification.ipynb).
 
 Example for loading a saved transformers model:
 ```python
@@ -157,11 +157,11 @@ result.select("label.result").show(false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[DistilBertForTokenClassification](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/DistilBertForTokenClassification)
+[DistilBertForTokenClassification](/api/com/johnsnowlabs/nlp/annotators/classifier/dl/DistilBertForTokenClassification)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[DistilBertForTokenClassification](/api/python/reference/autosummary/python/sparknlp/annotator/classifier_dl/distil_bert_for_token_classification/index.html#sparknlp.annotator.classifier_dl.distil_bert_for_token_classification.DistilBertForTokenClassification)
+[DistilBertForTokenClassification](/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/distil_bert_for_token_classification/index.html#sparknlp.annotator.classifier_dl.distil_bert_for_token_classification.DistilBertForTokenClassification)
 {%- endcapture -%}
 
 {%- capture source_link -%}

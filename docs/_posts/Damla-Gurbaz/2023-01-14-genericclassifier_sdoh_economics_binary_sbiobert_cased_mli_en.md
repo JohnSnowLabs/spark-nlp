@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 4.2.4
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -26,7 +27,8 @@ This model classifies related to social economics status in the clinical documen
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/genericclassifier_sdoh_economics_binary_sbiobert_cased_mli_en_4.2.4_3.0_1673699299086.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/genericclassifier_sdoh_economics_binary_sbiobert_cased_mli_en_4.2.4_3.0_1673699299086.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/genericclassifier_sdoh_economics_binary_sbiobert_cased_mli_en_4.2.4_3.0_1673699299086.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

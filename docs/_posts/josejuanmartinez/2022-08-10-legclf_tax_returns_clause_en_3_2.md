@@ -35,7 +35,8 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/finance/CLASSIFY_LEGAL_CLAUSES/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_tax_returns_clause_en_1.0.0_3.2_1660123065637.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_tax_returns_clause_en_1.0.0_3.2_1660123065637.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_tax_returns_clause_en_1.0.0_3.2_1660123065637.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -106,7 +107,7 @@ Legal documents, scrapped from the Internet, and classified in-house
               precision    recall  f1-score   support
        other       1.00      0.92      0.96        37
  tax-returns       0.75      1.00      0.86         9
-    accuracy         -         -       0.93        46
+    accuracy          -         -      0.93        46
    macro-avg       0.88      0.96      0.91        46
 weighted-avg       0.95      0.93      0.94        46
 ```

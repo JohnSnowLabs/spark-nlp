@@ -118,6 +118,9 @@ val reideintification = new finance.ReIdentification()
 [ReIdentification](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/deid/ReIdentification)
 {%- endcapture -%}
 
+{%- capture model_python_api_link -%}
+[ReIdentification](https://nlp.johnsnowlabs.com/licensed/api/python/reference/autosummary/sparknlp_jsl/annotator/deid/reIdentification/index.html#sparknlp_jsl.annotator.deid.reIdentification.ReIdentification)
+{%- endcapture -%}
 
 {% include templates/licensed_approach_model_medical_fin_leg_template.md
 title=title
@@ -132,6 +135,5 @@ model_scala_finance=model_scala_finance
 model_python_legal=model_python_legal
 model_scala_legal=model_scala_legal
 model_api_link=model_api_link
+model_python_api_link=model_python_api_link
 %}
-
-

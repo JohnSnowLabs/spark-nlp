@@ -33,7 +33,8 @@ The aim of this model is to retrieve acquisition or subsidiary relationships bet
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/finance/FINRE_ACQUISITIONS/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finre_acquisitions_subsidiaries_md_en_1.0.0_3.0_1667920790547.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finre_acquisitions_subsidiaries_md_en_1.0.0_3.0_1667920790547.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/finance/models/finre_acquisitions_subsidiaries_md_en_1.0.0_3.0_1667920790547.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

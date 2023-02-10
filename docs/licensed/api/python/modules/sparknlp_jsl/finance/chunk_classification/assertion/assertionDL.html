@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.finance.chunk_classification.assertion.assertionDL &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.finance.chunk_classification.assertion.assertionDL &#8212; Spark NLP  documentation</title>
   
   
   
@@ -268,12 +268,12 @@
               
   <h1>Source code for sparknlp_jsl.finance.chunk_classification.assertion.assertionDL</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">pyspark</span> <span class="kn">import</span> <span class="n">keyword_only</span>
-<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="n">AnnotatorApproach</span>
+<span class="kn">from</span> <span class="nn">sparknlp_jsl.common</span> <span class="kn">import</span> <span class="n">AnnotatorApproachInternal</span>
 
 <span class="kn">from</span> <span class="nn">sparknlp_jsl.annotator.assertion.assertionDL</span> <span class="kn">import</span> <span class="n">AssertionDLApproach</span> <span class="k">as</span> <span class="n">A</span>
 <span class="kn">from</span> <span class="nn">sparknlp_jsl.annotator.assertion.assertionDL</span> <span class="kn">import</span> <span class="n">AssertionDLModel</span> <span class="k">as</span> <span class="n">M</span>
 <div class="viewcode-block" id="AssertionDLApproach"><a class="viewcode-back" href="../../../../../reference/autosummary/sparknlp_jsl/finance/chunk_classification/assertion/assertionDL/index.html#sparknlp_jsl.finance.chunk_classification.assertion.assertionDL.AssertionDLApproach">[docs]</a><span class="k">class</span> <span class="nc">AssertionDLApproach</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Train a Assertion Model algorithm using deep learning.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Train a Assertion Model algorithm using deep learning.</span>
 <span class="sd">    from extracted entities and text. AssertionLogRegModel requires DOCUMENT, CHUNK and WORD_EMBEDDINGS type</span>
 <span class="sd">    annotator inputs, which can be obtained by e.g a</span>
 
@@ -380,7 +380,7 @@
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">AnnotatorApproach</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+        <span class="n">AnnotatorApproachInternal</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
             <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.finance.chunk_classification.assertion.AssertionDLApproach&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="n">batchSize</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">learningRate</span><span class="o">=</span><span class="mf">0.0012</span><span class="p">,</span> <span class="n">dropout</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">maxSentLen</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span>
                          <span class="n">includeConfidence</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">scopeWindow</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span></div>
@@ -388,7 +388,7 @@
 
 
 <div class="viewcode-block" id="AssertionDLModel"><a class="viewcode-back" href="../../../../../reference/autosummary/sparknlp_jsl/finance/chunk_classification/assertion/assertionDL/index.html#sparknlp_jsl.finance.chunk_classification.assertion.assertionDL.AssertionDLModel">[docs]</a><span class="k">class</span> <span class="nc">AssertionDLModel</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;AssertionDL is a deep Learning based approach used to extract Assertion Status</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;AssertionDL is a deep Learning based approach used to extract Assertion Status</span>
 <span class="sd">    from extracted entities and text. AssertionDLModel requires DOCUMENT, CHUNK and WORD_EMBEDDINGS type</span>
 <span class="sd">    annotator inputs, which can be obtained by e.g a</span>
 
@@ -416,7 +416,7 @@
 
 <span class="sd">    &gt;&gt;&gt; import sparknlp</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
-<span class="sd">    &gt;&gt;&gt; from sparknlp.common import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.common import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.training import *</span>
 <span class="sd">    &gt;&gt;&gt; import sparknlp_jsl</span>

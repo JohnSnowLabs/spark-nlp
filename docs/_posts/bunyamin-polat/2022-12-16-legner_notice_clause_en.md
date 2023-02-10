@@ -26,7 +26,8 @@ This is an NER model aimed to be used in notice clauses, to retrieve entities as
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_notice_clause_en_1.0.0_3.0_1671211179919.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_notice_clause_en_1.0.0_3.0_1671211179919.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legner_notice_clause_en_1.0.0_3.0_1671211179919.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -112,7 +113,7 @@ In-house dataset
 ## Benchmarking
 
 ```bash
-      label     precision    recall  f1-score   support
+        label     precision  recall  f1-score   support
       ADDRESS       0.86      0.94      0.90       141
    DEPARTMENT       0.75      0.27      0.40        11
         EMAIL       0.92      1.00      0.96        48
@@ -123,7 +124,6 @@ NOTICE_METHOD       0.74      0.80      0.77       353
        PERSON       0.91      0.94      0.92       114
         PHONE       0.60      0.47      0.53        19
         TITLE       0.76      0.90      0.82        80
-
     micro-avg       0.78      0.85      0.81      1060
     macro-avg       0.77      0.79      0.77      1060
  weighted-avg       0.79      0.85      0.81      1060

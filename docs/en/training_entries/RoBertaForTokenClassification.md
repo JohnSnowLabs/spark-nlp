@@ -12,7 +12,7 @@ transformers library. After the training process is done, the model checkpoint
 can be loaded by this annotator. This is done with `loadSavedModel` (for loading
 the transformers model) and `load` for the saved Spark NLP model.
 
-For an extended example see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBertaForTokenClassification.ipynb).
+For an extended example see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBertaForTokenClassification.ipynb).
 
 Example for loading a saved transformers model:
 ```python
@@ -168,11 +168,11 @@ result.select("label.result").show(false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[RoBertaForTokenClassification](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/RoBertaForTokenClassification)
+[RoBertaForTokenClassification](/api/com/johnsnowlabs/nlp/annotators/classifier/dl/RoBertaForTokenClassification)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[RoBertaForTokenClassification](/api/python/reference/autosummary/python/sparknlp/annotator/classifier_dl/roberta_for_token_classification/index.html#sparknlp.annotator.classifier_dl.roberta_for_token_classification.RoBertaForTokenClassification)
+[RoBertaForTokenClassification](/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/roberta_for_token_classification/index.html#sparknlp.annotator.classifier_dl.roberta_for_token_classification.RoBertaForTokenClassification)
 {%- endcapture -%}
 
 {%- capture source_link -%}

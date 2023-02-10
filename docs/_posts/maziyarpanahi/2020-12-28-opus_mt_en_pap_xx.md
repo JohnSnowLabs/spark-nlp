@@ -29,6 +29,7 @@ It is currently the engine behind the Microsoft Translator Neural Machine Transl
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/opus_mt_en_pap_xx_2.7.0_2.4_1609169563076.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/opus_mt_en_pap_xx_2.7.0_2.4_1609169563076.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

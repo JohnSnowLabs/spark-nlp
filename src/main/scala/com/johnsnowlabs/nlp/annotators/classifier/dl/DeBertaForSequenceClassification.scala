@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
+import com.johnsnowlabs.ml.ai.DeBertaClassification
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
   ReadSentencePieceModel,
@@ -232,7 +233,7 @@ class DeBertaForSequenceClassification(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowDeBertaClassification]] = None
+  private var _model: Option[Broadcast[DeBertaClassification]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
@@ -242,7 +243,7 @@ class DeBertaForSequenceClassification(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowDeBertaClassification(
+          new DeBertaClassification(
             tensorflowWrapper,
             spp,
             configProtoBytes = getConfigProtoBytes,
@@ -254,7 +255,7 @@ class DeBertaForSequenceClassification(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowDeBertaClassification = _model.get.value
+  def getModelIfNotSet: DeBertaClassification = _model.get.value
 
   /** Whether to lowercase tokens or not
     *
@@ -342,15 +343,13 @@ trait ReadablePretrainedDeBertaForSequenceModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadDeBertaForSequenceTensorflowModel
-    extends ReadTensorflowModel
-    with ReadSentencePieceModel {
+trait ReadDeBertaForSequenceDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[DeBertaForSequenceClassification] =>
 
   override val tfFile: String = "deberta_classification_tensorflow"
   override val sppFile: String = "deberta_spp"
 
-  def readTensorflow(
+  def readModel(
       instance: DeBertaForSequenceClassification,
       path: String,
       spark: SparkSession): Unit = {
@@ -361,7 +360,7 @@ trait ReadDeBertaForSequenceTensorflowModel
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): DeBertaForSequenceClassification = {
 
@@ -405,4 +404,4 @@ trait ReadDeBertaForSequenceTensorflowModel
   */
 object DeBertaForSequenceClassification
     extends ReadablePretrainedDeBertaForSequenceModel
-    with ReadDeBertaForSequenceTensorflowModel
+    with ReadDeBertaForSequenceDLModel

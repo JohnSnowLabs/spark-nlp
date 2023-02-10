@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.training &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.training &#8212; Spark NLP  documentation</title>
   
   
   
@@ -280,8 +280,9 @@
 
 
 <div class="viewcode-block" id="AnnotationToolJsonReader"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/training/index.html#sparknlp_jsl.training.AnnotationToolJsonReader">[docs]</a><span class="k">class</span> <span class="nc">AnnotationToolJsonReader</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Class to This a reader that generate an assertion train set from the json from annotations labs exports.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The annotation tool json reader is a reader to parse Named Entity Recognition, Assertion and Relation Extraction Annotations</span>
+<span class="sd">    from a JSON exported from the Annotation Tool.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -302,14 +303,14 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipeline_model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">assertion_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">excluded_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cleanup_mode</span><span class="o">=</span><span class="s2">&quot;disabled&quot;</span><span class="p">,</span>
                  <span class="n">split_chars</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">context_chars</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scheme</span><span class="o">=</span><span class="s2">&quot;IOB&quot;</span><span class="p">,</span> <span class="n">min_chars_tol</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">align_chars_tol</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                  <span class="n">merge_overlapping</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">SDDLPath</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Attributes</span>
 <span class="sd">        ----------</span>
 <span class="sd">        pipeline_model: str</span>
 <span class="sd">             The pipeline model that is used to create the documents the sentences and the tokens.That pipeline model</span>
 <span class="sd">             needs to have a DocumentAssembler, SentenceDetector and Tokenizer.The input column of the document assembler</span>
 <span class="sd">             needs to be named a &#39;text&#39;.The output of the sentence detector needs to be named a &#39;sentence&#39;.</span>
-<span class="sd">             The output of the tokenizer needs to be named a &#39;token&#39;.</span>
+<span class="sd">             The output of the tokenizer needs to be named &#39;token&#39;.</span>
 <span class="sd">        assertion_labels: list</span>
 <span class="sd">            The assertions labels are used for the training dataset creation.</span>
 <span class="sd">        excluded_labels: list</span>
@@ -322,8 +323,12 @@
 <span class="sd">            The context chars that are used in the default tokenizer.</span>
 <span class="sd">        scheme: str</span>
 <span class="sd">             The schema that will use to create the IOB_tagger (IOB or BIOES).</span>
+<span class="sd">        minCharsTol</span>
+<span class="sd">             The min length of the token to apply the alignment tolerance feature.</span>
+<span class="sd">        alignCharsTol</span>
+<span class="sd">             The maximum number of char difference to consider the start / end tokens alignment with the assertion annotations.</span>
 <span class="sd">        merge_overlapping: bool</span>
-<span class="sd">            Whether merge the chunks when they are in the same position</span>
+<span class="sd">             Whether merge the chunks when they are in the same position.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">assertion_labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -335,10 +340,6 @@
                 <span class="n">scheme</span> <span class="o">=</span> <span class="s2">&quot;IOB&quot;</span>
             <span class="k">if</span> <span class="n">min_chars_tol</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">min_chars_tol</span> <span class="o">=</span> <span class="mi">2</span>
-            <span class="k">if</span> <span class="n">min_chars_tol</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">min_chars_tol</span> <span class="o">=</span> <span class="mi">1</span>
-            <span class="k">if</span> <span class="n">merge_overlapping</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">merge_overlapping</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="nb">super</span><span class="p">(</span><span class="n">AnnotationToolJsonReader</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;com.johnsnowlabs.nlp.training.AnnotationToolJsonReader&quot;</span><span class="p">,</span>
                                                            <span class="n">pipeline_model</span><span class="o">.</span><span class="n">_to_java</span><span class="p">(),</span> <span class="n">assertion_labels</span><span class="p">,</span> <span class="n">excluded_labels</span><span class="p">,</span>
                                                            <span class="n">scheme</span><span class="p">,</span> <span class="n">min_chars_tol</span><span class="p">,</span> <span class="n">align_chars_tol</span><span class="p">,</span> <span class="n">merge_overlapping</span><span class="p">)</span>
@@ -364,16 +365,25 @@
 <div class="viewcode-block" id="AnnotationToolJsonReader.generateAssertionTrainSet"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/training/index.html#sparknlp_jsl.training.AnnotationToolJsonReader.generateAssertionTrainSet">[docs]</a>    <span class="k">def</span> <span class="nf">generateAssertionTrainSet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">sentenceCol</span><span class="o">=</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="n">assertionCol</span><span class="o">=</span><span class="s2">&quot;assertion_label&quot;</span><span class="p">):</span>
 
         <span class="n">jdf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span><span class="o">.</span><span class="n">generateAssertionTrainSet</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">_jdf</span><span class="p">,</span> <span class="n">sentenceCol</span><span class="p">,</span> <span class="n">assertionCol</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">jdf</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">sql_ctx</span><span class="p">)</span></div>
+        <span class="n">session</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sparkSession</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s2">&quot;sparkSession&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="n">df</span><span class="o">.</span><span class="n">sql_ctx</span>
+        <span class="k">return</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">jdf</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AnnotationToolJsonReader.generateConll"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/training/index.html#sparknlp_jsl.training.AnnotationToolJsonReader.generateConll">[docs]</a>    <span class="k">def</span> <span class="nf">generateConll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">taskColumn</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;task_id&quot;</span><span class="p">,</span> <span class="n">tokenCol</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span>
                       <span class="n">nerLabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;ner_label&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Deprecated</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">jdf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span><span class="o">.</span><span class="n">generateConll</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">_jdf</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">taskColumn</span><span class="p">,</span> <span class="n">tokenCol</span><span class="p">,</span> <span class="n">nerLabel</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="AnnotationToolJsonReader.generatePlainAssertionTrainSet"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/training/index.html#sparknlp_jsl.training.AnnotationToolJsonReader.generatePlainAssertionTrainSet">[docs]</a>    <span class="k">def</span> <span class="nf">generatePlainAssertionTrainSet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">taskColumn</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;task_id&quot;</span><span class="p">,</span> <span class="n">tokenCol</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span>
                                        <span class="n">nerLabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;ner_label&quot;</span><span class="p">,</span> <span class="n">assertion_label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;assertion_label&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Deprecated</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">jdf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span><span class="o">.</span><span class="n">generatePlainAssertionTrainSet</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">_jdf</span><span class="p">,</span> <span class="n">taskColumn</span><span class="p">,</span> <span class="n">tokenCol</span><span class="p">,</span> <span class="n">nerLabel</span><span class="p">,</span> <span class="n">assertion_label</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">jdf</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">sql_ctx</span><span class="p">)</span></div></div>
+        <span class="n">session</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sparkSession</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s2">&quot;sparkSession&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="n">df</span><span class="o">.</span><span class="n">sql_ctx</span>
+        <span class="k">return</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">jdf</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="CodiEspReader"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/training/index.html#sparknlp_jsl.training.CodiEspReader">[docs]</a><span class="k">class</span> <span class="nc">CodiEspReader</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
@@ -432,7 +442,7 @@
 
 
 <div class="viewcode-block" id="REDatasetHelper"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/training/index.html#sparknlp_jsl.training.REDatasetHelper">[docs]</a><span class="k">class</span> <span class="nc">REDatasetHelper</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class to preprocess RE dataset loaded into Spark Dataframe.</span>
 
 <span class="sd">    Examples</span>
@@ -483,7 +493,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">spark_df</span>
 
 <div class="viewcode-block" id="REDatasetHelper.create_annotation_column"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/training/index.html#sparknlp_jsl.training.REDatasetHelper.create_annotation_column">[docs]</a>    <span class="k">def</span> <span class="nf">create_annotation_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column_map</span><span class="p">,</span>  <span class="n">ner_column_name</span><span class="o">=</span><span class="s2">&quot;train_ner_chunks&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        A method to create label column for RelationExtractionApproach</span>
 <span class="sd">        :param column_map: Required mapping between entity columns and dataset columns.</span>
 <span class="sd">        Required columns are: begin1, end1, chunk1, label1, begin2, end2, chunk2, label2</span>

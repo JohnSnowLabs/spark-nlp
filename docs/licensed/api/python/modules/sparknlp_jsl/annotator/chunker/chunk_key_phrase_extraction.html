@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction &#8212; Spark NLP  documentation</title>
   
   
   
@@ -267,11 +267,11 @@
             <article class="bd-article" role="main">
               
   <h1>Source code for sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span></span><span class="kn">from</span> <span class="nn">sparknlp_jsl.common</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator.embeddings.bert_sentence_embeddings</span> <span class="kn">import</span> <span class="n">BertSentenceEmbeddings</span>
 
 <div class="viewcode-block" id="ChunkKeyPhraseExtraction"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_key_phrase_extraction/index.html#sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction">[docs]</a><span class="k">class</span> <span class="nc">ChunkKeyPhraseExtraction</span><span class="p">(</span><span class="n">BertSentenceEmbeddings</span><span class="p">,</span> <span class="n">HasEngine</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Chunk KeyPhrase Extraction uses Bert Sentence Embeddings to determine the most relevant key phrases describing a</span>
 <span class="sd">    text. The input to the model consists of chunk annotations and sentence or document annotation. The model compares</span>
 <span class="sd">    the chunks against the corresponding sentences/documents and selects the chunks which are most representative of</span>
@@ -365,6 +365,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="ChunkKeyPhraseExtraction.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_key_phrase_extraction/index.html#sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span><span class="p">]</span></div>
+<div class="viewcode-block" id="ChunkKeyPhraseExtraction.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_key_phrase_extraction/index.html#sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span></div>
 
 <div class="viewcode-block" id="ChunkKeyPhraseExtraction.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_key_phrase_extraction/index.html#sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;ChunkKeyPhraseExtraction&quot;</span></div>
 
@@ -375,7 +376,7 @@
                  <span class="p">)</span>
 
 <div class="viewcode-block" id="ChunkKeyPhraseExtraction.setTopN"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_key_phrase_extraction/index.html#sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction.setTopN">[docs]</a>    <span class="k">def</span> <span class="nf">setTopN</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set the number of key phrases to extract. The default value is 3.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the number of key phrases to extract. The default value is 3.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -393,7 +394,7 @@
                        <span class="p">)</span>
 
 <div class="viewcode-block" id="ChunkKeyPhraseExtraction.setDivergence"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_key_phrase_extraction/index.html#sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction.setDivergence">[docs]</a>    <span class="k">def</span> <span class="nf">setDivergence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set the level of divergence of the extracted key phrases. The value should be in the interval [0, 1].</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the level of divergence of the extracted key phrases. The value should be in the interval [0, 1].</span>
 <span class="sd">            This parameter should not be used if setSelectMostDifferent is true - the two parameters aim to achieve the</span>
 <span class="sd">            same goal in different ways. The default is 0, i.e. there is no constraint on the order of key phrases</span>
 <span class="sd">             extracted.</span>
@@ -413,7 +414,7 @@
                                 <span class="p">)</span>
 
 <div class="viewcode-block" id="ChunkKeyPhraseExtraction.setSelectMostDifferent"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_key_phrase_extraction/index.html#sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction.setSelectMostDifferent">[docs]</a>    <span class="k">def</span> <span class="nf">setSelectMostDifferent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Let the model return the top N key phrases which are the most different from each other. Using this paramter</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Let the model return the top N key phrases which are the most different from each other. Using this paramter</span>
 <span class="sd">        only makes sense if the divergence parameter is set to 0. The default value is &#39;false&#39;</span>
 
 <span class="sd">        Parameters</span>
@@ -430,7 +431,7 @@
                                     <span class="p">)</span>
 
 <div class="viewcode-block" id="ChunkKeyPhraseExtraction.setDocumentLevelProcessing"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_key_phrase_extraction/index.html#sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction.setDocumentLevelProcessing">[docs]</a>    <span class="k">def</span> <span class="nf">setDocumentLevelProcessing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Extract key phrases from the whole document or from particular sentences which the chunks refer to.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract key phrases from the whole document or from particular sentences which the chunks refer to.</span>
 <span class="sd">         The default value is &#39;false&#39;.</span>
 
 <span class="sd">        Parameters</span>
@@ -447,7 +448,7 @@
                                  <span class="p">)</span>
 
 <div class="viewcode-block" id="ChunkKeyPhraseExtraction.setConcatenateSentences"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_key_phrase_extraction/index.html#sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction.setConcatenateSentences">[docs]</a>    <span class="k">def</span> <span class="nf">setConcatenateSentences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Concatenate the input sentence/documentation annotations before computing their embeddings. This parameter</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Concatenate the input sentence/documentation annotations before computing their embeddings. This parameter</span>
 <span class="sd">        is only used if documentLevelProcessing is true. If concatenateSentences is set to true, the model will</span>
 <span class="sd">        concatenate the document/sentence input annotations and compute a single embedding. If it is false, the model</span>
 <span class="sd">        will compute the embedding of each sentence separately and then average the resulting embedding vectors.</span>
@@ -468,7 +469,7 @@
                             <span class="p">)</span>
 
 <div class="viewcode-block" id="ChunkKeyPhraseExtraction.setDropPunctuation"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_key_phrase_extraction/index.html#sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction.setDropPunctuation">[docs]</a>    <span class="k">def</span> <span class="nf">setDropPunctuation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;This parameter determines whether to remove punctuation marks from the input chunks. Chunks coming from NER</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;This parameter determines whether to remove punctuation marks from the input chunks. Chunks coming from NER</span>
 <span class="sd">        models are not affected.</span>
 <span class="sd">        The default value is &#39;true&#39;.</span>
 

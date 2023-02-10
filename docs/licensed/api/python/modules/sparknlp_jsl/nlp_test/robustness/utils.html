@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.nlp_test.robustness.utils &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.nlp_test.robustness.utils &#8212; Spark NLP  documentation</title>
   
   
   
@@ -343,7 +343,7 @@
 
 
 <div class="viewcode-block" id="calculate_proportion"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/nlp_test/robustness/utils/index.html#sparknlp_jsl.nlp_test.robustness.utils.calculate_proportion">[docs]</a><span class="k">def</span> <span class="nf">calculate_proportion</span><span class="p">(</span><span class="n">f1_score</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function calculates the proportion value for robustness based on F1 score.</span>
 <span class="sd">    It assumes that noise_prob assigned during testing is set to the default value of 0.5.</span>
 <span class="sd">    :param f1_score: f1_score of robustness testing results.</span>
@@ -362,7 +362,7 @@
 
 
 <div class="viewcode-block" id="suggest_perturbations"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/nlp_test/robustness/utils/index.html#sparknlp_jsl.nlp_test.robustness.utils.suggest_perturbations">[docs]</a><span class="k">def</span> <span class="nf">suggest_perturbations</span><span class="p">(</span><span class="n">test_results</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function calculates proportion value for each entity and each test types for robustness fixing.</span>
 <span class="sd">    Calculation based on robustness test results and output format should be dictionary.</span>
 <span class="sd">    :param test_results: Test result&#39;s metric dictionary obtained from robustness test.</span>
@@ -382,7 +382,7 @@
 
 
 <div class="viewcode-block" id="get_augmentation_proportions"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/nlp_test/robustness/utils/index.html#sparknlp_jsl.nlp_test.robustness.utils.get_augmentation_proportions">[docs]</a><span class="k">def</span> <span class="nf">get_augmentation_proportions</span><span class="p">(</span><span class="n">suggestions</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function returns the augmentation proportions for each test.</span>
 <span class="sd">    :param suggestions: Dictionary of suggestions containing test name, entity and proportion.</span>
 <span class="sd">    :param key: The dictionary key to pull from the suggestions dictionary.</span>

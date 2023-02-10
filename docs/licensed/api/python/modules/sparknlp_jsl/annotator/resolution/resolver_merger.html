@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.annotator.resolution.resolver_merger &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.annotator.resolution.resolver_merger &#8212; Spark NLP  documentation</title>
   
   
   
@@ -267,11 +267,11 @@
             <article class="bd-article" role="main">
               
   <h1>Source code for sparknlp_jsl.annotator.resolution.resolver_merger</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span></span><span class="kn">from</span> <span class="nn">sparknlp_jsl.common</span> <span class="kn">import</span> <span class="o">*</span>
 
 
-<div class="viewcode-block" id="ResolverMerger"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/resolution/resolver_merger/index.html#sparknlp_jsl.annotator.resolution.resolver_merger.ResolverMerger">[docs]</a><span class="k">class</span> <span class="nc">ResolverMerger</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="ResolverMerger"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/resolution/resolver_merger/index.html#sparknlp_jsl.annotator.resolution.resolver_merger.ResolverMerger">[docs]</a><span class="k">class</span> <span class="nc">ResolverMerger</span><span class="p">(</span><span class="n">AnnotatorModelInternal</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Merge Label dependencies entities and the Sentence enitity resolver returning the sentence entity resolver.</span>
 
 <span class="sd">        ===============================  =======================</span>
@@ -283,6 +283,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="ResolverMerger.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/resolution/resolver_merger/index.html#sparknlp_jsl.annotator.resolution.resolver_merger.ResolverMerger.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">ENTITY</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">LABELED_DEPENDENCY</span><span class="p">]</span></div>
+<div class="viewcode-block" id="ResolverMerger.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/resolution/resolver_merger/index.html#sparknlp_jsl.annotator.resolution.resolver_merger.ResolverMerger.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">ENTITY</span></div>
+
 <div class="viewcode-block" id="ResolverMerger.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/resolution/resolver_merger/index.html#sparknlp_jsl.annotator.resolution.resolver_merger.ResolverMerger.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;ResolverMerger&quot;</span></div>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.resolution.ResolverMerger&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>

@@ -10,7 +10,7 @@ language: en
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
-annotator: ClassifierDLModel
+annotator: LegalClassifierDLModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -31,7 +31,8 @@ If not, let us know and we can carry out another approach for you: getting chunk
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_limited_partnership_agreement_en_1.0.0_3.0_1668116513540.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_limited_partnership_agreement_en_1.0.0_3.0_1668116513540.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_limited_partnership_agreement_en_1.0.0_3.0_1668116513540.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -116,14 +117,11 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 
 ```bash
 
-                               precision    recall  f1-score   support
-
-limited-partnership-agreement       1.00      1.00      1.00        24
-                        other       1.00      1.00      1.00        31
-
-                     accuracy                           1.00        55
-                    macro avg       1.00      1.00      1.00        55
-                 weighted avg       1.00      1.00      1.00        55
-
+                        label precision recall  f1-score  support
+limited-partnership-agreement      1.00   1.00       1.0       24
+                        other      1.00   1.00       1.0       31
+                     accuracy         -      -       1.0       55
+                    macro-avg      1.00   1.00       1.0       55
+                 weighted-avg      1.00   1.00       1.0       55
 
 ```

@@ -19,9 +19,14 @@ package com.johnsnowlabs.nlp.annotators
 import com.johnsnowlabs.nlp.AnnotatorType.TOKEN
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, Sentence}
-import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.nlp.{Annotation, DataBuilder}
+import com.johnsnowlabs.nlp.{
+  Annotation,
+  AssertAnnotations,
+  DataBuilder,
+  DocumentAssembler,
+  SparkAccessor
+}
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.scalatest.flatspec.AnyFlatSpec
@@ -545,4 +550,45 @@ class RegexTokenizerTestSpec extends AnyFlatSpec {
 
     assertIndexAlignment(tokenResult, sampleText)
   }
+
+  it should "tokenize with sentence index" taggedAs FastTest in {
+    import SparkAccessor.spark.implicits._
+
+    val text = "This is a sentence. This is another one"
+    val testDataSet = Seq(text).toDS.toDF("text")
+
+    val expectedEntitiesFromText1: Array[Seq[Annotation]] = Array(
+      Seq(
+        Annotation(TOKEN, 0, 3, "This", Map("sentence" -> "0")),
+        Annotation(TOKEN, 5, 6, "is", Map("sentence" -> "0")),
+        Annotation(TOKEN, 8, 8, "a", Map("sentence" -> "0")),
+        Annotation(TOKEN, 10, 18, "sentence.", Map("sentence" -> "0"))),
+      Seq(
+        Annotation(TOKEN, 20, 23, "This", Map("sentence" -> "1")),
+        Annotation(TOKEN, 25, 26, "is", Map("sentence" -> "1")),
+        Annotation(TOKEN, 28, 34, "another", Map("sentence" -> "1")),
+        Annotation(TOKEN, 36, 38, "one", Map("sentence" -> "1"))))
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentenceDetector = new SentenceDetector()
+      .setInputCols("document")
+      .setOutputCol("sentence")
+      .setExplodeSentences(true)
+
+    val tokenizer = new RegexTokenizer()
+      .setInputCols("sentence")
+      .setOutputCol("token")
+
+    val pipeline = new Pipeline()
+      .setStages(Array(documentAssembler, sentenceDetector, tokenizer))
+
+    val resultDataSet = pipeline.fit(testDataSet).transform(testDataSet)
+    val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "token")
+
+    AssertAnnotations.assertFields(expectedEntitiesFromText1, actualEntities)
+  }
+
 }

@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams</title>
-          <meta name="description" content="Spark NLP 4.2.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams" />
-          <meta name="keywords" content="Spark NLP 4.2.3 ScalaDoc com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams" />
+          <title>Spark NLP 4.2.8 ScalaDoc  - com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams</title>
+          <meta name="description" content="Spark NLP 4.2.8 ScalaDoc - com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams" />
+          <meta name="keywords" content="Spark NLP 4.2.8 ScalaDoc com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.2.8 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -186,7 +186,7 @@
                         <a class="object" href="DefaultRegex$.html" title=""></a>
                         <a href="DefaultRegex$.html" title="">DefaultRegex</a>
                       </li><li class="current-entities indented5">
-                        <span class="separator"></span>
+                        <a class="object" href="DocumentHashCoder$.html" title=""></a>
                         <a class="class" href="DocumentHashCoder.html" title=""></a>
                         <a href="DocumentHashCoder.html" title="">DocumentHashCoder</a>
                       </li><li class="current-entities indented5">
@@ -439,6 +439,23 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#ageRanges" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
+      <a id="ageRanges:org.apache.spark.ml.param.IntArrayParam"></a><a id="ageRanges:IntArrayParam"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/DeIdentificationParams.html#ageRanges:org.apache.spark.ml.param.IntArrayParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ageRanges</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntArrayParam">IntArrayParam</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">List of integers specifying limits of the age groups to preserve during obfuscation
+</p>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <span class="permalink">
@@ -471,7 +488,8 @@
       </span>
       
       <p class="shortcomment cmt">List of entities that will be ignored to in the regex file.</p><div class="fullcomment"><div class="comment cmt"><p>List of entities that will be ignored to in the regex file. The rest will be processed.
-The default values are &quot;IBAN&quot;,&quot;ZIP&quot;,&quot;NPI&quot;,&quot;URL&quot;,&quot;DLN&quot;,&quot;PASSPORT&quot;,&quot;EMAIL&quot;,&quot;C_CARD&quot;,&quot;DEA&quot;,&quot;SSN&quot;</p></div></div>
+The default values are &quot;IBAN&quot;,&quot;ZIP&quot;,&quot;NPI&quot;,&quot;URL&quot;,&quot;DLN&quot;,&quot;PASSPORT&quot;,&quot;EMAIL&quot;,&quot;C_CARD&quot;,&quot;DEA&quot;,&quot;SSN&quot;
+</p></div></div>
     </li><li name="org.apache.spark.ml.param.Params#clear" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clear(param:org.apache.spark.ml.param.Param[_]):Params.this.type"></a><a id="clear(Param[_]):DeIdentificationParams.this.type"></a>
       <span class="permalink">
@@ -560,7 +578,8 @@ The similarity is based on the Levenshtein Distance between the words.</p>
         <span class="name">dateFormats</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.StringArrayParam">StringArrayParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Format of dates to displace</p>
+      <p class="shortcomment cmt">Format of dates to displace
+</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#dateTag" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="dateTag:org.apache.spark.ml.param.Param[String]"></a><a id="dateTag:Param[String]"></a>
       <span class="permalink">
@@ -576,7 +595,8 @@ The similarity is based on the Levenshtein Distance between the words.</p>
         <span class="name">dateTag</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt"> Tag representing what are the NER entity (default: DATE)</p>
+      <p class="shortcomment cmt">Tag representing what are the NER entity (default: DATE)
+</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#dateToYear" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="dateToYear:org.apache.spark.ml.param.BooleanParam"></a><a id="dateToYear:BooleanParam"></a>
       <span class="permalink">
@@ -592,7 +612,8 @@ The similarity is based on the Levenshtein Distance between the words.</p>
         <span class="name">dateToYear</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">true if dates must be converted to years, false otherwise</p>
+      <p class="shortcomment cmt">true if dates must be converted to years, false otherwise
+</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#days" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="days:org.apache.spark.ml.param.IntParam"></a><a id="days:IntParam"></a>
       <span class="permalink">
@@ -608,7 +629,8 @@ The similarity is based on the Levenshtein Distance between the words.</p>
         <span class="name">days</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Number of days to obfuscate the dates by displacement.</p><div class="fullcomment"><div class="comment cmt"><p>Number of days to obfuscate the dates by displacement. If not provided a random integer between 1 and 60 will be used</p></div></div>
+      <p class="shortcomment cmt">Number of days to obfuscate the dates by displacement.</p><div class="fullcomment"><div class="comment cmt"><p>Number of days to obfuscate the dates by displacement. If not provided a random integer between 1 and 60 will be used
+</p></div></div>
     </li><li name="org.apache.spark.ml.param.Params#defaultCopy" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="defaultCopy[T&lt;:org.apache.spark.ml.param.Params](extra:org.apache.spark.ml.param.ParamMap):T"></a><a id="defaultCopy[T&lt;:Params](ParamMap):T"></a>
       <span class="permalink">
@@ -911,7 +933,8 @@ policy is selected.</p>
       
       <p class="shortcomment cmt">Select if you want to use regex file loaded in the model.</p><div class="fullcomment"><div class="comment cmt"><p>Select if you want to use regex file loaded in the model.
 If true the default regex file will be not used
-The default value is false.</p></div></div>
+The default value is false.
+</p></div></div>
     </li><li name="org.apache.spark.ml.param.Params#isDefined" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isDefined(param:org.apache.spark.ml.param.Param[_]):Boolean"></a><a id="isDefined(Param[_]):Boolean"></a>
       <span class="permalink">
@@ -993,7 +1016,8 @@ The default value is false.</p>
         <span class="name">language</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">The language used to select the regex file and some faker entities.'en'(english),'de'() or 'es'(Spanish)</p>
+      <p class="shortcomment cmt">The language used to select the regex file and some faker entities.'en'(english),'de'() or 'es'(Spanish)
+</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#mappingsColumn" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="mappingsColumn:org.apache.spark.ml.param.Param[String]"></a><a id="mappingsColumn:Param[String]"></a>
       <span class="permalink">
@@ -1009,7 +1033,8 @@ The default value is false.</p>
         <span class="name">mappingsColumn</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">This is the mapping column that will return the Annotations chunks with the fake entities</p>
+      <p class="shortcomment cmt">This is the mapping column that will return the Annotations chunks with the fake entities
+</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#maskingPolicy" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="maskingPolicy:org.apache.spark.ml.param.Param[String]"></a><a id="maskingPolicy:Param[String]"></a>
       <span class="permalink">
@@ -1026,7 +1051,7 @@ The default value is false.</p>
       </span>
       
       <p class="shortcomment cmt">Select the masking policy:</p><div class="fullcomment"><div class="comment cmt"><p>Select the masking policy:</p><p>'same_length_chars': Replace the name with the asterix with same length minus two plus brackets on both end.If the entity is less than 3 chars (like Jo, or 5), we can just use asterix without brackets.
- 'entity_labels': Replace the values with the entity value.
+'entity_labels': Replace the values with the entity value.
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#minYear" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="minYear:org.apache.spark.ml.param.IntParam"></a><a id="minYear:IntParam"></a>
@@ -1043,7 +1068,8 @@ The default value is false.</p>
         <span class="name">minYear</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Minimum year to use when converting date to year</p>
+      <p class="shortcomment cmt">Minimum year to use when converting date to year
+</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#mode" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="mode:org.apache.spark.ml.param.Param[String]"></a><a id="mode:Param[String]"></a>
       <span class="permalink">
@@ -1063,7 +1089,8 @@ The default value is false.</p>
 Given the following text</p><div class="fullcomment"><div class="comment cmt"><p>Mode for Anonymizer ['mask'|'obfuscate']
 Given the following text</p><p>&quot;David Hale visited EEUU  a couple of years ago&quot;</p><p>Mask mode:
 The entities will be replaced by their entity types. Example
-&quot;&lt;PERSON&gt; visited &lt;COUNTRY&gt; a couple of years ago&quot;</p><p>Obfuscate mode:</p><p>The entity is replaced by a obfuscator term:</p><p>&quot;Bryan Johnson visited Japon a couple of years ago&quot;</p></div></div>
+&quot;&lt;PERSON&gt; visited &lt;COUNTRY&gt; a couple of years ago&quot;</p><p>Obfuscate mode:</p><p>The entity is replaced by a obfuscator term:</p><p>&quot;Bryan Johnson visited Japon a couple of years ago&quot;
+</p></div></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
       <span class="permalink">
@@ -1135,7 +1162,8 @@ The entities will be replaced by their entity types. Example
       
       <p class="shortcomment cmt">When mode==&quot;obfuscate&quot; whether to obfuscate dates or not.</p><div class="fullcomment"><div class="comment cmt"><p>When mode==&quot;obfuscate&quot; whether to obfuscate dates or not. This param helps in consistency to make dateFormats more visible.
 When setting to <code>true</code>, make sure dateFormats param fits the needs (default: false)
-WHen setting to 'false' then the date will be mask to &lt;DATE&gt;</p></div></div>
+WHen setting to 'false' then the date will be mask to &lt;DATE&gt;
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#obfuscateRefSource" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="obfuscateRefSource:org.apache.spark.ml.param.Param[String]"></a><a id="obfuscateRefSource:Param[String]"></a>
       <span class="permalink">
@@ -1153,9 +1181,27 @@ WHen setting to 'false' then the date will be mask to &lt;DATE&gt;</p></div></di
       
       <p class="shortcomment cmt">The source of obfuscation of to obfuscate the entities.For dates entities doesnt apply tha method.</p><div class="fullcomment"><div class="comment cmt"><p>The source of obfuscation of to obfuscate the entities.For dates entities doesnt apply tha method.
 The values ar the following:
-  'file': Takes the entities from the obfuscatorRefFile
-  'faker': Takes the entities from the Faker module
-  'both': Takes the entities from the obfuscatorRefFile and the faker module randomly.</p></div></div>
+'file': Takes the entities from the obfuscatorRefFile
+'faker': Takes the entities from the Faker module
+'both': Takes the entities from the obfuscatorRefFile and the faker module randomly.
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#outputAsDocument" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
+      <a id="outputAsDocument:org.apache.spark.ml.param.BooleanParam"></a><a id="outputAsDocument:BooleanParam"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/DeIdentificationParams.html#outputAsDocument:org.apache.spark.ml.param.BooleanParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">outputAsDocument</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Whether to return all sentences joined into a single document
+</p>
     </li><li name="org.apache.spark.ml.param.Params#params" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="params:Array[org.apache.spark.ml.param.Param[_]]"></a><a id="params:Array[Param[_]]"></a>
       <span class="permalink">
@@ -1188,7 +1234,8 @@ The values ar the following:
       </span>
       
       <p class="shortcomment cmt">If is true prioritize the regex entities, if is false prioritize the ner.</p><div class="fullcomment"><div class="comment cmt"><p>If is true prioritize the regex entities, if is false prioritize the ner.
-The default value is false.</p></div></div>
+The default value is false.
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#region" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="region:org.apache.spark.ml.param.Param[String]"></a><a id="region:Param[String]"></a>
       <span class="permalink">
@@ -1204,7 +1251,8 @@ The default value is false.</p></div></div>
         <span class="name">region</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Usa or eu</p>
+      <p class="shortcomment cmt">Usa or eu
+</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#returnEntityMappings" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="returnEntityMappings:org.apache.spark.ml.param.BooleanParam"></a><a id="returnEntityMappings:BooleanParam"></a>
       <span class="permalink">
@@ -1220,7 +1268,8 @@ The default value is false.</p></div></div>
         <span class="name">returnEntityMappings</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">With this property you select if you want to return mapping column</p>
+      <p class="shortcomment cmt">With this property you select if you want to return mapping column
+</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#sameEntityThreshold" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="sameEntityThreshold:org.apache.spark.ml.param.DoubleParam"></a><a id="sameEntityThreshold:DoubleParam"></a>
       <span class="permalink">
@@ -1303,6 +1352,23 @@ with the same ouptut.</p>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#setAgeRanges" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="setAgeRanges(mode:Array[Int]):DeIdentificationParams.this.type"></a><a id="setAgeRanges(Array[Int]):DeIdentificationParams.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/DeIdentificationParams.html#setAgeRanges(mode:Array[Int]):DeIdentificationParams.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setAgeRanges</span><span class="params">(<span name="mode">mode: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt">List of integers specifying limits of the age groups to preserve during obfuscation
+</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#setBlackList" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setBlackList(list:Array[String]):DeIdentificationParams.this.type"></a><a id="setBlackList(Array[String]):DeIdentificationParams.this.type"></a>
       <span class="permalink">
@@ -1318,7 +1384,8 @@ with the same ouptut.</p>
         <span class="name">setBlackList</span><span class="params">(<span name="list">list: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">List of entities that will be ignored to in the regex file.</p><div class="fullcomment"><div class="comment cmt"><p>List of entities that will be ignored to in the regex file. The rest will be processed. The default  values are &quot;IBAN&quot;,&quot;ZIP&quot;,&quot;NPI&quot;,&quot;URL&quot;,&quot;DLN&quot;,&quot;PASSPORT&quot;,&quot;EMAIL&quot;,&quot;C_CARD&quot;,&quot;DEA&quot;,&quot;SSN&quot;</p></div></div>
+      <p class="shortcomment cmt">List of entities that will be ignored to in the regex file.</p><div class="fullcomment"><div class="comment cmt"><p>List of entities that will be ignored to in the regex file. The rest will be processed. The default  values are &quot;IBAN&quot;,&quot;ZIP&quot;,&quot;NPI&quot;,&quot;URL&quot;,&quot;DLN&quot;,&quot;PASSPORT&quot;,&quot;EMAIL&quot;,&quot;C_CARD&quot;,&quot;DEA&quot;,&quot;SSN&quot;
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#setConsistentObfuscation" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setConsistentObfuscation(s:Boolean):DeIdentificationParams.this.type"></a><a id="setConsistentObfuscation(Boolean):DeIdentificationParams.this.type"></a>
       <span class="permalink">
@@ -1351,7 +1418,8 @@ The similarity is based on the Levenshtein Distance between the words.</p>
         <span class="name">setDateFormats</span><span class="params">(<span name="s">s: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Format of dates to displace</p>
+      <p class="shortcomment cmt">Format of dates to displace
+</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#setDateTag" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setDateTag(s:String):DeIdentificationParams.this.type"></a><a id="setDateTag(String):DeIdentificationParams.this.type"></a>
       <span class="permalink">
@@ -1367,7 +1435,8 @@ The similarity is based on the Levenshtein Distance between the words.</p>
         <span class="name">setDateTag</span><span class="params">(<span name="s">s: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Tag representing what are the NER entity (default: DATE)</p>
+      <p class="shortcomment cmt">Tag representing what are the NER entity (default: DATE)
+</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#setDateToYear" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setDateToYear(s:Boolean):DeIdentificationParams.this.type"></a><a id="setDateToYear(Boolean):DeIdentificationParams.this.type"></a>
       <span class="permalink">
@@ -1383,7 +1452,8 @@ The similarity is based on the Levenshtein Distance between the words.</p>
         <span class="name">setDateToYear</span><span class="params">(<span name="s">s: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">true if dates must be converted to years, false otherwise</p>
+      <p class="shortcomment cmt">true if dates must be converted to years, false otherwise
+</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#setDays" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setDays(k:Int):DeIdentificationParams.this.type"></a><a id="setDays(Int):DeIdentificationParams.this.type"></a>
       <span class="permalink">
@@ -1399,7 +1469,8 @@ The similarity is based on the Levenshtein Distance between the words.</p>
         <span class="name">setDays</span><span class="params">(<span name="k">k: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Number of days to obfuscate the dates by displacement.</p><div class="fullcomment"><div class="comment cmt"><p>Number of days to obfuscate the dates by displacement. If not provided a random integer between 1 and 60 will be used</p></div></div>
+      <p class="shortcomment cmt">Number of days to obfuscate the dates by displacement.</p><div class="fullcomment"><div class="comment cmt"><p>Number of days to obfuscate the dates by displacement. If not provided a random integer between 1 and 60 will be used
+</p></div></div>
     </li><li name="org.apache.spark.ml.param.Params#setDefault" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setDefault(paramPairs:org.apache.spark.ml.param.ParamPair[_]*):Params.this.type"></a><a id="setDefault(ParamPair[_]*):DeIdentificationParams.this.type"></a>
       <span class="permalink">
@@ -1466,7 +1537,8 @@ policy is selected.</p>
       
       <p class="shortcomment cmt">Select if you want to use regex file loaded in the model.</p><div class="fullcomment"><div class="comment cmt"><p>Select if you want to use regex file loaded in the model.
 If true the default regex file will be not used
-The default value is false.</p></div></div>
+The default value is false.
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#setIsRandomDateDisplacement" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setIsRandomDateDisplacement(s:Boolean):DeIdentificationParams.this.type"></a><a id="setIsRandomDateDisplacement(Boolean):DeIdentificationParams.this.type"></a>
       <span class="permalink">
@@ -1500,7 +1572,8 @@ The default value is false.</p>
         <span class="name">setLanguage</span><span class="params">(<span name="s">s: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">The language used to select the regex file and some faker entities.'en'(english),'de'() or 'es'(Spanish)</p>
+      <p class="shortcomment cmt">The language used to select the regex file and some faker entities.'en'(english),'de'() or 'es'(Spanish)
+</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#setMappingsColumn" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setMappingsColumn(s:String):DeIdentificationParams.this.type"></a><a id="setMappingsColumn(String):DeIdentificationParams.this.type"></a>
       <span class="permalink">
@@ -1516,7 +1589,8 @@ The default value is false.</p>
         <span class="name">setMappingsColumn</span><span class="params">(<span name="s">s: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">This is the mapping column that will return the Annotations chunks with the fake entities</p>
+      <p class="shortcomment cmt">This is the mapping column that will return the Annotations chunks with the fake entities
+</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#setMaskingPolicy" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="setMaskingPolicy(value:String):DeIdentificationParams.this.type"></a><a id="setMaskingPolicy(String):DeIdentificationParams.this.type"></a>
       <span class="permalink">
@@ -1533,7 +1607,7 @@ The default value is false.</p>
       </span>
       
       <p class="shortcomment cmt">Select the masking policy:</p><div class="fullcomment"><div class="comment cmt"><p>Select the masking policy:</p><p>'same_length_chars': Replace the name with the asterix with same length minus two plus brackets on both end.If the entity is less than 3 chars (like Jo, or 5), we can just use asterix without brackets.
- 'entity_labels': Replace the values with the entity value.
+'entity_labels': Replace the values with the entity value.
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#setMinYear" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setMinYear(s:Int):DeIdentificationParams.this.type"></a><a id="setMinYear(Int):DeIdentificationParams.this.type"></a>
@@ -1550,7 +1624,8 @@ The default value is false.</p>
         <span class="name">setMinYear</span><span class="params">(<span name="s">s: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Minimum year to use when converting date to year</p>
+      <p class="shortcomment cmt">Minimum year to use when converting date to year
+</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#setMode" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setMode(m:String):DeIdentificationParams.this.type"></a><a id="setMode(String):DeIdentificationParams.this.type"></a>
       <span class="permalink">
@@ -1570,7 +1645,8 @@ The default value is false.</p>
 Given the following text</p><div class="fullcomment"><div class="comment cmt"><p>Mode for Anonymizer ['mask'|'obfuscate']
 Given the following text</p><p>&quot;David Hale visited EEUU  a couple of years ago&quot;</p><p>Mask mode:
 The entities will be replaced by their entity types. Example
-&quot;&lt;PERSON&gt; visited &lt;COUNTRY&gt; a couple of years ago&quot;</p><p>Obfuscate mode:</p><p>The entity is replaced by an obfuscator's term:</p><p>&quot;Bryan Johnson visited Japon a couple of years ago&quot;</p></div></div>
+&quot;&lt;PERSON&gt; visited &lt;COUNTRY&gt; a couple of years ago&quot;</p><p>Obfuscate mode:</p><p>The entity is replaced by an obfuscator's term:</p><p>&quot;Bryan Johnson visited Japon a couple of years ago&quot;
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#setObfuscateDate" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setObfuscateDate(s:Boolean):DeIdentificationParams.this.type"></a><a id="setObfuscateDate(Boolean):DeIdentificationParams.this.type"></a>
       <span class="permalink">
@@ -1588,7 +1664,8 @@ The entities will be replaced by their entity types. Example
       
       <p class="shortcomment cmt">When mode==&quot;obfuscate&quot; whether to obfuscate dates or not.</p><div class="fullcomment"><div class="comment cmt"><p>When mode==&quot;obfuscate&quot; whether to obfuscate dates or not. This param helps in consistency to make dateFormats more visible.
 When setting to <code>true</code>, make sure dateFormats param fits the needs (default: false)
-WHen setting to 'false' then the date will be mask to &lt;DATE&gt;</p></div></div>
+WHen setting to 'false' then the date will be mask to &lt;DATE&gt;
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#setObfuscateRefSource" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setObfuscateRefSource(s:String):DeIdentificationParams.this.type"></a><a id="setObfuscateRefSource(String):DeIdentificationParams.this.type"></a>
       <span class="permalink">
@@ -1606,9 +1683,27 @@ WHen setting to 'false' then the date will be mask to &lt;DATE&gt;</p></div></di
       
       <p class="shortcomment cmt">The source of obfuscation of to obfuscate the entities.For dates entities doesnt apply tha method.</p><div class="fullcomment"><div class="comment cmt"><p>The source of obfuscation of to obfuscate the entities.For dates entities doesnt apply tha method.
 The values ar the following:
- 'file': Takes the entities from the obfuscatorRefFile
- 'faker': Takes the entities from the Faker module
- 'both': Takes the entities from the obfuscatorRefFile and the faker module randomly.</p></div></div>
+'file': Takes the entities from the obfuscatorRefFile
+'faker': Takes the entities from the Faker module
+'both': Takes the entities from the obfuscatorRefFile and the faker module randomly.
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#setOutputAsDocument" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="setOutputAsDocument(mode:Boolean):DeIdentificationParams.this.type"></a><a id="setOutputAsDocument(Boolean):DeIdentificationParams.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/DeIdentificationParams.html#setOutputAsDocument(mode:Boolean):DeIdentificationParams.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setOutputAsDocument</span><span class="params">(<span name="mode">mode: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt">Whether to return all sentences joined into a single document
+</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#setRegexOverride" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setRegexOverride(s:Boolean):DeIdentificationParams.this.type"></a><a id="setRegexOverride(Boolean):DeIdentificationParams.this.type"></a>
       <span class="permalink">
@@ -1625,7 +1720,8 @@ The values ar the following:
       </span>
       
       <p class="shortcomment cmt">If true prioritize the regex if false prioritize the ner.</p><div class="fullcomment"><div class="comment cmt"><p>If true prioritize the regex if false prioritize the ner.
-The default value is false.</p></div></div>
+The default value is false.
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#setRegion" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setRegion(s:String):DeIdentificationParams.this.type"></a><a id="setRegion(String):DeIdentificationParams.this.type"></a>
       <span class="permalink">
@@ -1641,7 +1737,8 @@ The default value is false.</p></div></div>
         <span class="name">setRegion</span><span class="params">(<span name="s">s: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Usa or eu</p>
+      <p class="shortcomment cmt">Usa or eu
+</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#setReturnEntityMappings" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setReturnEntityMappings(s:Boolean):DeIdentificationParams.this.type"></a><a id="setReturnEntityMappings(Boolean):DeIdentificationParams.this.type"></a>
       <span class="permalink">
@@ -1725,6 +1822,22 @@ with the same ouptut.</p>
       </span>
       
       
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#setZipCodeTag" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="setZipCodeTag(s:String):DeIdentificationParams.this.type"></a><a id="setZipCodeTag(String):DeIdentificationParams.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/DeIdentificationParams.html#setZipCodeTag(s:String):DeIdentificationParams.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setZipCodeTag</span><span class="params">(<span name="s">s: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a>.this.type</span>
+      </span>
+      
+      
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">
@@ -1772,7 +1885,8 @@ with the same ouptut.</p>
         <span class="name">unnormalizedDateMode</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Usa or eu</p>
+      <p class="shortcomment cmt">mask or obfuscate
+</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#useShifDays" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="useShifDays:org.apache.spark.ml.param.BooleanParam"></a><a id="useShifDays:BooleanParam"></a>
       <span class="permalink">
@@ -1857,6 +1971,22 @@ with the same ouptut.</p>
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#zipCodeTag" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="zipCodeTag:org.apache.spark.ml.param.Param[String]"></a><a id="zipCodeTag:Param[String]"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/DeIdentificationParams.html#zipCodeTag:org.apache.spark.ml.param.Param[String]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">zipCodeTag</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      
+      
     </li>
               </ol>
             </div>

@@ -1,6 +1,7 @@
 'use strict';
 
 const { resolve } = require('path');
+const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
@@ -106,6 +107,11 @@ module.exports = (env, argv) => {
         : undefined,
     },
     plugins: [
+      new webpack.EnvironmentPlugin({
+        SEARCH_ORIGIN:
+          process.env.SEARCH_ORIGIN ||
+          'https://search.modelshub.johnsnowlabs.com',
+      }),
       isProduction &&
         new MiniCssExtractPlugin({
           filename: '[name].css',

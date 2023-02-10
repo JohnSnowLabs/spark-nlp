@@ -26,6 +26,10 @@ NONE
 [FeaturesAssembler](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/FeaturesAssembler)
 {%- endcapture -%}
 
+{%- capture approach_python_api_link -%}
+[FeaturesAssembler](https://nlp.johnsnowlabs.com/licensed/api/python/reference/autosummary/sparknlp_jsl/base/index.html#sparknlp_jsl.base.FeaturesAssembler)
+{%- endcapture -%}
+
 {%- capture approach_python_medical -%}
 from johnsnowlabs import * 
 features_asm = medical.FeaturesAssembler() \
@@ -200,4 +204,6 @@ approach_python_finance=approach_python_finance
 approach_scala_medical=approach_scala_medical
 approach_scala_legal=approach_scala_legal
 approach_scala_finance=approach_scala_finance
-approach_api_link=approach_api_link%}
+approach_api_link=approach_api_link
+approach_python_api_link=approach_python_api_link
+%}

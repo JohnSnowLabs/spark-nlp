@@ -30,6 +30,7 @@ This model uses the pretrained BertEmbeddings embeddings "bert_base_ja" as an in
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_ud_gsd_bert_base_japanese_ja_3.2.2_3.0_1631804789491.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/ner_ud_gsd_bert_base_japanese_ja_3.2.2_3.0_1631804789491.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.annotator.normalizer.drug_normalizer &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.annotator.normalizer.drug_normalizer &#8212; Spark NLP  documentation</title>
   
   
   
@@ -267,11 +267,11 @@
             <article class="bd-article" role="main">
               
   <h1>Source code for sparknlp_jsl.annotator.normalizer.drug_normalizer</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span></span><span class="kn">from</span> <span class="nn">sparknlp_jsl.common</span> <span class="kn">import</span> <span class="o">*</span>
 
 
-<div class="viewcode-block" id="DrugNormalizer"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/normalizer/drug_normalizer/index.html#sparknlp_jsl.annotator.normalizer.drug_normalizer.DrugNormalizer">[docs]</a><span class="k">class</span> <span class="nc">DrugNormalizer</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Annotator which normalizes raw text from clinical documents, e.g. scraped web pages or xml documents, from document type columns into Sentence.</span>
+<div class="viewcode-block" id="DrugNormalizer"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/normalizer/drug_normalizer/index.html#sparknlp_jsl.annotator.normalizer.drug_normalizer.DrugNormalizer">[docs]</a><span class="k">class</span> <span class="nc">DrugNormalizer</span><span class="p">(</span><span class="n">AnnotatorModelInternal</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Annotator which normalizes raw text from clinical documents, e.g. scraped web pages or xml documents, from document type columns into Sentence.</span>
 <span class="sd">       Removes all dirty characters from text following one or more input regex patterns.</span>
 <span class="sd">       Can apply non wanted character removal which a specific policy.</span>
 <span class="sd">       Can apply lower case normalization.</span>
@@ -313,6 +313,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="DrugNormalizer.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/normalizer/drug_normalizer/index.html#sparknlp_jsl.annotator.normalizer.drug_normalizer.DrugNormalizer.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span></div>
+<div class="viewcode-block" id="DrugNormalizer.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/normalizer/drug_normalizer/index.html#sparknlp_jsl.annotator.normalizer.drug_normalizer.DrugNormalizer.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span></div>
 
 <div class="viewcode-block" id="DrugNormalizer.lowercase"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/normalizer/drug_normalizer/index.html#sparknlp_jsl.annotator.normalizer.drug_normalizer.DrugNormalizer.lowercase">[docs]</a>    <span class="n">lowercase</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                       <span class="s2">&quot;lowercase&quot;</span><span class="p">,</span>
@@ -333,7 +334,7 @@
         <span class="p">)</span>
 
 <div class="viewcode-block" id="DrugNormalizer.setLowercase"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/normalizer/drug_normalizer/index.html#sparknlp_jsl.annotator.normalizer.drug_normalizer.DrugNormalizer.setLowercase">[docs]</a>    <span class="k">def</span> <span class="nf">setLowercase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to convert strings to lowercase</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to convert strings to lowercase</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -343,7 +344,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">lowercase</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DrugNormalizer.setPolicy"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/normalizer/drug_normalizer/index.html#sparknlp_jsl.annotator.normalizer.drug_normalizer.DrugNormalizer.setPolicy">[docs]</a>    <span class="k">def</span> <span class="nf">setPolicy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets policy to remove patterns from text.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets policy to remove patterns from text.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

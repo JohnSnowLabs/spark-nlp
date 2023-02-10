@@ -78,8 +78,10 @@ trainingData.selectExpr("text", "token.result as tokens", "pos.result as pos", "
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[CoNLL](/api/python/reference/autosummary/python/sparknlp/training/conll/index.html#sparknlp.training.conll.CoNLL)
+[CoNLL](/api/python/reference/autosummary/sparknlp/training/conll/index.html#sparknlp.training.conll.CoNLL)
 {%- endcapture -%}
+
+
 
 {%- capture source_link -%}
 [CoNLL.scala](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/training/CoNLL.scala)

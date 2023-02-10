@@ -35,7 +35,8 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/finance/CLASSIFY_LEGAL_CLAUSES/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_no_assignment_clause_en_1.0.0_3.2_1660123750879.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_no_assignment_clause_en_1.0.0_3.2_1660123750879.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_no_assignment_clause_en_1.0.0_3.2_1660123750879.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -106,7 +107,7 @@ Legal documents, scrapped from the Internet, and classified in-house
         label  precision    recall  f1-score   support
 no-assignment       0.87      0.91      0.89        43
         other       0.95      0.93      0.94        89
-     accuracy         -         -       0.92       132
+     accuracy          -         -      0.92       132
     macro-avg       0.91      0.92      0.91       132
  weighted-avg       0.93      0.92      0.92       132
 ```

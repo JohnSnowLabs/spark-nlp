@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp_jsl._tf_graph_builders.ner_dl.dataset_encoder &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl._tf_graph_builders.ner_dl.dataset_encoder &#8212; Spark NLP  documentation</title>
   
   
   
@@ -295,32 +295,54 @@
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl._tf_graph_builders.ner_dl.dataset_encoder.DatasetEncoder" title="sparknlp_jsl._tf_graph_builders.ner_dl.dataset_encoder.DatasetEncoder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DatasetEncoder</span></code></a></p></td>
-<td><p></p></td>
+<td><p>Dataset encoder.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.ner_dl.dataset_encoder.DatasetEncoder">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DatasetEncoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">embeddings_resolver</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag2id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">piece_tag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'[X]'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/ner_dl/dataset_encoder.html#DatasetEncoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.ner_dl.dataset_encoder.DatasetEncoder" title="Permalink to this definition">#</a></dt>
-<dd><dl class="py method">
+<dd><p>Dataset encoder.</p>
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.ner_dl.dataset_encoder.DatasetEncoder.shuffle">
 <span class="sig-name descname"><span class="pre">shuffle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/ner_dl/dataset_encoder.html#DatasetEncoder.shuffle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.ner_dl.dataset_encoder.DatasetEncoder.shuffle" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Shuffle the sentences.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.ner_dl.dataset_encoder.DatasetEncoder.normalize">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">normalize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">word</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/ner_dl/dataset_encoder.html#DatasetEncoder.normalize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.ner_dl.dataset_encoder.DatasetEncoder.normalize" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">normalize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">word</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/ner_dl/dataset_encoder.html#DatasetEncoder.normalize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.ner_dl.dataset_encoder.DatasetEncoder.normalize" title="Permalink to this definition">#</a></dt>
+<dd><p>Transform word to lower case and remove additional white spaces.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>word (str): The word being processed.</p>
+</dd>
+<dt>Returns:</dt><dd><p>str: Normalized word.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.ner_dl.dataset_encoder.DatasetEncoder.get_char_indexes">
 <span class="sig-name descname"><span class="pre">get_char_indexes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">word</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/ner_dl/dataset_encoder.html#DatasetEncoder.get_char_indexes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.ner_dl.dataset_encoder.DatasetEncoder.get_char_indexes" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Get character indexes for a word.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>word (str): Word.</p>
+</dd>
+<dt>Returns:</dt><dd><p>list: List of character indexes.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.ner_dl.dataset_encoder.DatasetEncoder.encode">
 <span class="sig-name descname"><span class="pre">encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sentences</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/ner_dl/dataset_encoder.html#DatasetEncoder.encode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.ner_dl.dataset_encoder.DatasetEncoder.encode" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Encode sentences.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>sentences (list): List of sentences.
+output (bool): If it is the outpu layer.</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

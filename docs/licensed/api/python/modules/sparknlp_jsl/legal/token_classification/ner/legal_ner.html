@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.legal.token_classification.ner.legal_ner &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.legal.token_classification.ner.legal_ner &#8212; Spark NLP  documentation</title>
   
   
   
@@ -269,7 +269,7 @@
   <h1>Source code for sparknlp_jsl.legal.token_classification.ner.legal_ner</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">sys</span>
 
-<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp_jsl.common</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">ExtendedJavaWrapper</span>
 <span class="kn">from</span> <span class="nn">sparknlp_jsl.annotator.ner.medical_ner</span> <span class="kn">import</span> <span class="n">MedicalNerApproach</span> <span class="k">as</span> <span class="n">A</span>
@@ -277,7 +277,7 @@
 
 
 <div class="viewcode-block" id="LegalNerApproach"><a class="viewcode-back" href="../../../../../reference/autosummary/sparknlp_jsl/legal/token_classification/ner/legal_ner/index.html#sparknlp_jsl.legal.token_classification.ner.legal_ner.LegalNerApproach">[docs]</a><span class="k">class</span> <span class="nc">LegalNerApproach</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;This Named Entity recognition annotator allows to train generic NER model</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This Named Entity recognition annotator allows to train generic NER model</span>
 <span class="sd">    based on Neural Networks.</span>
 
 <span class="sd">    The architecture of the neural network is a Char CNNs - BiLSTM - CRF that</span>
@@ -362,7 +362,7 @@
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; import sparknlp</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
-<span class="sd">    &gt;&gt;&gt; from sparknlp.common import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.common import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.training import *</span>
 <span class="sd">    &gt;&gt;&gt; import sparknlp_jsl</span>
@@ -411,7 +411,7 @@
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">AnnotatorApproach</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="n">AnnotatorApproachInternal</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.legal.token_classification.ner.LegalNerApproach&quot;</span><span class="p">)</span>
         <span class="n">uc</span> <span class="o">=</span> <span class="kc">False</span> <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s1">&#39;win32&#39;</span> <span class="k">else</span> <span class="kc">True</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
@@ -443,7 +443,7 @@
 
 
 <div class="viewcode-block" id="LegalNerModel"><a class="viewcode-back" href="../../../../../reference/autosummary/sparknlp_jsl/legal/token_classification/ner/legal_ner/index.html#sparknlp_jsl.legal.token_classification.ner.legal_ner.LegalNerModel">[docs]</a><span class="k">class</span> <span class="nc">LegalNerModel</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;This Named Entity recognition annotator is a generic NER model based on</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This Named Entity recognition annotator is a generic NER model based on</span>
 <span class="sd">    Neural Networks.</span>
 
 <span class="sd">    Neural Network architecture is Char CNNs - BiLSTM - CRF that achieves</span>
@@ -503,7 +503,7 @@
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; import sparknlp</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
-<span class="sd">    &gt;&gt;&gt; from sparknlp.common import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.common import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.training import *</span>
 <span class="sd">    &gt;&gt;&gt; import sparknlp_jsl</span>

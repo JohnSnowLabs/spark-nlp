@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.nlp_test.bias.bias_testing &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.nlp_test.bias.bias_testing &#8212; Spark NLP  documentation</title>
   
   
   
@@ -283,7 +283,7 @@
 
 
 <div class="viewcode-block" id="init_medical_gender_classifier"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/nlp_test/bias/bias_testing/index.html#sparknlp_jsl.nlp_test.bias.bias_testing.init_medical_gender_classifier">[docs]</a><span class="k">def</span> <span class="nf">init_medical_gender_classifier</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Pipeline</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function initialize BioBERT based gender classification model in Spark NLP</span>
 <span class="sd">    :return: Gender classification pipeline</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -313,7 +313,7 @@
 <div class="viewcode-block" id="RuleBasedClassifier"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/nlp_test/bias/bias_testing/index.html#sparknlp_jsl.nlp_test.bias.bias_testing.RuleBasedClassifier">[docs]</a><span class="k">class</span> <span class="nc">RuleBasedClassifier</span><span class="p">:</span>
 
 <div class="viewcode-block" id="RuleBasedClassifier.transform"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/nlp_test/bias/bias_testing/index.html#sparknlp_jsl.nlp_test.bias.bias_testing.RuleBasedClassifier.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Rule based gender classifier that counts number of gender-related words in the text.</span>
 <span class="sd">        :param dataframe: Spark DataFrame contains CoNLL data.</span>
 <span class="sd">        :return: Transformed dataframe with new gender column.</span>
@@ -356,7 +356,7 @@
                      <span class="n">training_conll</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                      <span class="n">log_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;gender_bias_results.json&#39;</span><span class="p">,</span>
                      <span class="n">is_medical</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">explode_sentences</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function evaluate NerDL model against gender bias. It compares the performance of the model depending</span>
 <span class="sd">    on the gender of the test set and describes the gender distribution of the entities and extractions from a</span>
 <span class="sd">    manually annotated dataset. Calculations are document based on CoNLL file, thus each sample should be separated</span>

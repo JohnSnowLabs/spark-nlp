@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.resolution</title>
-          <meta name="description" content="Spark NLP 4.2.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.resolution" />
-          <meta name="keywords" content="Spark NLP 4.2.3 ScalaDoc com.johnsnowlabs.nlp.annotators.resolution" />
+          <title>Spark NLP 4.2.8 ScalaDoc  - com.johnsnowlabs.nlp.annotators.resolution</title>
+          <meta name="description" content="Spark NLP 4.2.8 ScalaDoc - com.johnsnowlabs.nlp.annotators.resolution" />
+          <meta name="keywords" content="Spark NLP 4.2.8 ScalaDoc com.johnsnowlabs.nlp.annotators.resolution" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.2.8 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -462,6 +462,10 @@
                         <a class="trait" href="ReadablePretrainedSentenceEntityResolver.html" title=""></a>
                         <a href="ReadablePretrainedSentenceEntityResolver.html" title="">ReadablePretrainedSentenceEntityResolver</a>
                       </li><li class="current-entities indented5">
+                        <a class="object" href="Resolution2Chunk$.html" title=""></a>
+                        <a class="class" href="Resolution2Chunk.html" title="A feature transformer that converts the input array of strings (annotatorType CHUNK) into an array of chunk-based tokens (annotatorType TOKEN)."></a>
+                        <a href="Resolution2Chunk.html" title="A feature transformer that converts the input array of strings (annotatorType CHUNK) into an array of chunk-based tokens (annotatorType TOKEN).">Resolution2Chunk</a>
+                      </li><li class="current-entities indented5">
                         <a class="object" href="ResolverMerger$.html" title=""></a>
                         <a class="class" href="ResolverMerger.html" title=""></a>
                         <a href="ResolverMerger.html" title="">ResolverMerger</a>
@@ -652,6 +656,46 @@
       </span>
       
       
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.Resolution2Chunk" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="Resolution2ChunkextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.resolution.Resolution2Chunk]withHasSimpleAnnotate[com.johnsnowlabs.nlp.annotators.resolution.Resolution2Chunk]"></a><a id="Resolution2Chunk:Resolution2Chunk"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/Resolution2Chunk.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="A feature transformer that converts the input array of strings (annotatorType CHUNK) into an array of chunk-based tokens (annotatorType TOKEN)." href="Resolution2Chunk.html"><span class="name">Resolution2Chunk</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="Resolution2Chunk.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.Resolution2Chunk">Resolution2Chunk</a>] with <span class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</span>[<a href="Resolution2Chunk.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.Resolution2Chunk">Resolution2Chunk</a>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">A feature transformer that converts the input array of strings (annotatorType CHUNK) into an
+array of chunk-based tokens (annotatorType TOKEN).</p><div class="fullcomment"><div class="comment cmt"><p>A feature transformer that converts the input array of strings (annotatorType CHUNK) into an
+array of chunk-based tokens (annotatorType TOKEN).</p><p>When the input is empty, an empty array is returned.</p><p>This Annotator is specially convenient when using NGramGenerator annotations as inputs to WordEmbeddingsModels</p><h4>Example</h4><p>Define a pipeline for generating n-grams</p><pre><span class="kw">val</span> data = <span class="std">Seq</span>((<span class="lit">"A 63-year-old man presents to the hospital ..."</span>)).toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> document = <span class="kw">new</span> DocumentAssembler().setInputCol(<span class="lit">"text"</span>).setOutputCol(<span class="lit">"document"</span>)
+<span class="kw">val</span> sentenceDetector = <span class="kw">new</span> SentenceDetector().setInputCols(<span class="lit">"document"</span>).setOutputCol(<span class="lit">"sentence"</span>)
+<span class="kw">val</span> token = <span class="kw">new</span> Tokenizer().setInputCols(<span class="lit">"sentence"</span>).setOutputCol(<span class="lit">"token"</span>)
+<span class="kw">val</span> ngrammer = <span class="kw">new</span> NGramGenerator()
+ .setN(<span class="num">2</span>)
+ .setEnableCumulative(<span class="kw">false</span>)
+ .setInputCols(<span class="lit">"token"</span>)
+ .setOutputCol(<span class="lit">"ngrams"</span>)
+ .setDelimiter(<span class="lit">"_"</span>)</pre><p>Stage to convert n-gram CHUNKS to TOKEN type</p><pre><span class="kw">val</span> chunk2Token = <span class="kw">new</span> Chunk2Token().setInputCols(<span class="lit">"ngrams"</span>).setOutputCol(<span class="lit">"ngram_tokens"</span>)
+<span class="kw">val</span> trainingPipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(document, sentenceDetector, token, ngrammer, chunk2Token)).fit(data)
+
+<span class="kw">val</span> result = trainingPipeline.transform(data).cache()
+result.selectExpr(<span class="lit">"explode(ngram_tokens)"</span>).show(<span class="num">5</span>, <span class="kw">false</span>)
+  +----------------------------------------------------------------+
+  |col                                                             |
+  +----------------------------------------------------------------+
+  |{token, <span class="num">3</span>, <span class="num">15</span>, A_63-year-old, {sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">0</span>}, []}  |
+  |{token, <span class="num">5</span>, <span class="num">19</span>, <span class="num">63</span>-year-old_man, {sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">1</span>}, []}|
+  |{token, <span class="num">17</span>, <span class="num">28</span>, man_presents, {sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">2</span>}, []}  |
+  |{token, <span class="num">21</span>, <span class="num">31</span>, presents_to, {sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">3</span>}, []}   |
+  |{token, <span class="num">30</span>, <span class="num">35</span>, to_the, {sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">4</span>}, []}        |
+  +----------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/NGramGenerator" target="_blank">NGramGenerator</a></p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ResolverMerger" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="ResolverMergerextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.resolution.ResolverMerger]withHasSimpleAnnotate[com.johnsnowlabs.nlp.annotators.resolution.ResolverMerger]withCheckLicense"></a><a id="ResolverMerger:ResolverMerger"></a>
       <span class="permalink">
@@ -858,6 +902,22 @@ and returns the normalized entity for a particular trained ontology / curated da
       </span>
       
       <p class="shortcomment cmt">Helper object to use while setting <code>poolingStrategy</code> parameter</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.Resolution2Chunk" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Resolution2Chunk"></a><a id="Resolution2Chunk:Resolution2Chunk"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/resolution/Resolution2Chunk$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="Resolution2Chunk$.html"><span class="name">Resolution2Chunk</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="Resolution2Chunk.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.Resolution2Chunk">Resolution2Chunk</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.annotators.resolution.ResolverMerger" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="ResolverMerger"></a><a id="ResolverMerger:ResolverMerger"></a>
       <span class="permalink">

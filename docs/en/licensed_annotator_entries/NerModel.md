@@ -316,11 +316,9 @@ val result = pipeline.fit(data).transform(data)
 [MedicalNerModel](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/ner/MedicalNerModel.html)
 {%- endcapture -%}
 
-
-
-
-
-
+{%- capture model_python_api_link -%}
+[MedicalNerModel](https://nlp.johnsnowlabs.com/licensed/api/python/reference/autosummary/sparknlp_jsl/annotator/ner/medical_ner/index.html#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerModel)
+{%- endcapture -%}
 
 {%- capture approach_description -%}
 This Named Entity recognition annotator allows to train generic NER model based on Neural Networks.
@@ -642,7 +640,9 @@ val pipeline = new Pipeline().setStages(Array(
 [MedicalNerApproach](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/ner/MedicalNerApproach.html)
 {%- endcapture -%}
 
-
+{%- capture approach_python_api_link -%}
+[MedicalNerApproach](https://nlp.johnsnowlabs.com/licensed/api/python/reference/autosummary/sparknlp_jsl/annotator/ner/medical_ner/index.html#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach)
+{%- endcapture -%}
 
 {% include templates/licensed_approach_model_medical_fin_leg_template.md
 title=title
@@ -658,6 +658,7 @@ model_scala_legal=model_scala_legal
 model_python_finance=model_python_finance
 model_scala_finance=model_scala_finance
 model_api_link=model_api_link
+model_python_api_link=model_python_api_link
 approach_description=approach_description
 approach_input_anno=approach_input_anno
 approach_output_anno=approach_output_anno
@@ -668,6 +669,5 @@ approach_scala_medical=approach_scala_medical
 approach_scala_legal=approach_scala_legal
 approach_scala_finance=approach_scala_finance
 approach_api_link=approach_api_link
+approach_python_api_link=approach_python_api_link
 %}
-
-

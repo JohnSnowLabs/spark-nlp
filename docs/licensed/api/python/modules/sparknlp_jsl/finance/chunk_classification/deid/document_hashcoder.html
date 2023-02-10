@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.finance.chunk_classification.deid.document_hashcoder &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.finance.chunk_classification.deid.document_hashcoder &#8212; Spark NLP  documentation</title>
   
   
   
@@ -286,13 +286,13 @@
 <span class="kn">from</span> <span class="nn">pyspark.ml.param</span> <span class="kn">import</span> <span class="n">TypeConverters</span><span class="p">,</span> <span class="n">Params</span><span class="p">,</span> <span class="n">Param</span>
 <span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">AnnotatorTransformer</span>
 
-<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="n">AnnotatorProperties</span>
+<span class="kn">from</span> <span class="nn">sparknlp_jsl.common</span> <span class="kn">import</span> <span class="n">AnnotatorProperties</span>
 
 <span class="kn">from</span> <span class="nn">sparknlp_jsl.annotator</span> <span class="kn">import</span> <span class="n">DocumentHashCoder</span> <span class="k">as</span> <span class="n">A</span>
 
 
 <div class="viewcode-block" id="FinanceDocumentHashCoder"><a class="viewcode-back" href="../../../../../reference/autosummary/sparknlp_jsl/finance/chunk_classification/deid/document_hashcoder/index.html#sparknlp_jsl.finance.chunk_classification.deid.document_hashcoder.FinanceDocumentHashCoder">[docs]</a><span class="k">class</span> <span class="nc">FinanceDocumentHashCoder</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Converts ``DOCUMENT`` type annotations into ``CHUNK`` type with the</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts ``DOCUMENT`` type annotations into ``CHUNK`` type with the</span>
 <span class="sd">    contents of a ``chunkCol``.</span>
 
 <span class="sd">    Chunk text must be contained within input ``DOCUMENT``. May be either</span>
@@ -328,7 +328,7 @@
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; import sparknlp</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
-<span class="sd">    &gt;&gt;&gt; from sparknlp.common import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.common import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.training import *</span>
 <span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>

@@ -63,7 +63,8 @@ You can also check for the Relation Extraction model which connects these entiti
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_financial_xlarge_en_1.0.0_3.0_1669840074362.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_financial_xlarge_en_1.0.0_3.0_1669840074362.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/finance/models/finner_financial_xlarge_en_1.0.0_3.0_1669840074362.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -183,48 +184,48 @@ In-house annotations on Earning Calls and 10-K Filings combined.
 ## Benchmarking
 
 ```bash
-label	 tp	 fp	 fn	 prec	 rec	 f1
-B-LIABILITY_INCREASE	 1	 0	 0	 1.0	 1.0	 1.0
-I-AMOUNT	 915	 97	 8	 0.9041502	 0.9913326	 0.9457364
-B-COUNT	 7	 1	 2	 0.875	 0.7777778	 0.8235294
-I-LIABILITY_INCREASE	 1	 0	 0	 1.0	 1.0	 1.0
-B-AMOUNT	 1304	 124	 19	 0.9131653	 0.9856387	 0.9480189
-I-KPI	 2	 0	 7	 1.0	 0.22222222	 0.36363637
-B-DATE	 525	 32	 44	 0.94254935	 0.9226714	 0.9325044
-I-LIABILITY	 156	 49	 97	 0.7609756	 0.6166008	 0.68122274
-I-DATE	 343	 12	 36	 0.9661972	 0.9050132	 0.93460494
-B-CF_DECREASE	 6	 1	 3	 0.85714287	 0.6666667	 0.75
-I-EXPENSE	 270	 86	 74	 0.75842696	 0.78488374	 0.77142864
-I-KPI_INCREASE	 0	 0	 1	 0.0	 0.0	 0.0
-B-LIABILITY	 82	 30	 46	 0.73214287	 0.640625	 0.6833333
-I-CF	 420	 97	 84	 0.8123791	 0.8333333	 0.82272285
-I-CF_DECREASE	 17	 3	 12	 0.85	 0.5862069	 0.6938776
-I-COUNT	 7	 0	 0	 1.0	 1.0	 1.0
-B-FCF	 5	 0	 0	 1.0	 1.0	 1.0
-B-PROFIT_INCREASE	 54	 23	 22	 0.7012987	 0.7105263	 0.7058824
-B-KPI_INCREASE	 1	 0	 2	 1.0	 0.33333334	 0.5
-B-EXPENSE	 118	 42	 36	 0.7375	 0.76623374	 0.75159234
-I-CF_INCREASE	 43	 0	 17	 1.0	 0.71666664	 0.8349514
-I-PERCENTAGE	 4	 6	 0	 0.4	 1.0	 0.5714286
-I-PROFIT_DECLINE	 39	 11	 4	 0.78	 0.90697676	 0.8387097
-I-KPI_DECREASE	 1	 1	 0	 0.5	 1.0	 0.6666667
-B-CF_INCREASE	 23	 0	 2	 1.0	 0.92	 0.9583333
-I-PROFIT	 228	 118	 19	 0.6589595	 0.9230769	 0.7689713
-B-CURRENCY	 943	 42	 12	 0.9573604	 0.98743457	 0.972165
-I-PROFIT_INCREASE	 80	 34	 16	 0.7017544	 0.8333333	 0.7619047
-B-CF	 118	 32	 29	 0.7866667	 0.8027211	 0.7946128
-B-PROFIT	 134	 55	 23	 0.7089947	 0.85350317	 0.7745664
-B-PERCENTAGE	 281	 17	 7	 0.942953	 0.9756944	 0.95904434
-B-TICKER	 2	 0	 0	 1.0	 1.0	 1.0
-I-FISCAL_YEAR	 585	 17	 27	 0.9717608	 0.9558824	 0.9637562
-B-ORG	 2	 0	 0	 1.0	 1.0	 1.0
-B-PROFIT_DECLINE	 22	 5	 8	 0.8148148	 0.73333335	 0.7719298
-B-EXPENSE_INCREASE	 35	 7	 4	 0.8333333	 0.8974359	 0.86419755
-B-EXPENSE_DECREASE	 23	 3	 4	 0.88461536	 0.8518519	 0.8679245
-B-FISCAL_YEAR	 195	 6	 12	 0.9701493	 0.942029	 0.9558824
-I-EXPENSE_DECREASE	 46	 9	 16	 0.8363636	 0.7419355	 0.78632486
-I-FCF	 10	 0	 0	 1.0	 1.0	 1.0
-I-EXPENSE_INCREASE	 83	 13	 9	 0.8645833	 0.90217394	 0.88297874
-Macro-average 7134 977 728 0.77496254 0.72599226 0.74967855
-Micro-average 7134 977 728 0.8795463 0.9074027 0.8932574
+label                 tp    fp   fn   prec        rec         f1         
+B-LIABILITY_INCREASE  1     0    0    1.0         1.0         1.0        
+I-AMOUNT              915   97   8    0.9041502   0.9913326   0.9457364  
+B-COUNT               7     1    2    0.875       0.7777778   0.8235294  
+I-LIABILITY_INCREASE  1     0    0    1.0         1.0         1.0        
+B-AMOUNT              1304  124  19   0.9131653   0.9856387   0.9480189  
+I-KPI                 2     0    7    1.0         0.22222222  0.36363637 
+B-DATE                525   32   44   0.94254935  0.9226714   0.9325044  
+I-LIABILITY           156   49   97   0.7609756   0.6166008   0.68122274 
+I-DATE                343   12   36   0.9661972   0.9050132   0.93460494 
+B-CF_DECREASE         6     1    3    0.85714287  0.6666667   0.75       
+I-EXPENSE             270   86   74   0.75842696  0.78488374  0.77142864 
+I-KPI_INCREASE        0     0    1    0.0         0.0         0.0        
+B-LIABILITY           82    30   46   0.73214287  0.640625    0.6833333  
+I-CF                  420   97   84   0.8123791   0.8333333   0.82272285 
+I-CF_DECREASE         17    3    12   0.85        0.5862069   0.6938776  
+I-COUNT               7     0    0    1.0         1.0         1.0        
+B-FCF                 5     0    0    1.0         1.0         1.0        
+B-PROFIT_INCREASE     54    23   22   0.7012987   0.7105263   0.7058824  
+B-KPI_INCREASE        1     0    2    1.0         0.33333334  0.5        
+B-EXPENSE             118   42   36   0.7375      0.76623374  0.75159234 
+I-CF_INCREASE         43    0    17   1.0         0.71666664  0.8349514  
+I-PERCENTAGE          4     6    0    0.4         1.0         0.5714286  
+I-PROFIT_DECLINE      39    11   4    0.78        0.90697676  0.8387097  
+I-KPI_DECREASE        1     1    0    0.5         1.0         0.6666667  
+B-CF_INCREASE         23    0    2    1.0         0.92        0.9583333  
+I-PROFIT              228   118  19   0.6589595   0.9230769   0.7689713  
+B-CURRENCY            943   42   12   0.9573604   0.98743457  0.972165   
+I-PROFIT_INCREASE     80    34   16   0.7017544   0.8333333   0.7619047  
+B-CF                  118   32   29   0.7866667   0.8027211   0.7946128  
+B-PROFIT              134   55   23   0.7089947   0.85350317  0.7745664  
+B-PERCENTAGE          281   17   7    0.942953    0.9756944   0.95904434 
+B-TICKER              2     0    0    1.0         1.0         1.0        
+I-FISCAL_YEAR         585   17   27   0.9717608   0.9558824   0.9637562  
+B-ORG                 2     0    0    1.0         1.0         1.0        
+B-PROFIT_DECLINE      22    5    8    0.8148148   0.73333335  0.7719298  
+B-EXPENSE_INCREASE    35    7    4    0.8333333   0.8974359   0.86419755 
+B-EXPENSE_DECREASE    23    3    4    0.88461536  0.8518519   0.8679245  
+B-FISCAL_YEAR         195   6    12   0.9701493   0.942029    0.9558824  
+I-EXPENSE_DECREASE    46    9    16   0.8363636   0.7419355   0.78632486 
+I-FCF                 10    0    0    1.0         1.0         1.0        
+I-EXPENSE_INCREASE    83    13   9    0.8645833   0.90217394  0.88297874 
+Macro-average         7134  977  728  0.77496254  0.72599226  0.74967855 
+Micro-average         7134  977  728  0.8795463   0.9074027   0.8932574 
 ```

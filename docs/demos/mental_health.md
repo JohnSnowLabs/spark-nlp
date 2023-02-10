@@ -19,7 +19,7 @@ data:
           activemenu: mental_health
       source: yes
       source: 
-        - title: Depression Classifier for Tweets
+        - title: Identify Depression for Patient Posts
           id: depression_classifier_tweets 
           image: 
               src: /assets/images/Depression_Classifier_for_Tweets.svg
@@ -31,7 +31,7 @@ data:
           - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/MENTAL_HEALTH.ipynb
-        - title: Classify Intimate Partner Violence - Tweet
+        - title: Identify Intimate Partner Violence from Patient Posts
           id: classify_intimate_partner_violence_tweet          
           image: 
               src: /assets/images/Classify_Intimate_Partner_Violence_Tweet.svg
@@ -43,7 +43,7 @@ data:
           - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/PUBLIC_HEALTH_MB4SC.ipynb
-        - title: Classify Stress - Tweet 
+        - title: Identify Stress from Patient Posts
           id: classify_stress_tweet        
           image: 
               src: /assets/images/Classify_Stress_Tweet.svg
@@ -52,6 +52,18 @@ data:
           - text: Live Demo
             type: normal
             url: https://demo.johnsnowlabs.com/healthcare/PUBLIC_HEALTH_STRESS/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/PUBLIC_HEALTH_MB4SC.ipynb
+        - title: Identify the Source of Stress from Patient Posts
+          id: identify_source_stress_patient_posts         
+          image: 
+              src: /assets/images/Identify_Source_Stress_Patient.svg
+          excerpt: This demo shows how to classify source of emotional stress in text.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/PUBLIC_HEALTH_SOURCE_OF_STRESS/
           - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/PUBLIC_HEALTH_MB4SC.ipynb

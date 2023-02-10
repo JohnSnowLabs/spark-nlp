@@ -41,8 +41,8 @@ class T5Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     pretrained models please see the `Models Hub
     <https://nlp.johnsnowlabs.com/models?q=t5>`__.
 
-    For extended examples of usage, see the `Spark NLP Workshop
-    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/10.Question_Answering_and_Summarization_with_T5.ipynb>`__.
+    For extended examples of usage, see the `Examples
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/question-answering/Question_Answering_and_Summarization_with_T5.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type

@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.annotator.generic_classifier.generic_classifier &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.annotator.generic_classifier.generic_classifier &#8212; Spark NLP  documentation</title>
   
   
   
@@ -267,13 +267,13 @@
             <article class="bd-article" role="main">
               
   <h1>Source code for sparknlp_jsl.annotator.generic_classifier.generic_classifier</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span></span><span class="kn">from</span> <span class="nn">sparknlp_jsl.common</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="kn">from</span> <span class="nn">sparknlp_jsl.utils.licensed_annotator_type</span> <span class="kn">import</span> <span class="n">InternalAnnotatorType</span>
 
 
-<div class="viewcode-block" id="GenericClassifierApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/generic_classifier/generic_classifier/index.html#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach">[docs]</a><span class="k">class</span> <span class="nc">GenericClassifierApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">,</span> <span class="n">HasEngine</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="GenericClassifierApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/generic_classifier/generic_classifier/index.html#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach">[docs]</a><span class="k">class</span> <span class="nc">GenericClassifierApproach</span><span class="p">(</span><span class="n">AnnotatorApproachInternal</span><span class="p">,</span> <span class="n">HasEngine</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Trains a TensorFlow model for generic classification of feature vectors. It takes FEATURE_VECTOR annotations from</span>
 <span class="sd">    FeaturesAssembler` as input, classifies them and outputs CATEGORY annotations.</span>
 
@@ -311,7 +311,7 @@
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; import sparknlp</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
-<span class="sd">    &gt;&gt;&gt; from sparknlp.common import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.common import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.training import *</span>
 <span class="sd">    &gt;&gt;&gt; import sparknlp_jsl</span>
@@ -345,6 +345,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="GenericClassifierApproach.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/generic_classifier/generic_classifier/index.html#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">InternalAnnotatorType</span><span class="o">.</span><span class="n">FEATURE_VECTOR</span><span class="p">]</span></div>
+<div class="viewcode-block" id="GenericClassifierApproach.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/generic_classifier/generic_classifier/index.html#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CATEGORY</span></div>
 
 <div class="viewcode-block" id="GenericClassifierApproach.labelColumn"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/generic_classifier/generic_classifier/index.html#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.labelColumn">[docs]</a>    <span class="n">labelColumn</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;labelColumn&quot;</span><span class="p">,</span> <span class="s2">&quot;Column with one label per document&quot;</span><span class="p">,</span>
                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
@@ -372,7 +373,7 @@
                            <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GenericClassifierApproach.setLabelCol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/generic_classifier/generic_classifier/index.html#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setLabelCol">[docs]</a>    <span class="k">def</span> <span class="nf">setLabelCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label_column</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets  Size for each batch in the optimization process</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets  Size for each batch in the optimization process</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -383,7 +384,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">labelColumn</span><span class="o">=</span><span class="n">label_column</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GenericClassifierApproach.setBatchSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/generic_classifier/generic_classifier/index.html#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setBatchSize">[docs]</a>    <span class="k">def</span> <span class="nf">setBatchSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Size for each batch in the optimization process</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Size for each batch in the optimization process</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -394,7 +395,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">batchSize</span><span class="o">=</span><span class="n">size</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GenericClassifierApproach.setEpochsNumber"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/generic_classifier/generic_classifier/index.html#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setEpochsNumber">[docs]</a>    <span class="k">def</span> <span class="nf">setEpochsNumber</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epochs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets number of epochs for the optimization process</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets number of epochs for the optimization process</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -405,7 +406,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">epochsN</span><span class="o">=</span><span class="n">epochs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GenericClassifierApproach.setLearningRate"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/generic_classifier/generic_classifier/index.html#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setLearningRate">[docs]</a>    <span class="k">def</span> <span class="nf">setLearningRate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lamda</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets learning rate for the optimization process</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets learning rate for the optimization process</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -416,7 +417,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">learningRate</span><span class="o">=</span><span class="n">lamda</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GenericClassifierApproach.setDropout"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/generic_classifier/generic_classifier/index.html#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setDropout">[docs]</a>    <span class="k">def</span> <span class="nf">setDropout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dropout</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets drouptup</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets drouptup</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -427,7 +428,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">dropout</span><span class="o">=</span><span class="n">dropout</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GenericClassifierApproach.setValidationSplit"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/generic_classifier/generic_classifier/index.html#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setValidationSplit">[docs]</a>    <span class="k">def</span> <span class="nf">setValidationSplit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">validation_split</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets validaiton split - how much data to use for validation</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets validaiton split - how much data to use for validation</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -438,7 +439,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">validationSplit</span><span class="o">=</span><span class="n">validation_split</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GenericClassifierApproach.setModelFile"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/generic_classifier/generic_classifier/index.html#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setModelFile">[docs]</a>    <span class="k">def</span> <span class="nf">setModelFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode_file</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets file name to load the mode from&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets file name to load the mode from&quot;</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -449,7 +450,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">modelFile</span><span class="o">=</span><span class="n">mode_file</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GenericClassifierApproach.setFixImbalance"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/generic_classifier/generic_classifier/index.html#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setFixImbalance">[docs]</a>    <span class="k">def</span> <span class="nf">setFixImbalance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fix_imbalance</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets A flag indicating whenther to balance the trainig set.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets A flag indicating whenther to balance the trainig set.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -460,7 +461,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">fixImbalance</span><span class="o">=</span><span class="n">fix_imbalance</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GenericClassifierApproach.setFeatureScaling"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/generic_classifier/generic_classifier/index.html#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setFeatureScaling">[docs]</a>    <span class="k">def</span> <span class="nf">setFeatureScaling</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature_scaling</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets Feature scaling method. Possible values are &#39;zscore&#39;, &#39;minmax&#39; or empty (no scaling</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets Feature scaling method. Possible values are &#39;zscore&#39;, &#39;minmax&#39; or empty (no scaling</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -471,7 +472,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">featureScaling</span><span class="o">=</span><span class="n">feature_scaling</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GenericClassifierApproach.setOutputLogsPath"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/generic_classifier/generic_classifier/index.html#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setOutputLogsPath">[docs]</a>    <span class="k">def</span> <span class="nf">setOutputLogsPath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_logs_path</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets path to folder where logs will be saved. If no path is specified, no logs are generated</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets path to folder where logs will be saved. If no path is specified, no logs are generated</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -499,8 +500,8 @@
         <span class="p">)</span>
 
 
-<div class="viewcode-block" id="GenericClassifierModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/generic_classifier/generic_classifier/index.html#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierModel">[docs]</a><span class="k">class</span> <span class="nc">GenericClassifierModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="GenericClassifierModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/generic_classifier/generic_classifier/index.html#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierModel">[docs]</a><span class="k">class</span> <span class="nc">GenericClassifierModel</span><span class="p">(</span><span class="n">AnnotatorModelInternal</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generic classifier of feature vectors. It takes FEATURE_VECTOR annotations from</span>
 <span class="sd">    FeaturesAssembler` as input, classifies them and outputs CATEGORY annotations.</span>
 
@@ -515,7 +516,7 @@
 
 <span class="sd">    &gt;&gt;&gt; import sparknlp</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
-<span class="sd">    &gt;&gt;&gt; from sparknlp.common import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.common import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.training import *</span>
 <span class="sd">    &gt;&gt;&gt; import sparknlp_jsl</span>
@@ -539,6 +540,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="GenericClassifierModel.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/generic_classifier/generic_classifier/index.html#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierModel.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">InternalAnnotatorType</span><span class="o">.</span><span class="n">FEATURE_VECTOR</span><span class="p">]</span></div>
+<div class="viewcode-block" id="GenericClassifierModel.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/generic_classifier/generic_classifier/index.html#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierModel.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CATEGORY</span></div>
 
 <div class="viewcode-block" id="GenericClassifierModel.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/generic_classifier/generic_classifier/index.html#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierModel.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;GenericClassifierModel&quot;</span></div>
 

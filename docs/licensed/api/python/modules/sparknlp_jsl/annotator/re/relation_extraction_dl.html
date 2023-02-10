@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.annotator.re.relation_extraction_dl &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.annotator.re.relation_extraction_dl &#8212; Spark NLP  documentation</title>
   
   
   
@@ -267,7 +267,7 @@
             <article class="bd-article" role="main">
               
   <h1>Source code for sparknlp_jsl.annotator.re.relation_extraction_dl</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span></span><span class="kn">from</span> <span class="nn">sparknlp_jsl.common</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">ExtendedJavaWrapper</span>
 
 
@@ -277,8 +277,8 @@
             <span class="s2">&quot;com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel.loadSavedModel&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">jspark</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="RelationExtractionDLModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction_dl/index.html#sparknlp_jsl.annotator.re.relation_extraction_dl.RelationExtractionDLModel">[docs]</a><span class="k">class</span> <span class="nc">RelationExtractionDLModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="RelationExtractionDLModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction_dl/index.html#sparknlp_jsl.annotator.re.relation_extraction_dl.RelationExtractionDLModel">[docs]</a><span class="k">class</span> <span class="nc">RelationExtractionDLModel</span><span class="p">(</span><span class="n">AnnotatorModelInternal</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Extracts and classifies instances of relations between named entities.</span>
 <span class="sd">    In contrast with RelationExtractionModel, RelationExtractionDLModel is based on BERT.</span>
 <span class="sd">    For pretrained models please see the</span>
@@ -301,7 +301,7 @@
 
 <span class="sd">    &gt;&gt;&gt; import sparknlp</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
-<span class="sd">    &gt;&gt;&gt; from sparknlp.common import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.common import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.training import *</span>
 <span class="sd">    &gt;&gt;&gt; import sparknlp_jsl</span>
@@ -403,6 +403,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="RelationExtractionDLModel.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction_dl/index.html#sparknlp_jsl.annotator.re.relation_extraction_dl.RelationExtractionDLModel.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span></div>
+<div class="viewcode-block" id="RelationExtractionDLModel.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction_dl/index.html#sparknlp_jsl.annotator.re.relation_extraction_dl.RelationExtractionDLModel.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CATEGORY</span></div>
 
 <div class="viewcode-block" id="RelationExtractionDLModel.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction_dl/index.html#sparknlp_jsl.annotator.re.relation_extraction_dl.RelationExtractionDLModel.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;RelationExtractionDLModel&quot;</span></div>
 
@@ -417,7 +418,7 @@
                          <span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="RelationExtractionDLModel.setPredictionThreshold"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction_dl/index.html#sparknlp_jsl.annotator.re.relation_extraction_dl.RelationExtractionDLModel.setPredictionThreshold">[docs]</a>    <span class="k">def</span> <span class="nf">setPredictionThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">threshold</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets maximum syntactic distance between a pair of named entities to consider them as a relation</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets maximum syntactic distance between a pair of named entities to consider them as a relation</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -431,7 +432,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">caseSensitive</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="RelationExtractionDLModel.setBatchSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction_dl/index.html#sparknlp_jsl.annotator.re.relation_extraction_dl.RelationExtractionDLModel.setBatchSize">[docs]</a>    <span class="k">def</span> <span class="nf">setBatchSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets number of relations to process at once</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets number of relations to process at once</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -441,7 +442,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">batchSize</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="RelationExtractionDLModel.setCustomLabels"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction_dl/index.html#sparknlp_jsl.annotator.re.relation_extraction_dl.RelationExtractionDLModel.setCustomLabels">[docs]</a>    <span class="k">def</span> <span class="nf">setCustomLabels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets custom relation labels</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets custom relation labels</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -452,7 +453,7 @@
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="RelationExtractionDLModel.getClasses"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction_dl/index.html#sparknlp_jsl.annotator.re.relation_extraction_dl.RelationExtractionDLModel.getClasses">[docs]</a>    <span class="k">def</span> <span class="nf">getClasses</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns labels used to train this model</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;getClasses&quot;</span><span class="p">)</span></div>

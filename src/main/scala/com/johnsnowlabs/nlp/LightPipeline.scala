@@ -24,7 +24,7 @@ import org.apache.spark.sql.{DataFrame, Dataset}
 import scala.collection.JavaConverters._
 import scala.util.{Failure, Success, Try}
 
-class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Boolean = false) {
+class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddings: Boolean = false) {
 
   private var ignoreUnsupported = false
 
@@ -120,7 +120,7 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
         case graphFinisher: GraphFinisher => processGraphFinisher(graphFinisher, annotations)
         case rawModel: RawAnnotator[_] => processRowAnnotator(rawModel, annotations)
         case pipeline: PipelineModel =>
-          new LightPipeline(pipeline, parseEmbeddingsVectors)
+          new LightPipeline(pipeline, parseEmbeddings)
             .fullAnnotateInternal(target, optionalTarget, audio, annotations)
         case _ => annotations
       }
@@ -320,12 +320,17 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
   private def castToJavaAnnotation(annotation: IAnnotation): IAnnotation = {
     Try(annotation.asInstanceOf[Annotation]) match {
       case Success(annotation) => {
+        var embeddings = Array.emptyFloatArray
+        if (parseEmbeddings) {
+          embeddings = annotation.embeddings
+        }
         JavaAnnotation(
           annotation.annotatorType,
           annotation.begin,
           annotation.end,
           annotation.result,
-          annotation.metadata.asJava)
+          annotation.metadata.asJava,
+          embeddings)
       }
       case Failure(_) => annotation
     }
@@ -393,7 +398,7 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddingsVectors: Bo
       val annotation = iAnnotation.asInstanceOf[Annotation]
       annotation.annotatorType match {
         case AnnotatorType.WORD_EMBEDDINGS | AnnotatorType.SENTENCE_EMBEDDINGS
-            if parseEmbeddingsVectors =>
+            if parseEmbeddings =>
           annotation.embeddings.mkString(" ")
         case _ => annotation.result
       }

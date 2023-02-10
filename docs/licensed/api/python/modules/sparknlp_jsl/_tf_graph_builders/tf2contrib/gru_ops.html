@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl._tf_graph_builders.tf2contrib.gru_ops &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl._tf_graph_builders.tf2contrib.gru_ops &#8212; Spark NLP  documentation</title>
   
   
   
@@ -302,7 +302,7 @@
 
 <span class="nd">@ops</span><span class="o">.</span><span class="n">RegisterGradient</span><span class="p">(</span><span class="s2">&quot;GRUBlockCell&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_GRUBlockCellGrad</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="o">*</span><span class="n">grad</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Gradient for GRUBlockCell.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Gradient for GRUBlockCell.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">      op: Op for which the gradient is defined.</span>
@@ -363,7 +363,7 @@
 
 
 <div class="viewcode-block" id="GRUBlockCell"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/gru_ops/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.gru_ops.GRUBlockCell">[docs]</a><span class="k">class</span> <span class="nc">GRUBlockCell</span><span class="p">(</span><span class="n">LayerRNNCell</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Block GRU cell implementation.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Block GRU cell implementation.</span>
 
 <span class="sd">    Deprecated: use GRUBlockCellV2 instead.</span>
 
@@ -404,7 +404,7 @@
                  <span class="n">cell_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">reuse</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">name</span><span class="o">=</span><span class="s2">&quot;gru_cell&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initialize the Block GRU cell.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the Block GRU cell.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          num_units: int, The number of units in the GRU cell.</span>
@@ -459,7 +459,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">built</span> <span class="o">=</span> <span class="kc">True</span></div>
 
 <div class="viewcode-block" id="GRUBlockCell.call"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/gru_ops/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.gru_ops.GRUBlockCell.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">h_prev</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;GRU cell.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;GRU cell.&quot;&quot;&quot;</span>
         <span class="c1"># Check cell_size == state_size from h_prev.</span>
         <span class="n">cell_size</span> <span class="o">=</span> <span class="n">h_prev</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()</span><span class="o">.</span><span class="n">with_rank</span><span class="p">(</span><span class="mi">2</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">cell_size</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cell_size</span><span class="p">:</span>
@@ -479,13 +479,13 @@
 
 
 <div class="viewcode-block" id="GRUBlockCellV2"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/gru_ops/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.gru_ops.GRUBlockCellV2">[docs]</a><span class="k">class</span> <span class="nc">GRUBlockCellV2</span><span class="p">(</span><span class="n">GRUBlockCell</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Temporary GRUBlockCell impl with a different variable naming scheme.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Temporary GRUBlockCell impl with a different variable naming scheme.</span>
 
 <span class="sd">    Only differs from GRUBlockCell by variable names.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="GRUBlockCellV2.build"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/gru_ops/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.gru_ops.GRUBlockCellV2.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;GRU cell.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;GRU cell.&quot;&quot;&quot;</span>
         <span class="n">input_size</span> <span class="o">=</span> <span class="n">tensor_shape</span><span class="o">.</span><span class="n">dimension_value</span><span class="p">(</span><span class="n">input_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">input_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expecting input_size to be set.&quot;</span><span class="p">)</span>

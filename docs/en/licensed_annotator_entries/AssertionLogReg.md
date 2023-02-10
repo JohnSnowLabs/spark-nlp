@@ -39,6 +39,10 @@ ASSERTION
 [AssertionLogRegModel](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/assertion/logreg/AssertionLogRegModel)
 {%- endcapture -%}
 
+{%- capture model_python_api_link -%}
+[AssertionLogRegModel](https://nlp.johnsnowlabs.com/licensed/api/python/reference/autosummary/sparknlp_jsl/annotator/assertion/assertion_dl_reg/index.html#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegModel)
+{%- endcapture -%}
+
 {%- capture approach_description -%}
 Trains a classification method, which uses the Logarithmic Regression Algorithm. It is used to extract Assertion Status
 from extracted entities and text.
@@ -55,8 +59,11 @@ ASSERTION
 
 {%- capture approach_python_medical -%}
 from johnsnowlabs import *
+
 # Training with Glove Embeddings
+
 # First define pipeline stages to extract embeddings and text chunks
+
 documentAssembler = nlp.DocumentAssembler() \
     .setInputCol("text") \
     .setOutputCol("document")
@@ -76,6 +83,7 @@ chunkAssembler = nlp.Doc2Chunk() \
     .setOutputCol("chunk")
 
 # Then the AssertionLogRegApproach model is defined. Label column is needed in the dataset for training.
+
 assertion = medical.AssertionLogRegApproach() \
     .setLabelCol("label") \
     .setInputCols(["document", "chunk", "word_embeddings"]) \
@@ -101,8 +109,11 @@ assertionModel = assertionPipeline.fit(dataset)
 
 {%- capture approach_python_legal -%}
 from johnsnowlabs import *
+
 # Training with Glove Embeddings
+
 # First define pipeline stages to extract embeddings and text chunks
+
 documentAssembler = nlp.DocumentAssembler() \
     .setInputCol("text") \
     .setOutputCol("document")
@@ -122,6 +133,7 @@ chunkAssembler = nlp.Doc2Chunk() \
     .setOutputCol("chunk")
 
 # Then the AssertionLogRegApproach model is defined. Label column is needed in the dataset for training.
+
 assertion = legal.AssertionLogRegApproach() \
     .setLabelCol("label") \
     .setInputCols(["document", "chunk", "word_embeddings"]) \
@@ -145,11 +157,13 @@ assertionPipeline = Pipeline(stages=[
 assertionModel = assertionPipeline.fit(dataset)
 {%- endcapture -%}
 
-
 {%- capture approach_python_finance -%}
 from johnsnowlabs import *
+
 # Training with Glove Embeddings
+
 # First define pipeline stages to extract embeddings and text chunks
+
 documentAssembler = nlp.DocumentAssembler() \
     .setInputCol("text") \
     .setOutputCol("document")
@@ -169,6 +183,7 @@ chunkAssembler = nlp.Doc2Chunk() \
     .setOutputCol("chunk")
 
 # Then the AssertionLogRegApproach model is defined. Label column is needed in the dataset for training.
+
 assertion = finance.AssertionLogRegApproach() \
     .setLabelCol("label") \
     .setInputCols(["document", "chunk", "word_embeddings"]) \
@@ -191,7 +206,6 @@ assertionPipeline = Pipeline(stages=[
 
 assertionModel = assertionPipeline.fit(dataset)
 {%- endcapture -%}
-
 
 {%- capture approach_scala_medical -%}
 from johnsnowlabs import * 
@@ -334,11 +348,13 @@ val assertionPipeline = new Pipeline().setStages(Array(
 val assertionModel = assertionPipeline.fit(dataset)
 {%- endcapture -%}
 
-
 {%- capture approach_api_link -%}
 [AssertionLogRegApproach](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/assertion/logreg/AssertionLogRegApproach)
 {%- endcapture -%}
 
+{%- capture approach_python_api_link -%}
+[AssertionLogRegApproach](https://nlp.johnsnowlabs.com/licensed/api/python/reference/autosummary/sparknlp_jsl/annotator/assertion/assertion_dl_reg/index.html#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach)
+{%- endcapture -%}
 
 {% include templates/licensed_approach_model_medical_fin_leg_template.md
 title=title
@@ -348,6 +364,7 @@ model_description=model_description
 model_input_anno=model_input_anno
 model_output_anno=model_output_anno
 model_api_link=model_api_link
+model_python_api_link=model_python_api_link
 approach_description=approach_description
 approach_input_anno=approach_input_anno
 approach_output_anno=approach_output_anno
@@ -358,4 +375,5 @@ approach_scala_medical=approach_scala_medical
 approach_scala_legal=approach_scala_legal
 approach_scala_finance=approach_scala_finance
 approach_api_link=approach_api_link
+approach_python_api_link=approach_python_api_link
 %}

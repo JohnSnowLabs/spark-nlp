@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.annotator.deid.replacer &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.annotator.deid.replacer &#8212; Spark NLP  documentation</title>
   
   
   
@@ -271,12 +271,14 @@
 <span class="kn">from</span> <span class="nn">pyspark.ml.param</span> <span class="kn">import</span> <span class="n">TypeConverters</span><span class="p">,</span> <span class="n">Params</span><span class="p">,</span> <span class="n">Param</span>
 <span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">AnnotatorTransformer</span>
 
-<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">AnnotatorType</span>
+<span class="kn">from</span> <span class="nn">sparknlp_jsl.common</span> <span class="kn">import</span> <span class="n">AnnotatorModelInternal</span><span class="p">,</span> <span class="n">AnnotatorType</span>
 
 
-<div class="viewcode-block" id="Replacer"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/replacer/index.html#sparknlp_jsl.annotator.deid.replacer.Replacer">[docs]</a><span class="k">class</span> <span class="nc">Replacer</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
+<div class="viewcode-block" id="Replacer"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/replacer/index.html#sparknlp_jsl.annotator.deid.replacer.Replacer">[docs]</a><span class="k">class</span> <span class="nc">Replacer</span><span class="p">(</span><span class="n">AnnotatorModelInternal</span><span class="p">):</span>
+<div class="viewcode-block" id="Replacer.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/replacer/index.html#sparknlp_jsl.annotator.deid.replacer.Replacer.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Replacer&quot;</span></div>
 <div class="viewcode-block" id="Replacer.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/replacer/index.html#sparknlp_jsl.annotator.deid.replacer.Replacer.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span><span class="p">]</span></div>
-<div class="viewcode-block" id="Replacer.useReplacement"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/replacer/index.html#sparknlp_jsl.annotator.deid.replacer.Replacer.useReplacement">[docs]</a>    <span class="n">useReplacement</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;useReplacement&quot;</span><span class="p">,</span> <span class="s2">&quot;Enable or disable Replacement of entities&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="Replacer.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/replacer/index.html#sparknlp_jsl.annotator.deid.replacer.Replacer.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span></div>
+<div class="viewcode-block" id="Replacer.useReplacement"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/replacer/index.html#sparknlp_jsl.annotator.deid.replacer.Replacer.useReplacement">[docs]</a>    <span class="n">useReplacement</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;useReplacement&quot;</span><span class="p">,</span> <span class="s2">&quot;I&quot;</span><span class="p">,</span>
                            <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
 
@@ -287,14 +289,24 @@
         <span class="p">)</span>
 
 <div class="viewcode-block" id="Replacer.setUseReplacement"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/replacer/index.html#sparknlp_jsl.annotator.deid.replacer.Replacer.setUseReplacement">[docs]</a>    <span class="k">def</span> <span class="nf">setUseReplacement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Enable or disable Replacement of entities</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Enable or disable Replacement of entities</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        value : bool</span>
 <span class="sd">            True for Replacing, False otherwise.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">useReplacement</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">useReplacement</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Replacer.getUseReplacement"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/replacer/index.html#sparknlp_jsl.annotator.deid.replacer.Replacer.getUseReplacement">[docs]</a>    <span class="k">def</span> <span class="nf">getUseReplacement</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Enable or disable Replacement of entities</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            True for Replacing, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">useReplacement</span><span class="p">)</span></div></div>
 </pre></div>
 
             </article>

@@ -27,7 +27,8 @@ Classify medical text according to PICO framework.
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/CLASSIFICATION_PICO/){:.button.button-orange}{:target="_blank"}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/CLINICAL_CLASSIFICATION.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}{:target="_blank"}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/classifierdl_pico_biobert_en_2.6.2_2.4_1601901791781.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/classifierdl_pico_biobert_en_2.6.2_2.4_1601901791781.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/classifierdl_pico_biobert_en_2.6.2_2.4_1601901791781.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 {:.h2_title}
 ## How to use

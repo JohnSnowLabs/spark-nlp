@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.annotator.ner.iob_tagger &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.annotator.ner.iob_tagger &#8212; Spark NLP  documentation</title>
   
   
   
@@ -267,11 +267,11 @@
             <article class="bd-article" role="main">
               
   <h1>Source code for sparknlp_jsl.annotator.ner.iob_tagger</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span></span><span class="kn">from</span> <span class="nn">sparknlp_jsl.common</span> <span class="kn">import</span> <span class="o">*</span>
 
 
-<div class="viewcode-block" id="IOBTagger"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/iob_tagger/index.html#sparknlp_jsl.annotator.ner.iob_tagger.IOBTagger">[docs]</a><span class="k">class</span> <span class="nc">IOBTagger</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="IOBTagger"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/iob_tagger/index.html#sparknlp_jsl.annotator.ner.iob_tagger.IOBTagger">[docs]</a><span class="k">class</span> <span class="nc">IOBTagger</span><span class="p">(</span><span class="n">AnnotatorModelInternal</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Merges token tags and NER labels from chunks in the specified format.</span>
 <span class="sd">    For example output columns as inputs from</span>
 
@@ -291,7 +291,7 @@
 
 <span class="sd">    &gt;&gt;&gt; import sparknlp</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
-<span class="sd">    &gt;&gt;&gt; from sparknlp.common import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.common import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.training import *</span>
 <span class="sd">    &gt;&gt;&gt; import sparknlp_jsl</span>
@@ -324,28 +324,31 @@
 <span class="sd">    +-----+---+-----------+-----------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="IOBTagger.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/iob_tagger/index.html#sparknlp_jsl.annotator.ner.iob_tagger.IOBTagger.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span><span class="p">]</span></div>
+<div class="viewcode-block" id="IOBTagger.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/iob_tagger/index.html#sparknlp_jsl.annotator.ner.iob_tagger.IOBTagger.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">NAMED_ENTITY</span></div>
 
 <div class="viewcode-block" id="IOBTagger.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/iob_tagger/index.html#sparknlp_jsl.annotator.ner.iob_tagger.IOBTagger.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;IOBTaggerModel&quot;</span></div>
 
-<div class="viewcode-block" id="IOBTagger.scheme"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/iob_tagger/index.html#sparknlp_jsl.annotator.ner.iob_tagger.IOBTagger.scheme">[docs]</a>    <span class="n">scheme</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;scheme&quot;</span><span class="p">,</span> <span class="s2">&quot;Format of tags, either IOB or BIOES&quot;</span><span class="p">,</span>
-                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+<div class="viewcode-block" id="IOBTagger.scheme"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/iob_tagger/index.html#sparknlp_jsl.annotator.ner.iob_tagger.IOBTagger.scheme">[docs]</a>    <span class="n">scheme</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;scheme&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Format of tags, either IOB or BIOES&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">,</span></div>
+    <span class="p">)</span>
 
-<div class="viewcode-block" id="IOBTagger.setScheme"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/iob_tagger/index.html#sparknlp_jsl.annotator.ner.iob_tagger.IOBTagger.setScheme">[docs]</a>    <span class="k">def</span> <span class="nf">setScheme</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets format of tags, either IOB or BIOES</span>
+<div class="viewcode-block" id="IOBTagger.setScheme"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/iob_tagger/index.html#sparknlp_jsl.annotator.ner.iob_tagger.IOBTagger.setScheme">[docs]</a>    <span class="k">def</span> <span class="nf">setScheme</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scheme</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets format of tags, either IOB or BIOES</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        pairs : str</span>
+<span class="sd">        scheme : str</span>
 <span class="sd">            Format of tags, either IOB or BIOES</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">scheme</span><span class="o">=</span><span class="n">f</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">scheme</span><span class="o">=</span><span class="n">scheme</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.ner.IOBTagger&quot;</span><span class="p">,</span>
-                 <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">IOBTagger</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
-            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span></div>
-        <span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.ner.IOBTagger&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">IOBTagger</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span></div>
 </pre></div>
 
             </article>

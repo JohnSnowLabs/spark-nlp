@@ -84,11 +84,11 @@ result.selectExpr("regexToken.result").show(false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[RegexTokenizer](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/RegexTokenizer)
+[RegexTokenizer](/api/com/johnsnowlabs/nlp/annotators/RegexTokenizer)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[RegexTokenizer](/api/python/reference/autosummary/python/sparknlp/annotator/token/regex_tokenizer/index.html#sparknlp.annotator.token.regex_tokenizer.RegexTokenizer)
+[RegexTokenizer](/api/python/reference/autosummary/sparknlp/annotator/token/regex_tokenizer/index.html#sparknlp.annotator.token.regex_tokenizer.RegexTokenizer)
 {%- endcapture -%}
 
 {%- capture source_link -%}

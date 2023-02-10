@@ -28,6 +28,7 @@ Pretrained Named Entity Recognition model, uploaded to Hugging Face, adapted and
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/roberta_ner_RuPERTa_base_finetuned_ner_es_3.4.2_3.0_1651593655495.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/roberta_ner_RuPERTa_base_finetuned_ner_es_3.4.2_3.0_1651593655495.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

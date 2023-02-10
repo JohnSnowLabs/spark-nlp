@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl &#8212; Spark NLP  documentation</title>
   
   
   
@@ -277,9 +277,9 @@
 <span class="kn">from</span> <span class="nn">util</span> <span class="kn">import</span> <span class="n">read_version</span>
 
 <span class="kn">import</span> <span class="nn">com.johnsnowlabs</span>
-<div class="viewcode-block" id="legal"><a class="viewcode-back" href="../reference/autosummary/sparknlp_jsl/index.html#sparknlp_jsl.legal">[docs]</a><span class="n">com</span><span class="o">.</span><span class="n">johnsnowlabs</span><span class="o">.</span><span class="n">legal</span> <span class="o">=</span> <span class="n">legal</span></div>
-<div class="viewcode-block" id="finance"><a class="viewcode-back" href="../reference/autosummary/sparknlp_jsl/index.html#sparknlp_jsl.finance">[docs]</a><span class="n">com</span><span class="o">.</span><span class="n">johnsnowlabs</span><span class="o">.</span><span class="n">finance</span> <span class="o">=</span> <span class="n">finance</span></div>
-<div class="viewcode-block" id="annotator"><a class="viewcode-back" href="../reference/autosummary/sparknlp_jsl/index.html#sparknlp_jsl.annotator">[docs]</a><span class="n">com</span><span class="o">.</span><span class="n">johnsnowlabs</span><span class="o">.</span><span class="n">annotator</span> <span class="o">=</span> <span class="n">annotator</span></div>
+<span class="n">com</span><span class="o">.</span><span class="n">johnsnowlabs</span><span class="o">.</span><span class="n">legal</span> <span class="o">=</span> <span class="n">legal</span>
+<span class="n">com</span><span class="o">.</span><span class="n">johnsnowlabs</span><span class="o">.</span><span class="n">finance</span> <span class="o">=</span> <span class="n">finance</span>
+<span class="n">com</span><span class="o">.</span><span class="n">johnsnowlabs</span><span class="o">.</span><span class="n">annotator</span> <span class="o">=</span> <span class="n">annotator</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s1">&#39;com.johnsnowlabs.annotator&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">annotator</span>
 
 <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s1">&#39;com.johnsnowlabs.nlp.annotators.assertion&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">annotator</span>
@@ -420,6 +420,12 @@
     <span class="k">except</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning::Can not fetch aws credentials. you need to start the library manually using sparknlp_jsl.start().&quot;</span><span class="p">)</span>
 
+<span class="c1"># set ipython kernel name as env variable</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">IPython</span> <span class="kn">import</span> <span class="n">get_ipython</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;IPYTHON_NAME&quot;</span><span class="p">]</span> <span class="o">=</span>  <span class="nb">str</span><span class="p">(</span><span class="n">get_ipython</span><span class="p">())</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="k">pass</span>
 </pre></div>
 
             </article>

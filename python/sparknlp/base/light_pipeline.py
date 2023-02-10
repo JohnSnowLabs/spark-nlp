@@ -12,14 +12,13 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 """Contains classes for the LightPipeline."""
-from sparknlp.base.multi_document_assembler import MultiDocumentAssembler
 
 import sparknlp.internal as _internal
-
 from sparknlp.annotation import Annotation
 from sparknlp.annotation_audio import AnnotationAudio
 from sparknlp.annotation_image import AnnotationImage
 from sparknlp.common import AnnotatorApproach, AnnotatorModel
+from sparknlp.internal import AnnotatorTransformer
 
 
 class LightPipeline:
@@ -66,10 +65,10 @@ class LightPipeline:
 
     def __init__(self, pipelineModel, parse_embeddings=False):
         self.pipeline_model = pipelineModel
+        self.parse_embeddings = parse_embeddings
         self._lightPipeline = _internal._LightPipeline(pipelineModel, parse_embeddings).apply()
 
-    def _validateStagesInputCols(self):
-        stages = self.pipeline_model.stages
+    def _validateStagesInputCols(self, stages):
         annotator_types = self._getAnnotatorTypes(stages)
         for stage in stages:
             if isinstance(stage, AnnotatorApproach) or isinstance(stage, AnnotatorModel):
@@ -85,15 +84,27 @@ class LightPipeline:
                                         f" with the right output names and that they have following annotator types:"
                                         f" {input_annotator_types}")
 
+    def _skipPipelineValidation(self, stages):
+        exceptional_pipeline = [stage for stage in stages if self._skipStageValidation(stage)]
+        if len(exceptional_pipeline) >= 1:
+            return True
+        else:
+            return False
+
+    def _skipStageValidation(self, stage):
+        return hasattr(stage, 'skipLPInputColsValidation') and stage.skipLPInputColsValidation
+
     def _getAnnotatorTypes(self, stages):
         annotator_types = {}
         for stage in stages:
-            if isinstance(stage, MultiDocumentAssembler):
+            if hasattr(stage, 'getOutputCols'):
                 output_cols = stage.getOutputCols()
                 for output_col in output_cols:
                     annotator_types[output_col] = stage.outputAnnotatorType
-            else:
-                annotator_types[stage.getOutputCol()] = stage.outputAnnotatorType
+            elif isinstance(stage, AnnotatorApproach) or isinstance(stage, AnnotatorModel) or\
+                    isinstance(stage, AnnotatorTransformer):
+                if stage.outputAnnotatorType is not None:
+                    annotator_types[stage.getOutputCol()] = stage.outputAnnotatorType
         return annotator_types
 
     def _annotationFromJava(self, java_annotations):
@@ -123,13 +134,17 @@ class LightPipeline:
                                     annotation.metadata())
                 )
             else:
+                if self.parse_embeddings:
+                    embeddings = list(annotation.embeddings())
+                else:
+                    embeddings = []
                 annotations.append(
                     Annotation(annotation.annotatorType(),
                                annotation.begin(),
                                annotation.end(),
                                annotation.result(),
                                annotation.metadata(),
-                               [])
+                               embeddings)
                 )
         return annotations
 
@@ -176,7 +191,9 @@ class LightPipeline:
         Annotation(named_entity, 30, 36, B-LOC, {'word': 'Baghdad'}),
         Annotation(named_entity, 37, 37, O, {'word': '.'})]
         """
-        self._validateStagesInputCols()
+        stages = self.pipeline_model.stages
+        if not self._skipPipelineValidation(stages):
+            self._validateStagesInputCols(stages)
 
         if optional_target == "":
             if self.__isTextInput(target):
@@ -275,7 +292,9 @@ class LightPipeline:
         List[AnnotationImage]
             The result of the annotation
         """
-        self._validateStagesInputCols()
+        stages = self.pipeline_model.stages
+        if not self._skipPipelineValidation(stages):
+            self._validateStagesInputCols(stages)
 
         if type(path_to_image) is str:
             path_to_image = [path_to_image]
@@ -327,7 +346,9 @@ class LightPipeline:
         def reformat(annotations):
             return {k: list(v) for k, v in annotations.items()}
 
-        self._validateStagesInputCols()
+        stages = self.pipeline_model.stages
+        if not self._skipPipelineValidation(stages):
+            self._validateStagesInputCols(stages)
 
         if optional_target == "":
             if type(target) is str:

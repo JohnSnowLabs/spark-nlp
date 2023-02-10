@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach</title>
-          <meta name="description" content="Spark NLP 4.2.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach" />
-          <meta name="keywords" content="Spark NLP 4.2.3 ScalaDoc com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach" />
+          <title>Spark NLP 4.2.8 ScalaDoc  - com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach</title>
+          <meta name="description" content="Spark NLP 4.2.8 ScalaDoc - com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach" />
+          <meta name="keywords" content="Spark NLP 4.2.8 ScalaDoc com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.2.8 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -157,6 +157,10 @@
                         <span class="separator"></span>
                         <a class="class" href="DLRelationInstance.html" title=""></a>
                         <a href="DLRelationInstance.html" title="">DLRelationInstance</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="class" href="GenericREModel.html" title="Instantiated RelationExtractionModel for extracting relationships between any entitites."></a>
+                        <a href="GenericREModel.html" title="Instantiated RelationExtractionModel for extracting relationships between any entitites.">GenericREModel</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="class" href="PosologyREModel.html" title="Instantiated RelationExtractionModel for extracting relationships between different recognized drug entitites."></a>
@@ -1050,8 +1054,8 @@
         <span class="name">getCustomLabels</span><span class="result">: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Maximal syntactic distance, as threshold (Default: 0)
-</p><div class="fullcomment"><div class="comment cmt"><p>Maximal syntactic distance, as threshold (Default: 0)
+      <p class="shortcomment cmt">Get custom labels
+</p><div class="fullcomment"><div class="comment cmt"><p>Get custom labels
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="RelationExtractionApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach">RelationExtractionApproach</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#getDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getDefault[T](param:org.apache.spark.ml.param.Param[T]):Option[T]"></a><a id="getDefault[T](Param[T]):Option[T]"></a>
@@ -1295,6 +1299,24 @@
       <p class="shortcomment cmt">Maximum number of epochs to train
 </p><div class="fullcomment"><div class="comment cmt"><p>Maximum number of epochs to train
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../generic_classifier/GenericClassifierApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierApproach">GenericClassifierApproach</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach#getMaxSyntacticDistance" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
+      <a id="getMaxSyntacticDistance:Int"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/RelationExtractionApproach$.html#getMaxSyntacticDistance:Int" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getMaxSyntacticDistance</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Maximal syntactic distance, as threshold (Default: 0)
+</p><div class="fullcomment"><div class="comment cmt"><p>Maximal syntactic distance, as threshold (Default: 0)
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="RelationExtractionApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach">RelationExtractionApproach</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierApproach#getModelFile" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
       <a id="getModelFile:String"></a>
       <span class="permalink">
@@ -1926,6 +1948,24 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach#maxSyntacticDistance" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
+      <a id="maxSyntacticDistance:org.apache.spark.ml.param.IntParam"></a><a id="maxSyntacticDistance:IntParam"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/RelationExtractionApproach$.html#maxSyntacticDistance:org.apache.spark.ml.param.IntParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">var</span>
+      </span>
+      <span class="symbol">
+        <span class="name">maxSyntacticDistance</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Maximal syntactic distance, as threshold (Default: 0)
+</p><div class="fullcomment"><div class="comment cmt"><p>Maximal syntactic distance, as threshold (Default: 0)
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="RelationExtractionApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach">RelationExtractionApproach</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierApproach#modelFile" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="modelFile:org.apache.spark.ml.param.Param[String]"></a><a id="modelFile:Param[String]"></a>
       <span class="permalink">
@@ -2305,8 +2345,8 @@
         <span class="name">setCustomLabels</span><span class="params">(<span name="labels">labels: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach">RelationExtractionApproach</a>.this.type</span>
       </span>
       
-      <p class="shortcomment cmt">Maximal syntactic distance, as threshold (Default: 0)
-</p><div class="fullcomment"><div class="comment cmt"><p>Maximal syntactic distance, as threshold (Default: 0)
+      <p class="shortcomment cmt">Set custom labels
+</p><div class="fullcomment"><div class="comment cmt"><p>Set custom labels
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="RelationExtractionApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach">RelationExtractionApproach</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#setDefault" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setDefault(paramPairs:org.apache.spark.ml.param.ParamPair[_]*):Params.this.type"></a><a id="setDefault(ParamPair[_]*):RelationExtractionApproach.this.type"></a>
@@ -2495,6 +2535,24 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>CanBeLazy</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach#setMaxSyntacticDistance" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
+      <a id="setMaxSyntacticDistance(maxSyntacticDistance:Int):RelationExtractionApproach.this.type"></a><a id="setMaxSyntacticDistance(Int):RelationExtractionApproach.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/RelationExtractionApproach$.html#setMaxSyntacticDistance(maxSyntacticDistance:Int):RelationExtractionApproach.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setMaxSyntacticDistance</span><span class="params">(<span name="maxSyntacticDistance">maxSyntacticDistance: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach">RelationExtractionApproach</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt">Maximal syntactic distance, as threshold (Default: 0)
+</p><div class="fullcomment"><div class="comment cmt"><p>Maximal syntactic distance, as threshold (Default: 0)
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="RelationExtractionApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach">RelationExtractionApproach</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierApproach#setModelFile" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setModelFile(modelFile:String):GenericClassifierApproach.this.type"></a><a id="setModelFile(String):RelationExtractionApproach.this.type"></a>
       <span class="permalink">

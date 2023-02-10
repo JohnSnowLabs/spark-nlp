@@ -125,11 +125,11 @@ results.select("generation.result").show(truncate = false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[GPT2Transformer](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/seq2seq/GPT2Transformer)
+[GPT2Transformer](/api/com/johnsnowlabs/nlp/annotators/seq2seq/GPT2Transformer)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[GPT2Transformer](/api/python/reference/autosummary/python/sparknlp/annotator/seq2seq/gpt2_transformer/index.html#sparknlp.annotator.seq2seq.gpt2_transformer.GPT2Transformer)
+[GPT2Transformer](/api/python/reference/autosummary/sparknlp/annotator/seq2seq/gpt2_transformer/index.html#sparknlp.annotator.seq2seq.gpt2_transformer.GPT2Transformer)
 {%- endcapture -%}
 
 {%- capture source_link -%}

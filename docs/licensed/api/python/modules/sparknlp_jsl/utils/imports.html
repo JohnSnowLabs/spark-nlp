@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.utils.imports &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.utils.imports &#8212; Spark NLP  documentation</title>
   
   
   
@@ -267,12 +267,43 @@
             <article class="bd-article" role="main">
               
   <h1>Source code for sparknlp_jsl.utils.imports</h1><div class="highlight"><pre>
-<div class="viewcode-block" id="is_module_importable"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/imports/index.html#sparknlp_jsl.utils.imports.is_module_importable">[docs]</a><span></span><span class="k">def</span> <span class="nf">is_module_importable</span><span class="p">(</span><span class="n">module_name</span><span class="p">):</span>
-    <span class="c1"># Return True if module is importable, i.e. installed, otherwise false</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+
+
+<div class="viewcode-block" id="is_module_importable"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/imports/index.html#sparknlp_jsl.utils.imports.is_module_importable">[docs]</a><span class="k">def</span> <span class="nf">is_module_importable</span><span class="p">(</span>
+    <span class="n">lib</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">raise_exception</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">pip_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">message_type</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return True if Lib can be imported, False if not when raise_exception is False,</span>
+<span class="sd">    otherwise raises Exception when not importable.</span>
+<span class="sd">    :param lib: import name of module to test</span>
+<span class="sd">    :param raise_exception: Should raise exception or not</span>
+<span class="sd">    :param pip_name: If raise exception this is required. Part of the error message for install instruction</span>
+<span class="sd">    :param message_type: Either &#39;function&#39; or &#39;module&#39; which will change the style of error message</span>
+<span class="sd">    :return: True if importable, False if not when raise_exception is False,</span>
+<span class="sd">    otherwise raises Exception when not importable.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">exec</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;import </span><span class="si">{</span><span class="n">module_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="nb">__import__</span><span class="p">(</span><span class="n">lib</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span>
     <span class="k">except</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">raise_exception</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">message_type</span> <span class="o">==</span> <span class="s2">&quot;function&quot;</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;You need </span><span class="si">{</span><span class="n">lib</span><span class="si">}</span><span class="s2"> for this function. Please run pip install </span><span class="si">{</span><span class="n">pip_name</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">message_type</span> <span class="o">==</span> <span class="s2">&quot;module&quot;</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;You need </span><span class="si">{</span><span class="n">lib</span><span class="si">}</span><span class="s2"> for this module. Please run pip install </span><span class="si">{</span><span class="n">pip_name</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Invalid value for message_type=</span><span class="si">{</span><span class="n">message_type</span><span class="si">}</span><span class="s2"> should be either function or module&quot;</span>
+                <span class="p">)</span>
+
         <span class="k">return</span> <span class="kc">False</span></div>
 </pre></div>
 

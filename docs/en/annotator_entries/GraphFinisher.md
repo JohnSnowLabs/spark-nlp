@@ -60,11 +60,11 @@ finishedResult.select("text", "graph_finished").show(false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[GraphFinisher](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/GraphFinisher)
+[GraphFinisher](/api/com/johnsnowlabs/nlp/GraphFinisher)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[GraphFinisher](/api/python/reference/autosummary/python/sparknlp/base/graph_finisher/index.html#sparknlp.base.graph_finisher.GraphFinisher)
+[GraphFinisher](/api/python/reference/autosummary/sparknlp/base/graph_finisher/index.html#sparknlp.base.graph_finisher.GraphFinisher)
 {%- endcapture -%}
 
 {%- capture source_link -%}

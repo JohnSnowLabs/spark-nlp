@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Annotators &#8212; Spark NLP 4.2.5 documentation</title>
+    <title>Annotators &#8212; Spark NLP 4.3.0 documentation</title>
   
   
   
@@ -352,7 +352,7 @@ This was a terrible movie! The acting was bad really bad!,1
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">smallCorpus</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">&quot;header&quot;</span><span class="p">,</span><span class="s2">&quot;True&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span><span class="s2">&quot;src/test/resources/classifier/sentiment.csv&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Then we declare the <a class="reference internal" href="../reference/autosummary/python/sparknlp/annotator/classifier_dl/classifier_dl/index.html#python.sparknlp.annotator.classifier_dl.classifier_dl.ClassifierDLApproach" title="python.sparknlp.annotator.classifier_dl.classifier_dl.ClassifierDLApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClassifierDLApproach</span></code></a> that is going to be trained in the pipeline. Note that in this case,
+<p>Then we declare the <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/classifier_dl/classifier_dl/index.html#sparknlp.annotator.classifier_dl.classifier_dl.ClassifierDLApproach" title="sparknlp.annotator.classifier_dl.classifier_dl.ClassifierDLApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClassifierDLApproach</span></code></a> that is going to be trained in the pipeline. Note that in this case,
 the Annotator also requires a label column, set with <code class="docutils literal notranslate"><span class="pre">setLabelColumn(&quot;label&quot;)</span></code>, to classify the text.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">docClassifier</span> <span class="o">=</span> <span class="n">ClassifierDLApproach</span><span class="p">()</span> \
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence_embeddings&quot;</span><span class="p">])</span> \
@@ -408,7 +408,7 @@ trained annotators.</p>
 <span class="gp">... </span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentence_embeddings&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Here we use a pretrained <a class="reference internal" href="../reference/autosummary/python/sparknlp/annotator/classifier_dl/classifier_dl/index.html#python.sparknlp.annotator.classifier_dl.classifier_dl.ClassifierDLModel" title="python.sparknlp.annotator.classifier_dl.classifier_dl.ClassifierDLModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClassifierDLModel</span></code></a>. Your trained approach from the previous example could
+<p>Here we use a pretrained <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/classifier_dl/classifier_dl/index.html#sparknlp.annotator.classifier_dl.classifier_dl.ClassifierDLModel" title="sparknlp.annotator.classifier_dl.classifier_dl.ClassifierDLModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClassifierDLModel</span></code></a>. Your trained approach from the previous example could
 also be inserted.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sarcasmDL</span> <span class="o">=</span> <span class="n">ClassifierDLModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;classifierdl_use_sarcasm&quot;</span><span class="p">)</span> \
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s2">&quot;sentence_embeddings&quot;</span><span class="p">)</span> \
@@ -454,6 +454,18 @@ version of a model.</p>
 <p><code class="docutils literal notranslate"><span class="pre">pretrained(name,</span> <span class="pre">language,</span> <span class="pre">extra_location)</span></code> will by default, bring a default pre-trained model.
 Sometimes we offer more than one model, in which case, you may have to use name, language or extra
 location to download them.</p>
+<p>For a complete list of available pretrained models, head to the <a class="reference external" href="https://nlp.johnsnowlabs.com/models">Spark NLP Models</a>. Alternatively you can also check for pretrained
+models of a particular annotator using <a class="reference internal" href="../reference/autosummary/sparknlp/pretrained/resource_downloader/index.html#sparknlp.pretrained.resource_downloader.ResourceDownloader.showPublicModels" title="sparknlp.pretrained.resource_downloader.ResourceDownloader.showPublicModels"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ResourceDownloader.showPublicModels()</span></code></a>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">showPublicModels</span><span class="p">(</span><span class="s2">&quot;ClassifierDLModel&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">)</span>
+<span class="go">+-------------------------+------+---------+</span>
+<span class="go">| Model                   | lang | version |</span>
+<span class="go">+-------------------------+------+---------+</span>
+<span class="go">| classifierdl_use_trec6  |  en  | 2.5.0   |</span>
+<span class="go">| classifierdl_use_trec50 |  en  | 2.5.0   |</span>
+<span class="go">| classifierdl_use_spam   |  en  | 2.5.3   |</span>
+<span class="go">| ...                     |  en  | ...     |</span>
+</pre></div>
+</div>
 </section>
 <section id="common-functions">
 <h2>Common Functions<a class="headerlink" href="#common-functions" title="Permalink to this heading">#</a></h2>
@@ -476,7 +488,7 @@ generated by the current annotator.</p>
 </section>
 <section id="available-annotators">
 <h2>Available Annotators<a class="headerlink" href="#available-annotators" title="Permalink to this heading">#</a></h2>
-<p>For all available Annotators refer to the full API reference <code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator</span></code>.</p>
+<p>For all available Annotators refer to the full API reference <a class="reference internal" href="../reference/autosummary/sparknlp/annotator/index.html#module-sparknlp.annotator" title="sparknlp.annotator"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator</span></code></a>.</p>
 </section>
 </section>
 

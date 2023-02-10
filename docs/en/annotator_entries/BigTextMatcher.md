@@ -16,11 +16,11 @@ CHUNK
 {%- endcapture -%}
 
 {%- capture model_api_link -%}
-[BigTextMatcherModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/btm/BigTextMatcherModel)
+[BigTextMatcherModel](/api/com/johnsnowlabs/nlp/annotators/btm/BigTextMatcherModel)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[BigTextMatcherModel](/api/python/reference/autosummary/python/sparknlp/annotator/matcher/big_text_matcher/index.html#sparknlp.annotator.matcher.big_text_matcher.BigTextMatcherModel)
+[BigTextMatcherModel](/api/python/reference/autosummary/sparknlp/annotator/matcher/big_text_matcher/index.html#sparknlp.annotator.matcher.big_text_matcher.BigTextMatcherModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -133,11 +133,11 @@ results.selectExpr("explode(entity)").show(false)
 {%- endcapture -%}
 
 {%- capture approach_api_link -%}
-[BigTextMatcher](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/btm/BigTextMatcher)
+[BigTextMatcher](/api/com/johnsnowlabs/nlp/annotators/btm/BigTextMatcher)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[BigTextMatcher](/api/python/reference/autosummary/python/sparknlp/annotator/matcher/big_text_matcher/index.html#sparknlp.annotator.matcher.big_text_matcher.BigTextMatcher)
+[BigTextMatcher](/api/python/reference/autosummary/sparknlp/annotator/matcher/big_text_matcher/index.html#sparknlp.annotator.matcher.big_text_matcher.BigTextMatcher)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

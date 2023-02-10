@@ -423,6 +423,10 @@ val result = pipeline.fit(data).transform(data)
 [SentenceEntityResolverModel](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverModel)
 {%- endcapture -%}
 
+{%- capture model_python_api_link -%}
+[SentenceEntityResolverModel](https://nlp.johnsnowlabs.com/licensed/api/python/reference/autosummary/sparknlp_jsl/annotator/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverModel)
+{%- endcapture -%}
+
 {%- capture approach_description -%}
 Contains all the parameters and methods to train a SentenceEntityResolverModel.
 The model transforms a dataset with Input Annotation type SENTENCE_EMBEDDINGS, coming from e.g.
@@ -680,9 +684,9 @@ val snomedModel = bertExtractor.fit(snomedData)
 [SentenceEntityResolverApproach](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/resolution/SentenceEntityResolverApproach)
 {%- endcapture -%}
 
-
-
-
+{%- capture approach_python_api_link -%}
+[SentenceEntityResolverApproach](https://nlp.johnsnowlabs.com/licensed/api/python/reference/autosummary/sparknlp_jsl/annotator/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverApproach)
+{%- endcapture -%}
 
 {% include templates/licensed_approach_model_medical_fin_leg_template.md
 title=title
@@ -698,6 +702,7 @@ model_scala_legal=model_scala_legal
 model_python_finance=model_python_finance
 model_scala_finance=model_scala_finance
 model_api_link=model_api_link
+model_python_api_link=model_python_api_link
 approach_description=approach_description
 approach_input_anno=approach_input_anno
 approach_output_anno=approach_output_anno
@@ -708,4 +713,5 @@ approach_scala_medical=approach_scala_medical
 approach_scala_legal=approach_scala_legal
 approach_scala_finance=approach_scala_finance
 approach_api_link=approach_api_link
+approach_python_api_link=approach_python_api_link
 %}

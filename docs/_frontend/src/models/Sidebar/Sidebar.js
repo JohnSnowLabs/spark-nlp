@@ -1,19 +1,39 @@
 import React from 'react';
-import Combobox from '../Combobox';
 import Radio from '../Radio/Radio';
 import RadioGroup from '../RadioGroup';
+import SidebarSelect from './SidebarSelect';
 import styles from './Sidebar.module.css';
+import { SEARCH_ORIGIN, toSearchString } from '../common';
+import AutoCompleteCombobox from '../AutoCompleteCombobox/AutoCompleteCombobox';
+
+const toAutoCompleteSearchString = (input, field, params) => {
+  return toSearchString({ search: input, field, ...params });
+};
 
 const Sidebar = ({ meta, params, onSubmit }) => {
-  let tags = [];
-  let predictedEntities = [];
-  if (
-    Array.isArray(meta?.aggregations?.tags) &&
-    Array.isArray(meta?.aggregations?.predictedEntities)
-  ) {
-    ({ tags, predictedEntities } = meta.aggregations);
+  let annotators = [];
+  if (Array.isArray(meta?.aggregations?.annotators)) {
+    ({ annotators } = meta.aggregations);
   }
+  const searchTags = (input) => {
+    return fetch(
+      `${SEARCH_ORIGIN}/autocomplete/${toAutoCompleteSearchString(
+        input,
+        'tags',
+        params
+      )}`
+    );
+  };
 
+  const searchEntities = (input) => {
+    return fetch(
+      `${SEARCH_ORIGIN}/autocomplete/${toAutoCompleteSearchString(
+        input,
+        'predicted_entities',
+        params
+      )}`
+    );
+  };
   return (
     <div className={styles.root}>
       <div className={styles.control}>
@@ -30,9 +50,9 @@ const Sidebar = ({ meta, params, onSubmit }) => {
       </div>
 
       <div className={styles.control}>
-        <Combobox
+        <AutoCompleteCombobox
           label="Assigned tags"
-          items={tags}
+          autoComplete={searchTags}
           initialSelectedItems={params.tags || []}
           onChange={(values) => {
             onSubmit({ tags: values });
@@ -41,12 +61,23 @@ const Sidebar = ({ meta, params, onSubmit }) => {
       </div>
 
       <div className={styles.control}>
-        <Combobox
+        <AutoCompleteCombobox
           label="Entities"
-          items={predictedEntities}
+          autoComplete={searchEntities}
           initialSelectedItems={params.predicted_entities || []}
           onChange={(values) => {
             onSubmit({ predicted_entities: values });
+          }}
+        />
+      </div>
+
+      <div className={styles.control}>
+        <SidebarSelect
+          label="Annotator class"
+          items={annotators}
+          selectedItem={params.annotator}
+          onChange={(value) => {
+            onSubmit({ annotator: value });
           }}
         />
       </div>

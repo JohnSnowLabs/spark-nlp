@@ -99,7 +99,7 @@ class TypedDependencyParserApproach(AnnotatorApproach):
     >>> pipelineModel = pipeline.fit(emptyDataSet)
     """
 
-    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.POS, AnnotatorType.DEPENDENCY]
+    inputAnnotatorTypes = [AnnotatorType.TOKEN, AnnotatorType.POS, AnnotatorType.DEPENDENCY]
 
     outputAnnotatorType = AnnotatorType.LABELED_DEPENDENCY
 
@@ -195,8 +195,8 @@ class TypedDependencyParserModel(AnnotatorModel):
     For available pretrained models please see the `Models Hub
     <https://nlp.johnsnowlabs.com/models>`__.
 
-    For extended examples of usage, see the `Spark NLP Workshop
-    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb>`__.
+    For extended examples of usage, see the `Examples
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/graph-extraction/graph_extraction_intro.ipynb>`__.
 
     ========================== ======================
     Input Annotation types     Output Annotation type
@@ -264,7 +264,7 @@ class TypedDependencyParserModel(AnnotatorModel):
 
     name = "TypedDependencyParserModel"
 
-    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.POS, AnnotatorType.DEPENDENCY]
+    inputAnnotatorTypes = [AnnotatorType.TOKEN, AnnotatorType.POS, AnnotatorType.DEPENDENCY]
 
     outputAnnotatorType = AnnotatorType.LABELED_DEPENDENCY
 

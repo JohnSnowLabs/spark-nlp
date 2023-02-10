@@ -26,7 +26,8 @@ This model allows you to, given a Ticker, get information about that company, in
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/finance/FIN_LEG_COMPANY_AUGMENTATION/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finmapper_nasdaq_ticker_en_1.0.0_3.2_1660038524908.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finmapper_nasdaq_ticker_en_1.0.0_3.2_1660038524908.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/finance/models/finmapper_nasdaq_ticker_en_1.0.0_3.2_1660038524908.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -45,31 +46,36 @@ tokenizer = nlp.Tokenizer()\
       .setOutputCol("token")
 
 tokenClassifier = nlp.RoBertaForTokenClassification.pretrained("finner_roberta_ticker", "en", "finance/models")\
-  .setInputCols(["document",'token'])\
-  .setOutputCol("ner")
+      .setInputCols(["document",'token'])\
+      .setOutputCol("ner")
 
 ner_converter = nlp.NerConverter()\
       .setInputCols(["document", "token", "ner"])\
       .setOutputCol("ner_chunk")
 
-CM = finance.ChunkMapperModel()\
-      .pretrained('finmapper_nasdaq_companyname', 'en', 'finance/models')\
+CM = finance.ChunkMapperModel().pretrained('finmapper_nasdaq_ticker', 'en', 'finance/models')\
       .setInputCols(["ner_chunk"])\
       .setOutputCol("mappings")\
-      .setRel('company_name')
+      .setRel('company_name')\
+      .setEnableFuzzyMatching(True)
 
-pipeline = Pipeline().setStages([document_assembler,
-                                 tokenizer, 
-                                 tokenClassifier,
-                                 ner_converter,  
-                                 CM])
+pipeline = nlp.Pipeline().setStages(
+      [
+          document_assembler,
+          tokenizer, 
+          tokenClassifier,
+          ner_converter,  
+          CM
+      ]
+      )
 
 text = ["""There are some serious purchases and sales of AMZN stock today."""]
 
 test_data = spark.createDataFrame([text]).toDF("text")
 
 model = pipeline.fit(test_data)
-res= model.transform(test_data)
+
+res = model.transform(test_data)
 
 res.select('mappings').collect()
 ```
@@ -79,7 +85,13 @@ res.select('mappings').collect()
 ## Results
 
 ```bash
-[Row(mappings=[Row(annotatorType='labeled_dependency', begin=46, end=49, result='AMZN', metadata={'sentence': '0', 'chunk': '0', 'entity': 'AMZN', 'relation': 'ticker', 'all_relations': ''}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=46, end=49, result='Amazon.com Inc.', metadata={'sentence': '0', 'chunk': '0', 'entity': 'AMZN', 'relation': 'company_name', 'all_relations': ''}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=46, end=49, result='Amazon.com', metadata={'sentence': '0', 'chunk': '0', 'entity': 'AMZN', 'relation': 'short_name', 'all_relations': ''}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=46, end=49, result='Retail - Apparel & Specialty', metadata={'sentence': '0', 'chunk': '0', 'entity': 'AMZN', 'relation': 'industry', 'all_relations': ''}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=46, end=49, result='Consumer Cyclical', metadata={'sentence': '0', 'chunk': '0', 'entity': 'AMZN', 'relation': 'sector', 'all_relations': ''}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=57, end=61, result='NONE', metadata={'sentence': '0', 'chunk': '1', 'entity': 'today'}, embeddings=[])])]
+{
+    "ticker": "AMZN",
+    "company_name": "Amazon.com Inc.",
+    "short_name": "Amazon.com",
+    "industry": "Retail - Apparel & Specialty",
+    "sector": "Consumer Cyclical"
+}
 ```
 
 {:.model-param}

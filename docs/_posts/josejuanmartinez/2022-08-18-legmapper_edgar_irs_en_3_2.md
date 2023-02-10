@@ -32,7 +32,8 @@ This Chunk Mapper model allows you to, given a detected IRS with any NER model, 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/finance/FIN_LEG_COMPANY_AUGMENTATION/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legmapper_edgar_irs_en_1.0.0_3.2_1660817727715.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legmapper_edgar_irs_en_1.0.0_3.2_1660817727715.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legmapper_edgar_irs_en_1.0.0_3.2_1660817727715.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -51,24 +52,24 @@ tokenizer = nlp.Tokenizer()\
       .setOutputCol("token")
 
 embeddings = nlp.WordEmbeddingsModel.pretrained('glove_100d') \
-        .setInputCols(['document', 'token']) \
-        .setOutputCol('embeddings')
+      .setInputCols(['document', 'token']) \
+      .setOutputCol('embeddings')
 
 ner_model = nlp.NerDLModel.pretrained("onto_100", "en") \
-        .setInputCols(["document", "token", "embeddings"]) \
-        .setOutputCol("ner")
+      .setInputCols(["document", "token", "embeddings"]) \
+      .setOutputCol("ner")
  
 ner_converter = nlp.NerConverter()\
       .setInputCols(["document", "token", "ner"])\
       .setOutputCol("ner_chunk")\
       .setWhiteList(["CARDINAL"])
 
-CM = legal.ChunkMapperModel()\
-      .pretrained("legmapper_edgar_irs", "en", "legal/models")\
+CM = legal.ChunkMapperModel().pretrained("legmapper_edgar_irs", "en", "legal/models")\
       .setInputCols(["ner_chunk"])\
-      .setOutputCol("mappings")
+      .setOutputCol("mappings")\
+      .setEnableFuzzyMatching(True)
 
-pipeline = Pipeline().setStages([document_assembler,
+pipeline = nlp.Pipeline().setStages([document_assembler,
                                  tokenizer, 
                                  embeddings,
                                  ner_model, 
@@ -80,7 +81,7 @@ text = ["""873474341 is an American multinational corporation that is engaged in
 test_data = spark.createDataFrame([text]).toDF("text")
 
 model = pipeline.fit(test_data)
-res= model.transform(test_data)
+result = model.transform(test_data)
 ```
 
 </div>
@@ -88,7 +89,24 @@ res= model.transform(test_data)
 ## Results
 
 ```bash
-[Row(mappings=[Row(annotatorType='labeled_dependency', begin=0, end=8, result='Masterworks 096, LLC', metadata={'sentence': '0', 'chunk': '0', 'entity': '873474341', 'relation': 'name', 'all_relations': ''}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=0, end=8, result='RETAIL-RETAIL STORES, NEC [5990]', metadata={'sentence': '0', 'chunk': '0', 'entity': '873474341', 'relation': 'sic', 'all_relations': ''}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=0, end=8, result='5990', metadata={'sentence': '0', 'chunk': '0', 'entity': '873474341', 'relation': 'sic_code', 'all_relations': ''}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=0, end=8, result='873474341', metadata={'sentence': '0', 'chunk': '0', 'entity': '873474341', 'relation': 'irs_number', 'all_relations': ''}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=0, end=8, result='1231', metadata={'sentence': '0', 'chunk': '0', 'entity': '873474341', 'relation': 'fiscal_year_end', 'all_relations': ''}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=0, end=8, result='NY', metadata={'sentence': '0', 'chunk': '0', 'entity': '873474341', 'relation': 'state_location', 'all_relations': ''}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=0, end=8, result='DE', metadata={'sentence': '0', 'chunk': '0', 'entity': '873474341', 'relation': 'state_incorporation', 'all_relations': ''}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=0, end=8, result='225 LIBERTY STREET', metadata={'sentence': '0', 'chunk': '0', 'entity': '873474341', 'relation': 'business_street', 'all_relations': ''}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=0, end=8, result='NEW YORK', metadata={'sentence': '0', 'chunk': '0', 'entity': '873474341', 'relation': 'business_city', 'all_relations': ''}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=0, end=8, result='NY', metadata={'sentence': '0', 'chunk': '0', 'entity': '873474341', 'relation': 'business_state', 'all_relations': ''}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=0, end=8, result='10281', metadata={'sentence': '0', 'chunk': '0', 'entity': '873474341', 'relation': 'business_zip', 'all_relations': ''}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=0, end=8, result='2035185172', metadata={'sentence': '0', 'chunk': '0', 'entity': '873474341', 'relation': 'business_phone', 'all_relations': ''}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=0, end=8, result='', metadata={'sentence': '0', 'chunk': '0', 'entity': '873474341', 'relation': 'former_name', 'all_relations': ''}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=0, end=8, result='', metadata={'sentence': '0', 'chunk': '0', 'entity': '873474341', 'relation': 'former_name_date', 'all_relations': ''}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=0, end=8, result='2022-01-10', metadata={'sentence': '0', 'chunk': '0', 'entity': '873474341', 'relation': 'date', 'all_relations': '2022-04-26:::2021-11-17'}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=0, end=8, result='1894064', metadata={'sentence': '0', 'chunk': '0', 'entity': '873474341', 'relation': 'company_id', 'all_relations': ''}, embeddings=[])])]
+{
+    "name": "Masterworks 096, LLC",
+    "sic": "RETAIL-RETAIL STORES, NEC [5990]",
+    "sic_code": "5990",
+    "irs_number": "873474341",
+    "fiscal_year_end": "1231",
+    "state_location": "NY",
+    "state_incorporation": "DE",
+    "business_street": "225 LIBERTY STREET",
+    "business_city": "NEW YORK",
+    "business_state": "NY",
+    "business_zip": "10281",
+    "business_phone": "2035185172",
+    "former_name": "",
+    "former_name_date": "",
+    "date": "2022-01-10",
+    "company_id": "1894064"
+}
 ```
 
 {:.model-param}

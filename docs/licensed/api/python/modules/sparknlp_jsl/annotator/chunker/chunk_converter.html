@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.annotator.chunker.chunk_converter &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.annotator.chunker.chunk_converter &#8212; Spark NLP  documentation</title>
   
   
   
@@ -267,34 +267,51 @@
             <article class="bd-article" role="main">
               
   <h1>Source code for sparknlp_jsl.annotator.chunker.chunk_converter</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span></span><span class="kn">from</span> <span class="nn">sparknlp_jsl.common</span> <span class="kn">import</span> <span class="o">*</span>
 
 
-<div class="viewcode-block" id="ChunkConverter"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_converter/index.html#sparknlp_jsl.annotator.chunker.chunk_converter.ChunkConverter">[docs]</a><span class="k">class</span> <span class="nc">ChunkConverter</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="ChunkConverter"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_converter/index.html#sparknlp_jsl.annotator.chunker.chunk_converter.ChunkConverter">[docs]</a><span class="k">class</span> <span class="nc">ChunkConverter</span><span class="p">(</span><span class="n">AnnotatorModelInternal</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert chunks from regexMatcher to chunks with a entity in the metadata.</span>
 <span class="sd">    Use the identifier or field as a entity.</span>
-
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
 
 <span class="sd">    ====================== ======================</span>
 <span class="sd">    Input Annotation types Output Annotation type</span>
 <span class="sd">    ====================== ======================</span>
-<span class="sd">    ``CHUNK``               ``CHUNK``</span>
+<span class="sd">    ``DOCUMENT, CHUNK``               ``CHUNK``</span>
 <span class="sd">    ====================== ======================</span>
 
-<span class="sd">    &gt;&gt;&gt; test_data = spark.createDataFrame([</span>
-<span class="sd">    ...    (1,&quot;My first sentence with the first rule. This is my second sentence with ceremonies rule.&quot;),</span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; test_data = spark.createDataFrame(</span>
+<span class="sd">    ...    [</span>
+<span class="sd">    ...        (</span>
+<span class="sd">    ...            1,</span>
+<span class="sd">    ...            &quot;My first sentence with the first rule. This is my second sentence with ceremonies rule.&quot;,</span>
+<span class="sd">    ...        ),</span>
 <span class="sd">    ...    ]).toDF(&quot;id&quot;, &quot;text&quot;)</span>
-<span class="sd">    &gt;&gt;&gt; document_assembler = DocumentAssembler().setInputCol(&#39;text&#39;).setOutputCol(&#39;document&#39;)</span>
-<span class="sd">    &gt;&gt;&gt; sentence_detector = SentenceDetector().setInputCols([&quot;document&quot;]).setOutputCol(&quot;sentence&quot;)</span>
-<span class="sd">    &gt;&gt;&gt; regex_matcher = RegexMatcher()\</span>
-<span class="sd">    ...    .setInputCols(&quot;sentence&quot;)\</span>
-<span class="sd">    ...    .setOutputCol(&quot;regex&quot;)\</span>
-<span class="sd">    ...    .setExternalRules(path=&quot;../src/test/resources/regex-matcher/rules.txt&quot;,delimiter=&quot;,&quot;)</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; document_assembler = DocumentAssembler().setInputCol(&quot;text&quot;).setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; sentence_detector = (</span>
+<span class="sd">    ...     SentenceDetector().setInputCols([&quot;document&quot;]).setOutputCol(&quot;sentence&quot;)</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &gt;&gt;&gt; regex_matcher = (</span>
+<span class="sd">    ...     RegexMatcher()</span>
+<span class="sd">    ...     .setInputCols(&quot;sentence&quot;)</span>
+<span class="sd">    ...     .setOutputCol(&quot;regex&quot;)</span>
+<span class="sd">    ...     .setExternalRules(</span>
+<span class="sd">    ...         path=&quot;../src/test/resources/regex-matcher/rules.txt&quot;, delimiter=&quot;,&quot;</span>
+<span class="sd">    ...     ))</span>
 <span class="sd">    &gt;&gt;&gt; chunkConverter = ChunkConverter().setInputCols(&quot;regex&quot;).setOutputCol(&quot;chunk&quot;)</span>
-<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline(stages=[document_assembler, sentence_detector, regex_matcher, regex_matcher,chunkConverter])</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline(</span>
+<span class="sd">    ...     stages=[</span>
+<span class="sd">    ...         document_assembler,</span>
+<span class="sd">    ...         sentence_detector,</span>
+<span class="sd">    ...         regex_matcher,</span>
+<span class="sd">    ...         regex_matcher,</span>
+<span class="sd">    ...         chunkConverter,</span>
+<span class="sd">    ...     ])</span>
 <span class="sd">    &gt;&gt;&gt; model = pipeline.fit(test_data)</span>
 <span class="sd">    &gt;&gt;&gt; outdf = model.transform(test_data)</span>
 <span class="sd">    +------------------------------------------------------------------------------------------------+</span>
@@ -306,6 +323,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="ChunkConverter.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_converter/index.html#sparknlp_jsl.annotator.chunker.chunk_converter.ChunkConverter.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span><span class="p">]</span></div>
+<div class="viewcode-block" id="ChunkConverter.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_converter/index.html#sparknlp_jsl.annotator.chunker.chunk_converter.ChunkConverter.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span></div>
 
 <div class="viewcode-block" id="ChunkConverter.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_converter/index.html#sparknlp_jsl.annotator.chunker.chunk_converter.ChunkConverter.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;ChunkConverter&quot;</span></div>
 

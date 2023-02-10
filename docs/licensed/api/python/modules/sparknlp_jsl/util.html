@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.util &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.util &#8212; Spark NLP  documentation</title>
   
   
   
@@ -271,11 +271,11 @@
 <span class="kn">import</span> <span class="nn">re</span>
 
 <span class="kn">import</span> <span class="nn">requests</span>
-<span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<span class="kn">from</span> <span class="nn">sparknlp_jsl.utils.imports</span> <span class="kn">import</span> <span class="n">is_module_importable</span>
 
 
 <div class="viewcode-block" id="get_mt_samples"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/util/index.html#sparknlp_jsl.util.get_mt_samples">[docs]</a><span class="k">def</span> <span class="nf">get_mt_samples</span><span class="p">(</span><span class="n">medical_speciality</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Download Transcribed Medical Transcription Sample Reports and Examples from</span>
 <span class="sd">    &#39;www.mtsamples.com&#39;.</span>
 
@@ -334,6 +334,8 @@
 <span class="sd">    get_mt_samples(&#39;Hematology_Oncology&#39;, path = &quot;./samples&quot;, n = 3)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">is_module_importable</span><span class="p">(</span><span class="n">lib</span><span class="o">=</span><span class="s1">&#39;bs4&#39;</span><span class="p">,</span><span class="n">raise_exception</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">pip_name</span><span class="o">=</span><span class="s1">&#39;beautifulsoup4&#39;</span><span class="p">,</span><span class="n">message_type</span><span class="o">=</span><span class="s1">&#39;function&#39;</span> <span class="p">)</span>
+    <span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
 
     <span class="n">URL</span> <span class="o">=</span> <span class="s2">&quot;https://mtsamples.com/site/pages/sitemap.asp&quot;</span>
     <span class="n">page</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">URL</span><span class="p">)</span>
@@ -378,7 +380,7 @@
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">download_path</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">medical_speciality</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">no</span><span class="si">:</span><span class="s1">02</span><span class="si">}</span><span class="s1">.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;UTF8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">mt_hilightBold_text</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">no</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s2"> samples from </span><span class="si">{</span><span class="n">medical_speciality</span><span class="si">}</span><span class="s2"> is downloaded to folder : &#39;</span><span class="si">{</span><span class="n">download_path</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span></div>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">no</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2"> samples from </span><span class="si">{</span><span class="n">medical_speciality</span><span class="si">}</span><span class="s2"> is downloaded to folder : &#39;</span><span class="si">{</span><span class="n">download_path</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span></div>
 </pre></div>
 
             </article>

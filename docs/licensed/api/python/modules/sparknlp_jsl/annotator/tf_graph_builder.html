@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.annotator.tf_graph_builder &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.annotator.tf_graph_builder &#8212; Spark NLP  documentation</title>
   
   
   
@@ -269,7 +269,7 @@
   <h1>Source code for sparknlp_jsl.annotator.tf_graph_builder</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Model</span><span class="p">,</span> <span class="n">Estimator</span>
 <span class="kn">from</span> <span class="nn">pyspark.ml.util</span> <span class="kn">import</span> <span class="n">DefaultParamsWritable</span><span class="p">,</span> <span class="n">DefaultParamsReadable</span>
-<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp_jsl.common</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">functions</span> <span class="k">as</span> <span class="n">F</span>
 
 <span class="c1"># TODO !?!?</span>
@@ -334,8 +334,8 @@
                       <span class="s2">&quot;Batch normalization, used in RelationExtractionApproach.&quot;</span><span class="p">,</span>
                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TFGraphBuilder.isMedical"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.isMedical">[docs]</a>    <span class="n">isMedical</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
-                      <span class="s2">&quot;isMedical&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="TFGraphBuilder.isLicensed"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.isLicensed">[docs]</a>    <span class="n">isLicensed</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                      <span class="s2">&quot;isLicensed&quot;</span><span class="p">,</span>
                       <span class="s2">&quot;Medical model, used in MedicalNerAprroach and NerDLApproach.&quot;</span><span class="p">,</span>
                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
@@ -345,7 +345,7 @@
                                  <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TFGraphBuilder.setHiddenAct"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setHiddenAct">[docs]</a>    <span class="k">def</span> <span class="nf">setHiddenAct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Activation function for hidden layers, used in RelationExtractionApproach.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Activation function for hidden layers, used in RelationExtractionApproach.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -356,12 +356,12 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">hiddenAct</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TFGraphBuilder.getHiddenAct"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getHiddenAct">[docs]</a>    <span class="k">def</span> <span class="nf">getHiddenAct</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Activation function for hidden layers, used in RelationExtractionApproach.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Activation function for hidden layers, used in RelationExtractionApproach.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hiddenAct</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TFGraphBuilder.setHiddenActL2"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setHiddenActL2">[docs]</a>    <span class="k">def</span> <span class="nf">setHiddenActL2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;L2 regularization of hidden layer weights, used in RelationExtractionApproach</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;L2 regularization of hidden layer weights, used in RelationExtractionApproach</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -371,12 +371,12 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">hiddenActL2</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TFGraphBuilder.getHiddenActL2"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getHiddenActL2">[docs]</a>    <span class="k">def</span> <span class="nf">getHiddenActL2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;L2 regularization of hidden layer activations, used in RelationExtractionApproach&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;L2 regularization of hidden layer activations, used in RelationExtractionApproach&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hiddenActL2</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TFGraphBuilder.setHiddenWeightsL2"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setHiddenWeightsL2">[docs]</a>    <span class="k">def</span> <span class="nf">setHiddenWeightsL2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;L2 regularization of hidden layer weights, used in RelationExtractionApproach</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;L2 regularization of hidden layer weights, used in RelationExtractionApproach</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -386,12 +386,12 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">hiddenWeightsL2</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TFGraphBuilder.getHiddenWeightsL2"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getHiddenWeightsL2">[docs]</a>    <span class="k">def</span> <span class="nf">getHiddenWeightsL2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;L2 regularization of hidden layer weights, used in RelationExtractionApproach&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;L2 regularization of hidden layer weights, used in RelationExtractionApproach&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hiddenWeightsL2</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TFGraphBuilder.setBatchNorm"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setBatchNorm">[docs]</a>    <span class="k">def</span> <span class="nf">setBatchNorm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Batch normalization, used in RelationExtractionApproach.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Batch normalization, used in RelationExtractionApproach.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -401,26 +401,26 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">batchNorm</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TFGraphBuilder.getBatchNorm"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getBatchNorm">[docs]</a>    <span class="k">def</span> <span class="nf">getBatchNorm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Batch normalization, used in RelationExtractionApproach.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Batch normalization, used in RelationExtractionApproach.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">batchNorm</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TFGraphBuilder.setIsMedical"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setIsMedical">[docs]</a>    <span class="k">def</span> <span class="nf">setIsMedical</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Medical model, used in MedicalNerAprroach and NerDLApproach.</span>
+<div class="viewcode-block" id="TFGraphBuilder.setIsLicensed"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setIsLicensed">[docs]</a>    <span class="k">def</span> <span class="nf">setIsLicensed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Medical model, used in MedicalNerAprroach and NerDLApproach.</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        value : boolean</span>
 <span class="sd">            Where medical model or not (default is True)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">isMedical</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">isLicensed</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TFGraphBuilder.getIsMedical"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getIsMedical">[docs]</a>    <span class="k">def</span> <span class="nf">getIsMedical</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Medical model, used in MedicalNerAprroach and NerDLApproach.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="TFGraphBuilder.getIsLicensed"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getIsLicensed">[docs]</a>    <span class="k">def</span> <span class="nf">getIsLicensed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Medical model, used in MedicalNerAprroach and NerDLApproach.&quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">isMedical</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">isLicensed</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TFGraphBuilder.setHiddenLayers"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setHiddenLayers">[docs]</a>    <span class="k">def</span> <span class="nf">setHiddenLayers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;A list of hidden layer sizes for RelationExtractionApproach</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;A list of hidden layer sizes for RelationExtractionApproach</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -430,12 +430,12 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">hiddenLayers</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TFGraphBuilder.getHiddenLayers"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getHiddenLayers">[docs]</a>    <span class="k">def</span> <span class="nf">getHiddenLayers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Gets the list of hiudden layer sizes for RelationExtractionApproach.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the list of hiudden layer sizes for RelationExtractionApproach.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hiddenLayers</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TFGraphBuilder.setMaxSequenceLength"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setMaxSequenceLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSequenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the maximum sequence length for AssertionDLApproach</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the maximum sequence length for AssertionDLApproach</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -445,12 +445,12 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSequenceLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TFGraphBuilder.getMaxSequenceLength"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getMaxSequenceLength">[docs]</a>    <span class="k">def</span> <span class="nf">getMaxSequenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Gets the maximum sequence length for AssertionDLApproach.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the maximum sequence length for AssertionDLApproach.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maxSequenceLength</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TFGraphBuilder.setHiddenUnitsNumber"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setHiddenUnitsNumber">[docs]</a>    <span class="k">def</span> <span class="nf">setHiddenUnitsNumber</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the number of hidden units for AssertionDLApproach and MedicalNerApproach</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the number of hidden units for AssertionDLApproach and MedicalNerApproach</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -460,11 +460,11 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">hiddenUnitsNumber</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TFGraphBuilder.getHiddenUnitsNumber"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getHiddenUnitsNumber">[docs]</a>    <span class="k">def</span> <span class="nf">getHiddenUnitsNumber</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Gets the number of hidden units for AssertionDLApproach and MedicalNerApproach.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the number of hidden units for AssertionDLApproach and MedicalNerApproach.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hiddenUnitsNumber</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TFGraphBuilder.setUseRelationDirection"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setUseRelationDirection">[docs]</a>    <span class="k">def</span> <span class="nf">setUseRelationDirection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Whether relation direction will be encoded in RelationExtractionApproach</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether relation direction will be encoded in RelationExtractionApproach</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ---------</span>
@@ -474,11 +474,11 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">useRelationDirection</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TFGraphBuilder.getUseRelationDirection"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getUseRelationDirection">[docs]</a>    <span class="k">def</span> <span class="nf">getUseRelationDirection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Checks whether relation direction is encoded in RelationExtractionApproach.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Checks whether relation direction is encoded in RelationExtractionApproach.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">useRelationDirection</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TFGraphBuilder.setModelName"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setModelName">[docs]</a>    <span class="k">def</span> <span class="nf">setModelName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the model name</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the model name</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -488,11 +488,11 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">modelName</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TFGraphBuilder.getModelName"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getModelName">[docs]</a>    <span class="k">def</span> <span class="nf">getModelName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Gets the name of the model.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the name of the model.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">modelName</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TFGraphBuilder.setLabelColumn"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setLabelColumn">[docs]</a>    <span class="k">def</span> <span class="nf">setLabelColumn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the name of the column for data labels.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the name of the column for data labels.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -502,11 +502,11 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">labelColumn</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TFGraphBuilder.getLabelColumn"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getLabelColumn">[docs]</a>    <span class="k">def</span> <span class="nf">getLabelColumn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Gets the name of the label column.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the name of the label column.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">labelColumn</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TFGraphBuilder.setInputCols"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setInputCols">[docs]</a>    <span class="k">def</span> <span class="nf">setInputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets column names of input annotations.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets column names of input annotations.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -519,11 +519,11 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inputCols</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">value</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="TFGraphBuilder.getInputCols"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getInputCols">[docs]</a>    <span class="k">def</span> <span class="nf">getInputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Gets current column names of input annotations.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets current column names of input annotations.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputCols</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TFGraphBuilder.setGraphFolder"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setGraphFolder">[docs]</a>    <span class="k">def</span> <span class="nf">setGraphFolder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets folder path that contain external graph files.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets folder path that contain external graph files.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -533,11 +533,11 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">graphFolder</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TFGraphBuilder.getGraphFolder"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getGraphFolder">[docs]</a>    <span class="k">def</span> <span class="nf">getGraphFolder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Gets the graph folder.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the graph folder.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graphFolder</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TFGraphBuilder.setGraphFile"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setGraphFile">[docs]</a>    <span class="k">def</span> <span class="nf">setGraphFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the graph file name.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the graph file name.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -548,7 +548,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">graphFile</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TFGraphBuilder.getGraphFile"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/tf_graph_builder/index.html#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getGraphFile">[docs]</a>    <span class="k">def</span> <span class="nf">getGraphFile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Gets the graph file name.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the graph file name.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graphFile</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">):</span>
@@ -570,7 +570,7 @@
             <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;ntags&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;embeddings_dim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
             <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;nchars&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-            <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;is_medical&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getIsMedical</span><span class="p">()</span> <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getIsMedical</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="k">else</span> <span class="kc">True</span>
+            <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;is_medical&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getIsLicensed</span><span class="p">()</span> <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getIsLicensed</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="k">else</span> <span class="kc">True</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getHiddenUnitsNumber</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">build_params</span><span class="p">[</span><span class="s2">&quot;lstm_size&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getHiddenUnitsNumber</span><span class="p">()</span>
         <span class="k">elif</span> <span class="n">model_name</span> <span class="o">==</span> <span class="s2">&quot;assertion_dl&quot;</span><span class="p">:</span>
@@ -681,7 +681,7 @@
             <span class="n">hiddenActL2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="n">hiddenWeightsL2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="n">batchNorm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">isMedical</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">isLicensed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">useRelationDirection</span><span class="o">=</span><span class="kc">True</span></div>
         <span class="p">)</span>
 </pre></div>

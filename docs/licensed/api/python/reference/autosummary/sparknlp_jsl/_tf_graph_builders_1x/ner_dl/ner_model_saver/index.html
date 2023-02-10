@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model_saver &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model_saver &#8212; Spark NLP  documentation</title>
   
   
   
@@ -295,27 +295,46 @@
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model_saver.NerModelSaver" title="sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model_saver.NerModelSaver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NerModelSaver</span></code></a></p></td>
-<td><p></p></td>
+<td><p>Saves a NER model to disk.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model_saver.NerModelSaver">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">NerModelSaver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ner</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embeddings_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders_1x/ner_dl/ner_model_saver.html#NerModelSaver"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model_saver.NerModelSaver" title="Permalink to this definition">#</a></dt>
-<dd><dl class="py method">
+<dd><p>Saves a NER model to disk.</p>
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model_saver.NerModelSaver.restore_tensorflow_state">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">restore_tensorflow_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">export_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders_1x/ner_dl/ner_model_saver.html#NerModelSaver.restore_tensorflow_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model_saver.NerModelSaver.restore_tensorflow_state" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Restores a NER model from disk.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>session (tf.Session): Tensorflow session.
+export_dir (str): Directory where the model is saved.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model_saver.NerModelSaver.save_models">
 <span class="sig-name descname"><span class="pre">save_models</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders_1x/ner_dl/ner_model_saver.html#NerModelSaver.save_models"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model_saver.NerModelSaver.save_models" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Saves a NER model to disk.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>folder (str): Directory where the model will be saved.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model_saver.NerModelSaver.save">
 <span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">export_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders_1x/ner_dl/ner_model_saver.html#NerModelSaver.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model_saver.NerModelSaver.save" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Saves a NER model to disk.</p>
+<p>Generates separate files for the model, the variables,
+the tags, the embeddings and the characters.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>export_dir (str): Directory where the model will be saved.</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

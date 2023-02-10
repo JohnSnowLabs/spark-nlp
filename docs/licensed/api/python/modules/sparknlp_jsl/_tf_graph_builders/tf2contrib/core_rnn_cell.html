@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell &#8212; Spark NLP  documentation</title>
   
   
   
@@ -316,7 +316,7 @@
 
 
 <span class="k">class</span> <span class="nc">_Linear</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Linear map: sum_i(args[i] * W[i]), where W[i] is a variable.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Linear map: sum_i(args[i] * W[i]), where W[i] is a variable.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">      args: a 2D Tensor or a list of 2D, batch, n, Tensors.</span>
@@ -398,7 +398,7 @@
             <span class="n">bias</span><span class="p">,</span>
             <span class="n">bias_initializer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="n">kernel_initializer</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Linear map: sum_i(args[i] * W[i]), where W[i] is a variable.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Linear map: sum_i(args[i] * W[i]), where W[i] is a variable.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">      args: a 2D Tensor or a list of 2D, batch, n, Tensors.</span>
@@ -459,7 +459,7 @@
 
 
 <div class="viewcode-block" id="EmbeddingWrapper"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/core_rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.EmbeddingWrapper">[docs]</a><span class="k">class</span> <span class="nc">EmbeddingWrapper</span><span class="p">(</span><span class="n">RNNCell</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Operator adding input embedding to the given cell.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Operator adding input embedding to the given cell.</span>
 
 <span class="sd">    Note: in many cases it may be more efficient to not use this wrapper,</span>
 <span class="sd">    but instead concatenate the whole sequence of your inputs in time,</span>
@@ -473,7 +473,7 @@
                  <span class="n">embedding_size</span><span class="p">,</span>
                  <span class="n">initializer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">reuse</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Create a cell with an added input embedding.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a cell with an added input embedding.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          cell: an RNNCell, an embedding will be put before its inputs.</span>
@@ -512,7 +512,7 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cell</span><span class="o">.</span><span class="n">zero_state</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="EmbeddingWrapper.call"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/core_rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.EmbeddingWrapper.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Run the cell on embedded inputs.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the cell on embedded inputs.&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">ops</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;/cpu:0&quot;</span><span class="p">):</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initializer</span><span class="p">:</span>
                 <span class="n">initializer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initializer</span>
@@ -539,7 +539,7 @@
 
 
 <div class="viewcode-block" id="InputProjectionWrapper"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/core_rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.InputProjectionWrapper">[docs]</a><span class="k">class</span> <span class="nc">InputProjectionWrapper</span><span class="p">(</span><span class="n">RNNCell</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Operator adding an input projection to the given cell.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Operator adding an input projection to the given cell.</span>
 
 <span class="sd">    Note: in many cases it may be more efficient to not use this wrapper,</span>
 <span class="sd">    but instead concatenate the whole sequence of your inputs in time,</span>
@@ -552,7 +552,7 @@
                  <span class="n">activation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">input_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">reuse</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Create a cell with input projection.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a cell with input projection.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          cell: an RNNCell, a projection of inputs is added before it.</span>
@@ -588,7 +588,7 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cell</span><span class="o">.</span><span class="n">zero_state</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="InputProjectionWrapper.call"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/core_rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.InputProjectionWrapper.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Run the input projection and then the cell.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the input projection and then the cell.&quot;&quot;&quot;</span>
         <span class="c1"># Default scope: &quot;InputProjectionWrapper&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_linear</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_linear</span> <span class="o">=</span> <span class="n">_Linear</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_proj</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
@@ -599,7 +599,7 @@
 
 
 <div class="viewcode-block" id="OutputProjectionWrapper"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/core_rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.OutputProjectionWrapper">[docs]</a><span class="k">class</span> <span class="nc">OutputProjectionWrapper</span><span class="p">(</span><span class="n">RNNCell</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Operator adding an output projection to the given cell.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Operator adding an output projection to the given cell.</span>
 
 <span class="sd">    Note: in many cases it may be more efficient to not use this wrapper,</span>
 <span class="sd">    but instead concatenate the whole sequence of your outputs in time,</span>
@@ -608,7 +608,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cell</span><span class="p">,</span> <span class="n">output_size</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reuse</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Create a cell with output projection.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a cell with output projection.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          cell: an RNNCell, a projection to output_size is added to it.</span>
@@ -644,7 +644,7 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cell</span><span class="o">.</span><span class="n">zero_state</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="OutputProjectionWrapper.call"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/core_rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.core_rnn_cell.OutputProjectionWrapper.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Run the cell and output projection on inputs, starting from state.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the cell and output projection on inputs, starting from state.&quot;&quot;&quot;</span>
         <span class="n">output</span><span class="p">,</span> <span class="n">res_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cell</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_linear</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_linear</span> <span class="o">=</span> <span class="n">_Linear</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_size</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>

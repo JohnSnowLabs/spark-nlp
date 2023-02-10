@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.annotator.qa.qa_ner_generator &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.annotator.qa.qa_ner_generator &#8212; Spark NLP  documentation</title>
   
   
   
@@ -267,10 +267,10 @@
             <article class="bd-article" role="main">
               
   <h1>Source code for sparknlp_jsl.annotator.qa.qa_ner_generator</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span></span><span class="kn">from</span> <span class="nn">sparknlp_jsl.common</span> <span class="kn">import</span> <span class="o">*</span>
 
-<div class="viewcode-block" id="NerQuestionGenerator"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/qa_ner_generator/index.html#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator">[docs]</a><span class="k">class</span> <span class="nc">NerQuestionGenerator</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="NerQuestionGenerator"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/qa_ner_generator/index.html#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator">[docs]</a><span class="k">class</span> <span class="nc">NerQuestionGenerator</span><span class="p">(</span><span class="n">AnnotatorModelInternal</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The chunk mapper Approach load a JsonDictionary that have the relations to be mapped in the ChunkMapperModel</span>
 
 <span class="sd">    ====================== =======================</span>
@@ -292,7 +292,7 @@
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; import sparknlp</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
-<span class="sd">    &gt;&gt;&gt; from sparknlp.common import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.common import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.training import *</span>
 <span class="sd">    &gt;&gt;&gt; import sparknlp_jsl</span>
@@ -342,6 +342,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="NerQuestionGenerator.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/qa_ner_generator/index.html#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span><span class="p">]</span></div>
+<div class="viewcode-block" id="NerQuestionGenerator.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/qa_ner_generator/index.html#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">LABELED_DEPENDENCY</span></div>
 
 <div class="viewcode-block" id="NerQuestionGenerator.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/qa_ner_generator/index.html#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;ChunkMapperApproach&quot;</span></div>
 
@@ -372,7 +373,7 @@
 
 
 <div class="viewcode-block" id="NerQuestionGenerator.setQuestionMark"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/qa_ner_generator/index.html#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.setQuestionMark">[docs]</a>    <span class="k">def</span> <span class="nf">setQuestionMark</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">lc</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set if we want to save the keys of the dictionary in lower case or not</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set if we want to save the keys of the dictionary in lower case or not</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        lc : bool</span>
@@ -381,7 +382,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">questionMark</span><span class="o">=</span><span class="n">lc</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="NerQuestionGenerator.setStrategyType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/qa_ner_generator/index.html#sparknlp_jsl.annotator.qa.qa_ner_generator.NerQuestionGenerator.setStrategyType">[docs]</a>    <span class="k">def</span> <span class="nf">setStrategyType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">lc</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set if we want to save the keys of the dictionary in lower case or not</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set if we want to save the keys of the dictionary in lower case or not</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        lc : bool</span>

@@ -26,6 +26,7 @@ In this model, we created a curated large data set obtained from Chinese Treeban
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/wordseg_large_zh_2.7.0_2.4_1609681406666.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/wordseg_large_zh_2.7.0_2.4_1609681406666.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

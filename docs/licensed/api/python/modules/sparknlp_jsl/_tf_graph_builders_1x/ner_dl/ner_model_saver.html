@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model_saver &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model_saver &#8212; Spark NLP  documentation</title>
   
   
   
@@ -273,6 +273,7 @@
 
 
 <div class="viewcode-block" id="NerModelSaver"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/ner_dl/ner_model_saver/index.html#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model_saver.NerModelSaver">[docs]</a><span class="k">class</span> <span class="nc">NerModelSaver</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Saves a NER model to disk.&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ner</span><span class="p">,</span> <span class="n">encoder</span><span class="p">,</span> <span class="n">embeddings_file</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ner</span> <span class="o">=</span> <span class="n">ner</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span> <span class="o">=</span> <span class="n">encoder</span>
@@ -280,6 +281,12 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="NerModelSaver.restore_tensorflow_state"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/ner_dl/ner_model_saver/index.html#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model_saver.NerModelSaver.restore_tensorflow_state">[docs]</a>    <span class="k">def</span> <span class="nf">restore_tensorflow_state</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">export_dir</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Restores a NER model from disk.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            session (tf.Session): Tensorflow session.</span>
+<span class="sd">            export_dir (str): Directory where the model is saved.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;/gpu:0&#39;</span><span class="p">):</span>
             <span class="n">saveNodes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">([</span><span class="n">n</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">tf</span><span class="o">.</span><span class="n">get_default_graph</span><span class="p">()</span><span class="o">.</span><span class="n">as_graph_def</span><span class="p">()</span><span class="o">.</span><span class="n">node</span> <span class="k">if</span> <span class="n">n</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;save/&#39;</span><span class="p">)])</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">saveNodes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -289,6 +296,11 @@
             <span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;save/restore_all&quot;</span><span class="p">,</span> <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;save/Const:0&#39;</span><span class="p">:</span> <span class="n">variables_file</span><span class="p">})</span></div>
 
 <div class="viewcode-block" id="NerModelSaver.save_models"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/ner_dl/ner_model_saver/index.html#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model_saver.NerModelSaver.save_models">[docs]</a>    <span class="k">def</span> <span class="nf">save_models</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">folder</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Saves a NER model to disk.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            folder (str): Directory where the model will be saved.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;/gpu:0&#39;</span><span class="p">):</span>
             <span class="n">saveNodes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">([</span><span class="n">n</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">tf</span><span class="o">.</span><span class="n">get_default_graph</span><span class="p">()</span><span class="o">.</span><span class="n">as_graph_def</span><span class="p">()</span><span class="o">.</span><span class="n">node</span> <span class="k">if</span> <span class="n">n</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;save/&#39;</span><span class="p">)])</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">saveNodes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -299,7 +311,20 @@
             <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">write_graph</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ner</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">graph</span><span class="p">,</span> <span class="n">folder</span><span class="p">,</span> <span class="s1">&#39;saved_model.pb&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="NerModelSaver.save"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders_1x/ner_dl/ner_model_saver/index.html#sparknlp_jsl._tf_graph_builders_1x.ner_dl.ner_model_saver.NerModelSaver.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">export_dir</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Saves a NER model to disk.</span>
+<span class="sd">        </span>
+<span class="sd">        Generates separate files for the model, the variables, </span>
+<span class="sd">        the tags, the embeddings and the characters.</span>
+<span class="sd">            </span>
+<span class="sd">        Args:</span>
+<span class="sd">            export_dir (str): Directory where the model will be saved.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">def</span> <span class="nf">save_tags</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Saves the tags to disk.</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                file (str): Path to the file where the tags will be saved.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
             <span class="n">id2tag</span> <span class="o">=</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="n">tag</span> <span class="k">for</span> <span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">tag2id</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
 
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -309,6 +334,12 @@
                     <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
 
         <span class="k">def</span> <span class="nf">save_embeddings</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Saves the embeddings to disk.</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                src (str): Path to the embeddings file.</span>
+<span class="sd">                dst (str): Path to the file where the embeddings will be saved.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
             <span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">copyfile</span>
             <span class="n">copyfile</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">dst</span> <span class="o">+</span> <span class="s1">&#39;.meta&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -317,6 +348,11 @@
                 <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">dim</span><span class="p">))</span>
 
         <span class="k">def</span> <span class="nf">save_chars</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Saves the characters to disk.</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                file (str): Path to the file where the characters will be saved.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
             <span class="n">id2char</span> <span class="o">=</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="n">char</span> <span class="k">for</span> <span class="p">(</span><span class="n">char</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">char2id</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">id2char</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>

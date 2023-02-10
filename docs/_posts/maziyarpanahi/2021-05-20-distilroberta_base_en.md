@@ -28,6 +28,7 @@ On average DistilRoBERTa is twice as fast as Roberta-base.
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilroberta_base_en_3.1.0_2.4_1621523016677.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/distilroberta_base_en_3.1.0_2.4_1621523016677.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

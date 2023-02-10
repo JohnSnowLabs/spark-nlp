@@ -29,7 +29,8 @@ Unlike the Longformer model, this model is lighter in terms of inference time.
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_pledge_agreement_bert_en_1.0.0_3.0_1670349668991.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_pledge_agreement_bert_en_1.0.0_3.0_1670349668991.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_pledge_agreement_bert_en_1.0.0_3.0_1670349668991.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -103,12 +104,10 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 
 ```bash
 
-                  precision    recall  f1-score   support
-
+           label   precision    recall  f1-score   support
            other       0.96      0.98      0.97        65
 pledge-agreement       0.96      0.88      0.92        26
-
-        accuracy                           0.96        91
+        accuracy         -         -       0.96        91
        macro-avg       0.96      0.93      0.94        91
     weighted-avg       0.96      0.96      0.96        91
 

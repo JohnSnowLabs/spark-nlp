@@ -27,6 +27,7 @@ This model is fine-tuned on the SQuAD2.0 dataset and then on the BioASQ8B-Factoi
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/electra_qa_BioM_Base_SQuAD2_BioASQ8B_en_4.0.0_3.0_1655918942331.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/electra_qa_BioM_Base_SQuAD2_BioASQ8B_en_4.0.0_3.0_1655918942331.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

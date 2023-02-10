@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.nlp_test.noisy_labels.noisy_label_fixing &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.nlp_test.noisy_labels.noisy_label_fixing &#8212; Spark NLP  documentation</title>
   
   
   
@@ -276,7 +276,7 @@
 
 
 <div class="viewcode-block" id="conll_reader"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/nlp_test/noisy_labels/noisy_label_fixing/index.html#sparknlp_jsl.nlp_test.noisy_labels.noisy_label_fixing.conll_reader">[docs]</a><span class="k">def</span> <span class="nf">conll_reader</span><span class="p">(</span><span class="n">conll_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">tuple</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Read CoNLL file and convert it to the list of labels and sentences.</span>
 <span class="sd">    :param conll_path: CoNLL file path.</span>
 <span class="sd">    :return: data and labels which have sentences and labels joined with the single space.</span>
@@ -335,7 +335,7 @@
         <span class="n">save_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">docs_indx</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Takes sentences_list, tags_list and labels_list and write to CoNLL file, docs can be separated with docs_indx.</span>
 <span class="sd">    :param sentences: List of sentences, tokens are joined with whitespace.</span>
 <span class="sd">    :param pos_tags: List of pos tags.</span>
@@ -382,7 +382,7 @@
         <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span>
         <span class="n">save_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A method to update CoNLL with label fixes. Takes output dataframe of test_label_errors as input.</span>
 <span class="sd">    :param conll_path: Path to CoNLL data which will be fixed with replacements.</span>
 <span class="sd">    :param fix_df: test_label_errors output, dataframe consist of sent_indx, token_indx and correct label.</span>
@@ -415,7 +415,7 @@
 
 
 <div class="viewcode-block" id="apply_label_fixes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/nlp_test/noisy_labels/noisy_label_fixing/index.html#sparknlp_jsl.nlp_test.noisy_labels.noisy_label_fixing.apply_label_fixes">[docs]</a><span class="k">def</span> <span class="nf">apply_label_fixes</span><span class="p">(</span><span class="n">conll_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">label_fixes</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="nb">str</span><span class="p">],</span> <span class="n">save_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A method to update CoNLL with label fixes. Takes CoNLL data path and dictionary of label fixes as input.</span>
 <span class="sd">    :param conll_path: Path to CoNLL data which will be fixed with replacements.</span>
 <span class="sd">    :param label_fixes: Dictionary where sentence and token indexes are mapped to replacements. Keys should be passed</span>
@@ -469,7 +469,7 @@
         <span class="n">flag</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span>
         <span class="n">save_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A method to add label flag to CoNLL data. Takes CoNLL data path and dictionary of flag fixes as input.</span>
 <span class="sd">    :param conll_path: Path to CoNLL data.</span>
 <span class="sd">    :param flag_indexes: List of tuples where each tuple have sent_indx and token_indx, e.g (sent_indx, token_indx)</span>
@@ -528,7 +528,7 @@
 
 
 <div class="viewcode-block" id="InteractiveFix"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/nlp_test/noisy_labels/noisy_label_fixing/index.html#sparknlp_jsl.nlp_test.noisy_labels.noisy_label_fixing.InteractiveFix">[docs]</a><span class="k">class</span> <span class="nc">InteractiveFix</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Creates UI in Jupyter Notebook cell for interactive fixing.</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -725,7 +725,7 @@
             <span class="n">children</span><span class="o">=</span><span class="p">[</span>
                 <span class="n">widgets</span><span class="o">.</span><span class="n">HTML</span><span class="p">(</span>
                     <span class="n">value</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;&lt;div style=&#39;text-align:center; color:#FFFFFF;&#39;&gt;</span>
-<span class="s2">            &lt;p&gt; showing </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">curr_indx</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s2"> / </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">curr_indx</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">page_size</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">total_error</span><span class="si">}</span><span class="s2"> &lt;p&gt;</span>
+<span class="s2">            &lt;p&gt; showing </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">curr_indx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2"> / </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">curr_indx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">page_size</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">total_error</span><span class="si">}</span><span class="s2"> &lt;p&gt;</span>
 <span class="s2">            &lt;/div&gt;&quot;&quot;&quot;</span><span class="p">,</span>
                     <span class="n">layout</span><span class="o">=</span><span class="n">Layout</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
                 <span class="p">)</span>

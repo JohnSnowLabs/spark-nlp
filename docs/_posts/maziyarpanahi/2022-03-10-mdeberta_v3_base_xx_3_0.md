@@ -35,6 +35,7 @@ The mDeBERTa V3 base model comes with 12 layers and a hidden size of 768. It has
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/mdeberta_v3_base_xx_3.4.2_3.0_1646908683611.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/mdeberta_v3_base_xx_3.4.2_3.0_1646908683611.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

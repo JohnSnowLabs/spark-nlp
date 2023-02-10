@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.finance.chunk_classification.resolution.sentence_entity_resolver &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.finance.chunk_classification.resolution.sentence_entity_resolver &#8212; Spark NLP  documentation</title>
   
   
   
@@ -269,11 +269,11 @@
   <h1>Source code for sparknlp_jsl.finance.chunk_classification.resolution.sentence_entity_resolver</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">sparknlp_jsl.annotator.resolution.sentence_entity_resolver</span> <span class="kn">import</span> <span class="n">SentenceEntityResolverModel</span> <span class="k">as</span> <span class="n">M</span>
 <span class="kn">from</span> <span class="nn">sparknlp_jsl.annotator.resolution.sentence_entity_resolver</span> <span class="kn">import</span> <span class="n">SentenceEntityResolverApproach</span> <span class="k">as</span> <span class="n">A</span>
-<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp_jsl.common</span> <span class="kn">import</span> <span class="o">*</span>
 
 
 <div class="viewcode-block" id="SentenceEntityResolverApproach"><a class="viewcode-back" href="../../../../../reference/autosummary/sparknlp_jsl/finance/chunk_classification/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.finance.chunk_classification.resolution.sentence_entity_resolver.SentenceEntityResolverApproach">[docs]</a><span class="k">class</span> <span class="nc">SentenceEntityResolverApproach</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Thius class contains all the parameters and methods to train a SentenceEntityResolverModel.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Thius class contains all the parameters and methods to train a SentenceEntityResolverModel.</span>
 <span class="sd">       The model transforms a dataset with Input Annotation type SENTENCE_EMBEDDINGS, coming from e.g.</span>
 <span class="sd">       [BertSentenceEmbeddings](/docs/en/transformers#bertsentenceembeddings)</span>
 <span class="sd">       and returns the normalized entity for a particular trained ontology / curated dataset.</span>
@@ -312,7 +312,7 @@
 
 <span class="sd">       &gt;&gt;&gt; import sparknlp</span>
 <span class="sd">       &gt;&gt;&gt; from sparknlp.base import *</span>
-<span class="sd">       &gt;&gt;&gt; from sparknlp.common import *</span>
+<span class="sd">       &gt;&gt;&gt; from sparknlp_jsl.common import *</span>
 <span class="sd">       &gt;&gt;&gt; from sparknlp.annotator import *</span>
 <span class="sd">       &gt;&gt;&gt; from sparknlp.training import *</span>
 <span class="sd">       &gt;&gt;&gt; import sparknlp_jsl</span>
@@ -350,14 +350,14 @@
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">AnnotatorApproach</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+        <span class="n">AnnotatorApproachInternal</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                                    <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.finance.chunk_classification.resolution.SentenceEntityResolverApproach&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span><span class="n">labelCol</span><span class="o">=</span><span class="s2">&quot;code&quot;</span><span class="p">,</span> <span class="n">normalizedCol</span><span class="o">=</span><span class="s2">&quot;code&quot;</span><span class="p">,</span> <span class="n">distanceFunction</span><span class="o">=</span><span class="s2">&quot;EUCLIDEAN&quot;</span><span class="p">,</span> <span class="n">neighbours</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
                          <span class="n">threshold</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">missAsEmpty</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">returnCosineDistances</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="SentenceEntityResolverModel"><a class="viewcode-back" href="../../../../../reference/autosummary/sparknlp_jsl/finance/chunk_classification/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.finance.chunk_classification.resolution.sentence_entity_resolver.SentenceEntityResolverModel">[docs]</a><span class="k">class</span> <span class="nc">SentenceEntityResolverModel</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Thius class contains all the parameters and methods to train a SentenceEntityResolverModel.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Thius class contains all the parameters and methods to train a SentenceEntityResolverModel.</span>
 <span class="sd">       The model transforms a dataset with Input Annotation type SENTENCE_EMBEDDINGS, coming from e.g.</span>
 <span class="sd">       [BertSentenceEmbeddings](/docs/en/transformers#bertsentenceembeddings)</span>
 <span class="sd">       and returns the normalized entity for a particular trained ontology / curated dataset.</span>
@@ -386,7 +386,7 @@
 
 <span class="sd">       &gt;&gt;&gt; import sparknlp</span>
 <span class="sd">       &gt;&gt;&gt; from sparknlp.base import *</span>
-<span class="sd">       &gt;&gt;&gt; from sparknlp.common import *</span>
+<span class="sd">       &gt;&gt;&gt; from sparknlp_jsl.common import *</span>
 <span class="sd">       &gt;&gt;&gt; from sparknlp.annotator import *</span>
 <span class="sd">       &gt;&gt;&gt; from sparknlp.training import *</span>
 <span class="sd">       &gt;&gt;&gt; import sparknlp_jsl</span>

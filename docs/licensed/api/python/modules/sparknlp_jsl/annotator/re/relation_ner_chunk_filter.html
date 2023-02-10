@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.annotator.re.relation_ner_chunk_filter &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.annotator.re.relation_ner_chunk_filter &#8212; Spark NLP  documentation</title>
   
   
   
@@ -267,10 +267,10 @@
             <article class="bd-article" role="main">
               
   <h1>Source code for sparknlp_jsl.annotator.re.relation_ner_chunk_filter</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span></span><span class="kn">from</span> <span class="nn">sparknlp_jsl.common</span> <span class="kn">import</span> <span class="o">*</span>
 
-<div class="viewcode-block" id="RENerChunksFilter"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_ner_chunk_filter/index.html#sparknlp_jsl.annotator.re.relation_ner_chunk_filter.RENerChunksFilter">[docs]</a><span class="k">class</span> <span class="nc">RENerChunksFilter</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Filters and outputs combinations of relations between extracted entities, for further processing.</span>
+<div class="viewcode-block" id="RENerChunksFilter"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_ner_chunk_filter/index.html#sparknlp_jsl.annotator.re.relation_ner_chunk_filter.RENerChunksFilter">[docs]</a><span class="k">class</span> <span class="nc">RENerChunksFilter</span><span class="p">(</span><span class="n">AnnotatorModelInternal</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Filters and outputs combinations of relations between extracted entities, for further processing.</span>
 <span class="sd">    This annotator is especially useful to create inputs for the RelationExtractionDLModel.</span>
 
 <span class="sd">    ==============================  ======================</span>
@@ -373,6 +373,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="RENerChunksFilter.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_ner_chunk_filter/index.html#sparknlp_jsl.annotator.re.relation_ner_chunk_filter.RENerChunksFilter.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DEPENDENCY</span><span class="p">]</span></div>
+<div class="viewcode-block" id="RENerChunksFilter.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_ner_chunk_filter/index.html#sparknlp_jsl.annotator.re.relation_ner_chunk_filter.RENerChunksFilter.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span></div>
 
 <div class="viewcode-block" id="RENerChunksFilter.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_ner_chunk_filter/index.html#sparknlp_jsl.annotator.re.relation_ner_chunk_filter.RENerChunksFilter.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;RENerChunksFilter&quot;</span></div>
 
@@ -391,7 +392,7 @@
                               <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="RENerChunksFilter.setMaxSyntacticDistance"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_ner_chunk_filter/index.html#sparknlp_jsl.annotator.re.relation_ner_chunk_filter.RENerChunksFilter.setMaxSyntacticDistance">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSyntacticDistance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distance</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets maximum syntactic distance between a pair of named entities to consider them as a relation&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets maximum syntactic distance between a pair of named entities to consider them as a relation&quot;</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -401,7 +402,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSyntacticDistance</span><span class="o">=</span><span class="n">distance</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="RENerChunksFilter.setDocLevelRelations"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_ner_chunk_filter/index.html#sparknlp_jsl.annotator.re.relation_ner_chunk_filter.RENerChunksFilter.setDocLevelRelations">[docs]</a>    <span class="k">def</span> <span class="nf">setDocLevelRelations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docLevelRelations</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to include relations between entities from different sentences</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to include relations between entities from different sentences</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -411,7 +412,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">docLevelRelations</span><span class="o">=</span><span class="n">docLevelRelations</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="RENerChunksFilter.setRelationPairs"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_ner_chunk_filter/index.html#sparknlp_jsl.annotator.re.relation_ner_chunk_filter.RENerChunksFilter.setRelationPairs">[docs]</a>    <span class="k">def</span> <span class="nf">setRelationPairs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pairs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets list of dash-separated pairs of named entities</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets list of dash-separated pairs of named entities</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -425,7 +426,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">relationPairs</span><span class="o">=</span><span class="n">pairs_str</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="RENerChunksFilter.setRelationPairsCaseSensitive"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_ner_chunk_filter/index.html#sparknlp_jsl.annotator.re.relation_ner_chunk_filter.RENerChunksFilter.setRelationPairsCaseSensitive">[docs]</a>    <span class="k">def</span> <span class="nf">setRelationPairsCaseSensitive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the case sensitivity of relation pairs</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the case sensitivity of relation pairs</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        value : boolean</span>

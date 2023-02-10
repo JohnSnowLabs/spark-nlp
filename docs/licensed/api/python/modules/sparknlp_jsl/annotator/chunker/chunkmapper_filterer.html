@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.annotator.chunker.chunkmapper_filterer &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.annotator.chunker.chunkmapper_filterer &#8212; Spark NLP  documentation</title>
   
   
   
@@ -267,24 +267,29 @@
             <article class="bd-article" role="main">
               
   <h1>Source code for sparknlp_jsl.annotator.chunker.chunkmapper_filterer</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span></span><span class="kn">from</span> <span class="nn">sparknlp_jsl.common</span> <span class="kn">import</span> <span class="o">*</span>
 
-<div class="viewcode-block" id="ChunkMapperFilterer"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper_filterer/index.html#sparknlp_jsl.annotator.chunker.chunkmapper_filterer.ChunkMapperFilterer">[docs]</a><span class="k">class</span> <span class="nc">ChunkMapperFilterer</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Filter what kind of chunks must be returned, whether the chunks that are in the label dependencies or not.</span>
+<div class="viewcode-block" id="ChunkMapperFilterer"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper_filterer/index.html#sparknlp_jsl.annotator.chunker.chunkmapper_filterer.ChunkMapperFilterer">[docs]</a><span class="k">class</span> <span class="nc">ChunkMapperFilterer</span><span class="p">(</span><span class="n">AnnotatorModelInternal</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Filters chunks mapped or not by ChunkMapper.</span>
 
-<span class="sd">        ==============================   =======================</span>
-<span class="sd">            Input Annotation types        Output Annotation type</span>
-<span class="sd">        ==============================   =======================</span>
-<span class="sd">        ``CHUNK``,``LABEL_DEPENDENCY``          ``CHUNK``</span>
-<span class="sd">        ==============================   =======================</span>
+<span class="sd">    Filters chunks based on whether the ChunkMapper annotator</span>
+<span class="sd">    successfully mapped the chunk or not.</span>
 
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        setReturnCriteria</span>
-<span class="sd">            Select what kind o chunk we will return. If is fail will return the chunk that are no in the label dependencies if is success return the labels that are label dependencies</span>
+<span class="sd">    ==============================   =======================</span>
+<span class="sd">        Input Annotation types        Output Annotation type</span>
+<span class="sd">    ==============================   =======================</span>
+<span class="sd">    ``CHUNK``,``LABEL_DEPENDENCY``          ``CHUNK``</span>
+<span class="sd">    ==============================   =======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    returnCriteria (str)</span>
+<span class="sd">        Has two possible values: &quot;success&quot; or &quot;fail&quot;.</span>
+<span class="sd">        If &quot;fail&quot; (default), returns the chunks that are not in the label dependencies;</span>
+<span class="sd">        if &quot;success&quot;, returns the labels that were successfully mapped by the ChunkMapper annotator.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="ChunkMapperFilterer.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper_filterer/index.html#sparknlp_jsl.annotator.chunker.chunkmapper_filterer.ChunkMapperFilterer.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">LABELED_DEPENDENCY</span><span class="p">]</span></div>
+<div class="viewcode-block" id="ChunkMapperFilterer.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper_filterer/index.html#sparknlp_jsl.annotator.chunker.chunkmapper_filterer.ChunkMapperFilterer.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span></div>
 
 <div class="viewcode-block" id="ChunkMapperFilterer.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper_filterer/index.html#sparknlp_jsl.annotator.chunker.chunkmapper_filterer.ChunkMapperFilterer.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;ChunkMapperFiltererModel&quot;</span></div>
 
@@ -293,10 +298,20 @@
                            <span class="s2">&quot;Select what kind o chunk we will return. If is fail will return the chunk that are no in the label depencies if is success return the labels that are label dependencies&quot;</span><span class="p">,</span>
                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ChunkMapperFilterer.setReturnCriteria"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper_filterer/index.html#sparknlp_jsl.annotator.chunker.chunkmapper_filterer.ChunkMapperFilterer.setReturnCriteria">[docs]</a>    <span class="k">def</span> <span class="nf">setReturnCriteria</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rc</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">returnCriteria</span><span class="o">=</span><span class="n">rc</span><span class="p">)</span></div>
+<div class="viewcode-block" id="ChunkMapperFilterer.setReturnCriteria"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunkmapper_filterer/index.html#sparknlp_jsl.annotator.chunker.chunkmapper_filterer.ChunkMapperFilterer.setReturnCriteria">[docs]</a>    <span class="k">def</span> <span class="nf">setReturnCriteria</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">return_criteria</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the return criteria.</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.chunker.ChunkMapperFilterer&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="sd">        Args:</span>
+<span class="sd">            return_criteria (str): the new return criteria (&quot;success&quot; or &quot;fail&quot;)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            self: the object itself</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">returnCriteria</span><span class="o">=</span><span class="n">return_criteria</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.chunker.ChunkMapperFilterer&quot;</span><span class="p">,</span>
+                 <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">ChunkMapperFilterer</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
             <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span></div>

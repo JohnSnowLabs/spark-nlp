@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.annotator.classification.document_log_classifier &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.annotator.classification.document_log_classifier &#8212; Spark NLP  documentation</title>
   
   
   
@@ -267,10 +267,10 @@
             <article class="bd-article" role="main">
               
   <h1>Source code for sparknlp_jsl.annotator.classification.document_log_classifier</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span></span><span class="kn">from</span> <span class="nn">sparknlp_jsl.common</span> <span class="kn">import</span> <span class="o">*</span>
 
-<div class="viewcode-block" id="DocumentLogRegClassifierApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach">[docs]</a><span class="k">class</span> <span class="nc">DocumentLogRegClassifierApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Trains a model to classify documents with a Logarithmic Regression algorithm. Training data requires columns for</span>
+<div class="viewcode-block" id="DocumentLogRegClassifierApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach">[docs]</a><span class="k">class</span> <span class="nc">DocumentLogRegClassifierApproach</span><span class="p">(</span><span class="n">AnnotatorApproachInternal</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Trains a model to classify documents with a Logarithmic Regression algorithm. Training data requires columns for</span>
 <span class="sd">    text and their label. The result is a trained GenericClassifierModel.</span>
 
 <span class="sd">    ========================================= ======================</span>
@@ -301,7 +301,7 @@
 
 <span class="sd">    &gt;&gt;&gt; import sparknlp</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
-<span class="sd">    &gt;&gt;&gt; from sparknlp.common import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.common import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.training import *</span>
 <span class="sd">    &gt;&gt;&gt; import sparknlp_jsl</span>
@@ -345,6 +345,7 @@
 <span class="sd">    &gt;&gt;&gt; clf_model = pipeline.fit(data)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="DocumentLogRegClassifierApproach.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">]</span></div>
+<div class="viewcode-block" id="DocumentLogRegClassifierApproach.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CATEGORY</span></div>
 
 <div class="viewcode-block" id="DocumentLogRegClassifierApproach.labelCol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach.labelCol">[docs]</a>    <span class="n">labelCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;labelCol&quot;</span><span class="p">,</span> <span class="s2">&quot;column with the value result we are trying to predict.&quot;</span><span class="p">,</span>
                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
@@ -362,7 +363,7 @@
                                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DocumentLogRegClassifierApproach.setLabelColumn"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach.setLabelColumn">[docs]</a>    <span class="k">def</span> <span class="nf">setLabelColumn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets column with the value result we are trying to predict.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets column with the value result we are trying to predict.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -373,7 +374,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">labelCol</span><span class="o">=</span><span class="n">label</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DocumentLogRegClassifierApproach.setMaxIter"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach.setMaxIter">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxIter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets maximum number of iterations.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets maximum number of iterations.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -384,7 +385,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxIter</span><span class="o">=</span><span class="n">k</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DocumentLogRegClassifierApproach.setTol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach.setTol">[docs]</a>    <span class="k">def</span> <span class="nf">setTol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dist</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets  convergence tolerance after each iteration.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets  convergence tolerance after each iteration.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -395,7 +396,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">tol</span><span class="o">=</span><span class="n">dist</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DocumentLogRegClassifierApproach.setFitIntercept"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach.setFitIntercept">[docs]</a>    <span class="k">def</span> <span class="nf">setFitIntercept</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">merge</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to fit an intercept term, default is true.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to fit an intercept term, default is true.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -406,7 +407,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">fitIntercept</span><span class="o">=</span><span class="n">merge</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DocumentLogRegClassifierApproach.setVectorizationModelPath"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach.setVectorizationModelPath">[docs]</a>    <span class="k">def</span> <span class="nf">setVectorizationModelPath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets a path to the the classification model if it has been already trained.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets a path to the the classification model if it has been already trained.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -417,7 +418,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">vectorizationModelPath</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DocumentLogRegClassifierApproach.setClassificationModelPath"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach.setClassificationModelPath">[docs]</a>    <span class="k">def</span> <span class="nf">setClassificationModelPath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets a path to the the classification model if it has been already trained.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets a path to the the classification model if it has been already trained.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -428,7 +429,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">classificationModelPath</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DocumentLogRegClassifierApproach.setLabels"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierApproach.setLabels">[docs]</a>    <span class="k">def</span> <span class="nf">setLabels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets array to output the label in the original form.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets array to output the label in the original form.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -454,8 +455,8 @@
             <span class="n">classificationModelPath</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="DocumentLogRegClassifierModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierModel">[docs]</a><span class="k">class</span> <span class="nc">DocumentLogRegClassifierModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Classifies documents with a Logarithmic Regression algorithm.</span>
+<div class="viewcode-block" id="DocumentLogRegClassifierModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierModel">[docs]</a><span class="k">class</span> <span class="nc">DocumentLogRegClassifierModel</span><span class="p">(</span><span class="n">AnnotatorModelInternal</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Classifies documents with a Logarithmic Regression algorithm.</span>
 
 
 <span class="sd">    ========================================= ======================</span>
@@ -475,6 +476,8 @@
 <span class="sd">    classificationModel</span>
 <span class="sd">        Classification model if it has been already trained.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="DocumentLogRegClassifierModel.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierModel.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CATEGORY</span></div>
+
 <div class="viewcode-block" id="DocumentLogRegClassifierModel.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierModel.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;DocumentLogRegClassifierModel&quot;</span></div>
 
 <div class="viewcode-block" id="DocumentLogRegClassifierModel.vectorizationModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierModel.vectorizationModel">[docs]</a>    <span class="n">vectorizationModel</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;vectorizationModel&quot;</span><span class="p">,</span> <span class="s2">&quot;wrapped vectorization model.&quot;</span><span class="p">,</span>
@@ -494,7 +497,7 @@
         <span class="p">)</span>
 
 <div class="viewcode-block" id="DocumentLogRegClassifierModel.setLabels"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierModel.setLabels">[docs]</a>    <span class="k">def</span> <span class="nf">setLabels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets array to output the label in the original form.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets array to output the label in the original form.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -505,7 +508,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DocumentLogRegClassifierModel.setMergeChunks"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierModel.setMergeChunks">[docs]</a>    <span class="k">def</span> <span class="nf">setMergeChunks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">merge</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to merge all chunks in a document or not (Default: false)</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to merge all chunks in a document or not (Default: false)</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -515,7 +518,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">mergeChunks</span><span class="o">=</span><span class="n">merge</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DocumentLogRegClassifierModel.setVectorizationModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierModel.setVectorizationModel">[docs]</a>    <span class="k">def</span> <span class="nf">setVectorizationModel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets a path to the classification model if it has been already trained.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets a path to the classification model if it has been already trained.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -526,7 +529,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">vectorizationModel</span><span class="o">=</span><span class="n">model</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DocumentLogRegClassifierModel.setClassificationModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/document_log_classifier/index.html#sparknlp_jsl.annotator.classification.document_log_classifier.DocumentLogRegClassifierModel.setClassificationModel">[docs]</a>    <span class="k">def</span> <span class="nf">setClassificationModel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets a path to the the classification model if it has been already trained.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets a path to the the classification model if it has been already trained.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

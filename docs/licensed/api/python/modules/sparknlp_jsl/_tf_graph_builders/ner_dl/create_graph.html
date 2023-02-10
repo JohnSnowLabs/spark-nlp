@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl._tf_graph_builders.ner_dl.create_graph &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl._tf_graph_builders.ner_dl.create_graph &#8212; Spark NLP  documentation</title>
   
   
   
@@ -273,15 +273,27 @@
 
 
 <div class="viewcode-block" id="create_graph"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/ner_dl/create_graph/index.html#sparknlp_jsl._tf_graph_builders.ner_dl.create_graph.create_graph">[docs]</a><span class="k">def</span> <span class="nf">create_graph</span><span class="p">(</span>
-        <span class="n">model_location</span><span class="p">,</span>
-        <span class="n">ntags</span><span class="p">,</span>
-        <span class="n">embeddings_dim</span><span class="p">,</span>
-        <span class="n">nchars</span><span class="p">,</span>
-        <span class="n">lstm_size</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
-        <span class="n">model_filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">gpu_device</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-        <span class="n">is_medical</span><span class="o">=</span><span class="kc">False</span>
+        <span class="n">model_location</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">ntags</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span>
+        <span class="n">embeddings_dim</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span>
+        <span class="n">nchars</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span>
+        <span class="n">lstm_size</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+        <span class="n">model_filename</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">gpu_device</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">is_medical</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">False</span>
 <span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates the Tensorflow graph for NERDL model</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        model_location (str): Folder where the model will be saved</span>
+<span class="sd">        ntags (int): Number of unique tags</span>
+<span class="sd">        embeddings_dim (int): Dimension of the word embeddings</span>
+<span class="sd">        nchars (int): Number of unique characters</span>
+<span class="sd">        lstm_size (int, optional): Size of the hidden LSTM cells. Defaults to 128.</span>
+<span class="sd">        model_filename (str, optional): Name of the model when saved on disk. Defaults to None.</span>
+<span class="sd">        gpu_device (int, optional): Which GPU to use. Defaults to 0.</span>
+<span class="sd">        is_medical (bool, optional): If the model being trained is from Healthcare NLP or not. Defaults to False.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">tf</span><span class="o">.</span><span class="n">disable_v2_behavior</span><span class="p">()</span>
     <span class="n">tf</span><span class="o">.</span><span class="n">enable_v2_tensorshape</span><span class="p">()</span>
     <span class="n">tf</span><span class="o">.</span><span class="n">reset_default_graph</span><span class="p">()</span>

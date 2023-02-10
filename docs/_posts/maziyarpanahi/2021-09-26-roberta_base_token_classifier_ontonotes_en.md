@@ -34,6 +34,7 @@ We used [TFRobertaForTokenClassification](https://huggingface.co/transformers/mo
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/roberta_base_token_classifier_ontonotes_en_3.3.0_3.0_1632675229237.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/roberta_base_token_classifier_ontonotes_en_3.3.0_3.0_1632675229237.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

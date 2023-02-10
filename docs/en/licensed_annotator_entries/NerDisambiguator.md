@@ -32,6 +32,10 @@ DISAMBIGUATION
 [NerDisambiguatorModel](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguatorModel)
 {%- endcapture -%}
 
+{%- capture model_python_api_link -%}
+[NerDisambiguatorModel](https://nlp.johnsnowlabs.com/licensed/api/python/reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel)
+{%- endcapture -%}
+
 {%- capture approach_description -%}
 Links words of interest, such as names of persons, locations and companies, from an input text document to
 a corresponding unique entity in a target Knowledge Base (KB). Words of interest are called Named Entities (NEs),
@@ -378,7 +382,9 @@ val nlpPipeline = new Pipeline().setStages(Array(
 [NerDisambiguator](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/disambiguation/NerDisambiguator)
 {%- endcapture -%}
 
-
+{%- capture approach_python_api_link -%}
+[NerDisambiguator](https://nlp.johnsnowlabs.com/licensed/api/python/reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator)
+{%- endcapture -%}
 
 {% include templates/licensed_approach_model_medical_fin_leg_template.md
 title=title
@@ -388,6 +394,7 @@ model_description=model_description
 model_input_anno=model_input_anno
 model_output_anno=model_output_anno
 model_api_link=model_api_link
+model_python_api_link=model_python_api_link
 approach_description=approach_description
 approach_input_anno=approach_input_anno
 approach_output_anno=approach_output_anno
@@ -398,5 +405,5 @@ approach_scala_medical=approach_scala_medical
 approach_scala_legal=approach_scala_legal
 approach_scala_finance=approach_scala_finance
 approach_api_link=approach_api_link
+approach_python_api_link=approach_python_api_link
 %}
-

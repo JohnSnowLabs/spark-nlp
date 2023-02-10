@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.annotator.resolution.sentence_entity_resolver &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.annotator.resolution.sentence_entity_resolver &#8212; Spark NLP  documentation</title>
   
   
   
@@ -267,10 +267,10 @@
             <article class="bd-article" role="main">
               
   <h1>Source code for sparknlp_jsl.annotator.resolution.sentence_entity_resolver</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span></span><span class="kn">from</span> <span class="nn">sparknlp_jsl.common</span> <span class="kn">import</span> <span class="o">*</span>
 
 <div class="viewcode-block" id="SentenceResolverParams"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceResolverParams">[docs]</a><span class="k">class</span> <span class="nc">SentenceResolverParams</span><span class="p">(</span><span class="n">HasCaseSensitiveProperties</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class used to have a common interface Sentence Resolver family.</span>
 
 
@@ -304,7 +304,7 @@
                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SentenceResolverParams.setDistanceFunction"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceResolverParams.setDistanceFunction">[docs]</a>    <span class="k">def</span> <span class="nf">setDistanceFunction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dist</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets distance function to use for WMD: &#39;EUCLIDEAN&#39; or &#39;COSINE&#39;.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets distance function to use for WMD: &#39;EUCLIDEAN&#39; or &#39;COSINE&#39;.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -314,7 +314,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">distanceFunction</span><span class="o">=</span><span class="n">dist</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SentenceResolverParams.setNeighbours"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceResolverParams.setNeighbours">[docs]</a>    <span class="k">def</span> <span class="nf">setNeighbours</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets number of neighbours to consider in the KNN query to calculate WMD.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets number of neighbours to consider in the KNN query to calculate WMD.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -324,7 +324,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">neighbours</span><span class="o">=</span><span class="n">k</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SentenceResolverParams.setThreshold"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceResolverParams.setThreshold">[docs]</a>    <span class="k">def</span> <span class="nf">setThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">thres</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets Threshold value for the last distance calculated.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets Threshold value for the last distance calculated.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -334,7 +334,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">threshold</span><span class="o">=</span><span class="n">thres</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SentenceResolverParams.setConfidenceFunction"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceResolverParams.setConfidenceFunction">[docs]</a>    <span class="k">def</span> <span class="nf">setConfidenceFunction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;What function to use to calculate confidence: INVERSE or SOFTMAX.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;What function to use to calculate confidence: INVERSE or SOFTMAX.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -344,7 +344,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">confidenceFunction</span><span class="o">=</span><span class="n">s</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SentenceResolverParams.setMissAsEmpty"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceResolverParams.setMissAsEmpty">[docs]</a>    <span class="k">def</span> <span class="nf">setMissAsEmpty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether or not to return an empty annotation on unmatched chunks.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether or not to return an empty annotation on unmatched chunks.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -354,8 +354,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">missAsEmpty</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="SentenceEntityResolverApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverApproach">[docs]</a><span class="k">class</span> <span class="nc">SentenceEntityResolverApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">,</span> <span class="n">SentenceResolverParams</span><span class="p">,</span> <span class="n">HasEngine</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Thius class contains all the parameters and methods to train a SentenceEntityResolverModel.</span>
+<div class="viewcode-block" id="SentenceEntityResolverApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverApproach">[docs]</a><span class="k">class</span> <span class="nc">SentenceEntityResolverApproach</span><span class="p">(</span><span class="n">AnnotatorApproachInternal</span><span class="p">,</span> <span class="n">SentenceResolverParams</span><span class="p">,</span> <span class="n">HasEngine</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Thius class contains all the parameters and methods to train a SentenceEntityResolverModel.</span>
 <span class="sd">       The model transforms a dataset with Input Annotation type SENTENCE_EMBEDDINGS, coming from e.g.</span>
 <span class="sd">       [BertSentenceEmbeddings](/docs/en/transformers#bertsentenceembeddings)</span>
 <span class="sd">       and returns the normalized entity for a particular trained ontology / curated dataset.</span>
@@ -394,7 +394,7 @@
 
 <span class="sd">       &gt;&gt;&gt; import sparknlp</span>
 <span class="sd">       &gt;&gt;&gt; from sparknlp.base import *</span>
-<span class="sd">       &gt;&gt;&gt; from sparknlp.common import *</span>
+<span class="sd">       &gt;&gt;&gt; from sparknlp_jsl.common import *</span>
 <span class="sd">       &gt;&gt;&gt; from sparknlp.annotator import *</span>
 <span class="sd">       &gt;&gt;&gt; from sparknlp.training import *</span>
 <span class="sd">       &gt;&gt;&gt; import sparknlp_jsl</span>
@@ -430,6 +430,7 @@
 <span class="sd">       &gt;&gt;&gt; snomedModel = bertExtractor.fit(snomedData)</span>
 <span class="sd">       &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="SentenceEntityResolverApproach.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverApproach.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">SENTENCE_EMBEDDINGS</span><span class="p">]</span></div>
+<div class="viewcode-block" id="SentenceEntityResolverApproach.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverApproach.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">ENTITY</span></div>
 
 <div class="viewcode-block" id="SentenceEntityResolverApproach.labelCol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverApproach.labelCol">[docs]</a>    <span class="n">labelCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;labelCol&quot;</span><span class="p">,</span> <span class="s2">&quot;Column name for the value we are trying to resolve&quot;</span><span class="p">,</span>
                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
@@ -460,7 +461,7 @@
                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SentenceEntityResolverApproach.setUseAuxLabel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverApproach.setUseAuxLabel">[docs]</a>    <span class="k">def</span> <span class="nf">setUseAuxLabel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets Use AuxLabel Col or not.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets Use AuxLabel Col or not.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -470,7 +471,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">useAuxLabel</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SentenceEntityResolverApproach.setAuxLabelCol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverApproach.setAuxLabelCol">[docs]</a>    <span class="k">def</span> <span class="nf">setAuxLabelCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets auxiliary label which maps resolved entities to additional labels</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets auxiliary label which maps resolved entities to additional labels</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -480,7 +481,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">aux_label_col</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SentenceEntityResolverApproach.setExtractCosineDistances"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverApproach.setExtractCosineDistances">[docs]</a>    <span class="k">def</span> <span class="nf">setExtractCosineDistances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Extract Cosine Distances. TRUE or False.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract Cosine Distances. TRUE or False.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -490,7 +491,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">returnCosineDistances</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SentenceEntityResolverApproach.setLabelCol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverApproach.setLabelCol">[docs]</a>    <span class="k">def</span> <span class="nf">setLabelCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets column name for the value we are trying to resolve</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets column name for the value we are trying to resolve</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -500,7 +501,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">labelCol</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SentenceEntityResolverApproach.setNormalizedCol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverApproach.setNormalizedCol">[docs]</a>    <span class="k">def</span> <span class="nf">setNormalizedCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets column name for the original, normalized description</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets column name for the original, normalized description</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -529,9 +530,9 @@
                          <span class="n">threshold</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">missAsEmpty</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">returnCosineDistances</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="SentenceEntityResolverModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverModel">[docs]</a><span class="k">class</span> <span class="nc">SentenceEntityResolverModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">HasEmbeddingsProperties</span><span class="p">,</span> <span class="n">HasStorageModel</span><span class="p">,</span> <span class="n">SentenceResolverParams</span><span class="p">,</span>
+<div class="viewcode-block" id="SentenceEntityResolverModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverModel">[docs]</a><span class="k">class</span> <span class="nc">SentenceEntityResolverModel</span><span class="p">(</span><span class="n">AnnotatorModelInternal</span><span class="p">,</span> <span class="n">HasEmbeddingsProperties</span><span class="p">,</span> <span class="n">HasStorageModel</span><span class="p">,</span> <span class="n">SentenceResolverParams</span><span class="p">,</span>
                                   <span class="n">HasEngine</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Thius class contains all the parameters and methods to train a SentenceEntityResolverModel.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Thius class contains all the parameters and methods to train a SentenceEntityResolverModel.</span>
 <span class="sd">       The model transforms a dataset with Input Annotation type SENTENCE_EMBEDDINGS, coming from e.g.</span>
 <span class="sd">       [BertSentenceEmbeddings](/docs/en/transformers#bertsentenceembeddings)</span>
 <span class="sd">       and returns the normalized entity for a particular trained ontology / curated dataset.</span>
@@ -560,7 +561,7 @@
 
 <span class="sd">       &gt;&gt;&gt; import sparknlp</span>
 <span class="sd">       &gt;&gt;&gt; from sparknlp.base import *</span>
-<span class="sd">       &gt;&gt;&gt; from sparknlp.common import *</span>
+<span class="sd">       &gt;&gt;&gt; from sparknlp_jsl.common import *</span>
 <span class="sd">       &gt;&gt;&gt; from sparknlp.annotator import *</span>
 <span class="sd">       &gt;&gt;&gt; from sparknlp.training import *</span>
 <span class="sd">       &gt;&gt;&gt; import sparknlp_jsl</span>
@@ -596,6 +597,7 @@
 <span class="sd">       &gt;&gt;&gt; snomedModel = bertExtractor.fit(snomedData)</span>
 <span class="sd">       &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="SentenceEntityResolverModel.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverModel.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">SENTENCE_EMBEDDINGS</span><span class="p">]</span></div>
+<div class="viewcode-block" id="SentenceEntityResolverModel.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverModel.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">ENTITY</span></div>
 
 <div class="viewcode-block" id="SentenceEntityResolverModel.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverModel.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;SentenceEntityResolverModel&quot;</span></div>
 <div class="viewcode-block" id="SentenceEntityResolverModel.returnCosineDistances"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverModel.returnCosineDistances">[docs]</a>    <span class="n">returnCosineDistances</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;returnCosineDistances&quot;</span><span class="p">,</span>
@@ -613,7 +615,7 @@
     <span class="c1">##TODO add SetreturnCosineDistances.</span>
 
 <div class="viewcode-block" id="SentenceEntityResolverModel.setUseAuxLabel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverModel.setUseAuxLabel">[docs]</a>    <span class="k">def</span> <span class="nf">setUseAuxLabel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets Use AuxLabel Col or not.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets Use AuxLabel Col or not.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -623,7 +625,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">useAuxLabel</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SentenceEntityResolverModel.setAuxLabelCol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverModel.setAuxLabelCol">[docs]</a>    <span class="k">def</span> <span class="nf">setAuxLabelCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets auxiliary label which maps resolved entities to additional labels</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets auxiliary label which maps resolved entities to additional labels</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -633,7 +635,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">aux_label_col</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SentenceEntityResolverModel.setSearchTree"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.annotator.resolution.sentence_entity_resolver.SentenceEntityResolverModel.setSearchTree">[docs]</a>    <span class="k">def</span> <span class="nf">setSearchTree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets auxiliary label which maps resolved entities to additional labels</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets auxiliary label which maps resolved entities to additional labels</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

@@ -27,7 +27,7 @@ class NGramGenerator(AnnotatorModel):
     length is less than n (number of elements per n-gram), no n-grams are
     returned.
 
-    For more extended examples see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/chunking/NgramGenerator.ipynb>`__.
+    For more extended examples see the `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/chunking/NgramGenerator.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type

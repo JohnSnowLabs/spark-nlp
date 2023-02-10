@@ -28,6 +28,7 @@ This pretrained pipeline is built on [bert_token_classifier_hi_en_ner](https://n
 [Live Demo](https://demo.johnsnowlabs.com/public/NER_HINDI_ENGLISH/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_HINDI_ENGLISH.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_token_classifier_hi_en_ner_pipeline_hi_4.0.0_3.0_1656118650191.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bert_token_classifier_hi_en_ner_pipeline_hi_4.0.0_3.0_1656118650191.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

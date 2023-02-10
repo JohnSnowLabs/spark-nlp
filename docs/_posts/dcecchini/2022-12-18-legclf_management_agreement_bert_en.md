@@ -29,7 +29,8 @@ Unlike the Longformer model, this model is lighter in terms of inference time.
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_management_agreement_bert_en_1.0.0_3.0_1671393846956.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_management_agreement_bert_en_1.0.0_3.0_1671393846956.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_management_agreement_bert_en_1.0.0_3.0_1671393846956.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -102,11 +103,11 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 
 ```bash
 
-|                label |   precision |   recall |   f1-score |   support |
-|---------------------:|------------:|---------:|-----------:|----------:|
-| management-agreement |        0.94 |     0.94 |       0.94 |       110 |
-|                other |        0.97 |     0.97 |       0.97 |       204 |
-|             accuracy |           - |        - |       0.96 |       314 |
-|            macro-avg |        0.96 |     0.95 |       0.95 |       314 |
-|         weighted-avg |        0.96 |     0.96 |       0.96 |       314 |
+                label    precision    recall    f1-score    support 
+ management-agreement         0.94      0.94        0.94        110 
+                other         0.97      0.97        0.97        204 
+             accuracy            -         -        0.96        314 
+            macro-avg         0.96      0.95        0.95        314 
+         weighted-avg         0.96      0.96        0.96        314
+
 ```

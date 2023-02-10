@@ -29,7 +29,8 @@ If you look for generic version, only returning Environment, Social or Governanc
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/finance/FINCLF_ESG/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_augmented_esg_en_1.0.0_3.2_1662473372920.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_augmented_esg_en_1.0.0_3.2_1662473372920.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/finance/models/finclf_augmented_esg_en_1.0.0_3.2_1662473372920.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -133,7 +134,7 @@ Customer_Privacy                                  1.00          0.93         0.9
 Ecological_Impacts                                1.00          1.00         1.00          16
 Energy_Management                                 1.00          0.91         0.95          11
 GHG_Emissions                                     1.00          0.91         0.95          11
-accuracy                                            -             -          0.95         330
+accuracy                                             -             -         0.95         330
 macro-avg                                         0.95          0.95         0.95         330
 weighted-avg                                      0.95          0.95         0.95         330
 ```

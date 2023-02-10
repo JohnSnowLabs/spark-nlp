@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.base &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.base &#8212; Spark NLP  documentation</title>
   
   
   
@@ -267,41 +267,43 @@
             <article class="bd-article" role="main">
               
   <h1>Source code for sparknlp_jsl.base</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">The FeaturesAssembler is used to collect features from different columns. It can collect features from single value</span>
-<span class="sd">columns (anything which can be cast to a float, if casts fails then the value is set to 0), array columns or</span>
-<span class="sd">SparkNLP annotations (if the annotation is an embedding, it takes the embedding, otherwise tries to cast the</span>
-<span class="sd">`result` field). The output of the transformer is a `FEATURE_VECTOR` annotation (the numeric vector is in the</span>
-<span class="sd">`embeddings` field).</span>
-
-
-
-<span class="sd">Example:</span>
-
-<span class="sd">&gt;&gt;&gt; import sparknlp</span>
-<span class="sd">&gt;&gt;&gt; from sparknlp.base import *</span>
-<span class="sd">&gt;&gt;&gt; from sparknlp.common import *</span>
-<span class="sd">&gt;&gt;&gt; from sparknlp.training import *</span>
-<span class="sd">&gt;&gt;&gt; import sparknlp_jsl</span>
-<span class="sd">&gt;&gt;&gt; from sparknlp_jsl.base import *</span>
-<span class="sd">&gt;&gt;&gt; data = spark.read.option(&quot;header&quot;, &quot;true&quot;).option(&quot;timestampFormat&quot;, &quot;yyyy/MM/dd HH:mm:ss ZZ&quot;) \\</span>
-<span class="sd">...            .csv(&quot;./test_jsl/resources/relfeatures.csv&quot;) \\</span>
-<span class="sd">...            .withColumn(&quot;array_column&quot;, F.array(&quot;words_in_ent1&quot;, &quot;words_in_ent2&quot;))</span>
-<span class="sd">...</span>
-<span class="sd">&gt;&gt;&gt; features_asm1 = sparknlp_jsl.base.FeaturesAssembler()\</span>
-<span class="sd">...                    .setInputCols([&quot;words_in_ent1&quot;, &quot;words_in_ent2&quot;, &quot;words_between&quot;, &quot;array_column&quot;]) \</span>
-<span class="sd">...                    .setOutputCol(&quot;features_t&quot;)</span>
-
-
-<span class="sd">&gt;&gt;&gt;  results = Pipeline().setStages([features_asm1]).fit(self.__data).transform(self.__data).cache()</span>
-<span class="sd">&quot;&quot;&quot;</span>
-
-<span class="kn">from</span> <span class="nn">pyspark</span> <span class="kn">import</span> <span class="n">keyword_only</span>
+<span></span><span class="kn">from</span> <span class="nn">pyspark</span> <span class="kn">import</span> <span class="n">keyword_only</span>
 <span class="kn">from</span> <span class="nn">pyspark.ml.param.shared</span> <span class="kn">import</span> <span class="n">Param</span><span class="p">,</span> <span class="n">Params</span><span class="p">,</span> <span class="n">TypeConverters</span>
 <span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">AnnotatorTransformer</span>
 
+<span class="kn">from</span> <span class="nn">sparknlp_jsl.utils.licensed_annotator_type</span> <span class="kn">import</span> <span class="n">InternalAnnotatorType</span>
+
 
 <div class="viewcode-block" id="FeaturesAssembler"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/base/index.html#sparknlp_jsl.base.FeaturesAssembler">[docs]</a><span class="k">class</span> <span class="nc">FeaturesAssembler</span><span class="p">(</span><span class="n">AnnotatorTransformer</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The FeaturesAssembler is used to collect features from different columns. It can collect features from single value</span>
+<span class="sd">    columns (anything which can be cast to a float, if casts fails then the value is set to 0), array columns or</span>
+<span class="sd">    SparkNLP annotations (if the annotation is an embedding, it takes the embedding, otherwise tries to cast the</span>
+<span class="sd">    `result` field). The output of the transformer is a `FEATURE_VECTOR` annotation (the numeric vector is in the</span>
+<span class="sd">    `embeddings` field).</span>
+
+<span class="sd">    Example:</span>
+
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.common import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.training import *</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp_jsl</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.base import *</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.read.option(&quot;header&quot;, &quot;true&quot;).option(&quot;timestampFormat&quot;, &quot;yyyy/MM/dd HH:mm:ss ZZ&quot;) \\</span>
+<span class="sd">    ...            .csv(&quot;./test_jsl/resources/relfeatures.csv&quot;) \\</span>
+<span class="sd">    ...            .withColumn(&quot;array_column&quot;, F.array(&quot;words_in_ent1&quot;, &quot;words_in_ent2&quot;))</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; features_asm1 = sparknlp_jsl.base.FeaturesAssembler()\</span>
+<span class="sd">    ...                    .setInputCols([&quot;words_in_ent1&quot;, &quot;words_in_ent2&quot;, &quot;words_between&quot;, &quot;array_column&quot;]) \</span>
+<span class="sd">    ...                    .setOutputCol(&quot;features_t&quot;)</span>
+
+
+<span class="sd">    &gt;&gt;&gt;  results = Pipeline().setStages([features_asm1]).fit(self.__data).transform(self.__data).cache()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="FeaturesAssembler.skipLPInputColsValidation"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/base/index.html#sparknlp_jsl.base.FeaturesAssembler.skipLPInputColsValidation">[docs]</a>    <span class="n">skipLPInputColsValidation</span> <span class="o">=</span> <span class="kc">True</span></div>
+<div class="viewcode-block" id="FeaturesAssembler.inputAnnotatorTypes"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/base/index.html#sparknlp_jsl.base.FeaturesAssembler.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span></div>
+<div class="viewcode-block" id="FeaturesAssembler.outputAnnotatorType"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/base/index.html#sparknlp_jsl.base.FeaturesAssembler.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">InternalAnnotatorType</span><span class="o">.</span><span class="n">FEATURE_VECTOR</span></div>
 <div class="viewcode-block" id="FeaturesAssembler.inputCols"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/base/index.html#sparknlp_jsl.base.FeaturesAssembler.inputCols">[docs]</a>    <span class="n">inputCols</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;inputCols&quot;</span><span class="p">,</span> <span class="s2">&quot;input column names&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
 <div class="viewcode-block" id="FeaturesAssembler.outputCol"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/base/index.html#sparknlp_jsl.base.FeaturesAssembler.outputCol">[docs]</a>    <span class="n">outputCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;outputCol&quot;</span><span class="p">,</span> <span class="s2">&quot;output column name&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 <div class="viewcode-block" id="FeaturesAssembler.name"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/base/index.html#sparknlp_jsl.base.FeaturesAssembler.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;FeaturesAssembler&#39;</span></div>
@@ -313,11 +315,13 @@
 
     <span class="nd">@keyword_only</span>
 <div class="viewcode-block" id="FeaturesAssembler.setParams"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/base/index.html#sparknlp_jsl.base.FeaturesAssembler.setParams">[docs]</a>    <span class="k">def</span> <span class="nf">setParams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the class parameters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_kwargs</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="FeaturesAssembler.setInputCols"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/base/index.html#sparknlp_jsl.base.FeaturesAssembler.setInputCols">[docs]</a>    <span class="k">def</span> <span class="nf">setInputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets input columns name.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets input columns name.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -327,7 +331,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inputCols</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="FeaturesAssembler.setOutputCol"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/base/index.html#sparknlp_jsl.base.FeaturesAssembler.setOutputCol">[docs]</a>    <span class="k">def</span> <span class="nf">setOutputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets output column name.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets output column name.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

@@ -28,7 +28,8 @@ This model is trained to carry out a Zero-Shot Named Entity Recognition (NER) ap
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/legal/LEGNER_ZEROSHOT/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_roberta_zeroshot_en_1.0.0_3.2_1662113815288.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_roberta_zeroshot_en_1.0.0_3.2_1662113815288.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legner_roberta_zeroshot_en_1.0.0_3.2_1662113815288.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

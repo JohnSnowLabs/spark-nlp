@@ -27,7 +27,8 @@ Detect interactions between chemicals and proteins using BERT model by classifyi
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/RE_CHEM_PROT/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/redl_chemprot_biobert_en_4.2.4_3.0_1673714908415.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/redl_chemprot_biobert_en_4.2.4_3.0_1673714908415.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/redl_chemprot_biobert_en_4.2.4_3.0_1673714908415.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

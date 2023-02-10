@@ -26,14 +26,12 @@ Pretrained VIT  model, adapted from Hugging Face and curated to provide scalabil
 `angular_leaf_spot`, `bean_rust`, `healthy`
 
 
-## Predicted Entities
-
-`angular_leaf_spot`, `bean_rust`, `healthy`
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/image_classifier_vit_base_beans_demo_v3_en_4.1.0_3.0_1660167976186.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/image_classifier_vit_base_beans_demo_v3_en_4.1.0_3.0_1660167976186.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

@@ -7,7 +7,7 @@ Trains an averaged Perceptron model to tag words part-of-speech.
 Sets a POS tag to each word within a sentence.
 
 The training data needs to be in a Spark DataFrame, where the column needs to consist of
-[Annotations](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/Annotation) of type `POS`. The `Annotation` needs to have member `result`
+[Annotations](/api/com/johnsnowlabs/nlp/Annotation) of type `POS`. The `Annotation` needs to have member `result`
 set to the POS tag and have a `"word"` mapping to its word inside of member `metadata`.
 This DataFrame for training can easily created by the helper class [POS](#pos-dataset).
 
@@ -26,7 +26,7 @@ POS().readDataset(spark, datasetPath).selectExpr("explode(tags) as tags").show(f
                       ...
 ```
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/french/Train-Perceptron-French.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/french/Train-Perceptron-French.ipynb)
 and [PerceptronApproach tests](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron).
 {%- endcapture -%}
 
@@ -135,11 +135,11 @@ result.selectExpr("pos.result").show(false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[PerceptronApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/pos/perceptron/PerceptronApproach)
+[PerceptronApproach](/api/com/johnsnowlabs/nlp/annotators/pos/perceptron/PerceptronApproach)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[PerceptronApproach](/api/python/reference/autosummary/python/sparknlp/annotator/pos/perceptron/index.html#sparknlp.annotator.pos.perceptron.PerceptronApproach)
+[PerceptronApproach](/api/python/reference/autosummary/sparknlp/annotator/pos/perceptron/index.html#sparknlp.annotator.pos.perceptron.PerceptronApproach)
 {%- endcapture -%}
 
 {%- capture source_link -%}

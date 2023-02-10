@@ -24,6 +24,7 @@ This model removes 'stop words' from text. Stop words are words so common that t
 <button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/b2eb08610dd49d5b15077cc499a94b4ec1e8b861/jupyter/annotation/english/stop-words/StopWordsCleaner.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/stopwords_cs_cs_2.5.4_2.4_1594742440427.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/stopwords_cs_cs_2.5.4_2.4_1594742440427.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 {:.h2_title}
 ## How to use

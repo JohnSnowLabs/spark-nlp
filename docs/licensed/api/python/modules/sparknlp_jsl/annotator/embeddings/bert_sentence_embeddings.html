@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.annotator.embeddings.bert_sentence_embeddings &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.annotator.embeddings.bert_sentence_embeddings &#8212; Spark NLP  documentation</title>
   
   
   
@@ -268,11 +268,12 @@
               
   <h1>Source code for sparknlp_jsl.annotator.embeddings.bert_sentence_embeddings</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="n">BertSentenceEmbeddings</span>
-<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp_jsl.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp_jsl.utils.licensed_annotator_type</span> <span class="kn">import</span> <span class="n">InternalAnnotatorType</span>
 
 
 <div class="viewcode-block" id="BertSentenceChunkEmbeddings"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/embeddings/bert_sentence_embeddings/index.html#sparknlp_jsl.annotator.embeddings.bert_sentence_embeddings.BertSentenceChunkEmbeddings">[docs]</a><span class="k">class</span> <span class="nc">BertSentenceChunkEmbeddings</span><span class="p">(</span><span class="n">BertSentenceEmbeddings</span><span class="p">,</span> <span class="n">HasEngine</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    BERT Sentence embeddings for chunk annotations which take into account the context of the sentence the chunk appeared in.</span>
 <span class="sd">    This is an extension of BertSentenceEmbeddings which combines the embedding of a chunk with the embedding of the</span>
 <span class="sd">    surrounding sentence. For each input chunk annotation, it finds the corresponding sentence, computes</span>
@@ -297,7 +298,7 @@
 
 <span class="sd">    &gt;&gt;&gt; import sparknlp</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
-<span class="sd">    &gt;&gt;&gt; from sparknlp.common import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.common import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.training import *</span>
 <span class="sd">    &gt;&gt;&gt; import sparknlp_jsl</span>
@@ -354,6 +355,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="BertSentenceChunkEmbeddings.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/embeddings/bert_sentence_embeddings/index.html#sparknlp_jsl.annotator.embeddings.bert_sentence_embeddings.BertSentenceChunkEmbeddings.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span><span class="p">]</span></div>
+<div class="viewcode-block" id="BertSentenceChunkEmbeddings.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/embeddings/bert_sentence_embeddings/index.html#sparknlp_jsl.annotator.embeddings.bert_sentence_embeddings.BertSentenceChunkEmbeddings.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">SENTENCE_EMBEDDINGS</span></div>
 
 <div class="viewcode-block" id="BertSentenceChunkEmbeddings.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/embeddings/bert_sentence_embeddings/index.html#sparknlp_jsl.annotator.embeddings.bert_sentence_embeddings.BertSentenceChunkEmbeddings.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;BertSentenceChunkEmbeddings&quot;</span></div>
 
@@ -365,7 +367,7 @@
                         <span class="p">)</span>
 
 <div class="viewcode-block" id="BertSentenceChunkEmbeddings.setChunkWeight"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/embeddings/bert_sentence_embeddings/index.html#sparknlp_jsl.annotator.embeddings.bert_sentence_embeddings.BertSentenceChunkEmbeddings.setChunkWeight">[docs]</a>    <span class="k">def</span> <span class="nf">setChunkWeight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets  the relative weight of chunk embeddings in comparison to sentence embeddings. The value should between 0 and 1.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets  the relative weight of chunk embeddings in comparison to sentence embeddings. The value should between 0 and 1.</span>
 <span class="sd">           The default is 0.5, which means the chunk and sentence embeddings are given equal weight.</span>
 
 <span class="sd">        Parameters</span>

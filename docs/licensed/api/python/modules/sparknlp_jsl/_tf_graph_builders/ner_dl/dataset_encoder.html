@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl._tf_graph_builders.ner_dl.dataset_encoder &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl._tf_graph_builders.ner_dl.dataset_encoder &#8212; Spark NLP  documentation</title>
   
   
   
@@ -274,6 +274,7 @@
 
 
 <div class="viewcode-block" id="DatasetEncoder"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/ner_dl/dataset_encoder/index.html#sparknlp_jsl._tf_graph_builders.ner_dl.dataset_encoder.DatasetEncoder">[docs]</a><span class="k">class</span> <span class="nc">DatasetEncoder</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Dataset encoder.	&quot;&quot;&quot;</span>
     <span class="c1"># Each sentence must be array of tuple (word, tag)</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">embeddings_resolver</span><span class="p">,</span> <span class="n">tag2id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">piece_tag</span><span class="o">=</span><span class="s1">&#39;[X]&#39;</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">tag2id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -284,13 +285,30 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">piece_tag</span> <span class="o">=</span> <span class="n">piece_tag</span>
 
 <div class="viewcode-block" id="DatasetEncoder.shuffle"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/ner_dl/dataset_encoder/index.html#sparknlp_jsl._tf_graph_builders.ner_dl.dataset_encoder.DatasetEncoder.shuffle">[docs]</a>    <span class="k">def</span> <span class="nf">shuffle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Shuffle the sentences.&quot;&quot;&quot;</span>
         <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sentences</span><span class="p">)</span></div>
 
     <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="DatasetEncoder.normalize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/ner_dl/dataset_encoder/index.html#sparknlp_jsl._tf_graph_builders.ner_dl.dataset_encoder.DatasetEncoder.normalize">[docs]</a>    <span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
+<div class="viewcode-block" id="DatasetEncoder.normalize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/ner_dl/dataset_encoder/index.html#sparknlp_jsl._tf_graph_builders.ner_dl.dataset_encoder.DatasetEncoder.normalize">[docs]</a>    <span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="n">word</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Transform word to lower case and remove additional white spaces.</span>
+<span class="sd">            </span>
+<span class="sd">        Args:</span>
+<span class="sd">            word (str): The word being processed.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: Normalized word.</span>
+<span class="sd">        &quot;&quot;&quot;</span>        
         <span class="k">return</span> <span class="n">word</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="DatasetEncoder.get_char_indexes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/ner_dl/dataset_encoder/index.html#sparknlp_jsl._tf_graph_builders.ner_dl.dataset_encoder.DatasetEncoder.get_char_indexes">[docs]</a>    <span class="k">def</span> <span class="nf">get_char_indexes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get character indexes for a word.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            word (str): Word.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: List of character indexes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">word</span><span class="p">:</span>
             <span class="n">char_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">char2id</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">char2id</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
@@ -299,6 +317,13 @@
         <span class="k">return</span> <span class="n">result</span></div>
 
 <div class="viewcode-block" id="DatasetEncoder.encode"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/ner_dl/dataset_encoder/index.html#sparknlp_jsl._tf_graph_builders.ner_dl.dataset_encoder.DatasetEncoder.encode">[docs]</a>    <span class="k">def</span> <span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sentences</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Encode sentences.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            sentences (list): List of sentences.</span>
+<span class="sd">            output (bool): If it is the outpu layer.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">sentence</span> <span class="ow">in</span> <span class="n">sentences</span><span class="p">:</span>
             <span class="n">dataset_words</span> <span class="o">=</span> <span class="p">[</span><span class="n">word</span> <span class="k">for</span> <span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span> <span class="ow">in</span> <span class="n">sentence</span><span class="p">]</span>
             <span class="n">word_embeddings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embeddings_resolver</span><span class="o">.</span><span class="n">resolve_sentence</span><span class="p">(</span><span class="n">dataset_words</span><span class="p">)</span>

@@ -7,7 +7,7 @@ This annotator utilizes WordEmbeddings, BertEmbeddings etc. to generate chunk em
 [Chunker](/docs/en/annotators#chunker), [NGramGenerator](/docs/en/annotators#ngramgenerator),
 or [NerConverter](/docs/en/annotators#nerconverter) outputs.
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/embeddings/ChunkEmbeddings.ipynb)
 and the [ChunkEmbeddingsTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/ChunkEmbeddingsTestSpec.scala).
 {%- endcapture -%}
 
@@ -147,11 +147,11 @@ result.selectExpr("explode(chunk_embeddings) as result")
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[ChunkEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/ChunkEmbeddings)
+[ChunkEmbeddings](/api/com/johnsnowlabs/nlp/embeddings/ChunkEmbeddings)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[ChunkEmbeddings](/api/python/reference/autosummary/python/sparknlp/annotator/embeddings/chunk_embeddings/index.html#sparknlp.annotator.embeddings.chunk_embeddings.ChunkEmbeddings)
+[ChunkEmbeddings](/api/python/reference/autosummary/sparknlp/annotator/embeddings/chunk_embeddings/index.html#sparknlp.annotator.embeddings.chunk_embeddings.ChunkEmbeddings)
 {%- endcapture -%}
 
 {%- capture source_link -%}

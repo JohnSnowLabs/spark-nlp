@@ -35,7 +35,8 @@ This model is a Binary Classifier (True, False) for the `injury-pay` clause type
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_injury_pay_clause_en_1.0.0_3.0_1670246385524.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_injury_pay_clause_en_1.0.0_3.0_1670246385524.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_injury_pay_clause_en_1.0.0_3.0_1670246385524.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -43,6 +44,7 @@ This model is a Binary Classifier (True, False) for the `injury-pay` clause type
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  documentAssembler = nlp.DocumentAssembler() \
          .setInputCol("clause_text") \
@@ -90,13 +92,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 
 ```bash
 
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
   injury-pay       0.96      1.00      0.98        26
        other       1.00      0.97      0.99        38
-
     accuracy          -         -      0.98        64
-   macro avg       0.98      0.99      0.98        64
-weighted avg       0.98      0.98      0.98        64
-
+   macro-avg       0.98      0.99      0.98        64
+weighted-avg       0.98      0.98      0.98        64
 ```

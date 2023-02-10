@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.annotator.classification.medical_bert_for_token_classifier &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.annotator.classification.medical_bert_for_token_classifier &#8212; Spark NLP  documentation</title>
   
   
   
@@ -267,12 +267,12 @@
             <article class="bd-article" role="main">
               
   <h1>Source code for sparknlp_jsl.annotator.classification.medical_bert_for_token_classifier</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span></span><span class="kn">from</span> <span class="nn">sparknlp_jsl.common</span> <span class="kn">import</span> <span class="o">*</span>
 
-<div class="viewcode-block" id="MedicalBertForTokenClassifier"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/medical_bert_for_token_classifier/index.html#sparknlp_jsl.annotator.classification.medical_bert_for_token_classifier.MedicalBertForTokenClassifier">[docs]</a><span class="k">class</span> <span class="nc">MedicalBertForTokenClassifier</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
+<div class="viewcode-block" id="MedicalBertForTokenClassifier"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/medical_bert_for_token_classifier/index.html#sparknlp_jsl.annotator.classification.medical_bert_for_token_classifier.MedicalBertForTokenClassifier">[docs]</a><span class="k">class</span> <span class="nc">MedicalBertForTokenClassifier</span><span class="p">(</span><span class="n">AnnotatorModelInternal</span><span class="p">,</span>
                                     <span class="n">HasCaseSensitiveProperties</span><span class="p">,</span>
                                     <span class="n">HasBatchedAnnotate</span><span class="p">,</span> <span class="n">HasEngine</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    MedicalBertForTokenClassifier can load Bert Models with a token</span>
 <span class="sd">    classification head on top (a linear layer on top of the hidden-states</span>
 <span class="sd">    output) e.g. for Named-Entity-Recognition (NER) tasks.</span>
@@ -288,7 +288,7 @@
 <span class="sd">    provided.</span>
 
 <span class="sd">    For available pretrained models please see the `Models Hub</span>
-<span class="sd">    &lt;https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition&gt;`__.</span>
+<span class="sd">    &lt;https://nlp.johnsnowlabs.com/models&gt;`__.</span>
 
 <span class="sd">    Models from the HuggingFace 🤗 Transformers library are also compatible with</span>
 <span class="sd">    Spark NLP 🚀. To see which models are compatible and how to import them see</span>
@@ -303,16 +303,10 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    batchSize</span>
-<span class="sd">        Batch size. Large values allows faster processing but requires more</span>
-<span class="sd">        memory, by default 8</span>
-<span class="sd">    caseSensitive</span>
-<span class="sd">        Whether to ignore case in tokens for embeddings matching, by default</span>
-<span class="sd">        True</span>
 <span class="sd">    configProtoBytes</span>
 <span class="sd">        ConfigProto from tensorflow, serialized into byte array.</span>
 <span class="sd">    maxSentenceLength</span>
-<span class="sd">        Max sentence length to process, by default 128</span>
+<span class="sd">        Max sentence length to process, by default 128.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -347,6 +341,7 @@
 <span class="sd">    +------------------------------------------------------------------------------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="MedicalBertForTokenClassifier.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/medical_bert_for_token_classifier/index.html#sparknlp_jsl.annotator.classification.medical_bert_for_token_classifier.MedicalBertForTokenClassifier.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">]</span></div>
+<div class="viewcode-block" id="MedicalBertForTokenClassifier.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/medical_bert_for_token_classifier/index.html#sparknlp_jsl.annotator.classification.medical_bert_for_token_classifier.MedicalBertForTokenClassifier.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">NAMED_ENTITY</span></div>
 
 <div class="viewcode-block" id="MedicalBertForTokenClassifier.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/medical_bert_for_token_classifier/index.html#sparknlp_jsl.annotator.classification.medical_bert_for_token_classifier.MedicalBertForTokenClassifier.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;MedicalBertForTokenClassifier&quot;</span></div>
 
@@ -361,7 +356,7 @@
                              <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="MedicalBertForTokenClassifier.setConfigProtoBytes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/medical_bert_for_token_classifier/index.html#sparknlp_jsl.annotator.classification.medical_bert_for_token_classifier.MedicalBertForTokenClassifier.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -371,7 +366,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">configProtoBytes</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="MedicalBertForTokenClassifier.setMaxSentenceLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/medical_bert_for_token_classifier/index.html#sparknlp_jsl.annotator.classification.medical_bert_for_token_classifier.MedicalBertForTokenClassifier.setMaxSentenceLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets max sentence length to process, by default 128.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets max sentence length to process, by default 128.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -381,7 +376,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSentenceLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="MedicalBertForTokenClassifier.getClasses"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/medical_bert_for_token_classifier/index.html#sparknlp_jsl.annotator.classification.medical_bert_for_token_classifier.MedicalBertForTokenClassifier.getClasses">[docs]</a>    <span class="k">def</span> <span class="nf">getClasses</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns labels used to train this model</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;getClasses&quot;</span><span class="p">)</span></div>
@@ -401,7 +396,7 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="MedicalBertForTokenClassifier.loadSavedModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/medical_bert_for_token_classifier/index.html#sparknlp_jsl.annotator.classification.medical_bert_for_token_classifier.MedicalBertForTokenClassifier.loadSavedModel">[docs]</a>    <span class="k">def</span> <span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -421,7 +416,7 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="MedicalBertForTokenClassifier.loadSavedModelOpenSource"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/medical_bert_for_token_classifier/index.html#sparknlp_jsl.annotator.classification.medical_bert_for_token_classifier.MedicalBertForTokenClassifier.loadSavedModelOpenSource">[docs]</a>    <span class="k">def</span> <span class="nf">loadSavedModelOpenSource</span><span class="p">(</span><span class="n">bertForTokenClassifierPath</span><span class="p">,</span> <span class="n">tfModelPath</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -443,23 +438,15 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="MedicalBertForTokenClassifier.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/classification/medical_bert_for_token_classifier/index.html#sparknlp_jsl.annotator.classification.medical_bert_for_token_classifier.MedicalBertForTokenClassifier.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;bert_token_classifier_ner_bionlp&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="s2">&quot;clinical/models&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        name : str, optional</span>
-<span class="sd">            Name of the pretrained model, by default</span>
-<span class="sd">            &quot;bert_base_token_classifier_conll03&quot;</span>
-<span class="sd">            lang : str, optional</span>
-<span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
-<span class="sd">            remote_loc : str, optional</span>
-<span class="sd">            Optional remote address of the resource, by default None. Will use</span>
-<span class="sd">            Spark NLPs repositories otherwise.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): Name of the pretrained model, by default &quot;bert_token_classifier_ner_bionlp&quot;.</span>
+<span class="sd">            lang (str): Language of the pretrained model, by default &quot;en&quot;.</span>
+<span class="sd">            remote_loc (str): Optional remote address of the resource, by default &quot;clinical/models&quot;. Will use Spark NLPs repositories otherwise.</span>
 
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        MedicalBertForTokenClassifier</span>
-<span class="sd">            The restored model</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            MedicalBertForTokenClassifier: The restored model</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">sparknlp_jsl.pretrained</span> <span class="kn">import</span> <span class="n">InternalResourceDownloader</span>
         <span class="k">return</span> <span class="n">InternalResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">MedicalBertForTokenClassifier</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>

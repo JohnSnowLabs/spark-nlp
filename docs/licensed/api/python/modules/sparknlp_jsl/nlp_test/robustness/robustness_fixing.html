@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.nlp_test.robustness.robustness_fixing &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.nlp_test.robustness.robustness_fixing &#8212; Spark NLP  documentation</title>
   
   
   
@@ -300,7 +300,7 @@
         <span class="n">pos_sync_tags</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
         <span class="n">labels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create Spark Dataframe from given data and labels extracted from the CoNLL file.</span>
 <span class="sd">    :param spark: An active spark session to create the dataframe.</span>
 <span class="sd">    :param data: List of sentences.</span>
@@ -379,7 +379,7 @@
 
 
 <div class="viewcode-block" id="conll_reader"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/nlp_test/robustness/robustness_fixing/index.html#sparknlp_jsl.nlp_test.robustness.robustness_fixing.conll_reader">[docs]</a><span class="k">def</span> <span class="nf">conll_reader</span><span class="p">(</span><span class="n">conll_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">tuple</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Read CoNLL file and convert it to the list of labels and sentences.</span>
 <span class="sd">    :param conll_path: CoNLL file path.</span>
 <span class="sd">    :return: data and labels which have sentences and labels joined with the single space.</span>
@@ -428,7 +428,7 @@
 
 <div class="viewcode-block" id="filter_by_entity_type"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/nlp_test/robustness/robustness_fixing/index.html#sparknlp_jsl.nlp_test.robustness.robustness_fixing.filter_by_entity_type">[docs]</a><span class="k">def</span> <span class="nf">filter_by_entity_type</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">pos_sync_tag</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">labels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">ent_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> \
         <span class="o">-&gt;</span> <span class="p">(</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A function to filter data by the entity type.</span>
 <span class="sd">    :param data: List of sentences to be filtered by the entity type.</span>
 <span class="sd">    :param pos_sync_tag: List of tags extracted from CoNLL file.</span>
@@ -451,7 +451,7 @@
 
 
 <div class="viewcode-block" id="get_sample"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/nlp_test/robustness/robustness_fixing/index.html#sparknlp_jsl.nlp_test.robustness.robustness_fixing.get_sample">[docs]</a><span class="k">def</span> <span class="nf">get_sample</span><span class="p">(</span><span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    print(sample_data[0</span>
 <span class="sd">    print(ent_type, sample_data[0</span>
 <span class="sd">    A function to get sample from passed lists.</span>
@@ -483,7 +483,7 @@
 
 
 <div class="viewcode-block" id="create_terminology"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/nlp_test/robustness/robustness_fixing/index.html#sparknlp_jsl.nlp_test.robustness.robustness_fixing.create_terminology">[docs]</a><span class="k">def</span> <span class="nf">create_terminology</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">labels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Iterate over the DataFrame to create terminology from the predictions. IOB format converted to the IO.</span>
 
 <span class="sd">    :param data: list of sentences to process</span>
@@ -535,7 +535,7 @@
         <span class="n">tags</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
         <span class="n">labels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert every sentence in the data by uppercase.</span>
 <span class="sd">    :param data: list of sentences to process</span>
 <span class="sd">    :param tags: corresponding tags to make changes according to data.</span>
@@ -565,7 +565,7 @@
         <span class="n">tags</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
         <span class="n">labels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert every sentence in the data by lowercase.</span>
 <span class="sd">    :param data: list of sentences to process</span>
 <span class="sd">    :param tags: corresponding tags to make changes according to data.</span>
@@ -595,7 +595,7 @@
         <span class="n">tags</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
         <span class="n">labels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert every sentence in the data by title case.</span>
 <span class="sd">    :param data: list of sentences to process</span>
 <span class="sd">    :param tags: corresponding tags to make changes according to data.</span>
@@ -625,7 +625,7 @@
         <span class="n">tags</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
         <span class="n">labels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
-    <span class="sd">&quot;&quot;&quot;Adds a punctuation at the end of strings.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds a punctuation at the end of strings.</span>
 <span class="sd">    :param data: list of sentences to process</span>
 <span class="sd">    :param tags: corresponding tags to make changes according to data.</span>
 <span class="sd">    :param labels: corresponding labels to make changes according to data.</span>
@@ -654,7 +654,7 @@
         <span class="n">tags</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
         <span class="n">labels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Strips punctuations from the senctences.</span>
 <span class="sd">    :param data: list of sentences to process</span>
 <span class="sd">    :param tags: corresponding tags to make changes according to data.</span>
@@ -725,7 +725,7 @@
         <span class="n">tags</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
         <span class="n">labels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
-    <span class="sd">&quot;&quot;&quot;Introduces typos in input sentences</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Introduces typos in input sentences</span>
 <span class="sd">    :param data: list of sentences to process</span>
 <span class="sd">    :param tags: corresponding tags of sentences to align with.</span>
 <span class="sd">    :param labels: corresponding labels of sentences to align with.</span>
@@ -753,7 +753,7 @@
         <span class="n">labels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
         <span class="n">terminology</span><span class="p">:</span> <span class="nb">dict</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    :param data: list of sentences to process</span>
 <span class="sd">    :param pos_sync_tag: corresponding tags of sentences to align with.</span>
 <span class="sd">    :param labels: corresponding labels of sentences to align with.</span>
@@ -810,7 +810,7 @@
 
 
 <div class="viewcode-block" id="get_cohyponyms_wordnet"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/nlp_test/robustness/robustness_fixing/index.html#sparknlp_jsl.nlp_test.robustness.robustness_fixing.get_cohyponyms_wordnet">[docs]</a><span class="k">def</span> <span class="nf">get_cohyponyms_wordnet</span><span class="p">(</span><span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Retrieve co-hyponym of the input string using WordNet when a hit is found.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve co-hyponym of the input string using WordNet when a hit is found.</span>
 
 <span class="sd">    :param word: input string to retrieve co-hyponym</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -844,7 +844,7 @@
         <span class="n">pos_sync_tag</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
         <span class="n">labels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
-    <span class="sd">&quot;&quot;&quot;This function swap named entities with a co-hyponym from the WordNet database when a hit is found.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This function swap named entities with a co-hyponym from the WordNet database when a hit is found.</span>
 
 <span class="sd">    :param data: list of sentences to process</span>
 <span class="sd">    :param pos_sync_tag: corresponding tags of sentences to align with.</span>
@@ -908,7 +908,7 @@
         <span class="n">labels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
         <span class="n">lang_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
-    <span class="sd">&quot;&quot;&quot;Converts input sentences using a conversion dictionary</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts input sentences using a conversion dictionary</span>
 <span class="sd">    :param data: list of sentences to process</span>
 <span class="sd">    :param lang_dict: dictionary with conversion terms</span>
 <span class="sd">    :param tags: corresponding tags of sentences to align with.</span>
@@ -943,7 +943,7 @@
         <span class="n">starting_context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">ending_context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
-    <span class="sd">&quot;&quot;&quot;Adds tokens at the beginning and/or at the end of strings</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds tokens at the beginning and/or at the end of strings</span>
 <span class="sd">    :param data: list of sentences to process.</span>
 <span class="sd">    :param tags: corresponding tags of sentences to align with.</span>
 <span class="sd">    :param labels: corresponding labels of sentences to align with.</span>
@@ -1054,7 +1054,7 @@
         <span class="n">labels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
         <span class="n">regex_pattern</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">s+|(?=[-.:;*+,$&amp;%</span><span class="se">\\</span><span class="s2">[</span><span class="se">\\</span><span class="s2">]])|(?&lt;=[-.:;*+,$&amp;%</span><span class="se">\\</span><span class="s2">[</span><span class="se">\\</span><span class="s2">]])&quot;</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
-    <span class="sd">&quot;&quot;&quot;Adds contractions in input sentences</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds contractions in input sentences</span>
 <span class="sd">    :param sentences: list of sentences to contract.</span>
 <span class="sd">    :param tags: corresponding tags of sentences to align with.</span>
 <span class="sd">    :param labels: corresponding labels of sentences to align with.</span>
@@ -1158,7 +1158,7 @@
         <span class="n">print_info</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">ignore_warnings</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function augments the training set by generating noisy text.</span>
 <span class="sd">    The resulting dataset includes both the original samples and the noisy ones.</span>
 <span class="sd">    Noise is applied at the beginning of the training, and it can also be applied after each epoch.</span>
@@ -1559,7 +1559,7 @@
                                 <span class="n">regex_pattern</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">s+|(?=[-.:;*+,$&amp;%</span><span class="se">\\</span><span class="s2">[</span><span class="se">\\</span><span class="s2">]])|(?&lt;=[-.:;*+,$&amp;%</span><span class="se">\\</span><span class="s2">[</span><span class="se">\\</span><span class="s2">]])&quot;</span><span class="p">,</span>
                                 <span class="n">print_info</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                                 <span class="n">ignore_warnings</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;One-liner to test and augment CoNLL for robustness.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;One-liner to test and augment CoNLL for robustness.</span>
 
 <span class="sd">    :param spark: An active SparkSession to create Spark DataFrame</span>
 <span class="sd">    :param pipeline_model: PipelineModel with document assembler, sentence detector, tokenizer, word embeddings if</span>

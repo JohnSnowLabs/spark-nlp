@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.annotator.deid.doccument_hashcoder &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.annotator.deid.doccument_hashcoder &#8212; Spark NLP  documentation</title>
   
   
   
@@ -286,80 +286,162 @@
 <span class="kn">from</span> <span class="nn">pyspark.ml.param</span> <span class="kn">import</span> <span class="n">TypeConverters</span><span class="p">,</span> <span class="n">Params</span><span class="p">,</span> <span class="n">Param</span>
 <span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">AnnotatorTransformer</span>
 
-<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="n">AnnotatorProperties</span><span class="p">,</span> <span class="n">AnnotatorType</span>
+<span class="kn">from</span> <span class="nn">sparknlp_jsl.common</span> <span class="kn">import</span> <span class="n">AnnotatorProperties</span><span class="p">,</span> <span class="n">AnnotatorType</span>
 
 
 <div class="viewcode-block" id="DocumentHashCoder"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/doccument_hashcoder/index.html#sparknlp_jsl.annotator.deid.doccument_hashcoder.DocumentHashCoder">[docs]</a><span class="k">class</span> <span class="nc">DocumentHashCoder</span><span class="p">(</span><span class="n">AnnotatorTransformer</span><span class="p">,</span> <span class="n">AnnotatorProperties</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Converts ``DOCUMENT`` type annotations into ``CHUNK`` type with the</span>
-<span class="sd">    contents of a ``chunkCol``.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Shifts date information for deidentification purposes.</span>
 
-<span class="sd">    Chunk text must be contained within input ``DOCUMENT``. May be either</span>
-<span class="sd">    ``StringType`` or ``ArrayType[StringType]`` (using setIsArray). Useful for</span>
-<span class="sd">    annotators that require a CHUNK type input.</span>
+<span class="sd">    This annotator can replace dates in a column of `DOCUMENT`</span>
+<span class="sd">    type according with the hash code of any other column.</span>
+<span class="sd">    It uses the hash of the specified column and creates a new</span>
+<span class="sd">    document column containing the day shift information.</span>
+<span class="sd">    In sequence, the `DeIdentification` annotator deidentifies</span>
+<span class="sd">    the document with the shifted date information.</span>
 
-<span class="sd">    For more extended examples on document pre-processing see the</span>
-<span class="sd">    `Spark NLP Workshop &lt;https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb&gt;`__.</span>
+<span class="sd">    If the specified column contains strings that can be parsed</span>
+<span class="sd">    to integers, use those numbers to make the shift in the data accordingly.</span>
 
-<span class="sd">    ====================== ======================</span>
-<span class="sd">    Input Annotation types Output Annotation type</span>
-<span class="sd">    ====================== ======================</span>
-<span class="sd">    ``DOCUMENT``           ``CHUNK``</span>
-<span class="sd">    ====================== ======================</span>
+
+<span class="sd">    ============================= ======================</span>
+<span class="sd">    Input Annotation types        Output Annotation type</span>
+<span class="sd">    ============================= ======================</span>
+<span class="sd">    ``DOCUMENT``                   ``DOCUMENT``</span>
+<span class="sd">    ============================= ======================</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    chunkCol</span>
-<span class="sd">        Column that contains the string. Must be part of DOCUMENT</span>
-<span class="sd">    startCol</span>
-<span class="sd">        Column that has a reference of where the chunk begins</span>
-<span class="sd">    startColByTokenIndex</span>
-<span class="sd">        Whether start column is prepended by whitespace tokens</span>
-<span class="sd">    isArray</span>
-<span class="sd">        Whether the chunkCol is an array of strings, by default False</span>
-<span class="sd">    failOnMissing</span>
-<span class="sd">        Whether to fail the job if a chunk is not found within document.</span>
-<span class="sd">        Return empty otherwise</span>
-<span class="sd">    lowerCase</span>
-<span class="sd">        Whether to lower case for matching case</span>
+<span class="sd">    patientIdColumn: str</span>
+<span class="sd">        column that contains string. Must be part of DOCUMENT</span>
+<span class="sd">    dateShiftColumn: str</span>
+<span class="sd">        column containing the date shift information</span>
+<span class="sd">    newDateShift: str</span>
+<span class="sd">        column that has a reference of where chunk begins</span>
+<span class="sd">    seed: int</span>
+<span class="sd">        seed for the random number generator</span>
+<span class="sd">    rangeDays: int</span>
+<span class="sd">        range of days to be sampled by the random generator</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
-<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
-<span class="sd">    &gt;&gt;&gt; from sparknlp.common import *</span>
-<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
-<span class="sd">    &gt;&gt;&gt; from sparknlp.training import *</span>
-<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
-<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler().setInputCol(&quot;text&quot;).setOutputCol(&quot;document&quot;)</span>
-<span class="sd">    &gt;&gt;&gt; chunkAssembler = Doc2Chunk() \\</span>
-<span class="sd">    ...     .setInputCols(&quot;document&quot;) \\</span>
-<span class="sd">    ...     .setChunkCol(&quot;target&quot;) \\</span>
-<span class="sd">    ...     .setOutputCol(&quot;chunk&quot;) \\</span>
-<span class="sd">    ...     .setIsArray(True)</span>
-<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[</span>
-<span class="sd">    ...     &quot;Spark NLP is an open-source text processing library for advanced natural language processing.&quot;,</span>
-<span class="sd">    ...     [&quot;Spark NLP&quot;, &quot;text processing library&quot;, &quot;natural language processing&quot;]</span>
-<span class="sd">    ... ]]).toDF(&quot;text&quot;, &quot;target&quot;)</span>
-<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([documentAssembler, chunkAssembler]).fit(data)</span>
-<span class="sd">    &gt;&gt;&gt; result = pipeline.transform(data)</span>
-<span class="sd">    &gt;&gt;&gt; result.selectExpr(&quot;chunk.result&quot;, &quot;chunk.annotatorType&quot;).show(truncate=False)</span>
-<span class="sd">    +-----------------------------------------------------------------+---------------------+</span>
-<span class="sd">    |result                                                           |annotatorType        |</span>
-<span class="sd">    +-----------------------------------------------------------------+---------------------+</span>
-<span class="sd">    |[Spark NLP, text processing library, natural language processing]|[chunk, chunk, chunk]|</span>
-<span class="sd">    +-----------------------------------------------------------------+---------------------+</span>
 
-<span class="sd">    See Also</span>
-<span class="sd">    --------</span>
-<span class="sd">    Chunk2Doc : for converting `CHUNK` annotations to `DOCUMENT`</span>
+<span class="sd">    &gt;&gt;&gt; import pandas as pd</span>
+
+<span class="sd">    &gt;&gt;&gt; data = pd.DataFrame(</span>
+<span class="sd">    ...     {</span>
+<span class="sd">    ...         &quot;patientID&quot;: [&quot;A001&quot;, &quot;A001&quot;, &quot;A003&quot;, &quot;A003&quot;],</span>
+<span class="sd">    ...         &quot;text&quot;: [</span>
+<span class="sd">    ...             &quot;Chris Brown was discharged on 10/02/2022&quot;,</span>
+<span class="sd">    ...             &quot;Mark White was discharged on 10/04/2022&quot;,</span>
+<span class="sd">    ...             &quot;John was discharged on 15/03/2022&quot;,</span>
+<span class="sd">    ...             &quot;John Moore was discharged on 15/12/2022&quot;,</span>
+<span class="sd">    ...         ],</span>
+<span class="sd">    ...         &quot;dateshift&quot;: [&quot;10&quot;, &quot;10&quot;, &quot;30&quot;, &quot;30&quot;],</span>
+<span class="sd">    ...     }</span>
+<span class="sd">    ... )</span>
+
+<span class="sd">    &gt;&gt;&gt; my_input_df = spark.createDataFrame(data)</span>
+
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler().setInputCol(&quot;text&quot;).setOutputCol(&quot;document&quot;)</span>
+
+<span class="sd">    &gt;&gt;&gt; documentHasher = (</span>
+<span class="sd">    ...     DocumentHashCoder()</span>
+<span class="sd">    ...     .setInputCols(&quot;document&quot;)</span>
+<span class="sd">    ...     .setOutputCol(&quot;document2&quot;)</span>
+<span class="sd">    ...     .setDateShiftColumn(&quot;dateshift&quot;)</span>
+<span class="sd">    ... )</span>
+
+<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer().setInputCols([&quot;document2&quot;]).setOutputCol(&quot;token&quot;)</span>
+
+<span class="sd">    &gt;&gt;&gt; embeddings = (</span>
+<span class="sd">    ...     WordEmbeddingsModel.pretrained(&quot;embeddings_clinical&quot;, &quot;en&quot;, &quot;clinical/models&quot;)</span>
+<span class="sd">    ...     .setInputCols([&quot;document2&quot;, &quot;token&quot;])</span>
+<span class="sd">    ...     .setOutputCol(&quot;word_embeddings&quot;)</span>
+<span class="sd">    ... )</span>
+
+<span class="sd">    &gt;&gt;&gt; clinical_ner = (</span>
+<span class="sd">    ...     MedicalNerModel.pretrained(&quot;ner_deid_subentity_augmented&quot;, &quot;en&quot;, &quot;clinical/models&quot;)</span>
+<span class="sd">    ...     .setInputCols([&quot;document2&quot;, &quot;token&quot;, &quot;word_embeddings&quot;])</span>
+<span class="sd">    ...     .setOutputCol(&quot;ner&quot;)</span>
+<span class="sd">    ... )</span>
+
+<span class="sd">    &gt;&gt;&gt; ner_converter = (</span>
+<span class="sd">    ...     NerConverter().setInputCols([&quot;document2&quot;, &quot;token&quot;, &quot;ner&quot;]).setOutputCol(&quot;ner_chunk&quot;)</span>
+<span class="sd">    ... )</span>
+
+<span class="sd">    &gt;&gt;&gt; de_identification = (</span>
+<span class="sd">    ...     DeIdentification()</span>
+<span class="sd">    ...     .setInputCols([&quot;ner_chunk&quot;, &quot;token&quot;, &quot;document2&quot;])</span>
+<span class="sd">    ...     .setOutputCol(&quot;deid_text&quot;)</span>
+<span class="sd">    ...     .setMode(&quot;obfuscate&quot;)</span>
+<span class="sd">    ...     .setObfuscateDate(True)</span>
+<span class="sd">    ...     .setDateTag(&quot;DATE&quot;)</span>
+<span class="sd">    ...     .setLanguage(&quot;en&quot;)</span>
+<span class="sd">    ...     .setObfuscateRefSource(&quot;faker&quot;)</span>
+<span class="sd">    ...     .setUseShifDays(True)</span>
+<span class="sd">    ... )</span>
+
+<span class="sd">    &gt;&gt;&gt; pipeline_col = Pipeline().setStages(</span>
+<span class="sd">    ...     [</span>
+<span class="sd">    ...         documentAssembler,</span>
+<span class="sd">    ...         documentHasher,</span>
+<span class="sd">    ...         tokenizer,</span>
+<span class="sd">    ...         embeddings,</span>
+<span class="sd">    ...         clinical_ner,</span>
+<span class="sd">    ...         ner_converter,</span>
+<span class="sd">    ...         de_identification,</span>
+<span class="sd">    ...     ]</span>
+<span class="sd">    ... )</span>
+
+<span class="sd">    &gt;&gt;&gt; empty_data = spark.createDataFrame([[&quot;&quot;, &quot;&quot;, &quot;&quot;]]).toDF(</span>
+<span class="sd">    ...     &quot;patientID&quot;, &quot;text&quot;, &quot;dateshift&quot;</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &gt;&gt;&gt; pipeline_col_model = pipeline_col.fit(empty_data)</span>
+
+<span class="sd">    &gt;&gt;&gt; output = pipeline_col_model.transform(my_input_df)</span>
+<span class="sd">    &gt;&gt;&gt; output.select(&quot;text&quot;, &quot;dateshift&quot;, &quot;deid_text.result&quot;).show(truncate=False)</span>
+<span class="sd">    +----------------------------------------+---------+----------------------------------------------+</span>
+<span class="sd">    text                                    |dateshift|result                                        |</span>
+<span class="sd">    +----------------------------------------+---------+----------------------------------------------+</span>
+<span class="sd">    Chris Brown was discharged on 10/02/2022|10       |[Ellender Manual was discharged on 20/02/2022]|</span>
+<span class="sd">    Mark White was discharged on 10/04/2022 |10       |[Errol Bang was discharged on 20/04/2022]     |</span>
+<span class="sd">    John was discharged on 15/03/2022       |30       |[Ariel Null was discharged on 14/04/2022]     |</span>
+<span class="sd">    John Moore was discharged on 15/12/2022 |30       |[Jean Cotton was discharged on 14/01/2023]    |</span>
+<span class="sd">    +----------------------------------------+---------+----------------------------------------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="DocumentHashCoder.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/doccument_hashcoder/index.html#sparknlp_jsl.annotator.deid.doccument_hashcoder.DocumentHashCoder.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span></div>
+<div class="viewcode-block" id="DocumentHashCoder.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/doccument_hashcoder/index.html#sparknlp_jsl.annotator.deid.doccument_hashcoder.DocumentHashCoder.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span></div>
 
-<div class="viewcode-block" id="DocumentHashCoder.patientIdColumn"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/doccument_hashcoder/index.html#sparknlp_jsl.annotator.deid.doccument_hashcoder.DocumentHashCoder.patientIdColumn">[docs]</a>    <span class="n">patientIdColumn</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;patientIdColumn&quot;</span><span class="p">,</span> <span class="s2">&quot;column that contains string. Must be part of DOCUMENT&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
-<div class="viewcode-block" id="DocumentHashCoder.dateShiftColumn"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/doccument_hashcoder/index.html#sparknlp_jsl.annotator.deid.doccument_hashcoder.DocumentHashCoder.dateShiftColumn">[docs]</a>    <span class="n">dateShiftColumn</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;dateShiftColumn&quot;</span><span class="p">,</span> <span class="s2">&quot;column that has a reference of where chunk begins&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
-<div class="viewcode-block" id="DocumentHashCoder.newDateShift"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/doccument_hashcoder/index.html#sparknlp_jsl.annotator.deid.doccument_hashcoder.DocumentHashCoder.newDateShift">[docs]</a>    <span class="n">newDateShift</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;newDateShift&quot;</span><span class="p">,</span> <span class="s2">&quot;column that has a reference of where chunk begins&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
-<div class="viewcode-block" id="DocumentHashCoder.seed"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/doccument_hashcoder/index.html#sparknlp_jsl.annotator.deid.doccument_hashcoder.DocumentHashCoder.seed">[docs]</a>    <span class="n">seed</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;seed&quot;</span><span class="p">,</span> <span class="s2">&quot;whether to lower case for matching case&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
-<div class="viewcode-block" id="DocumentHashCoder.rangeDays"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/doccument_hashcoder/index.html#sparknlp_jsl.annotator.deid.doccument_hashcoder.DocumentHashCoder.rangeDays">[docs]</a>    <span class="n">rangeDays</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;rangeDays&quot;</span><span class="p">,</span> <span class="s2">&quot;whether to lower case for matching case&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+<div class="viewcode-block" id="DocumentHashCoder.patientIdColumn"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/doccument_hashcoder/index.html#sparknlp_jsl.annotator.deid.doccument_hashcoder.DocumentHashCoder.patientIdColumn">[docs]</a>    <span class="n">patientIdColumn</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;patientIdColumn&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Column containing the patient ID&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">,</span></div>
+    <span class="p">)</span>
+<div class="viewcode-block" id="DocumentHashCoder.dateShiftColumn"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/doccument_hashcoder/index.html#sparknlp_jsl.annotator.deid.doccument_hashcoder.DocumentHashCoder.dateShiftColumn">[docs]</a>    <span class="n">dateShiftColumn</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;dateShiftColumn&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Column containing the date shift information&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">,</span></div>
+    <span class="p">)</span>
+<div class="viewcode-block" id="DocumentHashCoder.newDateShift"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/doccument_hashcoder/index.html#sparknlp_jsl.annotator.deid.doccument_hashcoder.DocumentHashCoder.newDateShift">[docs]</a>    <span class="n">newDateShift</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;newDateShift&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Column that has a reference of where chunk begins&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">,</span></div>
+    <span class="p">)</span>
+<div class="viewcode-block" id="DocumentHashCoder.seed"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/doccument_hashcoder/index.html#sparknlp_jsl.annotator.deid.doccument_hashcoder.DocumentHashCoder.seed">[docs]</a>    <span class="n">seed</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;seed&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Seed for the random number generator&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">,</span></div>
+    <span class="p">)</span>
+<div class="viewcode-block" id="DocumentHashCoder.rangeDays"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/doccument_hashcoder/index.html#sparknlp_jsl.annotator.deid.doccument_hashcoder.DocumentHashCoder.rangeDays">[docs]</a>    <span class="n">rangeDays</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;rangeDays&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Range of days to be sampled by the random generator&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">,</span></div>
+    <span class="p">)</span>
 <div class="viewcode-block" id="DocumentHashCoder.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/doccument_hashcoder/index.html#sparknlp_jsl.annotator.deid.doccument_hashcoder.DocumentHashCoder.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;DocumentHashCoder&quot;</span></div>
 
     <span class="nd">@keyword_only</span>
@@ -371,32 +453,34 @@
 
     <span class="nd">@keyword_only</span>
 <div class="viewcode-block" id="DocumentHashCoder.setParams"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/doccument_hashcoder/index.html#sparknlp_jsl.annotator.deid.doccument_hashcoder.DocumentHashCoder.setParams">[docs]</a>    <span class="k">def</span> <span class="nf">setParams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the given parameters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_kwargs</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DocumentHashCoder.setPatientIdColumn"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/doccument_hashcoder/index.html#sparknlp_jsl.annotator.deid.doccument_hashcoder.DocumentHashCoder.setPatientIdColumn">[docs]</a>    <span class="k">def</span> <span class="nf">setPatientIdColumn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets column that contains the string. Must be part of DOCUMENT.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets column that contains the string.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        value : str</span>
-<span class="sd">            Name of the Chunk Column</span>
+<span class="sd">            Name of the column containing patient ID</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">patientIdColumn</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DocumentHashCoder.setDateShiftColumn"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/doccument_hashcoder/index.html#sparknlp_jsl.annotator.deid.doccument_hashcoder.DocumentHashCoder.setDateShiftColumn">[docs]</a>    <span class="k">def</span> <span class="nf">setDateShiftColumn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets column that contains the string. Must be part of DOCUMENT.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets column to be used for hash or predefined shift.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        value : str</span>
-<span class="sd">            Name of the Chunk Column</span>
+<span class="sd">            Name of the column to be used</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">dateShiftColumn</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="DocumentHashCoder.setNewDateShift"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/doccument_hashcoder/index.html#sparknlp_jsl.annotator.deid.doccument_hashcoder.DocumentHashCoder.setNewDateShift">[docs]</a>    <span class="k">def</span> <span class="nf">setNewDateShift</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets column that has a reference of where chunk begins.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets column that has a reference of where chunk begins.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -406,23 +490,22 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">newDateShift</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DocumentHashCoder.setRangeDays"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/doccument_hashcoder/index.html#sparknlp_jsl.annotator.deid.doccument_hashcoder.DocumentHashCoder.setRangeDays">[docs]</a>    <span class="k">def</span> <span class="nf">setRangeDays</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether start column is prepended by whitespace tokens.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the range of dates to be sampled from.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        value : bool</span>
-<span class="sd">            whether start column is prepended by whitespace tokens</span>
+<span class="sd">        value : int</span>
+<span class="sd">            range of days to be sampled by the random generator</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">rangeDays</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DocumentHashCoder.setSeed"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/doccument_hashcoder/index.html#sparknlp_jsl.annotator.deid.doccument_hashcoder.DocumentHashCoder.setSeed">[docs]</a>    <span class="k">def</span> <span class="nf">setSeed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to fail the job if a chunk is not found within document.</span>
-<span class="sd">        Return empty otherwise.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the seed for random number generator.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        value : bool</span>
-<span class="sd">            Whether to fail job on missing chunks</span>
+<span class="sd">        value : int</span>
+<span class="sd">            seed for the random number generator</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div></div>
 

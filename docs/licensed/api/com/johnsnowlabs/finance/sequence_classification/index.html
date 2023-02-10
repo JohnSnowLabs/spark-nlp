@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.3 ScalaDoc  - com.johnsnowlabs.finance.sequence_classification</title>
-          <meta name="description" content="Spark NLP 4.2.3 ScalaDoc - com.johnsnowlabs.finance.sequence classification" />
-          <meta name="keywords" content="Spark NLP 4.2.3 ScalaDoc com.johnsnowlabs.finance.sequence classification" />
+          <title>Spark NLP 4.2.8 ScalaDoc  - com.johnsnowlabs.finance.sequence_classification</title>
+          <meta name="description" content="Spark NLP 4.2.8 ScalaDoc - com.johnsnowlabs.finance.sequence classification" />
+          <meta name="keywords" content="Spark NLP 4.2.8 ScalaDoc com.johnsnowlabs.finance.sequence classification" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.2.8 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -177,6 +177,14 @@
                         <a class="object" href="FinanceClassifierDLModel$.html" title=""></a>
                         <a class="class" href="FinanceClassifierDLModel.html" title="MedicalBertForSequenceClassification can load Bert Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g."></a>
                         <a href="FinanceClassifierDLModel.html" title="MedicalBertForSequenceClassification can load Bert Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g.">FinanceClassifierDLModel</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="class" href="FinanceDocumentMLClassifierApproach.html" title="Trains a model to classify documents with a Logarithmic Regression algorithm."></a>
+                        <a href="FinanceDocumentMLClassifierApproach.html" title="Trains a model to classify documents with a Logarithmic Regression algorithm.">FinanceDocumentMLClassifierApproach</a>
+                      </li><li class="current-entities indented4">
+                        <a class="object" href="FinanceDocumentMLClassifierModel$.html" title=""></a>
+                        <a class="class" href="FinanceDocumentMLClassifierModel.html" title="Classifies documents with a Logarithmic Regression algorithm."></a>
+                        <a href="FinanceDocumentMLClassifierModel.html" title="Classifies documents with a Logarithmic Regression algorithm.">FinanceDocumentMLClassifierModel</a>
                       </li><li name="com.johnsnowlabs.finance.sequence_generation" visbl="pub" class="indented4 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="sequence_generation"></a><a id="sequence_generation:sequence_generation"></a>
       <span class="permalink">
@@ -431,6 +439,76 @@ result.select(<span class="lit">"label.result"</span>).show(<span class="kw">fal
 +--------------------+
 |[True, False]       |
 +--------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><span class="extype" name="MedicalBertForSequenceClassification">MedicalBertForSequenceClassification</span> for sequnece-level classification</p></span><span class="cmt"><p><a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer based classifiers</p></span></dd></dl></div>
+    </li><li name="com.johnsnowlabs.finance.sequence_classification.FinanceDocumentMLClassifierApproach" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="FinanceDocumentMLClassifierApproachextendsDocumentMLClassifierApproach"></a><a id="FinanceDocumentMLClassifierApproach:FinanceDocumentMLClassifierApproach"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/finance/sequence_classification/FinanceDocumentMLClassifierApproach.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="Trains a model to classify documents with a Logarithmic Regression algorithm." href="FinanceDocumentMLClassifierApproach.html"><span class="name">FinanceDocumentMLClassifierApproach</span></a><span class="result"> extends <a href="../../nlp/annotators/classification/DocumentMLClassifierApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classification.DocumentMLClassifierApproach">DocumentMLClassifierApproach</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Trains a model to classify documents with a Logarithmic Regression algorithm.</p><div class="fullcomment"><div class="comment cmt"><p>Trains a model to classify documents with a Logarithmic Regression algorithm. Training data requires columns for
+text and their label. The result is a trained <span class="extype" name="DocumentLogRegClassifierModel">DocumentLogRegClassifierModel</span>.</p><h4>Example</h4><p>Define pipeline stages to prepare the data</p><pre><span class="kw">val</span> document_assembler = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+
+<span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"token"</span>)
+
+<span class="kw">val</span> normalizer = <span class="kw">new</span> Normalizer()
+  .setInputCols(<span class="lit">"token"</span>)
+  .setOutputCol(<span class="lit">"normalized"</span>)
+
+<span class="kw">val</span> stopwords_cleaner = <span class="kw">new</span> StopWordsCleaner()
+  .setInputCols(<span class="lit">"normalized"</span>)
+  .setOutputCol(<span class="lit">"cleanTokens"</span>)
+  .setCaseSensitive(<span class="kw">false</span>)
+
+<span class="kw">val</span> stemmer = <span class="kw">new</span> Stemmer()
+  .setInputCols(<span class="lit">"cleanTokens"</span>)
+  .setOutputCol(<span class="lit">"stem"</span>)</pre><p>Define the document classifier and fit training data to it</p><pre><span class="kw">val</span> logreg = <span class="kw">new</span> DocumentLogRegClassifierApproach()
+  .setInputCols(<span class="lit">"stem"</span>)
+  .setLabelCol(<span class="lit">"category"</span>)
+  .setOutputCol(<span class="lit">"prediction"</span>)
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  document_assembler,
+  tokenizer,
+  normalizer,
+  stopwords_cleaner,
+  stemmer,
+  logreg
+))
+
+<span class="kw">val</span> model = pipeline.fit(trainingData)</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><span class="extype" name="DocumentLogRegClassifierModel">DocumentLogRegClassifierModel</span> for instantiated models</p></span></dd></dl></div>
+    </li><li name="com.johnsnowlabs.finance.sequence_classification.FinanceDocumentMLClassifierModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="FinanceDocumentMLClassifierModelextendsDocumentMLClassifierModel"></a><a id="FinanceDocumentMLClassifierModel:FinanceDocumentMLClassifierModel"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/finance/sequence_classification/FinanceDocumentMLClassifierModel.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="Classifies documents with a Logarithmic Regression algorithm." href="FinanceDocumentMLClassifierModel.html"><span class="name">FinanceDocumentMLClassifierModel</span></a><span class="result"> extends <a href="../../nlp/annotators/classification/DocumentMLClassifierModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classification.DocumentMLClassifierModel">DocumentMLClassifierModel</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Classifies documents with a Logarithmic Regression algorithm.</p><div class="fullcomment"><div class="comment cmt"><p>Classifies documents with a Logarithmic Regression algorithm.
+Currently there are no pretrained models available.
+Please see <span class="extype" name="DocumentLogRegClassifierApproach">DocumentLogRegClassifierApproach</span> to train your own model.</p><p>Please check out the
+<a href="https://nlp.johnsnowlabs.com/models" target="_blank">Models Hub</a> for available models in the future.
+</p></div></div>
     </li></ol>
             </div>
 
@@ -468,6 +546,22 @@ result.select(<span class="lit">"label.result"</span>).show(<span class="kw">fal
       </span>
       <span class="symbol">
         <a title="" href="FinanceClassifierDLModel$.html"><span class="name">FinanceClassifierDLModel</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.ReadablePretrainedClassifierDL">ReadablePretrainedClassifierDL</span> with <span class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.ReadClassifierDLTensorflowModel">ReadClassifierDLTensorflowModel</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.finance.sequence_classification.FinanceDocumentMLClassifierModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="FinanceDocumentMLClassifierModel"></a><a id="FinanceDocumentMLClassifierModel:FinanceDocumentMLClassifierModel"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/finance/sequence_classification/FinanceDocumentMLClassifierModel$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="FinanceDocumentMLClassifierModel$.html"><span class="name">FinanceDocumentMLClassifierModel</span></a><span class="result"> extends <a href="../../nlp/annotators/classification/ReadablePretrainedDocumentMLClassifierModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classification.ReadablePretrainedDocumentMLClassifierModel">ReadablePretrainedDocumentMLClassifierModel</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
       

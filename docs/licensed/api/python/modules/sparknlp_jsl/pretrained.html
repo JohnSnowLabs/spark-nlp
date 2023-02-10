@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.pretrained &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.pretrained &#8212; Spark NLP  documentation</title>
   
   
   
@@ -277,6 +277,12 @@
 <span class="kn">from</span> <span class="nn">py4j.protocol</span> <span class="kn">import</span> <span class="n">Py4JJavaError</span>
 
 <div class="viewcode-block" id="printProgress"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/pretrained/index.html#sparknlp_jsl.pretrained.printProgress">[docs]</a><span class="k">def</span> <span class="nf">printProgress</span><span class="p">(</span><span class="n">stop</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Prints a progress bar to the console every 2.5 seconds.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        stop (function): A function that returns True when the progress bar should stop.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">states</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39; | &#39;</span><span class="p">,</span> <span class="s1">&#39; / &#39;</span><span class="p">,</span> <span class="s1">&#39; — &#39;</span><span class="p">,</span> <span class="s1">&#39; </span><span class="se">\\</span><span class="s1"> &#39;</span><span class="p">]</span>
     <span class="n">nextc</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
@@ -294,10 +300,23 @@
 
 
 <div class="viewcode-block" id="InternalResourceDownloader"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/pretrained/index.html#sparknlp_jsl.pretrained.InternalResourceDownloader">[docs]</a><span class="k">class</span> <span class="nc">InternalResourceDownloader</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Downlod internal resources from S3</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="InternalResourceDownloader.downloadModel"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/pretrained/index.html#sparknlp_jsl.pretrained.InternalResourceDownloader.downloadModel">[docs]</a>    <span class="k">def</span> <span class="nf">downloadModel</span><span class="p">(</span><span class="n">reader</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">language</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Download a model from S3</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            reader (class): The reader class to use to load the model.</span>
+<span class="sd">            name (str): The name of the model to download.</span>
+<span class="sd">            language (str): The language of the model to download.</span>
+<span class="sd">            remote_loc (str, optional): The remote location of the model. Defaults to None.</span>
+<span class="sd">            j_dwn (str, optional): The Java downloader class to use. Defaults to &#39;InternalsPythonResourceDownloader&#39;.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            class: The reader class with the model loaded.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot; download started this may take some time.&quot;</span><span class="p">)</span>
         <span class="n">stop_threads</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">t1</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">printProgress</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">stop_threads</span><span class="p">,))</span>
@@ -315,29 +334,63 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="InternalResourceDownloader.showPrivateModels"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/pretrained/index.html#sparknlp_jsl.pretrained.InternalResourceDownloader.showPrivateModels">[docs]</a>    <span class="k">def</span> <span class="nf">showPrivateModels</span><span class="p">(</span><span class="n">annotator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Show private models available for download</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            annotator (str, optional): The annotator to filter by. Defaults to None.</span>
+<span class="sd">            lang (str, optional): The language to filter by. Defaults to None.</span>
+<span class="sd">            version (str, optional): The version to filter by. Defaults to None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">_internal</span><span class="o">.</span><span class="n">_ShowPrivateModels</span><span class="p">(</span><span class="n">annotator</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">())</span></div>
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="InternalResourceDownloader.showPrivatePipelines"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/pretrained/index.html#sparknlp_jsl.pretrained.InternalResourceDownloader.showPrivatePipelines">[docs]</a>    <span class="k">def</span> <span class="nf">showPrivatePipelines</span><span class="p">(</span><span class="n">lang</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Show private pipelines available for download</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            lang (str, optional): The language to filter by. Defaults to None.</span>
+<span class="sd">            version (str, optional): The version to filter by. Defaults to None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">_internal</span><span class="o">.</span><span class="n">_ShowPrivatePipelines</span><span class="p">(</span><span class="n">lang</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">())</span></div>
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="InternalResourceDownloader.showUnCategorizedResources"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/pretrained/index.html#sparknlp_jsl.pretrained.InternalResourceDownloader.showUnCategorizedResources">[docs]</a>    <span class="k">def</span> <span class="nf">showUnCategorizedResources</span><span class="p">():</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Show uncategorized resources available for download.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">_internal</span><span class="o">.</span><span class="n">_ShowUnCategorizedResources</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">())</span></div>
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="InternalResourceDownloader.showAvailableAnnotators"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/pretrained/index.html#sparknlp_jsl.pretrained.InternalResourceDownloader.showAvailableAnnotators">[docs]</a>    <span class="k">def</span> <span class="nf">showAvailableAnnotators</span><span class="p">():</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Show available annotators.&quot;&quot;&quot;</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">_internal</span><span class="o">.</span><span class="n">_ShowAvailableAnnotators</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">())</span></div>
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="InternalResourceDownloader.returnPrivateModels"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/pretrained/index.html#sparknlp_jsl.pretrained.InternalResourceDownloader.returnPrivateModels">[docs]</a>    <span class="k">def</span> <span class="nf">returnPrivateModels</span><span class="p">(</span><span class="n">annotator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return private models available for download.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            annotator (str, optional): The annotator to filter by. Defaults to None.</span>
+<span class="sd">            lang (str, optional): The language to filter by. Defaults to None.</span>
+<span class="sd">            version (str, optional): The version to filter by. Defaults to None.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: A list of private models available for download.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">elements</span> <span class="o">=</span><span class="n">_internal</span><span class="o">.</span><span class="n">_ReturnPrivateModels</span><span class="p">(</span><span class="n">annotator</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">([</span><span class="nb">list</span><span class="p">(</span><span class="n">el</span><span class="p">)</span> <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">elements</span><span class="p">])</span></div>
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="InternalResourceDownloader.returnPrivatePipelines"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/pretrained/index.html#sparknlp_jsl.pretrained.InternalResourceDownloader.returnPrivatePipelines">[docs]</a>    <span class="k">def</span> <span class="nf">returnPrivatePipelines</span><span class="p">(</span><span class="n">lang</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">_internal</span><span class="o">.</span><span class="n">_ReturnPrivatePipelines</span><span class="p">(</span><span class="n">lang</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">())</span></div></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return private pipelines available for download.</span>
 
+<span class="sd">        Args:</span>
+<span class="sd">            lang (str, optional): The language to filter by. Defaults to None.</span>
+<span class="sd">            version (str, optional): The version to filter by. Defaults to None.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: A list of private pipelines available for download.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">_internal</span><span class="o">.</span><span class="n">_ReturnPrivatePipelines</span><span class="p">(</span><span class="n">lang</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">())</span></div></div>
 </pre></div>
 
             </article>

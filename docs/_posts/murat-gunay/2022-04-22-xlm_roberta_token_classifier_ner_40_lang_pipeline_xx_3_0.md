@@ -24,6 +24,7 @@ This pretrained pipeline is built on the top of [xlm_roberta_token_classifier_ne
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/xlm_roberta_token_classifier_ner_40_lang_pipeline_xx_3.4.1_3.0_1650628752833.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/xlm_roberta_token_classifier_ner_40_lang_pipeline_xx_3.4.1_3.0_1650628752833.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

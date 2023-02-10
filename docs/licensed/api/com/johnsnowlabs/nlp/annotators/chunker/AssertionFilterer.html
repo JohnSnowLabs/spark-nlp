@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.chunker.AssertionFilterer</title>
-          <meta name="description" content="Spark NLP 4.2.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.chunker.AssertionFilterer" />
-          <meta name="keywords" content="Spark NLP 4.2.3 ScalaDoc com.johnsnowlabs.nlp.annotators.chunker.AssertionFilterer" />
+          <title>Spark NLP 4.2.8 ScalaDoc  - com.johnsnowlabs.nlp.annotators.chunker.AssertionFilterer</title>
+          <meta name="description" content="Spark NLP 4.2.8 ScalaDoc - com.johnsnowlabs.nlp.annotators.chunker.AssertionFilterer" />
+          <meta name="keywords" content="Spark NLP 4.2.8 ScalaDoc com.johnsnowlabs.nlp.annotators.chunker.AssertionFilterer" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.2.8 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -165,6 +165,22 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker">chunker</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.params" visbl="pub" class="indented6 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="params"></a><a id="params:params"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/params/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="params/index.html"><span class="name">params</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker">chunker</a></dd></dl></div>
     </li><li class="current-entities indented5">
                         <a class="object" href="AssertionFilterer$.html" title=""></a>
                         <a class="class" href="" title="Filters entities coming from ASSERTION type annotations and returns the CHUNKS."></a>
@@ -203,6 +219,14 @@
                         <a href="ChunkSentenceSplitter.html" title="Split the document using the chunks that you provided,and put in the metadata the chunk entity.">ChunkSentenceSplitter</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
+                        <a class="class" href="DocMapperApproach.html" title=""></a>
+                        <a href="DocMapperApproach.html" title="">DocMapperApproach</a>
+                      </li><li class="current-entities indented5">
+                        <a class="object" href="DocMapperModel$.html" title=""></a>
+                        <a class="class" href="DocMapperModel.html" title=""></a>
+                        <a href="DocMapperModel.html" title="">DocMapperModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
                         <a class="trait" href="ReadChunkKeyPhraseExtractionTensorflowModel.html" title=""></a>
                         <a href="ReadChunkKeyPhraseExtractionTensorflowModel.html" title="">ReadChunkKeyPhraseExtractionTensorflowModel</a>
                       </li><li class="current-entities indented5">
@@ -213,6 +237,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedChunkMapperModel.html" title=""></a>
                         <a href="ReadablePretrainedChunkMapperModel.html" title="">ReadablePretrainedChunkMapperModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedDocMapperModel.html" title=""></a>
+                        <a href="ReadablePretrainedDocMapperModel.html" title="">ReadablePretrainedDocMapperModel</a>
                       </li>
               </ul>
             </div>
@@ -616,6 +644,23 @@ result.select(<span class="lit">"filtered.result"</span>).show(<span class="num"
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>AnnotatorModel</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.AssertionFilterer#caseSensitive" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
+      <a id="caseSensitive:org.apache.spark.ml.param.BooleanParam"></a><a id="caseSensitive:BooleanParam"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/AssertionFilterer.html#caseSensitive:org.apache.spark.ml.param.BooleanParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">caseSensitive</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Determines whether the definitions of the white listed entities are case sensitive
+</p>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#checkSchema" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="checkSchema(schema:org.apache.spark.sql.types.StructType,inputAnnotatorType:String):Boolean"></a><a id="checkSchema(StructType,String):Boolean"></a>
       <span class="permalink">
@@ -1362,6 +1407,22 @@ regex : Filter using a regex</p><p>(Default: <code>&quot;assertion&quot;</code>)
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.AssertionFilterer#isTextInWhiteList" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="isTextInWhiteList(text:String):Boolean"></a><a id="isTextInWhiteList(String):Boolean"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/AssertionFilterer.html#isTextInWhiteList(text:String):Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isTextInWhiteList</span><span class="params">(<span name="text">text: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      
     </li><li name="org.apache.spark.internal.Logging#isTraceEnabled" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isTraceEnabled():Boolean"></a>
       <span class="permalink">
@@ -1910,6 +1971,23 @@ regex : Filter using a regex</p><p>(Default: <code>&quot;assertion&quot;</code>)
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.chunker.AssertionFilterer#setCaseSensitive" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
+      <a id="setCaseSensitive(value:Boolean):AssertionFilterer.this.type"></a><a id="setCaseSensitive(Boolean):AssertionFilterer.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/chunker/AssertionFilterer.html#setCaseSensitive(value:Boolean):AssertionFilterer.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setCaseSensitive</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.chunker.AssertionFilterer">AssertionFilterer</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt">Determines whether the definitions of the white listed entities are case sensitive
+</p>
     </li><li name="com.johnsnowlabs.nlp.annotators.chunker.AssertionFilterer#setCriteria" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setCriteria(s:String):AssertionFilterer.this.type"></a><a id="setCriteria(String):AssertionFilterer.this.type"></a>
       <span class="permalink">

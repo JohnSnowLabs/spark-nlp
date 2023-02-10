@@ -35,7 +35,8 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/finance/CLASSIFY_LEGAL_CLAUSES/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_trustee_may_file_proofs_of_claim_clause_en_1.0.0_3.2_1660123140632.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_trustee_may_file_proofs_of_claim_clause_en_1.0.0_3.2_1660123140632.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_trustee_may_file_proofs_of_claim_clause_en_1.0.0_3.2_1660123140632.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -106,7 +107,7 @@ Legal documents, scrapped from the Internet, and classified in-house
                            label  precision    recall  f1-score   support
                            other       0.97      0.97      0.97        30
 trustee-may-file-proofs-of-claim       0.93      0.93      0.93        15
-                        accuracy         -         -       0.96        45
+                        accuracy          -         -      0.96        45
                        macro-avg       0.95      0.95      0.95        45
                     weighted-avg       0.96      0.96      0.96        45
 ```

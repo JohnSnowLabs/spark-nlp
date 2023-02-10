@@ -24,6 +24,7 @@ This pretrained pipeline is built on the top of [roberta_token_classifier_icelan
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/roberta_token_classifier_icelandic_ner_pipeline_is_3.4.1_3.0_1650453946425.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/roberta_token_classifier_icelandic_ner_pipeline_is_3.4.1_3.0_1650453946425.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

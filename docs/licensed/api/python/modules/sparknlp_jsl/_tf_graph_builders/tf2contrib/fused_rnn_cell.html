@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl._tf_graph_builders.tf2contrib.fused_rnn_cell &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl._tf_graph_builders.tf2contrib.fused_rnn_cell &#8212; Spark NLP  documentation</title>
   
   
   
@@ -296,7 +296,7 @@
 
 <span class="nd">@six</span><span class="o">.</span><span class="n">add_metaclass</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="p">)</span>
 <div class="viewcode-block" id="FusedRNNCell"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/fused_rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.fused_rnn_cell.FusedRNNCell">[docs]</a><span class="k">class</span> <span class="nc">FusedRNNCell</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Abstract object representing a fused RNN cell.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract object representing a fused RNN cell.</span>
 
 <span class="sd">    A fused RNN cell represents the entire RNN expanded over the time</span>
 <span class="sd">    dimension. In effect, this represents an entire recurrent network.</span>
@@ -316,7 +316,7 @@
                  <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">sequence_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">scope</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Run this fused RNN on inputs, starting from the given state.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run this fused RNN on inputs, starting from the given state.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          inputs: `3-D` tensor with shape `[time_len x batch_size x input_size]`</span>
@@ -348,10 +348,10 @@
 
 
 <div class="viewcode-block" id="FusedRNNCellAdaptor"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/fused_rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.fused_rnn_cell.FusedRNNCellAdaptor">[docs]</a><span class="k">class</span> <span class="nc">FusedRNNCellAdaptor</span><span class="p">(</span><span class="n">FusedRNNCell</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;This is an adaptor for RNNCell classes to be used with `FusedRNNCell`.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This is an adaptor for RNNCell classes to be used with `FusedRNNCell`.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cell</span><span class="p">,</span> <span class="n">use_dynamic_rnn</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initialize the adaptor.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the adaptor.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          cell: an instance of a subclass of a `rnn_cell.RNNCell`.</span>
@@ -399,7 +399,7 @@
 
 
 <div class="viewcode-block" id="TimeReversedFusedRNN"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/fused_rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.fused_rnn_cell.TimeReversedFusedRNN">[docs]</a><span class="k">class</span> <span class="nc">TimeReversedFusedRNN</span><span class="p">(</span><span class="n">FusedRNNCell</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;This is an adaptor to time-reverse a FusedRNNCell.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This is an adaptor to time-reverse a FusedRNNCell.</span>
 
 <span class="sd">    For example,</span>
 
@@ -416,7 +416,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_cell</span> <span class="o">=</span> <span class="n">cell</span>
 
     <span class="k">def</span> <span class="nf">_reverse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">lengths</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Time reverse the provided tensor or list of tensors.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Time reverse the provided tensor or list of tensors.</span>
 
 <span class="sd">        Assumes the top dimension is the time dimension.</span>
 

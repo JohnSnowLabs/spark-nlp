@@ -34,7 +34,7 @@ of the classes the instance can be assigned to.
 Formally, multi-label classification is the problem of finding a model that maps inputs x to binary vectors y
 (assigning a value of 0 or 1 for each element (label) in y).
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/classification/MultiClassifierDL_train_multi_label_E2E_challenge_classifier.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/classification/MultiClassifierDL_train_multi_label_E2E_challenge_classifier.ipynb)
 and the [MultiClassifierDLTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/MultiClassifierDLTestSpec.scala).
 {%- endcapture -%}
 
@@ -130,11 +130,11 @@ result.select("text", "classifications.result").show(false)
 {%- endcapture -%}
 
 {%- capture model_api_link -%}
-[MultiClassifierDLModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/MultiClassifierDLModel)
+[MultiClassifierDLModel](/api/com/johnsnowlabs/nlp/annotators/classifier/dl/MultiClassifierDLModel)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[MultiClassifierDLModel](/api/python/reference/autosummary/python/sparknlp/annotator/classifier_dl/multi_classifier_dl/index.html#sparknlp.annotator.classifier_dl.multi_classifier_dl.MultiClassifierDLModel)
+[MultiClassifierDLModel](/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/multi_classifier_dl/index.html#sparknlp.annotator.classifier_dl.multi_classifier_dl.MultiClassifierDLModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -193,7 +193,7 @@ val multiClassifier = new MultiClassifierDLApproach()
   .setTestDataset("test_data")
 ```
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/classification/MultiClassifierDL_train_multi_label_E2E_challenge_classifier.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/classification/MultiClassifierDL_train_multi_label_E2E_challenge_classifier.ipynb)
 and the [MultiClassifierDLTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/MultiClassifierDLTestSpec.scala).
 {%- endcapture -%}
 
@@ -336,11 +336,11 @@ val pipelineModel = pipeline.fit(smallCorpus)
 {%- endcapture -%}
 
 {%- capture approach_api_link -%}
-[MultiClassifierDLApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/MultiClassifierDLApproach)
+[MultiClassifierDLApproach](/api/com/johnsnowlabs/nlp/annotators/classifier/dl/MultiClassifierDLApproach)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[MultiClassifierDLApproach](/api/python/reference/autosummary/python/sparknlp/annotator/classifier_dl/multi_classifier_dl/index.html#sparknlp.annotator.classifier_dl.multi_classifier_dl.MultiClassifierDLApproach)
+[MultiClassifierDLApproach](/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/multi_classifier_dl/index.html#sparknlp.annotator.classifier_dl.multi_classifier_dl.MultiClassifierDLApproach)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

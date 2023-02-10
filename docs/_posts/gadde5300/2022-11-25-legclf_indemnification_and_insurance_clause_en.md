@@ -36,7 +36,8 @@ This model is a Binary Classifier (True, False) for the `indemnification-and-ins
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_indemnification_and_insurance_clause_en_1.0.0_3.0_1669373795929.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_indemnification_and_insurance_clause_en_1.0.0_3.0_1669373795929.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_indemnification_and_insurance_clause_en_1.0.0_3.0_1669373795929.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -44,6 +45,7 @@ This model is a Binary Classifier (True, False) for the `indemnification-and-ins
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler() \
              .setInputCol("clause_text") \
@@ -90,15 +92,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-
-                               precision    recall  f1-score   support
-
+                        label  precision    recall  f1-score   support
 indemnification-and-insurance       0.97      0.94      0.95        33
                         other       0.95      0.97      0.96        39
-
-                     accuracy                           0.96        72
-                    macro avg       0.96      0.96      0.96        72
-                 weighted avg       0.96      0.96      0.96        72
-
-
+                     accuracy          -         -      0.96        72
+                    macro-avg       0.96      0.96      0.96        72
+                 weighted-avg       0.96      0.96      0.96        72
 ```

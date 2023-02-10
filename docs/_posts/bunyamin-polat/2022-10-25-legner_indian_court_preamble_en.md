@@ -10,7 +10,7 @@ language: en
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
-annotator: FinanceNerModel
+annotator: LegalNerModel
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -27,7 +27,8 @@ This is an NER model trained on Indian court dataset, aimed to extract the follo
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_indian_court_preamble_en_1.0.0_3.0_1666702718567.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_indian_court_preamble_en_1.0.0_3.0_1666702718567.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legner_indian_court_preamble_en_1.0.0_3.0_1666702718567.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -219,14 +220,13 @@ Training data is available [here](https://github.com/Legal-NLP-EkStep/legal_NER#
 ## Benchmarking
 
 ```bash
-| label        | precision | recall | f1-score | support |
-|--------------|-----------|--------|----------|---------|
-| COURT        | 0.92      | 0.91   | 0.91     | 109     |
-| JUDGE        | 0.96      | 0.92   | 0.94     | 168     |
-| LAWYER       | 0.94      | 0.93   | 0.94     | 377     |
-| PETITIONER   | 0.76      | 0.77   | 0.76     | 269     |
-| RESPONDENT   | 0.78      | 0.80   | 0.79     | 356     |
-| micro-avg    | 0.86      | 0.86   | 0.86     | 1279    |
-| macro-avg    | 0.87      | 0.86   | 0.87     | 1279    |
-| weighted-avg | 0.86      | 0.86   | 0.86     | 1279    |
+label         precision  recall  f1-score  support 
+COURT         0.92       0.91    0.91      109     
+JUDGE         0.96       0.92    0.94      168     
+LAWYER        0.94       0.93    0.94      377     
+PETITIONER    0.76       0.77    0.76      269     
+RESPONDENT    0.78       0.80    0.79      356     
+micro-avg     0.86       0.86    0.86      1279    
+macro-avg     0.87       0.86    0.87      1279    
+weighted-avg  0.86       0.86    0.86      1279
 ```

@@ -41,8 +41,8 @@ class WordEmbeddings(AnnotatorApproach, HasEmbeddingsProperties, HasStorage):
     :meth:`WordEmbeddingsModel.overallCoverage()
     <sparknlp.annotator.WordEmbeddingsModel.overallCoverage>`.
 
-    For extended examples of usage, see the `Spark NLP Workshop
-    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb>`__.
+    For extended examples of usage, see the `Examples
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/scala/training/NerDL/win/customNerDlPipeline/CustomForNerDLPipeline.java>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -179,7 +179,7 @@ class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageMod
     pretrained models please see the `Models Hub
     <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb>`__.
+    For extended examples of usage, see the `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/quick_start_offline.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type

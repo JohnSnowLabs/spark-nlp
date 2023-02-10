@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp_jsl._tf_graph_builders.ner_dl.create_graph &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl._tf_graph_builders.ner_dl.create_graph &#8212; Spark NLP  documentation</title>
   
   
   
@@ -295,14 +295,26 @@
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl._tf_graph_builders.ner_dl.create_graph.create_graph" title="sparknlp_jsl._tf_graph_builders.ner_dl.create_graph.create_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_graph</span></code></a>(model_location, ntags, embeddings_dim, nchars)</p></td>
-<td><p></p></td>
+<td><p>Creates the Tensorflow graph for NERDL model</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py function">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.ner_dl.create_graph.create_graph">
-<span class="sig-name descname"><span class="pre">create_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_location</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ntags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embeddings_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nchars</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lstm_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">128</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gpu_device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_medical</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/ner_dl/create_graph.html#create_graph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.ner_dl.create_graph.create_graph" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">create_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_location</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ntags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embeddings_dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nchars</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lstm_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">128</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gpu_device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_medical</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/ner_dl/create_graph.html#create_graph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.ner_dl.create_graph.create_graph" title="Permalink to this definition">#</a></dt>
+<dd><p>Creates the Tensorflow graph for NERDL model</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>model_location (str): Folder where the model will be saved
+ntags (int): Number of unique tags
+embeddings_dim (int): Dimension of the word embeddings
+nchars (int): Number of unique characters
+lstm_size (int, optional): Size of the hidden LSTM cells. Defaults to 128.
+model_filename (str, optional): Name of the model when saved on disk. Defaults to None.
+gpu_device (int, optional): Which GPU to use. Defaults to 0.
+is_medical (bool, optional): If the model being trained is from Healthcare NLP or not. Defaults to False.</p>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 </section>

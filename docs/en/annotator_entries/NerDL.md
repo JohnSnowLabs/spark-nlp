@@ -25,7 +25,7 @@ Note that some pretrained models require specific types of embeddings, depending
 For example, the default model `"ner_dl"` requires the
 [WordEmbeddings](/docs/en/annotators#wordembeddings) `"glove_100d"`.
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/model-downloader/Create%20custom%20pipeline%20-%20NerDL.ipynb)
 and the [NerDLSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLSpec.scala).
 {%- endcapture -%}
 
@@ -137,11 +137,11 @@ result.select("ner.result").show(false)
 {%- endcapture -%}
 
 {%- capture model_api_link -%}
-[NerDLModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLModel)
+[NerDLModel](/api/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLModel)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[NerDLModel](/api/python/reference/autosummary/python/sparknlp/annotator/ner/ner_dl/index.html#sparknlp.annotator.ner.ner_dl.NerDLModel)
+[NerDLModel](/api/python/reference/autosummary/sparknlp/annotator/ner/ner_dl/index.html#sparknlp.annotator.ner.ner_dl.NerDLModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -202,7 +202,7 @@ val nerTagger = new NerDLApproach()
   .setTestDataset("test_data")
 ```
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/training/english/dl-ner)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/dl-ner)
 and the [NerDLSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLSpec.scala).
 {%- endcapture -%}
 
@@ -315,11 +315,11 @@ val pipelineModel = pipeline.fit(trainingData)
 {%- endcapture -%}
 
 {%- capture approach_api_link -%}
-[NerDLApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLApproach)
+[NerDLApproach](/api/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLApproach)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[NerDLApproach](/api/python/reference/autosummary/python/sparknlp/annotator/ner/ner_dl/index.html#sparknlp.annotator.ner.ner_dl.NerDLApproach)
+[NerDLApproach](/api/python/reference/autosummary/sparknlp/annotator/ner/ner_dl/index.html#sparknlp.annotator.ner.ner_dl.NerDLApproach)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

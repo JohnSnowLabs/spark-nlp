@@ -16,11 +16,11 @@ TOKEN
 {%- endcapture -%}
 
 {%- capture model_api_link -%}
-[RecursiveTokenizerModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/RecursiveTokenizerModel)
+[RecursiveTokenizerModel](/api/com/johnsnowlabs/nlp/annotators/RecursiveTokenizerModel)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[RecursiveTokenizerModel](/api/python/reference/autosummary/python/sparknlp/annotator/token/recursive_tokenizer/index.html#sparknlp.annotator.token.recursive_tokenizer.RecursiveTokenizerModel)
+[RecursiveTokenizerModel](/api/python/reference/autosummary/sparknlp/annotator/token/recursive_tokenizer/index.html#sparknlp.annotator.token.recursive_tokenizer.RecursiveTokenizerModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -36,7 +36,7 @@ Unlike the Tokenizer, the RecursiveTokenizer operates based on these array strin
  - `infixes`: Strings that will be split when found at the middle of token.
  - `whitelist`: Whitelist of strings not to split
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/7.Context_Spell_Checker.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/italian/Training_Context_Spell_Checker_Italian.ipynb)
 and the [TokenizerTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/TokenizerTestSpec.scala).
 {%- endcapture -%}
 
@@ -111,11 +111,11 @@ result.select("token.result").show(false)
 {%- endcapture -%}
 
 {%- capture approach_api_link -%}
-[RecursiveTokenizer](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/RecursiveTokenizer)
+[RecursiveTokenizer](/api/com/johnsnowlabs/nlp/annotators/RecursiveTokenizer)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[RecursiveTokenizer](/api/python/reference/autosummary/python/sparknlp/annotator/token/recursive_tokenizer/index.html#sparknlp.annotator.token.recursive_tokenizer.RecursiveTokenizer)
+[RecursiveTokenizer](/api/python/reference/autosummary/sparknlp/annotator/token/recursive_tokenizer/index.html#sparknlp.annotator.token.recursive_tokenizer.RecursiveTokenizer)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

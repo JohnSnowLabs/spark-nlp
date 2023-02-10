@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.normalizer.DateNormalizer</title>
-          <meta name="description" content="Spark NLP 4.2.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.normalizer.DateNormalizer" />
-          <meta name="keywords" content="Spark NLP 4.2.3 ScalaDoc com.johnsnowlabs.nlp.annotators.normalizer.DateNormalizer" />
+          <title>Spark NLP 4.2.8 ScalaDoc  - com.johnsnowlabs.nlp.annotators.normalizer.DateNormalizer</title>
+          <meta name="description" content="Spark NLP 4.2.8 ScalaDoc - com.johnsnowlabs.nlp.annotators.normalizer.DateNormalizer" />
+          <meta name="keywords" content="Spark NLP 4.2.8 ScalaDoc com.johnsnowlabs.nlp.annotators.normalizer.DateNormalizer" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.2.8 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -729,6 +729,57 @@ If it is not set, the by default it will use the current year. Example: 2021
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.normalizer.DateNormalizer#defaultReplacementDay" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
+      <a id="defaultReplacementDay:org.apache.spark.ml.param.Param[Int]"></a><a id="defaultReplacementDay:Param[Int]"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/normalizer/DateNormalizer.html#defaultReplacementDay:org.apache.spark.ml.param.Param[Int]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">defaultReplacementDay</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Int">Int</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Defines which value to use for creating the Day Value when original Date-Entity has no Day Information.</p><div class="fullcomment"><div class="comment cmt"><p>Defines which value to use for creating the Day Value when original Date-Entity has no Day Information. Defaults to 15.
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.normalizer.DateNormalizer#defaultReplacementMonth" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
+      <a id="defaultReplacementMonth:org.apache.spark.ml.param.Param[Int]"></a><a id="defaultReplacementMonth:Param[Int]"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/normalizer/DateNormalizer.html#defaultReplacementMonth:org.apache.spark.ml.param.Param[Int]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">defaultReplacementMonth</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Int">Int</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Defines which value to use for creating the Month Value when original Date-Entity has no Day Information.</p><div class="fullcomment"><div class="comment cmt"><p>Defines which value to use for creating the Month Value when original Date-Entity has no Day Information. Defaults to 6.
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.normalizer.DateNormalizer#defaultReplacementYear" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
+      <a id="defaultReplacementYear:org.apache.spark.ml.param.Param[Int]"></a><a id="defaultReplacementYear:Param[Int]"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/normalizer/DateNormalizer.html#defaultReplacementYear:org.apache.spark.ml.param.Param[Int]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">defaultReplacementYear</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Int">Int</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Defines which value to use for creating the Year Value when original Date-Entity has no Day Information.</p><div class="fullcomment"><div class="comment cmt"><p>Defines which value to use for creating the Year Value when original Date-Entity has no Day Information. Defaults to 2020.
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.HasSimpleAnnotate#dfAnnotate" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="dfAnnotate:org.apache.spark.sql.expressions.UserDefinedFunction"></a><a id="dfAnnotate:UserDefinedFunction"></a>
       <span class="permalink">
@@ -1074,6 +1125,54 @@ If it is not set, the by default it will use the current year. Example: 2021
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.normalizer.DateNormalizer#getDefaultReplacementDay" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getDefaultReplacementDay:Int"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/normalizer/DateNormalizer.html#getDefaultReplacementDay:Int" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getDefaultReplacementDay</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.normalizer.DateNormalizer#getDefaultReplacementMonth" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getDefaultReplacementMonth:Int"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/normalizer/DateNormalizer.html#getDefaultReplacementMonth:Int" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getDefaultReplacementMonth</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.normalizer.DateNormalizer#getDefaultReplacementYear" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getDefaultReplacementYear:Int"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/normalizer/DateNormalizer.html#getDefaultReplacementYear:Int" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getDefaultReplacementYear</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#getInputCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getInputCols:Array[String]"></a>
       <span class="permalink">
@@ -2041,6 +2140,54 @@ By default it will use the current day. The first day of the month has value 1.
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.normalizer.DateNormalizer#setDefaultReplacementDay" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="setDefaultReplacementDay(value:Int):DateNormalizer.this.type"></a><a id="setDefaultReplacementDay(Int):DateNormalizer.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/normalizer/DateNormalizer.html#setDefaultReplacementDay(value:Int):DateNormalizer.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setDefaultReplacementDay</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.normalizer.DateNormalizer">DateNormalizer</a>.this.type</span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.normalizer.DateNormalizer#setDefaultReplacementMonth" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="setDefaultReplacementMonth(value:Int):DateNormalizer.this.type"></a><a id="setDefaultReplacementMonth(Int):DateNormalizer.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/normalizer/DateNormalizer.html#setDefaultReplacementMonth(value:Int):DateNormalizer.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setDefaultReplacementMonth</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.normalizer.DateNormalizer">DateNormalizer</a>.this.type</span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.normalizer.DateNormalizer#setDefaultReplacementYear" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="setDefaultReplacementYear(value:Int):DateNormalizer.this.type"></a><a id="setDefaultReplacementYear(Int):DateNormalizer.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/normalizer/DateNormalizer.html#setDefaultReplacementYear(value:Int):DateNormalizer.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setDefaultReplacementYear</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.normalizer.DateNormalizer">DateNormalizer</a>.this.type</span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#setInputCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setInputCols(value:String*):HasInputAnnotationCols.this.type"></a><a id="setInputCols(String*):DateNormalizer.this.type"></a>
       <span class="permalink">

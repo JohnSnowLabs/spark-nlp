@@ -26,6 +26,7 @@ It performs most of the common text processing tasks on your dataframe
 [Live Demo](https://demo.johnsnowlabs.com/public/NER_EN_18/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_EN.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/explain_document_dl_en_3.0.0_3.0_1616473268265.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/explain_document_dl_en_3.0.0_3.0_1616473268265.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -35,16 +36,16 @@ It performs most of the common text processing tasks on your dataframe
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 
-from sparknlp.pretrained import PretrainedPipelinein
+from sparknlp.pretrained import PretrainedPipeline
 pipeline = PretrainedPipeline('explain_document_dl', lang = 'en')
-annotations =  pipeline.fullAnnotate(""Hello from John Snow Labs ! "")[0]
+annotations =  pipeline.fullAnnotate("The Mona Lisa is an oil painting from the 16th century.")[0]
 annotations.keys()
 
 ```
 ```scala
 
 val pipeline = new PretrainedPipeline("explain_document_dl", lang = "en")
-val result = pipeline.fullAnnotate("Hello from John Snow Labs ! ")(0)
+val result = pipeline.fullAnnotate("The Mona Lisa is an oil painting from the 16th century.")(0)
 
 
 ```
@@ -53,7 +54,7 @@ val result = pipeline.fullAnnotate("Hello from John Snow Labs ! ")(0)
 ```python
 
 import nlu
-text = [""Hello from John Snow Labs ! ""]
+text = ["The Mona Lisa is an oil painting from the 16th century."]
 result_df = nlu.load('en.explain.dl').predict(text)
 result_df
 
@@ -63,10 +64,11 @@ result_df
 ## Results
 
 ```bash
-|    | document                         | sentence                         | token                                            | checked                                         | lemma                                           | stem                                           | pos                                    | embeddings                   | ner                                                    | entities                         |
-|---:|:---------------------------------|:---------------------------------|:-------------------------------------------------|:------------------------------------------------|:------------------------------------------------|:-----------------------------------------------|:---------------------------------------|:-----------------------------|:-------------------------------------------------------|:---------------------------------|
-|  0 | ['Hello fronm John Snwow Labs!'] | ['Hello fronm John Snwow Labs!'] | ['Hello', 'fronm', 'John', 'Snwow', 'Labs', '!'] | ['Hello', 'front', 'John', 'Snow', 'Labs', '!'] | ['Hello', 'front', 'John', 'Snow', 'Labs', '!'] | ['hello', 'front', 'john', 'snow', 'lab', '!'] | ['UH', 'NN', 'NNP', 'NNP', 'NNP', '.'] | [[0.2668800055980682,.,...]] | ['B-ORG', 'I-ORG', 'I-ORG', 'I-ORG', 'I-ORG', 'I-ORG'] | ['Hello fronm John Snwow Labs!'] ||    | document   | sentence   | token     | checked   | lemma     | stem      | pos    | embeddings                   | ner       | entities   |
-
++--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------+-----------+
+|                                              text|                                          document|                                          sentence|                                             token|                                           checked|                                             lemma|                                              stem|                                               pos|                                        embeddings|                                         ner|   entities|
++--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------+-----------+
+|The Mona Lisa is an oil painting from the 16th ...|[The Mona Lisa is an oil painting from the 16th...|[The Mona Lisa is an oil painting from the 16th...|[The, Mona, Lisa, is, an, oil, painting, from, ...|[The, Mona, Lisa, is, an, oil, painting, from, ...|[The, Mona, Lisa, be, an, oil, painting, from, ...|[the, mona, lisa, i, an, oil, paint, from, the,...|[DT, NNP, NNP, VBZ, DT, NN, NN, IN, DT, JJ, NN, .]|[[-0.038194, -0.24487, 0.72812, -0.39961, 0.083...|[O, B-PER, I-PER, O, O, O, O, O, O, O, O, O]|[Mona Lisa]|
++--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------------+--------------------------------------------+-----------+
 ```
 
 {:.model-param}

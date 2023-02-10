@@ -27,7 +27,8 @@ This model requires `legner_bert_grants` as an NER in the pipeline. It's a `md` 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legre_grants_md_en_1.0.0_3.0_1668017439874.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legre_grants_md_en_1.0.0_3.0_1668017439874.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legre_grants_md_en_1.0.0_3.0_1668017439874.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -122,15 +123,10 @@ Manual annotations on CUAD dataset
 ## Benchmarking
 
 ```bash
-
-Relation           Recall Precision        F1   Support
-
-allows              1.000     1.000     1.000        32
-is_allowed_to       1.000     1.000     1.000        36
-other               1.000     1.000     1.000        32
-
-Avg.                1.000     1.000     1.000
-
-Weighted Avg.       1.000     1.000     1.000
-
+        label      Recall   Precision        F1   Support
+       allows       1.000       1.000     1.000        32
+is_allowed_to       1.000       1.000     1.000        36
+        other       1.000       1.000     1.000        32
+          Avg       1.000       1.000     1.000        -
+ Weighted-Avg       1.000       1.000     1.000        -
 ```

@@ -18,7 +18,6 @@ key phrases are selected to represent all the input document annotations.
 This model is a subclass of [[BertSentenceEmbeddings]] and shares all parameters with it. It can load any pretrained
 BertSentenceEmbeddings model. Available models can be found at the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Sentence+Embeddings).
 
-
 {%- endcapture -%}
 
 {%- capture model_input_anno -%}
@@ -79,7 +78,7 @@ results\
         "key_phrase.metadata.DocumentSimilarity",
         "key_phrase.metadata.MMRScore")\
     .show(truncate=False)
-    
+
 +-----------------------------+------------------+-------------------+
 |result                       |DocumentSimilarity|MMRScore           |
 +-----------------------------+------------------+-------------------+
@@ -88,7 +87,6 @@ results\
 |type two diabetes mellitus   |0.7323921930094919|0.085800103824974  |
 +-----------------------------+------------------+-------------------+
 {%- endcapture -%}
-
 
 {%- capture model_python_legal -%}
 from johnsnowlabs import *
@@ -143,7 +141,7 @@ sentencer = nlp.SentenceDetector() \
 
 tokenizer = nlp.Tokenizer() \
     .setInputCols(["document"]) \
-    .setOutputCol("tokens") \
+    .setOutputCol("tokens")
 
 embeddings = nlp.WordEmbeddingsModel() \
     .pretrained("embeddings_clinical", "en", "clinical/models") \
@@ -169,7 +167,6 @@ key_phrase_extractor = finance.ChunkKeyPhraseExtraction\
 pipeline = sparknlp.base.Pipeline() \
     .setStages([documenter, sentencer, tokenizer, embeddings, ner_model, ner_converter, key_phrase_extractor])
 {%- endcapture -%}
-
 
 {%- capture model_scala_medical -%}
 from johnsnowlabs import *
@@ -303,11 +300,12 @@ val pipeline = new Pipeline().setStages(Array(
     chunkKeyPhraseExtractor))
 {%- endcapture -%}
 
-
-
-
 {%- capture model_api_link -%}
 [ChunkKeyPhraseExtraction](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/chunker/ChunkKeyPhraseExtraction)
+{%- endcapture -%}
+
+{%- capture model_python_api_link -%}
+[ChunkKeyPhraseExtraction](https://nlp.johnsnowlabs.com/licensed/api/python/reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_key_phrase_extraction/index.html#sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction)
 {%- endcapture -%}
 
 {% include templates/licensed_approach_model_medical_fin_leg_template.md
@@ -322,4 +320,6 @@ model_python_finance=model_python_finance
 model_scala_medical=model_scala_medical
 model_scala_legal=model_scala_legal
 model_scala_finance=model_scala_finance
-model_api_link=model_api_link%}
+model_api_link=model_api_link
+model_python_api_link=model_python_api_link
+%}

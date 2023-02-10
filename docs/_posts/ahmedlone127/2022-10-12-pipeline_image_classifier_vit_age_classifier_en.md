@@ -25,10 +25,13 @@ Pretrained VIT  model, adapted from Hugging Face and curated to provide scalabil
 
 `60-70`, `40-50`, `70-80`, `80-90`, `10-20`, `50-60`, `90-100`, `30-40`, `0-10`, `20-30`
 
+
+
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_image_classifier_vit_age_classifier_en_4.2.1_3.0_1665535999196.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/pipeline_image_classifier_vit_age_classifier_en_4.2.1_3.0_1665535999196.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

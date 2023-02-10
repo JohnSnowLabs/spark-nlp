@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.annotator.embeddings.entity_chunk_embeddings &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.annotator.embeddings.entity_chunk_embeddings &#8212; Spark NLP  documentation</title>
   
   
   
@@ -268,10 +268,10 @@
               
   <h1>Source code for sparknlp_jsl.annotator.embeddings.entity_chunk_embeddings</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="n">BertSentenceEmbeddings</span>
-<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp_jsl.common</span> <span class="kn">import</span> <span class="o">*</span>
 
 <div class="viewcode-block" id="EntityChunkEmbeddings"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/embeddings/entity_chunk_embeddings/index.html#sparknlp_jsl.annotator.embeddings.entity_chunk_embeddings.EntityChunkEmbeddings">[docs]</a><span class="k">class</span> <span class="nc">EntityChunkEmbeddings</span><span class="p">(</span><span class="n">BertSentenceEmbeddings</span><span class="p">,</span> <span class="n">HasEngine</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Weighted average embeddings of multiple named entities chunk annotations</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Weighted average embeddings of multiple named entities chunk annotations</span>
 
 <span class="sd">    ====================== =======================</span>
 <span class="sd">    Input Annotation types Output Annotation type</span>
@@ -292,7 +292,7 @@
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; import sparknlp</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
-<span class="sd">    &gt;&gt;&gt; from sparknlp.common import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.common import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.training import *</span>
 <span class="sd">    &gt;&gt;&gt; import sparknlp_jsl</span>
@@ -361,6 +361,7 @@
 <span class="sd">    +-----------------------------+-----------------------------------------------------------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="EntityChunkEmbeddings.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/embeddings/entity_chunk_embeddings/index.html#sparknlp_jsl.annotator.embeddings.entity_chunk_embeddings.EntityChunkEmbeddings.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DEPENDENCY</span><span class="p">,</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span><span class="p">]</span></div>
+<div class="viewcode-block" id="EntityChunkEmbeddings.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/embeddings/entity_chunk_embeddings/index.html#sparknlp_jsl.annotator.embeddings.entity_chunk_embeddings.EntityChunkEmbeddings.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">SENTENCE_EMBEDDINGS</span></div>
 
 <div class="viewcode-block" id="EntityChunkEmbeddings.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/embeddings/entity_chunk_embeddings/index.html#sparknlp_jsl.annotator.embeddings.entity_chunk_embeddings.EntityChunkEmbeddings.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;EntityChunkEmbeddings&quot;</span></div>
 
@@ -379,7 +380,7 @@
                                  <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="EntityChunkEmbeddings.setEntityWeights"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/embeddings/entity_chunk_embeddings/index.html#sparknlp_jsl.annotator.embeddings.entity_chunk_embeddings.EntityChunkEmbeddings.setEntityWeights">[docs]</a>    <span class="k">def</span> <span class="nf">setEntityWeights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="p">{}):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the relative weights of the embeddings of specific entities. By default the dictionary is empty and</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the relative weights of the embeddings of specific entities. By default the dictionary is empty and</span>
 <span class="sd">         all entities have equal weights. If non-empty and some entity is not in it, then its weight is set to 0.</span>
 
 <span class="sd">        Parameters</span>
@@ -392,7 +393,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;setEntityWeights&quot;</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="EntityChunkEmbeddings.setTargetEntities"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/embeddings/entity_chunk_embeddings/index.html#sparknlp_jsl.annotator.embeddings.entity_chunk_embeddings.EntityChunkEmbeddings.setTargetEntities">[docs]</a>    <span class="k">def</span> <span class="nf">setTargetEntities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entities</span><span class="o">=</span><span class="p">{}):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the target entities and maps them to their related entities. A target entity with an empty list of</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the target entities and maps them to their related entities. A target entity with an empty list of</span>
 <span class="sd">        related entities means all other entities are assumed to be related to it.</span>
 
 <span class="sd">        Parameters</span>
@@ -405,7 +406,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;setTargetEntities&quot;</span><span class="p">,</span> <span class="n">entities</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="EntityChunkEmbeddings.setMaxSyntacticDistance"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/embeddings/entity_chunk_embeddings/index.html#sparknlp_jsl.annotator.embeddings.entity_chunk_embeddings.EntityChunkEmbeddings.setMaxSyntacticDistance">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSyntacticDistance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distance</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the maximal syntactic distance between related entities. Default value is 2.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the maximal syntactic distance between related entities. Default value is 2.</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        distance : int</span>

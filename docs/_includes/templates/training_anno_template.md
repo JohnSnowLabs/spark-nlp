@@ -1,5 +1,5 @@
 
-<div class="h3-box model-content" markdown="1">
+<div class="h3-box tabs-python-scala-box" markdown="1">
 
 ### {{include.title}}
 

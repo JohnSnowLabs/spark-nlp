@@ -27,6 +27,7 @@ This pretrained spellchecker pipeline is built on the top of [spellcheck_dl](htt
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/CONTEXTUAL_SPELL_CHECKER/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/CONTEXTUAL_SPELL_CHECKER.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/community.johnsnowlabs.com/ahmedlone127/spellcheck_dl_pipeline_en_4.0.0_3.0_1655213660333.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://community.johnsnowlabs.com/ahmedlone127/spellcheck_dl_pipeline_en_4.0.0_3.0_1655213660333.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

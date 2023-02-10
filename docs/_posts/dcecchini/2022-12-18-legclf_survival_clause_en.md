@@ -34,7 +34,8 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_survival_clause_en_1.0.0_3.0_1671393633271.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_survival_clause_en_1.0.0_3.0_1671393633271.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_survival_clause_en_1.0.0_3.0_1671393633271.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -107,11 +108,11 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 
 ```bash
 
-|        label |   precision |   recall |   f1-score |   support |
-|-------------:|------------:|---------:|-----------:|----------:|
-|        other |        0.97 |     1.00 |       0.99 |        39 |
-|     survival |        1.00 |     0.97 |       0.99 |        35 |
-|     accuracy |           - |        - |       0.99 |        74 |
-|    macro-avg |        0.99 |     0.99 |       0.99 |        74 |
-| weighted-avg |        0.99 |     0.99 |       0.99 |        74 |
+       label precision recall  f1-score  support
+       other      0.97   1.00      0.99       39
+    survival      1.00   0.97      0.99       35
+    accuracy         -      -      0.99       74
+   macro-avg      0.99   0.99      0.99       74
+weighted-avg      0.99   0.99      0.99       74
+
 ```

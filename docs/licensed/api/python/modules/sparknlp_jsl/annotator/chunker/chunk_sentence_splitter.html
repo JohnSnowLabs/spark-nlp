@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.annotator.chunker.chunk_sentence_splitter &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.annotator.chunker.chunk_sentence_splitter &#8212; Spark NLP  documentation</title>
   
   
   
@@ -267,10 +267,10 @@
             <article class="bd-article" role="main">
               
   <h1>Source code for sparknlp_jsl.annotator.chunker.chunk_sentence_splitter</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span></span><span class="kn">from</span> <span class="nn">sparknlp_jsl.common</span> <span class="kn">import</span> <span class="o">*</span>
 
-<div class="viewcode-block" id="ChunkSentenceSplitter"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_sentence_splitter/index.html#sparknlp_jsl.annotator.chunker.chunk_sentence_splitter.ChunkSentenceSplitter">[docs]</a><span class="k">class</span> <span class="nc">ChunkSentenceSplitter</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="ChunkSentenceSplitter"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_sentence_splitter/index.html#sparknlp_jsl.annotator.chunker.chunk_sentence_splitter.ChunkSentenceSplitter">[docs]</a><span class="k">class</span> <span class="nc">ChunkSentenceSplitter</span><span class="p">(</span><span class="n">AnnotatorModelInternal</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Split the document using the chunks that you provided,and put in the metadata the chunk entity.</span>
 <span class="sd">    The first piece of documento to the first chunk will have the entity as header.</span>
 
@@ -300,6 +300,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="ChunkSentenceSplitter.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_sentence_splitter/index.html#sparknlp_jsl.annotator.chunker.chunk_sentence_splitter.ChunkSentenceSplitter.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span><span class="p">]</span></div>
+<div class="viewcode-block" id="ChunkSentenceSplitter.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_sentence_splitter/index.html#sparknlp_jsl.annotator.chunker.chunk_sentence_splitter.ChunkSentenceSplitter.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span></div>
 
 <div class="viewcode-block" id="ChunkSentenceSplitter.groupBySentences"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_sentence_splitter/index.html#sparknlp_jsl.annotator.chunker.chunk_sentence_splitter.ChunkSentenceSplitter.groupBySentences">[docs]</a>    <span class="n">groupBySentences</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;groupBySentences&quot;</span><span class="p">,</span>
                              <span class="s2">&quot;This parameter allow split the paragraphs grouping the chunks by sentences.&quot;</span> <span class="o">+</span>
@@ -318,7 +319,7 @@
 <div class="viewcode-block" id="ChunkSentenceSplitter.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_sentence_splitter/index.html#sparknlp_jsl.annotator.chunker.chunk_sentence_splitter.ChunkSentenceSplitter.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;ChunkSentenceSplitter&quot;</span></div>
 
 <div class="viewcode-block" id="ChunkSentenceSplitter.setGroupBySentences"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_sentence_splitter/index.html#sparknlp_jsl.annotator.chunker.chunk_sentence_splitter.ChunkSentenceSplitter.setGroupBySentences">[docs]</a>    <span class="k">def</span> <span class="nf">setGroupBySentences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the groupBySentences that allow split the paragraphs grouping the chunks by sentences.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the groupBySentences that allow split the paragraphs grouping the chunks by sentences.</span>
 <span class="sd">            If is false we assume that we have 1 document annotations and all chunks are for this document.</span>
 <span class="sd">            Use false if the input column of your chunk annotator was a sentenceDetector column.</span>
 <span class="sd">            Use true when we have a sentence detector as input column or when the document have many sentences per row</span>
@@ -331,7 +332,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">groupBySentences</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ChunkSentenceSplitter.setInsertChunk"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_sentence_splitter/index.html#sparknlp_jsl.annotator.chunker.chunk_sentence_splitter.ChunkSentenceSplitter.setInsertChunk">[docs]</a>    <span class="k">def</span> <span class="nf">setInsertChunk</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Whether to insert the chunk in the paragraph or not.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether to insert the chunk in the paragraph or not.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -341,7 +342,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">insertChunk</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ChunkSentenceSplitter.setDefaultEntity"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/chunker/chunk_sentence_splitter/index.html#sparknlp_jsl.annotator.chunker.chunk_sentence_splitter.ChunkSentenceSplitter.setDefaultEntity">[docs]</a>    <span class="k">def</span> <span class="nf">setDefaultEntity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the key in the metadata dictionary that you want to filter (by default &#39;entity&#39;)</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the key in the metadata dictionary that you want to filter (by default &#39;entity&#39;)</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

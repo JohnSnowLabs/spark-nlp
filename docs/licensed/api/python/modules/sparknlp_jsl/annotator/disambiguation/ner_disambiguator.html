@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.annotator.disambiguation.ner_disambiguator &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.annotator.disambiguation.ner_disambiguator &#8212; Spark NLP  documentation</title>
   
   
   
@@ -267,10 +267,12 @@
             <article class="bd-article" role="main">
               
   <h1>Source code for sparknlp_jsl.annotator.disambiguation.ner_disambiguator</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span></span><span class="kn">from</span> <span class="nn">sparknlp_jsl.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp_jsl.utils.licensed_annotator_type</span> <span class="kn">import</span> <span class="n">InternalAnnotatorType</span>
 
-<div class="viewcode-block" id="NerDisambiguator"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator">[docs]</a><span class="k">class</span> <span class="nc">NerDisambiguator</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Links words of interest, such as names of persons, locations and companies, from an input text document to</span>
+
+<div class="viewcode-block" id="NerDisambiguator"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator">[docs]</a><span class="k">class</span> <span class="nc">NerDisambiguator</span><span class="p">(</span><span class="n">AnnotatorApproachInternal</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Links words of interest, such as names of persons, locations and companies, from an input text document to</span>
 <span class="sd">    a corresponding unique entity in a target Knowledge Base (KB). Words of interest are called Named Entities (NEs),</span>
 <span class="sd">    mentions, or surface forms.</span>
 <span class="sd">    Instantiated / pretrained model of the NerDisambiguator.</span>
@@ -362,6 +364,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="NerDisambiguator.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span><span class="p">,</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">SENTENCE_EMBEDDINGS</span> <span class="p">]</span></div>
+<div class="viewcode-block" id="NerDisambiguator.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">InternalAnnotatorType</span><span class="o">.</span><span class="n">DISAMBIGUATION</span></div>
 <div class="viewcode-block" id="NerDisambiguator.embeddingTypeParam"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator.embeddingTypeParam">[docs]</a>    <span class="n">embeddingTypeParam</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                                <span class="s2">&quot;embeddingTypeParam&quot;</span><span class="p">,</span>
                                <span class="s2">&quot;Could be &#39;bow&#39; for word embeddings or &#39;sentence&#39; for sentences&quot;</span><span class="p">,</span>
@@ -403,7 +406,7 @@
                                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="NerDisambiguator.setEmbeddingType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator.setEmbeddingType">[docs]</a>    <span class="k">def</span> <span class="nf">setEmbeddingType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets if we want to use &#39;bow&#39; for word embeddings or &#39;sentence&#39; for sentences&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets if we want to use &#39;bow&#39; for word embeddings or &#39;sentence&#39; for sentences&quot;</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -414,7 +417,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">embeddingTypeParam</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="NerDisambiguator.setNumFirstChars"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator.setNumFirstChars">[docs]</a>    <span class="k">def</span> <span class="nf">setNumFirstChars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;How many characters should be considered for initial prefix search in knowledge base</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;How many characters should be considered for initial prefix search in knowledge base</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -424,7 +427,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">numFirstChars</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="NerDisambiguator.setTokenSearch"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator.setTokenSearch">[docs]</a>    <span class="k">def</span> <span class="nf">setTokenSearch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to search by token or by chunk in knowledge base (Default: true)</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to search by token or by chunk in knowledge base (Default: true)</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -434,7 +437,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">tokenSearch</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="NerDisambiguator.setNarrowWithApproximateMatching"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator.setNarrowWithApproximateMatching">[docs]</a>    <span class="k">def</span> <span class="nf">setNarrowWithApproximateMatching</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to narrow prefix search results with levenstein distance based matching (Default: true)</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to narrow prefix search results with levenstein distance based matching (Default: true)</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -444,7 +447,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">narrowWithApproximateMatching</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="NerDisambiguator.setLevenshteinDistanceThresholdParam"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator.setLevenshteinDistanceThresholdParam">[docs]</a>    <span class="k">def</span> <span class="nf">setLevenshteinDistanceThresholdParam</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets Levenshtein distance threshold to narrow results from prefix search (0.1 is default)</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets Levenshtein distance threshold to narrow results from prefix search (0.1 is default)</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -454,7 +457,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">levenshteinDistanceThresholdParam</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="NerDisambiguator.setNearMatchingGapParam"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator.setNearMatchingGapParam">[docs]</a>    <span class="k">def</span> <span class="nf">setNearMatchingGapParam</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets a limit on a string length (by trimming the candidate chunks) during levenshtein-distance based narrowing.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets a limit on a string length (by trimming the candidate chunks) during levenshtein-distance based narrowing.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -464,7 +467,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nearMatchingGapParam</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="NerDisambiguator.setPredictionLimit"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator.setPredictionLimit">[docs]</a>    <span class="k">def</span> <span class="nf">setPredictionLimit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets limit on amount of predictions N for topN predictions</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets limit on amount of predictions N for topN predictions</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -474,7 +477,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">predictionsLimit</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="NerDisambiguator.setS3KnowledgeBaseName"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguator.setS3KnowledgeBaseName">[docs]</a>    <span class="k">def</span> <span class="nf">setS3KnowledgeBaseName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets knowledge base name in s3</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets knowledge base name in s3</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -495,8 +498,8 @@
         <span class="k">return</span> <span class="n">NerDisambiguatorModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="NerDisambiguatorModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel">[docs]</a><span class="k">class</span> <span class="nc">NerDisambiguatorModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Links words of interest, such as names of persons, locations and companies, from an input text document to</span>
+<div class="viewcode-block" id="NerDisambiguatorModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel">[docs]</a><span class="k">class</span> <span class="nc">NerDisambiguatorModel</span><span class="p">(</span><span class="n">AnnotatorModelInternal</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Links words of interest, such as names of persons, locations and companies, from an input text document to</span>
 <span class="sd">    a corresponding unique entity in a target Knowledge Base (KB). Words of interest are called Named Entities (NEs),</span>
 <span class="sd">    mentions, or surface forms.</span>
 <span class="sd">    Instantiated / pretrained model of the NerDisambiguator.</span>
@@ -587,6 +590,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="NerDisambiguatorModel.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span><span class="p">,</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">SENTENCE_EMBEDDINGS</span> <span class="p">]</span></div>
+<div class="viewcode-block" id="NerDisambiguatorModel.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">InternalAnnotatorType</span><span class="o">.</span><span class="n">DISAMBIGUATION</span></div>
 <div class="viewcode-block" id="NerDisambiguatorModel.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;NerDisambiguatorModel&quot;</span></div>
 
 <div class="viewcode-block" id="NerDisambiguatorModel.embeddingTypeParam"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel.embeddingTypeParam">[docs]</a>    <span class="n">embeddingTypeParam</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
@@ -625,7 +629,7 @@
                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="NerDisambiguatorModel.setEmbeddingType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel.setEmbeddingType">[docs]</a>    <span class="k">def</span> <span class="nf">setEmbeddingType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets if we want to use &#39;bow&#39; for word embeddings or &#39;sentence&#39; for sentences</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets if we want to use &#39;bow&#39; for word embeddings or &#39;sentence&#39; for sentences</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -635,7 +639,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">embeddingTypeParam</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="NerDisambiguatorModel.setNumFirstChars"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel.setNumFirstChars">[docs]</a>    <span class="k">def</span> <span class="nf">setNumFirstChars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;How many characters should be considered for initial prefix search in knowledge base</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;How many characters should be considered for initial prefix search in knowledge base</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -645,7 +649,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">numFirstChars</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="NerDisambiguatorModel.setTokenSearch"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel.setTokenSearch">[docs]</a>    <span class="k">def</span> <span class="nf">setTokenSearch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to search by token or by chunk in knowledge base (Default: true)</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to search by token or by chunk in knowledge base (Default: true)</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -655,7 +659,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">tokenSearch</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="NerDisambiguatorModel.setNarrowWithApproximateMatching"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel.setNarrowWithApproximateMatching">[docs]</a>    <span class="k">def</span> <span class="nf">setNarrowWithApproximateMatching</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets whether to narrow prefix search results with levenstein distance based matching (Default: true)</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to narrow prefix search results with levenstein distance based matching (Default: true)</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -665,7 +669,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">narrowWithApproximateMatching</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="NerDisambiguatorModel.setLevenshteinDistanceThresholdParam"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel.setLevenshteinDistanceThresholdParam">[docs]</a>    <span class="k">def</span> <span class="nf">setLevenshteinDistanceThresholdParam</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets Levenshtein distance threshold to narrow results from prefix search (0.1 is default)</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets Levenshtein distance threshold to narrow results from prefix search (0.1 is default)</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -675,7 +679,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">levenshteinDistanceThresholdParam</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="NerDisambiguatorModel.setNearMatchingGapParam"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel.setNearMatchingGapParam">[docs]</a>    <span class="k">def</span> <span class="nf">setNearMatchingGapParam</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets a limit on a string length (by trimming the candidate chunks) during levenshtein-distance based narrowing.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets a limit on a string length (by trimming the candidate chunks) during levenshtein-distance based narrowing.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -685,7 +689,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nearMatchingGapParam</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="NerDisambiguatorModel.setPredictionLimit"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/disambiguation/ner_disambiguator/index.html#sparknlp_jsl.annotator.disambiguation.ner_disambiguator.NerDisambiguatorModel.setPredictionLimit">[docs]</a>    <span class="k">def</span> <span class="nf">setPredictionLimit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets limit on amount of predictions N for topN predictions</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets limit on amount of predictions N for topN predictions</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

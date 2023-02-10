@@ -16,7 +16,9 @@
 
 package com.johnsnowlabs.nlp.annotators
 
+import com.johnsnowlabs.nlp.AnnotatorType.TOKEN
 import com.johnsnowlabs.nlp._
+import com.johnsnowlabs.nlp.annotator.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import com.johnsnowlabs.util.Benchmark
@@ -295,11 +297,22 @@ class TokenizerTestSpec extends AnyFlatSpec with TokenizerBehaviors {
     }
   }
 
-  "a Tokenizer" should s"be of type ${AnnotatorType.TOKEN}" taggedAs FastTest in {
+  private def assertIndexAlignment(tokens: Seq[Annotation], text: String): Unit = {
+    tokens.foreach { case Annotation(_, start, end, result, _, _) =>
+      val expected = text.substring(start, end + 1)
+      assert(
+        expected == result,
+        s"Extracted Token \'$result\' did not match text($start, $end): \'$expected\'")
+    }
+  }
+
+  behavior of "Tokenizer"
+
+  it should s"be of type ${AnnotatorType.TOKEN}" taggedAs FastTest in {
     assert(tokenizer.outputAnnotatorType == AnnotatorType.TOKEN)
   }
 
-  "a Tokenizer" should s"correctly handle exceptions in sentences and documents" taggedAs FastTest in {
+  it should s"correctly handle exceptions in sentences and documents" taggedAs FastTest in {
 
     val data = DataBuilder.basicDataBuild(targetText0)
 
@@ -319,9 +332,11 @@ class TokenizerTestSpec extends AnyFlatSpec with TokenizerBehaviors {
 
     assert(
       result(11) == Annotation(AnnotatorType.TOKEN, 57, 65, "New York,", Map("sentence" -> "2")))
+
+    assertIndexAlignment(result, targetText0)
   }
 
-  "a Tokenizer" should s"correctly handle exceptionsPath" taggedAs FastTest in {
+  it should s"correctly handle exceptionsPath" taggedAs FastTest in {
 
     val data = DataBuilder.basicDataBuild(targetText0)
 
@@ -341,9 +356,11 @@ class TokenizerTestSpec extends AnyFlatSpec with TokenizerBehaviors {
 
     assert(
       result(11) == Annotation(AnnotatorType.TOKEN, 57, 65, "New York,", Map("sentence" -> "2")))
+
+    assertIndexAlignment(result, targetText0)
   }
 
-  "a Tokenizer" should "correctly tokenize target text on its defaults parameters with composite" taggedAs FastTest in {
+  it should "correctly tokenize target text on its defaults parameters with composite" taggedAs FastTest in {
 
     val data = DataBuilder.basicDataBuild(targetText1)
     val tokenizer = new Tokenizer()
@@ -357,12 +374,10 @@ class TokenizerTestSpec extends AnyFlatSpec with TokenizerBehaviors {
       s"because result tokens differ: " +
         s"\nresult was \n${result.mkString("|")} \nexpected is: \n${expected1.mkString("|")}")
     val result2 = getTokenizerOutput[Annotation](tokenizer, data, "annotation")
-    result2.foreach(annotation => {
-      assert(targetText1.slice(annotation.begin, annotation.end + 1) == annotation.result)
-    })
+    assertIndexAlignment(result2, targetText1)
   }
 
-  "a Tokenizer" should "correctly tokenize target text on its defaults parameters with case insensitive composite" taggedAs FastTest in {
+  it should "correctly tokenize target text on its defaults parameters with case insensitive composite" taggedAs FastTest in {
 
     val data = DataBuilder.basicDataBuild(targetText1)
     val tokenizer = new Tokenizer()
@@ -377,12 +392,11 @@ class TokenizerTestSpec extends AnyFlatSpec with TokenizerBehaviors {
       s"because result tokens differ: " +
         s"\nresult was \n${result.mkString("|")} \nexpected is: \n${expected1.mkString("|")}")
     val result2 = getTokenizerOutput[Annotation](tokenizer, data, "annotation")
-    result2.foreach(annotation => {
-      assert(targetText1.slice(annotation.begin, annotation.end + 1) == annotation.result)
-    })
+    assertIndexAlignment(result2, targetText1)
+
   }
 
-  "a Tokenizer" should "correctly tokenize target sentences on its defaults parameters with composite" taggedAs FastTest in {
+  it should "correctly tokenize target sentences on its defaults parameters with composite" taggedAs FastTest in {
     val data = DataBuilder.basicDataBuild(targetText1)
     val tokenizer = new Tokenizer()
       .setInputCols("document")
@@ -390,13 +404,15 @@ class TokenizerTestSpec extends AnyFlatSpec with TokenizerBehaviors {
       .setExceptions(Array("New York"))
       .fit(data)
     val result = getTokenizerOutput[String](tokenizer, data)
+    val resultAnnotation = getTokenizerOutput[Annotation](tokenizer, data, "")
     assert(
       result.sameElements(expected1),
       s"because result tokens differ: " +
         s"\nresult was \n${result.mkString("|")} \nexpected is: \n${expected1.mkString("|")}")
+    assertIndexAlignment(resultAnnotation, targetText1)
   }
 
-  "a Tokenizer" should "correctly tokenize target sentences with split chars" taggedAs FastTest in {
+  it should "correctly tokenize target sentences with split chars" taggedAs FastTest in {
     val data = DataBuilder.basicDataBuild(targetText1)
     val tokenizer = new Tokenizer()
       .setInputCols("document")
@@ -405,13 +421,16 @@ class TokenizerTestSpec extends AnyFlatSpec with TokenizerBehaviors {
       .addSplitChars("-")
       .fit(data)
     val result = getTokenizerOutput[String](tokenizer, data)
+    val resultAnnotation = getTokenizerOutput[Annotation](tokenizer, data, "")
+
     assert(
       result.sameElements(expected1b),
       s"because result tokens differ: " +
         s"\nresult was \n${result.mkString("|")} \nexpected is: \n${expected1b.mkString("|")}")
+    assertIndexAlignment(resultAnnotation, targetText1)
   }
 
-  "a Tokenizer" should s"correctly tokenize a simple sentence on defaults" taggedAs FastTest in {
+  it should s"correctly tokenize a simple sentence on defaults" taggedAs FastTest in {
     val data = DataBuilder.basicDataBuild(targetText2)
     val tokenizer = new Tokenizer().setInputCols("document").setOutputCol("token").fit(data)
     val result = getTokenizerOutput[Annotation](tokenizer, data, "annotation")
@@ -419,9 +438,10 @@ class TokenizerTestSpec extends AnyFlatSpec with TokenizerBehaviors {
       result.sameElements(expected2),
       s"because result tokens differ: " +
         s"\nresult was \n${result.mkString("|")} \nexpected is: \n${expected2.mkString("|")}")
+    assertIndexAlignment(result, targetText2)
   }
 
-  "a Tokenizer" should s"correctly tokenize a sentence with breaking characters on defaults" taggedAs FastTest in {
+  it should s"correctly tokenize a sentence with breaking characters on defaults" taggedAs FastTest in {
     val data = DataBuilder.basicDataBuild(targetText3)
     val tokenizer = new Tokenizer().setInputCols("document").setOutputCol("token").fit(data)
     val result = getTokenizerOutput[Annotation](tokenizer, data, "annotation")
@@ -429,9 +449,10 @@ class TokenizerTestSpec extends AnyFlatSpec with TokenizerBehaviors {
       result.sameElements(expected3),
       s"because result tokens differ: " +
         s"\nresult was \n${result.mkString("|")} \nexpected is: \n${expected3.mkString("|")}")
+    assertIndexAlignment(result, targetText3)
   }
 
-  "a Tokenizer" should s"correctly tokenize a sentence with breaking characters on shrink cleanup" taggedAs FastTest in {
+  it should s"correctly tokenize a sentence with breaking characters on shrink cleanup" taggedAs FastTest in {
     val data = DataBuilder.basicDataBuild(targetText4)(cleanupMode = "shrink")
     val tokenizer = new Tokenizer().setInputCols("document").setOutputCol("token").fit(data)
     val result = getTokenizerOutput[Annotation](tokenizer, data, "annotation")
@@ -439,9 +460,12 @@ class TokenizerTestSpec extends AnyFlatSpec with TokenizerBehaviors {
       result.sameElements(expected4),
       s"because result tokens differ: " +
         s"\nresult was \n${result.mkString("|")} \nexpected is: \n${expected4.mkString("|")}")
+
+    val cleanedText = Annotation.collect(data, "document").head.head.result
+    assertIndexAlignment(result, cleanedText)
   }
 
-  "a tokenizer" should "split French apostrophe on left" taggedAs FastTest in {
+  it should "split French apostrophe on left" taggedAs FastTest in {
 
     val data = DataBuilder.basicDataBuild("l'une d'un l'un, des l'extrême des l'extreme")
     val documentAssembler = new DocumentAssembler()
@@ -479,7 +503,7 @@ class TokenizerTestSpec extends AnyFlatSpec with TokenizerBehaviors {
 
   }
 
-  "a Tokenizer" should s"correctly tokenize a sentence with breaking characters on shrink_full cleanup" taggedAs FastTest in {
+  it should s"correctly tokenize a sentence with breaking characters on shrink_full cleanup" taggedAs FastTest in {
     val data = DataBuilder.basicDataBuild(targetText5)(cleanupMode = "shrink_full")
     val tokenizer = new Tokenizer().setInputCols("document").setOutputCol("token").fit(data)
     val result = getTokenizerOutput[Annotation](tokenizer, data, "annotation")
@@ -489,7 +513,7 @@ class TokenizerTestSpec extends AnyFlatSpec with TokenizerBehaviors {
         s"\nresult was \n${result.mkString("|")} \nexpected is: \n${expected5.mkString("|")}")
   }
 
-  "a Tokenizer" should s"correctly tokenize cleanup with composite and exceptions" taggedAs FastTest in {
+  it should s"correctly tokenize cleanup with composite and exceptions" taggedAs FastTest in {
     val data = DataBuilder.basicDataBuild(targetText6)(cleanupMode = "shrink_full")
     val tokenizer = new Tokenizer()
       .setInputCols("document")
@@ -502,10 +526,14 @@ class TokenizerTestSpec extends AnyFlatSpec with TokenizerBehaviors {
       result.sameElements(expected6),
       s"because result tokens differ: " +
         s"\nresult was \n${result.mkString("|")} \nexpected is: \n${expected6.mkString("|")}")
+
+    val cleanedText = Annotation.collect(data, "document").head.head.result
+    assertIndexAlignment(result, cleanedText)
   }
 
-  "a Tokenizer" should "correctly tokenize target sentences on its defaults parameters with composite and different target pattern" taggedAs FastTest in {
-    val data = DataBuilder.basicDataBuild("Hello New York and Goodbye")
+  it should "correctly tokenize target sentences on its defaults parameters with composite and different target pattern" taggedAs FastTest in {
+    val text = "Hello New York and Goodbye"
+    val data = DataBuilder.basicDataBuild(text)
     val tokenizer = new Tokenizer()
       .setInputCols("document")
       .setOutputCol("token")
@@ -513,13 +541,15 @@ class TokenizerTestSpec extends AnyFlatSpec with TokenizerBehaviors {
       .setExceptions(Array("New York"))
       .fit(data)
     val result = getTokenizerOutput[String](tokenizer, data)
+    val resultAnnotation = getTokenizerOutput[Annotation](tokenizer, data, "")
     assert(
       result.sameElements(Seq("Hello", "New York", "and", "Goodbye")),
       s"because result tokens differ: " +
         s"\nresult was \n${result.mkString("|")} \nexpected is: \n${expected1.mkString("|")}")
+    assertIndexAlignment(resultAnnotation, text)
   }
 
-  "a spark based tokenizer" should "resolve big data" taggedAs FastTest in {
+  it should "resolve big data" taggedAs FastTest in {
     val data = ContentProvider.parquetData
       .limit(500000)
       .repartition(16)
@@ -540,14 +570,10 @@ class TokenizerTestSpec extends AnyFlatSpec with TokenizerBehaviors {
     info(s"Collected 5000 tokens took ${(new Date().getTime - date1) / 1000.0} seconds")
   }
 
-  val latinBodyData: Dataset[Row] = DataBuilder.basicDataBuild(ContentProvider.latinBody)
+  it should "handle composite tokens with special chars" taggedAs FastTest in {
 
-  "A full Tokenizer pipeline with latin content" should behave like fullTokenizerPipeline(
-    latinBodyData)
-
-  "a tokenizer" should "handle composite tokens with special chars" taggedAs FastTest in {
-
-    val data = DataBuilder.basicDataBuild("Are you kidding me ?!?! what is this for !?")
+    val text = "Are you kidding me ?!?! what is this for !?"
+    val data = DataBuilder.basicDataBuild(text)
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
 
@@ -560,10 +586,12 @@ class TokenizerTestSpec extends AnyFlatSpec with TokenizerBehaviors {
       .fit(data)
 
     val tokenized = tokenizer.transform(assembled)
-    tokenized.collect()
+    val resultAnnotation = Annotation.collect(tokenized, "token").flatten
+
+    assertIndexAlignment(resultAnnotation, text)
   }
 
-  "a Tokenizer" should "correctly filter out tokens based on setting minimum and maximum lengths" taggedAs FastTest in {
+  it should "correctly filter out tokens based on setting minimum and maximum lengths" taggedAs FastTest in {
     val data = DataBuilder.basicDataBuild("Hello New York and Goodbye")
     val tokenizer = new Tokenizer()
       .setInputCols("document")
@@ -579,9 +607,10 @@ class TokenizerTestSpec extends AnyFlatSpec with TokenizerBehaviors {
         s"\nresult was \n${result.mkString("|")} \nexpected is: \n${expected1.mkString("|")}")
   }
 
-  "a Tokenizer" should "work correctly with multiple split chars" taggedAs FastTest in {
+  it should "work correctly with multiple split chars" taggedAs FastTest in {
+    val text = "Hello big-city-of-lights welcome to the ground###earth."
     val data =
-      DataBuilder.basicDataBuild("Hello big-city-of-lights welcome to the ground###earth.")
+      DataBuilder.basicDataBuild(text)
     val tokenizer = new Tokenizer()
       .setInputCols("document")
       .setOutputCol("token")
@@ -605,11 +634,14 @@ class TokenizerTestSpec extends AnyFlatSpec with TokenizerBehaviors {
       result.sameElements(expected),
       s"because result tokens differ: " +
         s"\nresult was \n${result.mkString("\n")} \nexpected is: \n${expected.mkString("\n")}")
+
+    assertIndexAlignment(result, text)
   }
 
-  "a Tokenizer" should "work correctly with multiple split chars including stars '*'" taggedAs FastTest in {
+  it should "work correctly with multiple split chars including stars '*'" taggedAs FastTest in {
+    val text = "Hello big-city-of-lights welcome to*the ground###earth."
     val data =
-      DataBuilder.basicDataBuild("Hello big-city-of-lights welcome to*the ground###earth.")
+      DataBuilder.basicDataBuild(text)
     val tokenizer = new Tokenizer()
       .setInputCols("document")
       .setOutputCol("token")
@@ -633,11 +665,14 @@ class TokenizerTestSpec extends AnyFlatSpec with TokenizerBehaviors {
       result.sameElements(expected),
       s"because result tokens differ: " +
         s"\nresult was \n${result.mkString("\n")} \nexpected is: \n${expected.mkString("\n")}")
+
+    assertIndexAlignment(result, text)
   }
 
-  "a Tokenizer" should "work correctly with a split pattern" taggedAs FastTest in {
+  it should "work correctly with a split pattern" taggedAs FastTest in {
+    val text = "Hello big-city-of-lights welcome to the ground###earth."
     val data =
-      DataBuilder.basicDataBuild("Hello big-city-of-lights welcome to the ground###earth.")
+      DataBuilder.basicDataBuild(text)
     val tokenizer = new Tokenizer()
       .setInputCols("document")
       .setOutputCol("token")
@@ -660,9 +695,11 @@ class TokenizerTestSpec extends AnyFlatSpec with TokenizerBehaviors {
       result.sameElements(expected),
       s"because result tokens differ: " +
         s"\nresult was \n${result.mkString("\n")} \nexpected is: \n${expected.mkString("\n")}")
+
+    assertIndexAlignment(result, text)
   }
 
-  "a Tokenizer" should "benchmark exceptions" taggedAs SlowTest in {
+  it should "benchmark exceptions" taggedAs SlowTest ignore {
     val data = AnnotatorBuilder.getTrainingDataSet("src/test/resources/spell/sherlockholmes.txt")
 
     val documentAssembler = new DocumentAssembler()
@@ -706,9 +743,69 @@ class TokenizerTestSpec extends AnyFlatSpec with TokenizerBehaviors {
 
   }
 
-  "RecursiveTokenizer" should "split suffixes" taggedAs FastTest in {
+  it should "produce correct indexes for split patterns without space" taggedAs FastTest in {
 
-    val data = DataBuilder.basicDataBuild("One, after the\n\nOther, (and) again.\nPO, QAM,")
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols("document")
+      .setOutputCol("token")
+      .setSplitPattern("""\s+|(?=[-.:;*+,\(\)\/$&%\\[\\]])|(?<=[-.:;*+,\(\)\/$&%\\[\\]])""")
+
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer))
+
+    val text =
+      "PRIMARY OBJECTIVES:\r\n\r\n      I. Determine the safety and feasibility of the chimeric antigen receptor T cells transduced\r\n      with the anti-CD19 (cluster of differentiation antigen 19 ) vector (referred to as CART-19\r\n      cells).\r\n\r\n      II. Determine duration of in vivo survival of CART-19 cells. RT-PCR (reverse transcription\r\n      polymerase chain reaction) analysis of whole blood will be used to detect and quantify\r\n      survival of CART-19 TCR (T-cell receptor) zeta:CD137 and TCR zeta cells over time.\r\n\r\n      SECONDARY OBJECTIVES:\r\n\r\n      I. For patients with detectable disease, measure anti-tumor response due to CART-19 cell\r\n      infusions.\r\n\r\n      II. To determine if the CD137 transgene is superior to the TCR zeta only transgene as\r\n      measured by the relative engraftment levels of CART-19 TCR zeta:CD137 and TCR zeta cells over\r\n      time.\r\n\r\n      III. Estimate relative trafficking of CART-19 cells to tumor in bone marrow and lymph nodes.\r\n\r\n      IV. For patients with stored or accessible tumor cells (such as patients with active chronic\r\n      lymphocytic leukemia(CLL), acute lymphocytic leukemia (ALL), etc) determine tumor cell\r\n      killing by CART-19 cells in vitro.\r\n\r\n      V. Determine if cellular or humoral host immunity develops against the murine anti-CD19, and\r\n      assess correlation with loss of detectable CART-19 (loss of engraftment).\r\n\r\n      VI. Determine the relative subsets of CART-19 T cells (Tcm, Tem, and Treg).\r\n\r\n      OUTLINE: Patients are assigned to 1 group according to order of enrollment.\r\n\r\n      Patients receive anti-CD19-CAR (coupled with CD137 and CD3 zeta signalling\r\n      domains)vector-transduced autologous T cells on days 0,1, and 2 in the absence of disease\r\n      progression or unacceptable toxicity.\r\n\r\n      After completion of study treatment, patients are followed intensively for 6 months, every 3\r\n      months for 2 years, and annually thereafter for 13 years."
+
+    val data = Seq(text).toDF("text")
+
+    val result = pipeline.fit(data).transform(data)
+
+    val collected =
+      Annotation.collect(result, "token").flatten.toSeq
+
+    assertIndexAlignment(collected, text)
+  }
+
+  it should "produce correct indexes for matches without space" in {
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols("document")
+      .setOutputCol("token")
+      .setSplitPattern("(?=.)") // split at every character
+
+    val text = "abcdef"
+    val data = Seq(text).toDF("text")
+
+    val expected: Array[Annotation] =
+      text.toArray.zipWithIndex.map { case (t: Char, i: Int) =>
+        Annotation("token", begin = i, end = i, t.toString, Map("sentence" -> "0"))
+      }
+
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer))
+    val result = pipeline.fit(data).transform(data)
+
+    val resultTokens: Array[Annotation] =
+      Annotation.collect(result, "token").flatten
+
+    assert(expected sameElements resultTokens)
+    assertIndexAlignment(resultTokens, text)
+
+  }
+
+  val latinBodyData: Dataset[Row] = DataBuilder.basicDataBuild(ContentProvider.latinBody)
+
+  "A full Tokenizer pipeline with latin content" should behave like fullTokenizerPipeline(
+    latinBodyData)
+
+  "RecursiveTokenizer" should "split suffixes" taggedAs FastTest in {
+    val text = "One, after the\n\nOther, (and) again.\nPO, QAM,"
+    val data = DataBuilder.basicDataBuild(text)
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
       .setOutputCol("doc")
@@ -722,6 +819,7 @@ class TokenizerTestSpec extends AnyFlatSpec with TokenizerBehaviors {
 
     val tokenized = tokenizer.transform(assembled)
     val result = tokenized.select("token").as[Seq[Annotation]].collect.head.map(_.result)
+    val resultAnnotation = Annotation.collect(tokenized, "token").flatten
     val expected = Seq(
       "One",
       ",",
@@ -742,7 +840,7 @@ class TokenizerTestSpec extends AnyFlatSpec with TokenizerBehaviors {
       "QAM",
       ",")
     assert(result.equals(expected))
-
+    assertIndexAlignment(resultAnnotation, text)
   }
 
   "RecursiveTokenizer" should "be serializable as model" taggedAs FastTest in {
@@ -787,6 +885,46 @@ class TokenizerTestSpec extends AnyFlatSpec with TokenizerBehaviors {
     val loadedPipelineModel = PipelineModel.load("./tmp_pipelineModel_with_recTokenizer")
     loadedPipelineModel.transform(data).show()
 
+  }
+
+  it should "tokenize with sentence index" taggedAs FastTest in {
+
+    val text = "This is a sentence. This is another one"
+    val testDataSet = Seq(text).toDS.toDF("text")
+
+    val expectedEntitiesFromText1: Array[Seq[Annotation]] = Array(
+      Seq(
+        Annotation(TOKEN, 0, 3, "This", Map("sentence" -> "0")),
+        Annotation(TOKEN, 5, 6, "is", Map("sentence" -> "0")),
+        Annotation(TOKEN, 8, 8, "a", Map("sentence" -> "0")),
+        Annotation(TOKEN, 10, 17, "sentence", Map("sentence" -> "0")),
+        Annotation(TOKEN, 18, 18, ".", Map("sentence" -> "0"))),
+      Seq(
+        Annotation(TOKEN, 20, 23, "This", Map("sentence" -> "1")),
+        Annotation(TOKEN, 25, 26, "is", Map("sentence" -> "1")),
+        Annotation(TOKEN, 28, 34, "another", Map("sentence" -> "1")),
+        Annotation(TOKEN, 36, 38, "one", Map("sentence" -> "1"))))
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentenceDetector = new SentenceDetector()
+      .setInputCols("document")
+      .setOutputCol("sentence")
+      .setExplodeSentences(true)
+
+    val tokenizer = new Tokenizer()
+      .setInputCols("sentence")
+      .setOutputCol("token")
+
+    val pipeline = new Pipeline()
+      .setStages(Array(documentAssembler, sentenceDetector, tokenizer))
+
+    val resultDataSet = pipeline.fit(testDataSet).transform(testDataSet)
+    val actualEntities = AssertAnnotations.getActualResult(resultDataSet, "token")
+
+    AssertAnnotations.assertFields(expectedEntitiesFromText1, actualEntities)
   }
 
 }

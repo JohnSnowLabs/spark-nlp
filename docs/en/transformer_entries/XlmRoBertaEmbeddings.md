@@ -18,7 +18,7 @@ val embeddings = XlmRoBertaEmbeddings.pretrained()
 The default model is `"xlm_roberta_base"`, default language is `"xx"` (meaning multi-lingual), if no values are provided.
 For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Embeddings).
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XLM-RoBERTa.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XLM-RoBERTa.ipynb)
 and the [XlmRoBertaEmbeddingsTestSpec](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/XlmRoBertaEmbeddingsTestSpec.scala).
 Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are compatible and how to import them see [Import Transformers into Spark NLP 🚀](https://github.com/JohnSnowLabs/spark-nlp/discussions/5669).
 
@@ -53,11 +53,11 @@ WORD_EMBEDDINGS
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[XlmRoBertaEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/XlmRoBertaEmbeddings)
+[XlmRoBertaEmbeddings](/api/com/johnsnowlabs/nlp/embeddings/XlmRoBertaEmbeddings)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[XlmRoBertaEmbeddings](/api/python/reference/autosummary/python/sparknlp/annotator/embeddings/xlm_roberta_embeddings/index.html#sparknlp.annotator.embeddings.xlm_roberta_embeddings.XlmRoBertaEmbeddings)
+[XlmRoBertaEmbeddings](/api/python/reference/autosummary/sparknlp/annotator/embeddings/xlm_roberta_embeddings/index.html#sparknlp.annotator.embeddings.xlm_roberta_embeddings.XlmRoBertaEmbeddings)
 {%- endcapture -%}
 
 {%- capture source_link -%}

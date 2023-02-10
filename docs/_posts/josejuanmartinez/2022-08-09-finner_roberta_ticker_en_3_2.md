@@ -26,7 +26,8 @@ This model aims to detect Trading Symbols / Tickers in texts. You can then use C
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/public/NER_TICKER/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_roberta_ticker_en_1.0.0_3.2_1660036613729.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_roberta_ticker_en_1.0.0_3.2_1660036613729.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/finance/models/finner_roberta_ticker_en_1.0.0_3.2_1660036613729.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

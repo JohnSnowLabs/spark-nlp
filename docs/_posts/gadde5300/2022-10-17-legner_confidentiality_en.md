@@ -30,7 +30,8 @@ This is a Legal Named Entity Recognition Model to identify the Subject (who), Ac
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_confidentiality_en_1.0.0_3.0_1666013443039.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_confidentiality_en_1.0.0_3.0_1666013443039.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legner_confidentiality_en_1.0.0_3.0_1666013443039.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -108,7 +109,7 @@ In-house annotated examples from CUAD legal dataset
 ## Benchmarking
 
 ```bash
-                                   precision    recall  f1-score   support
+                            label  precision    recall  f1-score   support
                 B-CONFIDENTIALITY     0.9077    0.9219    0.9147        64
          B-CONFIDENTIALITY_ACTION     1.0000    1.0000    1.0000        53
 B-CONFIDENTIALITY_INDIRECT_OBJECT     0.9419    0.9529    0.9474        85
@@ -118,7 +119,7 @@ B-CONFIDENTIALITY_INDIRECT_OBJECT     0.9419    0.9529    0.9474        85
 I-CONFIDENTIALITY_INDIRECT_OBJECT     0.9744    0.8444    0.9048        45
         I-CONFIDENTIALITY_SUBJECT     1.0000    1.0000    1.0000        25
                                 O     0.9913    0.9950    0.9932      1604
-                         accuracy                         0.9839      2053
-                        macro avg     0.9683    0.9562    0.9617      2053
-                     weighted avg     0.9839    0.9839    0.9838      2053
+                         accuracy        -        -       0.9839      2053
+                        macro-avg     0.9683    0.9562    0.9617      2053
+                     weighted-avg     0.9839    0.9839    0.9838      2053
 ```

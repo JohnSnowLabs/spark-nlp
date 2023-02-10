@@ -96,11 +96,11 @@ converter.transform(result).selectExpr("explode(entities)").show(false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[NerConverter](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/NerConverter)
+[NerConverter](/api/com/johnsnowlabs/nlp/annotators/ner/NerConverter)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[NerConverter](/api/python/reference/autosummary/python/sparknlp/annotator/ner/ner_converter/index.html#sparknlp.annotator.ner.ner_converter.NerConverter)
+[NerConverter](/api/python/reference/autosummary/sparknlp/annotator/ner/ner_converter/index.html#sparknlp.annotator.ner.ner_converter.NerConverter)
 {%- endcapture -%}
 
 {%- capture source_link -%}

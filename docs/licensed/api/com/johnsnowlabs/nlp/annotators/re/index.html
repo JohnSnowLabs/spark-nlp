@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.re</title>
-          <meta name="description" content="Spark NLP 4.2.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.re" />
-          <meta name="keywords" content="Spark NLP 4.2.3 ScalaDoc com.johnsnowlabs.nlp.annotators.re" />
+          <title>Spark NLP 4.2.8 ScalaDoc  - com.johnsnowlabs.nlp.annotators.re</title>
+          <meta name="description" content="Spark NLP 4.2.8 ScalaDoc - com.johnsnowlabs.nlp.annotators.re" />
+          <meta name="keywords" content="Spark NLP 4.2.8 ScalaDoc com.johnsnowlabs.nlp.annotators.re" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.2.8 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -383,6 +383,10 @@
                         <a href="DLRelationInstance.html" title="">DLRelationInstance</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
+                        <a class="class" href="GenericREModel.html" title="Instantiated RelationExtractionModel for extracting relationships between any entitites."></a>
+                        <a href="GenericREModel.html" title="Instantiated RelationExtractionModel for extracting relationships between any entitites.">GenericREModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
                         <a class="class" href="PosologyREModel.html" title="Instantiated RelationExtractionModel for extracting relationships between different recognized drug entitites."></a>
                         <a href="PosologyREModel.html" title="Instantiated RelationExtractionModel for extracting relationships between different recognized drug entitites.">PosologyREModel</a>
                       </li><li class="current-entities indented5">
@@ -548,12 +552,33 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <a title="" href="DLRelationInstance.html"><span class="name">DLRelationInstance</span></a><span class="params">(<span name="relationType">relationType: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="entity1">entity1: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="entity2">entity2: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="entity1_begin">entity1_begin: <span class="extype" name="scala.Int">Int</span></span>, <span name="entity1_end">entity1_end: <span class="extype" name="scala.Int">Int</span></span>, <span name="entity2_begin">entity2_begin: <span class="extype" name="scala.Int">Int</span></span>, <span name="entity2_end">entity2_end: <span class="extype" name="scala.Int">Int</span></span>, <span name="chunk1">chunk1: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="chunk2">chunk2: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="syntactic_distance">syntactic_distance: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="context">context: <span class="extype" name="com.johnsnowlabs.nlp.annotators.common.Sentence">Sentence</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a title="" href="DLRelationInstance.html"><span class="name">DLRelationInstance</span></a><span class="params">(<span name="relationType">relationType: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="entity1">entity1: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="entity2">entity2: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="entity1_begin">entity1_begin: <span class="extype" name="scala.Int">Int</span></span>, <span name="entity1_end">entity1_end: <span class="extype" name="scala.Int">Int</span></span>, <span name="entity2_begin">entity2_begin: <span class="extype" name="scala.Int">Int</span></span>, <span name="entity2_end">entity2_end: <span class="extype" name="scala.Int">Int</span></span>, <span name="chunk1">chunk1: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="chunk2">chunk2: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="chunk1_conf">chunk1_conf: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="chunk2_conf">chunk2_conf: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="syntactic_distance">syntactic_distance: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="context">context: <span class="extype" name="com.johnsnowlabs.nlp.annotators.common.Sentence">Sentence</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
       
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.GenericREModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="GenericREModelextendsRelationExtractionModelwithHasStorageRefwithParamsAndFeaturesWritablewithCheckLicense"></a><a id="GenericREModel:GenericREModel"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/GenericREModel.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="Instantiated RelationExtractionModel for extracting relationships between any entitites." href="GenericREModel.html"><span class="name">GenericREModel</span></a><span class="result"> extends <a href="RelationExtractionModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel">RelationExtractionModel</a> with <span class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</span> with <span class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</span> with <span class="extype" name="com.johnsnowlabs.license.CheckLicense">CheckLicense</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Instantiated <a href="RelationExtractionModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel">RelationExtractionModel</a> for extracting relationships between any entitites.</p><div class="fullcomment"><div class="comment cmt"><p>Instantiated <a href="RelationExtractionModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel">RelationExtractionModel</a> for extracting relationships between any entitites.
+This class is not intended to be directly used, please use the RelationExtractionModel instead.
+Pairs of entitie should be specified using setRelationPairs
+Please see the
+<a href="https://nlp.johnsnowlabs.com/models?task=Relation+Extraction" target="_blank">Models Hub</a> for available models.
+</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="RelationExtractionModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel">RelationExtractionModel</a> to use the model</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.re.PosologyREModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="PosologyREModelextendsRelationExtractionModelwithHasStorageRefwithParamsAndFeaturesWritablewithCheckLicense"></a><a id="PosologyREModel:PosologyREModel"></a>
+      <a id="PosologyREModelextendsGenericREModel"></a><a id="PosologyREModel:PosologyREModel"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/PosologyREModel.html" title="Permalink">
         <i class="material-icons"></i>
@@ -564,7 +589,7 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="Instantiated RelationExtractionModel for extracting relationships between different recognized drug entitites." href="PosologyREModel.html"><span class="name">PosologyREModel</span></a><span class="result"> extends <a href="RelationExtractionModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel">RelationExtractionModel</a> with <span class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</span> with <span class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</span> with <span class="extype" name="com.johnsnowlabs.license.CheckLicense">CheckLicense</span></span>
+        <a title="Instantiated RelationExtractionModel for extracting relationships between different recognized drug entitites." href="PosologyREModel.html"><span class="name">PosologyREModel</span></a><span class="result"> extends <a href="GenericREModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.GenericREModel">GenericREModel</a></span>
       </span>
       
       <p class="shortcomment cmt">Instantiated <a href="RelationExtractionModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel">RelationExtractionModel</a> for extracting relationships between different recognized drug entitites.</p><div class="fullcomment"><div class="comment cmt"><p>Instantiated <a href="RelationExtractionModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel">RelationExtractionModel</a> for extracting relationships between different recognized drug entitites.
@@ -994,7 +1019,7 @@ need to be defined with <a href="RelationExtractionModel.html#setRelationPairs(r
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <a title="" href="RelationInstance.html"><span class="name">RelationInstance</span></a><span class="params">(<span name="relationType">relationType: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="entity1">entity1: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="entity2">entity2: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="entity1_begin">entity1_begin: <span class="extype" name="scala.Int">Int</span></span>, <span name="entity1_end">entity1_end: <span class="extype" name="scala.Int">Int</span></span>, <span name="entity2_begin">entity2_begin: <span class="extype" name="scala.Int">Int</span></span>, <span name="entity2_end">entity2_end: <span class="extype" name="scala.Int">Int</span></span>, <span name="chunk1">chunk1: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="chunk2">chunk2: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="vector">vector: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]</span>, <span name="description">description: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a title="" href="RelationInstance.html"><span class="name">RelationInstance</span></a><span class="params">(<span name="relationType">relationType: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="entity1">entity1: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="entity2">entity2: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="entity1_begin">entity1_begin: <span class="extype" name="scala.Int">Int</span></span>, <span name="entity1_end">entity1_end: <span class="extype" name="scala.Int">Int</span></span>, <span name="entity2_begin">entity2_begin: <span class="extype" name="scala.Int">Int</span></span>, <span name="entity2_end">entity2_end: <span class="extype" name="scala.Int">Int</span></span>, <span name="chunk1">chunk1: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="chunk2">chunk2: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="chunk1_conf">chunk1_conf: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="chunk2_conf">chunk2_conf: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="vector">vector: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]</span>, <span name="description">description: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
       

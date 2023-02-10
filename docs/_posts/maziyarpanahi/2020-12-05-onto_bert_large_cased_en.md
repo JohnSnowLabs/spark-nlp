@@ -30,6 +30,7 @@ This model uses the pretrained `bert_large_cased` embeddings model from the `Ber
 [Live Demo](https://demo.johnsnowlabs.com/public/NER_EN_18){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/NER_EN.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/onto_bert_large_cased_en_2.7.0_2.4_1607198127113.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/onto_bert_large_cased_en_2.7.0_2.4_1607198127113.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

@@ -28,6 +28,7 @@ Pretrained Named Entity Recognition model, uploaded to Hugging Face, adapted and
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_ner_codeswitch_spaeng_ner_lince_en_3.4.2_3.0_1652097117742.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bert_ner_codeswitch_spaeng_ner_lince_en_3.4.2_3.0_1652097117742.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

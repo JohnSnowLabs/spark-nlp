@@ -20,7 +20,7 @@ For available pretrained models please see the
 [Models Hub](https://nlp.johnsnowlabs.com/models?task=Embeddings).
 
 For extended examples of usage, see the
-[Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/blogposts/3.NER_with_BERT.ipynb)
+[Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/dl-ner/ner_bert.ipynb)
 and the
 [CamemBertEmbeddingsTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/CamemBertEmbeddingsTestSpec.scala).
 To see which models are compatible and how to import them see
@@ -246,7 +246,7 @@ result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[CamemBertEmbeddings](/api/python/reference/autosummary/python/sparknlp/annotator/embeddings/camembert_embeddings/index.html#sparknlp.annotator.embeddings.camembert_embeddings.CamemBertEmbeddings)
+[CamemBertEmbeddings](/api/python/reference/autosummary/sparknlp/annotator/embeddings/camembert_embeddings/index.html#sparknlp.annotator.embeddings.camembert_embeddings.CamemBertEmbeddings)
 {%- endcapture -%}
 
 {%- capture source_link -%}

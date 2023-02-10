@@ -215,6 +215,9 @@ val result = pipeline.fit(data).transform(data)
 [RelationExtractionModel](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/re/RelationExtractionModel)
 {%- endcapture -%}
 
+{%- capture model_python_api_link -%}
+[RelationExtractionModel](https://nlp.johnsnowlabs.com/licensed/api/python/reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel)
+{%- endcapture -%}
 
 {%- capture approach_description -%}
 Trains a TensorFlow model for relation extraction. The Tensorflow graph in `.pb` format needs to be specified with
@@ -382,6 +385,9 @@ val model = pipeline.fit(trainData)
 [RelationExtractionApproach](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/re/RelationExtractionApproach)
 {%- endcapture -%}
 
+{%- capture approach_python_api_link -%}
+[RelationExtractionApproach](https://nlp.johnsnowlabs.com/licensed/api/python/reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach)
+{%- endcapture -%}
 
 {% include templates/licensed_approach_model_medical_fin_leg_template.md
 title=title
@@ -393,10 +399,12 @@ model_output_anno=model_output_anno
 model_python_medical=model_python_medical
 model_scala_medical=model_scala_medical
 model_api_link=model_api_link
+model_python_api_link=model_python_api_link
 approach_description=approach_description
 approach_input_anno=approach_input_anno
 approach_output_anno=approach_output_anno
 approach_python_medical=approach_python_medical
 approach_scala_medical=approach_scala_medical
 approach_api_link=approach_api_link
+approach_python_api_link=approach_python_api_link
 %}

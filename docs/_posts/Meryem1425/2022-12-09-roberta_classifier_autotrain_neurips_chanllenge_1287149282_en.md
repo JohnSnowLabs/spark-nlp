@@ -10,6 +10,7 @@ language: en
 edition: Spark NLP 4.2.4
 spark_version: 3.0
 supported: true
+recommended: true
 engine: tensorflow
 article_header:
   type: cover
@@ -28,6 +29,7 @@ Pretrained RobertaForSequenceClassification model, adapted from Hugging Face and
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/roberta_classifier_autotrain_neurips_chanllenge_1287149282_en_4.2.4_3.0_1670624021899.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/roberta_classifier_autotrain_neurips_chanllenge_1287149282_en_4.2.4_3.0_1670624021899.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

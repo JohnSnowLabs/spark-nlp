@@ -35,7 +35,8 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/finance/CLASSIFY_LEGAL_CLAUSES/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_conditions_clause_en_1.0.0_3.2_1660123336869.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_conditions_clause_en_1.0.0_3.2_1660123336869.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_conditions_clause_en_1.0.0_3.2_1660123336869.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -106,7 +107,7 @@ Legal documents, scrapped from the Internet, and classified in-house
        label  precision    recall  f1-score   support
   conditions       0.89      0.78      0.83        82
        other       0.90      0.95      0.93       175
-    accuracy        -         -        0.90       257
+    accuracy          -         -      0.90       257
    macro-avg       0.90      0.87      0.88       257
 weighted-avg       0.90      0.90      0.90       257
 ```

@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
+import com.johnsnowlabs.ml.ai.DistilBert
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadTextAsset,
@@ -48,7 +49,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   * [[https://nlp.johnsnowlabs.com/models?task=Embeddings Models Hub]].
   *
   * For extended examples of usage, see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBERT.ipynb Spark NLP Workshop]]
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBERT.ipynb Examples]]
   * and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/DistilBertEmbeddingsTestSpec.scala DistilBertEmbeddingsTestSpec]].
   * To see which models are compatible and how to import them see
@@ -241,7 +242,7 @@ class DistilBertEmbeddings(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowDistilBert]] = None
+  private var _model: Option[Broadcast[DistilBert]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
@@ -250,7 +251,7 @@ class DistilBertEmbeddings(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowDistilBert(
+          new DistilBert(
             tensorflowWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
@@ -262,7 +263,7 @@ class DistilBertEmbeddings(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowDistilBert = _model.get.value
+  def getModelIfNotSet: DistilBert = _model.get.value
 
   /** Set Embeddings dimensions for the DistilBERT model. Only possible to set this when the first
     * time is saved dimension is not changeable, it comes from DistilBERT config file.
@@ -408,13 +409,13 @@ trait ReadDistilBertDLModel extends ReadTensorflowModel {
 
   override val tfFile: String = "distilbert_tensorflow"
 
-  def readTensorflow(instance: DistilBertEmbeddings, path: String, spark: SparkSession): Unit = {
+  def readModel(instance: DistilBertEmbeddings, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_distilbert_tf", initAllTables = false)
     instance.setModelIfNotSet(spark, tf)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): DistilBertEmbeddings = {
 

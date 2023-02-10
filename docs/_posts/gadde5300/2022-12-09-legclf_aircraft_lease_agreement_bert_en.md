@@ -29,7 +29,8 @@ Unlike the Longformer model, this model is lighter in terms of inference time.
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_aircraft_lease_agreement_bert_en_1.0.0_3.0_1670584863786.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_aircraft_lease_agreement_bert_en_1.0.0_3.0_1670584863786.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_aircraft_lease_agreement_bert_en_1.0.0_3.0_1670584863786.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -37,6 +38,7 @@ Unlike the Longformer model, this model is lighter in terms of inference time.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  
 document_assembler = nlp.DocumentAssembler()\
@@ -86,13 +88,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-                          precision    recall  f1-score   support
-
+                   label  precision    recall  f1-score   support
 aircraft-lease-agreement       0.94      0.91      0.92        33
                    other       0.95      0.97      0.96        59
-
-                accuracy                           0.95        92
-               macro avg       0.94      0.94      0.94        92
-            weighted avg       0.95      0.95      0.95        92
-
+                accuracy          -         -      0.95        92
+               macro-avg       0.94      0.94      0.94        92
+            weighted-avg       0.95      0.95      0.95        92
 ```

@@ -12,14 +12,14 @@ sidebar:
 
 <div class="h3-box" markdown="1">
 
-<div class="tabs-box tabs-new" markdown="1">
+<div class="tabs-model-aproach has_nlu" markdown="1">
 
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
-<div class="highlighter-rouge language-python" markdown="1">
+<div class="highlighter-rouge jsl-tabs tabs-python-scala-box language-python" markdown="1">
 {% include programmingLanguageSelectPythons.html %}
 
-<div class="python-inner python-spark-nlp-jsl" markdown="1">
+<div class="tabs-mfl-box python-spark-nlp-jsl" markdown="1">
 
  ```python
 ...
@@ -33,7 +33,7 @@ result = light_pipeline.fullAnnotate("""He was given boluses of MS04 with some e
 ```
 
 </div>
-<div class="python-inner python-johnsnowlabs" markdown="1">
+<div class="tabs-mfl-box python-johnsnowlabs" markdown="1">
 
 ```python
 ...
@@ -49,6 +49,7 @@ result = light_pipeline.fullAnnotate("""He was given boluses of MS04 with some e
 </div>
 </div>
 
+{:.tabs-python-scala-box}
 ```scala
 val pos = PerceptronModel.pretrained("pos_clinical","en","clinical/models")
 	.setInputCols("token","sentence")
@@ -59,7 +60,7 @@ val data = Seq("He was given boluses of MS04 with some effect, he has since been
 val result = pipeline.fit(data).transform(data)
 ```
 
-{:.nlu-block}
+{:.tabs-python-scala-box}
 ```python
 import nlu
 nlu.load("en.pos.clinical").predict("""He was given boluses of MS04 with some effect, he has since been placed on a PCA - he take 80mg of oxycontin at home, his PCA dose is ~ 2 the morphine dose of the oxycontin, he has also received ativan for anxiety.""")

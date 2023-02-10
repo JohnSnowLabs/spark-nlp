@@ -32,6 +32,7 @@ Automatically detect identity hate, insult, obscene, severe toxic, threat, or to
 [Live Demo](https://demo.johnsnowlabs.com/public/CLASSIFICATION_MULTILABEL_TOXIC/){:.button.button-orange}
 [Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/CLASSIFICATION_MULTILABEL_TOXIC.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/multiclassifierdl_use_toxic_en_2.7.1_2.4_1611231604648.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/multiclassifierdl_use_toxic_en_2.7.1_2.4_1611231604648.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

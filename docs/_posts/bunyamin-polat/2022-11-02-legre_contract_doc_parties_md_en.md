@@ -39,7 +39,8 @@ This is a `md` model with Unidirectional Relations, meaning that the model retri
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legre_contract_doc_parties_md_en_1.0.0_3.0_1667404651340.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legre_contract_doc_parties_md_en_1.0.0_3.0_1667404651340.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legre_contract_doc_parties_md_en_1.0.0_3.0_1667404651340.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -157,12 +158,11 @@ Manual annotations on CUAD dataset
 ## Benchmarking
 
 ```bash
-| Relation             | Recall | Precision | F1    | Support |
-|----------------------|--------|-----------|-------|---------|
-| dated_as             | 1.000  | 0.957     | 0.978 | 44      |
-| has_alias            | 0.950  | 0.974     | 0.962 | 40      |
-| has_collective_alias | 0.667  | 1.000     | 0.800 | 3       |
-| signed_by            | 0.957  | 0.989     | 0.972 | 92      |
-| Avg.                 | 0.913  | 0.977     | 0.938 | -       |
-| Weighted-Avg.        | 0.973  | 0.974     | 0.973 | -       |
+label                 Recall  Precision  F1     Support 
+dated_as              1.000   0.957      0.978  44      
+has_alias             0.950   0.974      0.962  40      
+has_collective_alias  0.667   1.000      0.800  3       
+signed_by             0.957   0.989      0.972  92      
+Avg.                  0.913   0.977      0.938  -       
+Weighted-Avg.         0.973   0.974      0.973  -  
 ```

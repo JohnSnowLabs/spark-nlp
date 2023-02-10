@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Temporality / Certainty Assertion Status
+title: Temporality / Certainty Assertion Status (sm)
 author: John Snow Labs
 name: legassertion_time
 date: 2022-09-27
@@ -18,7 +18,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This is an Assertion Status Model aimed to detect temporality (PRESENT, PAST, FUTURE) or Certainty (POSSIBLE) in your legal documents
+This is a small Assertion Status Model aimed to detect temporality (PRESENT, PAST, FUTURE) or Certainty (POSSIBLE) in your legal documents
 
 ## Predicted Entities
 
@@ -27,7 +27,8 @@ This is an Assertion Status Model aimed to detect temporality (PRESENT, PAST, FU
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/legal/LEGASSERTION_TEMPORALITY){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legassertion_time_en_1.0.0_3.0_1664274039847.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legassertion_time_en_1.0.0_3.0_1664274039847.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legassertion_time_en_1.0.0_3.0_1664274039847.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

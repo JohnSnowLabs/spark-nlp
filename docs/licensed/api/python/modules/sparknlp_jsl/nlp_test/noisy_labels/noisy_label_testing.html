@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.nlp_test.noisy_labels.noisy_label_testing &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.nlp_test.noisy_labels.noisy_label_testing &#8212; Spark NLP  documentation</title>
   
   
   
@@ -289,7 +289,7 @@
         <span class="n">labels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span>
         <span class="n">pred_probs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A method to calculate error score for each label in the sentence, using model confidence scores.</span>
 <span class="sd">    :param labels: List of labels for each sentence. Labels should be in integer format.</span>
 <span class="sd">    :param pred_probs: List of np.array where each array contains model confidence score for each class.</span>
@@ -328,7 +328,7 @@
 <div class="viewcode-block" id="test_label_errors"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/nlp_test/noisy_labels/noisy_label_testing/index.html#sparknlp_jsl.nlp_test.noisy_labels.noisy_label_testing.test_label_errors">[docs]</a><span class="k">def</span> <span class="nf">test_label_errors</span><span class="p">(</span><span class="n">spark</span><span class="p">:</span> <span class="n">SparkSession</span><span class="p">,</span> <span class="n">training_pipeline</span><span class="p">:</span> <span class="n">Pipeline</span><span class="p">,</span>
                       <span class="n">conll_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span>
                       <span class="n">log_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;noisy_label_test_results.json&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function splits the data in k parts and gets predictions for each part using a model trained in the rest of the</span>
 <span class="sd">    parts (k - 1). The process is similar to cross-validation. This function creates an error report that can be used to</span>
 <span class="sd">    identify the most probable labeling errors in the dataset.</span>
@@ -381,7 +381,7 @@
 
         <span class="n">train_data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="o">~</span><span class="n">data</span><span class="o">.</span><span class="n">sent_id</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">test_ids</span><span class="p">))</span>
 
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Training </span><span class="si">{</span><span class="n">k_trial</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> is started.&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Training </span><span class="si">{</span><span class="n">k_trial</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> is started.&quot;</span><span class="p">)</span>
         <span class="n">trained_model</span> <span class="o">=</span> <span class="n">training_pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_data</span><span class="p">)</span>
 
         <span class="n">is_model_allowed</span> <span class="o">=</span> <span class="kc">False</span>
@@ -393,7 +393,7 @@
                 <span class="n">is_model_allowed</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">assert</span> <span class="n">is_model_allowed</span><span class="p">,</span> <span class="s1">&#39;Pipeline is invalid! Make sure it contains NerDLApproach or MedicalNerApproach.&#39;</span>
 
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Training </span><span class="si">{</span><span class="n">k_trial</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> is completed.&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Training </span><span class="si">{</span><span class="n">k_trial</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> is completed.&quot;</span><span class="p">)</span>
         <span class="n">ner_results</span> <span class="o">=</span> <span class="n">trained_model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
 
         <span class="n">labels_all</span> <span class="o">=</span> <span class="p">[]</span>
@@ -427,7 +427,7 @@
             <span class="n">sentence_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sent_id</span><span class="p">)</span>
 
         <span class="n">token_scores</span> <span class="o">=</span> <span class="n">get_label_quality_scores</span><span class="p">(</span><span class="n">labels_all</span><span class="p">,</span> <span class="n">confidence_scores_all</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Noisy labels are extracted from fold </span><span class="si">{</span><span class="n">k_trial</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Noisy labels are extracted from fold </span><span class="si">{</span><span class="n">k_trial</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
         <span class="k">assert</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">threshold</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Threshold must be between 0 and 1.&quot;</span>
 
         <span class="k">for</span> <span class="n">sent_indx</span><span class="p">,</span> <span class="n">sent_scores</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">token_scores</span><span class="p">):</span>

@@ -30,7 +30,8 @@ This is a Legal Relation Extraction Model to identify the Subject (who), Action 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legre_confidentiality_md_en_1.0.0_3.0_1668006317769.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legre_confidentiality_md_en_1.0.0_3.0_1668006317769.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legre_confidentiality_md_en_1.0.0_3.0_1668006317769.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -128,14 +129,11 @@ Manual annotations on CUAD dataset
 ## Benchmarking
 
 ```bash
-Relation                            Recall    Precision  F1          Support 
-
-is_confidentiality_indobject         0.960     1.000     0.980        25 
-is_confidentiality_object            1.000     0.933     0.966        56
-is_confidentiality_subject           0.935     1.000     0.967        31
-other                                0.989     1.000     0.994        88
-
-Avg.                                 0.971     0.983     0.977
-
-Weighted Avg.                        0.980     0.981     0.980
+                       label     Recall Precision        F1   Support 
+is_confidentiality_indobject      0.960     1.000     0.980        25 
+   is_confidentiality_object      1.000     0.933     0.966        56
+  is_confidentiality_subject      0.935     1.000     0.967        31
+                       other      0.989     1.000     0.994        88
+                         Avg      0.971     0.983     0.977        -
+                Weighted-Avg      0.980     0.981     0.980        -
 ```

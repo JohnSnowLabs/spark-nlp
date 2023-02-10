@@ -35,7 +35,8 @@ This model is a Binary Classifier (True, False) for the `successor-to-the-bank` 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_successor_to_the_bank_clause_en_1.0.0_3.0_1670246963089.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_successor_to_the_bank_clause_en_1.0.0_3.0_1670246963089.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_successor_to_the_bank_clause_en_1.0.0_3.0_1670246963089.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -43,6 +44,7 @@ This model is a Binary Classifier (True, False) for the `successor-to-the-bank` 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  documentAssembler = nlp.DocumentAssembler() \
          .setInputCol("clause_text") \
@@ -89,14 +91,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-
-                       precision    recall  f1-score   support
-
+                label  precision    recall  f1-score   support
                 other       1.00      1.00      1.00        31
 successor-to-the-bank       1.00      1.00      1.00        21
-
              accuracy          -         -      1.00        52
-            macro avg       1.00      1.00      1.00        52
-         weighted avg       1.00      1.00      1.00        52
-
+            macro-avg       1.00      1.00      1.00        52
+         weighted-avg       1.00      1.00      1.00        52
 ```

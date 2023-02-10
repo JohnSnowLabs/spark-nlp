@@ -155,6 +155,9 @@ val pipeline = new Pipeline().setStages(Array(docAssembler, sentenceDetector, to
 [IOBTagger](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/ner/IOBTagger)
 {%- endcapture -%}
 
+{%- capture model_python_api_link -%}
+[IOBTagger](https://nlp.johnsnowlabs.com/licensed/api/python/reference/autosummary/sparknlp_jsl/annotator/ner/iob_tagger/index.html#sparknlp_jsl.annotator.ner.iob_tagger.IOBTagger)
+{%- endcapture -%}
 
 {% include templates/licensed_approach_model_medical_fin_leg_template.md
 title=title
@@ -168,6 +171,6 @@ model_python_finance=model_python_finance
 model_scala_medical=model_scala_medical
 model_scala_legal=model_scala_legal
 model_scala_finance=model_scala_finance
-model_api_link=model_api_link%}
-
-
+model_api_link=model_api_link
+model_python_api_link=model_python_api_link
+%}

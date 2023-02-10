@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.utils.alab_utils &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.utils.alab_utils &#8212; Spark NLP  documentation</title>
   
   
   
@@ -270,118 +270,136 @@
 <span></span><span class="sd">&quot;&quot;&quot;Util functions for alab module</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">json</span>
-
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">functions</span> <span class="k">as</span> <span class="n">F</span>
 <span class="kn">from</span> <span class="nn">pyspark.sql.types</span> <span class="kn">import</span> <span class="n">StructType</span><span class="p">,</span> <span class="n">StructField</span><span class="p">,</span> <span class="n">IntegerType</span><span class="p">,</span> <span class="n">StringType</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="n">Tokenizer</span><span class="p">,</span> <span class="n">RegexTokenizer</span><span class="p">,</span> <span class="n">SentenceDetectorDLModel</span><span class="p">,</span> <span class="n">PerceptronModel</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="n">Pipeline</span><span class="p">,</span> <span class="n">DocumentAssembler</span><span class="p">,</span> <span class="n">LightPipeline</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">DataFrame</span> <span class="k">as</span> <span class="n">SparkDataFrame</span>
+<span class="kn">from</span> <span class="nn">sparknlp_jsl.utils.imports</span> <span class="kn">import</span> <span class="n">is_module_importable</span>
+
+<div class="viewcode-block" id="nlp_token_pipeline"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.nlp_token_pipeline">[docs]</a><span class="n">nlp_token_pipeline</span><span class="p">:</span> <span class="n">LightPipeline</span> <span class="o">=</span> <span class="kc">None</span></div>
+<div class="viewcode-block" id="nlp_pos_pipeline"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.nlp_pos_pipeline">[docs]</a><span class="n">nlp_pos_pipeline</span><span class="p">:</span> <span class="n">LightPipeline</span> <span class="o">=</span> <span class="kc">None</span></div>
+<div class="viewcode-block" id="token_pipeline_initialized"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.token_pipeline_initialized">[docs]</a><span class="n">token_pipeline_initialized</span> <span class="o">=</span> <span class="kc">False</span></div>
+<div class="viewcode-block" id="pos_pipeline_initialized"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.pos_pipeline_initialized">[docs]</a><span class="n">pos_pipeline_initialized</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="document_assembler"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.document_assembler">[docs]</a><span class="n">document_assembler</span><span class="p">:</span> <span class="n">DocumentAssembler</span> <span class="o">=</span> <span class="kc">None</span></div>
+<div class="viewcode-block" id="sentence_detector"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.sentence_detector">[docs]</a><span class="n">sentence_detector</span><span class="p">:</span> <span class="n">SentenceDetectorDLModel</span> <span class="o">=</span> <span class="kc">None</span></div>
+<div class="viewcode-block" id="regular_tokenizer"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.regular_tokenizer">[docs]</a><span class="n">regular_tokenizer</span><span class="p">:</span> <span class="n">Tokenizer</span> <span class="o">=</span> <span class="kc">None</span></div>
+<div class="viewcode-block" id="regex_tokenizer"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.regex_tokenizer">[docs]</a><span class="n">regex_tokenizer</span><span class="p">:</span> <span class="n">RegexTokenizer</span> <span class="o">=</span> <span class="kc">None</span></div>
+<div class="viewcode-block" id="empty_df"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.empty_df">[docs]</a><span class="n">empty_df</span><span class="p">:</span> <span class="n">SparkDataFrame</span> <span class="o">=</span> <span class="kc">None</span></div>
+<div class="viewcode-block" id="pos"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.pos">[docs]</a><span class="n">pos</span><span class="p">:</span> <span class="n">PerceptronModel</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
-<div class="viewcode-block" id="get_nlp_token_pipeline"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.get_nlp_token_pipeline">[docs]</a><span class="k">def</span> <span class="nf">get_nlp_token_pipeline</span><span class="p">(</span><span class="n">spark</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Generates a LightPipeline with a document assembler, sentence detector and regular tokenizer</span>
+<div class="viewcode-block" id="get_doc_assembler"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.get_doc_assembler">[docs]</a><span class="k">def</span> <span class="nf">get_doc_assembler</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">DocumentAssembler</span><span class="p">:</span>
+    <span class="k">global</span> <span class="n">document_assembler</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">document_assembler</span><span class="p">:</span>
+        <span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span><span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">document_assembler</span></div>
+
+
+<div class="viewcode-block" id="get_sent_detector"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.get_sent_detector">[docs]</a><span class="k">def</span> <span class="nf">get_sent_detector</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">SentenceDetectorDLModel</span><span class="p">:</span>
+    <span class="k">global</span> <span class="n">sentence_detector</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">sentence_detector</span><span class="p">:</span>
+        <span class="n">sentence_detector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;sentence_detector_dl_healthcare&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span>
+                                                               <span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span> \
+            <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
+            <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentence&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sentence_detector</span></div>
+
+
+<div class="viewcode-block" id="get_regular_tokenizer"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.get_regular_tokenizer">[docs]</a><span class="k">def</span> <span class="nf">get_regular_tokenizer</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Tokenizer</span><span class="p">:</span>
+    <span class="k">global</span> <span class="n">regular_tokenizer</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">regular_tokenizer</span><span class="p">:</span>
+        <span class="n">regular_tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span><span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">regular_tokenizer</span></div>
+
+
+<div class="viewcode-block" id="get_regex_tokenizer"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.get_regex_tokenizer">[docs]</a><span class="k">def</span> <span class="nf">get_regex_tokenizer</span><span class="p">(</span><span class="n">regex_pattern</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RegexTokenizer</span><span class="p">:</span>
+    <span class="k">global</span> <span class="n">regex_tokenizer</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">regex_tokenizer</span><span class="p">:</span>
+        <span class="n">regex_tokenizer</span> <span class="o">=</span> <span class="n">RegexTokenizer</span><span class="p">()</span> \
+            <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">])</span> \
+            <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span> \
+            <span class="o">.</span><span class="n">setPositionalMask</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span> \
+            <span class="o">.</span><span class="n">setPattern</span><span class="p">(</span><span class="n">regex_pattern</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">regex_tokenizer</span></div>
+
+
+<div class="viewcode-block" id="get_pos"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.get_pos">[docs]</a><span class="k">def</span> <span class="nf">get_pos</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">PerceptronModel</span><span class="p">:</span>
+    <span class="k">global</span> <span class="n">pos</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">pos</span><span class="p">:</span>
+        <span class="n">pos</span> <span class="o">=</span> <span class="n">PerceptronModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;pos_clinical&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span> \
+            <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span> \
+            <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;pos&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pos</span></div>
+
+
+<div class="viewcode-block" id="get_empty_df"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.get_empty_df">[docs]</a><span class="k">def</span> <span class="nf">get_empty_df</span><span class="p">(</span><span class="n">spark</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SparkDataFrame</span><span class="p">:</span>
+    <span class="k">global</span> <span class="n">empty_df</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">empty_df</span><span class="p">:</span>
+        <span class="n">empty_df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">empty_df</span></div>
+
+
+<div class="viewcode-block" id="get_nlp_token_pipeline"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.get_nlp_token_pipeline">[docs]</a><span class="k">def</span> <span class="nf">get_nlp_token_pipeline</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">regex_pattern</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates a LightPipeline with a document assembler, sentence detector and regular tokenizer</span>
 <span class="sd">    :param spark: Spark session with spark-nlp-jsl jar</span>
 <span class="sd">    :type spark: SparkSession</span>
-<span class="sd">    :return: LightPipeline with a document assembler, sentence detector and regular tokenizer</span>
-<span class="sd">    :rtype: LightPipeline</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-        <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
-        <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
-
-    <span class="n">sentence_detector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;sentence_detector_dl_healthcare&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span>
-                                                           <span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span> \
-        <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
-        <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentence&quot;</span><span class="p">)</span>
-
-    <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-        <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">])</span> \
-        <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span>
-
-    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
-        <span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-            <span class="n">document_assembler</span><span class="p">,</span>
-            <span class="n">sentence_detector</span><span class="p">,</span>
-            <span class="n">tokenizer</span><span class="p">]</span>
-    <span class="p">)</span>
-
-    <span class="n">empty_data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
-
-    <span class="n">pipeline_fit</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty_data</span><span class="p">)</span>
-
-    <span class="n">lp_pipeline</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">pipeline_fit</span><span class="p">)</span>
-
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Spark NLP LightPipeline is created&quot;</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">lp_pipeline</span></div>
-
-
-<div class="viewcode-block" id="get_nlp_regex_token_pipeline"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.get_nlp_regex_token_pipeline">[docs]</a><span class="k">def</span> <span class="nf">get_nlp_regex_token_pipeline</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">regex_pattern</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Generates a LightPipeline with a document assembler, sentence detector and custom regex tokenizer</span>
-<span class="sd">    :param spark: Spark session with spark-nlp-jsl jar</span>
-<span class="sd">    :type spark: SparkSession</span>
-<span class="sd">    :param regex_pattern: set a pattern for the regex tokenizer</span>
+<span class="sd">    :param regex_pattern: set a pattern to use regex tokenizer, defaults to regular tokenizer if pattern not defined</span>
 <span class="sd">    :type regex_pattern: str</span>
-<span class="sd">    :return: LightPipeline with a document assembler, sentence detector and custom regex tokenizer</span>
+<span class="sd">    :return: LightPipeline with a document assembler, sentence detector and a regular or regex tokenizer depending on regex_pattern</span>
 <span class="sd">    :rtype: LightPipeline</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-        <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
-        <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
+    <span class="k">global</span> <span class="n">token_pipeline_initialized</span>
+    <span class="k">global</span> <span class="n">nlp_token_pipeline</span>
 
-    <span class="n">sentence_detector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;sentence_detector_dl_healthcare&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span>
-                                                           <span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span> \
-        <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
-        <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentence&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">token_pipeline_initialized</span><span class="p">:</span>
 
-    <span class="n">regex_tokenizer</span> <span class="o">=</span> <span class="n">RegexTokenizer</span><span class="p">()</span> \
-        <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">])</span> \
-        <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span> \
-        <span class="o">.</span><span class="n">setPositionalMask</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span> \
-        <span class="o">.</span><span class="n">setPattern</span><span class="p">(</span><span class="n">regex_pattern</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">regex_pattern</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">get_regular_tokenizer</span><span class="p">()</span>
 
-    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
-        <span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-            <span class="n">document_assembler</span><span class="p">,</span>
-            <span class="n">sentence_detector</span><span class="p">,</span>
-            <span class="n">regex_tokenizer</span><span class="p">]</span>
-    <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">get_regex_tokenizer</span><span class="p">(</span><span class="n">regex_pattern</span><span class="p">)</span>
 
-    <span class="n">empty_data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+        <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
+            <span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">get_doc_assembler</span><span class="p">(),</span>
+                <span class="n">get_sent_detector</span><span class="p">(),</span>
+                <span class="n">tokenizer</span><span class="p">]</span>
+        <span class="p">)</span>
 
-    <span class="n">pipeline_fit</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty_data</span><span class="p">)</span>
+        <span class="n">empty_data</span> <span class="o">=</span> <span class="n">get_empty_df</span><span class="p">(</span><span class="n">spark</span><span class="p">)</span>
 
-    <span class="n">lp_pipeline</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">pipeline_fit</span><span class="p">)</span>
+        <span class="n">pipeline_fit</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty_data</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Spark NLP LightPipeline is created&quot;</span><span class="p">)</span>
+        <span class="n">nlp_token_pipeline</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">pipeline_fit</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">lp_pipeline</span></div>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Spark NLP Token LightPipeline is created&quot;</span><span class="p">)</span>
+
+        <span class="n">token_pipeline_initialized</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">return</span> <span class="n">nlp_token_pipeline</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">nlp_token_pipeline</span></div>
 
 
 <div class="viewcode-block" id="get_sentence_pipeline"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.get_sentence_pipeline">[docs]</a><span class="k">def</span> <span class="nf">get_sentence_pipeline</span><span class="p">(</span><span class="n">spark</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Generates a LightPipeline with a document assembler and sentence detector</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates a LightPipeline with a document assembler and sentence detector</span>
 <span class="sd">        :param spark: Spark session with spark-nlp-jsl jar</span>
 <span class="sd">        :type spark: SparkSession</span>
 <span class="sd">        :return: LightPipeline with a document assembler and sentence detector</span>
 <span class="sd">        :rtype: LightPipeline</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-    <span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-        <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
-        <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
-
-    <span class="n">sentence_detector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;sentence_detector_dl_healthcare&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span>
-                                                           <span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span> \
-        <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
-        <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentence&quot;</span><span class="p">)</span>
-
     <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
         <span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-            <span class="n">document_assembler</span><span class="p">,</span>
-            <span class="n">sentence_detector</span><span class="p">]</span>
+            <span class="n">get_doc_assembler</span><span class="p">(),</span>
+            <span class="n">get_sent_detector</span><span class="p">()]</span>
     <span class="p">)</span>
 
-    <span class="n">empty_data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+    <span class="n">empty_data</span> <span class="o">=</span> <span class="n">get_empty_df</span><span class="p">(</span><span class="n">spark</span><span class="p">)</span>
 
     <span class="n">pipeline_fit</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty_data</span><span class="p">)</span>
 
@@ -389,7 +407,7 @@
 
 
 <div class="viewcode-block" id="get_rel_df"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.get_rel_df">[docs]</a><span class="k">def</span> <span class="nf">get_rel_df</span><span class="p">(</span><span class="n">input_json_path</span><span class="p">,</span> <span class="n">ground_truth</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Generate dataframe for all annotated relations from an Annotation Lab JSON export</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate dataframe for all annotated relations from an Annotation Lab JSON export</span>
 <span class="sd">    :param input_json_path: path to Annotation Lab JSON export</span>
 <span class="sd">    :type input_json_path: str</span>
 <span class="sd">    :param ground_truth: set to True to select ground truth completions, False to select latest completions,</span>
@@ -398,7 +416,8 @@
 <span class="sd">    :return: dataframe with all annotated relations</span>
 <span class="sd">    :rtype: pd.DataFrame</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
+    <span class="n">is_module_importable</span><span class="p">(</span><span class="s1">&#39;pandas&#39;</span><span class="p">,</span><span class="kc">True</span><span class="p">,</span><span class="s1">&#39;pandas&#39;</span> <span class="p">)</span>
+    <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">input_json_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_file</span><span class="p">:</span>
         <span class="n">ann_results</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">json_file</span><span class="p">)</span>
 
@@ -422,7 +441,8 @@
 
             <span class="k">elif</span> <span class="n">ground_truth</span> <span class="ow">is</span> <span class="kc">False</span> <span class="ow">or</span> <span class="n">ground_truth</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">rels</span><span class="o">.</span><span class="n">extend</span><span class="p">([(</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;from_id&#39;</span><span class="p">],</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;to_id&#39;</span><span class="p">],</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;labels&#39;</span><span class="p">,</span> <span class="p">[]),</span> <span class="n">task_id</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span>
-                             <span class="n">ann_result</span><span class="p">[</span><span class="s1">&#39;completions&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;result&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;labels&#39;</span><span class="p">,</span> <span class="s1">&#39;choices&#39;</span><span class="p">,</span> <span class="s1">&#39;textarea&#39;</span><span class="p">]])</span>
+                             <span class="n">ann_result</span><span class="p">[</span><span class="s1">&#39;completions&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;result&#39;</span><span class="p">]</span> <span class="k">if</span>
+                             <span class="n">d</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;labels&#39;</span><span class="p">,</span> <span class="s1">&#39;choices&#39;</span><span class="p">,</span> <span class="s1">&#39;textarea&#39;</span><span class="p">]])</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Successfully processed relations for task:&#39;</span><span class="p">,</span> <span class="n">task_title_print</span><span class="p">)</span>
 
         <span class="k">except</span><span class="p">:</span>
@@ -438,7 +458,7 @@
 
 
 <div class="viewcode-block" id="get_ner_df"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.get_ner_df">[docs]</a><span class="k">def</span> <span class="nf">get_ner_df</span><span class="p">(</span><span class="n">input_json_path</span><span class="p">,</span> <span class="n">ground_truth</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">assertion_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Generates dataframe for all annotated entities from an Annotation Lab JSON export</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates dataframe for all annotated entities from an Annotation Lab JSON export</span>
 <span class="sd">    :param input_json_path: path to Annotation Lab JSON export</span>
 <span class="sd">    :type input_json_path: str</span>
 <span class="sd">    :param ground_truth: set to True to select ground truth completions, False to select latest completions,</span>
@@ -449,6 +469,8 @@
 <span class="sd">    :return: dataframe with all annotated entities</span>
 <span class="sd">    :rtype: pd.DataFrame</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">is_module_importable</span><span class="p">(</span><span class="s1">&#39;pandas&#39;</span><span class="p">,</span><span class="kc">True</span><span class="p">,</span><span class="s1">&#39;pandas&#39;</span> <span class="p">)</span>
+    <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
     <span class="k">if</span> <span class="n">assertion_labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">assertion_labels</span> <span class="o">=</span> <span class="p">[]</span>
@@ -499,7 +521,7 @@
 
 
 <div class="viewcode-block" id="get_ner_sentence_borders"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.get_ner_sentence_borders">[docs]</a><span class="k">def</span> <span class="nf">get_ner_sentence_borders</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">input_json_path</span><span class="p">,</span> <span class="n">ground_truth</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">assertion_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Get sentence borders for each task</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get sentence borders for each task</span>
 <span class="sd">    :param spark: Spark session with spark-nlp-jsl jar</span>
 <span class="sd">    :type spark: SparkSession</span>
 <span class="sd">    :param input_json_path: path to Annotation Lab JSON export</span>
@@ -512,6 +534,9 @@
 <span class="sd">    :return: dataframe with tasks split into sentences including start and end indexes</span>
 <span class="sd">    :rtype: pd.DataFrame</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">is_module_importable</span><span class="p">(</span><span class="s1">&#39;pandas&#39;</span><span class="p">,</span><span class="kc">True</span><span class="p">,</span><span class="s1">&#39;pandas&#39;</span> <span class="p">)</span>
+    <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
     <span class="k">if</span> <span class="n">assertion_labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">assertion_labels</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -590,101 +615,56 @@
     <span class="n">ner_borders_df</span><span class="p">[</span><span class="s1">&#39;sentence_begin&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ner_borders_df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="n">begin_row</span><span class="p">:</span> <span class="n">begin_row</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">begin_row</span><span class="p">[</span><span class="s1">&#39;ner_sentence_start_border&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">ner_borders_df</span><span class="p">[</span><span class="s1">&#39;sentence_end&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ner_borders_df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">end_row</span><span class="p">:</span> <span class="n">end_row</span><span class="p">[</span><span class="s1">&#39;sentence_begin&#39;</span><span class="p">]</span> <span class="o">+</span>
-                                                          <span class="nb">len</span><span class="p">(</span><span class="n">end_row</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                                                                          <span class="nb">len</span><span class="p">(</span><span class="n">end_row</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ner_borders_df</span></div>
 
 
-<div class="viewcode-block" id="get_nlp_pos_pipeline"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.get_nlp_pos_pipeline">[docs]</a><span class="k">def</span> <span class="nf">get_nlp_pos_pipeline</span><span class="p">(</span><span class="n">spark</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Generates a LightPipeline with a document assembler, sentence detector, regular tokenizer and POS-tagger</span>
+<div class="viewcode-block" id="get_nlp_pos_pipeline"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.get_nlp_pos_pipeline">[docs]</a><span class="k">def</span> <span class="nf">get_nlp_pos_pipeline</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">regex_pattern</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates a LightPipeline with a document assembler, sentence detector, regular tokenizer and POS-tagger</span>
 <span class="sd">    :param spark: Spark session with spark-nlp-jsl jar</span>
 <span class="sd">    :type spark: SparkSession</span>
-<span class="sd">    :return: LightPipeline with a document assembler, sentence detector, regular tokenizer and POS-tagger</span>
-<span class="sd">    :rtype: LightPipeline</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-        <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
-        <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
-
-    <span class="n">sentence_detector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;sentence_detector_dl_healthcare&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span> \
-        <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
-        <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentence&quot;</span><span class="p">)</span>
-
-    <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-        <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">])</span> \
-        <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span>
-
-    <span class="n">pos</span> <span class="o">=</span> <span class="n">PerceptronModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;pos_clinical&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span> \
-        <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span> \
-        <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;pos&quot;</span><span class="p">)</span>
-
-    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
-        <span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-            <span class="n">document_assembler</span><span class="p">,</span>
-            <span class="n">sentence_detector</span><span class="p">,</span>
-            <span class="n">tokenizer</span><span class="p">,</span>
-            <span class="n">pos</span><span class="p">]</span>
-    <span class="p">)</span>
-
-    <span class="n">empty_data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
-
-    <span class="n">pipeline_fit</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty_data</span><span class="p">)</span>
-
-    <span class="n">lp_pipeline</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">pipeline_fit</span><span class="p">)</span>
-
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Spark NLP LightPipeline is created&quot;</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">lp_pipeline</span></div>
-
-
-<div class="viewcode-block" id="get_nlp_regex_pos_pipeline"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.get_nlp_regex_pos_pipeline">[docs]</a><span class="k">def</span> <span class="nf">get_nlp_regex_pos_pipeline</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">regex_pattern</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Generates a LightPipeline with a document assembler, sentence detector, custom regex tokenizer and POS-tagger</span>
-<span class="sd">    :param spark: Spark session with spark-nlp-jsl jar</span>
-<span class="sd">    :type spark: SparkSession</span>
-<span class="sd">    :param regex_pattern: set a pattern for the regex tokenizer</span>
+<span class="sd">    :param regex_pattern: set a pattern to use regex tokenizer, defaults to regular tokenizer if pattern not defined</span>
 <span class="sd">    :type regex_pattern: str</span>
-<span class="sd">    :return: LightPipeline with a document assembler, sentence detector, custom regex tokenizer and POS-tagger</span>
+<span class="sd">    :return: LightPipeline with a document assembler, sentence detector, regular or regex tokenizer depending on regex_pattern and POS-tagger</span>
 <span class="sd">    :rtype: LightPipeline</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-        <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
-        <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
+    <span class="k">global</span> <span class="n">pos_pipeline_initialized</span>
+    <span class="k">global</span> <span class="n">nlp_pos_pipeline</span>
 
-    <span class="n">sentence_detector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;sentence_detector_dl_healthcare&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span> \
-        <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
-        <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentence&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">pos_pipeline_initialized</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">regex_pattern</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">get_regular_tokenizer</span><span class="p">()</span>
 
-    <span class="n">regex_tokenizer</span> <span class="o">=</span> <span class="n">RegexTokenizer</span><span class="p">()</span> \
-        <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">])</span> \
-        <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span> \
-        <span class="o">.</span><span class="n">setPositionalMask</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span> \
-        <span class="o">.</span><span class="n">setPattern</span><span class="p">(</span><span class="n">regex_pattern</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">get_regex_tokenizer</span><span class="p">(</span><span class="n">regex_pattern</span><span class="p">)</span>
 
-    <span class="n">pos</span> <span class="o">=</span> <span class="n">PerceptronModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;pos_clinical&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span> \
-        <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span> \
-        <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;pos&quot;</span><span class="p">)</span>
+        <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
+            <span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">get_doc_assembler</span><span class="p">(),</span>
+                <span class="n">get_sent_detector</span><span class="p">(),</span>
+                <span class="n">tokenizer</span><span class="p">,</span>
+                <span class="n">get_pos</span><span class="p">()]</span>
+        <span class="p">)</span>
 
-    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
-        <span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-            <span class="n">document_assembler</span><span class="p">,</span>
-            <span class="n">sentence_detector</span><span class="p">,</span>
-            <span class="n">regex_tokenizer</span><span class="p">,</span>
-            <span class="n">pos</span><span class="p">]</span>
-    <span class="p">)</span>
+        <span class="n">empty_data</span> <span class="o">=</span> <span class="n">get_empty_df</span><span class="p">(</span><span class="n">spark</span><span class="p">)</span>
 
-    <span class="n">empty_data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+        <span class="n">pipeline_fit</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty_data</span><span class="p">)</span>
 
-    <span class="n">pipeline_fit</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty_data</span><span class="p">)</span>
+        <span class="n">nlp_pos_pipeline</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">pipeline_fit</span><span class="p">)</span>
 
-    <span class="n">lp_pipeline</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">pipeline_fit</span><span class="p">)</span>
+        <span class="n">pos_pipeline_initialized</span> <span class="o">=</span> <span class="kc">True</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Spark NLP LightPipeline is created&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Spark NLP POS LightPipeline is created&quot;</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">lp_pipeline</span></div>
+        <span class="k">return</span> <span class="n">nlp_pos_pipeline</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">nlp_pos_pipeline</span></div>
 
 
 <div class="viewcode-block" id="get_single_task_conll"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.get_single_task_conll">[docs]</a><span class="k">def</span> <span class="nf">get_single_task_conll</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">pos_pipeline</span><span class="p">,</span> <span class="n">token_pipeline</span><span class="p">,</span> <span class="n">ground_truth</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">excluded_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                           <span class="n">excluded_task_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">excluded_task_titles</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Generates CoNLL-style outputs from a single task in an Annotation Lab JSON export</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates CoNLL-style outputs from a single task in an Annotation Lab JSON export</span>
 <span class="sd">    :param output: enumerated items from an Annotation Lab JSON export</span>
 <span class="sd">    :type output: dict</span>
 <span class="sd">    :param pos_pipeline: LightPipeline with a document assembler, sentence detector, tokenizer and POS-tagger</span>
@@ -704,6 +684,9 @@
 <span class="sd">    :return: CoNLL lines</span>
 <span class="sd">    :rtype: list</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">is_module_importable</span><span class="p">(</span><span class="s1">&#39;pandas&#39;</span><span class="p">,</span><span class="kc">True</span><span class="p">,</span><span class="s1">&#39;pandas&#39;</span> <span class="p">)</span>
+    <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
     <span class="k">if</span> <span class="n">excluded_labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">excluded_labels</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">else</span><span class="p">:</span>
@@ -745,10 +728,15 @@
             <span class="ow">and</span> <span class="n">output</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">excluded_task_ids</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">print_title</span><span class="si">}</span><span class="s1"> is included&#39;</span><span class="p">)</span>
 
+        <span class="n">honeypot</span> <span class="o">=</span> <span class="kc">False</span>       
         <span class="k">if</span> <span class="n">ground_truth</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="s1">&#39;completions&#39;</span><span class="p">])):</span>
-                <span class="k">if</span> <span class="n">output</span><span class="p">[</span><span class="s1">&#39;completions&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;honeypot&#39;</span><span class="p">]:</span>
-                    <span class="n">ann_results</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s1">&#39;completions&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;result&#39;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">completion</span> <span class="ow">in</span> <span class="n">output</span><span class="p">[</span><span class="s1">&#39;completions&#39;</span><span class="p">]:</span>          
+                <span class="k">if</span> <span class="n">completion</span><span class="p">[</span><span class="s1">&#39;honeypot&#39;</span><span class="p">]:</span>
+                    <span class="n">ann_results</span> <span class="o">=</span> <span class="n">completion</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span>
+                    <span class="n">honeypot</span><span class="o">=</span><span class="kc">True</span>
+                    
+                <span class="k">elif</span> <span class="n">honeypot</span><span class="o">==</span><span class="kc">False</span><span class="p">:</span>
+                    <span class="n">ann_results</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s1">&#39;completions&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;result&#39;</span><span class="p">]</span>             
 
         <span class="k">elif</span> <span class="n">ground_truth</span> <span class="ow">is</span> <span class="kc">False</span> <span class="ow">or</span> <span class="n">ground_truth</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">ann_results</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s1">&#39;completions&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;result&#39;</span><span class="p">]</span>
@@ -805,6 +793,25 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">print_title</span><span class="si">}</span><span class="s1"> is excluded&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="s1">&#39;&#39;</span></div>
+
+<div class="viewcode-block" id="get_token_df"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/alab_utils/index.html#sparknlp_jsl.utils.alab_utils.get_token_df">[docs]</a><span class="k">def</span> <span class="nf">get_token_df</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Args:</span>
+<span class="sd">        text (str): input text</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        _type_: Pandas DataFrame with columns (&#39;token&#39;, &#39;begin&#39;, &#39;end&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">is_module_importable</span><span class="p">(</span><span class="s1">&#39;pandas&#39;</span><span class="p">,</span><span class="kc">True</span><span class="p">,</span><span class="s1">&#39;pandas&#39;</span> <span class="p">)</span>
+    <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">tokens</span><span class="p">,</span> <span class="n">borders</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="p">[(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">start</span><span class="p">(),</span> <span class="n">m</span><span class="o">.</span><span class="n">end</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">re</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\S+&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)])</span>
+        <span class="n">tuples</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">tokens</span><span class="p">,</span> <span class="n">borders</span><span class="p">)]</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">tuples</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)]</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">tuples</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;token&#39;</span><span class="p">,</span><span class="s1">&#39;begin&#39;</span><span class="p">,</span><span class="s1">&#39;end&#39;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">df</span></div>
 </pre></div>
 
             </article>

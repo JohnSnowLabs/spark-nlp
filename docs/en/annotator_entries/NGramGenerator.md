@@ -13,7 +13,7 @@ When the input is empty, an empty array is returned.
 When the input array length is less than n (number of elements per n-gram), no n-grams are
 returned.
 
-For more extended examples see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/chunking/NgramGenerator.ipynb)
+For more extended examples see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/chunking/NgramGenerator.ipynb)
 and the [NGramGeneratorTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/NGramGeneratorTestSpec.scala).
 {%- endcapture -%}
 
@@ -118,11 +118,11 @@ results.selectExpr("explode(ngrams) as result").show(false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[NGramGenerator](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/NGramGenerator)
+[NGramGenerator](/api/com/johnsnowlabs/nlp/annotators/NGramGenerator)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[NGramGenerator](/api/python/reference/autosummary/python/sparknlp/annotator/n_gram_generator/index.html#sparknlp.annotator.n_gram_generator.NGramGenerator)
+[NGramGenerator](/api/python/reference/autosummary/sparknlp/annotator/n_gram_generator/index.html#sparknlp.annotator.n_gram_generator.NGramGenerator)
 {%- endcapture -%}
 
 {%- capture source_link -%}

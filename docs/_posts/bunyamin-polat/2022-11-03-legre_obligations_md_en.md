@@ -34,7 +34,8 @@ This is a Deep Learning model, meaning only semantics are taking into account, n
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legre_obligations_md_en_1.0.0_3.0_1667474780413.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legre_obligations_md_en_1.0.0_3.0_1667474780413.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legre_obligations_md_en_1.0.0_3.0_1667474780413.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -122,11 +123,10 @@ Manual annotations on CUAD dataset
 ## Benchmarking
 
 ```bash
-| Relation          | Recall | Precision | F1    | Support |
-|-------------------|--------|-----------|-------|---------|
-| is_obliged_object | 0.989  | 0.994     | 0.992 | 177     |
-| is_obliged_to     | 0.995  | 1.000     | 0.998 | 202     |
-| is_obliged_with   | 1.000  | 0.961     | 0.980 | 49      |
-| Avg.              | 0.996  | 0.989     | 0.992 | -       |
-| Weighted-Avg.     | 0.996  | 0.996     | 0.996 | -       |
+label              Recall  Precision  F1     Support 
+is_obliged_object  0.989   0.994      0.992  177     
+is_obliged_to      0.995   1.000      0.998  202     
+is_obliged_with    1.000   0.961      0.980  49      
+Avg.               0.996   0.989      0.992  -       
+Weighted-Avg.      0.996   0.996      0.996  -   
 ```

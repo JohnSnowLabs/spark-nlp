@@ -27,7 +27,8 @@ Extract potential improvements or harmful effects of Drug-Drug interactions (DDI
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/RE_DRUG_DRUG_INT/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.Clinical_Relation_Extraction.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/redl_drug_drug_interaction_biobert_en_2.7.3_2.4_1612441748775.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/redl_drug_drug_interaction_biobert_en_2.7.3_2.4_1612441748775.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/redl_drug_drug_interaction_biobert_en_2.7.3_2.4_1612441748775.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -171,10 +172,11 @@ they should be used with caution because the pharmacologically predictable sympa
 ## Results
 
 ```bash
-|    | relation   | entity1   |   entity1_begin |   entity1_end | chunk1        | entity2   |   entity2_begin |   entity2_end | chunk2       |   confidence |
-|---:|:-----------|:----------|----------------:|--------------:|:--------------|:----------|----------------:|--------------:|:-------------|-------------:|
-|  0 | DDI-advise | DRUG      |               5 |            17 | carbamazepine | DRUG      |              62 |            73 | aripiprazole |      0.99238 |
-
++---------+-------+-------------+-----------+-------------+-------+-------------+-----------+------------+----------+
+| relation|entity1|entity1_begin|entity1_end|       chunk1|entity2|entity2_begin|entity2_end|      chunk2|confidence|
++---------+-------+-------------+-----------+-------------+-------+-------------+-----------+------------+----------+
+|DDI-false|   DRUG|            5|         17|carbamazepine|   DRUG|           62|         73|aripiprazole|0.91685396|
++---------+-------+-------------+-----------+-------------+-------+-------------+-----------+------------+----------+
 ```
 
 {:.model-param}

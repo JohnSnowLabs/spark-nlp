@@ -23,7 +23,8 @@ This pretrained pipeline is trained with bert embeddings and can be used to find
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_MODEL_FINDER/){:.button.button-orange}
 [Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.Pretrained_Clinical_Pipelines.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_model_finder_en_3.3.2_2.4_1642758002888.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_model_finder_en_3.3.2_2.4_1642758002888.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/ner_model_finder_en_3.3.2_2.4_1642758002888.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

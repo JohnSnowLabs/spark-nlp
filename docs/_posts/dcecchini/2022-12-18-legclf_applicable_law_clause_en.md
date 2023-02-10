@@ -34,7 +34,8 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_applicable_law_clause_en_1.0.0_3.0_1671393641361.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_applicable_law_clause_en_1.0.0_3.0_1671393641361.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_applicable_law_clause_en_1.0.0_3.0_1671393641361.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -107,11 +108,11 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 
 ```bash
 
-|          label |   precision |   recall |   f1-score |   support |
-|---------------:|------------:|---------:|-----------:|----------:|
-| applicable-law |        1.00 |     1.00 |          1 |        28 |
-|          other |        1.00 |     1.00 |          1 |        39 |
-|       accuracy |           - |        - |          1 |        67 |
-|      macro-avg |        1.00 |     1.00 |          1 |        67 |
-|   weighted-avg |        1.00 |     1.00 |          1 |        67 |
+          label    precision    recall    f1-score    support 
+ applicable-law         1.00      1.00      1.00         28 
+          other         1.00      1.00      1.00         39 
+       accuracy            -         -      1.00         67 
+      macro-avg         1.00      1.00      1.00         67 
+   weighted-avg         1.00      1.00      1.00         67  
+   
 ```

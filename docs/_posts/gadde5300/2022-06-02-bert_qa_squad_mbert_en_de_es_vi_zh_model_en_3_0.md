@@ -24,6 +24,7 @@ Pretrained Question Answering model, adapted from Hugging Face and curated to pr
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_qa_squad_mbert_xx_de_es_vi_zh_model_xx_4.0.0_3.0_1654192009380.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bert_qa_squad_mbert_xx_de_es_vi_zh_model_xx_4.0.0_3.0_1654192009380.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

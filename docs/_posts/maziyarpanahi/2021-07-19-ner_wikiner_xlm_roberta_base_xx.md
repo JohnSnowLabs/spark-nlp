@@ -34,6 +34,7 @@ We used XlmRoBertaEmbeddings (xlm_roberta_base) model for the embeddings to trai
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/ner_wikiner_xlm_roberta_base_xx_3.1.3_2.4_1626719349008.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/ner_wikiner_xlm_roberta_base_xx_3.1.3_2.4_1626719349008.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

@@ -28,7 +28,8 @@ This is a large (`md`) model, trained with 200K sentences.
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_10q_xlbr_md_subset1_en_1.0.0_3.0_1671033764991.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_10q_xlbr_md_subset1_en_1.0.0_3.0_1671033764991.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/finance/models/finner_10q_xlbr_md_subset1_en_1.0.0_3.0_1671033764991.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -36,6 +37,7 @@ This is a large (`md`) model, trained with 200K sentences.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  
 documentAssembler = nlp.DocumentAssembler() \
@@ -135,8 +137,7 @@ An in-house modified version of https://huggingface.co/datasets/nlpaueb/finer-13
 ## Benchmarking
 
 ```bash
-label                                                                     precision    recall  f1-score   support
-
+label                                                                    precision    recall  f1-score   support
 B-AccrualForEnvironmentalLossContingencies                                  1.0000    0.9386    0.9683       228
 B-AcquiredFiniteLivedIntangibleAssetsWeightedAverageUsefulLife              0.9968    0.9778    0.9872       316
 B-AllocatedShareBasedCompensationExpense                                    0.9931    0.9885    0.9908      1735

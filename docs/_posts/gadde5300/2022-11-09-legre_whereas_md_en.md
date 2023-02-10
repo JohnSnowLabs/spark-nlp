@@ -30,7 +30,8 @@ This is a Relation Extraction model to infer relations between elements in WHERE
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legre_whereas_md_en_1.0.0_3.0_1668013863138.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legre_whereas_md_en_1.0.0_3.0_1668013863138.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legre_whereas_md_en_1.0.0_3.0_1668013863138.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -133,15 +134,10 @@ Manual annotations on CUAD dataset
 ## Benchmarking
 
 ```bash
-
-Relation           Recall Precision        F1   Support
-
-has_object          0.974     0.991     0.983       116
-has_subject         0.977     0.986     0.981       213
-other               0.993     0.978     0.985       271
-
-Avg.                0.981     0.985     0.983
-
-Weighted Avg.       0.983     0.983     0.983
-
+       label    Recall Precision        F1   Support
+  has_object     0.974     0.991     0.983       116
+ has_subject     0.977     0.986     0.981       213
+       other     0.993     0.978     0.985       271
+         Avg     0.981     0.985     0.983       -
+Weighted-Avg     0.983     0.983     0.983       -
 ```

@@ -25,7 +25,8 @@ This pretrained pipeline is built on the top of [rct_binary_classifier_biobert](
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/CLASSIFICATION_RCT/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/CLASSIFICATION_RCT.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/rct_binary_classifier_biobert_pipeline_en_3.4.2_3.0_1654516722542.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/rct_binary_classifier_biobert_pipeline_en_3.4.2_3.0_1654516722542.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/rct_binary_classifier_biobert_pipeline_en_3.4.2_3.0_1654516722542.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 
 ## How to use

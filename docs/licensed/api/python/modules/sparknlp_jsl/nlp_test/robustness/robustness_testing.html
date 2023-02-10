@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.nlp_test.robustness.robustness_testing &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.nlp_test.robustness.robustness_testing &#8212; Spark NLP  documentation</title>
   
   
   
@@ -290,7 +290,7 @@
 <div class="viewcode-block" id="strip_punctuation"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/nlp_test/robustness/robustness_testing/index.html#sparknlp_jsl.nlp_test.robustness.robustness_testing.strip_punctuation">[docs]</a><span class="k">def</span> <span class="nf">strip_punctuation</span><span class="p">(</span><span class="n">list_of_strings</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
                       <span class="n">keep_numeric_punctuation</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
                       <span class="n">noise_prob</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Strips punctuation from list of sentences</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Strips punctuation from list of sentences</span>
 
 <span class="sd">    :param list_of_strings: list of sentences to process</span>
 <span class="sd">    :param keep_numeric_punctuation: whether to keep punctuation related to numeric characters, ie 40,000 or 2.5,</span>
@@ -332,7 +332,7 @@
 
 <div class="viewcode-block" id="add_punctuation"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/nlp_test/robustness/robustness_testing/index.html#sparknlp_jsl.nlp_test.robustness.robustness_testing.add_punctuation">[docs]</a><span class="k">def</span> <span class="nf">add_punctuation</span><span class="p">(</span><span class="n">list_of_strings</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
                     <span class="n">noise_prob</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Adds a special character at the end of strings, if last character is a special character replace it</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds a special character at the end of strings, if last character is a special character replace it</span>
 
 <span class="sd">    :param list_of_strings: list of sentences to process</span>
 <span class="sd">    :param noise_prob: Proportion of value between 0 and 1 to sample from test data.</span>
@@ -361,7 +361,7 @@
 
 <div class="viewcode-block" id="modify_capitalization"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/nlp_test/robustness/robustness_testing/index.html#sparknlp_jsl.nlp_test.robustness.robustness_testing.modify_capitalization">[docs]</a><span class="k">def</span> <span class="nf">modify_capitalization</span><span class="p">(</span><span class="n">list_of_strings</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;Combined&#39;</span><span class="p">,</span>
                           <span class="n">noise_prob</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Changes the casing of the input sentences</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Changes the casing of the input sentences</span>
 
 <span class="sd">    :param list_of_strings: list of sentences to process</span>
 <span class="sd">    :param method: the casing method to use for modifying the list of sentences, defaults to &#39;Combined&#39;</span>
@@ -439,7 +439,7 @@
 
 <div class="viewcode-block" id="introduce_typos"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/nlp_test/robustness/robustness_testing/index.html#sparknlp_jsl.nlp_test.robustness.robustness_testing.introduce_typos">[docs]</a><span class="k">def</span> <span class="nf">introduce_typos</span><span class="p">(</span><span class="n">list_of_strings</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
                     <span class="n">noise_prob</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Introduces typos in input sentences</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Introduces typos in input sentences</span>
 
 <span class="sd">    :param list_of_strings: list of sentences to process</span>
 <span class="sd">    :param noise_prob: Proportion of value between 0 and 1 to sample from test data.</span>
@@ -457,7 +457,7 @@
 
 
 <div class="viewcode-block" id="add_contractions"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/nlp_test/robustness/robustness_testing/index.html#sparknlp_jsl.nlp_test.robustness.robustness_testing.add_contractions">[docs]</a><span class="k">def</span> <span class="nf">add_contractions</span><span class="p">(</span><span class="n">list_of_strings</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">noise_prob</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Adds contractions in input sentences</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds contractions in input sentences</span>
 
 <span class="sd">    :param list_of_strings: list of sentences to process</span>
 <span class="sd">    :param noise_prob: Proportion of value between 0 and 1 to sample from test data.</span>
@@ -483,7 +483,7 @@
                 <span class="n">starting_context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                 <span class="n">ending_context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                 <span class="n">noise_prob</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Adds tokens at the beginning and/or at the end of strings</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds tokens at the beginning and/or at the end of strings</span>
 
 <span class="sd">    :param list_of_strings: list of sentences to process</span>
 <span class="sd">    :param method: &#39;Start&#39; adds context only at the beginning, &#39;End&#39; adds it at the end, &#39;Combined&#39; adds context both</span>
@@ -537,7 +537,7 @@
 
 
 <div class="viewcode-block" id="create_terminology"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/nlp_test/robustness/robustness_testing/index.html#sparknlp_jsl.nlp_test.robustness.robustness_testing.create_terminology">[docs]</a><span class="k">def</span> <span class="nf">create_terminology</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Iterate over the DataFrame to create terminology from the predictions. IOB format converted to the IO.</span>
 
 <span class="sd">    :param df: annotation DataFrame got from SparkNLP NER Pipeline.</span>
@@ -588,7 +588,7 @@
         <span class="n">terminology</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
         <span class="n">noise_prob</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function swap named entities with the chosen same entity with same token count from the terminology.</span>
 
 <span class="sd">    :param list_of_strings: List of sentences to process</span>
@@ -646,7 +646,7 @@
 
 <div class="viewcode-block" id="american_to_british"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/nlp_test/robustness/robustness_testing/index.html#sparknlp_jsl.nlp_test.robustness.robustness_testing.american_to_british">[docs]</a><span class="k">def</span> <span class="nf">american_to_british</span><span class="p">(</span><span class="n">list_of_strings</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">lang_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
                         <span class="n">noise_prob</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Converts input sentences from american english to british english using a conversion dictionary</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts input sentences from american english to british english using a conversion dictionary</span>
 
 <span class="sd">    :param list_of_strings: list of sentences to process</span>
 <span class="sd">    :param lang_dict: dictionary with conversion terms</span>
@@ -670,7 +670,7 @@
 
 <div class="viewcode-block" id="british_to_american"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/nlp_test/robustness/robustness_testing/index.html#sparknlp_jsl.nlp_test.robustness.robustness_testing.british_to_american">[docs]</a><span class="k">def</span> <span class="nf">british_to_american</span><span class="p">(</span><span class="n">list_of_strings</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">lang_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
                         <span class="n">noise_prob</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Converts input sentences from british english to american english using a conversion dictionary</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts input sentences from british english to american english using a conversion dictionary</span>
 
 <span class="sd">    :param list_of_strings: list of sentences to process</span>
 <span class="sd">    :param lang_dict: dictionary with conversion terms</span>
@@ -693,7 +693,7 @@
 
 
 <div class="viewcode-block" id="remove_punctuation_tokens"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/nlp_test/robustness/robustness_testing/index.html#sparknlp_jsl.nlp_test.robustness.robustness_testing.remove_punctuation_tokens">[docs]</a><span class="k">def</span> <span class="nf">remove_punctuation_tokens</span><span class="p">(</span><span class="n">column</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Removes all punctuation tokens from input sentences</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Removes all punctuation tokens from input sentences</span>
 
 <span class="sd">    :param column: list of sentences to process</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -716,7 +716,7 @@
 
 <div class="viewcode-block" id="remove_context_tokens"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/nlp_test/robustness/robustness_testing/index.html#sparknlp_jsl.nlp_test.robustness.robustness_testing.remove_context_tokens">[docs]</a><span class="k">def</span> <span class="nf">remove_context_tokens</span><span class="p">(</span><span class="n">column</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">starting_context_tokens</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
                           <span class="n">ending_context_tokens</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Removes user-defined context tokens from strings</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Removes user-defined context tokens from strings</span>
 
 <span class="sd">    :param column: list of sentences to process</span>
 <span class="sd">    :param starting_context_tokens: list of starting context tokens to remove</span>
@@ -753,7 +753,7 @@
 
 
 <div class="viewcode-block" id="remove_contraction_tokens"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/nlp_test/robustness/robustness_testing/index.html#sparknlp_jsl.nlp_test.robustness.robustness_testing.remove_contraction_tokens">[docs]</a><span class="k">def</span> <span class="nf">remove_contraction_tokens</span><span class="p">(</span><span class="n">list_with_contractions</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">list_without_contractions</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Removes contraction tokens</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Removes contraction tokens</span>
 
 <span class="sd">    :param list_with_contractions: list of sentences with contractions</span>
 <span class="sd">    :param list_without_contractions: list of sentences without contractions</span>
@@ -774,7 +774,7 @@
 
 
 <div class="viewcode-block" id="get_cohyponyms_wordnet"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/nlp_test/robustness/robustness_testing/index.html#sparknlp_jsl.nlp_test.robustness.robustness_testing.get_cohyponyms_wordnet">[docs]</a><span class="k">def</span> <span class="nf">get_cohyponyms_wordnet</span><span class="p">(</span><span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Retrieve co-hyponym of the input string using WordNet when a hit is found.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve co-hyponym of the input string using WordNet when a hit is found.</span>
 
 <span class="sd">    :param word: input string to retrieve co-hyponym</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -807,7 +807,7 @@
                         <span class="n">annotations</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span>
                         <span class="n">noise_prob</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span>
                         <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;This function swap named entities with a co-hyponym from the WordNet database when a hit is found.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This function swap named entities with a co-hyponym from the WordNet database when a hit is found.</span>
 
 <span class="sd">    :param list_of_strings: List of sentences to process</span>
 <span class="sd">    :param annotations: Corresponding NER results for given list_of_strings.</span>
@@ -856,7 +856,7 @@
 
 
 <div class="viewcode-block" id="calculate_metrics"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/nlp_test/robustness/robustness_testing/index.html#sparknlp_jsl.nlp_test.robustness.robustness_testing.calculate_metrics">[docs]</a><span class="k">def</span> <span class="nf">calculate_metrics</span><span class="p">(</span><span class="n">filtered_df</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;strict&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Calculates comparison metrics for robustness</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates comparison metrics for robustness</span>
 
 <span class="sd">    :param filtered_df: dataframe created during robustness tests</span>
 <span class="sd">    :param method: &#39;strict&#39; calculates metrics for IOB2 format, &#39;flex&#39; calculates for IO format</span>
@@ -909,7 +909,7 @@
              <span class="n">starting_context_token_list</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
              <span class="n">ending_context_token_list</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
              <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">DataFrame</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">DataFrame</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Runs comparisons between original list of sentences and noisy list of sentences, returning metrics and dataframe</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Runs comparisons between original list of sentences and noisy list of sentences, returning metrics and dataframe</span>
 <span class="sd">    for comparison</span>
 <span class="sd">    :param spark: An active Spark Session to create spark DataFrame</span>
 <span class="sd">    :param noise_type: type of noise to introduce in sentences for running tests on &#39;modify_capitalization_upper&#39;,</span>
@@ -1054,7 +1054,7 @@
 
 
 <div class="viewcode-block" id="conll_sentence_reader"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/nlp_test/robustness/robustness_testing/index.html#sparknlp_jsl.nlp_test.robustness.robustness_testing.conll_sentence_reader">[docs]</a><span class="k">def</span> <span class="nf">conll_sentence_reader</span><span class="p">(</span><span class="n">conll_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Read CoNLL file and convert it to the list of sentences.</span>
 <span class="sd">    :param conll_path: CoNLL file path.</span>
 <span class="sd">    :return: list of sentences in the conll data.</span>
@@ -1099,7 +1099,7 @@
                     <span class="n">test</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                     <span class="n">starting_context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                     <span class="n">ending_context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Tests robustness of a NER model by applying different types of noise generating functions to a list of sentences.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tests robustness of a NER model by applying different types of noise generating functions to a list of sentences.</span>
 <span class="sd">    Metrics are calculated by comparing model&#39;s extractions in the original list of sentences set with the extractions</span>
 <span class="sd">    done in the noisy list of sentences.</span>
 

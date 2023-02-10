@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.annotator.ner.ner_chunker &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.annotator.ner.ner_chunker &#8212; Spark NLP  documentation</title>
   
   
   
@@ -267,10 +267,10 @@
             <article class="bd-article" role="main">
               
   <h1>Source code for sparknlp_jsl.annotator.ner.ner_chunker</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span></span><span class="kn">from</span> <span class="nn">sparknlp_jsl.common</span> <span class="kn">import</span> <span class="o">*</span>
 
-<div class="viewcode-block" id="NerChunker"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/ner_chunker/index.html#sparknlp_jsl.annotator.ner.ner_chunker.NerChunker">[docs]</a><span class="k">class</span> <span class="nc">NerChunker</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Extracts phrases that fits into a known pattern using the NER tags. Useful for entity groups with neighboring tokens</span>
+<div class="viewcode-block" id="NerChunker"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/ner_chunker/index.html#sparknlp_jsl.annotator.ner.ner_chunker.NerChunker">[docs]</a><span class="k">class</span> <span class="nc">NerChunker</span><span class="p">(</span><span class="n">AnnotatorModelInternal</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extracts phrases that fits into a known pattern using the NER tags. Useful for entity groups with neighboring tokens</span>
 <span class="sd">       when there is no pretrained NER model to address certain issues. A Regex needs to be provided to extract the tokens</span>
 <span class="sd">       between entities.</span>
 
@@ -337,6 +337,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="NerChunker.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/ner_chunker/index.html#sparknlp_jsl.annotator.ner.ner_chunker.NerChunker.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">NAMED_ENTITY</span><span class="p">]</span></div>
+<div class="viewcode-block" id="NerChunker.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/ner_chunker/index.html#sparknlp_jsl.annotator.ner.ner_chunker.NerChunker.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">NAMED_ENTITY</span></div>
 
 <div class="viewcode-block" id="NerChunker.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/ner_chunker/index.html#sparknlp_jsl.annotator.ner.ner_chunker.NerChunker.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;NerChunker&quot;</span></div>
 
@@ -352,7 +353,7 @@
         <span class="p">)</span>
 
 <div class="viewcode-block" id="NerChunker.setRegexParsers"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/ner_chunker/index.html#sparknlp_jsl.annotator.ner.ner_chunker.NerChunker.setRegexParsers">[docs]</a>    <span class="k">def</span> <span class="nf">setRegexParsers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets list of regex patterns to match chunks, for example: Array(“‹DT›?‹JJ›*‹NN›”</span>
 
 <span class="sd">        Parameters</span>

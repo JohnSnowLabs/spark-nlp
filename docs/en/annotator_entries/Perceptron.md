@@ -20,7 +20,7 @@ The default model is `"pos_anc"`, if no name is provided.
 For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Part+of+Speech+Tagging).
 Additionally, pretrained pipelines are available for this module, see [Pipelines](https://nlp.johnsnowlabs.com/docs/en/pipelines).
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb).
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/french/Train-Perceptron-French.ipynb).
 {%- endcapture -%}
 
 {%- capture model_input_anno -%}
@@ -121,11 +121,11 @@ result.selectExpr("explode(pos) as pos").show(false)
 {%- endcapture -%}
 
 {%- capture model_api_link -%}
-[PerceptronModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/pos/perceptron/PerceptronModel)
+[PerceptronModel](/api/com/johnsnowlabs/nlp/annotators/pos/perceptron/PerceptronModel)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[PerceptronModel](/api/python/reference/autosummary/python/sparknlp/annotator/pos/perceptron/index.html#sparknlp.annotator.pos.perceptron.PerceptronModel)
+[PerceptronModel](/api/python/reference/autosummary/sparknlp/annotator/pos/perceptron/index.html#sparknlp.annotator.pos.perceptron.PerceptronModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -139,7 +139,7 @@ Sets a POS tag to each word within a sentence.
 For pretrained models please see the PerceptronModel.
 
 The training data needs to be in a Spark DataFrame, where the column needs to consist of
-[Annotations](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/Annotation) of type `POS`. The `Annotation` needs to have member `result`
+[Annotations](/api/com/johnsnowlabs/nlp/Annotation) of type `POS`. The `Annotation` needs to have member `result`
 set to the POS tag and have a `"word"` mapping to its word inside of member `metadata`.
 This DataFrame for training can easily created by the helper class [POS](/docs/en/training#pos-dataset).
 ```
@@ -157,7 +157,7 @@ POS().readDataset(spark, datasetPath).selectExpr("explode(tags) as tags").show(f
                       ...
 ```
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/french/Train-Perceptron-French.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/french/Train-Perceptron-French.ipynb)
 and [PerceptronApproach tests](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron).
 {%- endcapture -%}
 
@@ -266,11 +266,11 @@ result.selectExpr("pos.result").show(false)
 {%- endcapture -%}
 
 {%- capture approach_api_link -%}
-[PerceptronApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/pos/perceptron/PerceptronApproach)
+[PerceptronApproach](/api/com/johnsnowlabs/nlp/annotators/pos/perceptron/PerceptronApproach)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[PerceptronApproach](/api/python/reference/autosummary/python/sparknlp/annotator/pos/perceptron/index.html#sparknlp.annotator.pos.perceptron.PerceptronApproach)
+[PerceptronApproach](/api/python/reference/autosummary/sparknlp/annotator/pos/perceptron/index.html#sparknlp.annotator.pos.perceptron.PerceptronApproach)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

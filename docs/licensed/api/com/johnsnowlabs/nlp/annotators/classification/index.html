@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.classification</title>
-          <meta name="description" content="Spark NLP 4.2.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.classification" />
-          <meta name="keywords" content="Spark NLP 4.2.3 ScalaDoc com.johnsnowlabs.nlp.annotators.classification" />
+          <title>Spark NLP 4.2.8 ScalaDoc  - com.johnsnowlabs.nlp.annotators.classification</title>
+          <meta name="description" content="Spark NLP 4.2.8 ScalaDoc - com.johnsnowlabs.nlp.annotators.classification" />
+          <meta name="keywords" content="Spark NLP 4.2.8 ScalaDoc com.johnsnowlabs.nlp.annotators.classification" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.2.8 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -190,6 +190,18 @@
                         <a class="class" href="DocumentLogRegClassifierModel.html" title="Classifies documents with a Logarithmic Regression algorithm."></a>
                         <a href="DocumentLogRegClassifierModel.html" title="Classifies documents with a Logarithmic Regression algorithm.">DocumentLogRegClassifierModel</a>
                       </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="class" href="DocumentMLClassifierApproach.html" title="Trains a model to classify documents with a Logarithmic Regression algorithm."></a>
+                        <a href="DocumentMLClassifierApproach.html" title="Trains a model to classify documents with a Logarithmic Regression algorithm.">DocumentMLClassifierApproach</a>
+                      </li><li class="current-entities indented5">
+                        <a class="object" href="DocumentMLClassifierModel$.html" title=""></a>
+                        <a class="class" href="DocumentMLClassifierModel.html" title="Classifies documents with a Logarithmic Regression algorithm."></a>
+                        <a href="DocumentMLClassifierModel.html" title="Classifies documents with a Logarithmic Regression algorithm.">DocumentMLClassifierModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="DocumentMLClassifierParams.html" title=""></a>
+                        <a href="DocumentMLClassifierParams.html" title="">DocumentMLClassifierParams</a>
+                      </li><li class="current-entities indented5">
                         <a class="object" href="MedicalBertForSequenceClassification$.html" title="This is the companion object of MedicalBertForSequenceClassification."></a>
                         <a class="class" href="MedicalBertForSequenceClassification.html" title="MedicalBertForSequenceClassification can load Bert Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g."></a>
                         <a href="MedicalBertForSequenceClassification.html" title="MedicalBertForSequenceClassification can load Bert Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g.">MedicalBertForSequenceClassification</a>
@@ -229,6 +241,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedDocumentLogRegClassifierModel.html" title=""></a>
                         <a href="ReadablePretrainedDocumentLogRegClassifierModel.html" title="">ReadablePretrainedDocumentLogRegClassifierModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedDocumentMLClassifierModel.html" title=""></a>
+                        <a href="ReadablePretrainedDocumentMLClassifierModel.html" title="">ReadablePretrainedDocumentMLClassifierModel</a>
                       </li><li name="com.johnsnowlabs.nlp.annotators.context" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="context"></a><a id="context:context"></a>
       <span class="permalink">
@@ -570,6 +586,92 @@ Currently there are no pretrained models available.
 Please see <a href="DocumentLogRegClassifierApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classification.DocumentLogRegClassifierApproach">DocumentLogRegClassifierApproach</a> to train your own model.</p><p>Please check out the
 <a href="https://nlp.johnsnowlabs.com/models" target="_blank">Models Hub</a> for available models in the future.
 </p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.classification.DocumentMLClassifierApproach" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="DocumentMLClassifierApproachextendsAnnotatorApproach[com.johnsnowlabs.nlp.annotators.classification.DocumentMLClassifierModel]withDocumentMLClassifierParamswithCheckLicense"></a><a id="DocumentMLClassifierApproach:DocumentMLClassifierApproach"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/classification/DocumentMLClassifierApproach.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="Trains a model to classify documents with a Logarithmic Regression algorithm." href="DocumentMLClassifierApproach.html"><span class="name">DocumentMLClassifierApproach</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</span>[<a href="DocumentMLClassifierModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classification.DocumentMLClassifierModel">DocumentMLClassifierModel</a>] with <a href="DocumentMLClassifierParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classification.DocumentMLClassifierParams">DocumentMLClassifierParams</a> with <span class="extype" name="com.johnsnowlabs.license.CheckLicense">CheckLicense</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Trains a model to classify documents with a Logarithmic Regression algorithm.</p><div class="fullcomment"><div class="comment cmt"><p>Trains a model to classify documents with a Logarithmic Regression algorithm. Training data requires columns for
+text and their label. The result is a trained <a href="DocumentMLClassifierModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classification.DocumentMLClassifierModel">DocumentMLClassifierModel</a>.</p><h4>Example</h4><p>Define pipeline stages to prepare the data</p><pre><span class="kw">val</span> document_assembler = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+
+<span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"token"</span>)
+
+<span class="kw">val</span> normalizer = <span class="kw">new</span> Normalizer()
+  .setInputCols(<span class="lit">"token"</span>)
+  .setOutputCol(<span class="lit">"normalized"</span>)
+
+<span class="kw">val</span> stopwords_cleaner = <span class="kw">new</span> StopWordsCleaner()
+  .setInputCols(<span class="lit">"normalized"</span>)
+  .setOutputCol(<span class="lit">"cleanTokens"</span>)
+  .setCaseSensitive(<span class="kw">false</span>)
+
+<span class="kw">val</span> stemmer = <span class="kw">new</span> Stemmer()
+  .setInputCols(<span class="lit">"cleanTokens"</span>)
+  .setOutputCol(<span class="lit">"stem"</span>)</pre><p>Define the document classifier and fit training data to it</p><pre><span class="kw">val</span> logreg = <span class="kw">new</span> DocumentMLClassifierApproach()
+  .setInputCols(<span class="lit">"stem"</span>)
+  .setLabelCol(<span class="lit">"category"</span>)
+  .setOutputCol(<span class="lit">"prediction"</span>)
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  document_assembler,
+  tokenizer,
+  normalizer,
+  stopwords_cleaner,
+  stemmer,
+  logreg
+))
+
+<span class="kw">val</span> model = pipeline.fit(trainingData)</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="DocumentMLClassifierModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classification.DocumentMLClassifierModel">DocumentMLClassifierModel</a> for instantiated models</p></span></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.classification.DocumentMLClassifierModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="DocumentMLClassifierModelextendsModel[com.johnsnowlabs.nlp.annotators.classification.DocumentMLClassifierModel]withRawAnnotator[com.johnsnowlabs.nlp.annotators.classification.DocumentMLClassifierModel]withDocumentMLClassifierParamswithCanBeLazywithCheckLicense"></a><a id="DocumentMLClassifierModel:DocumentMLClassifierModel"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/classification/DocumentMLClassifierModel.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="Classifies documents with a Logarithmic Regression algorithm." href="DocumentMLClassifierModel.html"><span class="name">DocumentMLClassifierModel</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<a href="DocumentMLClassifierModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classification.DocumentMLClassifierModel">DocumentMLClassifierModel</a>] with <span class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</span>[<a href="DocumentMLClassifierModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classification.DocumentMLClassifierModel">DocumentMLClassifierModel</a>] with <a href="DocumentMLClassifierParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classification.DocumentMLClassifierParams">DocumentMLClassifierParams</a> with <span class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</span> with <span class="extype" name="com.johnsnowlabs.license.CheckLicense">CheckLicense</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Classifies documents with a Logarithmic Regression algorithm.</p><div class="fullcomment"><div class="comment cmt"><p>Classifies documents with a Logarithmic Regression algorithm.
+Currently there are no pretrained models available.
+Please see <a href="DocumentMLClassifierApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classification.DocumentMLClassifierApproach">DocumentMLClassifierApproach</a> to train your own model.</p><p>Please check out the
+<a href="https://nlp.johnsnowlabs.com/models" target="_blank">Models Hub</a> for available models in the future.
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.classification.DocumentMLClassifierParams" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="DocumentMLClassifierParamsextendsParams"></a><a id="DocumentMLClassifierParams:DocumentMLClassifierParams"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/classification/DocumentMLClassifierParams.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="DocumentMLClassifierParams.html"><span class="name">DocumentMLClassifierParams</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.param.Params">Params</span></span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.annotators.classification.MedicalBertForSequenceClassification" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="MedicalBertForSequenceClassificationextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.classification.MedicalBertForSequenceClassification]withHasBatchedAnnotate[com.johnsnowlabs.nlp.annotators.classification.MedicalBertForSequenceClassification]withWriteTensorflowModelwithHasCaseSensitivePropertieswithHasEnginewithCheckLicense"></a><a id="MedicalBertForSequenceClassification:MedicalBertForSequenceClassification"></a>
       <span class="permalink">
@@ -806,6 +908,22 @@ result.select(<span class="lit">"label.result"</span>).show(<span class="kw">fal
       </span>
       
       
+    </li><li name="com.johnsnowlabs.nlp.annotators.classification.ReadablePretrainedDocumentMLClassifierModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReadablePretrainedDocumentMLClassifierModelextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.annotators.classification.DocumentMLClassifierModel]withHasPretrained[com.johnsnowlabs.nlp.annotators.classification.DocumentMLClassifierModel]"></a><a id="ReadablePretrainedDocumentMLClassifierModel:ReadablePretrainedDocumentMLClassifierModel"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/classification/ReadablePretrainedDocumentMLClassifierModel.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ReadablePretrainedDocumentMLClassifierModel.html"><span class="name">ReadablePretrainedDocumentMLClassifierModel</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</span>[<a href="DocumentMLClassifierModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classification.DocumentMLClassifierModel">DocumentMLClassifierModel</a>] with <span class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</span>[<a href="DocumentMLClassifierModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classification.DocumentMLClassifierModel">DocumentMLClassifierModel</a>]</span>
+      </span>
+      
+      
     </li></ol>
             </div>
 
@@ -827,6 +945,22 @@ result.select(<span class="lit">"label.result"</span>).show(<span class="kw">fal
       </span>
       <span class="symbol">
         <a title="" href="DocumentLogRegClassifierModel$.html"><span class="name">DocumentLogRegClassifierModel</span></a><span class="result"> extends <a href="ReadablePretrainedDocumentLogRegClassifierModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classification.ReadablePretrainedDocumentLogRegClassifierModel">ReadablePretrainedDocumentLogRegClassifierModel</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.classification.DocumentMLClassifierModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="DocumentMLClassifierModel"></a><a id="DocumentMLClassifierModel:DocumentMLClassifierModel"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/classification/DocumentMLClassifierModel$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="DocumentMLClassifierModel$.html"><span class="name">DocumentMLClassifierModel</span></a><span class="result"> extends <a href="ReadablePretrainedDocumentMLClassifierModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classification.ReadablePretrainedDocumentMLClassifierModel">ReadablePretrainedDocumentMLClassifierModel</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
       

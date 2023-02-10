@@ -26,6 +26,7 @@ NOTE: This model only works on a GPU, if you need to use this model on a CPU dev
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_exp_w2v2r_vp_100k_accent_germany_0_austria_10_s377_gpu_de_4.2.0_3.0_1664079053408.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/asr_exp_w2v2r_vp_100k_accent_germany_0_austria_10_s377_gpu_de_4.2.0_3.0_1664079053408.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

@@ -30,7 +30,8 @@ Take a look at how it works in the "Open in Colab" section below.
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/10.3.ZeroShot_Clinical_Relation_Extraction.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/re_zeroshot_biobert_en_3.5.0_3.0_1649176740466.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/re_zeroshot_biobert_en_3.5.0_3.0_1649176740466.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/re_zeroshot_biobert_en_3.5.0_3.0_1649176740466.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -41,8 +42,6 @@ Take a look at how it works in the "Open in Colab" section below.
 {% raw %}
 
 ```python
-data = spark.createDataFrame( [["Paracetamol can alleviate headache or sickness. An MRI test can be used to find cancer."]] ).toDF("text")
-
 documenter = nlp.DocumentAssembler() \
     .setInputCol("text") \
     .setOutputCol("document")
@@ -60,34 +59,33 @@ words_embedder = nlp.WordEmbeddingsModel() \
     .setInputCols(["sentences", "tokens"]) \
     .setOutputCol("embeddings")
 
-pos_tagger = nlp.PerceptronModel() \
-    .pretrained("pos_clinical", "en", "clinical/models") \
-    .setInputCols(["sentences", "tokens"]) \
-    .setOutputCol("pos_tags")
-
-ner_tagger = medical.NerModel() \
+ner_clinical = medical.NerModel() \
     .pretrained("ner_clinical", "en", "clinical/models") \
     .setInputCols(["sentences", "tokens", "embeddings"]) \
-    .setOutputCol("ner_tags")
+    .setOutputCol("ner_clinical")
 
-ner_converter = nlp.NerConverter() \
-    .setInputCols(["sentences", "tokens", "ner_tags"]) \
-    .setOutputCol("ner_chunks")
+ner_clinical_converter = nlp.NerConverter() \
+    .setInputCols(["sentences", "tokens", "ner_clinical"]) \
+    .setOutputCol("ner_clinical_chunks")\
+    .setWhiteList(["PROBLEM", "TEST"])      # PROBLEM-TEST-TREATMENT
 
-dependency_parser = nlp.DependencyParserModel() \
-    .pretrained("dependency_conllu", "en") \
-    .setInputCols(["document", "pos_tags", "tokens"]) \
-    .setOutputCol("dependencies")
+ner_posology = medical.NerModel.pretrained("ner_posology", "en", "clinical/models") \
+    .setInputCols(["sentences", "tokens", "embeddings"]) \
+    .setOutputCol("ner_posology")           
 
-re_ner_chunk_filter = medical.RENerChunksFilter() \
-    .setRelationPairs(["problem-test","problem-treatment"]) \
-    .setMaxSyntacticDistance(4)\
-    .setDocLevelRelations(False)\
-    .setInputCols(["ner_chunks", "dependencies"]) \
-    .setOutputCol("re_ner_chunks")
+ner_posology_converter = nlp.NerConverter() \
+    .setInputCols(["sentences", "tokens", "ner_posology"]) \
+    .setOutputCol("ner_posology_chunks")\
+    .setWhiteList(["DRUG"])                # DRUG-FREQUENCY-DOSAGE-DURATION-FORM-ROUTE-STRENGTH
+
+chunk_merger = medical.ChunkMergeApproach()\
+    .setInputCols("ner_clinical_chunks", "ner_posology_chunks")\
+    .setOutputCol('merged_ner_chunks')
+
+## ZERO-SHOT RE Starting...
 
 re_model = medical.ZeroShotRelationExtractionModel.pretrained("re_zeroshot_biobert", "en", "clinical/models")\
-    .setInputCols(["re_ner_chunks", "sentences"]) \
+    .setInputCols(["merged_ner_chunks", "sentences"]) \
     .setOutputCol("relations")\
     .setMultiLabel(True)
 
@@ -96,20 +94,21 @@ re_model.setRelationalCategories({
     "IMPROVE": ["{DRUG} improves {PROBLEM}.", "{DRUG} cures {PROBLEM}."],
     "REVEAL": ["{TEST} reveals {PROBLEM}."]})
 
-pipeline = Pipeline() \
+pipeline = nlp.Pipeline() \
     .setStages([documenter, 
                 tokenizer, 
                 sentencer, 
                 words_embedder, 
-                pos_tagger, 
-                ner_tagger, 
-                ner_converter,
-                dependency_parser, 
-                re_ner_chunk_filter, 
+                ner_clinical, 
+                ner_clinical_converter,
+                ner_posology,
+                ner_posology_converter,
+                chunk_merger,
                 re_model])
 
-model = pipeline.fit(data)
-results = model.transform(data)
+data = spark.createDataFrame( [["Paracetamol can alleviate headache or sickness. An MRI test can be used to find cancer."]] ).toDF("text")
+
+results = pipeline.fit(data).transform(data)
 
 results\
 .selectExpr("explode(relations) as relation")\
@@ -122,58 +121,49 @@ val documenter = new DocumentAssembler()
     .setInputCol("text")
     .setOutputCol("document")
 
-
 val tokenizer = new Tokenizer()
     .setInputCols("document")
     .setOutputCol("tokens")
 
-
 val sentencer = new SentenceDetector()
     .setInputCols("document")
     .setOutputCol("sentences")
-
 
 val words_embedder = WordEmbeddingsModel()
     .pretrained("embeddings_clinical", "en", "clinical/models")
     .setInputCols(Array("sentences", "tokens"))
     .setOutputCol("embeddings")
 
-
-val pos_tagger = PerceptronModel()
-    .pretrained("pos_clinical", "en", "clinical/models")
-    .setInputCols(Array("sentences", "tokens"))
-    .setOutputCol("pos_tags")
-
-
-val ner_tagger = MedicalNerModel()
+val ner_clinical = MedicalNerModel()
     .pretrained("ner_clinical", "en", "clinical/models")
     .setInputCols(Array("sentences", "tokens", "embeddings"))
-    .setOutputCol("ner_tags")
+    .setOutputCol("ner_clinical")
 
+val ner_clinical_converter = new NerConverter()
+    .setInputCols(Array("sentences", "tokens", "ner_clinical"))
+    .setOutputCol("ner_clinical_chunks")
+    .setWhiteList(Array("PROBLEM", "TEST"))      # PROBLEM-TEST-TREATMENT
 
-val ner_converter = new NerConverter()
-    .setInputCols(Array("sentences", "tokens", "ner_tags"))
-    .setOutputCol("ner_chunks")
+val ner_posology = MedicalNerModel()
+    .pretrained("ner_posology", "en", "clinical/models")
+    .setInputCols(Array("sentences", "tokens", "embeddings"))
+    .setOutputCol("ner_posology")           
 
+val ner_posology_converter = new NerConverter()
+    .setInputCols(Array("sentences", "tokens", "ner_posology"))
+    .setOutputCol("ner_posology_chunks")
+    .setWhiteList(Array("DRUG"))                # DRUG-FREQUENCY-DOSAGE-DURATION-FORM-ROUTE-STRENGTH
 
-val dependency_parser = DependencyParserModel()
-    .pretrained("dependency_conllu", "en")
-    .setInputCols(Array("document", "pos_tags", "tokens"))
-    .setOutputCol("dependencies")
+val chunk_merger = ChunkMergeApproach()
+    .setInputCols("ner_clinical_chunks", "ner_posology_chunks")
+    .setOutputCol('merged_ner_chunks')
 
-
-val re_ner_chunk_filter = new RENerChunksFilter()
-    .setRelationPairs(Array("problem-test","problem-treatment"))
-    .setMaxSyntacticDistance(4)
-    .setDocLevelRelations(false)
-    .setInputCols(Array("ner_chunks", "dependencies"))
-    .setOutputCol("re_ner_chunks")
-
+## ZERO-SHOT RE Starting...
 
 val re_model = ZeroShotRelationExtractionModel.pretrained("re_zeroshot_biobert", "en", "clinical/models")
-    .setInputCols(Array("re_ner_chunks", "sentences"))
+    .setInputCols(Array("ner_chunks", "sentences"))
     .setOutputCol("relations")
-    .setMultiLabel(false)
+    .setMultiLabel(true)
 
 re_model.setRelationalCategories({ Map(
     "CURE" -> Array("{TREATMENT} cures {PROBLEM}."),
@@ -182,15 +172,15 @@ re_model.setRelationalCategories({ Map(
 
 val pipeline = new Pipeline()
     .setStages(Array(documenter, 
-                    tokenizer, 
-                    sentencer, 
-                    words_embedder, 
-                    pos_tagger, 
-                    ner_tagger, 
-                    ner_converter,
-                    dependency_parser, 
-                    re_ner_chunk_filter, 
-                    re_model))
+                     tokenizer, 
+                     sentencer, 
+                     words_embedder, 
+                     ner_clinical, 
+                     ner_clinical_converter,
+                     ner_posology,
+                     ner_posology_converter,
+                     chunk_merger,
+                     re_model))
 
 val model = pipeline.fit(data)
 val results = model.transform(data)
@@ -211,13 +201,13 @@ nlu.load("en.relation.zeroshot_biobert").predict("""Paracetamol can alleviate he
 
 
 ```bash
-+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-|relation                                                                                                                                                                                                                                                                                                                                                              |
-+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-|{category, 534, 613, REVEAL, {entity1_begin -> 48, relation -> REVEAL, hypothesis -> An MRI test reveals cancer., confidence -> 0.9760039, nli_prediction -> entail, entity1 -> TEST, syntactic_distance -> 4, chunk2 -> cancer, entity2_end -> 85, entity1_end -> 58, entity2_begin -> 80, entity2 -> PROBLEM, chunk1 -> An MRI test, sentence -> 1}, []}            |
-|{category, 267, 357, IMPROVE, {entity1_begin -> 0, relation -> IMPROVE, hypothesis -> Paracetamol improves sickness., confidence -> 0.98819494, nli_prediction -> entail, entity1 -> TREATMENT, syntactic_distance -> 3, chunk2 -> sickness, entity2_end -> 45, entity1_end -> 10, entity2_begin -> 38, entity2 -> PROBLEM, chunk1 -> Paracetamol, sentence -> 0}, []}|
-|{category, 0, 90, IMPROVE, {entity1_begin -> 0, relation -> IMPROVE, hypothesis -> Paracetamol improves headache., confidence -> 0.9929625, nli_prediction -> entail, entity1 -> TREATMENT, syntactic_distance -> 2, chunk2 -> headache, entity2_end -> 33, entity1_end -> 10, entity2_begin -> 26, entity2 -> PROBLEM, chunk1 -> Paracetamol, sentence -> 0}, []}    |
-+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|relation                                                                                                                                                                                                                                                                                                                                                                 |
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|{category, 268, 358, IMPROVE, {entity1_begin -> 0, relation -> IMPROVE, hypothesis -> Paracetamol improves sickness., confidence -> 0.98819494, nli_prediction -> entail, entity1 -> DRUG, syntactic_distance -> undefined, chunk2 -> sickness, entity2_end -> 45, entity1_end -> 10, entity2_begin -> 38, entity2 -> PROBLEM, chunk1 -> Paracetamol, sentence -> 0}, []}|
+|{category, 0, 90, IMPROVE, {entity1_begin -> 0, relation -> IMPROVE, hypothesis -> Paracetamol improves headache., confidence -> 0.9929625, nli_prediction -> entail, entity1 -> DRUG, syntactic_distance -> undefined, chunk2 -> headache, entity2_end -> 33, entity1_end -> 10, entity2_begin -> 26, entity2 -> PROBLEM, chunk1 -> Paracetamol, sentence -> 0}, []}    |
+|{category, 536, 615, REVEAL, {entity1_begin -> 48, relation -> REVEAL, hypothesis -> An MRI test reveals cancer., confidence -> 0.9760039, nli_prediction -> entail, entity1 -> TEST, syntactic_distance -> undefined, chunk2 -> cancer, entity2_end -> 85, entity1_end -> 58, entity2_begin -> 80, entity2 -> PROBLEM, chunk1 -> An MRI test, sentence -> 1}, []}       |
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 ```
 
 

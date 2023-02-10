@@ -26,6 +26,7 @@ NOTE: This pipeline only works on a CPU, if you need to use this pipeline on a G
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_asr_exp_w2v2r_vp_100k_accent_france_5_belgium_5_s607_gpu_fr_4.2.0_3.0_1664097412143.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/pipeline_asr_exp_w2v2r_vp_100k_accent_france_5_belgium_5_s607_gpu_fr_4.2.0_3.0_1664097412143.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

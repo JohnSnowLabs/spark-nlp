@@ -36,7 +36,8 @@ This model is a Binary Classifier (True, False) for the `expenses-indemnity-dama
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_expenses_indemnity_damage_waiver_clause_en_1.0.0_3.0_1669376636277.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_expenses_indemnity_damage_waiver_clause_en_1.0.0_3.0_1669376636277.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_expenses_indemnity_damage_waiver_clause_en_1.0.0_3.0_1669376636277.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -44,6 +45,7 @@ This model is a Binary Classifier (True, False) for the `expenses-indemnity-dama
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  documentAssembler = nlp.DocumentAssembler() \
          .setInputCol("clause_text") \
@@ -91,14 +93,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 
 ```bash
 
-                                  precision    recall  f1-score   support
-
+                           label  precision    recall  f1-score   support
 expenses-indemnity-damage-waiver       0.96      0.96      0.96        24
                            other       0.97      0.97      0.97        38
-
-                        accuracy                           0.97        62
-                       macro avg       0.97      0.97      0.97        62
-                    weighted avg       0.97      0.97      0.97        62
-
-
+                        accuracy          -         -      0.97        62
+                       macro-avg       0.97      0.97      0.97        62
+                    weighted-avg       0.97      0.97      0.97        62
 ```

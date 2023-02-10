@@ -29,7 +29,8 @@ this NER model is based on LayoutLM pre-trained model and fine-tuned with SROIE 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/ocr/visual_document_NER_SROIE0526_en_3.0.0_3.0.1_1621990933091_en_3.0.0_3.0_1622015545288.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/ocr/visual_document_NER_SROIE0526_en_3.0.0_3.0.1_1621990933091_en_3.0.0_3.0_1622015545288.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/ocr/visual_document_NER_SROIE0526_en_3.0.0_3.0.1_1621990933091_en_3.0.0_3.0_1622015545288.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

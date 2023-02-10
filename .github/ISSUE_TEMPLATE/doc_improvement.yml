@@ -1,0 +1,14 @@
+name: Documentation Improvement
+description: File an issue to suggest edits to the documentation.
+labels: [documentation]
+assignees: "DevinTDHa"
+
+body:
+  - type: textarea
+    attributes:
+      label: Link to the documentation pages (if available)
+  - type: textarea
+    attributes:
+      label: How could the documentation be improved?
+    validations:
+      required: true

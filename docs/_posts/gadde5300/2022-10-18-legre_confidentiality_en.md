@@ -34,7 +34,8 @@ There are bigger models in Models Hub trained also with directed relationships.
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legre_confidentiality_en_1.0.0_3.0_1666098845071.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legre_confidentiality_en_1.0.0_3.0_1666098845071.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legre_confidentiality_en_1.0.0_3.0_1666098845071.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -130,10 +131,10 @@ In-house annotated examples from CUAD legal dataset
 ## Benchmarking
 
 ```bash
-Relation                        Recall    Precision     F1   Support
-is_confidentiality_indobject    1.000     1.000      1.000        28
-is_confidentiality_object       1.000     0.981      0.990        51
-is_confidentiality_subject      0.970     1.000      0.985        33
-Avg.                            0.990     0.994     0.992
-Weighted Avg.                   0.991     0.991     0.991
+                       label   Recall Precision       F1   Support
+is_confidentiality_indobject    1.000     1.000    1.000        28
+   is_confidentiality_object    1.000     0.981    0.990        51
+  is_confidentiality_subject    0.970     1.000    0.985        33
+                         Avg    0.990     0.994    0.992        -
+                Weighted-Avg    0.991     0.991    0.991        -
 ```

@@ -36,7 +36,8 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_notice_clause_en_1.0.0_3.0_1671208792323.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_notice_clause_en_1.0.0_3.0_1671208792323.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_notice_clause_en_1.0.0_3.0_1671208792323.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -105,12 +106,10 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 ## Benchmarking
 
 ```bash
-      label    precision    recall  f1-score   support
-
-      notice       1.00      0.98      0.99        64
-       other       0.99      1.00      0.99        92
-
-    accuracy                           0.99       156
-   macro-avg       0.99      0.99      0.99       156
-weighted-avg       0.99      0.99      0.99       156
+       label precision recall  f1-score  support
+      notice      1.00   0.98      0.99       64
+       other      0.99   1.00      0.99       92
+    accuracy         -      -      0.99      156
+   macro-avg      0.99   0.99      0.99      156
+weighted-avg      0.99   0.99      0.99      156
 ```

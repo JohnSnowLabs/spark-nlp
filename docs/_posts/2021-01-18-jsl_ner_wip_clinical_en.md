@@ -29,7 +29,8 @@ Pretrained named entity recognition deep learning model for clinical terminology
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_JSL/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_JSL.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/jsl_ner_wip_clinical_en_2.6.5_2.4_1609505628141.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/jsl_ner_wip_clinical_en_2.6.5_2.4_1609505628141.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/jsl_ner_wip_clinical_en_2.6.5_2.4_1609505628141.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 
 

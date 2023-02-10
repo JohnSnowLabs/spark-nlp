@@ -16,7 +16,7 @@ Excluding the label, this can be done with for example
   - a [WordEmbeddingsModel](/docs/en/annotators#wordembeddings)
   (any word embeddings can be chosen, e.g. [BertEmbeddings](/docs/en/transformers#bertembeddings) for BERT based embeddings).
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/training/english/dl-ner).
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/dl-ner).
 {%- endcapture -%}
 
 {%- capture input_anno -%}
@@ -127,11 +127,11 @@ val pipelineModel = pipeline.fit(trainingData)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[NerDLApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLApproach)
+[NerDLApproach](/api/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLApproach)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[NerDLApproach](/api/python/reference/autosummary/python/sparknlp/annotator/ner/ner_dl/index.html#sparknlp.annotator.ner.ner_dl.NerDLApproach)
+[NerDLApproach](/api/python/reference/autosummary/sparknlp/annotator/ner/ner_dl/index.html#sparknlp.annotator.ner.ner_dl.NerDLApproach)
 {%- endcapture -%}
 
 {%- capture source_link -%}

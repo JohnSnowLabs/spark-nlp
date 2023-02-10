@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.annotator.ner.zero_shot_ner &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.annotator.ner.zero_shot_ner &#8212; Spark NLP  documentation</title>
   
   
   
@@ -267,12 +267,12 @@
             <article class="bd-article" role="main">
               
   <h1>Source code for sparknlp_jsl.annotator.ner.zero_shot_ner</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span></span><span class="kn">from</span> <span class="nn">sparknlp_jsl.common</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator.classifier_dl</span> <span class="kn">import</span> <span class="n">RoBertaForQuestionAnswering</span>
 
 
 <div class="viewcode-block" id="ZeroShotNerModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/zero_shot_ner/index.html#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel">[docs]</a><span class="k">class</span> <span class="nc">ZeroShotNerModel</span><span class="p">(</span><span class="n">RoBertaForQuestionAnswering</span><span class="p">,</span> <span class="n">HasEngine</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Zero shot named entity recognition based on RoBertaForQuestionAnswering.</span>
 
 <span class="sd">    ==========================================  ======================</span>
@@ -343,6 +343,7 @@
 <span class="sd">        +-----------------------------------------------------------------+------+------+----------+------------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="ZeroShotNerModel.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/zero_shot_ner/index.html#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">]</span></div>
+<div class="viewcode-block" id="ZeroShotNerModel.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/zero_shot_ner/index.html#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">NAMED_ENTITY</span></div>
 
 <div class="viewcode-block" id="ZeroShotNerModel.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/zero_shot_ner/index.html#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;ZeroShotNerModel&quot;</span></div>
 
@@ -357,7 +358,7 @@
                            <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ZeroShotNerModel.setPredictionThreshold"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/zero_shot_ner/index.html#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.setPredictionThreshold">[docs]</a>    <span class="k">def</span> <span class="nf">setPredictionThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">threshold</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the minimal confidence score to encode an entity</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the minimal confidence score to encode an entity</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -367,7 +368,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">predictionThreshold</span><span class="o">=</span><span class="n">threshold</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ZeroShotNerModel.setEntityDefinitions"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/zero_shot_ner/index.html#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.setEntityDefinitions">[docs]</a>    <span class="k">def</span> <span class="nf">setEntityDefinitions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">definitions</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set entity definitions</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set entity definitions</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -379,10 +380,10 @@
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="ZeroShotNerModel.getClasses"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/zero_shot_ner/index.html#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.getClasses">[docs]</a>    <span class="k">def</span> <span class="nf">getClasses</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">         Get list of entities</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the list of entities which are recognized</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;getClasses&quot;</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;getEntities&quot;</span><span class="p">)</span></div>
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.ner.ZeroShotNerModel&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>

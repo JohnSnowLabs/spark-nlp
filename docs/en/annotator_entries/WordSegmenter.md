@@ -5,24 +5,52 @@ WordSegmenter
 {%- capture model_description -%}
 WordSegmenter which tokenizes non-english or non-whitespace separated texts.
 
-Many languages are not whitespace separated and their sentences are a concatenation of many symbols, like Korean,
-Japanese or Chinese. Without understanding the language, splitting the words into their corresponding tokens is
-impossible. The WordSegmenter is trained to understand these languages and plit them into semantically correct parts.
+Many languages are not whitespace separated and their sentences are a concatenation of many
+symbols, like Korean, Japanese or Chinese. Without understanding the language, splitting the
+words into their corresponding tokens is impossible. The WordSegmenter is trained to
+understand these languages and plit them into semantically correct parts.
 
-This is the instantiated model of the WordSegmenterApproach.
-For training your own model, please see the documentation of that class.
+This annotator is based on the paper
+[Chinese Word Segmentation as Character Tagging](https://aclanthology.org/O03-4002.pdf). Word
+segmentation is treated as a tagging problem. Each character is be tagged as on of four
+different labels: LL (left boundary), RR (right boundary), MM (middle) and LR (word by
+itself). The label depends on the position of the word in the sentence. LL tagged words will
+combine with the word on the right. Likewise, RR tagged words combine with words on the left.
+MM tagged words are treated as the middle of the word and combine with either side. LR tagged
+words are words by themselves.
+
+Example (from [1], Example 3(a) (raw), 3(b) (tagged), 3(c) (translation)):
+
+- 上海 计划 到 本 世纪 末 实现 人均 国内 生产 总值 五千 美元
+- 上/LL 海/RR 计/LL 划/RR 到/LR 本/LR 世/LL 纪/RR 末/LR 实/LL 现/RR 人/LL 均/RR 国/LL 内/RR 生/LL 产/RR 总/LL
+  值/RR 五/LL 千/RR 美/LL 元/RR
+- Shanghai plans to reach the goal of 5,000 dollars in per capita GDP by the end of the
+  century.
+
+This is the instantiated model of the WordSegmenterApproach. For training your own model,
+please see the documentation of that class.
 
 Pretrained models can be loaded with `pretrained` of the companion object:
-```
+
+```scala
 val wordSegmenter = WordSegmenterModel.pretrained()
   .setInputCols("document")
   .setOutputCol("words_segmented")
 ```
-The default model is `"wordseg_pku"`, default language is `"zh"`, if no values are provided.
-For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Word+Segmentation).
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/chinese/word_segmentation/words_segmenter_demo.ipynb)
+The default model is `"wordseg_pku"`, default language is `"zh"`, if no values are provided.
+For available pretrained models please see the
+[Models Hub](https://nlp.johnsnowlabs.com/models?task=Word+Segmentation).
+
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/jupyter/annotation/chinese/word_segmentation/words_segmenter_demo.ipynb)
 and the [WordSegmenterTest](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/WordSegmenterTest.scala).
+
+**References:**
+
+- [[1]](https://aclanthology.org/O03-4002.pdf) Xue, Nianwen. “Chinese Word Segmentation as
+  Character Tagging.” International Journal of Computational Linguistics & Chinese Language
+  Processing, Volume 8, Number 1, February 2003: Special Issue on Word Formation and Chinese
+  Language Processing, 2003, pp. 29-48. ACLWeb, https://aclanthology.org/O03-4002.
 {%- endcapture -%}
 
 {%- capture model_input_anno -%}
@@ -96,11 +124,11 @@ result.select("token.result").show(false)
 {%- endcapture -%}
 
 {%- capture model_api_link -%}
-[WordSegmenterModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ws/WordSegmenterModel)
+[WordSegmenterModel](/api/com/johnsnowlabs/nlp/annotators/ws/WordSegmenterModel)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[WordSegmenterModel](/api/python/reference/autosummary/python/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel)
+[WordSegmenterModel](/api/python/reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -110,21 +138,47 @@ result.select("token.result").show(false)
 {%- capture approach_description -%}
 Trains a WordSegmenter which tokenizes non-english or non-whitespace separated texts.
 
-Many languages are not whitespace separated and their sentences are a concatenation of many symbols, like Korean,
-Japanese or Chinese. Without understanding the language, splitting the words into their corresponding tokens is
-impossible. The WordSegmenter is trained to understand these languages and split them into semantically correct parts.
+Many languages are not whitespace separated and their sentences are a concatenation of many
+symbols, like Korean, Japanese or Chinese. Without understanding the language, splitting the
+words into their corresponding tokens is impossible. The WordSegmenter is trained to
+understand these languages and split them into semantically correct parts.
+
+This annotator is based on the paper Chinese Word Segmentation as Character Tagging [1]. Word
+segmentation is treated as a tagging problem. Each character is be tagged as on of four
+different labels: LL (left boundary), RR (right boundary), MM (middle) and LR (word by
+itself). The label depends on the position of the word in the sentence. LL tagged words will
+combine with the word on the right. Likewise, RR tagged words combine with words on the left.
+MM tagged words are treated as the middle of the word and combine with either side. LR tagged
+words are words by themselves.
+
+Example (from [1], Example 3(a) (raw), 3(b) (tagged), 3(c) (translation)):
+
+- 上海 计划 到 本 世纪 末 实现 人均 国内 生产 总值 五千 美元
+- 上/LL 海/RR 计/LL 划/RR 到/LR 本/LR 世/LL 纪/RR 末/LR 实/LL 现/RR 人/LL 均/RR 国/LL 内/RR 生/LL 产/RR 总/LL
+  值/RR 五/LL 千/RR 美/LL 元/RR
+- Shanghai plans to reach the goal of 5,000 dollars in per capita GDP by the end of the
+  century.
 
 For instantiated/pretrained models, see WordSegmenterModel.
 
 To train your own model, a training dataset consisting of
-[Part-Of-Speech tags](https://en.wikipedia.org/wiki/Part-of-speech_tagging) is required. The data has to be loaded
-into a dataframe, where the column is an [Annotation](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/Annotation) of type `"POS"`. This can be
-set with `setPosColumn`.
+[Part-Of-Speech tags](https://en.wikipedia.org/wiki/Part-of-speech_tagging) is required. The
+data has to be loaded into a dataframe, where the column is an
+[Annotation](/api/com/johnsnowlabs/nlp/Annotation) of type `"POS"`. This can be set with
+`setPosColumn`.
 
-**Tip**: The helper class [POS](/docs/en/training#pos-dataset) might be useful to read training data into data frames.
+**Tip**: The helper class [POS](/api/com/johnsnowlabs/nlp/training/POS) might be useful to read
+training data into data frames.
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/annotation/chinese/word_segmentation)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/chinese/word_segmentation)
 and the [WordSegmenterTest](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/WordSegmenterTest.scala).
+
+**References:**
+
+- [[1]](https://aclanthology.org/O03-4002.pdf) Xue, Nianwen. “Chinese Word Segmentation as
+  Character Tagging.” International Journal of Computational Linguistics & Chinese Language
+  Processing, Volume 8, Number 1, February 2003: Special Issue on Word Formation and Chinese
+  Language Processing, 2003, pp. 29-48. ACLWeb, https://aclanthology.org/O03-4002.
 {%- endcapture -%}
 
 {%- capture approach_input_anno -%}
@@ -209,11 +263,11 @@ val pipelineModel = pipeline.fit(trainingDataSet)
 {%- endcapture -%}
 
 {%- capture approach_api_link -%}
-[WordSegmenterApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ws/WordSegmenterApproach)
+[WordSegmenterApproach](/api/com/johnsnowlabs/nlp/annotators/ws/WordSegmenterApproach)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[WordSegmenterApproach](/api/python/reference/autosummary/python/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach)
+[WordSegmenterApproach](/api/python/reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

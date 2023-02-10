@@ -9,9 +9,9 @@ ClassifierDL uses the state-of-the-art Universal Sentence Encoder as an input fo
 The ClassifierDL annotator uses a deep learning model (DNNs) we have built inside TensorFlow and supports up to
 100 classes.
 
-For extended examples of usage, see the Spark NLP Workshop
-[[1] ](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/scala/training/Train%20Multi-Class%20Text%20Classification%20on%20News%20Articles.scala)
-[[2] ](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.Text_Classification_with_ClassifierDL.ipynb).
+For extended examples of usage, see the Examples
+[[1] ](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/scala/training/Train%20Multi-Class%20Text%20Classification%20on%20News%20Articles.scala)
+[[2] ](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/classification/ClassifierDL_Train_multi_class_news_category_classifier.ipynb).
 {%- endcapture -%}
 
 {%- capture input_anno -%}
@@ -117,11 +117,11 @@ val pipelineModel = pipeline.fit(smallCorpus)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[ClassifierDLApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLApproach)
+[ClassifierDLApproach](/api/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLApproach)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[ClassifierDLApproach](/api/python/reference/autosummary/python/sparknlp/annotator/classifier_dl/classifier_dl/index.html#sparknlp.annotator.classifier_dl.classifier_dl.ClassifierDLApproach)
+[ClassifierDLApproach](/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/classifier_dl/index.html#sparknlp.annotator.classifier_dl.classifier_dl.ClassifierDLApproach)
 {%- endcapture -%}
 
 {%- capture source_link -%}

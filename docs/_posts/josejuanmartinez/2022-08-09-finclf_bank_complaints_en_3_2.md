@@ -26,7 +26,8 @@ This model classifies Bank-related texts into different 7 different categories, 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_bank_complaints_en_1.0.0_3.2_1660035048303.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_bank_complaints_en_1.0.0_3.2_1660035048303.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/finance/models/finclf_bank_complaints_en_1.0.0_3.2_1660035048303.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -99,7 +100,7 @@ https://www.consumerfinance.gov/data-research/consumer-complaints/#download-the-
                       Loans       0.78      0.78      0.78       472
 Money_Transfer_and_Currency       0.82      0.84      0.83       482
                    Mortgage       0.87      0.87      0.87       488
-                   accuracy         -         -       0.78      3340
+                   accuracy          -         -      0.78      3340
                   macro-avg       0.78      0.78      0.78      3340
                weighted-avg       0.78      0.78      0.78      3340
 ```

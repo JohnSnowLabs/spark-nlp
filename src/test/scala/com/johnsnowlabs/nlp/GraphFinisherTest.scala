@@ -27,8 +27,6 @@ import scala.collection.mutable
 
 class GraphFinisherTest extends AnyFlatSpec with SparkSessionTest with GraphExtractionFixture {
 
-  spark.conf.set("spark.sql.crossJoin.enabled", "true")
-
   import spark.implicits._
 
   private val textDataSet = Seq("Bruce Wayne lives in Gotham").toDS.toDF("text")
@@ -50,6 +48,8 @@ class GraphFinisherTest extends AnyFlatSpec with SparkSessionTest with GraphExtr
       .setInputCols("document", "token", "entities")
       .setOutputCol("graph")
       .setRelationshipTypes(Array("sees-PER"))
+      .setMergeEntities(false)
+      .setExplodeEntities(false)
     val finisher = new GraphFinisher().setInputCol("graph").setOutputCol("finisher")
     val pipeline = new Pipeline().setStages(Array(graphExtractor, finisher))
     val expectedGraph = List(
@@ -66,12 +66,14 @@ class GraphFinisherTest extends AnyFlatSpec with SparkSessionTest with GraphExtr
     assert(actualGraph == expectedGraph)
   }
 
-  it should "output graph in RDF format as string" in {
+  it should "output graph in RDF format as string" taggedAs FastTest in {
     val testDataSet = getDeepEntities(spark, tokenizerWithSentencePipeline)
     val graphExtractor = new GraphExtraction()
       .setInputCols("document", "token", "entities")
       .setOutputCol("graph")
       .setRelationshipTypes(Array("sees-PER"))
+      .setMergeEntities(false)
+      .setExplodeEntities(false)
     val finisher =
       new GraphFinisher().setInputCol("graph").setOutputCol("finisher").setOutputAsArray(false)
     val expectedGraph = List(
@@ -93,6 +95,8 @@ class GraphFinisherTest extends AnyFlatSpec with SparkSessionTest with GraphExtr
       .setInputCols("document", "token", "entities")
       .setOutputCol("graph")
       .setRelationshipTypes(Array("sees-PER"))
+      .setMergeEntities(false)
+      .setExplodeEntities(false)
     val finisher = new GraphFinisher()
       .setInputCol("graph")
       .setOutputCol("finisher")
@@ -120,6 +124,7 @@ class GraphFinisherTest extends AnyFlatSpec with SparkSessionTest with GraphExtr
       .setInputCols("sentence", "token", "entities")
       .setOutputCol("graph")
       .setExplodeEntities(true)
+      .setMergeEntities(false)
     val finisher = new GraphFinisher()
       .setInputCol("graph")
       .setOutputCol("finisher")

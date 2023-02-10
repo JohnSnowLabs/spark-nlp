@@ -24,7 +24,7 @@ The default model is `"classifierdl_use_trec6"`, if no name is provided. It uses
 For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Text+Classification).
 
 For extended examples of usage, see the
-[Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.Text_Classification_with_ClassifierDL.ipynb)
+[Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/classification/ClassifierDL_Train_multi_class_news_category_classifier.ipynb)
 and the [ClassifierDLTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLTestSpec.scala).
 {%- endcapture -%}
 
@@ -135,11 +135,11 @@ result.selectExpr("explode(arrays_zip(sentence, sarcasm)) as out")
 {%- endcapture -%}
 
 {%- capture model_api_link -%}
-[ClassifierDLModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLModel)
+[ClassifierDLModel](/api/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLModel)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[ClassifierDLModel](/api/python/reference/autosummary/python/sparknlp/annotator/classifier_dl/classifier_dl/index.html#sparknlp.annotator.classifier_dl.classifier_dl.ClassifierDLModel)
+[ClassifierDLModel](/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/classifier_dl/index.html#sparknlp.annotator.classifier_dl.classifier_dl.ClassifierDLModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -187,9 +187,9 @@ val classifier = new ClassifierDLApproach()
   .setTestDataset("test_data")
 ```
 
-For extended examples of usage, see the Spark NLP Workshop
-[[1] ](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/scala/training/Train%20Multi-Class%20Text%20Classification%20on%20News%20Articles.scala)
-[[2] ](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.Text_Classification_with_ClassifierDL.ipynb)
+For extended examples of usage, see the Examples
+[[1] ](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/scala/training/Train%20Multi-Class%20Text%20Classification%20on%20News%20Articles.scala)
+[[2] ](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/classification/ClassifierDL_Train_multi_class_news_category_classifier.ipynb)
 and the [ClassifierDLTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLTestSpec.scala).
 {%- endcapture -%}
 
@@ -296,11 +296,11 @@ val pipelineModel = pipeline.fit(smallCorpus)
 {%- endcapture -%}
 
 {%- capture approach_api_link -%}
-[ClassifierDLApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLApproach)
+[ClassifierDLApproach](/api/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLApproach)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[ClassifierDLApproach](/api/python/reference/autosummary/python/sparknlp/annotator/classifier_dl/classifier_dl/index.html#sparknlp.annotator.classifier_dl.classifier_dl.ClassifierDLApproach)
+[ClassifierDLApproach](/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/classifier_dl/index.html#sparknlp.annotator.classifier_dl.classifier_dl.ClassifierDLApproach)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

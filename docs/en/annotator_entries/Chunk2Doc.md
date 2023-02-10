@@ -5,9 +5,6 @@ Chunk2Doc
 {%- capture description -%}
 Converts a `CHUNK` type column back into `DOCUMENT`. Useful when trying to re-tokenize or do further analysis on a
 `CHUNK` result.
-
-For more extended examples on document pre-processing see the
-[Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb).
 {%- endcapture -%}
 
 {%- capture input_anno -%}
@@ -71,11 +68,11 @@ result.selectExpr("explode(chunkConverted)").show(false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[Chunk2Doc](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/Chunk2Doc)
+[Chunk2Doc](/api/com/johnsnowlabs/nlp/Chunk2Doc)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[Chunk2Doc](/api/python/reference/autosummary/python/sparknlp/base/chunk2_doc/index.html#sparknlp.base.chunk2_doc.Chunk2Doc)
+[Chunk2Doc](/api/python/reference/autosummary/sparknlp/base/chunk2_doc/index.html#sparknlp.base.chunk2_doc.Chunk2Doc)
 {%- endcapture -%}
 
 {%- capture source_link -%}

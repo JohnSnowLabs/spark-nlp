@@ -19,8 +19,7 @@ The default model is `"image_classifier_vit_base_patch16_224"`, if no name is pr
 For available pretrained models please see the
 [Models Hub](https://nlp.johnsnowlabs.com/models?task=Image+Classification).
 
-Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The
-Spark NLP Workshop example shows how to import them
+Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are compatible and how to import them see
 https://github.com/JohnSnowLabs/spark-nlp/discussions/5669 and to see more extended
 examples, see
 [ViTImageClassificationTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/cv/ViTImageClassificationTestSpec.scala).
@@ -71,6 +70,24 @@ imageClassifier = ViTForImageClassification \\
 
 pipeline = Pipeline().setStages([imageAssembler, imageClassifier])
 pipelineDF = pipeline.fit(imageDF).transform(imageDF)
+
+pipelineDF \
+    .selectExpr("reverse(split(image.origin, '/'))[0] as image_name", "class.result") \
+    .show(truncate=False)
++-----------------+----------------------------------------------------------+
+|image_name       |result                                                    |
++-----------------+----------------------------------------------------------+
+|palace.JPEG      |[palace]                                                  |
+|egyptian_cat.jpeg|[Egyptian cat]                                            |
+|hippopotamus.JPEG|[hippopotamus, hippo, river horse, Hippopotamus amphibius]|
+|hen.JPEG         |[hen]                                                     |
+|ostrich.JPEG     |[ostrich, Struthio camelus]                               |
+|junco.JPEG       |[junco, snowbird]                                         |
+|bluetick.jpg     |[bluetick]                                                |
+|chihuahua.jpg    |[Chihuahua]                                               |
+|tractor.JPEG     |[tractor]                                                 |
+|ox.JPEG          |[ox]                                                      |
++-----------------+----------------------------------------------------------+
 {%- endcapture -%}
 
 {%- capture scala_example -%}
@@ -95,6 +112,23 @@ val imageClassifier = ViTForImageClassification
 val pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier))
 val pipelineDF = pipeline.fit(imageDF).transform(imageDF)
 
+pipelineDF
+  .selectExpr("reverse(split(image.origin, '/'))[0] as image_name", "class.result")
+  .show(truncate = false)
++-----------------+----------------------------------------------------------+
+|image_name       |result                                                    |
++-----------------+----------------------------------------------------------+
+|palace.JPEG      |[palace]                                                  |
+|egyptian_cat.jpeg|[Egyptian cat]                                            |
+|hippopotamus.JPEG|[hippopotamus, hippo, river horse, Hippopotamus amphibius]|
+|hen.JPEG         |[hen]                                                     |
+|ostrich.JPEG     |[ostrich, Struthio camelus]                               |
+|junco.JPEG       |[junco, snowbird]                                         |
+|bluetick.jpg     |[bluetick]                                                |
+|chihuahua.jpg    |[Chihuahua]                                               |
+|tractor.JPEG     |[tractor]                                                 |
+|ox.JPEG          |[ox]                                                      |
++-----------------+----------------------------------------------------------+
 {%- endcapture -%}
 
 {%- capture api_link -%}
@@ -102,7 +136,7 @@ val pipelineDF = pipeline.fit(imageDF).transform(imageDF)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[ViTForImageClassification](/api/python/reference/autosummary/python/sparknlp/annotator/cv/vit_for_image_classification/index.html#sparknlp.annotator.cv.vit_for_image_classification.ViTForImageClassification)
+[ViTForImageClassification](/api/python/reference/autosummary/sparknlp/annotator/cv/vit_for_image_classification/index.html#sparknlp.annotator.cv.vit_for_image_classification.ViTForImageClassification)
 {%- endcapture -%}
 
 {%- capture source_link -%}

@@ -30,6 +30,7 @@ The model extends the BERT transformer architecture that is why we use it with B
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/sent_bert_use_cmlm_en_large_en_3.1.3_2.4_1626783107796.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/sent_bert_use_cmlm_en_large_en_3.1.3_2.4_1626783107796.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

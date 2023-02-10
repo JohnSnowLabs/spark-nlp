@@ -28,6 +28,7 @@ Pretrained DistilBertForSequenceClassification model, adapted from Hugging Face 
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_sequence_classifier_sentiment_analysis_sbcBI_en_4.1.0_3.0_1661278712132.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/distilbert_sequence_classifier_sentiment_analysis_sbcBI_en_4.1.0_3.0_1661278712132.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

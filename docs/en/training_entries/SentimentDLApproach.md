@@ -17,7 +17,7 @@ For the instantiated/pretrained models, see SentimentDLModel.
     [BertSentenceEmbeddings](/docs/en/transformers#bertsentenceembeddings), or
     [SentenceEmbeddings](docs/en/annotators#sentenceembeddings) can be used for the `inputCol`.
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/classification/SentimentDL_train_multiclass_sentiment_classifier.ipynb).
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/classification/SentimentDL_train_multiclass_sentiment_classifier.ipynb).
 {%- endcapture -%}
 
 {%- capture approach_input_anno -%}
@@ -120,11 +120,11 @@ val pipelineModel = pipeline.fit(smallCorpus)
 {%- endcapture -%}
 
 {%- capture approach_api_link -%}
-[SentimentDLApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/SentimentDLApproach)
+[SentimentDLApproach](/api/com/johnsnowlabs/nlp/annotators/classifier/dl/SentimentDLApproach)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[SentimentDLApproach](/api/python/reference/autosummary/python/sparknlp/annotator/sentiment/sentiment_dl/index.html#sparknlp.annotator.sentiment.sentiment_dl.SentimentDLApproach)
+[SentimentDLApproach](/api/python/reference/autosummary/sparknlp/annotator/sentiment/sentiment_dl/index.html#sparknlp.annotator.sentiment.sentiment_dl.SentimentDLApproach)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

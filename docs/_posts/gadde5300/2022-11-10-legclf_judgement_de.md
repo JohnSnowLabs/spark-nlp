@@ -27,7 +27,8 @@ This is a `sm` version of German Legal Judgement Text Classifier written in Germ
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_judgement_de_1.0.0_3.0_1668064625045.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_judgement_de_1.0.0_3.0_1668064625045.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_judgement_de_1.0.0_3.0_1668064625045.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -35,6 +36,7 @@ This is a `sm` version of German Legal Judgement Text Classifier written in Germ
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  
 document_assembler = nlp.DocumentAssembler() \
@@ -105,16 +107,12 @@ An in-house augmented version of [this dataset](https://zenodo.org/record/393649
 ## Benchmarking
 
 ```bash
-
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
   conclusion       0.47      0.69      0.55       156
   definition       0.72      0.90      0.80       286
        other       0.95      0.70      0.81       786
  subsumption       0.70      0.77      0.73       523
-
-    accuracy                           0.75      1751
-   macro avg       0.71      0.77      0.72      1751
-weighted avg       0.79      0.75      0.76      1751
-
+    accuracy          -         -      0.75      1751
+   macro-avg       0.71      0.77      0.72      1751
+weighted-avg       0.79      0.75      0.76      1751
 ```

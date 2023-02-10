@@ -33,7 +33,8 @@ Take into consideration the embeddings of this model allows up to 512 tokens. If
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_security_ownership_item_en_1.0.0_3.2_1660154472575.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_security_ownership_item_en_1.0.0_3.2_1660154472575.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/finance/models/finclf_security_ownership_item_en_1.0.0_3.2_1660154472575.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -104,7 +105,7 @@ Weak labelling on documents from Edgar database
              label  precision    recall  f1-score   support
              other       0.90      0.84      0.87        31
 security_ownership       0.78      0.86      0.82        21
-          accuracy        -         -        0.85        52
+          accuracy          -         -      0.85        52
          macro-avg       0.84      0.85      0.84        52
       weighted-avg       0.85      0.85      0.85        52
 ```

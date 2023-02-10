@@ -19,6 +19,8 @@ use_language_switcher: "Python-Scala-Java"
 
 This model allows you to, given an extracted name of a company, get information about that company, including the Industry, the Sector and the Trading Symbol (ticker).
 
+It can be optionally combined with Entity Resolution to normalize first the name of the company.
+
 ## Predicted Entities
 
 
@@ -26,7 +28,8 @@ This model allows you to, given an extracted name of a company, get information 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/finance/FIN_LEG_COMPANY_AUGMENTATION/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finmapper_nasdaq_companyname_en_1.0.0_3.2_1660038424307.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finmapper_nasdaq_companyname_en_1.0.0_3.2_1660038424307.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/finance/models/finmapper_nasdaq_companyname_en_1.0.0_3.2_1660038424307.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -38,51 +41,46 @@ This model allows you to, given an extracted name of a company, get information 
 ```python
 
 document_assembler = nlp.DocumentAssembler()\
-      .setInputCol('text')\
-      .setOutputCol('document')
+    .setInputCol('text')\
+    .setOutputCol('document')
 
 tokenizer = nlp.Tokenizer()\
-      .setInputCols("document")\
-      .setOutputCol("token")
+    .setInputCols("document")\
+    .setOutputCol("token")
 
-# This is a the lighter but less accurate wayto get companies. 
-# Check for much more accurate models in Models Hub / Finance.
-# ==========================================================
-embeddings = nlp.WordEmbeddingsModel.pretrained('glove_100d') \
-        .setInputCols(['document', 'token']) \
-        .setOutputCol('embeddings')
+embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
+    .setInputCols(["document", "token"])\
+    .setOutputCol("embeddings")
 
-ner_model = nlp.NerDLModel.pretrained("onto_100", "en") \
-        .setInputCols(["document", "token", "embeddings"]) \
-        .setOutputCol("ner")
-# ==========================================================
- 
+ner_model = finance.NerModel.pretrained('finner_orgs_prods_alias', 'en', 'finance/models')\
+    .setInputCols(["document", "token", "embeddings"])\
+    .setOutputCol("ner")
+
 ner_converter = nlp.NerConverter()\
-      .setInputCols(["document", "token", "ner"])\
-      .setOutputCol("ner_chunk")\
-      .setWhiteList(["ORG"])
+    .setInputCols(["document", "token", "ner"])\
+    .setOutputCol("ner_chunk")
 
-CM = finance.ChunkMapperModel()\
-      .pretrained('finmapper_nasdaq_companyname', 'en', 'finance/models')\
-      .setInputCols(["ner_chunk"])\
-      .setOutputCol("mappings")\
-      .setRel('ticker')
+CM = finance.ChunkMapperModel().pretrained('finmapper_nasdaq_companyname', 'en', 'finance/models')\
+    .setInputCols(["ner_chunk"])\
+    .setOutputCol("mappings")\
+    .setEnableFuzzyMatching(True)
 
-pipeline = Pipeline().setStages([document_assembler,
-                                 tokenizer, 
-                                 embeddings,
-                                 ner_model, 
-                                 ner_converter, 
-                                 CM])
-                                 
-text = ["""Altaba Inc. is a company which ..."""]
+pipeline = nlp.Pipeline().setStages([document_assembler,
+                          tokenizer, 
+                          embeddings,
+                          ner_model, 
+                          ner_converter,
+                          CM])
+                          
+text = """Altaba Inc. is a company which ..."""
 
-test_data = spark.createDataFrame([text]).toDF("text")
+test_data = spark.createDataFrame([[text]]).toDF("text")
 
 model = pipeline.fit(test_data)
-res= model.transform(test_data)
 
-res.select('mappings').collect()
+lp = nlp.LightPipeline(model)
+
+lp.fullAnnotate(text)
 ```
 
 </div>
@@ -90,7 +88,13 @@ res.select('mappings').collect()
 ## Results
 
 ```bash
-[Row(mappings=[Row(annotatorType='labeled_dependency', begin=0, end=10, result='AABA', metadata={'sentence': '0', 'chunk': '0', 'entity': 'Altaba Inc.', 'relation': 'ticker', 'all_relations': ''}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=0, end=10, result='Altaba Inc.', metadata={'sentence': '0', 'chunk': '0', 'entity': 'Altaba Inc.', 'relation': 'company_name', 'all_relations': ''}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=0, end=10, result='Altaba', metadata={'sentence': '0', 'chunk': '0', 'entity': 'Altaba Inc.', 'relation': 'short_name', 'all_relations': ''}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=0, end=10, result='Asset Management', metadata={'sentence': '0', 'chunk': '0', 'entity': 'Altaba Inc.', 'relation': 'industry', 'all_relations': ''}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=0, end=10, result='Financial Services', metadata={'sentence': '0', 'chunk': '0', 'entity': 'Altaba Inc.', 'relation': 'sector', 'all_relations': ''}, embeddings=[])])]
+{
+    "ticker": "AABA",
+    "company_name": "Altaba Inc.",
+    "short_name": "Altaba",
+    "industry": "Asset Management",
+    "sector": "Financial Services"
+}
 ```
 
 {:.model-param}

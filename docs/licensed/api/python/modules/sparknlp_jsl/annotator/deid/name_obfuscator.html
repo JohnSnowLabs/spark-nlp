@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.annotator.deid.name_obfuscator &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.annotator.deid.name_obfuscator &#8212; Spark NLP  documentation</title>
   
   
   
@@ -271,10 +271,11 @@
 <span class="kn">from</span> <span class="nn">pyspark.ml.param</span> <span class="kn">import</span> <span class="n">TypeConverters</span><span class="p">,</span> <span class="n">Params</span><span class="p">,</span> <span class="n">Param</span>
 <span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">AnnotatorTransformer</span>
 
-<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp_jsl.common</span> <span class="kn">import</span> <span class="o">*</span>
 
-<div class="viewcode-block" id="NameChunkObfuscatorApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach">[docs]</a><span class="k">class</span> <span class="nc">NameChunkObfuscatorApproach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">):</span>
+<div class="viewcode-block" id="NameChunkObfuscatorApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach">[docs]</a><span class="k">class</span> <span class="nc">NameChunkObfuscatorApproach</span><span class="p">(</span><span class="n">AnnotatorApproachInternal</span><span class="p">):</span>
 <div class="viewcode-block" id="NameChunkObfuscatorApproach.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span><span class="p">]</span></div>
+<div class="viewcode-block" id="NameChunkObfuscatorApproach.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span></div>
 <div class="viewcode-block" id="NameChunkObfuscatorApproach.obfuscateRefFile"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.obfuscateRefFile">[docs]</a>    <span class="n">obfuscateRefFile</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;obfuscateRefFile&quot;</span><span class="p">,</span> <span class="s2">&quot;File with the terms to be used for Obfuscation&quot;</span><span class="p">,</span>
                              <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 <div class="viewcode-block" id="NameChunkObfuscatorApproach.refFileFormat"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.refFileFormat">[docs]</a>    <span class="n">refFileFormat</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;refFileFormat&quot;</span><span class="p">,</span> <span class="s2">&quot;Format of the reference file&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
@@ -289,7 +290,7 @@
 
 
 <div class="viewcode-block" id="NameChunkObfuscatorApproach.setObfuscateRefFile"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.setObfuscateRefFile">[docs]</a>    <span class="k">def</span> <span class="nf">setObfuscateRefFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set file with the terms to be used for Obfuscation</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set file with the terms to be used for Obfuscation</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -299,7 +300,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">obfuscateRefFile</span><span class="o">=</span><span class="n">f</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="NameChunkObfuscatorApproach.setRefFileFormat"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.setRefFileFormat">[docs]</a>    <span class="k">def</span> <span class="nf">setRefFileFormat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets format of the reference file</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets format of the reference file</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -309,7 +310,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">refFileFormat</span><span class="o">=</span><span class="n">f</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="NameChunkObfuscatorApproach.setRefSep"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.setRefSep">[docs]</a>    <span class="k">def</span> <span class="nf">setRefSep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets separator character in refFile</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets separator character in refFile</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -319,7 +320,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">refSep</span><span class="o">=</span><span class="n">c</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="NameChunkObfuscatorApproach.setSeed"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.setSeed">[docs]</a>    <span class="k">def</span> <span class="nf">setSeed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the seed to select the entities on obfuscate mode</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the seed to select the entities on obfuscate mode</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -331,13 +332,14 @@
             <span class="k">return</span> <span class="n">NameChunkObfuscator</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="NameChunkObfuscator"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator">[docs]</a><span class="k">class</span> <span class="nc">NameChunkObfuscator</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
+<div class="viewcode-block" id="NameChunkObfuscator"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator">[docs]</a><span class="k">class</span> <span class="nc">NameChunkObfuscator</span><span class="p">(</span><span class="n">AnnotatorModelInternal</span><span class="p">):</span>
 <div class="viewcode-block" id="NameChunkObfuscator.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span><span class="p">]</span></div>
+<div class="viewcode-block" id="NameChunkObfuscator.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span></div>
 
 <div class="viewcode-block" id="NameChunkObfuscator.seed"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.seed">[docs]</a>    <span class="n">seed</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;seed&quot;</span><span class="p">,</span> <span class="s2">&quot;It is the seed to select the entities on obfuscate mode&quot;</span><span class="p">,</span>
                  <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 <div class="viewcode-block" id="NameChunkObfuscator.setSeed"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.setSeed">[docs]</a>    <span class="k">def</span> <span class="nf">setSeed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the seed to select the entities on obfuscate mode</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the seed to select the entities on obfuscate mode</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

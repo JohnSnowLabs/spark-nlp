@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp_jsl.compatibility &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.compatibility &#8212; Spark NLP  documentation</title>
   
   
   
@@ -269,7 +269,7 @@
               
   <section id="module-sparknlp_jsl.compatibility">
 <span id="sparknlp-jsl-compatibility"></span><h1><a class="reference internal" href="#module-sparknlp_jsl.compatibility" title="sparknlp_jsl.compatibility"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.compatibility</span></code></a><a class="headerlink" href="#module-sparknlp_jsl.compatibility" title="Permalink to this heading">#</a></h1>
-<p>Class to check what are the models compatibles with our distribution.</p>
+<p>Verifies which models are compatible with the current distribution.</p>
 <section id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">#</a></h2>
 <section id="classes">
@@ -277,21 +277,23 @@
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.compatibility.Compatibility" title="sparknlp_jsl.compatibility.Compatibility"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Compatibility</span></code></a></p></td>
-<td><p></p></td>
+<td><p>Verifies which models are compatible with the current distribution.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp_jsl.compatibility.Compatibility">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Compatibility</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.SparkSession.html#pyspark.sql.SparkSession" title="(in PySpark vmaster)"><span class="pre">pyspark.sql.SparkSession</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp_jsl/compatibility.html#Compatibility"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.compatibility.Compatibility" title="Permalink to this definition">#</a></dt>
-<dd><dl class="py method">
+<dd><p>Verifies which models are compatible with the current distribution.</p>
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.compatibility.Compatibility.findVersion">
 <span class="sig-name descname"><span class="pre">findVersion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'all'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp_jsl/compatibility.html#Compatibility.findVersion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.compatibility.Compatibility.findVersion" title="Permalink to this definition">#</a></dt>
-<dd><p>It returns the private models that are compatible with the current library version.</p>
+<dd><p>Returns the private models that are compatible with the current library version.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>model</strong><span class="classifier">str</span></dt><dd><p>Name of the model that you try to find.If the model name is ‘all’ that method will return all private models.</p>
+<dt><strong>model</strong><span class="classifier">str</span></dt><dd><p>Name of the model that you try to find.
+If ‘all’ (default), returns all private models.</p>
 </dd>
 </dl>
 </dd>
@@ -301,11 +303,12 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.compatibility.Compatibility.showVersion">
 <span class="sig-name descname"><span class="pre">showVersion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'all'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp_jsl/compatibility.html#Compatibility.showVersion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.compatibility.Compatibility.showVersion" title="Permalink to this definition">#</a></dt>
-<dd><p>It prints the private models that are compatibles with the current library version.</p>
+<dd><p>Prints the private models that are compatibles with the current library version.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>model</strong><span class="classifier">str</span></dt><dd><p>Name of the model that you try to find.If the model name is ‘all’ that method will print all private models.</p>
+<dt><strong>model</strong><span class="classifier">str</span></dt><dd><p>Name of the model that you try to find.
+If ‘all’ (default), prints all private models.</p>
 </dd>
 </dl>
 </dd>

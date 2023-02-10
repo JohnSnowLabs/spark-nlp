@@ -28,6 +28,10 @@ CHUNK
 [ContextualParserModel](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/context/ContextualParserModel)
 {%- endcapture -%}
 
+{%- capture model_python_api_link -%}
+[ContextualParserModel](https://nlp.johnsnowlabs.com/licensed/api/python/reference/autosummary/sparknlp_jsl/annotator/context/contextual_parser/index.html#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserModel)
+{%- endcapture -%}
+
 {%- capture approach_description -%}
 Creates a model, that extracts entity from a document based on user defined rules.
 Rule matching is based on a RegexMatcher defined in a JSON file. It is set through the parameter setJsonPath()
@@ -332,6 +336,9 @@ val pipeline = new Pipeline().setStages(Array(
 [ContextualParserApproach](https://nlp.johnsnowlabs.com/licensed/api/com/johnsnowlabs/nlp/annotators/context/ContextualParserApproach)
 {%- endcapture -%}
 
+{%- capture approach_python_api_link -%}
+[ContextualParserApproach](https://nlp.johnsnowlabs.com/licensed/api/python/reference/autosummary/sparknlp_jsl/annotator/context/contextual_parser/index.html#sparknlp_jsl.annotator.context.contextual_parser.ContextualParserApproach)
+{%- endcapture -%}
 
 {% include templates/licensed_approach_model_medical_fin_leg_template.md
 title=title
@@ -341,6 +348,7 @@ model_description=model_description
 model_input_anno=model_input_anno
 model_output_anno=model_output_anno
 model_api_link=model_api_link
+model_python_api_link=model_python_api_link
 approach_description=approach_description
 approach_input_anno=approach_input_anno
 approach_output_anno=approach_output_anno
@@ -351,4 +359,5 @@ approach_scala_medical=approach_scala_medical
 approach_scala_legal=approach_scala_legal
 approach_scala_finance=approach_scala_finance
 approach_api_link=approach_api_link
+approach_python_api_link=approach_python_api_link
 %}

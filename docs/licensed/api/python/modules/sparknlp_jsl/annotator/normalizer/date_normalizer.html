@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl.annotator.normalizer.date_normalizer &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl.annotator.normalizer.date_normalizer &#8212; Spark NLP  documentation</title>
   
   
   
@@ -267,10 +267,10 @@
             <article class="bd-article" role="main">
               
   <h1>Source code for sparknlp_jsl.annotator.normalizer.date_normalizer</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
+<span></span><span class="kn">from</span> <span class="nn">sparknlp_jsl.common</span> <span class="kn">import</span> <span class="o">*</span>
 
-<div class="viewcode-block" id="DateNormalizer"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/normalizer/date_normalizer/index.html#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer">[docs]</a><span class="k">class</span> <span class="nc">DateNormalizer</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="DateNormalizer"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/normalizer/date_normalizer/index.html#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer">[docs]</a><span class="k">class</span> <span class="nc">DateNormalizer</span><span class="p">(</span><span class="n">AnnotatorModelInternal</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Try to normalize dates in chunks annotations.</span>
 <span class="sd">    The expected format for the date will be YYYY/MM/DD.</span>
 <span class="sd">    If the date is normalized then field normalized in metadata will be true else will be false.</span>
@@ -298,35 +298,68 @@
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; import sparknlp</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
-<span class="sd">    &gt;&gt;&gt; from sparknlp.common import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.common import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp.training import *</span>
 <span class="sd">    &gt;&gt;&gt; import sparknlp_jsl</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.base import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.annotator import *</span>
 <span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
-<span class="sd">    &gt;&gt;&gt;document_assembler = DocumentAssembler().setInputCol(&#39;ner_chunk&#39;).setOutputCol(&#39;document&#39;)</span>
-<span class="sd">    &gt;&gt;&gt;chunksDF = document_assembler.transform(df)</span>
-<span class="sd">    &gt;&gt;&gt;aa = map_annotations_col(chunksDF.select(&quot;document&quot;),</span>
-<span class="sd">    ...                    lambda x: [Annotation(&#39;chunk&#39;, a.begin, a.end, a.result, a.metadata, a.embeddings) for a in x], &quot;document&quot;,</span>
-<span class="sd">    ...                    &quot;chunk_date&quot;, &quot;chunk&quot;)</span>
-<span class="sd">    &gt;&gt;&gt;dateNormalizer = DateNormalizer().setInputCols(&#39;chunk_date&#39;).setOutputCol(&#39;date&#39;).setAnchorDateYear(2000).setAnchorDateMonth(3).setAnchorDateDay(15)</span>
-<span class="sd">    &gt;&gt;&gt; result = dateNormalizer.transform(aa)</span>
-<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;Fri, 21 Nov 1997&quot;], [&quot;next week at 7.30&quot;], [&quot;see you a day after&quot;]]).toDF(&quot;text&quot;)</span>
-<span class="sd">    &gt;&gt;&gt; result = pipeline.fit(data).transform(data)</span>
-<span class="sd">    &gt;&gt;&gt; result.selectExpr(&quot;date.result&quot;,&quot;text&quot;)</span>
-<span class="sd">    +-------------+-----------+</span>
-<span class="sd">    |       result|       text|</span>
-<span class="sd">    +-------------+-----------+</span>
-<span class="sd">    | [08/02/2018]| 08/02/2018|</span>
-<span class="sd">    |    [11/2018]|    11/2018|</span>
-<span class="sd">    | [11/01/2018]| 11/01/2018|</span>
-<span class="sd">    |[next monday]|next monday|</span>
-<span class="sd">    |      [today]|      today|</span>
-<span class="sd">    |  [next week]|  next week|</span>
-<span class="sd">    +-------------+-----------+</span>
+<span class="sd">    &gt;&gt;&gt; dates = [</span>
+<span class="sd">    ...     &quot;08/02/2018&quot;,</span>
+<span class="sd">    ...     &quot;11/2018&quot;,</span>
+<span class="sd">    ...     &quot;11/01/2018&quot;,</span>
+<span class="sd">    ...     &quot;12Mar2021&quot;,</span>
+<span class="sd">    ...     &quot;Jan 30, 2018&quot;,</span>
+<span class="sd">    ...     &quot;13.04.1999&quot;,</span>
+<span class="sd">    ...     &quot;3April 2020&quot;,</span>
+<span class="sd">    ...     &quot;next monday&quot;,</span>
+<span class="sd">    ...     &quot;today&quot;,</span>
+<span class="sd">    ...     &quot;next week&quot;,</span>
+<span class="sd">    ... ]</span>
+<span class="sd">    &gt;&gt;&gt; df = spark.createDataFrame(dates, StringType()).toDF(&quot;original_date&quot;)</span>
+
+<span class="sd">    &gt;&gt;&gt; document_assembler = (</span>
+<span class="sd">    ...     DocumentAssembler().setInputCol(&quot;original_date&quot;).setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    ... )</span>
+
+<span class="sd">    &gt;&gt;&gt; doc2chunk = Doc2Chunk().setInputCols(&quot;document&quot;).setOutputCol(&quot;date_chunk&quot;)</span>
+
+<span class="sd">    &gt;&gt;&gt; date_normalizer = (</span>
+<span class="sd">    ...     DateNormalizer()</span>
+<span class="sd">    ...     .setInputCols(&quot;date_chunk&quot;)</span>
+<span class="sd">    ...     .setOutputCol(&quot;date&quot;)</span>
+<span class="sd">    ...     .setAnchorDateYear(2000)</span>
+<span class="sd">    ...     .setAnchorDateMonth(3)</span>
+<span class="sd">    ...     .setAnchorDateDay(15)</span>
+<span class="sd">    ... )</span>
+
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline(stages=[document_assembler, doc2chunk, date_normalizer])</span>
+
+<span class="sd">    &gt;&gt;&gt; result = pipeline.fit(df).transform(df)</span>
+<span class="sd">    &gt;&gt;&gt; result.selectExpr(</span>
+<span class="sd">    ...     &quot;date.result as normalized_date&quot;,</span>
+<span class="sd">    ...     &quot;original_date&quot;,</span>
+<span class="sd">    ...     &quot;date.metadata[0].normalized as metadata&quot;,</span>
+<span class="sd">    ... ).show()</span>
+
+<span class="sd">    +---------------+-------------+--------+</span>
+<span class="sd">    |normalized_date|original_date|metadata|</span>
+<span class="sd">    +---------------+-------------+--------+</span>
+<span class="sd">    |   [2018/08/02]|   08/02/2018|    true|</span>
+<span class="sd">    |   [2018/11/DD]|      11/2018|    true|</span>
+<span class="sd">    |   [2018/11/01]|   11/01/2018|    true|</span>
+<span class="sd">    |   [2021/03/12]|    12Mar2021|    true|</span>
+<span class="sd">    |   [2018/01/30]| Jan 30, 2018|    true|</span>
+<span class="sd">    |   [1999/04/13]|   13.04.1999|    true|</span>
+<span class="sd">    |   [2020/04/03]|  3April 2020|    true|</span>
+<span class="sd">    |   [2000/03/20]|  next monday|    true|</span>
+<span class="sd">    |   [2000/03/15]|        today|    true|</span>
+<span class="sd">    |   [2000/03/22]|    next week|    true|</span>
+<span class="sd">    +---------------+-------------+--------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="DateNormalizer.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/normalizer/date_normalizer/index.html#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span><span class="p">]</span></div>
+<div class="viewcode-block" id="DateNormalizer.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/normalizer/date_normalizer/index.html#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span></div>
 
 <div class="viewcode-block" id="DateNormalizer.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/normalizer/date_normalizer/index.html#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;DateNormalizer&quot;</span></div>
 
@@ -356,8 +389,29 @@
                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span></div>
                           <span class="p">)</span>
 
+
+<div class="viewcode-block" id="DateNormalizer.defaultReplacementDay"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/normalizer/date_normalizer/index.html#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.defaultReplacementDay">[docs]</a>    <span class="n">defaultReplacementDay</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                             <span class="s2">&quot;defaultReplacementDay&quot;</span><span class="p">,</span>
+                             <span class="s2">&quot;Defines which value to use for creating the Day Value when original Date-Entity has no Day Information. Defaults to 15.&quot;</span><span class="p">,</span>
+                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span></div>
+                             <span class="p">)</span>
+
+<div class="viewcode-block" id="DateNormalizer.defaultReplacementMonth"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/normalizer/date_normalizer/index.html#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.defaultReplacementMonth">[docs]</a>    <span class="n">defaultReplacementMonth</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                             <span class="s2">&quot;defaultReplacementMonth&quot;</span><span class="p">,</span>
+                             <span class="s2">&quot;Defines which value to use for creating the Month Value when original Date-Entity has no Day Information. Defaults to 6.&quot;</span><span class="p">,</span>
+                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span></div>
+                             <span class="p">)</span>
+
+
+<div class="viewcode-block" id="DateNormalizer.defaultReplacementYear"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/normalizer/date_normalizer/index.html#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.defaultReplacementYear">[docs]</a>    <span class="n">defaultReplacementYear</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                             <span class="s2">&quot;defaultReplacementYear&quot;</span><span class="p">,</span>
+                             <span class="s2">&quot;Defines which value to use for creating the Year Value when original Date-Entity has no Day Information. Defaults to 2020.&quot;</span><span class="p">,</span>
+                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span></div>
+                             <span class="p">)</span>
+
+
 <div class="viewcode-block" id="DateNormalizer.setAnchorDateYear"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/normalizer/date_normalizer/index.html#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.setAnchorDateYear">[docs]</a>    <span class="k">def</span> <span class="nf">setAnchorDateYear</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets an anchor year for the relative dates such as a day after</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets an anchor year for the relative dates such as a day after</span>
 <span class="sd">        tomorrow. If not set it will use the current year.</span>
 
 <span class="sd">        Example: 2021</span>
@@ -370,7 +424,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">anchorDateYear</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DateNormalizer.setAnchorDateMonth"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/normalizer/date_normalizer/index.html#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.setAnchorDateMonth">[docs]</a>    <span class="k">def</span> <span class="nf">setAnchorDateMonth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets an anchor month for the relative dates such as a day after</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets an anchor month for the relative dates such as a day after</span>
 <span class="sd">        tomorrow. If not set it will use the current month.</span>
 
 <span class="sd">        Example: 1 which means January</span>
@@ -384,7 +438,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">anchorDateMonth</span><span class="o">=</span><span class="n">normalized_value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DateNormalizer.setAnchorDateDay"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/normalizer/date_normalizer/index.html#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.setAnchorDateDay">[docs]</a>    <span class="k">def</span> <span class="nf">setAnchorDateDay</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets an anchor day of the day for the relative dates such as a day</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets an anchor day of the day for the relative dates such as a day</span>
 <span class="sd">        after tomorrow. If not set it will use the current day.</span>
 
 <span class="sd">        Example: 11</span>
@@ -396,7 +450,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">anchorDateDay</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 <div class="viewcode-block" id="DateNormalizer.setOutputDateformat"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/normalizer/date_normalizer/index.html#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.setOutputDateformat">[docs]</a>    <span class="k">def</span> <span class="nf">setOutputDateformat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets an anchor day of the day for the relative dates such as a day</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets an anchor day of the day for the relative dates such as a day</span>
 <span class="sd">        after tomorrow. If not set it will use the current day.</span>
 
 <span class="sd">        Example: 11</span>
@@ -407,6 +461,52 @@
 <span class="sd">            The anchor day for relative dates</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputDateFormat</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="DateNormalizer.setDefaultReplacementDay"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/normalizer/date_normalizer/index.html#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.setDefaultReplacementDay">[docs]</a>    <span class="k">def</span> <span class="nf">setDefaultReplacementDay</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Defines which value to use for creating the Day Value</span>
+<span class="sd">        when original Date-Entity has no Day Information. Defaults to 15.</span>
+
+<span class="sd">        Example: &quot;11&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">             The default value to use when creating a value for Day</span>
+<span class="sd">             while normalizing and the original date has no day data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">defaultReplacementDay</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DateNormalizer.setDefaultReplacementMonth"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/normalizer/date_normalizer/index.html#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.setDefaultReplacementMonth">[docs]</a>    <span class="k">def</span> <span class="nf">setDefaultReplacementMonth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Defines which value to use for creating the Month Value when original Date-Entity has no Month Information.</span>
+<span class="sd">        Defaults to 06.</span>
+
+<span class="sd">        Example: &quot;11&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">             The default value to use when creating a value for</span>
+<span class="sd">              Month while normalizing and the original date has no Month data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">defaultReplacementMonth</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DateNormalizer.setDefaultReplacementYear"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/normalizer/date_normalizer/index.html#sparknlp_jsl.annotator.normalizer.date_normalizer.DateNormalizer.setDefaultReplacementYear">[docs]</a>    <span class="k">def</span> <span class="nf">setDefaultReplacementYear</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Defines which value to use for creating the Year Value when original Date-Entity has no Year Information.</span>
+<span class="sd">        Defaults to 2020.</span>
+
+<span class="sd">        Example: &quot;2023&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">             The default value to use when creating a value for</span>
+<span class="sd">              Year while normalizing and the original date has no Year data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">defaultReplacementYear</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.normalizer.DateNormalizer&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">DateNormalizer</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>

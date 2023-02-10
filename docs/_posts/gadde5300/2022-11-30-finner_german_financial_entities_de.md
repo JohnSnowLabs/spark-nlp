@@ -27,7 +27,8 @@ This is a German NER model trained on German Financial Statements, aimed to extr
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_german_financial_entities_de_1.0.0_3.0_1669806210718.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_german_financial_entities_de_1.0.0_3.0_1669806210718.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/finance/models/finner_german_financial_entities_de_1.0.0_3.0_1669806210718.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -35,6 +36,7 @@ This is a German NER model trained on German Financial Statements, aimed to extr
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler()\
         .setInputCol("text")\
@@ -138,7 +140,7 @@ https://huggingface.co/datasets/fabianrausch/financial-entities-values-augmented
 ## Benchmarking
 
 ```bash
-             label   precision    recall  f1-score   support
+             label  precision    recall  f1-score   support
 B-financial_entity     0.9923    0.9983    0.9953      1813
  B-financial_value     1.0000    0.9920    0.9960      1369
 I-financial_entity     0.9962    0.9998    0.9980      4148

@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell &#8212; Spark NLP 4.0.0 documentation</title>
+    <title>sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell &#8212; Spark NLP  documentation</title>
   
   
   
@@ -316,7 +316,7 @@
 
 
 <span class="k">def</span> <span class="nf">_get_concat_variable</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">num_shards</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Get a sharded variable concatenated into one tensor.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get a sharded variable concatenated into one tensor.&quot;&quot;&quot;</span>
     <span class="n">sharded_variable</span> <span class="o">=</span> <span class="n">_get_sharded_variable</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">num_shards</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sharded_variable</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">sharded_variable</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -333,7 +333,7 @@
 
 
 <span class="k">def</span> <span class="nf">_get_sharded_variable</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">num_shards</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Get a list of sharded variables with the given dtype.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get a list of sharded variables with the given dtype.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">num_shards</span> <span class="o">&gt;</span> <span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Too many shards: shape=</span><span class="si">%s</span><span class="s2">, num_shards=</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">shape</span><span class="p">,</span>
                                                                        <span class="n">num_shards</span><span class="p">))</span>
@@ -364,7 +364,7 @@
 
 
 <div class="viewcode-block" id="CoupledInputForgetGateLSTMCell"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CoupledInputForgetGateLSTMCell">[docs]</a><span class="k">class</span> <span class="nc">CoupledInputForgetGateLSTMCell</span><span class="p">(</span><span class="n">rnn_cell_impl</span><span class="o">.</span><span class="n">RNNCell</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Long short-term memory unit (LSTM) recurrent network cell.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Long short-term memory unit (LSTM) recurrent network cell.</span>
 
 <span class="sd">    The default non-peephole implementation is based on:</span>
 
@@ -415,7 +415,7 @@
                  <span class="n">layer_norm</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                  <span class="n">norm_gain</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
                  <span class="n">norm_shift</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initialize the parameters for an LSTM cell.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the parameters for an LSTM cell.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          num_units: int, The number of units in the LSTM cell</span>
@@ -486,7 +486,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_size</span>
 
 <div class="viewcode-block" id="CoupledInputForgetGateLSTMCell.call"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CoupledInputForgetGateLSTMCell.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Run one step of LSTM.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run one step of LSTM.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          inputs: input Tensor, 2D, batch x num_units.</span>
@@ -591,7 +591,7 @@
 
 
 <div class="viewcode-block" id="TimeFreqLSTMCell"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.TimeFreqLSTMCell">[docs]</a><span class="k">class</span> <span class="nc">TimeFreqLSTMCell</span><span class="p">(</span><span class="n">rnn_cell_impl</span><span class="o">.</span><span class="n">RNNCell</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Time-Frequency Long short-term memory unit (LSTM) recurrent network cell.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Time-Frequency Long short-term memory unit (LSTM) recurrent network cell.</span>
 
 <span class="sd">    This implementation is based on:</span>
 
@@ -612,7 +612,7 @@
                  <span class="n">feature_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">frequency_skip</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                  <span class="n">reuse</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initialize the parameters for an LSTM cell.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the parameters for an LSTM cell.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          num_units: int, The number of units in the LSTM cell</span>
@@ -655,7 +655,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_size</span>
 
 <div class="viewcode-block" id="TimeFreqLSTMCell.call"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.TimeFreqLSTMCell.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Run one step of LSTM.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run one step of LSTM.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          inputs: input Tensor, 2D, batch x num_units.</span>
@@ -739,7 +739,7 @@
         <span class="k">return</span> <span class="n">m_out</span><span class="p">,</span> <span class="n">state_out</span></div>
 
     <span class="k">def</span> <span class="nf">_make_tf_features</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_feat</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Make the frequency features.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Make the frequency features.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          input_feat: input Tensor, 2D, batch x num_units.</span>
@@ -765,7 +765,7 @@
 
 
 <div class="viewcode-block" id="GridLSTMCell"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GridLSTMCell">[docs]</a><span class="k">class</span> <span class="nc">GridLSTMCell</span><span class="p">(</span><span class="n">rnn_cell_impl</span><span class="o">.</span><span class="n">RNNCell</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Grid Long short-term memory unit (LSTM) recurrent network cell.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Grid Long short-term memory unit (LSTM) recurrent network cell.</span>
 
 <span class="sd">    The default is based on:</span>
 <span class="sd">      Nal Kalchbrenner, Ivo Danihelka and Alex Graves</span>
@@ -796,7 +796,7 @@
                  <span class="n">couple_input_forget_gates</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                  <span class="n">state_is_tuple</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                  <span class="n">reuse</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initialize the parameters for an LSTM cell.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the parameters for an LSTM cell.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          num_units: int, The number of units in the LSTM cell</span>
@@ -889,7 +889,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_tuple_type</span>
 
 <div class="viewcode-block" id="GridLSTMCell.call"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GridLSTMCell.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Run one step of LSTM.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run one step of LSTM.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          inputs: input Tensor, 2D, [batch, feature_size].</span>
@@ -935,7 +935,7 @@
                  <span class="n">batch_size</span><span class="p">,</span>
                  <span class="n">state_prefix</span><span class="o">=</span><span class="s2">&quot;state&quot;</span><span class="p">,</span>
                  <span class="n">state_is_tuple</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Run the actual computation of one step LSTM.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the actual computation of one step LSTM.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          freq_inputs: list of Tensors, 2D, [batch, feature_size].</span>
@@ -1142,7 +1142,7 @@
         <span class="k">return</span> <span class="n">m_out_lst</span><span class="p">,</span> <span class="n">state_out_lst</span>
 
     <span class="k">def</span> <span class="nf">_make_tf_features</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_feat</span><span class="p">,</span> <span class="n">slice_offset</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Make the frequency features.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Make the frequency features.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          input_feat: input Tensor, 2D, [batch, num_units].</span>
@@ -1232,7 +1232,7 @@
 
 
 <div class="viewcode-block" id="BidirectionalGridLSTMCell"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.BidirectionalGridLSTMCell">[docs]</a><span class="k">class</span> <span class="nc">BidirectionalGridLSTMCell</span><span class="p">(</span><span class="n">GridLSTMCell</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Bidirectional GridLstm cell.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Bidirectional GridLstm cell.</span>
 
 <span class="sd">    The bidirection connection is only used in the frequency direction, which</span>
 <span class="sd">    hence doesn&#39;t affect the time direction&#39;s real-time processing that is</span>
@@ -1256,7 +1256,7 @@
                  <span class="n">couple_input_forget_gates</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                  <span class="n">backward_slice_offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                  <span class="n">reuse</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initialize the parameters for an LSTM cell.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the parameters for an LSTM cell.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          num_units: int, The number of units in the LSTM cell</span>
@@ -1313,7 +1313,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_output_size</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">num_units</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_total_blocks</span> <span class="o">*</span> <span class="mi">2</span>
 
 <div class="viewcode-block" id="BidirectionalGridLSTMCell.call"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.BidirectionalGridLSTMCell.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Run one step of LSTM.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run one step of LSTM.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          inputs: input Tensor, 2D, [batch, num_units].</span>
@@ -1382,7 +1382,7 @@
 
 
 <div class="viewcode-block" id="AttentionCellWrapper"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.AttentionCellWrapper">[docs]</a><span class="k">class</span> <span class="nc">AttentionCellWrapper</span><span class="p">(</span><span class="n">rnn_cell_impl</span><span class="o">.</span><span class="n">RNNCell</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Basic attention cell wrapper.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Basic attention cell wrapper.</span>
 
 <span class="sd">    Implementation based on https://arxiv.org/abs/1601.06733.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1395,7 +1395,7 @@
                  <span class="n">input_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">state_is_tuple</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                  <span class="n">reuse</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Create a cell with attention.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a cell with attention.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          cell: an RNNCell, an attention is added to it.</span>
@@ -1461,7 +1461,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attn_size</span>
 
 <div class="viewcode-block" id="AttentionCellWrapper.call"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.AttentionCellWrapper.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Long short-term memory cell with attention (LSTMA).&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Long short-term memory cell with attention (LSTMA).&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_is_tuple</span><span class="p">:</span>
             <span class="n">state</span><span class="p">,</span> <span class="n">attns</span><span class="p">,</span> <span class="n">attn_states</span> <span class="o">=</span> <span class="n">state</span>
         <span class="k">else</span><span class="p">:</span>
@@ -1526,7 +1526,7 @@
 
 
 <div class="viewcode-block" id="HighwayWrapper"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.HighwayWrapper">[docs]</a><span class="k">class</span> <span class="nc">HighwayWrapper</span><span class="p">(</span><span class="n">rnn_cell_impl</span><span class="o">.</span><span class="n">RNNCell</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;RNNCell wrapper that adds highway connection on cell input and output.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;RNNCell wrapper that adds highway connection on cell input and output.</span>
 
 <span class="sd">    Based on:</span>
 <span class="sd">      R. K. Srivastava, K. Greff, and J. Schmidhuber, &quot;Highway networks&quot;,</span>
@@ -1538,7 +1538,7 @@
                  <span class="n">cell</span><span class="p">,</span>
                  <span class="n">couple_carry_transform_gates</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                  <span class="n">carry_bias_init</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Constructs a `HighwayWrapper` for `cell`.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Constructs a `HighwayWrapper` for `cell`.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          cell: An instance of `RNNCell`.</span>
@@ -1582,7 +1582,7 @@
         <span class="k">return</span> <span class="n">inp</span> <span class="o">*</span> <span class="n">carry</span> <span class="o">+</span> <span class="n">out</span> <span class="o">*</span> <span class="n">transform</span>
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Run the cell and add its inputs to its outputs.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the cell and add its inputs to its outputs.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          inputs: cell inputs.</span>
@@ -1609,7 +1609,7 @@
 
 
 <div class="viewcode-block" id="LayerNormBasicLSTMCell"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.LayerNormBasicLSTMCell">[docs]</a><span class="k">class</span> <span class="nc">LayerNormBasicLSTMCell</span><span class="p">(</span><span class="n">rnn_cell_impl</span><span class="o">.</span><span class="n">RNNCell</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;LSTM unit with layer normalization and recurrent dropout.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;LSTM unit with layer normalization and recurrent dropout.</span>
 
 <span class="sd">    This class adds layer normalization and recurrent dropout to a</span>
 <span class="sd">    basic LSTM unit. Layer normalization implementation is based on:</span>
@@ -1639,7 +1639,7 @@
                  <span class="n">dropout_keep_prob</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
                  <span class="n">dropout_prob_seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">reuse</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initializes the basic LSTM cell.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes the basic LSTM cell.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          num_units: int, The number of units in the LSTM cell.</span>
@@ -1705,7 +1705,7 @@
         <span class="k">return</span> <span class="n">out</span>
 
 <div class="viewcode-block" id="LayerNormBasicLSTMCell.call"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.LayerNormBasicLSTMCell.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;LSTM cell with layer normalization and recurrent dropout.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;LSTM cell with layer normalization and recurrent dropout.&quot;&quot;&quot;</span>
         <span class="n">c</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">state</span>
         <span class="n">args</span> <span class="o">=</span> <span class="n">array_ops</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">inputs</span><span class="p">,</span> <span class="n">h</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
         <span class="n">concat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_linear</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
@@ -1733,7 +1733,7 @@
 
 
 <div class="viewcode-block" id="NASCell"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NASCell">[docs]</a><span class="k">class</span> <span class="nc">NASCell</span><span class="p">(</span><span class="n">rnn_cell_impl</span><span class="o">.</span><span class="n">LayerRNNCell</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Neural Architecture Search (NAS) recurrent network cell.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Neural Architecture Search (NAS) recurrent network cell.</span>
 
 <span class="sd">    This implements the recurrent cell from the paper:</span>
 
@@ -1750,7 +1750,7 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_units</span><span class="p">,</span> <span class="n">num_proj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">use_bias</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">reuse</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initialize the parameters for a NAS cell.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the parameters for a NAS cell.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          num_units: int, The number of units in the NAS cell.</span>
@@ -1812,7 +1812,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">built</span> <span class="o">=</span> <span class="kc">True</span></div>
 
 <div class="viewcode-block" id="NASCell.call"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NASCell.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Run one step of NAS Cell.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run one step of NAS Cell.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          inputs: input Tensor, 2D, batch x num_units.</span>
@@ -1889,7 +1889,7 @@
 
 
 <div class="viewcode-block" id="UGRNNCell"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.UGRNNCell">[docs]</a><span class="k">class</span> <span class="nc">UGRNNCell</span><span class="p">(</span><span class="n">rnn_cell_impl</span><span class="o">.</span><span class="n">RNNCell</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Update Gate Recurrent Neural Network (UGRNN) cell.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Update Gate Recurrent Neural Network (UGRNN) cell.</span>
 
 <span class="sd">    Compromise between a LSTM/GRU and a vanilla RNN.  There is only one</span>
 <span class="sd">    gate, and that is to determine whether the unit should be</span>
@@ -1910,7 +1910,7 @@
                  <span class="n">forget_bias</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
                  <span class="n">activation</span><span class="o">=</span><span class="n">math_ops</span><span class="o">.</span><span class="n">tanh</span><span class="p">,</span>
                  <span class="n">reuse</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initialize the parameters for an UGRNN cell.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the parameters for an UGRNN cell.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          num_units: int, The number of units in the UGRNN cell</span>
@@ -1941,7 +1941,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span>
 
 <div class="viewcode-block" id="UGRNNCell.call"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.UGRNNCell.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Run one step of UGRNN.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run one step of UGRNN.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          inputs: input Tensor, 2D, batch x input size.</span>
@@ -1983,7 +1983,7 @@
 
 
 <div class="viewcode-block" id="IntersectionRNNCell"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IntersectionRNNCell">[docs]</a><span class="k">class</span> <span class="nc">IntersectionRNNCell</span><span class="p">(</span><span class="n">rnn_cell_impl</span><span class="o">.</span><span class="n">RNNCell</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Intersection Recurrent Neural Network (+RNN) cell.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Intersection Recurrent Neural Network (+RNN) cell.</span>
 
 <span class="sd">    Architecture with coupled recurrent gate as well as coupled depth</span>
 <span class="sd">    gate, designed to improve information flow through stacked RNNs. As the</span>
@@ -2012,7 +2012,7 @@
                  <span class="n">forget_bias</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
                  <span class="n">y_activation</span><span class="o">=</span><span class="n">nn_ops</span><span class="o">.</span><span class="n">relu</span><span class="p">,</span>
                  <span class="n">reuse</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initialize the parameters for an +RNN cell.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the parameters for an +RNN cell.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          num_units: int, The number of units in the +RNN cell</span>
@@ -2050,7 +2050,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span>
 
 <div class="viewcode-block" id="IntersectionRNNCell.call"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IntersectionRNNCell.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Run one step of the Intersection RNN.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run one step of the Intersection RNN.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          inputs: input Tensor, 2D, batch x input size.</span>
@@ -2116,10 +2116,10 @@
 
 
 <div class="viewcode-block" id="CompiledWrapper"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CompiledWrapper">[docs]</a><span class="k">class</span> <span class="nc">CompiledWrapper</span><span class="p">(</span><span class="n">rnn_cell_impl</span><span class="o">.</span><span class="n">RNNCell</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Wraps step execution in an XLA JIT scope.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Wraps step execution in an XLA JIT scope.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cell</span><span class="p">,</span> <span class="n">compile_stateful</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Create CompiledWrapper cell.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create CompiledWrapper cell.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          cell: Instance of `RNNCell`.</span>
@@ -2157,7 +2157,7 @@
 
 
 <span class="k">def</span> <span class="nf">_random_exp_initializer</span><span class="p">(</span><span class="n">minval</span><span class="p">,</span> <span class="n">maxval</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtypes</span><span class="o">.</span><span class="n">float32</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Returns an exponential distribution initializer.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns an exponential distribution initializer.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">      minval: float or a scalar float Tensor. With value &gt; 0. Lower bound of the</span>
@@ -2182,7 +2182,7 @@
 
 
 <div class="viewcode-block" id="PhasedLSTMCell"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.PhasedLSTMCell">[docs]</a><span class="k">class</span> <span class="nc">PhasedLSTMCell</span><span class="p">(</span><span class="n">rnn_cell_impl</span><span class="o">.</span><span class="n">RNNCell</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Phased LSTM recurrent network cell.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Phased LSTM recurrent network cell.</span>
 
 <span class="sd">    https://arxiv.org/pdf/1610.09513v1.pdf</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -2196,7 +2196,7 @@
                  <span class="n">period_init_min</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
                  <span class="n">period_init_max</span><span class="o">=</span><span class="mf">1000.0</span><span class="p">,</span>
                  <span class="n">reuse</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initialize the Phased LSTM cell.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the Phased LSTM cell.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          num_units: int, The number of units in the Phased LSTM cell.</span>
@@ -2241,11 +2241,11 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_units</span>
 
     <span class="k">def</span> <span class="nf">_mod</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Modulo function that propagates x gradients.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Modulo function that propagates x gradients.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">array_ops</span><span class="o">.</span><span class="n">stop_gradient</span><span class="p">(</span><span class="n">math_ops</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">x</span>
 
     <span class="k">def</span> <span class="nf">_get_cycle_ratio</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">phase</span><span class="p">,</span> <span class="n">period</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Compute the cycle ratio in the dtype of the time.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the cycle ratio in the dtype of the time.&quot;&quot;&quot;</span>
         <span class="n">phase_casted</span> <span class="o">=</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
         <span class="n">period_casted</span> <span class="o">=</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">period</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
         <span class="n">shifted_time</span> <span class="o">=</span> <span class="n">time</span> <span class="o">-</span> <span class="n">phase_casted</span>
@@ -2253,7 +2253,7 @@
         <span class="k">return</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">cycle_ratio</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtypes</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
 
 <div class="viewcode-block" id="PhasedLSTMCell.call"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.PhasedLSTMCell.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Phased LSTM Cell.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Phased LSTM Cell.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          inputs: A tuple of 2 Tensor.</span>
@@ -2334,7 +2334,7 @@
 
 
 <div class="viewcode-block" id="ConvLSTMCell"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.ConvLSTMCell">[docs]</a><span class="k">class</span> <span class="nc">ConvLSTMCell</span><span class="p">(</span><span class="n">rnn_cell_impl</span><span class="o">.</span><span class="n">RNNCell</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Convolutional LSTM recurrent network cell.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convolutional LSTM recurrent network cell.</span>
 
 <span class="sd">    https://arxiv.org/pdf/1506.04214v1.pdf</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -2349,7 +2349,7 @@
                  <span class="n">forget_bias</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
                  <span class="n">initializers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">name</span><span class="o">=</span><span class="s2">&quot;conv_lstm_cell&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Construct ConvLSTMCell.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Construct ConvLSTMCell.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          conv_ndims: Convolution dimensionality (1, 2 or 3).</span>
@@ -2418,40 +2418,40 @@
 
 
 <div class="viewcode-block" id="Conv1DLSTMCell"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.Conv1DLSTMCell">[docs]</a><span class="k">class</span> <span class="nc">Conv1DLSTMCell</span><span class="p">(</span><span class="n">ConvLSTMCell</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;1D Convolutional LSTM recurrent network cell.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;1D Convolutional LSTM recurrent network cell.</span>
 
 <span class="sd">    https://arxiv.org/pdf/1506.04214v1.pdf</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;conv_1d_lstm_cell&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Construct Conv1DLSTM. See `ConvLSTMCell` for more details.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Construct Conv1DLSTM. See `ConvLSTMCell` for more details.&quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">Conv1DLSTMCell</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">conv_ndims</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Conv2DLSTMCell"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.Conv2DLSTMCell">[docs]</a><span class="k">class</span> <span class="nc">Conv2DLSTMCell</span><span class="p">(</span><span class="n">ConvLSTMCell</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;2D Convolutional LSTM recurrent network cell.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;2D Convolutional LSTM recurrent network cell.</span>
 
 <span class="sd">    https://arxiv.org/pdf/1506.04214v1.pdf</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;conv_2d_lstm_cell&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Construct Conv2DLSTM. See `ConvLSTMCell` for more details.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Construct Conv2DLSTM. See `ConvLSTMCell` for more details.&quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">Conv2DLSTMCell</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">conv_ndims</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Conv3DLSTMCell"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.Conv3DLSTMCell">[docs]</a><span class="k">class</span> <span class="nc">Conv3DLSTMCell</span><span class="p">(</span><span class="n">ConvLSTMCell</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;3D Convolutional LSTM recurrent network cell.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;3D Convolutional LSTM recurrent network cell.</span>
 
 <span class="sd">    https://arxiv.org/pdf/1506.04214v1.pdf</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;conv_3d_lstm_cell&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Construct Conv3DLSTM. See `ConvLSTMCell` for more details.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Construct Conv3DLSTM. See `ConvLSTMCell` for more details.&quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">Conv3DLSTMCell</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">conv_ndims</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <span class="k">def</span> <span class="nf">_conv</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">filter_size</span><span class="p">,</span> <span class="n">num_features</span><span class="p">,</span> <span class="n">bias</span><span class="p">,</span> <span class="n">bias_start</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Convolution.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convolution.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">      args: a Tensor or a list of Tensors of dimension 3D, 4D or 5D,</span>
@@ -2515,7 +2515,7 @@
 
 
 <div class="viewcode-block" id="GLSTMCell"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GLSTMCell">[docs]</a><span class="k">class</span> <span class="nc">GLSTMCell</span><span class="p">(</span><span class="n">rnn_cell_impl</span><span class="o">.</span><span class="n">RNNCell</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Group LSTM cell (G-LSTM).</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Group LSTM cell (G-LSTM).</span>
 
 <span class="sd">    The implementation is based on:</span>
 
@@ -2540,7 +2540,7 @@
                  <span class="n">forget_bias</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
                  <span class="n">activation</span><span class="o">=</span><span class="n">math_ops</span><span class="o">.</span><span class="n">tanh</span><span class="p">,</span>
                  <span class="n">reuse</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initialize the parameters of G-LSTM cell.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the parameters of G-LSTM cell.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          num_units: int, The number of units in the G-LSTM cell</span>
@@ -2603,7 +2603,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_size</span>
 
     <span class="k">def</span> <span class="nf">_get_input_for_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">group_id</span><span class="p">,</span> <span class="n">group_size</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Slices inputs into groups to prepare for processing by cell&#39;s groups.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Slices inputs into groups to prepare for processing by cell&#39;s groups.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          inputs: cell input or it&#39;s previous state,</span>
@@ -2622,7 +2622,7 @@
             <span class="n">name</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;GLSTM_group</span><span class="si">%d</span><span class="s2">_input_generation&quot;</span> <span class="o">%</span> <span class="n">group_id</span><span class="p">))</span>
 
 <div class="viewcode-block" id="GLSTMCell.call"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.GLSTMCell.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Run one step of G-LSTM.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run one step of G-LSTM.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          inputs: input Tensor, 2D, [batch x num_inputs].  num_inputs must be</span>
@@ -2735,7 +2735,7 @@
 
 
 <div class="viewcode-block" id="LayerNormLSTMCell"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.LayerNormLSTMCell">[docs]</a><span class="k">class</span> <span class="nc">LayerNormLSTMCell</span><span class="p">(</span><span class="n">rnn_cell_impl</span><span class="o">.</span><span class="n">RNNCell</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Long short-term memory unit (LSTM) recurrent network cell.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Long short-term memory unit (LSTM) recurrent network cell.</span>
 
 <span class="sd">    The default non-peephole implementation is based on:</span>
 
@@ -2779,7 +2779,7 @@
                  <span class="n">norm_gain</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
                  <span class="n">norm_shift</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
                  <span class="n">reuse</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initialize the parameters for an LSTM cell.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the parameters for an LSTM cell.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          num_units: int, The number of units in the LSTM cell</span>
@@ -2846,7 +2846,7 @@
                 <span class="n">bias_initializer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                 <span class="n">kernel_initializer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                 <span class="n">layer_norm</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Linear map: sum_i(args[i] * W[i]), where W[i] is a Variable.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Linear map: sum_i(args[i] * W[i]), where W[i] is a Variable.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          args: a 2D Tensor or a list of 2D, batch x n, Tensors.</span>
@@ -2910,7 +2910,7 @@
         <span class="k">return</span> <span class="n">res</span>
 
 <div class="viewcode-block" id="LayerNormLSTMCell.call"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.LayerNormLSTMCell.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Run one step of LSTM.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run one step of LSTM.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          inputs: input Tensor, 2D, batch x num_units.</span>
@@ -3005,7 +3005,7 @@
 
 
 <div class="viewcode-block" id="SRUCell"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.SRUCell">[docs]</a><span class="k">class</span> <span class="nc">SRUCell</span><span class="p">(</span><span class="n">rnn_cell_impl</span><span class="o">.</span><span class="n">LayerRNNCell</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;SRU, Simple Recurrent Unit.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;SRU, Simple Recurrent Unit.</span>
 
 <span class="sd">       Implementation based on</span>
 <span class="sd">       Training RNNs as Fast as CNNs (cf. https://arxiv.org/abs/1709.02755).</span>
@@ -3068,7 +3068,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_built</span> <span class="o">=</span> <span class="kc">True</span></div>
 
 <div class="viewcode-block" id="SRUCell.call"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.SRUCell.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Simple recurrent unit (SRU) with num_units cells.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Simple recurrent unit (SRU) with num_units cells.&quot;&quot;&quot;</span>
 
         <span class="n">U</span> <span class="o">=</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_kernel</span><span class="p">)</span>  <span class="c1"># pylint: disable=invalid-name</span>
         <span class="n">x_bar</span><span class="p">,</span> <span class="n">f_intermediate</span><span class="p">,</span> <span class="n">r_intermediate</span><span class="p">,</span> <span class="n">x_tx</span> <span class="o">=</span> <span class="n">array_ops</span><span class="o">.</span><span class="n">split</span><span class="p">(</span>
@@ -3086,7 +3086,7 @@
 
 
 <div class="viewcode-block" id="WeightNormLSTMCell"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.WeightNormLSTMCell">[docs]</a><span class="k">class</span> <span class="nc">WeightNormLSTMCell</span><span class="p">(</span><span class="n">rnn_cell_impl</span><span class="o">.</span><span class="n">RNNCell</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Weight normalized LSTM Cell. Adapted from `rnn_cell_impl.LSTMCell`.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Weight normalized LSTM Cell. Adapted from `rnn_cell_impl.LSTMCell`.</span>
 
 <span class="sd">      The weight-norm implementation is based on:</span>
 <span class="sd">      https://arxiv.org/abs/1602.07868</span>
@@ -3122,7 +3122,7 @@
                  <span class="n">forget_bias</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                  <span class="n">activation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">reuse</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initialize the parameters of a weight-normalized LSTM cell.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the parameters of a weight-normalized LSTM cell.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          num_units: int, The number of units in the LSTM cell</span>
@@ -3177,7 +3177,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_size</span>
 
     <span class="k">def</span> <span class="nf">_normalize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Apply weight normalization.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply weight normalization.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          weight: a 2D tensor with known number of columns.</span>
@@ -3197,7 +3197,7 @@
                 <span class="n">bias</span><span class="p">,</span>
                 <span class="n">bias_initializer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                 <span class="n">kernel_initializer</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Linear map: sum_i(args[i] * W[i]), where W[i] is a variable.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Linear map: sum_i(args[i] * W[i]), where W[i] is a variable.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          args: a 2D Tensor or a list of 2D, batch x n, Tensors.</span>
@@ -3273,7 +3273,7 @@
             <span class="k">return</span> <span class="n">nn_ops</span><span class="o">.</span><span class="n">bias_add</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">biases</span><span class="p">)</span>
 
 <div class="viewcode-block" id="WeightNormLSTMCell.call"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.WeightNormLSTMCell.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Run one step of LSTM.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run one step of LSTM.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          inputs: input Tensor, 2D, batch x num_units.</span>
@@ -3350,7 +3350,7 @@
 
 
 <div class="viewcode-block" id="IndRNNCell"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndRNNCell">[docs]</a><span class="k">class</span> <span class="nc">IndRNNCell</span><span class="p">(</span><span class="n">rnn_cell_impl</span><span class="o">.</span><span class="n">LayerRNNCell</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Independently Recurrent Neural Network (IndRNN) cell</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Independently Recurrent Neural Network (IndRNN) cell</span>
 <span class="sd">      (cf. https://arxiv.org/abs/1803.04831).</span>
 
 <span class="sd">    Args:</span>
@@ -3412,7 +3412,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">built</span> <span class="o">=</span> <span class="kc">True</span></div>
 
 <div class="viewcode-block" id="IndRNNCell.call"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndRNNCell.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;IndRNN: output = new_state = act(W * input + u * state + B).&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;IndRNN: output = new_state = act(W * input + u * state + B).&quot;&quot;&quot;</span>
 
         <span class="n">gate_inputs</span> <span class="o">=</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_kernel_w</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span>
                 <span class="n">state</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_kernel_u</span><span class="p">)</span>
@@ -3422,7 +3422,7 @@
 
 
 <div class="viewcode-block" id="IndyGRUCell"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyGRUCell">[docs]</a><span class="k">class</span> <span class="nc">IndyGRUCell</span><span class="p">(</span><span class="n">rnn_cell_impl</span><span class="o">.</span><span class="n">LayerRNNCell</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Independently Gated Recurrent Unit cell.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Independently Gated Recurrent Unit cell.</span>
 
 <span class="sd">    Based on IndRNNs (https://arxiv.org/abs/1803.04831) and similar to GRUCell,</span>
 <span class="sd">    yet with the \\(U_r\\), \\(U_z\\), and \\(U\\) matrices in equations 5, 6, and</span>
@@ -3524,7 +3524,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">built</span> <span class="o">=</span> <span class="kc">True</span></div>
 
 <div class="viewcode-block" id="IndyGRUCell.call"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyGRUCell.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Recurrently independent Gated Recurrent Unit (GRU) with nunits cells.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Recurrently independent Gated Recurrent Unit (GRU) with nunits cells.&quot;&quot;&quot;</span>
 
         <span class="n">gate_inputs</span> <span class="o">=</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gate_kernel_w</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span>
                 <span class="n">gen_array_ops</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gate_kernel_u</span><span class="p">)</span>
@@ -3545,7 +3545,7 @@
 
 
 <div class="viewcode-block" id="IndyLSTMCell"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyLSTMCell">[docs]</a><span class="k">class</span> <span class="nc">IndyLSTMCell</span><span class="p">(</span><span class="n">rnn_cell_impl</span><span class="o">.</span><span class="n">LayerRNNCell</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Basic IndyLSTM recurrent network cell.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Basic IndyLSTM recurrent network cell.</span>
 
 <span class="sd">    Based on IndRNNs (https://arxiv.org/abs/1803.04831) and similar to</span>
 <span class="sd">    BasicLSTMCell, yet with the \\(U_f\\), \\(U_i\\), \\(U_o\\) and \\(U_c\\)</span>
@@ -3580,7 +3580,7 @@
                  <span class="n">bias_initializer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initialize the IndyLSTM cell.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the IndyLSTM cell.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          num_units: int, The number of units in the LSTM cell.</span>
@@ -3646,7 +3646,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">built</span> <span class="o">=</span> <span class="kc">True</span></div>
 
 <div class="viewcode-block" id="IndyLSTMCell.call"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyLSTMCell.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Independent Long short-term memory cell (IndyLSTM).</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Independent Long short-term memory cell (IndyLSTM).</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          inputs: `2-D` tensor with shape `[batch_size, input_size]`.</span>
@@ -3689,7 +3689,7 @@
 
 
 <div class="viewcode-block" id="NTMCell"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell">[docs]</a><span class="k">class</span> <span class="nc">NTMCell</span><span class="p">(</span><span class="n">rnn_cell_impl</span><span class="o">.</span><span class="n">LayerRNNCell</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Neural Turing Machine Cell with RNN controller.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Neural Turing Machine Cell with RNN controller.</span>
 
 <span class="sd">      Implementation based on:</span>
 <span class="sd">      https://arxiv.org/abs/1807.08518</span>
@@ -3715,7 +3715,7 @@
                  <span class="n">clip_value</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
                  <span class="n">dtype</span><span class="o">=</span><span class="n">dtypes</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
                  <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initialize the NTM Cell.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the NTM Cell.</span>
 
 <span class="sd">          Args:</span>
 <span class="sd">            controller: an RNNCell, the RNN controller.</span>
@@ -4032,7 +4032,7 @@
 
 
 <div class="viewcode-block" id="MinimalRNNCell"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.MinimalRNNCell">[docs]</a><span class="k">class</span> <span class="nc">MinimalRNNCell</span><span class="p">(</span><span class="n">rnn_cell_impl</span><span class="o">.</span><span class="n">LayerRNNCell</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;MinimalRNN cell.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;MinimalRNN cell.</span>
 
 <span class="sd">    The implementation is based on:</span>
 
@@ -4055,7 +4055,7 @@
                  <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initialize the parameters for a MinimalRNN cell.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the parameters for a MinimalRNN cell.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          units: int, The number of units in the MinimalRNN cell.</span>
@@ -4108,7 +4108,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">built</span> <span class="o">=</span> <span class="kc">True</span></div>
 
 <div class="viewcode-block" id="MinimalRNNCell.call"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.MinimalRNNCell.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Run one step of MinimalRNN.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run one step of MinimalRNN.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          inputs: input Tensor, must be 2-D, `[batch, input_size]`.</span>
@@ -4147,7 +4147,7 @@
 
 
 <div class="viewcode-block" id="CFNCell"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CFNCell">[docs]</a><span class="k">class</span> <span class="nc">CFNCell</span><span class="p">(</span><span class="n">rnn_cell_impl</span><span class="o">.</span><span class="n">LayerRNNCell</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Chaos Free Network cell.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Chaos Free Network cell.</span>
 
 <span class="sd">    The implementation is based on:</span>
 
@@ -4170,7 +4170,7 @@
                  <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initialize the parameters for a CFN cell.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the parameters for a CFN cell.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          units: int, The number of units in the CFN cell.</span>
@@ -4228,7 +4228,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">built</span> <span class="o">=</span> <span class="kc">True</span></div>
 
 <div class="viewcode-block" id="CFNCell.call"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell/index.html#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CFNCell.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Run one step of CFN.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run one step of CFN.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          inputs: input Tensor, must be 2-D, `[batch, input_size]`.</span>

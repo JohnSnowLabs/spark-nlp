@@ -31,7 +31,8 @@ If your document needs to process more than 4096 tokens, you can try the followi
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_agreement_en_1.0.0_3.0_1671393659850.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_agreement_en_1.0.0_3.0_1671393659850.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_agreement_en_1.0.0_3.0_1671393659850.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -115,11 +116,11 @@ Legal documents, scrapped from the Internet, and classified in-house + SEC docum
 
 ```bash
 
-|        label |   precision |   recall |   f1-score |   support |
-|-------------:|------------:|---------:|-----------:|----------:|
-|    agreement |        0.88 |     0.85 |       0.86 |        99 |
-|        other |        0.93 |     0.94 |       0.94 |       207 |
-|     accuracy |           - |        - |       0.91 |       306 |
-|    macro-avg |        0.90 |     0.90 |        0.9 |       306 |
-| weighted-avg |        0.91 |     0.91 |       0.91 |       306 |
+        label    precision    recall    f1-score    support 
+    agreement         0.88      0.85        0.86         99 
+        other         0.93      0.94        0.94        207 
+     accuracy            -         -        0.91        306 
+    macro-avg         0.90      0.90         0.9        306 
+ weighted-avg         0.91      0.91        0.91        306
+ 
 ```

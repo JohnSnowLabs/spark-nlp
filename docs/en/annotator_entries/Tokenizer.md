@@ -19,11 +19,11 @@ TOKEN
 {%- endcapture -%}
 
 {%- capture model_api_link -%}
-[TokenizerModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/TokenizerModel)
+[TokenizerModel](/api/com/johnsnowlabs/nlp/annotators/TokenizerModel)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[TokenizerModel](/api/python/reference/autosummary/python/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.TokenizerModel)
+[TokenizerModel](/api/python/reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.TokenizerModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -38,7 +38,7 @@ This class represents a non fitted tokenizer. Fitting it will cause the internal
 Identifies tokens with tokenization open standards. A few rules will help customizing it if defaults do not fit user needs.
 
 For extended examples of usage see the
-[Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb)
+[Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/document-normalizer/document_normalizer_notebook.ipynb)
 and [Tokenizer test class](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/TokenizerTestSpec.scala)
 {%- endcapture -%}
 
@@ -95,11 +95,11 @@ result.selectExpr("token.result").show(false)
 {%- endcapture -%}
 
 {%- capture approach_api_link -%}
-[Tokenizer](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/Tokenizer)
+[Tokenizer](/api/com/johnsnowlabs/nlp/annotators/Tokenizer)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[Tokenizer](/api/python/reference/autosummary/python/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer)
+[Tokenizer](/api/python/reference/autosummary/sparknlp/annotator/token/tokenizer/index.html#sparknlp.annotator.token.tokenizer.Tokenizer)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}
