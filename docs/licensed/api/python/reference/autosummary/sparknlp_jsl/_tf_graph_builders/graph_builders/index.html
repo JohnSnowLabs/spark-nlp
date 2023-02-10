@@ -281,6 +281,12 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl._tf_graph_builders.graph_builders.GenericClassifierTFGraphBuilder" title="sparknlp_jsl._tf_graph_builders.graph_builders.GenericClassifierTFGraphBuilder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GenericClassifierTFGraphBuilder</span></code></a></p></td>
 <td><p>Class to create the the TF graphs for GenericClassifierApproach.</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl._tf_graph_builders.graph_builders.LogRegClassifierTFGraphBuilder" title="sparknlp_jsl._tf_graph_builders.graph_builders.LogRegClassifierTFGraphBuilder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LogRegClassifierTFGraphBuilder</span></code></a></p></td>
+<td><p>Class to create the the TF graphs for GenericClassifierApproach.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl._tf_graph_builders.graph_builders.SVMClassifierTFGraphBuilder" title="sparknlp_jsl._tf_graph_builders.graph_builders.SVMClassifierTFGraphBuilder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SVMClassifierTFGraphBuilder</span></code></a></p></td>
+<td><p>Class to create the the TF graphs for GenericClassifierApproach.</p></td>
+</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl._tf_graph_builders.graph_builders.AssertionTFGraphBuilder" title="sparknlp_jsl._tf_graph_builders.graph_builders.AssertionTFGraphBuilder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AssertionTFGraphBuilder</span></code></a></p></td>
 <td><p>Class to build the the TF graphs for AssertionDLApproach.</p></td>
 </tr>
@@ -466,7 +472,9 @@ Extends the TFGraphBuilder base class.</p>
 <span class="gp">... </span>    <span class="s2">&quot;hidden_layers&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">300</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span>
 <span class="gp">... </span>    <span class="s2">&quot;hidden_act&quot;</span><span class="p">:</span> <span class="s2">&quot;tanh&quot;</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="s2">&quot;hidden_act_l2&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="s2">&quot;batch_norm&quot;</span><span class="p">:</span> <span class="mi">1</span>
+<span class="gp">... </span>    <span class="s2">&quot;batch_norm&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;output_act&quot;</span><span class="p">:</span> <span class="s2">&quot;softmax&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;loss_func&quot;</span><span class="p">:</span> <span class="s2">&quot;cross_entropy&quot;</span><span class="p">,</span>
 <span class="gp">... </span><span class="p">}</span>
 <span class="gp">...</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tf_graph</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="s2">&quot;generic_classifier&quot;</span><span class="p">,</span> <span class="n">build_params</span><span class="o">=</span><span class="n">DL_params</span><span class="p">,</span> <span class="n">model_location</span><span class="o">=</span><span class="s2">&quot;/content/gc_graph&quot;</span><span class="p">,</span> <span class="n">model_filename</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">)</span>
@@ -555,6 +563,152 @@ Extends the TFGraphBuilder base class.</p>
 <dt><strong>model_location</strong><span class="classifier">str</span></dt><dd><p>The location where the model will be saved.</p>
 </dd>
 <dt><strong>model_filename</strong><span class="classifier">str</span></dt><dd><p>The name of the file where the model will be saved.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.graph_builders.LogRegClassifierTFGraphBuilder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">LogRegClassifierTFGraphBuilder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">build_params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/_tf_graph_builders/graph_builders.html#LogRegClassifierTFGraphBuilder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.graph_builders.LogRegClassifierTFGraphBuilder" title="Permalink to this definition">#</a></dt>
+<dd><p>Class to create the the TF graphs for GenericClassifierApproach.
+Extends the TFGraphBuilder base class.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp_jsl.training</span> <span class="kn">import</span> <span class="n">tf_graph</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp_jsl.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp_jsl.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp_jsl.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;petfinder-mini.csv&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">DL_params</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span>    <span class="s2">&quot;input_dim&quot;</span><span class="p">:</span> <span class="mi">302</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;output_dim&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;hidden_layers&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">300</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="s2">&quot;hidden_act&quot;</span><span class="p">:</span> <span class="s2">&quot;tanh&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;hidden_act_l2&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;batch_norm&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;output_act&quot;</span><span class="p">:</span> <span class="s2">&quot;softmax&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;loss_func&quot;</span><span class="p">:</span> <span class="s2">&quot;cross_entropy&quot;</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">}</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tf_graph</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="s2">&quot;generic_classifier&quot;</span><span class="p">,</span> <span class="n">build_params</span><span class="o">=</span><span class="n">DL_params</span><span class="p">,</span> <span class="n">model_location</span><span class="o">=</span><span class="s2">&quot;/content/gc_graph&quot;</span><span class="p">,</span> <span class="n">model_filename</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">)</span>
+<span class="go">This created the graph and saved it to /content/gc_graph/gcl.302.2.pb</span>
+<span class="go">We can use it in the GenericClassifierApproach annotator by setting the modelFile parameter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gen_clf</span> <span class="o">=</span> <span class="n">GenericClassifierApproach</span><span class="p">()</span> \
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setLabelColumn</span><span class="p">(</span><span class="s2">&quot;target&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;features&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;prediction&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setModelFile</span><span class="p">(</span><span class="s1">&#39;/content/gc_graph/gcl.302.2.pb&#39;</span><span class="p">)</span> \
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setEpochsNumber</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> \
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setBatchSize</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> \
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setFeatureScaling</span><span class="p">(</span><span class="s2">&quot;zscore&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setFixImbalance</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span> \
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setLearningRate</span><span class="p">(</span><span class="mf">0.001</span><span class="p">)</span> \
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setOutputLogsPath</span><span class="p">(</span><span class="s2">&quot;logs&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setValidationSplit</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">clf_Pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">features_asm</span><span class="p">,</span><span class="n">gen_clf</span><span class="p">])</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.graph_builders.LogRegClassifierTFGraphBuilder.get_model_build_params">
+<span class="sig-name descname"><span class="pre">get_model_build_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/_tf_graph_builders/graph_builders.html#LogRegClassifierTFGraphBuilder.get_model_build_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.graph_builders.LogRegClassifierTFGraphBuilder.get_model_build_params" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns the build parameters for the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>dict</dt><dd><p>The build parameters for the model.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.graph_builders.LogRegClassifierTFGraphBuilder.get_model_build_param_explanations">
+<span class="sig-name descname"><span class="pre">get_model_build_param_explanations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/_tf_graph_builders/graph_builders.html#LogRegClassifierTFGraphBuilder.get_model_build_param_explanations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.graph_builders.LogRegClassifierTFGraphBuilder.get_model_build_param_explanations" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns the explanations for the build parameters for the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>dict</dt><dd><p>The explanations for the build parameters for the model.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.graph_builders.SVMClassifierTFGraphBuilder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SVMClassifierTFGraphBuilder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">build_params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/_tf_graph_builders/graph_builders.html#SVMClassifierTFGraphBuilder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.graph_builders.SVMClassifierTFGraphBuilder" title="Permalink to this definition">#</a></dt>
+<dd><p>Class to create the the TF graphs for GenericClassifierApproach.
+Extends the TFGraphBuilder base class.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp_jsl.training</span> <span class="kn">import</span> <span class="n">tf_graph</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp_jsl.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp_jsl.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp_jsl.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;petfinder-mini.csv&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">DL_params</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span>    <span class="s2">&quot;input_dim&quot;</span><span class="p">:</span> <span class="mi">302</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;output_dim&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;hidden_layers&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">300</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="s2">&quot;hidden_act&quot;</span><span class="p">:</span> <span class="s2">&quot;tanh&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;hidden_act_l2&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;batch_norm&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;output_act&quot;</span><span class="p">:</span> <span class="s2">&quot;softmax&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;loss_func&quot;</span><span class="p">:</span> <span class="s2">&quot;cross_entropy&quot;</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">}</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tf_graph</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="s2">&quot;generic_classifier&quot;</span><span class="p">,</span> <span class="n">build_params</span><span class="o">=</span><span class="n">DL_params</span><span class="p">,</span> <span class="n">model_location</span><span class="o">=</span><span class="s2">&quot;/content/gc_graph&quot;</span><span class="p">,</span> <span class="n">model_filename</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">)</span>
+<span class="go">This created the graph and saved it to /content/gc_graph/gcl.302.2.pb</span>
+<span class="go">We can use it in the GenericClassifierApproach annotator by setting the modelFile parameter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gen_clf</span> <span class="o">=</span> <span class="n">GenericClassifierApproach</span><span class="p">()</span> \
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setLabelColumn</span><span class="p">(</span><span class="s2">&quot;target&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;features&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;prediction&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setModelFile</span><span class="p">(</span><span class="s1">&#39;/content/gc_graph/gcl.302.2.pb&#39;</span><span class="p">)</span> \
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setEpochsNumber</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> \
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setBatchSize</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> \
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setFeatureScaling</span><span class="p">(</span><span class="s2">&quot;zscore&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setFixImbalance</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span> \
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setLearningRate</span><span class="p">(</span><span class="mf">0.001</span><span class="p">)</span> \
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setOutputLogsPath</span><span class="p">(</span><span class="s2">&quot;logs&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setValidationSplit</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">clf_Pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">features_asm</span><span class="p">,</span><span class="n">gen_clf</span><span class="p">])</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.graph_builders.SVMClassifierTFGraphBuilder.get_model_build_params">
+<span class="sig-name descname"><span class="pre">get_model_build_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/_tf_graph_builders/graph_builders.html#SVMClassifierTFGraphBuilder.get_model_build_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.graph_builders.SVMClassifierTFGraphBuilder.get_model_build_params" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns the build parameters for the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>dict</dt><dd><p>The build parameters for the model.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.graph_builders.SVMClassifierTFGraphBuilder.get_model_build_param_explanations">
+<span class="sig-name descname"><span class="pre">get_model_build_param_explanations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/_tf_graph_builders/graph_builders.html#SVMClassifierTFGraphBuilder.get_model_build_param_explanations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.graph_builders.SVMClassifierTFGraphBuilder.get_model_build_param_explanations" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns the explanations for the build parameters for the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>dict</dt><dd><p>The explanations for the build parameters for the model.</p>
 </dd>
 </dl>
 </dd>
@@ -1076,6 +1230,64 @@ Available models are: ner_dl, generic_classifier, assertion_dl and relation_extr
       </ul>
      </li>
      <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.graph_builders.LogRegClassifierTFGraphBuilder">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         LogRegClassifierTFGraphBuilder
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.graph_builders.LogRegClassifierTFGraphBuilder.get_model_build_params">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           LogRegClassifierTFGraphBuilder.get_model_build_params()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.graph_builders.LogRegClassifierTFGraphBuilder.get_model_build_param_explanations">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           LogRegClassifierTFGraphBuilder.get_model_build_param_explanations()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.graph_builders.SVMClassifierTFGraphBuilder">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         SVMClassifierTFGraphBuilder
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.graph_builders.SVMClassifierTFGraphBuilder.get_model_build_params">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SVMClassifierTFGraphBuilder.get_model_build_params()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.graph_builders.SVMClassifierTFGraphBuilder.get_model_build_param_explanations">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           SVMClassifierTFGraphBuilder.get_model_build_param_explanations()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.graph_builders.AssertionTFGraphBuilder">
        <code class="docutils literal notranslate">
         <span class="pre">
@@ -1330,6 +1542,40 @@ Available models are: ner_dl, generic_classifier, assertion_dl and relation_extr
        <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.graph_builders.GenericClassifierTFGraphBuilder.build">
          build
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.graph_builders.LogRegClassifierTFGraphBuilder">
+       LogRegClassifierTFGraphBuilder
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.graph_builders.LogRegClassifierTFGraphBuilder.get_model_build_params">
+         get_model_build_params
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.graph_builders.LogRegClassifierTFGraphBuilder.get_model_build_param_explanations">
+         get_model_build_param_explanations
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.graph_builders.SVMClassifierTFGraphBuilder">
+       SVMClassifierTFGraphBuilder
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.graph_builders.SVMClassifierTFGraphBuilder.get_model_build_params">
+         get_model_build_params
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl._tf_graph_builders.graph_builders.SVMClassifierTFGraphBuilder.get_model_build_param_explanations">
+         get_model_build_param_explanations
         </a>
        </li>
       </ul>
