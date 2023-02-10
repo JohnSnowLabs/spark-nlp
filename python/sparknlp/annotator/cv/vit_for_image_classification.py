@@ -42,7 +42,7 @@ class ViTForImageClassification(AnnotatorModel,
     `Models Hub <https://nlp.johnsnowlabs.com/models?task=Image+Classification>`__.
 
     Models from the HuggingFace 🤗 Transformers library are also compatible with Spark
-    NLP 🚀. The Spark NLP Workshop example shows how to import them
+    NLP 🚀. To see which models are compatible and how to import them see
     https://github.com/JohnSnowLabs/spark-nlp/discussions/5669 and to see more extended
     examples, see
     `ViTImageClassificationTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/cv/ViTImageClassificationTestSpec.scala>`__.
@@ -100,6 +100,23 @@ class ViTForImageClassification(AnnotatorModel,
     ...     .setOutputCol("class")
     >>> pipeline = Pipeline().setStages([imageAssembler, imageClassifier])
     >>> pipelineDF = pipeline.fit(imageDF).transform(imageDF)
+    >>> pipelineDF \\
+    ...   .selectExpr("reverse(split(image.origin, '/'))[0] as image_name", "class.result") \\
+    ...   .show(truncate=False)
+    +-----------------+----------------------------------------------------------+
+    |image_name       |result                                                    |
+    +-----------------+----------------------------------------------------------+
+    |palace.JPEG      |[palace]                                                  |
+    |egyptian_cat.jpeg|[Egyptian cat]                                            |
+    |hippopotamus.JPEG|[hippopotamus, hippo, river horse, Hippopotamus amphibius]|
+    |hen.JPEG         |[hen]                                                     |
+    |ostrich.JPEG     |[ostrich, Struthio camelus]                               |
+    |junco.JPEG       |[junco, snowbird]                                         |
+    |bluetick.jpg     |[bluetick]                                                |
+    |chihuahua.jpg    |[Chihuahua]                                               |
+    |tractor.JPEG     |[tractor]                                                 |
+    |ox.JPEG          |[ox]                                                      |
+    +-----------------+----------------------------------------------------------+
 
     """
     name = "ViTForImageClassification"

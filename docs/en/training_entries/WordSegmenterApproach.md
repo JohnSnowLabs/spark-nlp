@@ -16,7 +16,7 @@ set with `setPosColumn`.
 
 **Tip**: The helper class [POS](#pos-dataset) might be useful to read training data into data frames.
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/annotation/chinese/word_segmentation).
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/chinese/word_segmentation).
 {%- endcapture -%}
 
 {%- capture input_anno -%}

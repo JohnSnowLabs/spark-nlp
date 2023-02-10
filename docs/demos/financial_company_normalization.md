@@ -19,19 +19,7 @@ data:
         - subtitle: Normalization & Data Augmentation - Live Demos & Notebooks
           activemenu: financial_company_normalization
       source: yes
-      source: 
-        - title: Company names Normalization 
-          id: company_normalization_edgar_crunchbase_databases 
-          image: 
-              src: /assets/images/Company_Normalization.svg
-          excerpt: These models normalize versions of Company Names using Edgar and Crunchbase databases conventions.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/finance/ER_EDGAR_CRUNCHBASE/
-          - text: Colab
-            type: blue_btn
-            url:    
+      source:            
         - title: Augment Company Names with Public Information  
           id: augment_company_names_public_information   
           image: 

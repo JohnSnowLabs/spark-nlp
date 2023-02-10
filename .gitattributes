@@ -1,2 +1,3 @@
 python/example/* linguist-vendored
 *.ipynb linguist-vendored
+examples/* linguist-vendored

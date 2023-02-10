@@ -169,7 +169,7 @@ data:
             is_row: true
         - title:
           image:
-            src: https://www.ericsson.com/4915cd/assets/global/qbank/2018/02/14/e-con-vertical-1500x1500px-88604crop105012731273resize750750autoorientquality90stripbackground23ffffffextensionjpg.jpg
+            src: https://logos-world.net/wp-content/uploads/2020/12/Ericsson-Logo.png
             url: https://www.ericsson.com/
             style: ""
             is_row: true
@@ -193,7 +193,7 @@ data:
             is_row: true
         - title:
           image:
-            src: https://aiuaeafbno.cloudimg.io/v7/https://www.providence.org/-/media/200x38/6294B19C274A30A9861AFB9AB9BE7C4F/Project/psjh/providence/socal/Images/Logos/providence_color_small.png
+            src: https://give.providence.org/WA/hospiceseattle/image/providence-health-services.svg
             url: https://www.providence.org/
             style: ""
             is_row: true
@@ -223,7 +223,7 @@ data:
             is_row: true
         - title:
           image:
-            src: https://www.idexx.com/static/img/logo/logo.47b5fefbb6b3.svg
+            src: https://companieslogo.com/img/orig/IDXX-d9c286e7.png?t=1592707160
             url: https://www.idexx.com/en/
             style: ""
             is_row: true
@@ -386,10 +386,10 @@ data:
           url: /demo
         - text: Examples
           type: trans
-          url: https://github.com/JohnSnowLabs/spark-nlp-workshop
+          url: https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples
         - text: '<i class="fab fa-slack-hash"></i> Slack'
           type: trans
-          url: https://www.johnsnowlabs.com/slack-redirect/
+          url: https://join.slack.com/t/spark-nlp/shared_invite/zt-198dipu77-L3UWNe_AJ8xqDk0ivmih5Q
       background_color: "#0098DA"
 
 
