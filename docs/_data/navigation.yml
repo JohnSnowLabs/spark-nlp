@@ -82,6 +82,10 @@ annotation-lab:
             url: /docs/en/alab/embeddings
           - title: Rules
             url: /docs/en/alab/rules
+          - title: Prompts
+            url: /docs/en/alab/prompts   
+          - title: Playground
+            url: /docs/en/alab/playground                        
       - subtitle: Project
         children:
           - title: Dashboard
