@@ -36,6 +36,7 @@ This model extracts demographic information related to Social Determinants of He
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\
@@ -154,7 +155,7 @@ val result = pipeline.fit(data).transform(data)
 ## Benchmarking
 
 ```bash
-	          label	     tp	    fp	   fn	   total	precision	   recall	       f1
+	    label	     tp	    fp	   fn	   total	precision	   recall	       f1
               Age	 1346.0	  73.0	 74.0	  1420.0	 0.948555	 0.947887	 0.948221
 Spiritual_Beliefs	  100.0	  13.0	 16.0	   116.0	 0.884956	 0.862069	 0.873362
     Family_Member	 4468.0	 134.0	 43.0	  4511.0	 0.970882	 0.990468	 0.980577
