@@ -270,6 +270,8 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.classification</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../classification/document_log_classifier/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.classification.document_log_classifier</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../classification/document_ml_classifier/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.classification.document_ml_classifier</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classification/generic_log_reg_classifier/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.classification.generic_log_reg_classifier</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../classification/generic_svm_classifier/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.classification.generic_svm_classifier</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../classification/medical_bert_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.classification.medical_bert_for_sequence_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../classification/medical_bert_for_token_classifier/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.classification.medical_bert_for_token_classifier</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../classification/medical_distilbert_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.classification.medical_distilbert_for_sequence_classification</span></code></a></li>
@@ -338,6 +340,7 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../annotation_merger/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.annotation_merger</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../doc2_chunk_internal/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.doc2_chunk_internal</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../feature_assembler/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.feature_assembler</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../resolution2_chunk/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.resolution2_chunk</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../router/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.router</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../source_tracking_metadata_params/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.source_tracking_metadata_params</span></code></a></li>
@@ -473,6 +476,16 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.useRelationDirection">
 <span class="sig-name descname"><span class="pre">useRelationDirection</span></span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.useRelationDirection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.useRelationDirection" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">useRelationDirection</span></span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.useRelationDirection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.outputAct">
+<span class="sig-name descname"><span class="pre">outputAct</span></span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.outputAct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.outputAct" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -651,6 +664,25 @@ value : boolean</p>
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getUseRelationDirection">
 <span class="sig-name descname"><span class="pre">getUseRelationDirection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.getUseRelationDirection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getUseRelationDirection" title="Permalink to this definition">#</a></dt>
 <dd><p>Checks whether relation direction is encoded in RelationExtractionApproach.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.settOutputAct">
+<span class="sig-name descname"><span class="pre">settOutputAct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.settOutputAct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.settOutputAct" title="Permalink to this definition">#</a></dt>
+<dd><p>Output activation function, used in GenericClassifier.</p>
+<section id="id1">
+<h4>Parameters<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h4>
+<dl class="simple">
+<dt>value<span class="classifier">str</span></dt><dd><p>Output activation function: softmax or sigmoid</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getOutputAct">
+<span class="sig-name descname"><span class="pre">getOutputAct</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.getOutputAct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getOutputAct" title="Permalink to this definition">#</a></dt>
+<dd><p>Output activation function, used in GenericClassifier.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -939,6 +971,24 @@ file name.</p>
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#id0">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.useRelationDirection
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.outputAct">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.outputAct
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setHiddenAct">
          <code class="docutils literal notranslate">
           <span class="pre">
@@ -1096,6 +1146,24 @@ file name.</p>
          <code class="docutils literal notranslate">
           <span class="pre">
            TFGraphBuilder.getUseRelationDirection()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.settOutputAct">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.settOutputAct()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getOutputAct">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           TFGraphBuilder.getOutputAct()
           </span>
          </code>
         </a>
@@ -1273,6 +1341,16 @@ file name.</p>
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#id0">
+         useRelationDirection
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.outputAct">
+         outputAct
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setHiddenAct">
          setHiddenAct
         </a>
@@ -1360,6 +1438,16 @@ file name.</p>
        <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getUseRelationDirection">
          getUseRelationDirection
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.settOutputAct">
+         settOutputAct
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getOutputAct">
+         getOutputAct
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">

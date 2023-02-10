@@ -297,6 +297,12 @@
         <span class="k">if</span> <span class="s2">&quot;hidden_weights_l2&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
             <span class="n">params</span><span class="p">[</span><span class="s2">&quot;hidden_weights_l2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
 
+        <span class="k">if</span> <span class="s2">&quot;output_act&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+            <span class="n">params</span><span class="p">[</span><span class="s2">&quot;output_act&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;softmax&quot;</span>
+
+        <span class="k">if</span> <span class="s2">&quot;loss_func&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+            <span class="n">params</span><span class="p">[</span><span class="s2">&quot;loss_func&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;cross_entropy&quot;</span>
+
         <span class="n">tf</span><span class="o">.</span><span class="n">reset_default_graph</span><span class="p">()</span>
 
         <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
@@ -352,22 +358,46 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">normalization_layer</span> <span class="o">=</span> <span class="n">output_layer</span>
 
-            <span class="n">outputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span>
-                <span class="n">output_layer</span><span class="p">,</span>
-                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;outputs&quot;</span><span class="p">)</span>
-
             <span class="c1"># loss weights</span>
             <span class="n">weights</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">class_weights</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 
-            <span class="c1"># Loss function</span>
-            <span class="n">loss</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span>
-                <span class="n">tf</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">softmax_cross_entropy</span><span class="p">(</span>
-                    <span class="n">onehot_labels</span><span class="o">=</span><span class="n">targets</span><span class="p">,</span>
-                    <span class="n">logits</span><span class="o">=</span><span class="n">output_layer</span><span class="p">,</span>
-                    <span class="n">weights</span><span class="o">=</span><span class="n">weights</span>
-                <span class="p">),</span>
-                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;loss&#39;</span><span class="p">)</span>
+            <span class="c1"># Output and Loss function</span>
+            <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;output_act&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;sigmoid&quot;</span><span class="p">:</span>
+                <span class="n">outputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">output_layer</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;outputs&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;output_act&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;softmax&quot;</span><span class="p">:</span>
+                <span class="n">outputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">output_layer</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;outputs&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;output_act&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;linear&quot;</span><span class="p">:</span>
+                <span class="n">outputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">output_layer</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;outputs&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Activation function &quot;</span> <span class="o">+</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;output_act&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot; not supported.&quot;</span><span class="p">)</span>
 
+            <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;loss_func&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;hinge&quot;</span><span class="p">:</span>
+                <span class="n">loss</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span>
+                    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">CategoricalHinge</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;loss_f&quot;</span><span class="p">)(</span><span class="n">targets</span><span class="p">,</span> <span class="n">output_layer</span><span class="p">),</span>
+                    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;loss&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;loss_func&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;cross_entropy&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;output_act&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;softmax&quot;</span><span class="p">:</span>
+                    <span class="n">loss</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span>
+                        <span class="n">tf</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">softmax_cross_entropy</span><span class="p">(</span>
+                            <span class="n">onehot_labels</span><span class="o">=</span><span class="n">targets</span><span class="p">,</span>
+                            <span class="n">logits</span><span class="o">=</span><span class="n">output_layer</span><span class="p">,</span>
+                            <span class="n">weights</span><span class="o">=</span><span class="n">weights</span>
+                        <span class="p">),</span>
+                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;loss&#39;</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;output_act&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;sigmoid&quot;</span><span class="p">:</span>
+                    <span class="n">loss</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span>
+                        <span class="n">tf</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">sigmoid_cross_entropy</span><span class="p">(</span>
+                            <span class="n">multi_class_labels</span><span class="o">=</span><span class="n">targets</span><span class="p">,</span>
+                            <span class="n">logits</span><span class="o">=</span><span class="n">output_layer</span>
+                        <span class="p">),</span>
+                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;loss&#39;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Activation function &quot;</span> <span class="o">+</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;output_act&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot; not supported.&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;loss_func&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;mean_squares&quot;</span><span class="p">:</span>
+                <span class="c1">#default</span>
+                <span class="n">loss</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">MeanSquaredError</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;loss&quot;</span><span class="p">)(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">targets</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">output_layer</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Loss function &quot;</span> <span class="o">+</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;loss_func&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot; not supported.&quot;</span><span class="p">)</span>
             <span class="c1"># Optimizer</span>
             <span class="n">optimizer</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">AdamOptimizer</span><span class="p">(</span>
                 <span class="n">learning_rate</span><span class="o">=</span><span class="n">learning_rate</span><span class="p">,</span>

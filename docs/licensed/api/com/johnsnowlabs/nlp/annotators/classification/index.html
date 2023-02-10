@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.8 ScalaDoc  - com.johnsnowlabs.nlp.annotators.classification</title>
-          <meta name="description" content="Spark NLP 4.2.8 ScalaDoc - com.johnsnowlabs.nlp.annotators.classification" />
-          <meta name="keywords" content="Spark NLP 4.2.8 ScalaDoc com.johnsnowlabs.nlp.annotators.classification" />
+          <title>Spark NLP 4.3.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.classification</title>
+          <meta name="description" content="Spark NLP 4.3.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.classification" />
+          <meta name="keywords" content="Spark NLP 4.3.0 ScalaDoc com.johnsnowlabs.nlp.annotators.classification" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.8 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.3.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -201,6 +201,22 @@
                         <span class="separator"></span>
                         <a class="trait" href="DocumentMLClassifierParams.html" title=""></a>
                         <a href="DocumentMLClassifierParams.html" title="">DocumentMLClassifierParams</a>
+                      </li><li class="current-entities indented5">
+                        <a class="object" href="GenericLogRegClassifierApproach$.html" title=""></a>
+                        <a class="class" href="GenericLogRegClassifierApproach.html" title="An implementation of multinomial logistic regression."></a>
+                        <a href="GenericLogRegClassifierApproach.html" title="An implementation of multinomial logistic regression.">GenericLogRegClassifierApproach</a>
+                      </li><li class="current-entities indented5">
+                        <a class="object" href="GenericLogRegClassifierModel$.html" title=""></a>
+                        <a class="class" href="GenericLogRegClassifierModel.html" title="Logistic regression classification"></a>
+                        <a href="GenericLogRegClassifierModel.html" title="Logistic regression classification">GenericLogRegClassifierModel</a>
+                      </li><li class="current-entities indented5">
+                        <a class="object" href="GenericSVMClassifierApproach$.html" title=""></a>
+                        <a class="class" href="GenericSVMClassifierApproach.html" title="An implementation of Support Vector Machine (SVM) classification ."></a>
+                        <a href="GenericSVMClassifierApproach.html" title="An implementation of Support Vector Machine (SVM) classification .">GenericSVMClassifierApproach</a>
+                      </li><li class="current-entities indented5">
+                        <a class="object" href="GenericSVMClassifierModel$.html" title=""></a>
+                        <a class="class" href="GenericSVMClassifierModel.html" title="Support vector machine (SVM) classification"></a>
+                        <a href="GenericSVMClassifierModel.html" title="Support vector machine (SVM) classification">GenericSVMClassifierModel</a>
                       </li><li class="current-entities indented5">
                         <a class="object" href="MedicalBertForSequenceClassification$.html" title="This is the companion object of MedicalBertForSequenceClassification."></a>
                         <a class="class" href="MedicalBertForSequenceClassification.html" title="MedicalBertForSequenceClassification can load Bert Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g."></a>
@@ -672,6 +688,128 @@ Please see <a href="DocumentMLClassifierApproach.html" class="extype" name="com.
       </span>
       
       
+    </li><li name="com.johnsnowlabs.nlp.annotators.classification.GenericLogRegClassifierApproach" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="GenericLogRegClassifierApproachextendsGenericClassifierApproach"></a><a id="GenericLogRegClassifierApproach:GenericLogRegClassifierApproach"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/classification/GenericLogRegClassifierApproach.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="An implementation of multinomial logistic regression." href="GenericLogRegClassifierApproach.html"><span class="name">GenericLogRegClassifierApproach</span></a><span class="result"> extends <a href="../generic_classifier/GenericClassifierApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierApproach">GenericClassifierApproach</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">An implementation of multinomial logistic regression.</p><div class="fullcomment"><div class="comment cmt"><p>An implementation of multinomial logistic regression.</p><h4>Example</h4><p>Define pipeline stages to prepare the data</p><pre> <span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+   .setInputCol(<span class="lit">"text"</span>)
+   .setOutputCol(<span class="lit">"document"</span>)
+ <span class="kw">val</span> sentenceEmbeddings = BertSentenceEmbeddings
+   .pretrained()
+   .setInputCols(<span class="std">Array</span>(<span class="lit">"document"</span>))
+   .setOutputCol(<span class="lit">"sentence_embedding"</span>)
+ <span class="kw">val</span> featuresAssembler = <span class="kw">new</span> FeaturesAssembler()
+   .setInputCols(<span class="std">Array</span>(<span class="lit">"sentence_embedding"</span>))
+   .setOutputCol(<span class="lit">"feature_vector"</span>)
+ <span class="kw">val</span> logRegClassifier = <span class="kw">new</span> GenericLogRegClassifierApproach()
+   .setInputCols(<span class="lit">"feature_vector"</span>)
+   .setOutputCol(<span class="lit">"prediction"</span>)
+   .setLabelColumn(<span class="lit">"label"</span>)
+   .setModelFile(<span class="lit">"src/test/resources/classification/log_reg_graph.pb"</span>)
+   .setEpochsNumber(<span class="num">10</span>)
+   .setBatchSize(<span class="num">1</span>)
+   .setMultiClass(<span class="kw">false</span>)
+   .setlearningRate(<span class="num">0.01</span>f)
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  documentAssembler,
+  sentenceEmbeddings,
+  featuresAssembler,
+  logRegClassifier,
+))
+
+<span class="kw">val</span> model = pipeline.fit(trainingData)</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="DocumentLogRegClassifierModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classification.DocumentLogRegClassifierModel">DocumentLogRegClassifierModel</a> for instantiated models</p></span></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.classification.GenericLogRegClassifierModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="GenericLogRegClassifierModelextendsGenericClassifierModelwithParamsAndFeaturesWritable"></a><a id="GenericLogRegClassifierModel:GenericLogRegClassifierModel"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/classification/GenericLogRegClassifierModel.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="Logistic regression classification" href="GenericLogRegClassifierModel.html"><span class="name">GenericLogRegClassifierModel</span></a><span class="result"> extends <a href="../generic_classifier/GenericClassifierModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierModel">GenericClassifierModel</a> with <span class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Logistic regression classification</p><div class="fullcomment"><div class="comment cmt"><p>Logistic regression classification</p><p>Please check out the
+<a href="https://nlp.johnsnowlabs.com/models" target="_blank">Models Hub</a> for available models.
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.classification.GenericSVMClassifierApproach" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="GenericSVMClassifierApproachextendsGenericClassifierApproach"></a><a id="GenericSVMClassifierApproach:GenericSVMClassifierApproach"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/classification/GenericSVMClassifierApproach.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="An implementation of Support Vector Machine (SVM) classification ." href="GenericSVMClassifierApproach.html"><span class="name">GenericSVMClassifierApproach</span></a><span class="result"> extends <a href="../generic_classifier/GenericClassifierApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierApproach">GenericClassifierApproach</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">An implementation of Support Vector Machine (SVM) classification .</p><div class="fullcomment"><div class="comment cmt"><p>An implementation of Support Vector Machine (SVM) classification .</p><h4>Example</h4><p>Define pipeline stages to prepare the data</p><pre> <span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+   .setInputCol(<span class="lit">"text"</span>)
+   .setOutputCol(<span class="lit">"document"</span>)
+ <span class="kw">val</span> sentenceEmbeddings = BertSentenceEmbeddings
+   .pretrained()
+   .setInputCols(<span class="std">Array</span>(<span class="lit">"document"</span>))
+   .setOutputCol(<span class="lit">"sentence_embedding"</span>)
+ <span class="kw">val</span> featuresAssembler = <span class="kw">new</span> FeaturesAssembler()
+   .setInputCols(<span class="std">Array</span>(<span class="lit">"sentence_embedding"</span>))
+   .setOutputCol(<span class="lit">"feature_vector"</span>)
+ <span class="kw">val</span> svmClassifier = <span class="kw">new</span> GenericSVMClassifierApproach()
+   .setInputCols(<span class="lit">"feature_vector"</span>)
+   .setOutputCol(<span class="lit">"prediction"</span>)
+   .setLabelColumn(<span class="lit">"label"</span>)
+   .setModelFile(<span class="lit">"src/test/resources/classification/svm_graph.pb"</span>)
+   .setEpochsNumber(<span class="num">10</span>)
+   .setBatchSize(<span class="num">1</span>)
+   .setMultiClass(<span class="kw">false</span>)
+   .setlearningRate(<span class="num">0.01</span>f)
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  documentAssembler,
+  sentenceEmbeddings,
+  featuresAssembler,
+  svmClassifier,
+))
+
+<span class="kw">val</span> model = pipeline.fit(trainingData)</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p><a href="DocumentLogRegClassifierModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classification.DocumentLogRegClassifierModel">DocumentLogRegClassifierModel</a> for instantiated models</p></span></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.classification.GenericSVMClassifierModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="GenericSVMClassifierModelextendsGenericClassifierModelwithParamsAndFeaturesWritable"></a><a id="GenericSVMClassifierModel:GenericSVMClassifierModel"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/classification/GenericSVMClassifierModel.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="Support vector machine (SVM) classification" href="GenericSVMClassifierModel.html"><span class="name">GenericSVMClassifierModel</span></a><span class="result"> extends <a href="../generic_classifier/GenericClassifierModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierModel">GenericClassifierModel</a> with <span class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Support vector machine (SVM) classification</p><div class="fullcomment"><div class="comment cmt"><p>Support vector machine (SVM) classification</p><p>Please check out the
+<a href="https://nlp.johnsnowlabs.com/models" target="_blank">Models Hub</a> for available models.
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.classification.MedicalBertForSequenceClassification" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="MedicalBertForSequenceClassificationextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.classification.MedicalBertForSequenceClassification]withHasBatchedAnnotate[com.johnsnowlabs.nlp.annotators.classification.MedicalBertForSequenceClassification]withWriteTensorflowModelwithHasCaseSensitivePropertieswithHasEnginewithCheckLicense"></a><a id="MedicalBertForSequenceClassification:MedicalBertForSequenceClassification"></a>
       <span class="permalink">
@@ -961,6 +1099,70 @@ result.select(<span class="lit">"label.result"</span>).show(<span class="kw">fal
       </span>
       <span class="symbol">
         <a title="" href="DocumentMLClassifierModel$.html"><span class="name">DocumentMLClassifierModel</span></a><span class="result"> extends <a href="ReadablePretrainedDocumentMLClassifierModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classification.ReadablePretrainedDocumentMLClassifierModel">ReadablePretrainedDocumentMLClassifierModel</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.classification.GenericLogRegClassifierApproach" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="GenericLogRegClassifierApproach"></a><a id="GenericLogRegClassifierApproach:GenericLogRegClassifierApproach"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/classification/GenericLogRegClassifierApproach$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="GenericLogRegClassifierApproach$.html"><span class="name">GenericLogRegClassifierApproach</span></a><span class="result"> extends <a href="GenericLogRegClassifierApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classification.GenericLogRegClassifierApproach">GenericLogRegClassifierApproach</a></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.classification.GenericLogRegClassifierModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="GenericLogRegClassifierModel"></a><a id="GenericLogRegClassifierModel:GenericLogRegClassifierModel"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/classification/GenericLogRegClassifierModel$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="GenericLogRegClassifierModel$.html"><span class="name">GenericLogRegClassifierModel</span></a><span class="result"> extends <a href="../generic_classifier/ReadsGenericClassifierGraph.html" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.ReadsGenericClassifierGraph">ReadsGenericClassifierGraph</a>[<a href="GenericLogRegClassifierModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classification.GenericLogRegClassifierModel">GenericLogRegClassifierModel</a>] with <a href="../generic_classifier/ReadablePretrainedGenericClassifier.html" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.ReadablePretrainedGenericClassifier">ReadablePretrainedGenericClassifier</a>[<a href="GenericLogRegClassifierModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classification.GenericLogRegClassifierModel">GenericLogRegClassifierModel</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.classification.GenericSVMClassifierApproach" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="GenericSVMClassifierApproach"></a><a id="GenericSVMClassifierApproach:GenericSVMClassifierApproach"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/classification/GenericSVMClassifierApproach$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="GenericSVMClassifierApproach$.html"><span class="name">GenericSVMClassifierApproach</span></a><span class="result"> extends <a href="GenericSVMClassifierApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classification.GenericSVMClassifierApproach">GenericSVMClassifierApproach</a></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.classification.GenericSVMClassifierModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="GenericSVMClassifierModel"></a><a id="GenericSVMClassifierModel:GenericSVMClassifierModel"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/classification/GenericSVMClassifierModel$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="GenericSVMClassifierModel$.html"><span class="name">GenericSVMClassifierModel</span></a><span class="result"> extends <a href="../generic_classifier/ReadsGenericClassifierGraph.html" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.ReadsGenericClassifierGraph">ReadsGenericClassifierGraph</a>[<a href="GenericSVMClassifierModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classification.GenericSVMClassifierModel">GenericSVMClassifierModel</a>] with <a href="../generic_classifier/ReadablePretrainedGenericClassifier.html" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.ReadablePretrainedGenericClassifier">ReadablePretrainedGenericClassifier</a>[<a href="GenericSVMClassifierModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classification.GenericSVMClassifierModel">GenericSVMClassifierModel</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
       

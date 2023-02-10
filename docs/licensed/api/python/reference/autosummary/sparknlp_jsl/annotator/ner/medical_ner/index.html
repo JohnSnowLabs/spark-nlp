@@ -270,6 +270,8 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.classification</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../classification/document_log_classifier/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.classification.document_log_classifier</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classification/document_ml_classifier/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.classification.document_ml_classifier</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classification/generic_log_reg_classifier/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.classification.generic_log_reg_classifier</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classification/generic_svm_classifier/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.classification.generic_svm_classifier</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classification/medical_bert_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.classification.medical_bert_for_sequence_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classification/medical_bert_for_token_classifier/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.classification.medical_bert_for_token_classifier</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classification/medical_distilbert_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.classification.medical_distilbert_for_sequence_classification</span></code></a></li>
@@ -338,6 +340,7 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../annotation_merger/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.annotation_merger</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../doc2_chunk_internal/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.doc2_chunk_internal</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../feature_assembler/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.feature_assembler</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../resolution2_chunk/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.resolution2_chunk</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../router/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.router</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../source_tracking_metadata_params/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.source_tracking_metadata_params</span></code></a></li>
@@ -473,6 +476,9 @@ the score of the predicted tag, by default False</p>
 </dd>
 <dt><strong>enableMemoryOptimizer</strong></dt><dd><p>Whether to optimize for large datasets or not. Enabling this option can
 slow down training, by default False</p>
+</dd>
+<dt><strong>randomValidationSplitPerEpoch</strong></dt><dd><p>Do a random validation split after each epoch rather than at the beginning
+of training only, by default False</p>
 </dd>
 <dt><strong>Examples</strong></dt><dd></dd>
 <dt><strong>——–</strong></dt><dd></dd>
@@ -617,6 +623,11 @@ slow down training, by default False</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.earlyStoppingPatience">
 <span class="sig-name descname"><span class="pre">earlyStoppingPatience</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/ner/medical_ner.html#MedicalNerApproach.earlyStoppingPatience"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.earlyStoppingPatience" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.randomValidationSplitPerEpoch">
+<span class="sig-name descname"><span class="pre">randomValidationSplitPerEpoch</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/ner/medical_ner.html#MedicalNerApproach.randomValidationSplitPerEpoch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.randomValidationSplitPerEpoch" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -894,6 +905,20 @@ The metric that is being monitored is macro F1 for the following cases(highest p
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>patience</strong><span class="classifier">int</span></dt><dd><p>Early stopping patience.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setRandomValidationSplitPerEpoch">
+<span class="sig-name descname"><span class="pre">setRandomValidationSplitPerEpoch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/ner/medical_ner.html#MedicalNerApproach.setRandomValidationSplitPerEpoch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setRandomValidationSplitPerEpoch" title="Permalink to this definition">#</a></dt>
+<dd><p>Do a random validation split after each epoch rather than at the beginning of training only.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to do a random validation split after each epoch.</p>
 </dd>
 </dl>
 </dd>
@@ -1368,6 +1393,15 @@ default False.</p>
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.randomValidationSplitPerEpoch">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.randomValidationSplitPerEpoch
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setConfigProtoBytes">
          <code class="docutils literal notranslate">
           <span class="pre">
@@ -1534,6 +1568,15 @@ default False.</p>
          <code class="docutils literal notranslate">
           <span class="pre">
            MedicalNerApproach.setEarlyStoppingPatience()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setRandomValidationSplitPerEpoch">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           MedicalNerApproach.setRandomValidationSplitPerEpoch()
           </span>
          </code>
         </a>
@@ -1828,6 +1871,11 @@ default False.</p>
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.randomValidationSplitPerEpoch">
+         randomValidationSplitPerEpoch
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setConfigProtoBytes">
          setConfigProtoBytes
         </a>
@@ -1920,6 +1968,11 @@ default False.</p>
        <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setEarlyStoppingPatience">
          setEarlyStoppingPatience
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.ner.medical_ner.MedicalNerApproach.setRandomValidationSplitPerEpoch">
+         setRandomValidationSplitPerEpoch
         </a>
        </li>
       </ul>

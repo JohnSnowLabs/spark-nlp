@@ -270,6 +270,8 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.classification</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../classification/document_log_classifier/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.classification.document_log_classifier</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classification/document_ml_classifier/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.classification.document_ml_classifier</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classification/generic_log_reg_classifier/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.classification.generic_log_reg_classifier</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classification/generic_svm_classifier/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.classification.generic_svm_classifier</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classification/medical_bert_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.classification.medical_bert_for_sequence_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classification/medical_bert_for_token_classifier/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.classification.medical_bert_for_token_classifier</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classification/medical_distilbert_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.classification.medical_distilbert_for_sequence_classification</span></code></a></li>
@@ -338,6 +340,7 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../annotation_merger/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.annotation_merger</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../doc2_chunk_internal/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.doc2_chunk_internal</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../feature_assembler/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.feature_assembler</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../resolution2_chunk/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.resolution2_chunk</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../router/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.router</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../source_tracking_metadata_params/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.source_tracking_metadata_params</span></code></a></li>
@@ -425,46 +428,47 @@ FeaturesAssembler` as input, classifies them and outputs CATEGORY annotations.</
 </dd>
 <dt><strong>fixImbalance</strong></dt><dd><p>A flag indicating whenther to balance the trainig set</p>
 </dd>
+<dt><strong>multiClass</strong></dt><dd><p>Return only the label with the highest confidence score or all labels</p>
+</dd>
 <dt><strong>featureScaling</strong></dt><dd><p>Feature scaling method. Possible values are ‘zscore’, ‘minmax’ or empty (no scaling)</p>
 </dd>
 <dt><strong>outputLogsPath</strong></dt><dd><p>Path to folder where logs will be saved. If no path is specified, no logs are generated</p>
 </dd>
+<dt><strong>Examples</strong></dt><dd></dd>
+<dt><strong>——–</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; import sparknlp</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; from sparknlp.base import *</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; from sparknlp_jsl.common import *</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; from sparknlp.annotator import *</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; from sparknlp.training import *</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; import sparknlp_jsl</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; from sparknlp_jsl.base import *</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; from sparknlp_jsl.annotator import *</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; from pyspark.ml import Pipeline</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; features_asm = FeaturesAssembler()     …    .setInputCols([“feature_1”, “feature_2”, “…”, “feature_n”])     …    .setOutputCol(“features”)</strong></dt><dd></dd>
+<dt><strong>…</strong></dt><dd></dd>
+<dt><a href="#id1"><span class="problematic" id="id2">**</span></a>&gt;&gt;&gt; gen_clf = GenericClassifierApproach() **</dt><dd></dd>
+<dt><a href="#id3"><span class="problematic" id="id4">**</span></a>…    .setLabelColumn(“target”) **</dt><dd></dd>
+<dt><a href="#id5"><span class="problematic" id="id6">**</span></a>…    .setInputCols([“features”]) **</dt><dd></dd>
+<dt><a href="#id7"><span class="problematic" id="id8">**</span></a>…    .setOutputCol(“prediction”) **</dt><dd></dd>
+<dt><a href="#id9"><span class="problematic" id="id10">**</span></a>…    .setModelFile(“/path/to/graph_file.pb”) **</dt><dd></dd>
+<dt><a href="#id11"><span class="problematic" id="id12">**</span></a>…    .setEpochsNumber(50) **</dt><dd></dd>
+<dt><a href="#id13"><span class="problematic" id="id14">**</span></a>…    .setBatchSize(100) **</dt><dd></dd>
+<dt><a href="#id15"><span class="problematic" id="id16">**</span></a>…    .setFeatureScaling(“zscore”) **</dt><dd></dd>
+<dt><a href="#id17"><span class="problematic" id="id18">**</span></a>…    .setlearningRate(0.001) **</dt><dd></dd>
+<dt><a href="#id19"><span class="problematic" id="id20">**</span></a>…    .setFixImbalance(True) **</dt><dd></dd>
+<dt><a href="#id21"><span class="problematic" id="id22">**</span></a>…    .setOutputLogsPath(“logs”) **</dt><dd></dd>
+<dt><strong>…    .setValidationSplit(0.2) # keep 20% of the data for validation purposes</strong></dt><dd></dd>
+<dt><strong>…</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; pipeline = Pipeline().setStages([</strong></dt><dd></dd>
+<dt><strong>…    features_asm,</strong></dt><dd></dd>
+<dt><strong>…    gen_clf</strong></dt><dd></dd>
+<dt><strong>…])</strong></dt><dd></dd>
+<dt><strong>…</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; clf_model = pipeline.fit(data)</strong></dt><dd></dd>
 </dl>
 </dd>
 </dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp_jsl.common</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp_jsl</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp_jsl.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp_jsl.annotator</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">features_asm</span> <span class="o">=</span> <span class="n">FeaturesAssembler</span><span class="p">()</span>     <span class="o">...</span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;feature_1&quot;</span><span class="p">,</span> <span class="s2">&quot;feature_2&quot;</span><span class="p">,</span> <span class="s2">&quot;...&quot;</span><span class="p">,</span> <span class="s2">&quot;feature_n&quot;</span><span class="p">])</span>     <span class="o">...</span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;features&quot;</span><span class="p">)</span>
-<span class="gp">...</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">gen_clf</span> <span class="o">=</span> <span class="n">GenericClassifierApproach</span><span class="p">()</span> \
-<span class="gp">... </span>   <span class="o">.</span><span class="n">setLabelColumn</span><span class="p">(</span><span class="s2">&quot;target&quot;</span><span class="p">)</span> \
-<span class="gp">... </span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;features&quot;</span><span class="p">])</span> \
-<span class="gp">... </span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;prediction&quot;</span><span class="p">)</span> \
-<span class="gp">... </span>   <span class="o">.</span><span class="n">setModelFile</span><span class="p">(</span><span class="s2">&quot;/path/to/graph_file.pb&quot;</span><span class="p">)</span> \
-<span class="gp">... </span>   <span class="o">.</span><span class="n">setEpochsNumber</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> \
-<span class="gp">... </span>   <span class="o">.</span><span class="n">setBatchSize</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> \
-<span class="gp">... </span>   <span class="o">.</span><span class="n">setFeatureScaling</span><span class="p">(</span><span class="s2">&quot;zscore&quot;</span><span class="p">)</span> \
-<span class="gp">... </span>   <span class="o">.</span><span class="n">setlearningRate</span><span class="p">(</span><span class="mf">0.001</span><span class="p">)</span> \
-<span class="gp">... </span>   <span class="o">.</span><span class="n">setFixImbalance</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span> \
-<span class="gp">... </span>   <span class="o">.</span><span class="n">setOutputLogsPath</span><span class="p">(</span><span class="s2">&quot;logs&quot;</span><span class="p">)</span> \
-<span class="gp">... </span>   <span class="o">.</span><span class="n">setValidationSplit</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span> <span class="c1"># keep 20% of the data for validation purposes</span>
-<span class="gp">...</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
-<span class="gp">... </span>   <span class="n">features_asm</span><span class="p">,</span>
-<span class="gp">... </span>   <span class="n">gen_clf</span>
-<span class="go">...])</span>
-<span class="gp">...</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">clf_model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</pre></div>
-</div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.inputAnnotatorTypes">
 <span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/generic_classifier/generic_classifier.html#GenericClassifierApproach.inputAnnotatorTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
@@ -524,6 +528,25 @@ FeaturesAssembler` as input, classifies them and outputs CATEGORY annotations.</
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.outputLogsPath">
 <span class="sig-name descname"><span class="pre">outputLogsPath</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/generic_classifier/generic_classifier.html#GenericClassifierApproach.outputLogsPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.outputLogsPath" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.multiClass">
+<span class="sig-name descname"><span class="pre">multiClass</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/generic_classifier/generic_classifier.html#GenericClassifierApproach.multiClass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.multiClass" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setMultiClass">
+<span class="sig-name descname"><span class="pre">setMultiClass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/generic_classifier/generic_classifier.html#GenericClassifierApproach.setMultiClass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setMultiClass" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the model in multi class prediction mode (Default: false)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to return only the label with the highest confidence score or all labels</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setLabelCol">
@@ -684,6 +707,14 @@ FeaturesAssembler` as input, classifies them and outputs CATEGORY annotations.</
 </tr>
 </tbody>
 </table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>multiClass</strong></dt><dd><p>Return only the label with the highest confidence score or all labels</p>
+</dd>
+</dl>
+</dd>
+</dl>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -729,6 +760,25 @@ FeaturesAssembler` as input, classifies them and outputs CATEGORY annotations.</
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierModel.classes">
 <span class="sig-name descname"><span class="pre">classes</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/generic_classifier/generic_classifier.html#GenericClassifierModel.classes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierModel.classes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierModel.multiClass">
+<span class="sig-name descname"><span class="pre">multiClass</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/generic_classifier/generic_classifier.html#GenericClassifierModel.multiClass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierModel.multiClass" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierModel.setMultiClass">
+<span class="sig-name descname"><span class="pre">setMultiClass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/generic_classifier/generic_classifier.html#GenericClassifierModel.setMultiClass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierModel.setMultiClass" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the model in multi class prediction mode (Default: false)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to return only the label with the highest confidence score or all labels</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierModel.pretrained">
@@ -893,6 +943,24 @@ FeaturesAssembler` as input, classifies them and outputs CATEGORY annotations.</
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.multiClass">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           GenericClassifierApproach.multiClass
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setMultiClass">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           GenericClassifierApproach.setMultiClass()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setLabelCol">
          <code class="docutils literal notranslate">
           <span class="pre">
@@ -1030,6 +1098,24 @@ FeaturesAssembler` as input, classifies them and outputs CATEGORY annotations.</
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierModel.multiClass">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           GenericClassifierModel.multiClass
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierModel.setMultiClass">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           GenericClassifierModel.setMultiClass()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierModel.pretrained">
          <code class="docutils literal notranslate">
           <span class="pre">
@@ -1103,6 +1189,16 @@ FeaturesAssembler` as input, classifies them and outputs CATEGORY annotations.</
        <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.outputLogsPath">
          outputLogsPath
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.multiClass">
+         multiClass
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setMultiClass">
+         setMultiClass
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
@@ -1180,6 +1276,16 @@ FeaturesAssembler` as input, classifies them and outputs CATEGORY annotations.</
        <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierModel.classes">
          classes
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierModel.multiClass">
+         multiClass
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierModel.setMultiClass">
+         setMultiClass
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
