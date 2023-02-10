@@ -29,9 +29,6 @@ class NorvigSweetingApproach(AnnotatorApproach):
 
     For instantiated/pretrained models, see :class:`.NorvigSweetingModel`.
 
-    For extended examples of usage, see the `Spark NLP Workshop
-    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb>`__.
-
     ====================== ======================
     Input Annotation types Output Annotation type
     ====================== ======================
@@ -273,8 +270,8 @@ class NorvigSweetingModel(AnnotatorModel):
     <https://nlp.johnsnowlabs.com/models?task=Spell+Check>`__.
 
 
-    For extended examples of usage, see the `Spark NLP Workshop
-    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb>`__.
+    For extended examples of usage, see the `Examples
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type

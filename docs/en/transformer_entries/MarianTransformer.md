@@ -22,7 +22,7 @@ val marian = MarianTransformer.pretrained()
 The default model is `"opus_mt_en_fr"`, default language is `"xx"` (meaning multi-lingual), if no values are provided.
 For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Translation).
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TRANSLATION_MARIAN.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/multilingual/Translation_Marian.ipynb)
 and the [MarianTransformerTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/MarianTransformerTestSpec.scala).
 
 **Sources** :
@@ -134,11 +134,11 @@ result.selectExpr("explode(translation.result) as result").show(false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[MarianTransformer](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/seq2seq/MarianTransformer)
+[MarianTransformer](/api/com/johnsnowlabs/nlp/annotators/seq2seq/MarianTransformer)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[MarianTransformer](/api/python/reference/autosummary/python/sparknlp/annotator/seq2seq/marian_transformer/index.html#sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer)
+[MarianTransformer](/api/python/reference/autosummary/sparknlp/annotator/seq2seq/marian_transformer/index.html#sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer)
 {%- endcapture -%}
 
 {%- capture source_link -%}

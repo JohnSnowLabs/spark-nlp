@@ -92,4 +92,16 @@ data:
           - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_MEDMENTIONS_COARSE.ipynb
+        - title: Medical Question Answering
+          id: medical_question_answering
+          image: 
+              src: /assets/images/MedicalQuestionAnswerin.svg
+          excerpt: Automatically generate answers to questions with context in clinical documents
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/MEDICAL_QUESTION_ANSWERING/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/MEDICAL_QUESTION_ANSWERING.ipynb
 ---

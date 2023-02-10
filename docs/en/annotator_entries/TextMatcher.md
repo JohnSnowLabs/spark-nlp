@@ -16,11 +16,11 @@ CHUNK
 {%- endcapture -%}
 
 {%- capture model_api_link -%}
-[TextMatcherModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/TextMatcherModel)
+[TextMatcherModel](/api/com/johnsnowlabs/nlp/annotators/TextMatcherModel)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[TextMatcherModel](/api/python/reference/autosummary/python/sparknlp/annotator/matcher/text_matcher/index.html#sparknlp.annotator.matcher.text_matcher.TextMatcherModel)
+[TextMatcherModel](/api/python/reference/autosummary/sparknlp/annotator/matcher/text_matcher/index.html#sparknlp.annotator.matcher.text_matcher.TextMatcherModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -33,7 +33,7 @@ Annotator to match exact phrases (by token) provided in a file against a Documen
 A text file of predefined phrases must be provided with `setEntities`.
 
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/text-matcher-pipeline/extractor.ipynb)
 and the [TextMatcherTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/TextMatcherTestSpec.scala).
 {%- endcapture -%}
 
@@ -137,11 +137,11 @@ results.selectExpr("explode(entity) as result").show(false)
 {%- endcapture -%}
 
 {%- capture approach_api_link -%}
-[TextMatcher](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/TextMatcher)
+[TextMatcher](/api/com/johnsnowlabs/nlp/annotators/TextMatcher)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[TextMatcher](/api/python/reference/autosummary/python/sparknlp/annotator/matcher/text_matcher/index.html#sparknlp.annotator.matcher.text_matcher.TextMatcher)
+[TextMatcher](/api/python/reference/autosummary/sparknlp/annotator/matcher/text_matcher/index.html#sparknlp.annotator.matcher.text_matcher.TextMatcher)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

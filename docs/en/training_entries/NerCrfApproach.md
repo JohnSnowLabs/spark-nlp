@@ -18,7 +18,7 @@ Excluding the label, this can be done with for example
 
 Optionally the user can provide an entity dictionary file with `setExternalFeatures` for better accuracy.
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/crf-ner/ner_dl_crf.ipynb).
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/crf-ner/ner_dl_crf.ipynb).
 {%- endcapture -%}
 
 {%- capture input_anno -%}
@@ -138,11 +138,11 @@ val pipelineModel = pipeline.fit(trainingData)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[NerCrfApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/crf/NerCrfApproach)
+[NerCrfApproach](/api/com/johnsnowlabs/nlp/annotators/ner/crf/NerCrfApproach)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[NerCrfApproach](/api/python/reference/autosummary/python/sparknlp/annotator/ner/ner_crf/index.html#sparknlp.annotator.ner.ner_crf.NerCrfApproach)
+[NerCrfApproach](/api/python/reference/autosummary/sparknlp/annotator/ner/ner_crf/index.html#sparknlp.annotator.ner.ner_crf.NerCrfApproach)
 {%- endcapture -%}
 
 {%- capture source_link -%}

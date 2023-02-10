@@ -15,7 +15,7 @@ header:
   - title: '<span style="color: #FF8A00;"><i class = "fab fa-github fa-2x"></i></span>'
     url: https://github.com/JohnSnowLabs/spark-nlp
   - title: '<span style="color: #FF8A00;"><i class="fab fa-slack-hash fa-2x"></i></span>'
-    url: https://www.johnsnowlabs.com/slack-redirect/
+    url: https://join.slack.com/t/spark-nlp/shared_invite/zt-198dipu77-L3UWNe_AJ8xqDk0ivmih5Q
 
 extras:
   - title: Extras
@@ -66,7 +66,7 @@ sparknlp:
         url: /docs/en/release_notes
 
 annotation-lab:
-  - title: Annotation Lab
+  - title: NLP Lab
     children:
       - title: Getting Started
         url: /docs/en/alab/quickstart
@@ -82,6 +82,10 @@ annotation-lab:
             url: /docs/en/alab/embeddings
           - title: Rules
             url: /docs/en/alab/rules
+          - title: Prompts
+            url: /docs/en/alab/prompts   
+          - title: Playground
+            url: /docs/en/alab/playground                        
       - subtitle: Project
         children:
           - title: Dashboard
@@ -160,6 +164,8 @@ sparknlp-healthcare:
         url: /docs/en/licensed_training
       - title: Evaluation
         url: /docs/en/evaluation
+      - title: Risk Adjustments Score Calculation
+        url: /docs/en/healthcare_risk_adjustments_score_calculation
       - title: Utility & Helper Modules
         url: /docs/en/utility_helper_modules
       - title: Serving Spark NLP&#58 SynapseML
@@ -183,7 +189,7 @@ sparknlp-healthcare:
   - title: Healthcare NLP
     children:
       - title: Release Notes
-        url: /docs/en/licensed_release_notes
+        url: /docs/en/spark_nlp_healthcare_versions/licensed_release_notes
       - title: Healthcare Models
         url: /models?edition=Spark+NLP+for+Healthcare
       - title: Version Compatibility
@@ -225,7 +231,7 @@ spark-ocr:
       - title: Structures and helpers
         url: /docs/en/ocr_structures
       - title: Release notes
-        url: /docs/en/ocr_release_notes
+        url: /docs/en/spark_ocr_versions/ocr_release_notes
 
 nlp-server:
   - title: NLP Server
@@ -237,4 +243,4 @@ nlp-server:
       - title: Video Tutorials
         url: /docs/en/nlp_server/video_tutorials
       - title: Release Notes
-        url: /docs/en/nlp_server/release_notes
+        url: /docs/en/nlp_server/nlp_server_versions/release_notes

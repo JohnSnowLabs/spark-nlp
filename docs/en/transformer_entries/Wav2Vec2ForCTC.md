@@ -108,7 +108,7 @@ result.select("text.result").show(truncate = false)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[Wav2Vec2ForCTC](/api/python/reference/autosummary/python/sparknlp/annotator/audio/wav2vec2_for_ctc/index.html?highlight=wav2vec2forctc#python.sparknlp.annotator.audio.wav2vec2_for_ctc.Wav2Vec2ForCTC)
+[Wav2Vec2ForCTC](/api/python/reference/autosummary/sparknlp/annotator/audio/wav2vec2_for_ctc/index.html?highlight=wav2vec2forctc#python.sparknlp.annotator.audio.wav2vec2_for_ctc.Wav2Vec2ForCTC)
 {%- endcapture -%}
 
 {%- capture source_link -%}

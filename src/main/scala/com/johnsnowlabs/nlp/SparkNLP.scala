@@ -20,18 +20,18 @@ import org.apache.spark.sql.SparkSession
 
 object SparkNLP {
 
-  val currentVersion = "4.2.5"
+  val currentVersion = "4.3.0"
   val MavenSpark3 = s"com.johnsnowlabs.nlp:spark-nlp_2.12:$currentVersion"
   val MavenGpuSpark3 = s"com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:$currentVersion"
-  val MavenSparkM1 = s"com.johnsnowlabs.nlp:spark-nlp-m1_2.12:$currentVersion"
+  val MavenSparkSilicon = s"com.johnsnowlabs.nlp:spark-nlp-silicon_2.12:$currentVersion"
   val MavenSparkAarch64 = s"com.johnsnowlabs.nlp:spark-nlp-aarch64_2.12:$currentVersion"
 
   /** Start SparkSession with Spark NLP
     *
     * @param gpu
     *   start Spark NLP with GPU
-    * @param m1
-    *   start Spark NLP for Apple M1 systems
+    * @param apple_silicon
+    *   start Spark NLP for Apple M1 & M2 systems
     * @param aarch64
     *   start Spark NLP for Linux Aarch64 systems
     * @param memory
@@ -52,7 +52,7 @@ object SparkNLP {
     */
   def start(
       gpu: Boolean = false,
-      m1: Boolean = false,
+      apple_silicon: Boolean = false,
       aarch64: Boolean = false,
       memory: String = "16G",
       cache_folder: String = "",
@@ -68,8 +68,8 @@ object SparkNLP {
       .config("spark.kryoserializer.buffer.max", "2000M")
       .config("spark.driver.maxResultSize", "0")
 
-    if (m1) {
-      build.config("spark.jars.packages", MavenSparkM1)
+    if (apple_silicon) {
+      build.config("spark.jars.packages", MavenSparkSilicon)
     } else if (aarch64) {
       build.config("spark.jars.packages", MavenSparkAarch64)
     } else if (gpu) {

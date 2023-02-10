@@ -15,11 +15,11 @@ TOKEN
 {%- endcapture -%}
 
 {%- capture model_api_link -%}
-[NormalizerModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/NormalizerModel)
+[NormalizerModel](/api/com/johnsnowlabs/nlp/annotators/NormalizerModel)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[NormalizerModel](/api/python/reference/autosummary/python/sparknlp/annotator/normalizer/index.html#sparknlp.annotator.normalizer.NormalizerModel)
+[NormalizerModel](/api/python/reference/autosummary/sparknlp/annotator/normalizer/index.html#sparknlp.annotator.normalizer.NormalizerModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -30,7 +30,7 @@ TOKEN
 Annotator that cleans out tokens. Requires stems, hence tokens.
 Removes all dirty characters from text following a regex pattern and transforms words based on a provided dictionary
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb).
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/document-normalizer/document_normalizer_notebook.ipynb).
 {%- endcapture -%}
 
 {%- capture approach_input_anno -%}
@@ -120,11 +120,11 @@ result.selectExpr("normalized.result").show(truncate = false)
 {%- endcapture -%}
 
 {%- capture approach_api_link -%}
-[Normalizer](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/Normalizer)
+[Normalizer](/api/com/johnsnowlabs/nlp/annotators/Normalizer)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[Normalizer](/api/python/reference/autosummary/python/sparknlp/annotator/normalizer/index.html#sparknlp.annotator.normalizer.Normalizer)
+[Normalizer](/api/python/reference/autosummary/sparknlp/annotator/normalizer/index.html#sparknlp.annotator.normalizer.Normalizer)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

@@ -48,7 +48,7 @@ import org.apache.spark.sql.{Dataset, SparkSession}
   * [[https://nlp.johnsnowlabs.com/models?task=Sentiment+Analysis Models Hub]].
   *
   * For extended examples of usage, see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.Text_Classification_with_ClassifierDL.ipynb Spark NLP Workshop]]
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/SentimentDL_train_multiclass_sentiment_classifier.ipynb Examples]]
   * and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/SentimentDLTestSpec.scala SentimentDLTestSpec]].
   *
@@ -301,7 +301,7 @@ trait ReadSentimentDLTensorflowModel extends ReadTensorflowModel {
 
   override val tfFile: String = "sentimentdl_tensorflow"
 
-  def readTensorflow(instance: SentimentDLModel, path: String, spark: SparkSession): Unit = {
+  def readModel(instance: SentimentDLModel, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_sentimentdl_tf", initAllTables = true)
     instance.setModelIfNotSet(spark, tf)
@@ -310,7 +310,7 @@ trait ReadSentimentDLTensorflowModel extends ReadTensorflowModel {
     instance.set(instance.classes, encoder.tags)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 }
 
 /** This is the companion object of [[SentimentDLModel]]. Please refer to that class for the

@@ -123,11 +123,11 @@ result.select("label.result").show(false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[AlbertForTokenClassification](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/AlbertForTokenClassification)
+[AlbertForTokenClassification](/api/com/johnsnowlabs/nlp/annotators/classifier/dl/AlbertForTokenClassification)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[AlbertForTokenClassification](/api/python/reference/autosummary/python/sparknlp/annotator/classifier_dl/albert_for_token_classification/index.html#sparknlp.annotator.classifier_dl.albert_for_token_classification.AlbertForTokenClassification)
+[AlbertForTokenClassification](/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/albert_for_token_classification/index.html#sparknlp.annotator.classifier_dl.albert_for_token_classification.AlbertForTokenClassification)
 {%- endcapture -%}
 
 {%- capture source_link -%}

@@ -16,7 +16,7 @@ The default model is `"sent_small_bert_L2_768"`, if no name is provided.
 
 For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Embeddings).
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BERT%20Sentence.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BERT%20Sentence.ipynb)
 and the [BertSentenceEmbeddingsTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddingsTestSpec.scala).
 
 **Sources** :
@@ -48,11 +48,11 @@ SENTENCE_EMBEDDINGS
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[BertSentenceEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddings)
+[BertSentenceEmbeddings](/api/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddings)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[BertSentenceEmbeddings](/api/python/reference/autosummary/python/sparknlp/annotator/embeddings/bert_sentence_embeddings/index.html#sparknlp.annotator.embeddings.bert_sentence_embeddings.BertSentenceEmbeddings)
+[BertSentenceEmbeddings](/api/python/reference/autosummary/sparknlp/annotator/embeddings/bert_sentence_embeddings/index.html#sparknlp.annotator.embeddings.bert_sentence_embeddings.BertSentenceEmbeddings)
 {%- endcapture -%}
 
 {%- capture source_link -%}

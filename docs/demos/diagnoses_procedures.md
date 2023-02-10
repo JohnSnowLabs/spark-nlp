@@ -31,19 +31,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/ASSERTION/
           - text: Colab
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ASSERTION.ipynb
-        - title: Calculate Medicare HCC Risk Score
-          id: calculate_medicare_risk_score 
-          image: 
-              src: /assets/images/Calculate_Medicare_Risk_Score.svg
-          excerpt: This demos shows how to calculate medical risk adjustment scores automatically using ICD codes of diseases.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/HCC_RISK_SCORE/
-          - text: Colab
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/3.1.Calculate_Medicare_Risk_Adjustment_Score.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ASSERTION.ipynb        
         - title: Detect clinical entities in text
           id: detect_clinical_entities_in_text
           image: 
@@ -116,16 +104,4 @@ data:
           - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_CLINICAL_DATE.ipynb
-        - title: Detecting Clinical Entities with JSL
-          id: detecting_clinical_entities_jsl
-          image: 
-              src: /assets/images/Detect_Clinical_Entities_with_JSL.svg
-          excerpt: Automatically detects more than 77 clinical entities using our NER deep learning model.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/NER_JSL/
-          - text: Colab
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_JSL.ipynb
 ---

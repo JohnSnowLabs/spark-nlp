@@ -8,7 +8,7 @@ The `DocumentAssembler` can read either a `String` column or an `Array[String]`.
 can be used to pre-process the text (Default: `disabled`). For possible options please refer the parameters section.
 
 For more extended examples on document pre-processing see the
-[Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb).
+[Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/document-assembler/Loading_Documents_With_DocumentAssembler.ipynb).
 {%- endcapture -%}
 
 {%- capture input_anno -%}
@@ -86,11 +86,11 @@ root
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[DocumentAssembler](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/DocumentAssembler)
+[DocumentAssembler](/api/com/johnsnowlabs/nlp/DocumentAssembler)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[DocumentAssembler](/api/python/reference/autosummary/python/sparknlp/base/document_assembler/index.html#sparknlp.base.document_assembler.DocumentAssembler)
+[DocumentAssembler](/api/python/reference/autosummary/sparknlp/base/document_assembler/index.html#sparknlp.base.document_assembler.DocumentAssembler)
 {%- endcapture -%}
 
 {%- capture source_link -%}

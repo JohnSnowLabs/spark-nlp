@@ -11,12 +11,12 @@ impossible. The WordSegmenter is trained to understand these languages and split
 
 To train your own model, a training dataset consisting of
 [Part-Of-Speech tags](https://en.wikipedia.org/wiki/Part-of-speech_tagging) is required. The data has to be loaded
-into a dataframe, where the column is an [Annotation](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/Annotation) of type `"POS"`. This can be
+into a dataframe, where the column is an [Annotation](/api/com/johnsnowlabs/nlp/Annotation) of type `"POS"`. This can be
 set with `setPosColumn`.
 
 **Tip**: The helper class [POS](#pos-dataset) might be useful to read training data into data frames.
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/annotation/chinese/word_segmentation).
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/chinese/word_segmentation).
 {%- endcapture -%}
 
 {%- capture input_anno -%}
@@ -101,11 +101,11 @@ val pipelineModel = pipeline.fit(trainingDataSet)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[WordSegmenterApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ws/WordSegmenterApproach)
+[WordSegmenterApproach](/api/com/johnsnowlabs/nlp/annotators/ws/WordSegmenterApproach)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[WordSegmenterApproach](/api/python/reference/autosummary/python/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach)
+[WordSegmenterApproach](/api/python/reference/autosummary/sparknlp/annotator/ws/word_segmenter/index.html#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach)
 {%- endcapture -%}
 
 {%- capture source_link -%}

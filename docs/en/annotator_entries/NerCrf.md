@@ -24,7 +24,7 @@ val nerTagger = NerCrfModel.pretrained()
 The default model is `"ner_crf"`, if no name is provided.
 For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition).
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/model-downloader/Running_Pretrained_pipelines.ipynb).
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/crf-ner/ner_dl_crf.ipynb).
 {%- endcapture -%}
 
 {%- capture model_input_anno -%}
@@ -146,11 +146,11 @@ result.select("ner.result").show(false)
 {%- endcapture -%}
 
 {%- capture model_api_link -%}
-[NerCrfModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/crf/NerCrfModel)
+[NerCrfModel](/api/com/johnsnowlabs/nlp/annotators/ner/crf/NerCrfModel)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[NerCrfModel](/api/python/reference/autosummary/python/sparknlp/annotator/ner/ner_crf/index.html#sparknlp.annotator.ner.ner_crf.NerCrfModel)
+[NerCrfModel](/api/python/reference/autosummary/sparknlp/annotator/ner/ner_crf/index.html#sparknlp.annotator.ner.ner_crf.NerCrfModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -175,7 +175,7 @@ Excluding the label, this can be done with for example
 
 Optionally the user can provide an entity dictionary file with setExternalFeatures for better accuracy.
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/crf-ner/ner_dl_crf.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/crf-ner/ner_dl_crf.ipynb)
 and the [NerCrfApproachTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/crf/NerCrfApproachTestSpec.scala).
 {%- endcapture -%}
 
@@ -272,11 +272,11 @@ val pipelineModel = pipeline.fit(trainingData)
 {%- endcapture -%}
 
 {%- capture approach_api_link -%}
-[NerCrfApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/crf/NerCrfApproach)
+[NerCrfApproach](/api/com/johnsnowlabs/nlp/annotators/ner/crf/NerCrfApproach)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[NerCrfApproach](/api/python/reference/autosummary/python/sparknlp/annotator/ner/ner_crf/index.html#sparknlp.annotator.ner.ner_crf.NerCrfApproach)
+[NerCrfApproach](/api/python/reference/autosummary/sparknlp/annotator/ner/ner_crf/index.html#sparknlp.annotator.ner.ner_crf.NerCrfApproach)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

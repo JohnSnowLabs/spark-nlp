@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
+import com.johnsnowlabs.ml.ai.DeBertaClassification
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
   ReadSentencePieceModel,
@@ -54,8 +55,8 @@ import org.apache.spark.sql.SparkSession
   *
   * and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/DeBertaForTokenClassificationTestSpec.scala DeBertaForTokenClassificationTestSpec]].
-  * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The
-  * Spark NLP Workshop example shows how to import them
+  * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To
+  * see which models are compatible and how to import them see
   * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]].
   *
   * ==Example==
@@ -212,7 +213,7 @@ class DeBertaForTokenClassification(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowDeBertaClassification]] = None
+  private var _model: Option[Broadcast[DeBertaClassification]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
@@ -222,7 +223,7 @@ class DeBertaForTokenClassification(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowDeBertaClassification(
+          new DeBertaClassification(
             tensorflowWrapper,
             spp,
             configProtoBytes = getConfigProtoBytes,
@@ -234,7 +235,7 @@ class DeBertaForTokenClassification(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowDeBertaClassification = _model.get.value
+  def getModelIfNotSet: DeBertaClassification = _model.get.value
 
   /** Whether to lowercase tokens or not
     *
@@ -314,13 +315,13 @@ trait ReadablePretrainedDeBertaForTokenModel
       remoteLoc: String): DeBertaForTokenClassification = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadDeBertaForTokenTensorflowModel extends ReadTensorflowModel with ReadSentencePieceModel {
+trait ReadDeBertaForTokenDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[DeBertaForTokenClassification] =>
 
   override val tfFile: String = "deberta_classification_tensorflow"
   override val sppFile: String = "deberta_spp"
 
-  def readTensorflow(
+  def readModel(
       instance: DeBertaForTokenClassification,
       path: String,
       spark: SparkSession): Unit = {
@@ -330,7 +331,7 @@ trait ReadDeBertaForTokenTensorflowModel extends ReadTensorflowModel with ReadSe
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): DeBertaForTokenClassification = {
     val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
@@ -373,4 +374,4 @@ trait ReadDeBertaForTokenTensorflowModel extends ReadTensorflowModel with ReadSe
   */
 object DeBertaForTokenClassification
     extends ReadablePretrainedDeBertaForTokenModel
-    with ReadDeBertaForTokenTensorflowModel
+    with ReadDeBertaForTokenDLModel

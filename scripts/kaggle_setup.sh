@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #default values for pyspark, spark-nlp, and SPARK_HOME
-SPARKNLP="4.2.5"
-PYSPARK="3.2.1"
+SPARKNLP="4.3.0"
+PYSPARK="3.2.3"
 
 while getopts s:p:g option
 do
@@ -20,7 +20,7 @@ if [[ "$PYSPARK" == "3.3"* ]]; then
   PYSPARK="3.3.0"
   echo "Installing PySpark $PYSPARK and Spark NLP $SPARKNLP"
 elif [[ "$PYSPARK" == "3.2"* ]]; then
-  PYSPARK="3.2.1"
+  PYSPARK="3.2.3"
   echo "Installing PySpark $PYSPARK and Spark NLP $SPARKNLP"
 elif [[ "$PYSPARK" == "3.1"* ]]; then
   PYSPARK="3.1.3"
@@ -29,7 +29,7 @@ elif [[ "$PYSPARK" == "3.0"* ]]; then
   PYSPARK="3.0.3"
   echo "Installing PySpark $PYSPARK and Spark NLP $SPARKNLP"
 else
-  PYSPARK="3.2.1"
+  PYSPARK="3.2.3"
   echo "Installing PySpark $PYSPARK and Spark NLP $SPARKNLP"
 fi
 

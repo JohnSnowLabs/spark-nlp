@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.5 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach</title>
-          <meta name="description" content="Spark NLP 4.2.5 ScalaDoc - com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach" />
-          <meta name="keywords" content="Spark NLP 4.2.5 ScalaDoc com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach" />
+          <title>Spark NLP 4.3.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach</title>
+          <meta name="description" content="Spark NLP 4.3.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach" />
+          <meta name="keywords" content="Spark NLP 4.3.0 ScalaDoc com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.5 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.3.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -183,8 +183,16 @@
                         <a href="NerDLModelPythonReader$.html" title="">NerDLModelPythonReader</a>
                       </li><li class="current-entities indented6">
                         <span class="separator"></span>
+                        <a class="trait" href="ReadZeroShotNerDLModel.html" title=""></a>
+                        <a href="ReadZeroShotNerDLModel.html" title="">ReadZeroShotNerDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedNerDL.html" title=""></a>
                         <a href="ReadablePretrainedNerDL.html" title="">ReadablePretrainedNerDL</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedZeroShotNer.html" title=""></a>
+                        <a href="ReadablePretrainedZeroShotNer.html" title="">ReadablePretrainedZeroShotNer</a>
                       </li><li class="current-entities indented6">
                         <span class="separator"></span>
                         <a class="trait" href="ReadsNERGraph.html" title=""></a>
@@ -193,6 +201,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="WithGraphResolver.html" title=""></a>
                         <a href="WithGraphResolver.html" title="">WithGraphResolver</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="ZeroShotNerModel$.html" title=""></a>
+                        <a class="class" href="ZeroShotNerModel.html" title="ZeroShotNerModel implements zero shot named entity recognition by utilizing RoBERTa transformer models fine tuned on a question answering task."></a>
+                        <a href="ZeroShotNerModel.html" title="ZeroShotNerModel implements zero shot named entity recognition by utilizing RoBERTa transformer models fine tuned on a question answering task.">ZeroShotNerModel</a>
                       </li>
               </ul>
             </div>
@@ -264,7 +276,7 @@ preProcessingPipeline
   .setLabelColumn(<span class="lit">"label"</span>)
   .setOutputCol(<span class="lit">"ner"</span>)
   .setTestDataset(<span class="lit">"test_data"</span>)</pre><p>For extended examples of usage, see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/training/english/dl-ner" target="_blank">Spark NLP Workshop</a>
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dl-ner" target="_blank">Examples</a>
 and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLSpec.scala" target="_blank">NerDLSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotators.Tokenizer

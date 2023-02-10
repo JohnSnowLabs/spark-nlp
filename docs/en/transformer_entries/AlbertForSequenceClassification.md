@@ -16,8 +16,8 @@ The default model is `"albert_base_sequence_classifier_imdb"`, if no name is pro
 
 For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Text+Classification).
 
-Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
-example shows how to import them https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
+Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are 
+compatible and how to import them see https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
 and the [AlbertForSequenceClassification](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/AlbertForSequenceClassificationTestSpec.scala).
 {%- endcapture -%}
 
@@ -104,11 +104,11 @@ result.select("label.result").show(false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[AlbertForSequenceClassification](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/AlbertForSequenceClassification)
+[AlbertForSequenceClassification](/api/com/johnsnowlabs/nlp/annotators/classifier/dl/AlbertForSequenceClassification)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[AlbertForSequenceClassification](/api/python/reference/autosummary/python/sparknlp/annotator/classifier_dl/albert_for_sequence_classification/index.html#sparknlp.annotator.classifier_dl.albert_for_sequence_classification.AlbertForSequenceClassification)
+[AlbertForSequenceClassification](/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/albert_for_sequence_classification/index.html#sparknlp.annotator.classifier_dl.albert_for_sequence_classification.AlbertForSequenceClassification)
 {%- endcapture -%}
 
 {%- capture source_link -%}

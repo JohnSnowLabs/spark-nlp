@@ -25,7 +25,7 @@ import org.apache.spark.ml.util.Identifiable
 import scala.collection.mutable
 import scala.util.Random
 
-class TensorflowMultiClassifier(
+private[johnsnowlabs] class TensorflowMultiClassifier(
     val tensorflow: TensorflowWrapper,
     val encoder: ClassifierDatasetEncoder,
     val testEncoder: Option[ClassifierDatasetEncoder],

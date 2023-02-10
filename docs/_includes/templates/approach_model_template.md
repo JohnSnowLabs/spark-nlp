@@ -5,7 +5,7 @@
 
 {% include approachModelSelect.html %}
 
-<div class="h3-box approach-content" markdown="1">
+<div class="h3-box tabs-python-scala-box" markdown="1">
 
 {{include.approach_description}}
 
@@ -56,7 +56,7 @@
 
 </div>
 
-<div class="h3-box model-content" markdown="1" style="display: none;">
+<div class="h3-box tabs-python-scala-box" markdown="1" style="display: none;">
 
 {{include.model_description}}
 

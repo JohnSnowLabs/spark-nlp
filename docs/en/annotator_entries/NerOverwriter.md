@@ -189,11 +189,11 @@ nerOverwriter.transform(result).selectExpr("explode(ner_overwritten)").show(fals
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[NerOverwriter](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/ner/NerOverwriter)
+[NerOverwriter](/api/com/johnsnowlabs/nlp/annotators/ner/NerOverwriter)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[NerOverwriter](/api/python/reference/autosummary/python/sparknlp/annotator/ner/ner_overwriter/index.html#sparknlp.annotator.ner.ner_overwriter.NerOverwriter)
+[NerOverwriter](/api/python/reference/autosummary/sparknlp/annotator/ner/ner_overwriter/index.html#sparknlp.annotator.ner.ner_overwriter.NerOverwriter)
 {%- endcapture -%}
 
 {%- capture source_link -%}

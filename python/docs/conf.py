@@ -23,8 +23,8 @@ copyright = "2022, John Snow Labs"
 author = "John Snow Labs"
 
 # The full version, including alpha/beta/rc tags
-release = "4.2.5"
-pyspark_version = "3.2.1"
+release = "4.3.0"
+pyspark_version = "3.2.3"
 
 # -- General configuration ---------------------------------------------------
 
@@ -33,7 +33,7 @@ pyspark_version = "3.2.1"
 # ones.
 extensions = [
     "sphinx.ext.viewcode",
-    "sphinx.ext.autosectionlabel",
+    # "sphinx.ext.autosectionlabel",
     # "sphinx.ext.autosummary",
     "numpydoc",  # handle NumPy documentation formatted docstrings.
     "sphinx-prompt",
@@ -55,7 +55,15 @@ intersphinx_mapping = {
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+exclude_patterns = [
+    "_build",
+    "Thumbs.db",
+    ".DS_Store",
+    "**/_tf_graph_builders_1x/**",
+    "**/_tf_graph_builders/**",
+    "**/_templates/**",
+    "**/_autoapi/**"
+]
 
 
 # The name of an image file (relative to this directory) to place at the top
@@ -64,6 +72,7 @@ html_logo = "_static/logo.png"
 html_favicon = "_static/fav.ico"
 
 suppress_warnings = ["toc.excluded"]
+add_module_names = False
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -98,6 +107,7 @@ autoapi_template_dir = "_templates/_autoapi"
 autoapi_add_toctree_entry = False
 # autoapi_member_order = "groupwise"
 autoapi_keep_files = True
+autoapi_ignore = exclude_patterns
 # autoapi_generate_api_docs = False
 # autoapi_python_use_implicit_namespaces = True
 

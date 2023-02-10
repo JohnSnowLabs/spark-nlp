@@ -16,8 +16,8 @@ The default model is `"roberta_base_sequence_classifier_imdb"`, if no name is pr
 
 For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Text+Classification).
 
-Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The Spark NLP Workshop
-example shows how to import them https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
+Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are
+compatible and how to import them see https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
 and the [RoBertaForSequenceClassification](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/RoBertaForSequenceClassificationTestSpec.scala).
 {%- endcapture -%}
 
@@ -99,11 +99,11 @@ result.select("label.result").show(false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[RoBertaForSequenceClassification](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/classifier/dl/RoBertaForSequenceClassification)
+[RoBertaForSequenceClassification](/api/com/johnsnowlabs/nlp/annotators/classifier/dl/RoBertaForSequenceClassification)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[RoBertaForSequenceClassification](/api/python/reference/autosummary/python/sparknlp/annotator/classifier_dl/roberta_for_sequence_classification/index.html#sparknlp.annotator.classifier_dl.roberta_for_sequence_classification.RoBertaForSequenceClassification)
+[RoBertaForSequenceClassification](/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/roberta_for_sequence_classification/index.html#sparknlp.annotator.classifier_dl.roberta_for_sequence_classification.RoBertaForSequenceClassification)
 {%- endcapture -%}
 
 {%- capture source_link -%}

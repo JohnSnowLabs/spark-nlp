@@ -1,4 +1,72 @@
 ========
+4.3.0
+========
+----------------
+New Features
+----------------
+* Implement HubertForCTC annotator for automatic speech recognition
+* Implement SwinForImageClassification annotator for Image Classification
+* Introducing CamemBERT for Question Answering annotator
+* Implement ZeroShotNerModel annotator for zero-shot NER baed on RoBERTa architecture
+* Implement Date2Chunk annotator
+* Enable params argument in spark_nlp start() function
+* Allow doc_id reading CoNLL file datasets
+
+----------------
+Bug Fixes & Enhancements
+----------------
+* Relocating all notebooks back to examples directory
+* Improve download/loading models & pipelines from AWS and GCP. When setting `cache_pretrained` directory to AWS and GCP will avoid copying existing models/pipelines
+* Improve GitHub templates for Bug reports, documentation, and feature request
+* Add documentation to ResourceDownloader
+* Refactor `ml` package to allow another DL engine in future
+* Apache Spark 3.3.1 is now the base version of Spark NLP
+* Spark NLP supports M2 in addition to M1. Therefore, we are renaming `spark-nlp-m1` to `spark-nlp-silicon` on Maven
+* Fix calculating delimiter id in CamemBERT
+* Fix loadSavedModel for private buckets
+
+========
+4.2.8
+========
+----------------
+Bug Fixes & Enhancements
+----------------
+* Fix the issue with optional keys (labels) in metadata when using XXXForSequenceClassitication annotators. This fixes `Some(neg) -> 0.13602075` as `neg -> 0.13602075` to be in harmony with all the other classifiers. https://github.com/JohnSnowLabs/spark-nlp/pull/13396
+* Introducing a config to skip `LightPipeline` validation for `inputCols` on the Python side for projects depending on Spark NLP. This toggle should only be used for specific annotators that do not follow the convention of predefined `inputAnnotatorTypes` and `outputAnnotatorType`.
+
+
+========
+4.2.7
+========
+----------------
+Bug Fixes & Enhancements
+----------------
+* Fix `outputAnnotatorType` issue in pipelines with `Finisher` annotator. This change adds `outputAnnotatorType` to `AnnotatorTransformer` to avoid loading `outputAnnotatorType` attribute when a stage in pipeline does not use it.
+* Fix the wrong sentence index calculation in metadata by annotators in the pipeline when `setExplodeSentences` param was set to `true` in SentenceDetector annotator
+* Fix the issue in `Tokenizer` when a custom pattern is used with `lookahead/-behinds` and it has `0 width` matches. This led to indexes not being calculated correctly
+* Fix missing to output embeddings in `.fullAnnotate()` method when `parseEmbeddings` param was set to `True/true`
+* Fix broken links to the Python API pages, as the generation of the PyDocs was slightly changed in a previous release. This makes the Python APIs accessible from the Annotators and Transformers pages like before
+* Change default values of `explodeEntities` and `mergeEntities` parameters to `true`
+* Better error handling when there are empty paths/relations in `GraphExctraction`annotator. New message will better guide the user on how to configure `GraphExtraction` to output meaningful relationships
+* Removed the duplicated definition of method `setWeightedDistPath` from `ContextSpellCheckerApproach`
+
+
+========
+4.2.6
+========
+----------------
+Enhancements
+----------------
+* Updating Spark & PySpark dependencies from 3.2.1 to 3.2.3 in provided scripts and in all the documentation
+
+----------------
+Bug Fixes
+----------------
+* Fix the broken TypedDependencyParserApproach and TypedDependencyParserModel annotators used in Python (this bug was introduced in 4.2.5 release)
+* Fix the broken Python API documentation
+
+
+========
 4.2.5
 ========
 ----------------

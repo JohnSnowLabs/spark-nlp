@@ -318,10 +318,10 @@ class GraphExtraction(override val uid: String)
 
   setDefault(
     entityTypes -> Array(),
-    explodeEntities -> false,
+    explodeEntities -> true,
     maxSentenceSize -> 1000,
     minSentenceSize -> 2,
-    mergeEntities -> false,
+    mergeEntities -> true,
     rootTokens -> Array(),
     relationshipTypes -> Array(),
     includeEdges -> true,
@@ -530,14 +530,17 @@ class GraphExtraction(override val uid: String)
   private def extractGraphsFromEntities(
       annotationsInfo: AnnotationsInfo,
       graph: GraphBuilder): Seq[Annotation] = {
+
     var rootIndices: Array[Int] = Array()
+    var sourceDependencies: Array[DependencyInfo] = Array()
 
     if ($(rootTokens).isEmpty) {
-      val sourceDependency =
-        annotationsInfo.dependencyData.filter(dependencyInfo => dependencyInfo.headIndex == 0)
-      rootIndices = Array(annotationsInfo.dependencyData.indexOf(sourceDependency.head) + 1)
+      sourceDependencies = annotationsInfo.dependencyData
+        .filter(dependencyInfo => dependencyInfo.headIndex == 0)
+        .toArray
+      rootIndices = Array(annotationsInfo.dependencyData.indexOf(sourceDependencies.head) + 1)
     } else {
-      val sourceDependencies = $(rootTokens).flatMap(rootToken =>
+      sourceDependencies = $(rootTokens).flatMap(rootToken =>
         annotationsInfo.dependencyData.filter(_.token == rootToken))
       rootIndices = sourceDependencies.map(sourceDependency =>
         annotationsInfo.dependencyData.indexOf(sourceDependency) + 1)
@@ -547,7 +550,37 @@ class GraphExtraction(override val uid: String)
       getEntitiesData(annotationsInfo.nerEntities, annotationsInfo.dependencyData)
     val annotatedPaths = rootIndices.flatMap(rootIndex =>
       getAnnotatedPaths(entitiesPairData, graph, rootIndex, annotationsInfo))
+
+    if (annotatedPaths.isEmpty && $(rootTokens).nonEmpty) {
+      println(
+        s"[WARN] Not found paths between given roots: [${$(rootTokens).mkString(",")}] and" +
+          s" entities pairs: ${entitiesPairData.map(x => x.entities).mkString(",")}.\n" +
+          s"This could mean there are no more labeled tokens below the given roots or NER didn't label any token.\n" +
+          s"$entitiesWarnMessage")
+    }
+
+    if (annotatedPaths.isEmpty && $(rootTokens).isEmpty) {
+      println(
+        s"[WARN] Not found paths between the root [${sourceDependencies.head.token}] and " +
+          s" entities pairs ${entitiesPairData.map(x => x.entities).mkString(",")}.\n" +
+          s"This could mean there are no more labeled tokens below the root or NER didn't label any token.\n" +
+          s"$entitiesWarnMessage")
+    }
+
     annotatedPaths
+  }
+
+  private def entitiesWarnMessage: String = {
+    val notebooksURI =
+      "https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/"
+    val relationshipTypesNotebook =
+      s"$notebooksURI/graph-extraction/graph_extraction_roots_paths.ipynb"
+    val displayNotebook = s"$notebooksURI/graph-extraction/graph_extraction_helper_display.ipynb"
+    val message =
+      s"You can try using relationshipTypes parameter, check this notebook: $relationshipTypesNotebook \n" +
+        s"You can also use spark-nlp-display to visualize Dependency Parser and NER output to help identify the kind of relations you can extract" +
+        s", check this example: $displayNotebook"
+    message
   }
 
   private def extractGraphsFromRelationships(

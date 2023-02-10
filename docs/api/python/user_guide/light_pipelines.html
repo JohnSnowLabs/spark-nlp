@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Light Pipelines &#8212; Spark NLP 4.2.5 documentation</title>
+    <title>Light Pipelines &#8212; Spark NLP 4.3.0 documentation</title>
   
   
   
@@ -320,17 +320,18 @@
               
   <section id="light-pipelines">
 <h1>Light Pipelines<a class="headerlink" href="#light-pipelines" title="Permalink to this heading">#</a></h1>
-<p>LightPipeline is a Spark NLP specific Pipeline class equivalent to the Spark ML Pipeline.
-The difference is that it’s execution does not hold to Spark principles, instead it computes
-everything locally (but in parallel) in order to achieve fast results when dealing with
-small amounts of data.</p>
-<p>This means, we do not input a Spark Dataframe, but a string or an
-Array of strings instead, to be annotated. To create Light Pipelines, you need to input an
-already trained (fit) Spark ML Pipeline. It’s <code class="docutils literal notranslate"><span class="pre">transform()</span></code> stage is converted into <code class="docutils literal notranslate"><span class="pre">annotate()</span></code>
-instead.</p>
+<p>LightPipeline is a Spark NLP specific Pipeline class equivalent to the Spark ML
+Pipeline. The difference is that it’s execution does not hold to Spark principles,
+instead it computes everything locally (but in parallel) in order to achieve fast
+results when dealing with small amounts of data.</p>
+<p>This means, we do not input a Spark Dataframe, but a string or an Array of strings
+instead, to be annotated. To create Light Pipelines, you need to input an already
+trained (fit) Spark ML Pipeline. It’s <code class="docutils literal notranslate"><span class="pre">transform()</span></code> stage is converted into
+<code class="docutils literal notranslate"><span class="pre">annotate()</span></code> instead.</p>
 <section id="converting-pipelinemodels">
 <h2>Converting PipelineModels<a class="headerlink" href="#converting-pipelinemodels" title="Permalink to this heading">#</a></h2>
-<p>For example, the pipeline defined in the last section <a class="reference internal" href="custom_pipelines.html#setting-up-your-own-pipeline"><span class="std std-ref">Setting up your own pipeline</span></a> can be converted into a LightPipeline:</p>
+<p>For example, the pipeline defined in the last section <a class="reference internal" href="custom_pipelines.html"><span class="doc">Setting up your own pipeline</span></a> can be
+converted into a LightPipeline:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="n">LightPipeline</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">light</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">light</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s2">&quot;We are very happy about Spark NLP&quot;</span><span class="p">)</span>

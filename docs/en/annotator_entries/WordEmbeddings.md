@@ -37,7 +37,7 @@ There are also two convenient functions to retrieve the embeddings coverage with
     1.0
     ```
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/quick_start_offline.ipynb)
 and the [WordEmbeddingsTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsTestSpec.scala).
 {%- endcapture -%}
 
@@ -148,11 +148,11 @@ result.selectExpr("explode(finished_embeddings) as result").show(5, 80)
 {%- endcapture -%}
 
 {%- capture model_api_link -%}
-[WordEmbeddingsModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsModel)
+[WordEmbeddingsModel](/api/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsModel)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[WordEmbeddingsModel](/api/python/reference/autosummary/python/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel)
+[WordEmbeddingsModel](/api/python/reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddingsModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -178,7 +178,7 @@ If a token is not found in the dictionary, then the result will be a zero vector
 Statistics about the rate of converted tokens, can be retrieved with`[WordEmbeddingsModel.withCoverageColumn`
 and `WordEmbeddingsModel.overallCoverage`.
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/quick_start_offline.ipynb)
 and the [WordEmbeddingsTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsTestSpec.scala).
 {%- endcapture -%}
 
@@ -302,11 +302,11 @@ result.selectExpr("explode(finished_embeddings) as result").show(false)
 {%- endcapture -%}
 
 {%- capture approach_api_link -%}
-[WordEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/WordEmbeddings)
+[WordEmbeddings](/api/com/johnsnowlabs/nlp/embeddings/WordEmbeddings)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[WordEmbeddings](/api/python/reference/autosummary/python/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings)
+[WordEmbeddings](/api/python/reference/autosummary/sparknlp/annotator/embeddings/word_embeddings/index.html#sparknlp.annotator.embeddings.word_embeddings.WordEmbeddings)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

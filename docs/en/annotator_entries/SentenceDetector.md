@@ -36,7 +36,7 @@ If only the custom bounds should be used, then the parameter `useCustomBoundsOnl
 Each extracted sentence can be returned in an Array or exploded to separate rows,
 if `explodeSentences` is set to `true`.
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb).
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/sentence-detection/SentenceDetector_advanced_examples.ipynb).
 {%- endcapture -%}
 
 {%- capture input_anno -%}
@@ -116,11 +116,11 @@ result.selectExpr("explode(sentence) as sentences").show(false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[SentenceDetector](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/sbd/pragmatic/SentenceDetector)
+[SentenceDetector](/api/com/johnsnowlabs/nlp/annotators/sbd/pragmatic/SentenceDetector)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[SentenceDetector](/api/python/reference/autosummary/python/sparknlp/annotator/sentence/sentence_detector/index.html#sparknlp.annotator.sentence.sentence_detector.SentenceDetector)
+[SentenceDetector](/api/python/reference/autosummary/sparknlp/annotator/sentence/sentence_detector/index.html#sparknlp.annotator.sentence.sentence_detector.SentenceDetector)
 {%- endcapture -%}
 
 {%- capture source_link -%}

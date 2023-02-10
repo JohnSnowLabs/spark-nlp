@@ -19,7 +19,7 @@ val stopWords = StopWordsCleaner.pretrained()
 ```
 For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Stop+Words+Removal).
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/stop-words/StopWordsCleaner.ipynb)
 and [StopWordsCleanerTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/StopWordsCleanerTestSpec.scala).
 
 
@@ -172,11 +172,11 @@ result.selectExpr("cleanTokens.result").show(false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[StopWordsCleaner](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/StopWordsCleaner)
+[StopWordsCleaner](/api/com/johnsnowlabs/nlp/annotators/StopWordsCleaner)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[StopWordsCleaner](/api/python/reference/autosummary/python/sparknlp/annotator/stop_words_cleaner/index.html#sparknlp.annotator.stop_words_cleaner.StopWordsCleaner)
+[StopWordsCleaner](/api/python/reference/autosummary/sparknlp/annotator/stop_words_cleaner/index.html#sparknlp.annotator.stop_words_cleaner.StopWordsCleaner)
 {%- endcapture -%}
 
 {%- capture source_link -%}

@@ -20,7 +20,7 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
 import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
@@ -218,6 +218,20 @@ class LightPipelineTestSpec extends AnyFlatSpec {
     assertThrows[UnsupportedOperationException] {
       lightPipeline.fullAnnotate(Array("1", "2", "3"), Array("1", "2"))
     }
+  }
+
+  it should "output embeddings for LightPipeline" taggedAs SlowTest in {
+    val pipeline = new PretrainedPipeline("onto_recognize_entities_bert_tiny", "en")
+    val lightPipeline = new LightPipeline(pipeline.model, parseEmbeddings = true)
+
+    val result = lightPipeline.annotate("Hello from John Snow Labs ! ")
+
+    assert(result("embeddings").nonEmpty)
+
+    val fullResult = lightPipeline.fullAnnotate("Hello from John Snow Labs ! ")
+    val embeddingsAnnotation = fullResult("embeddings").map(_.asInstanceOf[Annotation]).head
+
+    assert(embeddingsAnnotation.embeddings.nonEmpty)
   }
 
 }

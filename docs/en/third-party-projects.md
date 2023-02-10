@@ -32,10 +32,10 @@ Comet can easily integrated into the Spark NLP workflow with the a dedicated
 logging class `CometLogger` to log training and evaluation metrics,
 pipeline parameters and NER visualization made with sparknlp-display.
 
-For more information see the [User Guide](https://nlp.johnsnowlabs.com/api/python/third_party/Comet.html) and for more examples see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/logging/Comet_SparkNLP_Intergration.ipynb).
+For more information see the [User Guide](/api/python/third_party/Comet.html) and for more examples see the [Spark NLP Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/logging/Comet_SparkNLP_Integration.ipynb).
 
 
-| **Python API:** [CometLogger](https://nlp.johnsnowlabs.com/api/python/reference/autosummary/sparknlp.logging.comet.CometLogger.html) |
+| **Python API:** [CometLogger](/api/python/reference/autosummary/sparknlp/logging/comet/index.html#sparknlp.logging.comet.CometLogger) |
 
 <details>
 

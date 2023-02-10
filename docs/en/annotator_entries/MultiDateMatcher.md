@@ -16,7 +16,7 @@ Reads the following kind of dates:
 
 For example `"The 31st of April in the year 2008"` will be converted into `2008/04/31`.
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/MultiDateMatcherMultiLanguage_en.ipynb)
 and the [MultiDateMatcherTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/MultiDateMatcherTestSpec.scala).
 {%- endcapture -%}
 
@@ -103,11 +103,11 @@ result.selectExpr("explode(date) as dates").show(false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[MultiDateMatcher](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/MultiDateMatcher)
+[MultiDateMatcher](/api/com/johnsnowlabs/nlp/annotators/MultiDateMatcher)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[MultiDateMatcher](/api/python/reference/autosummary/python/sparknlp/annotator/matcher/multi_date_matcher/index.html#sparknlp.annotator.matcher.multi_date_matcher.MultiDateMatcher)
+[MultiDateMatcher](/api/python/reference/autosummary/sparknlp/annotator/matcher/multi_date_matcher/index.html#sparknlp.annotator.matcher.multi_date_matcher.MultiDateMatcher)
 {%- endcapture -%}
 
 {%- capture source_link -%}

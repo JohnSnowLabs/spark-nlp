@@ -17,7 +17,7 @@ using a CNN architecture. We also modified the original implementation a little 
 Each extracted sentence can be returned in an Array or exploded to separate rows,
 if `explodeSentences` is set to `true`.
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/9.SentenceDetectorDL.ipynb).
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/multilingual/SentenceDetectorDL.ipynb).
 {%- endcapture -%}
 
 {%- capture input_anno -%}
@@ -96,11 +96,11 @@ val model = pipeline.fit(trainingData)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[SentenceDetectorDLApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLApproach)
+[SentenceDetectorDLApproach](/api/com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLApproach)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[SentenceDetectorDLApproach](/api/python/reference/autosummary/python/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach)
+[SentenceDetectorDLApproach](/api/python/reference/autosummary/sparknlp/annotator/sentence/sentence_detector_dl/index.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLApproach)
 {%- endcapture -%}
 
 {%- capture source_link -%}

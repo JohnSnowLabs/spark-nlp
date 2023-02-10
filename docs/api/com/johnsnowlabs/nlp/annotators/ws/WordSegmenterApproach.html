@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.5 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ws.WordSegmenterApproach</title>
-          <meta name="description" content="Spark NLP 4.2.5 ScalaDoc - com.johnsnowlabs.nlp.annotators.ws.WordSegmenterApproach" />
-          <meta name="keywords" content="Spark NLP 4.2.5 ScalaDoc com.johnsnowlabs.nlp.annotators.ws.WordSegmenterApproach" />
+          <title>Spark NLP 4.3.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ws.WordSegmenterApproach</title>
+          <meta name="description" content="Spark NLP 4.3.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.ws.WordSegmenterApproach" />
+          <meta name="keywords" content="Spark NLP 4.3.0 ScalaDoc com.johnsnowlabs.nlp.annotators.ws.WordSegmenterApproach" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.5 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.3.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -198,15 +198,26 @@
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Trains a WordSegmenter which tokenizes non-english or non-whitespace separated texts.</p><p>Many languages are not whitespace separated and their sentences are a concatenation of many
 symbols, like Korean, Japanese or Chinese. Without understanding the language, splitting the
 words into their corresponding tokens is impossible. The WordSegmenter is trained to
-understand these languages and split them into semantically correct parts.</p><p>For instantiated/pretrained models, see <a href="WordSegmenterModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ws.WordSegmenterModel">WordSegmenterModel</a>.</p><p>To train your own model, a training dataset consisting of
+understand these languages and split them into semantically correct parts.</p><p>This annotator is based on the paper Chinese Word Segmentation as Character Tagging [1]. Word
+segmentation is treated as a tagging problem. Each character is be tagged as on of four
+different labels: LL (left boundary), RR (right boundary), MM (middle) and LR (word by
+itself). The label depends on the position of the word in the sentence. LL tagged words will
+combine with the word on the right. Likewise, RR tagged words combine with words on the left.
+MM tagged words are treated as the middle of the word and combine with either side. LR tagged
+words are words by themselves.</p><p>Example (from [1], Example 3(a) (raw), 3(b) (tagged), 3(c) (translation)):</p><ul><li>上海 计划 到 本 世纪 末 实现 人均 国内 生产 总值 五千 美元</li><li>上/LL 海/RR 计/LL 划/RR 到/LR 本/LR 世/LL 纪/RR 末/LR 实/LL 现/RR 人/LL 均/RR 国/LL 内/RR 生/LL 产/RR 总/LL
+    值/RR 五/LL 千/RR 美/LL 元/RR</li><li>Shanghai plans to reach the goal of 5,000 dollars in per capita GDP by the end of the
+    century.</li></ul><p>For instantiated/pretrained models, see <a href="WordSegmenterModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ws.WordSegmenterModel">WordSegmenterModel</a>.</p><p>To train your own model, a training dataset consisting of
 <a href="https://en.wikipedia.org/wiki/Part-of-speech_tagging" target="_blank">Part-Of-Speech tags</a> is required. The
 data has to be loaded into a dataframe, where the column is an
 <a href="../../Annotation.html" class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</a> of type <code>&quot;POS&quot;</code>. This can be set with
 <code>setPosColumn</code>.</p><p><b>Tip</b>: The helper class <a href="../../training/POS.html" class="extype" name="com.johnsnowlabs.nlp.training.POS">POS</a> might be useful to read
-training data into data frames.</p><p>For extended examples of usage, see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/annotation/chinese/word_segmentation" target="_blank">Spark NLP Workshop</a>
+training data into data frames. nl For extended examples of usage, see the
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/chinese/word_segmentation" target="_blank">Examples</a>
 and the
-<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/WordSegmenterTest.scala" target="_blank">WordSegmenterTest</a>.</p><h4>Example</h4><p>In this example, <code>&quot;chinese_train.utf8&quot;</code> is in the form of</p><pre>十|LL 四|RR 不|LL 是|RR 四|LL 十|RR</pre><p>and is loaded with the <code>POS</code> class to create a dataframe of <code>&quot;POS&quot;</code> type Annotations.</p><pre><span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/WordSegmenterTest.scala" target="_blank">WordSegmenterTest</a>.</p><p><b>References:</b></p><ul><li><a href="https://aclanthology.org/O03-4002.pdf" target="_blank">[1</a>] Xue, Nianwen. “Chinese Word Segmentation as
+    Character Tagging.” International Journal of Computational Linguistics &amp; Chinese Language
+    Processing, Volume 8, Number 1, February 2003: Special Issue on Word Formation and Chinese
+    Language Processing, 2003, pp. 29-48. ACLWeb, https://aclanthology.org/O03-4002.</li></ul><h4>Example</h4><p>In this example, <code>&quot;chinese_train.utf8&quot;</code> is in the form of</p><pre>十|LL 四|RR 不|LL 是|RR 四|LL 十|RR</pre><p>and is loaded with the <code>POS</code> class to create a dataframe of <code>&quot;POS&quot;</code> type Annotations.</p><pre><span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotators.ws.WordSegmenterApproach
 <span class="kw">import</span> com.johnsnowlabs.nlp.training.POS
 <span class="kw">import</span> org.apache.spark.ml.Pipeline

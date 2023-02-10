@@ -51,11 +51,11 @@ SENTENCE_EMBEDDINGS
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[XlmRoBertaSentenceEmbeddings](/api/python/reference/autosummary/python/sparknlp/annotator/embeddings/xlm_roberta_sentence_embeddings/index.html#sparknlp.annotator.embeddings.xlm_roberta_sentence_embeddings.XlmRoBertaSentenceEmbeddings)
+[XlmRoBertaSentenceEmbeddings](/api/python/reference/autosummary/sparknlp/annotator/embeddings/xlm_roberta_sentence_embeddings/index.html#sparknlp.annotator.embeddings.xlm_roberta_sentence_embeddings.XlmRoBertaSentenceEmbeddings)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[XlmRoBertaSentenceEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/XlmRoBertaSentenceEmbeddings)
+[XlmRoBertaSentenceEmbeddings](/api/com/johnsnowlabs/nlp/embeddings/XlmRoBertaSentenceEmbeddings)
 {%- endcapture -%}
 
 {%- capture source_link -%}

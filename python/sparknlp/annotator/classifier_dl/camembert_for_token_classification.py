@@ -159,8 +159,8 @@ class CamemBertForTokenClassification(AnnotatorModel,
         CamemBertForTokenClassification
             The restored model
         """
-        from sparknlp.internal import _CamemBertForTokenClassification
-        jModel = _CamemBertForTokenClassification(folder, spark_session._jsparkSession)._java_obj
+        from sparknlp.internal import _CamemBertForTokenClassificationLoader
+        jModel = _CamemBertForTokenClassificationLoader(folder, spark_session._jsparkSession)._java_obj
         return CamemBertForTokenClassification(java_model=jModel)
 
     @staticmethod

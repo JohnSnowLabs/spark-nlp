@@ -24,8 +24,7 @@ The default model is `"spellcheck_norvig"`, if no name is provided.
 For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Spell+Check).
 
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb)
-and the [NorvigSweetingTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingTestSpec.scala).
+For extended examples of see the [NorvigSweetingTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingTestSpec.scala).
 {%- endcapture -%}
 
 {%- capture model_input_anno -%}
@@ -110,11 +109,11 @@ result.select("spell.result").show(false)
 {%- endcapture -%}
 
 {%- capture model_api_link -%}
-[NorvigSweetingModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingModel)
+[NorvigSweetingModel](/api/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingModel)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[NorvigSweetingModel](/api/python/reference/autosummary/python/sparknlp/annotator/spell_check/norvig_sweeting/index.html#sparknlp.annotator.spell_check.norvig_sweeting.NorvigSweetingModel)
+[NorvigSweetingModel](/api/python/reference/autosummary/sparknlp/annotator/spell_check/norvig_sweeting/index.html#sparknlp.annotator.spell_check.norvig_sweeting.NorvigSweetingModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -133,8 +132,7 @@ Inspired by Norvig model and [SymSpell](https://github.com/wolfgarbe/SymSpell).
 
 For instantiated/pretrained models, see NorvigSweetingModel.
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb)
-and the [NorvigSweetingTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingTestSpec.scala).
+For extended examples of usage, see the [NorvigSweetingTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingTestSpec.scala).
 {%- endcapture -%}
 
 {%- capture approach_input_anno -%}
@@ -228,11 +226,11 @@ val pipelineModel = pipeline.fit(trainingData)
 {%- endcapture -%}
 
 {%- capture approach_api_link -%}
-[NorvigSweetingApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingApproach)
+[NorvigSweetingApproach](/api/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingApproach)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[NorvigSweetingApproach](/api/python/reference/autosummary/python/sparknlp/annotator/spell_check/norvig_sweeting/index.html#sparknlp.annotator.spell_check.norvig_sweeting.NorvigSweetingApproach)
+[NorvigSweetingApproach](/api/python/reference/autosummary/sparknlp/annotator/spell_check/norvig_sweeting/index.html#sparknlp.annotator.spell_check.norvig_sweeting.NorvigSweetingApproach)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

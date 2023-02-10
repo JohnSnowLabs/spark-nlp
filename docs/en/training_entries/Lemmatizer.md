@@ -8,7 +8,7 @@ Retrieves the significant part of a word. A dictionary of predefined lemmas must
 The dictionary can be set as a delimited text file.
 Pretrained models can be loaded with `LemmatizerModel.pretrained`.
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb).
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/italian/Train-Lemmatizer-Italian.ipynb).
 {%- endcapture -%}
 
 {%- capture input_anno -%}
@@ -132,11 +132,11 @@ result.selectExpr("lemma.result").show(false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[Lemmatizer](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/Lemmatizer)
+[Lemmatizer](/api/com/johnsnowlabs/nlp/annotators/Lemmatizer)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[Lemmatizer](/api/python/reference/autosummary/python/sparknlp/annotator/lemmatizer/index.html#sparknlp.annotator.lemmatizer.Lemmatizer)
+[Lemmatizer](/api/python/reference/autosummary/sparknlp/annotator/lemmatizer/index.html#sparknlp.annotator.lemmatizer.Lemmatizer)
 {%- endcapture -%}
 
 {%- capture source_link -%}

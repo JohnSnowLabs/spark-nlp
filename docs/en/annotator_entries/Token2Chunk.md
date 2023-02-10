@@ -97,11 +97,11 @@ result.selectExpr("explode(chunk) as result").show(false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[Token2Chunk](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/Token2Chunk)
+[Token2Chunk](/api/com/johnsnowlabs/nlp/annotators/Token2Chunk)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[Token2Chunk](/api/python/reference/autosummary/python/sparknlp/annotator/token/token2_chunk/index.html#sparknlp.annotator.token.token2_chunk.Token2Chunk)
+[Token2Chunk](/api/python/reference/autosummary/sparknlp/annotator/token/token2_chunk/index.html#sparknlp.annotator.token.token2_chunk.Token2Chunk)
 {%- endcapture -%}
 
 {%- capture source_link -%}

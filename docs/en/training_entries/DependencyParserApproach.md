@@ -130,11 +130,11 @@ val pipelineModel = pipeline.fit(emptyDataSet)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[DependencyParserApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/parser/dep/DependencyParserApproach)
+[DependencyParserApproach](/api/com/johnsnowlabs/nlp/annotators/parser/dep/DependencyParserApproach)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[DependencyParserApproach](/api/python/reference/autosummary/python/sparknlp/annotator/dependency/dependency_parser/index.html#sparknlp.annotator.dependency.dependency_parser.DependencyParserApproach)
+[DependencyParserApproach](/api/python/reference/autosummary/sparknlp/annotator/dependency/dependency_parser/index.html#sparknlp.annotator.dependency.dependency_parser.DependencyParserApproach)
 {%- endcapture -%}
 
 {%- capture source_link -%}

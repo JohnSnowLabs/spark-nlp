@@ -16,7 +16,7 @@ compatible with Spark ML functions such as LDA, K-mean, Random Forest classifier
 `featureCol`.
 
 For more extended examples see the
-[Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.1_Text_classification_examples_in_SparkML_SparkNLP.ipynb).
+[Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/text-similarity/Spark_NLP_Spark_ML_Text_Similarity.ipynb).
 {%- endcapture -%}
 
 {%- capture input_anno -%}
@@ -154,11 +154,11 @@ resultWithSize.show(5, 80)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[EmbeddingsFinisher](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/EmbeddingsFinisher)
+[EmbeddingsFinisher](/api/com/johnsnowlabs/nlp/EmbeddingsFinisher)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[EmbeddingsFinisher](/api/python/reference/autosummary/python/sparknlp/base/embeddings_finisher/index.html#sparknlp.base.embeddings_finisher.EmbeddingsFinisher)
+[EmbeddingsFinisher](/api/python/reference/autosummary/sparknlp/base/embeddings_finisher/index.html#sparknlp.base.embeddings_finisher.EmbeddingsFinisher)
 {%- endcapture -%}
 
 {%- capture source_link -%}

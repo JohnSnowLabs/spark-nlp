@@ -26,7 +26,6 @@ This dictionary is then set to be the basis of the spell checker.
 
 Inspired by Norvig model and [SymSpell](https://github.com/wolfgarbe/SymSpell).
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb).
 {%- endcapture -%}
 
 {%- capture input_anno -%}
@@ -96,11 +95,11 @@ val pipelineModel = pipeline.fit(trainingData)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[NorvigSweetingApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingApproach)
+[NorvigSweetingApproach](/api/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingApproach)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[NorvigSweetingApproach](/api/python/reference/autosummary/python/sparknlp/annotator/spell_check/norvig_sweeting/index.html#sparknlp.annotator.spell_check.norvig_sweeting.NorvigSweetingApproach)
+[NorvigSweetingApproach](/api/python/reference/autosummary/sparknlp/annotator/spell_check/norvig_sweeting/index.html#sparknlp.annotator.spell_check.norvig_sweeting.NorvigSweetingApproach)
 {%- endcapture -%}
 
 {%- capture source_link -%}

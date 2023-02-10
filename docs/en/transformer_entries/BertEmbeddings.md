@@ -16,7 +16,7 @@ The default model is `"small_bert_L2_768"`, if no name is provided.
 
 For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Embeddings).
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/blogposts/3.NER_with_BERT.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/dl-ner/ner_bert.ipynb)
 and the [BertEmbeddingsTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertEmbeddingsTestSpec.scala).
 
 **Sources** :
@@ -48,11 +48,11 @@ WORD_EMBEDDINGS
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[BertEmbeddings](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/embeddings/BertEmbeddings)
+[BertEmbeddings](/api/com/johnsnowlabs/nlp/embeddings/BertEmbeddings)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[BertEmbeddings](/api/python/reference/autosummary/python/sparknlp/annotator/embeddings/bert_embeddings/index.html#sparknlp.annotator.embeddings.bert_embeddings.BertEmbeddings)
+[BertEmbeddings](/api/python/reference/autosummary/sparknlp/annotator/embeddings/bert_embeddings/index.html#sparknlp.annotator.embeddings.bert_embeddings.BertEmbeddings)
 {%- endcapture -%}
 
 {%- capture source_link -%}

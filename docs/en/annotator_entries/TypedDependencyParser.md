@@ -21,7 +21,7 @@ val typedDependencyParser = TypedDependencyParserModel.pretrained()
 The default model is `"dependency_typed_conllu"`, if no name is provided.
 For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models).
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/graph-extraction/graph_extraction_intro.ipynb)
 and the [TypedDependencyModelTestSpec](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/parser/typdep/TypedDependencyModelTestSpec.scala).
 {%- endcapture -%}
 
@@ -164,11 +164,11 @@ result.selectExpr("explode(arrays_zip(token.result, dependency.result, dependenc
 {%- endcapture -%}
 
 {%- capture model_api_link -%}
-[TypedDependencyParserModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/parser/typdep/TypedDependencyParserModel)
+[TypedDependencyParserModel](/api/com/johnsnowlabs/nlp/annotators/parser/typdep/TypedDependencyParserModel)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[TypedDependencyParserModel](/api/python/reference/autosummary/python/sparknlp/annotator/dependency/typed_dependency_parser/index.html#sparknlp.annotator.dependency.typed_dependency_parser.TypedDependencyParserModel)
+[TypedDependencyParserModel](/api/python/reference/autosummary/sparknlp/annotator/dependency/typed_dependency_parser/index.html#sparknlp.annotator.dependency.typed_dependency_parser.TypedDependencyParserModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -302,11 +302,11 @@ val pipelineModel = pipeline.fit(emptyDataSet)
 {%- endcapture -%}
 
 {%- capture approach_api_link -%}
-[TypedDependencyParserApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/parser/typdep/TypedDependencyParserApproach)
+[TypedDependencyParserApproach](/api/com/johnsnowlabs/nlp/annotators/parser/typdep/TypedDependencyParserApproach)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[TypedDependencyParserApproach](/api/python/reference/autosummary/python/sparknlp/annotator/dependency/typed_dependency_parser/index.html#sparknlp.annotator.dependency.typed_dependency_parser.TypedDependencyParserApproach)
+[TypedDependencyParserApproach](/api/python/reference/autosummary/sparknlp/annotator/dependency/typed_dependency_parser/index.html#sparknlp.annotator.dependency.typed_dependency_parser.TypedDependencyParserApproach)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

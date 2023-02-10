@@ -44,14 +44,14 @@ object SentenceSplit extends Annotated[Sentence] {
   override def annotatorType: String = AnnotatorType.DOCUMENT
 
   override def unpack(annotations: Seq[Annotation]): Seq[Sentence] = {
-    annotations.filter(_.annotatorType == annotatorType).zipWithIndex.map {
-      case (annotation, index) =>
-        Sentence(
-          annotation.result,
-          annotation.begin,
-          annotation.end,
-          index,
-          Option(annotation.metadata))
+    annotations.filter(_.annotatorType == annotatorType).map { annotation =>
+      val index: Int = annotation.metadata.getOrElse("sentence", "0").toInt
+      Sentence(
+        annotation.result,
+        annotation.begin,
+        annotation.end,
+        index,
+        Option(annotation.metadata))
     }
   }
 

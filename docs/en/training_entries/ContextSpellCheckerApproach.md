@@ -15,7 +15,7 @@ certain number of errors, `ContextSpellChecker` will rank correction sequences a
 For an in-depth explanation of the module see the article [Applying Context Aware Spell Checking in Spark NLP](https://medium.com/spark-nlp/applying-context-aware-spell-checking-in-spark-nlp-3c29c46963bc).
 
 For extended examples of usage, see the article [Training a Contextual Spell Checker for Italian Language](https://towardsdatascience.com/training-a-contextual-spell-checker-for-italian-language-66dda528e4bf),
-the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/blogposts/5.TrainingContextSpellChecker.ipynb).
+the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/italian/Training_Context_Spell_Checker_Italian.ipynb).
 {%- endcapture -%}
 
 {%- capture input_anno -%}
@@ -107,11 +107,11 @@ val pipelineModel = pipeline.fit(dataset)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[ContextSpellCheckerApproach](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach)
+[ContextSpellCheckerApproach](/api/com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerApproach)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[ContextSpellCheckerApproach](/api/python/reference/autosummary/python/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerApproach)
+[ContextSpellCheckerApproach](/api/python/reference/autosummary/sparknlp/annotator/spell_check/context_spell_checker/index.html#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerApproach)
 {%- endcapture -%}
 
 {%- capture source_link -%}

@@ -15,7 +15,7 @@ The dictionary can be set as a delimited text file.
 By default, the sentiment score will be assigned labels `"positive"` if the score is `>= 0`, else `"negative"`.
 To retrieve the raw sentiment scores, `enableScore` needs to be set to `true`.
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dictionary-sentiment/sentiment.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/dictionary-sentiment/sentiment.ipynb)
 and the [SentimentTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/pragmatic/PragmaticSentimentTestSpec.scala).
 {%- endcapture -%}
 
@@ -28,11 +28,11 @@ SENTIMENT
 {%- endcapture -%}
 
 {%- capture model_api_link -%}
-[SentimentDetectorModel](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/sda/pragmatic/SentimentDetectorModel)
+[SentimentDetectorModel](/api/com/johnsnowlabs/nlp/annotators/sda/pragmatic/SentimentDetectorModel)
 {%- endcapture -%}
 
 {%- capture model_python_api_link -%}
-[SentimentDetectorModel](/api/python/reference/autosummary/python/sparknlp/annotator/sentiment/sentiment_detector/index.html#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetectorModel)
+[SentimentDetectorModel](/api/python/reference/autosummary/sparknlp/annotator/sentiment/sentiment_detector/index.html#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetectorModel)
 {%- endcapture -%}
 
 {%- capture model_source_link -%}
@@ -49,7 +49,7 @@ The dictionary can be set as a delimited text file.
 By default, the sentiment score will be assigned labels `"positive"` if the score is `>= 0`, else `"negative"`.
 To retrieve the raw sentiment scores, `enableScore` needs to be set to `true`.
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dictionary-sentiment/sentiment.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/dictionary-sentiment/sentiment.ipynb)
 and the [SentimentTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/pragmatic/PragmaticSentimentTestSpec.scala).
 {%- endcapture -%}
 
@@ -181,11 +181,11 @@ result.selectExpr("sentimentScore.result").show(false)
 {%- endcapture -%}
 
 {%- capture approach_api_link -%}
-[SentimentDetector](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/sda/pragmatic/SentimentDetector)
+[SentimentDetector](/api/com/johnsnowlabs/nlp/annotators/sda/pragmatic/SentimentDetector)
 {%- endcapture -%}
 
 {%- capture approach_python_api_link -%}
-[SentimentDetector](/api/python/reference/autosummary/python/sparknlp/annotator/sentiment/sentiment_detector/index.html#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector)
+[SentimentDetector](/api/python/reference/autosummary/sparknlp/annotator/sentiment/sentiment_detector/index.html#sparknlp.annotator.sentiment.sentiment_detector.SentimentDetector)
 {%- endcapture -%}
 
 {%- capture approach_source_link -%}

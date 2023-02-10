@@ -8,7 +8,7 @@ lemmatized, normalized, spell checked, etc, in order to use this document annota
 Requires `DOCUMENT` and `TOKEN` type annotations as input.
 
 For more extended examples on document pre-processing see the
-[Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb).
+[Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/token-assembler/Assembling_Tokens_to_Documents.ipynb).
 {%- endcapture -%}
 
 {%- capture input_anno -%}
@@ -135,11 +135,11 @@ result.select("cleanText").show(false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[TokenAssembler](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/TokenAssembler)
+[TokenAssembler](/api/com/johnsnowlabs/nlp/TokenAssembler)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[TokenAssembler](/api/python/reference/autosummary/python/sparknlp/base/token_assembler/index.html#sparknlp.base.token_assembler.TokenAssembler)
+[TokenAssembler](/api/python/reference/autosummary/sparknlp/base/token_assembler/index.html#sparknlp.base.token_assembler.TokenAssembler)
 {%- endcapture -%}
 
 {%- capture source_link -%}

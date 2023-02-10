@@ -54,7 +54,7 @@ jobs:
       - name: Install Python packages (Python 3.7)
         run: |
           python -m pip install --upgrade pip
-          pip install pyspark==3.3.0 numpy pytest
+          pip install pyspark==3.3.1 numpy pytest
       - name: Build Spark NLP on Apache Spark 3.3.0
         run: |
           brew install sbt
@@ -95,8 +95,8 @@ jobs:
       - name: Install Python packages (Python 3.7)
         run: |
           python -m pip install --upgrade pip
-          pip install pyspark==3.2.1 numpy pytest
-      - name: Build Spark NLP on Apache Spark 3.2.1
+          pip install pyspark==3.2.3 numpy pytest
+      - name: Build Spark NLP on Apache Spark 3.2.3
         run: |
           brew install sbt
           sbt -mem 4096 clean assemblyAndCopy

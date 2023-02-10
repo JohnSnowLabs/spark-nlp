@@ -184,11 +184,11 @@ result.select("graph").show(false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[GraphExtraction](https://nlp.johnsnowlabs.com/api/com/johnsnowlabs/nlp/annotators/GraphExtraction)
+[GraphExtraction](/api/com/johnsnowlabs/nlp/annotators/GraphExtraction)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[GraphExtraction](/api/python/reference/autosummary/python/sparknlp/annotator/graph_extraction/index.html#sparknlp.annotator.graph_extraction.GraphExtraction)
+[GraphExtraction](/api/python/reference/autosummary/sparknlp/annotator/graph_extraction/index.html#sparknlp.annotator.graph_extraction.GraphExtraction)
 {%- endcapture -%}
 
 {%- capture source_link -%}
