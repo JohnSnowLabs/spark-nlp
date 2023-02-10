@@ -26,10 +26,10 @@
 
   gtag('config', 'UA-70312582-1');
 
-</script><title>Hocr for table recognition pdf</title><meta property="og:title" content=""/>
+</script><title>Detect Clinical Conditions (ner_eu_clinical_condition - es)</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionTable structure recognition based on hocr with Tesseract architecture, for PDF documents.Tesseract has been trained on a variety of datasets to improve its recognition capabilities. These datasets include images of text in various languages and scripts, as well as images with different font styles, sizes,...">
-<link rel="canonical" href="/2023/01/23/hocr_table_recognition_pdf_en_3_2.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<meta name="description" content="DescriptionPretrained named entity recognition (NER) deep learning model for extracting clinical conditions from Spanish texts. The SparkNLP deep learning model (MedicalNerModel) is inspired by a former state of the art model for NER: Chiu &amp; Nichols, Named Entity Recognition with Bidirectional LSTM-CNN.The corpu...">
+<link rel="canonical" href="/2023/02/06/ner_eu_clinical_condition_es.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -425,265 +425,165 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/aymanechilah/2023-01-23-hocr_table_recognition_pdf_en_3_2.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/gpirge/2023-02-06-ner_eu_clinical_condition_es.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jan 23, 2023</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-01-23T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Hocr for table recognition pdf</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Hocr for table recognition pdf"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>en</li><li>licensed</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-01-23T00:00:00+00:00">
-    <meta itemprop="keywords" content="en,licensed"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Feb 06, 2023</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-02-06T00:00:00+00:00"></div><header class="main-docs have_subtitle">
+          <h1>Detect Clinical Conditions (ner_eu_clinical_condition - es)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Detect Clinical Conditions (ner_eu_clinical_condition - es)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>es</li><li>clinical</li><li>licensed</li><li>ner</li><li>clinical_condition</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-02-06T00:00:00+00:00">
+    <meta itemprop="keywords" content="es,clinical,licensed,ner,clinical_condition"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>Table structure recognition based on hocr with Tesseract architecture, for PDF documents.</p>
+<p>Pretrained named entity recognition (NER) deep learning model for extracting clinical conditions from Spanish texts. The SparkNLP deep learning model (MedicalNerModel) is inspired by a former state of the art model for NER: Chiu &amp; Nichols, Named Entity Recognition with Bidirectional LSTM-CNN.</p>
 
-<p>Tesseract has been trained on a variety of datasets to improve its recognition capabilities. These datasets include images of text in various languages and scripts, as well as images with different font styles, sizes, and orientations. The training process involves feeding the engine with a large number of images and their corresponding text, allowing the engine to learn the patterns and characteristics of different text styles. One of the most important datasets used in training Tesseract is the UNLV dataset, which contains over 400,000 images of text in different languages, scripts, and font styles. This dataset is widely used in the OCR community and has been instrumental in improving the accuracy of Tesseract. Other datasets that have been used in training Tesseract include the ICDAR dataset, the IIIT-HWS dataset, and the RRC-GV-WS dataset.</p>
-
-<p>In addition to these datasets, Tesseract also uses a technique called adaptive training, where the engine can continuously improve its recognition capabilities by learning from new images and text. This allows Tesseract to adapt to new text styles and languages, and improve its overall accuracy.</p>
+<p>The corpus used for model training is provided by European Clinical Case Corpus (E3C), a project aimed at offering a freely available multilingual corpus of semantically annotated clinical narratives.</p>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
+<p><code class="language-plaintext highlighter-rouge">clinical_condition</code></p>
+
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<a href="https://github.com/JohnSnowLabs/spark-ocr-workshop/tree/master/jupyter/Cards/SparkOCRPdfToTable.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
-<button class="button button-orange" disabled="">Download</button></p>
+<button class="button button-orange" disabled="">Open in Colab</button>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_eu_clinical_condition_es_4.2.8_3.0_1675721390266.zip" class="button button-orange">Download</a>
+<a href="s3://auxdata.johnsnowlabs.com/clinical/models/ner_eu_clinical_condition_es_4.2.8_3.0_1675721390266.zip" class="button button-orange button-orange-trans button-icon button-copy-s3">Copy S3 URI</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
 <div class="tabs-box">
   <div class="tabs-model-aproach-head"><button class="tab-li-model-aproach tabheader_active">Python</button><button class="tab-li-model-aproach">Scala</button><button class="tab-li-model-aproach">NLU</button></div>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+	<span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+	<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+ 
+<span class="n">sentenceDetectorDL</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sentence_detector_dl"</span><span class="p">,</span> <span class="s">"xx"</span><span class="p">)</span>\
+	<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
+	<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
 
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pdf_to_hocr</span> <span class="o">=</span> <span class="n">PdfToHocr</span><span class="p">()</span> \
-        <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"content"</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"hocr"</span><span class="p">)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
+	<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span>\
+	<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">HocrTokenizer</span><span class="p">()</span> \
-        <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"hocr"</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span> \
+<span class="n">word_embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"w2v_cc_300d"</span><span class="p">,</span><span class="s">"es"</span><span class="p">)</span>\
+	<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span><span class="s">"token"</span><span class="p">])</span>\
+	<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 
-<span class="n">pdf_to_image</span> <span class="o">=</span> <span class="n">PdfToImage</span><span class="p">()</span> \
-        <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"content"</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setPageNumCol</span><span class="p">(</span><span class="s">"tmp_pagenum"</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setImageType</span><span class="p">(</span><span class="n">ImageType</span><span class="p">.</span><span class="n">TYPE_3BYTE_BGR</span><span class="p">)</span>
+<span class="n">ner</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'ner_eu_clinical_condition'</span><span class="p">,</span> <span class="s">"es"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
+	<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
+	<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
+ 
+<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverterInternal</span><span class="p">()</span>\
+	<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span>\
+	<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
-<span class="n">table_detector</span> <span class="o">=</span> <span class="n">ImageTableDetector</span> \
-        <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"general_model_table_detection_v2"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"public/ocr/models"</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"table_regions"</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setScoreThreshold</span><span class="p">(</span><span class="mf">0.9</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setApplyCorrection</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setScaleWidthToCol</span><span class="p">(</span><span class="s">"width_dimension"</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setScaleHeightToCol</span><span class="p">(</span><span class="s">"height_dimension"</span><span class="p">)</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+	<span class="n">document_assembler</span><span class="p">,</span>
+	<span class="n">sentenceDetectorDL</span><span class="p">,</span>
+	<span class="n">tokenizer</span><span class="p">,</span>
+	<span class="n">word_embeddings</span><span class="p">,</span>
+	<span class="n">ner</span><span class="p">,</span>
+	<span class="n">ner_converter</span><span class="p">])</span>
 
-<span class="n">image_scaler</span> <span class="o">=</span> <span class="n">ImageScaler</span><span class="p">()</span> \
-        <span class="p">.</span><span class="n">setWidthCol</span><span class="p">(</span><span class="s">"width_dimension"</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setHeightCol</span><span class="p">(</span><span class="s">"height_dimension"</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"""La exploración abdominal revela una cicatriz de laparotomía media infraumbilical, la presencia de ruidos disminuidos, y dolor a la palpación de manera difusa sin claros signos de irritación peritoneal. No existen hernias inguinales o crurales."""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
-<span class="n">hocr_to_table</span> <span class="o">=</span> <span class="n">HocrToTextTable</span><span class="p">()</span> \
-        <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"hocr"</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setRegionCol</span><span class="p">(</span><span class="s">"table_regions"</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"tables"</span><span class="p">)</span>
-
-<span class="n">draw_annotations</span> <span class="o">=</span> <span class="n">ImageDrawAnnotations</span><span class="p">()</span> \
-        <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"scaled_image"</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setInputChunksCol</span><span class="p">(</span><span class="s">"tables"</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image_with_annotations"</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setFilledRect</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setFontSize</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setRectColor</span><span class="p">(</span><span class="n">Color</span><span class="p">.</span><span class="n">red</span><span class="p">)</span>
-
-<span class="n">draw_regions</span> <span class="o">=</span> <span class="n">ImageDrawRegions</span><span class="p">()</span> \
-        <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"scaled_image"</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setInputRegionsCol</span><span class="p">(</span><span class="s">"table_regions"</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image_with_regions"</span><span class="p">)</span> \
-        <span class="p">.</span><span class="n">setRectColor</span><span class="p">(</span><span class="n">Color</span><span class="p">.</span><span class="n">red</span><span class="p">)</span>
-
-<span class="n">pipeline1</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-        <span class="n">pdf_to_hocr</span><span class="p">,</span>
-        <span class="n">tokenizer</span><span class="p">,</span>
-        <span class="n">pdf_to_image</span><span class="p">,</span>
-        <span class="n">table_detector</span><span class="p">,</span>
-        <span class="n">image_scaler</span><span class="p">,</span>
-        <span class="n">draw_regions</span><span class="p">,</span>
-        <span class="n">hocr_to_table</span>
-<span class="p">])</span>
-
-<span class="n">test_image_path</span> <span class="o">=</span> <span class="s">"data/pdfs/f1120.pdf"</span>
-<span class="n">bin_df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"binaryFile"</span><span class="p">).</span><span class="n">load</span><span class="p">(</span><span class="n">test_image_path</span><span class="p">)</span>
-
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline1</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">bin_df</span><span class="p">).</span><span class="n">cache</span><span class="p">().</span><span class="n">drop</span><span class="p">(</span><span class="s">"tmp_pagenum"</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="p">.</span><span class="nb">filter</span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">pagenum</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">pdf_to_hocr</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PdfToHocr</span><span class="o">()</span> 
-        <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"content"</span><span class="o">)</span> 
-        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"hocr"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documenter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">HocrTokenizer</span><span class="o">()</span> 
-        <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"hocr"</span><span class="o">)</span> 
-        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span> 
+<span class="k">val</span> <span class="nv">sentenceDetector</span> <span class="k">=</span> <span class="nv">SentenceDetectorDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sentence_detector_dl"</span><span class="o">,</span> <span class="s">"xx"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">pdf_to_image</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PdfToImage</span><span class="o">()</span> 
-        <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"content"</span><span class="o">)</span> 
-        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span> 
-        <span class="o">.</span><span class="py">setPageNumCol</span><span class="o">(</span><span class="s">"tmp_pagenum"</span><span class="o">)</span> 
-        <span class="o">.</span><span class="py">setImageType</span><span class="o">(</span><span class="nv">ImageType</span><span class="o">.</span><span class="py">TYPE_3BYTE_BGR</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">table_detector</span> <span class="k">=</span> <span class="nc">ImageTableDetector</span> 
-        <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"general_model_table_detection_v2"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"public/ocr/models"</span><span class="o">)</span> 
-        <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span> 
-        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"table_regions"</span><span class="o">)</span> 
-        <span class="o">.</span><span class="py">setScoreThreshold</span><span class="o">(</span><span class="mf">0.9</span><span class="o">)</span> 
-        <span class="o">.</span><span class="py">setApplyCorrection</span><span class="o">(</span><span class="nc">True</span><span class="o">)</span> 
-        <span class="o">.</span><span class="py">setScaleWidthToCol</span><span class="o">(</span><span class="s">"width_dimension"</span><span class="o">)</span> 
-        <span class="o">.</span><span class="py">setScaleHeightToCol</span><span class="o">(</span><span class="s">"height_dimension"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">word_embeddings</span> <span class="k">=</span> <span class="nv">WordEmbeddingsModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"w2v_cc_300d"</span><span class="o">,</span><span class="s">"es"</span><span class="o">)</span>
+	<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span><span class="s">"token"</span><span class="o">))</span>
+	<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">image_scaler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ImageScaler</span><span class="o">()</span> 
-        <span class="o">.</span><span class="py">setWidthCol</span><span class="o">(</span><span class="s">"width_dimension"</span><span class="o">)</span> 
-        <span class="o">.</span><span class="py">setHeightCol</span><span class="o">(</span><span class="s">"height_dimension"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">ner_model</span> <span class="k">=</span> <span class="nv">MedicalNerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_eu_clinical_condition"</span><span class="o">,</span> <span class="s">"es"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">hocr_to_table</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">HocrToTextTable</span><span class="o">()</span> 
-        <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"hocr"</span><span class="o">)</span> 
-        <span class="o">.</span><span class="py">setRegionCol</span><span class="o">(</span><span class="s">"table_regions"</span><span class="o">)</span> 
-        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"tables"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerConverterInternal</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"ner"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">draw_annotations</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ImageDrawAnnotations</span><span class="o">()</span> 
-        <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"scaled_image"</span><span class="o">)</span> 
-        <span class="o">.</span><span class="py">setInputChunksCol</span><span class="o">(</span><span class="s">"tables"</span><span class="o">)</span> 
-        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image_with_annotations"</span><span class="o">)</span> 
-        <span class="o">.</span><span class="py">setFilledRect</span><span class="o">(</span><span class="nc">False</span><span class="o">)</span> 
-        <span class="o">.</span><span class="py">setFontSize</span><span class="o">(</span><span class="mi">5</span><span class="o">)</span> 
-        <span class="o">.</span><span class="py">setRectColor</span><span class="o">(</span><span class="nv">Color</span><span class="o">.</span><span class="py">red</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documenter</span><span class="o">,</span> <span class="n">sentenceDetector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">word_embeddings</span><span class="o">,</span> <span class="n">ner_model</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">draw_regions</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ImageDrawRegions</span><span class="o">()</span> 
-        <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"scaled_image"</span><span class="o">)</span> 
-        <span class="o">.</span><span class="py">setInputRegionsCol</span><span class="o">(</span><span class="s">"table_regions"</span><span class="o">)</span> 
-        <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image_with_regions"</span><span class="o">)</span> 
-        <span class="o">.</span><span class="py">setRectColor</span><span class="o">(</span><span class="nv">Color</span><span class="o">.</span><span class="py">red</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"""La exploración abdominal revela una cicatriz de laparotomía media infraumbilical, la presencia de ruidos disminuidos, y dolor a la palpación de manera difusa sin claros signos de irritación peritoneal. No existen hernias inguinales o crurales."""</span><span class="o">)).</span><span class="py">toDS</span><span class="o">().</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">pipeline1</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PipelineModel</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
-         <span class="n">pdf_to_hocr</span><span class="o">,</span> 
-         <span class="n">tokenizer</span><span class="o">,</span> 
-         <span class="n">pdf_to_image</span><span class="o">,</span> 
-         <span class="n">table_detector</span><span class="o">,</span> 
-         <span class="n">image_scaler</span><span class="o">,</span> 
-         <span class="n">draw_regions</span><span class="o">,</span> 
-         <span class="n">hocr_to_table</span><span class="o">))</span>
-        
-<span class="k">val</span> <span class="nv">test_image_path</span> <span class="k">=</span> <span class="s">"data/pdfs/f1120.pdf"</span>
-<span class="k">val</span> <span class="nv">bin_df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"binaryFile"</span><span class="o">).</span><span class="py">load</span><span class="o">(</span><span class="n">test_image_path</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline1</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">bin_df</span><span class="o">).</span><span class="py">cache</span><span class="o">().</span><span class="py">drop</span><span class="o">(</span><span class="s">"tmp_pagenum"</span><span class="o">)</span>
-<span class="n">result</span> <span class="k">=</span> <span class="nv">result</span><span class="o">.</span><span class="py">filter</span><span class="o">(</span><span class="nv">result</span><span class="o">.</span><span class="py">pagenum</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
 </div>
 
-<h2 id="example">Example</h2>
-<div class="input_output_wrapper">
-  <div class="input_output_inner">
-    <div class="input_output_title">Input image</div>
+<h2 id="results">Results</h2>
 
-
-<figure class="shadow input_output_img">
-
-      <p><img src="/assets/images/examples_ocr/image14.png" alt="Screenshot" /></p>
-
-    </figure>
-
-
-
-        </div>
-        <div class="input_output_inner">
-          <div class="input_output_title">Output image</div>
-
-
-<figure class="shadow input_output_img">
-
-      <p><img src="/assets/images/examples_ocr/image14_out.png" alt="Screenshot" /></p>
-
-    </figure>
-
-
-  </div>
-  <!-- The Modal/Lightbox -->
-<div id="overview"></div>
-  <div id="myModal" class="input_output_modal shadow">
-      <a href="#" class="close-modal"><i class="fas fa-times"></i></a>
-      <img src="" alt="" />
-  </div>
-</div>
-
-<script> 
-try {
-      const imgCont = document.querySelectorAll('.input_output_img img'),
-            modelImg = document.querySelector('#myModal img'),
-            close = document.querySelector('.close-modal'),
-            overview = document.querySelector('#overview'),
-            model = document.querySelector('#myModal');
-
-      let currentSrc = '';
-
-      imgCont.forEach(item => {
-            item.addEventListener('click', (e) => {
-                  currentSrc = item.src;
-                  modelImg.src = currentSrc;
-                  model.classList.add('open');
-                  overview.classList.add('open');
-            })
-      })
-
-      close.addEventListener('click', (e) => {
-            e.preventDefault();
-            model.classList.remove('open');
-            overview.classList.remove('open');
-      }) 
-      overview.addEventListener('click', () => {
-            model.classList.remove('open');
-            overview.classList.remove('open');
-      })
-
-} catch(e){}
-</script>
-
-<h2 id="output-text">Output text</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>path	modificationTime	length	hocr	height_dimension	width_dimension	pagenum	token	image	total_pages	documentnum	table_regions	scaled_image	image_with_regions	tables	exception	table_index
-file:/content/f11...	2023-01-23 08:16:...	3471478	&lt;div <span class="nv">title</span><span class="o">=</span><span class="s2">"bbox ...	791	611	1	[{token, 0, 2, 23...	{file:/content/f1...	1	0	{0, 0, 32.839153,...	{file:/content/f1...	{file:/content/f1...	{0, 0, 0.0, 0.0,...	null	0
-</span></code></pre></div></div>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Filename: f1120.pdf
-Page:     1
-Table:    0
-5
-col0	col1	col2	col3	col4
-0	Schedule C	Dividends instructions , <span class="o">)</span> Inclusions , and Sp...	<span class="o">(</span> a <span class="o">)</span> Dividends inclusions and	<span class="o">(</span> b <span class="o">)</span> %	<span class="o">(</span> c <span class="o">)</span> Special <span class="o">(</span> a <span class="o">)</span> × deductions <span class="o">(</span> b <span class="o">)</span>
-1	1	Dividends from less - than - 20 % - owned dome...	234	50	None
-2	2	Dividends from 20 % - or - more - owned domest...	324123	65	None
-3	3	Dividends on certain debt - financed stock of ...	324	instructions see	None
-4	4	Dividends on certain preferred stock of less -...	234	23 <span class="nb">.</span> 3	None
-5	5	Dividends on certain preferred stock of 20 % -...	42134	26 <span class="nb">.</span> 7	None
-6	6	Dividends from less - than - 20 % - owned fore...	4234	50	None
-7	7	Dividends from 20 % - or - more - owned foreig...	4234	65	None
-8	8	Dividends from wholly owned foreign subsidiaries	42348987	100	None
-9	9	Subtotal <span class="nb">.</span> Add lines 1 through 8 <span class="nb">.</span> See instruc...	987	instructions see	None
-10	10	Dividends from domestic corporations received ...	9786	100	None
-11	11	Dividends from affiliated group members <span class="nb">.</span>	789	100	None
-12	12	Dividends from certain FSCs	0.00	100	None
-13	13	Foreign - <span class="nb">source </span>portion of dividends received...	421.34	100	None
-14	14	Dividends from foreign corporations not includ...	2341.23	None	None
-15	15	Section 965 <span class="o">(</span> a <span class="o">)</span> inclusion <span class="nb">.</span>	1234.14	instructions see	None
-16	16a	Subpart F inclusions derived from the sale by ...	46.54	100	None
-17	b	Subpart F inclusions derived from hybrid divid...	6453.65	None	None
-18	c	Other <span class="o">(</span> attach inclusions Form <span class="o">(</span> s <span class="o">)</span> 5471 from...	985.76	None	None
-19	17	Global Intangible Low - Taxed Income <span class="o">(</span> GILTI <span class="o">)</span>...	23.41	None	None
-20	18	Gross - up <span class="k">for </span>foreign taxes deemed paid	1.01	None	None
-21	19	IC - DISC and former DISC dividends not includ...	3123.91	None	None
-22	20	Other dividends	12.23	None	None
-23	21	Deduction <span class="k">for </span>dividends paid on certain prefer...			1.23
-24	22	Section 250 deduction <span class="o">(</span> attach Form 8993 <span class="o">)</span>			3.41
-25	23	Total dividends and inclusions <span class="nb">.</span> Add column <span class="o">(</span> ...	2341.23	None	None
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+--------------------+------------------+
+|chunk               |ner_label         |
++--------------------+------------------+
+|cicatriz            |clinical_condition|
+|dolor a la palpación|clinical_condition|
+|signos              |clinical_condition|
+|irritación          |clinical_condition|
+|hernias inguinales  |clinical_condition|
 </code></pre></div></div>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2023-01-23T00:00:00+00:00"><!-- start custom article footer snippet -->
+
+<h2 class="model-param" id="model-information">Model Information</h2>
+
+<table class="table-model">
+  <tbody>
+    <tr>
+      <td>Model Name:</td>
+      <td>ner_eu_clinical_condition</td>
+    </tr>
+    <tr>
+      <td>Compatibility:</td>
+      <td>Healthcare NLP 4.2.8+</td>
+    </tr>
+    <tr>
+      <td>License:</td>
+      <td>Licensed</td>
+    </tr>
+    <tr>
+      <td>Edition:</td>
+      <td>Official</td>
+    </tr>
+    <tr>
+      <td>Input Labels:</td>
+      <td>[sentence, token, embeddings]</td>
+    </tr>
+    <tr>
+      <td>Output Labels:</td>
+      <td>[ner]</td>
+    </tr>
+    <tr>
+      <td>Language:</td>
+      <td>es</td>
+    </tr>
+    <tr>
+      <td>Size:</td>
+      <td>898.1 KB</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="references">References</h2>
+
+<p>The corpus used for model training is provided by European Clinical Case Corpus (E3C), a project aimed at offering a freely available multilingual corpus of semantically annotated clinical narratives.</p>
+
+<h2 id="benchmarking">Benchmarking</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>             label     tp     fp    fn  total  precision  recall      f1
+clinical_condition  354.0   42.0  84.0  438.0     0.8939  0.8082  0.8489
+            macro     -      -      -     -         -       -     0.8489
+            micro     -      -      -     -         -       -     0.8489
+</code></pre></div></div>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2023-02-06T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -841,7 +741,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2023/01/23/hocr_table_recognition_en_3_2.html">Hocr for table recognition</a></div><div class="next nav_link"><span>NEXT</span><a href="/2023/01/25/ner_eu_clinical_case_en.html">Detect Clinical Entities (ner_eu_clinical_case)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2023/02/06/ner_eu_clinical_condition_en.html">Detect Clinical Conditions (ner_eu_clinical_condition)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2023/02/06/ner_eu_clinical_condition_eu.html">Detect Clinical Conditions (ner_eu_clinical_case - eu)</a></div></div></div>
 
 </div>
 </div>
