@@ -70,7 +70,7 @@ val document_assembler = DocumentAssembler()
         .setInputCol("text")
         .setOutputCol("document")
 val sentence_detector = SentenceDetector()
-    .setInputCols(["document"])
+    .setInputCols("document")
     .setOutputCol("sentence")
 
 val tokenizer = Tokenizer()

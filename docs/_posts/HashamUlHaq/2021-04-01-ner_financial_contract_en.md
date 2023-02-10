@@ -85,7 +85,7 @@ sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_heal
     .setOutputCol("sentence")
 
 tokenizer = new Tokenizer()
-    .setInputCols(["sentence"])
+    .setInputCols("sentence")
     .setOutputCol("token")
 
 embeddings = WordEmbeddingsModel.pretrained("glove_6B_300", "xx")

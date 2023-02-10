@@ -40,7 +40,7 @@ pipeline.annotate(["M8950", "R822", "R0901"])
 ```scala
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 val pipeline = new PretrainedPipeline("icd10cm_umls_mapping","en","clinical/models")
-val result = pipeline.annotate(["M8950", "R822", "R0901"])
+val result = pipeline.annotate("M8950", "R822", "R0901")
 ```
 
 

@@ -64,7 +64,7 @@ val sentence = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
 .setOutputCol("sentence")
 
 val marian = MarianTransformer.pretrained("opus_mt_swc_en", "xx")
-.setInputCols(["sentence"])
+.setInputCols("sentence")
 .setOutputCol("translation")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentence, marian))

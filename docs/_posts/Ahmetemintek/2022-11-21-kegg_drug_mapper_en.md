@@ -110,7 +110,7 @@ val converter = new NerConverter()
 val chunkerMapper = ChunkMapperModel.pretrained("kegg_drug_mapper", "en", "clinical/models")
     .setInputCols("ner_chunk")
     .setOutputCol("mappings")
-    .setRels(Array(["efficacy", "molecular_weight", "CAS", "PubChem", "ChEBI", "LigandBox", "NIKKAJI", "PDB-CCD"]))
+    .setRels(Array("efficacy", "molecular_weight", "CAS", "PubChem", "ChEBI", "LigandBox", "NIKKAJI", "PDB-CCD"))
 
 
 val pipeline = new Pipeline().setStages(Array(

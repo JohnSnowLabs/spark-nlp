@@ -99,13 +99,13 @@ val chunkerMapper_1 = ChunkMapperModel
 .pretrained("rxnorm_action_treatment_mapper", "en", "clinical/models")
 .setInputCols("rxnorm_code")
 .setOutputCol("action_mappings")
-.setRels(["action"])
+.setRels("action")
 
 val chunkerMapper_2 = ChunkMapperModel
 .pretrained("rxnorm_action_treatment_mapper", "en", "clinical/models")
 .setInputCols("rxnorm_code")
 .setOutputCol("treatment_mappings")
-.setRels(["treatment"])
+.setRels("treatment")
 
 val pipeline = new Pipeline(stages = Array(
 documentAssembler,

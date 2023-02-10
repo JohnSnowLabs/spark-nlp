@@ -87,7 +87,7 @@ val sentence_detector = new SentenceDetector()
     .setOutputCol("sentence")
 
 tokenizer = Tokenizer()
-    .setInputCols(["sentence"])
+    .setInputCols("sentence")
     .setOutputCol("token")
 
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")

@@ -88,11 +88,11 @@ val document_assembler = DocumentAssembler()
         .setOutputCol("document")
         
 val sentence_detector = SentenceDetector()
-        .setInputCols(["document"])
+        .setInputCols("document")
         .setOutputCol("sentence")
         
 val tokenizer = Tokenizer()
-        .setInputCols(["sentence"])
+        .setInputCols("sentence")
         .setOutputCol("token")
         
 val pos = PerceptronModel.pretrained("pos_ud_att", "am")

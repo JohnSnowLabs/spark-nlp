@@ -88,7 +88,7 @@ val tokenizer = new Tokenizer()
   .setOutputCol("token")
 
 val word_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")
-	.setInputCols(["sentence","token"])
+	.setInputCols("sentence","token")
 	.setOutputCol("embeddings")
 
 val ner_model = MedicalNerModel.pretrained("ner_clinical_trials_abstracts", "es", "clinical/models")
