@@ -36,6 +36,7 @@ This model extracts social environment terminologies related to Social Determina
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\
@@ -152,7 +153,7 @@ val result = pipeline.fit(data).transform(data)
 ## Benchmarking
 
 ```bash
-	             label	    tp	  fp	   fn	  total	 precision	  recall	      f1
+	       label	    tp	  fp	   fn	  total	 precision	  recall	      f1
       Chidhood_Event	  34.0	 6.0	  5.0	   39.0	  0.850000	0.871795	0.860759
     Social_Exclusion	  45.0	 6.0	 12.0  	 57.0	  0.882353	0.789474	0.833333
       Social_Support	1139.0	57.0	103.0	 1242.0	  0.952341	0.917069	0.934372
