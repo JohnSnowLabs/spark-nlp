@@ -615,15 +615,15 @@
 <span class="c1"># optional: path for CoNLL file saving directory, defaults to 'exported_conll'
 # save_dir="exported_conll",
 </span>
-<span class="c1"># optional: set to True to select ground truth completions, False to select latest completions, 
+<span class="c1"># optional: set to True to select ground truth completions, False to select latest completions,
 # defaults to False
 # ground_truth=False,
 </span>
-<span class="c1"># optional: labels to exclude from CoNLL; these are all assertion labels and irrelevant NER labels, 
+<span class="c1"># optional: labels to exclude from CoNLL; these are all assertion labels and irrelevant NER labels,
 # defaults to empty list
 # excluded_labels=['ABSENT'],
 </span>
-<span class="c1"># optional: set a pattern to use regex tokenizer, defaults to regular tokenizer if pattern not defined  
+<span class="c1"># optional: set a pattern to use regex tokenizer, defaults to regular tokenizer if pattern not defined
 # regex_pattern="\\s+|(?=[-.:;*+,$&amp;%\\[\\]])|(?&lt;=[-.:;*+,$&amp;%\\[\\]])"
 </span>
 <span class="c1"># optional: list of Annotation Lab task titles to exclude from CoNLL, defaults to empty list
@@ -652,7 +652,7 @@
 <span class="c1"># required: relevant NER labels that are assigned assertion labels
 </span><span class="n">relevant_ner_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s">'PROBLEM'</span><span class="p">,</span> <span class="s">'TREATMENT'</span><span class="p">],</span>
 
-<span class="c1"># optional: set to True to select ground truth completions, False to select latest completions, 
+<span class="c1"># optional: set to True to select ground truth completions, False to select latest completions,
 # defaults to False
 # ground_truth = False,
 </span>
@@ -662,15 +662,15 @@
 <span class="c1"># optional: set a pattern to use regex tokenizer, defaults to regular tokenizer if pattern not defined
 # regex_pattern = "\\s+|(?=[-.:;*+,$&amp;%\\[\\]])|(?&lt;=[-.:;*+,$&amp;%\\[\\]])",
 </span>
-<span class="c1"># optional: set the strategy to control the number of occurrences of the unannotated assertion label 
+<span class="c1"># optional: set the strategy to control the number of occurrences of the unannotated assertion label
 # in the output dataframe, options are 'weighted' or 'counts', 'weighted' allows to sample using a
 # fraction, 'counts' allows to sample using absolute counts, defaults to None
 # unannotated_label_strategy = None,
 </span>
-<span class="c1"># optional: dictionary in the format {'ENTITY_LABEL': sample_weight_or_counts} to control the number of 
-# occurrences of the unannotated assertion label in the output dataframe, where 'ENTITY_LABEL' are the 
-# NER labels that are assigned the unannotated assertion label, and sample_weight_or_counts should be 
-# between 0 and 1 if `unannotated_label_strategy` is 'weighted' or between 0 and the max number of 
+<span class="c1"># optional: dictionary in the format {'ENTITY_LABEL': sample_weight_or_counts} to control the number of
+# occurrences of the unannotated assertion label in the output dataframe, where 'ENTITY_LABEL' are the
+# NER labels that are assigned the unannotated assertion label, and sample_weight_or_counts should be
+# between 0 and 1 if `unannotated_label_strategy` is 'weighted' or between 0 and the max number of
 # occurrences of that NER label if `unannotated_label_strategy` is 'counts'
 # unannotated_label_strategy_dict = {'PROBLEM': 0.5, 'TREATMENT': 0.5},
 </span>
@@ -705,20 +705,20 @@
 <span class="c1"># optional: all assertion labels that were annotated in the Annotation Lab, defaults to None
 </span><span class="n">assertion_labels</span><span class="o">=</span><span class="p">[</span><span class="s">'ABSENT'</span><span class="p">],</span>
 
-<span class="c1"># optional: plausible pairs of entities for relations, separated by a '-', use the same casing as the 
+<span class="c1"># optional: plausible pairs of entities for relations, separated by a '-', use the same casing as the
 # annotations, include only one relation direction, defaults to all possible pairs of annotated entities
 </span><span class="n">relation_pairs</span><span class="o">=</span><span class="p">[</span><span class="s">'DATE-PROBLEM'</span><span class="p">,</span><span class="s">'TREATMENT-PROBLEM'</span><span class="p">,</span><span class="s">'TEST-PROBLEM'</span><span class="p">],</span>
 
-<span class="c1"># optional: set the strategy to control the number of occurrences of the negative relation label 
+<span class="c1"># optional: set the strategy to control the number of occurrences of the negative relation label
 # in the output dataframe, options are 'weighted' or 'counts', 'weighted' allows to sample using a
 # fraction, 'counts' allows to sample using absolute counts, defaults to None
 </span><span class="n">negative_relation_strategy</span><span class="o">=</span><span class="s">'weighted'</span><span class="p">,</span>
 
-<span class="c1"># optional: dictionary in the format {'ENTITY1-ENTITY2': sample_weight_or_counts} to control the number of 
-# occurrences of negative relations in the output dataframe for each entity pair, where 'ENTITY1-ENTITY2' 
-# represent the pairs of entities for relations separated by a `-` (include only one relation direction), 
+<span class="c1"># optional: dictionary in the format {'ENTITY1-ENTITY2': sample_weight_or_counts} to control the number of
+# occurrences of negative relations in the output dataframe for each entity pair, where 'ENTITY1-ENTITY2'
+# represent the pairs of entities for relations separated by a `-` (include only one relation direction),
 # and sample_weight_or_counts should be between 0 and 1 if `negative_relation_strategy` is 'weighted' or
-# between 0 and the max number of occurrences of negative relations if `negative_relation_strategy` is 
+# between 0 and the max number of occurrences of negative relations if `negative_relation_strategy` is
 # 'counts', defaults to None
 </span><span class="n">negative_relation_strategy_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s">'DATE-PROBLEM'</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span> <span class="s">'TREATMENT-PROBLEM'</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s">'TEST-PROBLEM'</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">},</span>
 
@@ -888,6 +888,223 @@
 </span><span class="n">preannotations</span> <span class="o">=</span> <span class="n">pre_annotations</span><span class="p">)</span>
 </code></pre></div>  </div>
 
+  <h2 id="deidentification-module">Deidentification Module</h2>
+
+  <p>Spark NLP for Healthcare provides functionality to apply Deidentification using easy-to-use module named <code class="language-plaintext highlighter-rouge">deid</code>. <br /></p>
+
+  <p>The <code class="language-plaintext highlighter-rouge">deid</code> module is a tool for deidentifying Personal Health Information from data in a file path. It can be used with custom SparkNLP NER pipelines or without any pipeline specified.
+It returns the deidentification results as a pyspark dataframe as well as a <code class="language-plaintext highlighter-rouge">csv</code> or <code class="language-plaintext highlighter-rouge">json file</code>.
+The module also includes functionality for applying Structured Deidentification task to data from a file path. <br /></p>
+
+  <p>The function, <code class="language-plaintext highlighter-rouge">deidentify()</code>, can be used with a custom pipeline or without defining any custom pipeline. <br />
+<code class="language-plaintext highlighter-rouge">structured_deidentifier()</code> function can be used for the Structured Deidentification task.</p>
+
+  <h3 id="apply-deidentification-with-a-custom-pipeline">Apply Deidentification With a Custom Pipeline</h3>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp_jsl</span> <span class="kn">import</span> <span class="n">deid</span>
+
+<span class="n">deid_implementor</span><span class="o">=</span> <span class="n">deid</span><span class="p">(</span>
+<span class="c1"># required: Spark session with spark-nlp-jsl jar
+</span><span class="n">spark</span>
+<span class="p">)</span>
+
+<span class="n">res</span><span class="o">=</span> <span class="n">deid_implementor</span><span class="p">.</span><span class="n">deidentify</span><span class="p">(</span>
+<span class="c1"># required: The path of the input file. Default is None. File type must be 'csv' or 'json'.
+</span><span class="n">input_file_path</span><span class="o">=</span><span class="s">"data.csv"</span><span class="p">,</span>
+
+<span class="c1">#optional:  The path of the output file. Default is 'deidentified.csv'. File type must be 'csv' or 'json'.
+</span><span class="n">output_file_path</span><span class="o">=</span><span class="s">"deidentified.csv"</span><span class="p">,</span>
+
+<span class="c1">#optional: The separator of the input csv file. Default is "\t".
+</span><span class="n">separator</span><span class="o">=</span><span class="s">","</span><span class="p">,</span>
+
+<span class="c1">#optional: A custom pipeline model to be used for deidentification. If not specified, the default is None.
+</span><span class="n">custom_pipeline</span><span class="o">=</span><span class="n">nlpModel</span><span class="p">,</span>
+
+<span class="c1">#optional: Fields to be deidentified and their deidentification modes, by default {"text": "mask"}
+</span><span class="n">fields</span><span class="o">=</span><span class="p">{</span><span class="s">"text"</span><span class="p">:</span> <span class="s">"mask"</span><span class="p">,</span> <span class="s">"text_1"</span><span class="p">:</span> <span class="s">"obfuscate"</span><span class="p">},</span>
+
+<span class="c1">#optional:  The masking policy. Default is "entity_labels".
+</span><span class="n">masking_policy</span><span class="o">=</span><span class="s">"fixed_length_chars"</span><span class="p">,</span>
+
+<span class="c1">#optional: The fixed mask length. Default is 4.
+</span><span class="n">fixed_mask_length</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+
+<span class="c1">#optional: The final chunk column name of the custom pipeline that will be deidentified, if specified. Default is "ner_chunk".
+</span><span class="n">ner_chunk</span><span class="o">=</span><span class="s">"ner_chunk"</span><span class="p">,</span>
+
+<span class="c1">#optional: The corresponding document column name of the custom pipeline, if specified. Default is "document"
+</span><span class="n">document</span><span class="o">=</span><span class="s">"document"</span><span class="p">,</span>
+
+<span class="c1">#optional: The corresponding sentence column name of the custom pipeline, if specified. Default is "sentence"
+</span><span class="n">sentence</span><span class="o">=</span><span class="s">"sentence"</span><span class="p">,</span>
+
+<span class="c1">#optional: The corresponding token column name of the custom pipeline, if specified. Default is "token"
+</span><span class="n">token</span><span class="o">=</span><span class="s">"token"</span><span class="p">,</span>
+
+<span class="c1">#optional: The source of the reference file for obfuscation. Default is "faker".
+#obfuscate_ref_source="both",
+</span>
+<span class="c1">#optional: The path of the reference file for obfuscation. Default is None.
+#obfuscate_ref_file_path="obfuscation.txt",
+</span>
+<span class="c1">#optional: Obfuscate date. Default is True.
+#obfuscate_date=True,
+</span>
+<span class="c1">#optional: The document hash coder column name. Default is "documentHash".
+#documentHashCoder_col_name= "documentHash"
+</span>
+<span class="c1">#optional: ID column name. Default is "id".
+#id_column_name= "ID"
+</span>
+<span class="c1">#optional: Date shift column name. Default is "date_shift".
+#date_shift_column_name= "date_shift"
+</span>
+<span class="c1">#optional: The date tag. Default is "DATE".
+#date_tag="DATE"
+</span>
+<span class="c1">#optional: Language. Default is "en"
+#language="en"
+</span>
+<span class="c1">#optional: Region. Default is "us"
+#region="us"
+</span>
+<span class="c1">#optional: Age group obfuscation. Default is False.
+#age_group_obfuscation=True
+</span>
+<span class="c1">#optional: Age ranges for obfuscation. Default is [1, 4, 12, 20, 40, 60, 80].
+#age_ranges=[1, 4, 12, 20, 40, 60, 80]
+</span>
+<span class="c1">#optional:  Shift days. Default is False.
+#shift_days=False
+</span>
+<span class="c1">#optional: The number of days to shift. Default is None.
+#number_of_days=5
+</span>
+<span class="c1">#optional: Use unnormalized date. Default is False.
+#unnormalized_date=True
+</span>
+<span class="c1">#optional: The unnormalized mode. Default is "mask".
+#unnormalized_mode="obfuscate")
+</span>
+</code></pre></div>  </div>
+
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+---+----------------------------------------------------------------------+----------------------------------------------+----------------------------------------------------------------------+----------------------------------------------------------------------+
+| ID|                                                                  text|                             text_deidentified|                                                                text_1|                                                   text_1_deidentified|
++---+----------------------------------------------------------------------+----------------------------------------------+----------------------------------------------------------------------+----------------------------------------------------------------------+
+|  0|Record date : 2093-01-13 , David Hale , M.D . , Name : Hendrickson ...|Record date : ** , ** , M.D . , Name : ** MR .|Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-...|Date : 10-16-1991 PCP : Alveda Castles , 26 years-old , Record date...|
++---+----------------------------------------------------------------------+----------------------------------------------+----------------------------------------------------------------------+----------------------------------------------------------------------+
+
+</code></pre></div>  </div>
+
+  <h3 id="apply-deidentification-with-no-custom-pipeline">Apply Deidentification With No Custom Pipeline</h3>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kn">from</span> <span class="nn">sparknlp_jsl</span> <span class="kn">import</span> <span class="n">deid</span>
+
+<span class="n">deid_implementor</span><span class="o">=</span> <span class="n">deid</span><span class="p">(</span>
+<span class="c1"># required: Spark session with spark-nlp-jsl jar
+</span><span class="n">spark</span>
+<span class="p">)</span>
+
+<span class="n">res</span><span class="o">=</span> <span class="n">deid_implementor</span><span class="p">.</span><span class="n">deidentify</span><span class="p">(</span>
+<span class="c1"># required: The path of the input file. Default is None. File type must be 'csv' or 'json'.
+</span><span class="n">input_file_path</span><span class="o">=</span><span class="s">"data.csv"</span><span class="p">,</span>
+
+<span class="c1">#optional:  The path of the output file. Default is 'deidentified.csv'. File type must be 'csv' or 'json'.
+</span><span class="n">output_file_path</span><span class="o">=</span><span class="s">"deidentified.csv"</span><span class="p">,</span>
+
+<span class="c1">#optional: The separator of the input csv file. Default is "\t".
+</span><span class="n">separator</span><span class="o">=</span><span class="s">","</span><span class="p">,</span>
+
+<span class="c1">#optional: Fields to be deidentified and their deidentification modes, by default {"text": "mask"}
+</span><span class="n">fields</span><span class="o">=</span><span class="p">{</span><span class="s">"text"</span><span class="p">:</span> <span class="s">"mask"</span><span class="p">},</span>
+
+<span class="c1">#optional: The masking policy. Default is "entity_labels".
+</span><span class="n">masking_policy</span><span class="o">=</span><span class="s">"entity_labels"</span><span class="p">,</span>
+
+<span class="c1">#optional: Age group obfuscation. Default is False.
+#age_group_obfuscation=True
+</span>
+<span class="c1">#optional: Age ranges for obfuscation. Default is [1, 4, 12, 20, 40, 60, 80].
+#age_ranges=[1, 4, 12, 20, 40, 60, 80]
+</span>
+<span class="c1">#optional:  Shift days. Default is False.
+#shift_days=False
+</span>
+<span class="c1">#optional: The number of days to shift. Default is None.
+#number_of_days=5
+</span>
+<span class="c1">#optional: Use unnormalized date. Default is False.
+#unnormalized_date=True
+</span>
+<span class="c1">#optional: The unnormalized mode. Default is "mask".
+#unnormalized_mode="obfuscate"
+</span><span class="p">)</span>
+
+</code></pre></div>  </div>
+
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+---+----------------------------------------------------------------------+----------------------------------------------------------------------+
+| ID|                                                         text_original|                                                             text_deid|
++---+----------------------------------------------------------------------+----------------------------------------------------------------------+
+|  0|                                                                     "|                                                                     "|
+|  1|Record date : 2093-01-13 , David Hale , M.D . , Name : Hendrickson ...|Record date : &lt;DATE&gt; , &lt;DOCTOR&gt; , M.D . , Name : &lt;PATIENT&gt; , MR # &lt;...|
+|  2|                                                                     "|                                                                     "|
++---+----------------------------------------------------------------------+----------------------------------------------------------------------+
+
+</code></pre></div>  </div>
+
+  <h3 id="apply-structured-deidentification">Apply Structured Deidentification</h3>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kn">from</span> <span class="nn">sparknlp_jsl</span> <span class="kn">import</span> <span class="n">deid</span>
+
+<span class="n">deid_implementor</span><span class="o">=</span> <span class="n">deid</span><span class="p">(</span>
+<span class="c1"># required: Spark session with spark-nlp-jsl jar
+</span><span class="n">spark</span>
+<span class="p">)</span>
+
+<span class="n">res</span><span class="o">=</span> <span class="n">deid_implementor</span><span class="p">.</span><span class="n">structured_deidentifier</span><span class="p">(</span>
+
+<span class="c1">#required: The path of the input file. Default is None. File type must be 'csv' or 'json'.
+</span><span class="n">input_file_path</span><span class="o">=</span><span class="s">"data.csv"</span><span class="p">,</span>
+
+<span class="c1">#optional:  The path of the output file. Default is 'deidentified.csv'. File type must be 'csv' or 'json'.
+</span><span class="n">output_file_path</span><span class="o">=</span><span class="s">"deidentified.csv"</span><span class="p">,</span>
+
+<span class="c1">#optional: The separator of the input csv file. Default is "\t".
+</span><span class="n">separator</span><span class="o">=</span><span class="s">","</span><span class="p">,</span>
+
+<span class="c1">#optional: A dictionary that contains the column names and the tags that should be used for deidentification. Default is {"NAME":"PATIENT","AGE":"AGE"}
+</span><span class="n">columns_dict</span><span class="o">=</span> <span class="p">{</span><span class="s">"NAME"</span><span class="p">:</span> <span class="s">"ID"</span><span class="p">,</span> <span class="s">"DOB"</span><span class="p">:</span> <span class="s">"DATE"</span><span class="p">},</span>
+
+<span class="c1">#optional: The seed value for the random number generator. Default is {"NAME": 23, "AGE": 23}
+</span><span class="n">columns_seed</span><span class="o">=</span> <span class="p">{</span><span class="s">"NAME"</span><span class="p">:</span> <span class="mi">23</span><span class="p">,</span> <span class="s">"DOB"</span><span class="p">:</span> <span class="mi">23</span><span class="p">},</span>
+
+<span class="c1">#optional: The source of the reference file. Default is faker.
+</span><span class="n">ref_source</span><span class="o">=</span><span class="s">"faker"</span><span class="p">,</span>
+
+<span class="c1">#optional: The number of days to be shifted. Default is None
+</span><span class="n">shift_days</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+
+<span class="c1">#optional: The path of the reference file for obfuscation. Default is None.
+#obfuscateRefFile: "obfuscator_unique_ref_test.txt",
+</span>
+<span class="c1">#optional: A list of date formats. Default is ["dd/MM/yyyy", "dd-MM-yyyy", "d/M/yyyy", "dd-MM-yyyy", "d-M-yyyy"]
+#date_formats=["dd/MM/yyyy", "dd-MM-yyyy"]
+</span><span class="p">)</span>
+
+</code></pre></div>  </div>
+
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+----------+------------+--------------------+---+----------------+
+|      NAME|         DOB|             ADDRESS|SBP|             TEL|
++----------+------------+--------------------+---+----------------+
+|[N2649912]|[18/02/1977]|       711 Nulla St.|140|      673 431234|
+| [W466004]|[28/02/1977]|     1 Green Avenue.|140|+23 (673) 431234|
+| [M403810]|[16/04/1900]|Calle del Liberta...|100|      912 345623|
++----------+------------+--------------------+---+----------------+
+</code></pre></div>  </div>
+
   <h2 id="compatibility">Compatibility</h2>
 
   <p>This module helps to find appropriate model versions depending your distribution of John Snow Labs products.</p>
@@ -948,7 +1165,7 @@
 
   <p>Or simply run the <code class="language-plaintext highlighter-rouge">showVersion()</code> method instead:</p>
 
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">compatibility</span><span class="p">.</span><span class="n">showVersion</span><span class="p">(</span><span class="s">'ner_clinical'</span><span class="p">)</span> 
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">compatibility</span><span class="p">.</span><span class="n">showVersion</span><span class="p">(</span><span class="s">'ner_clinical'</span><span class="p">)</span>
 </code></pre></div>  </div>
 
   <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----------------------------------------------------+------+---------+
@@ -1080,11 +1297,11 @@
 </span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
-        
+
 <span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sentence_detector_dl_healthcare"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span><span class="s">"clinical/models"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
- 
+
 <span class="c1"># Tokenizer splits words in a relevant format for NLP
 </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span>\
@@ -1099,7 +1316,7 @@
 </span><span class="n">clinical_ner</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_clinical_large"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span><span class="s">"clinical/models"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"embeddings"</span><span class="p">])</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setLabelCasing</span><span class="p">(</span><span class="s">"upper"</span><span class="p">)</span> <span class="c1">#decide if we want to return the tags in upper or lower case 
+    <span class="p">.</span><span class="n">setLabelCasing</span><span class="p">(</span><span class="s">"upper"</span><span class="p">)</span> <span class="c1">#decide if we want to return the tags in upper or lower case
 </span>
 <span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"ner"</span><span class="p">])</span>\
