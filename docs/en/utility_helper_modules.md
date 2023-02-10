@@ -76,15 +76,15 @@ output_name="conll_demo",
 # optional: path for CoNLL file saving directory, defaults to 'exported_conll'
 # save_dir="exported_conll",
 
-# optional: set to True to select ground truth completions, False to select latest completions, 
+# optional: set to True to select ground truth completions, False to select latest completions,
 # defaults to False
 # ground_truth=False,
 
-# optional: labels to exclude from CoNLL; these are all assertion labels and irrelevant NER labels, 
+# optional: labels to exclude from CoNLL; these are all assertion labels and irrelevant NER labels,
 # defaults to empty list
 # excluded_labels=['ABSENT'],
 
-# optional: set a pattern to use regex tokenizer, defaults to regular tokenizer if pattern not defined  
+# optional: set a pattern to use regex tokenizer, defaults to regular tokenizer if pattern not defined
 # regex_pattern="\\s+|(?=[-.:;*+,$&%\\[\\]])|(?<=[-.:;*+,$&%\\[\\]])"
 
 # optional: list of Annotation Lab task titles to exclude from CoNLL, defaults to empty list
@@ -113,7 +113,7 @@ assertion_labels = ['ABSENT'],
 # required: relevant NER labels that are assigned assertion labels
 relevant_ner_labels = ['PROBLEM', 'TREATMENT'],
 
-# optional: set to True to select ground truth completions, False to select latest completions, 
+# optional: set to True to select ground truth completions, False to select latest completions,
 # defaults to False
 # ground_truth = False,
 
@@ -123,15 +123,15 @@ relevant_ner_labels = ['PROBLEM', 'TREATMENT'],
 # optional: set a pattern to use regex tokenizer, defaults to regular tokenizer if pattern not defined
 # regex_pattern = "\\s+|(?=[-.:;*+,$&%\\[\\]])|(?<=[-.:;*+,$&%\\[\\]])",
 
-# optional: set the strategy to control the number of occurrences of the unannotated assertion label 
+# optional: set the strategy to control the number of occurrences of the unannotated assertion label
 # in the output dataframe, options are 'weighted' or 'counts', 'weighted' allows to sample using a
 # fraction, 'counts' allows to sample using absolute counts, defaults to None
 # unannotated_label_strategy = None,
 
-# optional: dictionary in the format {'ENTITY_LABEL': sample_weight_or_counts} to control the number of 
-# occurrences of the unannotated assertion label in the output dataframe, where 'ENTITY_LABEL' are the 
-# NER labels that are assigned the unannotated assertion label, and sample_weight_or_counts should be 
-# between 0 and 1 if `unannotated_label_strategy` is 'weighted' or between 0 and the max number of 
+# optional: dictionary in the format {'ENTITY_LABEL': sample_weight_or_counts} to control the number of
+# occurrences of the unannotated assertion label in the output dataframe, where 'ENTITY_LABEL' are the
+# NER labels that are assigned the unannotated assertion label, and sample_weight_or_counts should be
+# between 0 and 1 if `unannotated_label_strategy` is 'weighted' or between 0 and the max number of
 # occurrences of that NER label if `unannotated_label_strategy` is 'counts'
 # unannotated_label_strategy_dict = {'PROBLEM': 0.5, 'TREATMENT': 0.5},
 
@@ -166,20 +166,20 @@ negative_relations=True,
 # optional: all assertion labels that were annotated in the Annotation Lab, defaults to None
 assertion_labels=['ABSENT'],
 
-# optional: plausible pairs of entities for relations, separated by a '-', use the same casing as the 
+# optional: plausible pairs of entities for relations, separated by a '-', use the same casing as the
 # annotations, include only one relation direction, defaults to all possible pairs of annotated entities
 relation_pairs=['DATE-PROBLEM','TREATMENT-PROBLEM','TEST-PROBLEM'],
 
-# optional: set the strategy to control the number of occurrences of the negative relation label 
+# optional: set the strategy to control the number of occurrences of the negative relation label
 # in the output dataframe, options are 'weighted' or 'counts', 'weighted' allows to sample using a
 # fraction, 'counts' allows to sample using absolute counts, defaults to None
 negative_relation_strategy='weighted',
 
-# optional: dictionary in the format {'ENTITY1-ENTITY2': sample_weight_or_counts} to control the number of 
-# occurrences of negative relations in the output dataframe for each entity pair, where 'ENTITY1-ENTITY2' 
-# represent the pairs of entities for relations separated by a `-` (include only one relation direction), 
+# optional: dictionary in the format {'ENTITY1-ENTITY2': sample_weight_or_counts} to control the number of
+# occurrences of negative relations in the output dataframe for each entity pair, where 'ENTITY1-ENTITY2'
+# represent the pairs of entities for relations separated by a `-` (include only one relation direction),
 # and sample_weight_or_counts should be between 0 and 1 if `negative_relation_strategy` is 'weighted' or
-# between 0 and the max number of occurrences of negative relations if `negative_relation_strategy` is 
+# between 0 and the max number of occurrences of negative relations if `negative_relation_strategy` is
 # 'counts', defaults to None
 negative_relation_strategy_dict = {'DATE-PROBLEM': 0.1, 'TREATMENT-PROBLEM': 0.5, 'TEST-PROBLEM': 0.2},
 
@@ -349,6 +349,232 @@ project_name = 'alab_demo',
 preannotations = pre_annotations)
 ```
 
+## Deidentification Module
+
+Spark NLP for Healthcare provides functionality to apply Deidentification using easy-to-use module named `deid`. <br/>
+
+The `deid` module is a tool for deidentifying Personal Health Information from data in a file path. It can be used with custom SparkNLP NER pipelines or without any pipeline specified.
+It returns the deidentification results as a pyspark dataframe as well as a `csv` or `json file`.
+The module also includes functionality for applying Structured Deidentification task to data from a file path. <br/>
+
+The function, `deidentify()`, can be used with a custom pipeline or without defining any custom pipeline. <br/>
+`structured_deidentifier()` function can be used for the Structured Deidentification task.
+
+### Apply Deidentification With a Custom Pipeline
+
+```python
+from sparknlp_jsl import deid
+
+deid_implementor= deid(
+# required: Spark session with spark-nlp-jsl jar
+spark
+)
+
+res= deid_implementor.deidentify(
+# required: The path of the input file. Default is None. File type must be 'csv' or 'json'.
+input_file_path="data.csv",
+
+#optional:  The path of the output file. Default is 'deidentified.csv'. File type must be 'csv' or 'json'.
+output_file_path="deidentified.csv",
+
+#optional: The separator of the input csv file. Default is "\t".
+separator=",",
+
+#optional: A custom pipeline model to be used for deidentification. If not specified, the default is None.
+custom_pipeline=nlpModel,
+
+#optional: Fields to be deidentified and their deidentification modes, by default {"text": "mask"}
+fields={"text": "mask", "text_1": "obfuscate"},
+
+#optional:  The masking policy. Default is "entity_labels".
+masking_policy="fixed_length_chars",
+
+#optional: The fixed mask length. Default is 4.
+fixed_mask_length=4,
+
+#optional: The final chunk column name of the custom pipeline that will be deidentified, if specified. Default is "ner_chunk".
+ner_chunk="ner_chunk",
+
+#optional: The corresponding document column name of the custom pipeline, if specified. Default is "document"
+document="document",
+
+#optional: The corresponding sentence column name of the custom pipeline, if specified. Default is "sentence"
+sentence="sentence",
+
+#optional: The corresponding token column name of the custom pipeline, if specified. Default is "token"
+token="token",
+
+#optional: The source of the reference file for obfuscation. Default is "faker".
+#obfuscate_ref_source="both",
+
+#optional: The path of the reference file for obfuscation. Default is None.
+#obfuscate_ref_file_path="obfuscation.txt",
+
+#optional: Obfuscate date. Default is True.
+#obfuscate_date=True,
+
+#optional: The document hash coder column name. Default is "documentHash".
+#documentHashCoder_col_name= "documentHash"
+
+#optional: ID column name. Default is "id".
+#id_column_name= "ID"
+
+#optional: Date shift column name. Default is "date_shift".
+#date_shift_column_name= "date_shift"
+
+#optional: The date tag. Default is "DATE".
+#date_tag="DATE"
+
+#optional: Language. Default is "en"
+#language="en"
+
+#optional: Region. Default is "us"
+#region="us"
+
+#optional: Age group obfuscation. Default is False.
+#age_group_obfuscation=True
+
+#optional: Age ranges for obfuscation. Default is [1, 4, 12, 20, 40, 60, 80].
+#age_ranges=[1, 4, 12, 20, 40, 60, 80]
+
+#optional:  Shift days. Default is False.
+#shift_days=False
+
+#optional: The number of days to shift. Default is None.
+#number_of_days=5
+
+#optional: Use unnormalized date. Default is False.
+#unnormalized_date=True
+
+#optional: The unnormalized mode. Default is "mask".
+#unnormalized_mode="obfuscate")
+
+```
+
+```
++---+----------------------------------------------------------------------+----------------------------------------------+----------------------------------------------------------------------+----------------------------------------------------------------------+
+| ID|                                                                  text|                             text_deidentified|                                                                text_1|                                                   text_1_deidentified|
++---+----------------------------------------------------------------------+----------------------------------------------+----------------------------------------------------------------------+----------------------------------------------------------------------+
+|  0|Record date : 2093-01-13 , David Hale , M.D . , Name : Hendrickson ...|Record date : ** , ** , M.D . , Name : ** MR .|Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-...|Date : 10-16-1991 PCP : Alveda Castles , 26 years-old , Record date...|
++---+----------------------------------------------------------------------+----------------------------------------------+----------------------------------------------------------------------+----------------------------------------------------------------------+
+
+```
+
+
+### Apply Deidentification With No Custom Pipeline
+
+```python
+
+from sparknlp_jsl import deid
+
+deid_implementor= deid(
+# required: Spark session with spark-nlp-jsl jar
+spark
+)
+
+res= deid_implementor.deidentify(
+# required: The path of the input file. Default is None. File type must be 'csv' or 'json'.
+input_file_path="data.csv",
+
+#optional:  The path of the output file. Default is 'deidentified.csv'. File type must be 'csv' or 'json'.
+output_file_path="deidentified.csv",
+
+#optional: The separator of the input csv file. Default is "\t".
+separator=",",
+
+#optional: Fields to be deidentified and their deidentification modes, by default {"text": "mask"}
+fields={"text": "mask"},
+
+#optional: The masking policy. Default is "entity_labels".
+masking_policy="entity_labels",
+
+#optional: Age group obfuscation. Default is False.
+#age_group_obfuscation=True
+
+#optional: Age ranges for obfuscation. Default is [1, 4, 12, 20, 40, 60, 80].
+#age_ranges=[1, 4, 12, 20, 40, 60, 80]
+
+#optional:  Shift days. Default is False.
+#shift_days=False
+
+#optional: The number of days to shift. Default is None.
+#number_of_days=5
+
+#optional: Use unnormalized date. Default is False.
+#unnormalized_date=True
+
+#optional: The unnormalized mode. Default is "mask".
+#unnormalized_mode="obfuscate"
+)
+
+```
+
+```
++---+----------------------------------------------------------------------+----------------------------------------------------------------------+
+| ID|                                                         text_original|                                                             text_deid|
++---+----------------------------------------------------------------------+----------------------------------------------------------------------+
+|  0|                                                                     "|                                                                     "|
+|  1|Record date : 2093-01-13 , David Hale , M.D . , Name : Hendrickson ...|Record date : <DATE> , <DOCTOR> , M.D . , Name : <PATIENT> , MR # <...|
+|  2|                                                                     "|                                                                     "|
++---+----------------------------------------------------------------------+----------------------------------------------------------------------+
+
+```
+
+### Apply Structured Deidentification
+
+```python
+
+from sparknlp_jsl import deid
+
+deid_implementor= deid(
+# required: Spark session with spark-nlp-jsl jar
+spark
+)
+
+res= deid_implementor.structured_deidentifier(
+
+#required: The path of the input file. Default is None. File type must be 'csv' or 'json'.
+input_file_path="data.csv",
+
+#optional:  The path of the output file. Default is 'deidentified.csv'. File type must be 'csv' or 'json'.
+output_file_path="deidentified.csv",
+
+#optional: The separator of the input csv file. Default is "\t".
+separator=",",
+
+#optional: A dictionary that contains the column names and the tags that should be used for deidentification. Default is {"NAME":"PATIENT","AGE":"AGE"}
+columns_dict= {"NAME": "ID", "DOB": "DATE"},
+
+#optional: The seed value for the random number generator. Default is {"NAME": 23, "AGE": 23}
+columns_seed= {"NAME": 23, "DOB": 23},
+
+#optional: The source of the reference file. Default is faker.
+ref_source="faker",
+
+#optional: The number of days to be shifted. Default is None
+shift_days=5,
+
+#optional: The path of the reference file for obfuscation. Default is None.
+#obfuscateRefFile: "obfuscator_unique_ref_test.txt",
+
+#optional: A list of date formats. Default is ["dd/MM/yyyy", "dd-MM-yyyy", "d/M/yyyy", "dd-MM-yyyy", "d-M-yyyy"]
+#date_formats=["dd/MM/yyyy", "dd-MM-yyyy"]
+)
+
+```
+
+```
++----------+------------+--------------------+---+----------------+
+|      NAME|         DOB|             ADDRESS|SBP|             TEL|
++----------+------------+--------------------+---+----------------+
+|[N2649912]|[18/02/1977]|       711 Nulla St.|140|      673 431234|
+| [W466004]|[28/02/1977]|     1 Green Avenue.|140|+23 (673) 431234|
+| [M403810]|[16/04/1900]|Calle del Liberta...|100|      912 345623|
++----------+------------+--------------------+---+----------------+
+```
+
+
+
 ## Compatibility
 
 This module helps to find appropriate model versions depending your distribution of John Snow Labs products.
@@ -413,7 +639,7 @@ models_df = pd.
 Or simply run the `showVersion()` method instead:
 
 ```python
-compatibility.showVersion('ner_clinical') 
+compatibility.showVersion('ner_clinical')
 ```
 
 ```
@@ -457,7 +683,7 @@ compatibility.showVersion('ner_clinical')
 
 This module has extended functinalities to list and download models from John Snow Labs repositories. It is an auxiliary module for finding and downloading different models for studies and analysis.
 
-As with the `Compatibility` module, `InternalResourceDownloader` is also capable of displaying the available models. The difference is that this module can filter the results based on the Python's class name of the annotator, while `Compatibility` searches for models' name. 
+As with the `Compatibility` module, `InternalResourceDownloader` is also capable of displaying the available models. The difference is that this module can filter the results based on the Python's class name of the annotator, while `Compatibility` searches for models' name.
 
 ### Displaying available models
 
@@ -543,7 +769,7 @@ medical.InternalResourceDownloader.showPrivateModels("MedicalNerModel")
 
 ## ModelTracer
 
-This module adds information on the data to help track uids and timestamps of each stage of the pipeline. 
+This module adds information on the data to help track uids and timestamps of each stage of the pipeline.
 
 
 Given the following pipeline for Medical NER:
@@ -553,11 +779,11 @@ Given the following pipeline for Medical NER:
 documentAssembler = DocumentAssembler()\
     .setInputCol("text")\
     .setOutputCol("document")
-        
+
 sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")\
     .setInputCols(["document"])\
     .setOutputCol("sentence")
- 
+
 # Tokenizer splits words in a relevant format for NLP
 tokenizer = Tokenizer()\
     .setInputCols(["sentence"])\
@@ -572,7 +798,7 @@ word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical","en","cli
 clinical_ner = MedicalNerModel.pretrained("ner_clinical_large","en","clinical/models")\
     .setInputCols(["sentence","token","embeddings"])\
     .setOutputCol("ner")\
-    .setLabelCasing("upper") #decide if we want to return the tags in upper or lower case 
+    .setLabelCasing("upper") #decide if we want to return the tags in upper or lower case
 
 ner_converter = NerConverter()\
     .setInputCols(["sentence","token","ner"])\
