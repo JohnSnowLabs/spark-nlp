@@ -70,10 +70,9 @@ pipeline = Pipeline(stages=[
     ner_converter   
     ])
 
-sample_texts = ["He continues to smoke one pack of cigarettes daily, as he has for the past 28 years.",
-             "SOCIAL HISTORY: The patient lives at home with his parents, 2 brothers, and a sister."]
+sample_texts = [["Smith is a 55 years old, divorced Mexcian American woman with financial problems. She speaks spanish. She lives in an apartment. She has been struggling with diabetes for the past 10 years and has recently been experiencing frequent hospitalizations due to uncontrolled blood sugar levels. Smith works as a cleaning assistant and does not have access to health insurance or paid sick leave. She has a son student at college. Pt with likely long-standing depression. She is aware she needs rehab. Pt reprots having her catholic faith as a means of support as well.  She has long history of etoh abuse, beginning in her teens. She reports she has been a daily drinker for 30 years, most recently drinking beer daily. She smokes a pack of cigarettes a day. She had DUI back in April and was due to be in court this week."]]
              
-data = spark.createDataFrame(sample_texts, StringType()).toDF("text")
+data = spark.createDataFrame(sample_texts).toDF("text")
 
 result = pipeline.fit(data).transform(data)
 ```
@@ -120,21 +119,50 @@ val result = pipeline.fit(data).transform(data)
 ## Results
 
 ```bash
-+-------------+-----+---+-------------------+
-|chunk        |begin|end|ner_label          |
-+-------------+-----+---+-------------------+
-|He           |0    |1  |Gender             |
-|smoke        |16   |20 |Smoking            |
-|one pack     |22   |29 |Substance_Quantity |
-|cigarettes   |34   |43 |Smoking            |
-|daily        |45   |49 |Substance_Frequency|
-|he           |55   |56 |Gender             |
-|lives at home|28   |40 |Housing            |
-|his          |47   |49 |Gender             |
-|parents      |51   |57 |Family_Member      |
-|brothers     |62   |69 |Family_Member      |
-|sister       |78   |83 |Family_Member      |
-+-------------+-----+---+-------------------+
++------------------+-----+---+-------------------+
+|chunk             |begin|end|ner_label          |
++------------------+-----+---+-------------------+
+|55 years old      |11   |22 |Age                |
+|divorced          |25   |32 |Marital_Status     |
+|Mexcian American  |34   |49 |Race_Ethnicity     |
+|woman             |51   |55 |Gender             |
+|financial problems|62   |79 |Financial_Status   |
+|She               |82   |84 |Gender             |
+|spanish           |93   |99 |Language           |
+|She               |102  |104|Gender             |
+|apartment         |118  |126|Housing            |
+|She               |129  |131|Gender             |
+|diabetes          |158  |165|Other_Disease      |
+|cleaning assistant|307  |324|Employment         |
+|health insurance  |354  |369|Insurance_Status   |
+|She               |391  |393|Gender             |
+|son               |401  |403|Family_Member      |
+|student           |405  |411|Education          |
+|college           |416  |422|Education          |
+|depression        |454  |463|Mental_Health      |
+|She               |466  |468|Gender             |
+|she               |479  |481|Gender             |
+|rehab             |489  |493|Access_To_Care     |
+|her               |514  |516|Gender             |
+|catholic faith    |518  |531|Spiritual_Beliefs  |
+|support           |547  |553|Social_Support     |
+|She               |565  |567|Gender             |
+|etoh abuse        |589  |598|Alcohol            |
+|her               |614  |616|Gender             |
+|teens             |618  |622|Age                |
+|She               |625  |627|Gender             |
+|she               |637  |639|Gender             |
+|drinker           |658  |664|Alcohol            |
+|drinking beer     |694  |706|Alcohol            |
+|daily             |708  |712|Substance_Frequency|
+|She               |715  |717|Gender             |
+|smokes            |719  |724|Smoking            |
+|a pack            |726  |731|Substance_Quantity |
+|cigarettes        |736  |745|Smoking            |
+|a day             |747  |751|Substance_Frequency|
+|She               |754  |756|Gender             |
+|DUI               |762  |764|Legal_Issues       |
++------------------+-----+---+-------------------+
 
 ```
 
