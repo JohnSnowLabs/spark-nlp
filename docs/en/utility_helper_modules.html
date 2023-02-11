@@ -890,9 +890,9 @@
 
   <h2 id="deidentification-module">Deidentification Module</h2>
 
-  <p>Spark NLP for Healthcare provides functionality to apply Deidentification using easy-to-use module named <code class="language-plaintext highlighter-rouge">deid</code>. <br /></p>
+  <p>Spark NLP for Healthcare provides functionality to apply Deidentification using easy-to-use module named <code class="language-plaintext highlighter-rouge">Deid</code>. <br /></p>
 
-  <p>The <code class="language-plaintext highlighter-rouge">deid</code> module is a tool for deidentifying Personal Health Information from data in a file path. It can be used with custom SparkNLP NER pipelines or without any pipeline specified.
+  <p>The <code class="language-plaintext highlighter-rouge">Deid</code> module is a tool for deidentifying Personal Health Information from data in a file path. It can be used with custom SparkNLP NER pipelines or without any pipeline specified.
 It returns the deidentification results as a pyspark dataframe as well as a <code class="language-plaintext highlighter-rouge">csv</code> or <code class="language-plaintext highlighter-rouge">json file</code>.
 The module also includes functionality for applying Structured Deidentification task to data from a file path. <br /></p>
 
@@ -901,9 +901,9 @@ The module also includes functionality for applying Structured Deidentification 
 
   <h3 id="apply-deidentification-with-a-custom-pipeline">Apply Deidentification With a Custom Pipeline</h3>
 
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp_jsl</span> <span class="kn">import</span> <span class="n">deid</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp_jsl</span> <span class="kn">import</span> <span class="n">Deid</span>
 
-<span class="n">deid_implementor</span><span class="o">=</span> <span class="n">deid</span><span class="p">(</span>
+<span class="n">deid_implementor</span><span class="o">=</span> <span class="n">Deid</span><span class="p">(</span>
 <span class="c1"># required: Spark session with spark-nlp-jsl jar
 </span><span class="n">spark</span>
 <span class="p">)</span>
@@ -985,8 +985,9 @@ The module also includes functionality for applying Structured Deidentification 
 #unnormalized_date=True
 </span>
 <span class="c1">#optional: The unnormalized mode. Default is "mask".
-#unnormalized_mode="obfuscate")
-</span>
+#unnormalized_mode="obfuscate"
+</span><span class="p">)</span>
+
 </code></pre></div>  </div>
 
   <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+---+----------------------------------------------------------------------+----------------------------------------------+----------------------------------------------------------------------+----------------------------------------------------------------------+
@@ -1000,9 +1001,9 @@ The module also includes functionality for applying Structured Deidentification 
   <h3 id="apply-deidentification-with-no-custom-pipeline">Apply Deidentification With No Custom Pipeline</h3>
 
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="kn">from</span> <span class="nn">sparknlp_jsl</span> <span class="kn">import</span> <span class="n">deid</span>
+<span class="kn">from</span> <span class="nn">sparknlp_jsl</span> <span class="kn">import</span> <span class="n">Deid</span>
 
-<span class="n">deid_implementor</span><span class="o">=</span> <span class="n">deid</span><span class="p">(</span>
+<span class="n">deid_implementor</span><span class="o">=</span> <span class="n">Deid</span><span class="p">(</span>
 <span class="c1"># required: Spark session with spark-nlp-jsl jar
 </span><span class="n">spark</span>
 <span class="p">)</span>
@@ -1057,9 +1058,9 @@ The module also includes functionality for applying Structured Deidentification 
   <h3 id="apply-structured-deidentification">Apply Structured Deidentification</h3>
 
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="kn">from</span> <span class="nn">sparknlp_jsl</span> <span class="kn">import</span> <span class="n">deid</span>
+<span class="kn">from</span> <span class="nn">sparknlp_jsl</span> <span class="kn">import</span> <span class="n">Deid</span>
 
-<span class="n">deid_implementor</span><span class="o">=</span> <span class="n">deid</span><span class="p">(</span>
+<span class="n">deid_implementor</span><span class="o">=</span> <span class="n">Deid</span><span class="p">(</span>
 <span class="c1"># required: Spark session with spark-nlp-jsl jar
 </span><span class="n">spark</span>
 <span class="p">)</span>
