@@ -351,9 +351,9 @@ preannotations = pre_annotations)
 
 ## Deidentification Module
 
-Spark NLP for Healthcare provides functionality to apply Deidentification using easy-to-use module named `deid`. <br/>
+Spark NLP for Healthcare provides functionality to apply Deidentification using easy-to-use module named `Deid`. <br/>
 
-The `deid` module is a tool for deidentifying Personal Health Information from data in a file path. It can be used with custom SparkNLP NER pipelines or without any pipeline specified.
+The `Deid` module is a tool for deidentifying Personal Health Information from data in a file path. It can be used with custom SparkNLP NER pipelines or without any pipeline specified.
 It returns the deidentification results as a pyspark dataframe as well as a `csv` or `json file`.
 The module also includes functionality for applying Structured Deidentification task to data from a file path. <br/>
 
@@ -363,9 +363,9 @@ The function, `deidentify()`, can be used with a custom pipeline or without defi
 ### Apply Deidentification With a Custom Pipeline
 
 ```python
-from sparknlp_jsl import deid
+from sparknlp_jsl import Deid
 
-deid_implementor= deid(
+deid_implementor= Deid(
 # required: Spark session with spark-nlp-jsl jar
 spark
 )
@@ -447,7 +447,8 @@ token="token",
 #unnormalized_date=True
 
 #optional: The unnormalized mode. Default is "mask".
-#unnormalized_mode="obfuscate")
+#unnormalized_mode="obfuscate"
+)
 
 ```
 
@@ -465,9 +466,9 @@ token="token",
 
 ```python
 
-from sparknlp_jsl import deid
+from sparknlp_jsl import Deid
 
-deid_implementor= deid(
+deid_implementor= Deid(
 # required: Spark session with spark-nlp-jsl jar
 spark
 )
@@ -524,9 +525,9 @@ masking_policy="entity_labels",
 
 ```python
 
-from sparknlp_jsl import deid
+from sparknlp_jsl import Deid
 
-deid_implementor= deid(
+deid_implementor= Deid(
 # required: Spark session with spark-nlp-jsl jar
 spark
 )
