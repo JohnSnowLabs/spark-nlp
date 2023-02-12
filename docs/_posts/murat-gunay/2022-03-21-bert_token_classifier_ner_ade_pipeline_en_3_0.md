@@ -21,8 +21,8 @@ use_language_switcher: "Python-Scala-Java"
 This pretrained pipeline is built on the top of [bert_token_classifier_ner_ade](https://nlp.johnsnowlabs.com/2022/01/04/bert_token_classifier_ner_ade_en.html) model.
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/ADE/){:.button.button-orange}{:target="_blank"}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings_JSL/Healthcare/16.Adverse_Drug_Event_ADE_NER_and_Classifier.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_ner_ade_pipeline_en_3.4.1_3.0_1647862348142.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
 [Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_ner_ade_pipeline_en_3.4.1_3.0_1647862348142.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 

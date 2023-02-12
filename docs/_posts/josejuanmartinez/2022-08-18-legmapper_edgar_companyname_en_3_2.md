@@ -47,40 +47,60 @@ IMPORTANT: Chunk Mappers work with exact matches, so before using Chunk Mapping,
 
 ```python
 documentAssembler = nlp.DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
+        .setInputCol("text")\
+        .setOutputCol("document")
 
 tokenizer = nlp.Tokenizer()\
-    .setInputCols(["document"])\
-    .setOutputCol("token")
+        .setInputCols(["document"])\
+        .setOutputCol("token")
 
 embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
-    .setInputCols(["document", "token"]) \
-    .setOutputCol("embeddings")
+        .setInputCols(["document", "token"]) \
+        .setOutputCol("embeddings")
 
 ner_model = legal.NerModel.pretrained("legner_orgs_prods_alias", "en", "legal/models")\
-    .setInputCols(["document", "token", "embeddings"])\
-    .setOutputCol("ner")
+        .setInputCols(["document", "token", "embeddings"])\
+        .setOutputCol("ner")
 
 ner_converter = nlp.NerConverter()\
-    .setInputCols(["document","token","ner"])\
-    .setOutputCol("ner_chunk")
+        .setInputCols(["document","token","ner"])\
+        .setOutputCol("ner_chunk")
 
-cm = legal.ChunkMapperModel().pretrained("legmapper_edgar_companyname", "en", "legal/models")\
-    .setInputCols(["ner_chunk"])\
-    .setOutputCol("mappings")\
-    .setEnableFuzzyMatching(True)\
+# Optional: To normalize the ORG name using NASDAQ data before the mapping
+##########################################################################
+chunkToDoc = nlp.Chunk2Doc()\
+        .setInputCols("ner_chunk")\
+        .setOutputCol("ner_chunk_doc")
+
+chunk_embeddings = nlp.UniversalSentenceEncoder.pretrained("tfhub_use", "en") \
+      .setInputCols("ner_chunk_doc") \
+      .setOutputCol("sentence_embeddings")
+    
+use_er_model = legal.SentenceEntityResolverModel.pretrained("legel_edgar_company_name", "en", "legal/models") \
+      .setInputCols(["ner_chunk_doc", "sentence_embeddings"]) \
+      .setOutputCol("normalized")\
+      .setDistanceFunction("EUCLIDEAN")
+##########################################################################
+
+cm = legal.ChunkMapperModel()\
+      .pretrained("legmapper_edgar_companyname", "en", "legal/models")\
+      .setInputCols(["normalized"])\ # or ner_chunk for non normalized versions
+      .setOutputCol("mappings")
 
 nlpPipeline = nlp.Pipeline(stages=[
-    documentAssembler,
-    tokenizer,
-    embeddings,
-    ner_model,
-    ner_converter,
-    cm
+        documentAssembler,
+        tokenizer,
+        embeddings,
+        ner_model,
+        ner_converter,
+        chunkToDoc,
+        chunk_embeddings,
+        use_er_model,
+        cm
 ])
 
-text = """NIKE Inc is an American multinational corporation that is engaged in the design, development, manufacturing, and worldwide marketing and sales of footwear, apparel, equipment, accessories, and services"""
+text = """NIKE Inc is an American multinational corporation that is engaged in the design, development, manufacturing, and worldwide marketing and sales of footwear, 
+apparel, equipment, accessories, and services"""
 
 test_data = spark.createDataFrame([[text]]).toDF("text")
 
@@ -88,7 +108,7 @@ model = nlpPipeline.fit(test_data)
 
 lp = nlp.LightPipeline(model)
 
-lp.fullAnnotate(text)
+lp.annotate(text)
 ```
 
 </div>
@@ -96,24 +116,7 @@ lp.fullAnnotate(text)
 ## Results
 
 ```bash
-{
-    "name": "NIKE, Inc.",
-    "sic": "RUBBER & PLASTICS FOOTWEAR [3021]",
-    "sic_code": "3021",
-    "irs_number": "930584541",
-    "fiscal_year_end": "531",
-    "state_location": "OR",
-    "state_incorporation": "OR",
-    "business_street": "ONE BOWERMAN DR",
-    "business_city": "BEAVERTON",
-    "business_state": "OR",
-    "business_zip": "97005-6453",
-    "business_phone": "5036713173",
-    "former_name": "NIKE INC",
-    "former_name_date": "19920703",
-    "date": "2022-01-06",
-    "company_id": "320187"
-}
+{"mappings": [["labeled_dependency", 0, 22, "Jamestown Invest 1, LLC", {"sentence": "0", "chunk": "0", "entity": "Jamestown Invest 1, LLC", "relation": "name", "all_relations": ""}], ["labeled_dependency", 0, 22, "REAL ESTATE INVESTMENT TRUSTS [6798]", {"sentence": "0", "chunk": "0", "entity": "Jamestown Invest 1, LLC", "relation": "sic", "all_relations": ""}], ["labeled_dependency", 0, 22, "6798", {"sentence": "0", "chunk": "0", "entity": "Jamestown Invest 1, LLC", "relation": "sic_code", "all_relations": ""}], ["labeled_dependency", 0, 22, "831529368", {"sentence": "0", "chunk": "0", "entity": "Jamestown Invest 1, LLC", "relation": "irs_number", "all_relations": ""}], ["labeled_dependency", 0, 22, "1231", {"sentence": "0", "chunk": "0", "entity": "Jamestown Invest 1, LLC", "relation": "fiscal_year_end", "all_relations": ""}], ["labeled_dependency", 0, 22, "GA", {"sentence": "0", "chunk": "0", "entity": "Jamestown Invest 1, LLC", "relation": "state_location", "all_relations": ""}], ["labeled_dependency", 0, 22, "DE", {"sentence": "0", "chunk": "0", "entity": "Jamestown Invest 1, LLC", "relation": "state_incorporation", "all_relations": ""}], ["labeled_dependency", 0, 22, "PONCE CITY MARKET", {"sentence": "0", "chunk": "0", "entity": "Jamestown Invest 1, LLC", "relation": "business_street", "all_relations": ""}], ["labeled_dependency", 0, 22, "ATLANTA", {"sentence": "0", "chunk": "0", "entity": "Jamestown Invest 1, LLC", "relation": "business_city", "all_relations": ""}], ["labeled_dependency", 0, 22, "GA", {"sentence": "0", "chunk": "0", "entity": "Jamestown Invest 1, LLC", "relation": "business_state", "all_relations": ""}], ["labeled_dependency", 0, 22, "30308", {"sentence": "0", "chunk": "0", "entity": "Jamestown Invest 1, LLC", "relation": "business_zip", "all_relations": ""}], ["labeled_dependency", 0, 22, "7708051000", {"sentence": "0", "chunk": "0", "entity": "Jamestown Invest 1, LLC", "relation": "business_phone", "all_relations": ""}], ["labeled_dependency", 0, 22, "Jamestown Atlanta Invest 1, LLC", {"sentence": "0", "chunk": "0", "entity": "Jamestown Invest 1, LLC", "relation": "former_name", "all_relations": ""}], ["labeled_dependency", 0, 22, "20180824", {"sentence": "0", "chunk": "0", "entity": "Jamestown Invest 1, LLC", "relation": "former_name_date", "all_relations": ""}], ["labeled_dependency", 0, 22, "2019-11-21", {"sentence": "0", "chunk": "0", "entity": "Jamestown Invest 1, LLC", "relation": "date", "all_relations": "2019-10-24:::2019-11-25:::2019-11-12:::2022-01-13:::2022-03-31:::2022-04-11:::2022-07-12:::2022-06-30:::2021-01-14:::2021-04-06:::2021-03-31:::2021-04-28:::2021-06-30:::2021-09-10:::2021-09-22:::2021-09-30:::2021-10-08:::2020-03-16:::2021-12-30:::2020-04-06:::2020-04-29:::2020-06-12:::2020-07-20:::2020-07-07:::2020-07-28:::2020-07-31:::2020-09-09:::2020-09-25:::2020-10-08:::2020-11-12"}], ["labeled_dependency", 0, 22, "1751158", {"sentence": "0", "chunk": "0", "entity": "Jamestown Invest 1, LLC", "relation": "company_id", "all_relations": ""}]]}
 ```
 
 {:.model-param}
