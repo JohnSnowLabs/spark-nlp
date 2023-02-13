@@ -1,10 +1,10 @@
 ---
 layout: model
-title: Legal Permitted_Use Clause Binary Classifier
+title: Legal Permitted Use Clause Binary Classifier
 author: John Snow Labs
 name: legclf_permitted_use_clause
 date: 2023-02-13
-tags: [en, legal, classification, permitted, use, permitted_use, licensed, tensorflow]
+tags: [en, legal, classification, permitted, use, licensed, tensorflow]
 task: Text Classification
 language: en
 edition: Legal NLP 1.0.0
@@ -46,6 +46,7 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 document_assembler = nlp.DocumentAssembler()\
@@ -110,12 +111,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-
         label  precision    recall  f1-score   support
         other       1.00      1.00      1.00         5
 permitted_use       1.00      1.00      1.00        11
      accuracy          -         -      1.00        16
     macro-avg       1.00      1.00      1.00        16
  weighted-avg       1.00      1.00      1.00        16
-
 ```
