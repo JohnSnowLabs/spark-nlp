@@ -4,7 +4,7 @@ title: Legal Names Of Parties Clause Binary Classifier
 author: John Snow Labs
 name: legclf_names_of_parties_clause
 date: 2023-02-13
-tags: [en, legal, classification, parties, names_of_parties, licensed, tensorflow]
+tags: [en, legal, classification, parties, licensed, tensorflow]
 task: Text Classification
 language: en
 edition: Legal NLP 1.0.0
