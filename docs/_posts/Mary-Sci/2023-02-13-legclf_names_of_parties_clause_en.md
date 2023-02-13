@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Names_Of_Parties Clause Binary Classifier
+title: Legal Names Of Parties Clause Binary Classifier
 author: John Snow Labs
 name: legclf_names_of_parties_clause
 date: 2023-02-13
