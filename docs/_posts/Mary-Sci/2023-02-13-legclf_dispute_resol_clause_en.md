@@ -4,7 +4,7 @@ title: Legal Dispute Resolve Clause Binary Classifier
 author: John Snow Labs
 name: legclf_dispute_resol_clause
 date: 2023-02-13
-tags: [en, legal, classification, dispute, resolve, dispute_resol, licensed, tensorflow]
+tags: [en, legal, classification, dispute, resolve, licensed, tensorflow]
 task: Text Classification
 language: en
 edition: Legal NLP 1.0.0
