@@ -4,7 +4,7 @@ title: Legal Restricted Use Clause Binary Classifier
 author: John Snow Labs
 name: legclf_restricted_use_clause
 date: 2023-02-13
-tags: [en, legal, classification, restricted, use, restricted_use, licensed, tensorflow]
+tags: [en, legal, classification, restricted, use, licensed, tensorflow]
 task: Text Classification
 language: en
 edition: Legal NLP 1.0.0
