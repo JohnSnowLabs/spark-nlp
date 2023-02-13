@@ -4,7 +4,7 @@ title: Legal Non Competition Clause Binary Classifier
 author: John Snow Labs
 name: legclf_non_comp_clause
 date: 2023-02-13
-tags: [en, legal, classification, non_competition, non_comp, licensed, tensorflow]
+tags: [en, legal, classification, non_competition, licensed, tensorflow]
 task: Text Classification
 language: en
 edition: Legal NLP 1.0.0
