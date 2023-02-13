@@ -45,6 +45,7 @@ sidebar:
 
 + We are releasing 4 new SDOH NER models that were trained by using `embeddings_clinical` embeddings model.
 
+
 | model name                                     | description                                                                                         | predicted entities                     |
 |------------------------------------------------|-----------------------------------------------------------------------------------------------------|----------------------------------------|
 | [ner_sdoh_wip](https://nlp.johnsnowlabs.com/2023/02/11/ner_sdoh_wip_en.html) | Extracts terminology related to Social Determinants of Health from various kinds of biomedical documents. | `Other_SDoH_Keywords` `Education` `Population_Group` `Quality_Of_Life` `Housing` `Substance_Frequency` `Smoking` `Eating_Disorder` `Obesity` `Healthcare_Institution` `Financial_Status` `Age` `Chidhood_Event` `Exercise` `Communicable_Disease` `Hypertension` `Other_Disease` `Violence_Or_Abuse` `Spiritual_Beliefs` `Employment` `Social_Exclusion` `Access_To_Care` `Marital_Status` `Diet` `Social_Support` `Disability` `Mental_Health` `Alcohol` `Insurance_Status` `Substance_Quantity` `Hyperlipidemia` `Family_Member` `Legal_Issues` `Race_Ethnicity` `Gender` `Geographic_Entity` `Sexual_Orientation` `Transportation` `Sexual_Activity` `Language` `Substance_Use`|
