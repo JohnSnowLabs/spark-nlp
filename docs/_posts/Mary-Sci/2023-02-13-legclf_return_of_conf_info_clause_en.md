@@ -4,7 +4,7 @@ title: Legal Return Of Confidential Information Clause Binary Classifier
 author: John Snow Labs
 name: legclf_return_of_conf_info_clause
 date: 2023-02-13
-tags: [en, legal, classification, return, confidential, information, return_of_conf_info, licensed, tensorflow]
+tags: [en, legal, classification, return, confidential, information, licensed, tensorflow]
 task: Text Classification
 language: en
 edition: Legal NLP 1.0.0
