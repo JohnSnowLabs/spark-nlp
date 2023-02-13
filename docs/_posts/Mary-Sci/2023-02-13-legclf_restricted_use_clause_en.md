@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Restricted_Use Clause Binary Classifier
+title: Legal Restricted Use Clause Binary Classifier
 author: John Snow Labs
 name: legclf_restricted_use_clause
 date: 2023-02-13
@@ -13,7 +13,7 @@ supported: true
 engine: tensorflow
 annotator: LegalClassifierDLModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -46,6 +46,7 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 document_assembler = nlp.DocumentAssembler()\
@@ -110,12 +111,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-
          label  precision    recall  f1-score   support
          other       1.00      0.91      0.95        11
 restricted_use       0.94      1.00      0.97        17
       accuracy          -         -      0.96        28
      macro-avg       0.97      0.95      0.96        28
   weighted-avg       0.97      0.96      0.96        28
-
 ```
