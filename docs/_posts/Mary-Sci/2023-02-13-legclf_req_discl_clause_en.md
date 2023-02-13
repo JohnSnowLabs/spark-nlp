@@ -1,10 +1,10 @@
 ---
 layout: model
-title: Legal Req_Discl Clause Binary Classifier
+title: Legal Required Disclosure Clause Binary Classifier
 author: John Snow Labs
 name: legclf_req_discl_clause
 date: 2023-02-13
-tags: [en, legal, classification, required, disclosure, req_discl, licensed, tensorflow]
+tags: [en, legal, classification, required, disclosure, licensed, tensorflow]
 task: Text Classification
 language: en
 edition: Legal NLP 1.0.0
@@ -46,6 +46,7 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 document_assembler = nlp.DocumentAssembler()\
@@ -110,12 +111,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-
        label  precision    recall  f1-score   support
        other       0.80      0.80      0.80         5
    req_discl       0.89      0.89      0.89         9
     accuracy          -         -      0.86        14
    macro-avg       0.84      0.84      0.84        14
 weighted-avg       0.86      0.86      0.86        14
-
 ```
