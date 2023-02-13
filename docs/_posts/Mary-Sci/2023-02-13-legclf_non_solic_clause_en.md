@@ -1,10 +1,10 @@
 ---
 layout: model
-title: Legal Non_Solic Clause Binary Classifier
+title: Legal Non Soliciting Clause Binary Classifier
 author: John Snow Labs
 name: legclf_non_solic_clause
 date: 2023-02-13
-tags: [en, legal, classification, non_soliciting, non_solic, licensed, tensorflow]
+tags: [en, legal, classification, non_soliciting, licensed, tensorflow]
 task: Text Classification
 language: en
 edition: Legal NLP 1.0.0
@@ -46,6 +46,7 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 document_assembler = nlp.DocumentAssembler()\
@@ -110,12 +111,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-
        label  precision    recall  f1-score   support
    non_solic       0.92      1.00      0.96        11
        other       1.00      0.80      0.89         5
     accuracy          -         -      0.94        16
    macro-avg       0.96      0.90      0.92        16
 weighted-avg       0.94      0.94      0.94        16
-
 ```
