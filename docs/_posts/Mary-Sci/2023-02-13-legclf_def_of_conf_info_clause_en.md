@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Def_Of_Conf_Info Clause Binary Classifier
+title: Legal Definition Of Confidential Information Clause Binary Classifier
 author: John Snow Labs
 name: legclf_def_of_conf_info_clause
 date: 2023-02-13
@@ -13,7 +13,7 @@ supported: true
 engine: tensorflow
 annotator: LegalClassifierDLModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -46,6 +46,7 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 document_assembler = nlp.DocumentAssembler()\
@@ -110,12 +111,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-
            label  precision    recall  f1-score   support
 def_of_conf_info       0.91      1.00      0.95        20
            other       1.00      0.85      0.92        13
         accuracy          -         -      0.94        33
        macro-avg       0.95      0.92      0.93        33
     weighted-avg       0.94      0.94      0.94        33
-
 ```
