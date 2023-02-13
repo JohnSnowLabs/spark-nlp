@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Return_Of_Conf_Info Clause Binary Classifier
+title: Legal Return Of Confidential Information Clause Binary Classifier
 author: John Snow Labs
 name: legclf_return_of_conf_info_clause
 date: 2023-02-13
@@ -46,6 +46,7 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 document_assembler = nlp.DocumentAssembler()\
@@ -110,12 +111,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-
               label  precision    recall  f1-score   support
               other       1.00      1.00      1.00         8
 return_of_conf_info       1.00      1.00      1.00        15
            accuracy          -         -      1.00        23
           macro-avg       1.00      1.00      1.00        23
        weighted-avg       1.00      1.00      1.00        23
-
 ```
