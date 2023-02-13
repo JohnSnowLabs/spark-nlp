@@ -22,12 +22,12 @@ sidebar:
 + New text classification annotators (architectures) for training text classification models using SVM and Logistic Regression with sentence embeddings
 + One-liner clinical deidentification module
 + Certification_Training notebooks (written in johnsnowlabs library) moved to parent workshop folder
++ Different validation split per epoch in `MedicalNerApproach`
 + Core improvements and bug fixes
     - New read_conll method for reading conll files as `Conll.readDataset` does but it returns pandas dataframe with document(task) ids.
     - Updated documentation
     - Allow using `FeatureAssembler` in pretrained pipelines.
     - Fixed `RelationExtractionModel` running in LightPipeline
-    - Fixed validation and test sets spliting in `MedicalNerApproach`
     - Fixed `get_conll_data` method issue
 + New and updated notebooks
     - New [Clinical Deidentification Utility Module Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.5.Clinical_Deidentification_Utility_Module.ipynb).
@@ -49,7 +49,7 @@ sidebar:
 | model name                                     | description                                                                                         | predicted entities                     |
 |------------------------------------------------|-----------------------------------------------------------------------------------------------------|----------------------------------------|
 | [ner_sdoh_wip](https://nlp.johnsnowlabs.com/2023/02/11/ner_sdoh_wip_en.html) | Extracts terminology related to Social Determinants of Health from various kinds of biomedical documents. | `Other_SDoH_Keywords` `Education` `Population_Group` `Quality_Of_Life` `Housing` `Substance_Frequency` `Smoking` `Eating_Disorder` `Obesity` `Healthcare_Institution` `Financial_Status` `Age` `Chidhood_Event` `Exercise` `Communicable_Disease` `Hypertension` `Other_Disease` `Violence_Or_Abuse` `Spiritual_Beliefs` `Employment` `Social_Exclusion` `Access_To_Care` `Marital_Status` `Diet` `Social_Support` `Disability` `Mental_Health` `Alcohol` `Insurance_Status` `Substance_Quantity` `Hyperlipidemia` `Family_Member` `Legal_Issues` `Race_Ethnicity` `Gender` `Geographic_Entity` `Sexual_Orientation` `Transportation` `Sexual_Activity` `Language` `Substance_Use`|
-| [ner_sdoh_social_environment_wip](https://nlp.johnsnowlabs.com/2023/02/10/ner_sdoh_social_environment_wip_en.html)     | Extracts social environment terminologies related to Social Determinants of Health from various kinds of biomedical documents.     | `Social_Support` `Chidhood_Event` `Social_Exclusion` ` Violence_Abuse_Legal`        |
+| [ner_sdoh_social_environment_wip](https://nlp.johnsnowlabs.com/2023/02/10/ner_sdoh_social_environment_wip_en.html)     | Extracts social environment terminologies related to Social Determinants of Health from various kinds of biomedical documents.     | `Social_Support` `Chidhood_Event` `Social_Exclusion` `Violence_Abuse_Legal`        |
 | [ner_sdoh_demographics_wip](https://nlp.johnsnowlabs.com/2023/02/10/ner_sdoh_demographics_wip_en.html)                 | Extracts demographic information related to Social Determinants of Health from various kinds of biomedical documents.              | `Family_Member` `Age` `Gender` `Geographic_Entity` `Race_Ethnicity`  `Language` `Spiritual_Beliefs`   |
 | [ner_sdoh_income_social_status_wip](https://nlp.johnsnowlabs.com/2023/02/10/ner_sdoh_income_social_status_wip_en.html) | Extracts income and social status information related to Social Determinants of Health from various kinds of biomedical documents. | `Education` `Marital_Status` `Financial_Status` `Population_Group` `Employment` |
 
@@ -397,8 +397,9 @@ shift_days=5)
 +----------+------------+--------------------+---+----------------+
 ```
 
+#### Different Validation Split Per Epoch In `MedicalNerApproach`
 
-
+The validation splits in `MedicalNerApproach` used to be static and same for every epoch. Now we can control with behaviour with a new parameter called `setRandomValidationSplitPerEpoch(bool)` and allow users  to set random validation splits per epoch.
 
 #### Certification_Training Notebooks (Written In Johnsnowlabs Library) Moved to Parent Workshop Folder
 
@@ -410,11 +411,10 @@ shift_days=5)
 
 #### Core Improvements and Bug Fixes
 
-- New read_conll method for reading conll files as `Conll.readDataset` does but it returns pandas dataframe with document(task) ids.
+- New read_conll method for reading conll files as `Conll.readDataset` does but it returns dataframe with document(task) ids.
 - Updated documentation
 - Allow using `FeatureAssembler` in pretrained pipelines.
 - Fixed `RelationExtractionModel` running in LightPipeline
-- Fixed validation and test sets spliting in `MedicalNerApproach`
 - Fixed `get_conll_data` method issue
 
 
