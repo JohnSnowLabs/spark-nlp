@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Dispute_Resol Clause Binary Classifier
+title: Legal Dispute Resolve Clause Binary Classifier
 author: John Snow Labs
 name: legclf_dispute_resol_clause
 date: 2023-02-13
@@ -46,6 +46,7 @@ This model can be combined with any of the other 200+ Legal Clauses Classifiers 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 document_assembler = nlp.DocumentAssembler()\
@@ -110,12 +111,10 @@ Legal documents, scrapped from the Internet, and classified in-house
 ## Benchmarking
 
 ```bash
-
         label  precision    recall  f1-score   support
 dispute_resol       0.94      0.89      0.92        19
         other       0.83      0.91      0.87        11
      accuracy          -         -      0.90        30
     macro-avg       0.89      0.90      0.89        30
  weighted-avg       0.90      0.90      0.90        30
-
 ```
