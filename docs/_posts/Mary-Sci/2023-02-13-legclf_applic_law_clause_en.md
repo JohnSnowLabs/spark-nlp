@@ -1,10 +1,10 @@
 ---
 layout: model
-title: Legal Applic Law Clause Binary Classifier
+title: Legal Applicable Law Clause Binary Classifier
 author: John Snow Labs
 name: legclf_applic_law_clause
 date: 2023-02-13
-tags: [en, legal, classification, applicable, law, applic_law, licensed, tensorflow]
+tags: [en, legal, classification, applicable, law, licensed, tensorflow]
 task: Text Classification
 language: en
 edition: Legal NLP 1.0.0
