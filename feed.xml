@@ -1,5 +1,232 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-02-13T12:55:00+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
-</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">Extract Demographic Entities from Social Determinants of Health Texts</title><link href="/2023/02/10/ner_sdoh_demographics_wip_en.html" rel="alternate" type="text/html" title="Extract Demographic Entities from Social Determinants of Health Texts" /><published>2023-02-10T00:00:00+00:00</published><updated>2023-02-10T00:00:00+00:00</updated><id>/2023/02/10/ner_sdoh_demographics_wip_en</id><content type="html" xml:base="/2023/02/10/ner_sdoh_demographics_wip_en.html">## Description
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-02-13T13:03:00+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">Social Determinants of Health</title><link href="/2023/02/11/ner_sdoh_wip_en.html" rel="alternate" type="text/html" title="Social Determinants of Health" /><published>2023-02-11T00:00:00+00:00</published><updated>2023-02-11T00:00:00+00:00</updated><id>/2023/02/11/ner_sdoh_wip_en</id><content type="html" xml:base="/2023/02/11/ner_sdoh_wip_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;This model extracts terminology related to Social Determinants of Health from various kinds of biomedical documents.&lt;/p&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Other_SDoH_Keywords&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Education&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Population_Group&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Quality_Of_Life&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Housing&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Substance_Frequency&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Smoking&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Eating_Disorder&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Obesity&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Healthcare_Institution&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Financial_Status&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Age&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Chidhood_Event&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Exercise&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Communicable_Disease&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Hypertension&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Other_Disease&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Violence_Or_Abuse&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Spiritual_Beliefs&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Employment&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Social_Exclusion&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Access_To_Care&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Marital_Status&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Diet&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Social_Support&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Disability&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Mental_Health&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Alcohol&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Insurance_Status&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Substance_Quantity&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Hyperlipidemia&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Family_Member&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Legal_Issues&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Race_Ethnicity&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Gender&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Geographic_Entity&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Sexual_Orientation&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Transportation&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Sexual_Activity&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Language&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Substance_Use&lt;/code&gt;&lt;/p&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_sdoh_wip_en_4.2.8_3.0_1676135569606.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/clinical/models/ner_sdoh_wip_en_4.2.8_3.0_1676135569606.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;sentence_detector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SentenceDetectorDLModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence_detector_dl&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;clinical_embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;WordEmbeddingsModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings_clinical&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clinical/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;ner_model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MedicalNerModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_sdoh_wip&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clinical/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NerConverterInternal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_chunk&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
+    &lt;span class=&quot;n&quot;&gt;sentence_detector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;clinical_embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;ner_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt;   
+    &lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;sample_texts&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Smith is a 55 years old, divorced Mexcian American woman with financial problems. She speaks spanish. She lives in an apartment. She has been struggling with diabetes for the past 10 years and has recently been experiencing frequent hospitalizations due to uncontrolled blood sugar levels. Smith works as a cleaning assistant and does not have access to health insurance or paid sick leave. She has a son student at college. Pt with likely long-standing depression. She is aware she needs rehab. Pt reprots having her catholic faith as a means of support as well.  She has long history of etoh abuse, beginning in her teens. She reports she has been a daily drinker for 30 years, most recently drinking beer daily. She smokes a pack of cigarettes a day. She had DUI back in April and was due to be in court this week.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]&lt;/span&gt;
+             
+&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sample_texts&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;sentence_detector&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;SentenceDetectorDLModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence_detector_dl&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;clinical_embeddings&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;WordEmbeddingsModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings_clinical&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clinical/models&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ner_model&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;MedicalNerModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_sdoh_wip&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clinical/models&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ner_converter&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;NerConverterInternal&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_chunk&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; 
+    &lt;span class=&quot;n&quot;&gt;sentence_detector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;clinical_embeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;ner_model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt;   
+&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Seq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;He continues to smoke one pack of cigarettes daily, as he has for the past 28 years.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;toDS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+------------------+-----+---+-------------------+
+|chunk             |begin|end|ner_label          |
++------------------+-----+---+-------------------+
+|55 years old      |11   |22 |Age                |
+|divorced          |25   |32 |Marital_Status     |
+|Mexcian American  |34   |49 |Race_Ethnicity     |
+|woman             |51   |55 |Gender             |
+|financial problems|62   |79 |Financial_Status   |
+|She               |82   |84 |Gender             |
+|spanish           |93   |99 |Language           |
+|She               |102  |104|Gender             |
+|apartment         |118  |126|Housing            |
+|She               |129  |131|Gender             |
+|diabetes          |158  |165|Other_Disease      |
+|cleaning assistant|307  |324|Employment         |
+|health insurance  |354  |369|Insurance_Status   |
+|She               |391  |393|Gender             |
+|son               |401  |403|Family_Member      |
+|student           |405  |411|Education          |
+|college           |416  |422|Education          |
+|depression        |454  |463|Mental_Health      |
+|She               |466  |468|Gender             |
+|she               |479  |481|Gender             |
+|rehab             |489  |493|Access_To_Care     |
+|her               |514  |516|Gender             |
+|catholic faith    |518  |531|Spiritual_Beliefs  |
+|support           |547  |553|Social_Support     |
+|She               |565  |567|Gender             |
+|etoh abuse        |589  |598|Alcohol            |
+|her               |614  |616|Gender             |
+|teens             |618  |622|Age                |
+|She               |625  |627|Gender             |
+|she               |637  |639|Gender             |
+|drinker           |658  |664|Alcohol            |
+|drinking beer     |694  |706|Alcohol            |
+|daily             |708  |712|Substance_Frequency|
+|She               |715  |717|Gender             |
+|smokes            |719  |724|Smoking            |
+|a pack            |726  |731|Substance_Quantity |
+|cigarettes        |736  |745|Smoking            |
+|a day             |747  |751|Substance_Frequency|
+|She               |754  |756|Gender             |
+|DUI               |762  |764|Legal_Issues       |
++------------------+-----+---+-------------------+
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;ner_sdoh_wip&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Healthcare NLP 4.2.8+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Licensed&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[sentence, token, embeddings]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[ner]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;1.5 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;                 label	    tp	   fp	    fn	 total precision	  recall	      f1
+   Other_SDoH_Keywords	 317.0	 84.0	 112.0	 429.0	0.790524	0.738928	0.763855
+             Education	 116.0	 38.0	  31.0	 147.0	0.753247	0.789116	0.770764
+      Population_Group	  27.0	  4.0	  11.0	  38.0	0.870968	0.710526	0.782609
+       Quality_Of_Life	 146.0	 37.0	  57.0	 203.0	0.797814	0.719212	0.756477
+               Housing	 809.0	 91.0	 118.0	 927.0	0.898889	0.872708	0.885605
+   Substance_Frequency	  74.0	 19.0	  44.0	 118.0	0.795699	0.627119	0.701422
+               Smoking	 136.0	  4.0	   2.0	 138.0	0.971429	0.985507	0.978417
+       Eating_Disorder	  40.0	  2.0	   0.0	  40.0	0.952381	1.000000	0.975610
+               Obesity	  16.0	  1.0	   5.0	  21.0	0.941176	0.761905	0.842105
+Healthcare_Institution	 117.0	 36.0	  57.0	 174.0	0.764706	0.672414	0.715596
+      Financial_Status	 222.0	 47.0	 128.0	 350.0	0.825279	0.634286	0.717286
+                   Age	1328.0	109.0	  48.0	1376.0	0.924148	0.965116	0.944188
+        Chidhood_Event	  30.0	  0.0	  24.0	  54.0	1.000000	0.555556	0.714286
+              Exercise	  52.0	 17.0	  31.0	  83.0	0.753623	0.626506	0.684211
+  Communicable_Disease	  61.0	  5.0	  10.0	  71.0	0.924242	0.859155	0.890511
+          Hypertension	  45.0	  1.0	  12.0	  57.0	0.978261	0.789474	0.873786
+         Other_Disease	1065.0	229.0	 119.0	1184.0	0.823029	0.899493	0.859564
+     Violence_Or_Abuse	  98.0	 26.0	  53.0	 151.0	0.790323	0.649007	0.712727
+     Spiritual_Beliefs	  94.0	  9.0	  21.0	 115.0	0.912621	0.817391	0.862385
+            Employment	3797.0	272.0	 288.0	4085.0	0.933153	0.929498	0.931322
+      Social_Exclusion	  38.0	  6.0	  14.0	  52.0	0.863636	0.730769	0.791667
+        Access_To_Care	 810.0	 95.0	 160.0	 970.0	0.895028	0.835052	0.864000
+        Marital_Status	 177.0	  4.0	   9.0	 186.0	0.977901	0.951613	0.964578
+                  Diet	 110.0	 34.0	  30.0	 140.0	0.763889	0.785714	0.774648
+        Social_Support	1243.0	197.0	  99.0	1342.0	0.863194	0.926230	0.893602
+            Disability	  94.0	  4.0	   9.0	 103.0	0.959184	0.912621	0.935323
+         Mental_Health	 817.0	 99.0	 216.0	1033.0	0.891921	0.790900	0.838379
+               Alcohol	 592.0	 32.0	  28.0	 620.0	0.948718	0.954839	0.951768
+      Insurance_Status	 145.0	 23.0	  32.0	 177.0	0.863095	0.819209	0.840580
+    Substance_Quantity	 107.0	 42.0	  39.0	 146.0	0.718121	0.732877	0.725424
+        Hyperlipidemia	  14.0	  1.0	   2.0	  16.0	0.933333	0.875000	0.903226
+         Family_Member	4255.0	110.0	  73.0	4328.0	0.974800	0.983133	0.978949
+          Legal_Issues	  71.0	 13.0	  20.0	  91.0	0.845238	0.780220	0.811429
+        Race_Ethnicity	  81.0	  9.0	   7.0	  88.0	0.900000	0.920455	0.910112
+                Gender	9698.0	183.0	 193.0	9891.0	0.981480	0.980487	0.980983
+     Geographic_Entity	 189.0	 18.0	  22.0	 211.0	0.913043	0.895735	0.904306
+    Sexual_Orientation	  21.0	  0.0	   3.0	  24.0	1.000000	0.875000	0.933333
+        Transportation	  27.0	  2.0	  27.0	  54.0	0.931034	0.500000	0.650602
+       Sexual_Activity	  56.0	  4.0	  24.0	  80.0	0.933333	0.700000	0.800000
+              Language	  35.0	  6.0	   2.0	  37.0	0.853659	0.945946	0.897436
+         Substance_Use	 400.0	 40.0	  24.0	 424.0	0.909091	0.943396	0.925926
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="licensed" /><category term="clinical" /><category term="en" /><category term="social_determinants" /><category term="ner" /><category term="public_health" /><category term="sdoh" /><summary type="html">Description This model extracts terminology related to Social Determinants of Health from various kinds of biomedical documents. Predicted Entities Other_SDoH_Keywords, Education, Population_Group, Quality_Of_Life, Housing, Substance_Frequency, Smoking, Eating_Disorder, Obesity, Healthcare_Institution, Financial_Status, Age, Chidhood_Event, Exercise, Communicable_Disease, Hypertension, Other_Disease, Violence_Or_Abuse, Spiritual_Beliefs, Employment, Social_Exclusion, Access_To_Care, Marital_Status, Diet, Social_Support, Disability, Mental_Health, Alcohol, Insurance_Status, Substance_Quantity, Hyperlipidemia, Family_Member, Legal_Issues, Race_Ethnicity, Gender, Geographic_Entity, Sexual_Orientation, Transportation, Sexual_Activity, Language, Substance_Use Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU document_assembler = DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) sentence_detector = SentenceDetectorDLModel.pretrained(&quot;sentence_detector_dl&quot;, &quot;en&quot;)\ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;sentence&quot;) tokenizer = Tokenizer()\ .setInputCols([&quot;sentence&quot;])\ .setOutputCol(&quot;token&quot;) clinical_embeddings = WordEmbeddingsModel.pretrained(&quot;embeddings_clinical&quot;, &quot;en&quot;, &quot;clinical/models&quot;)\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;])\ .setOutputCol(&quot;embeddings&quot;) ner_model = MedicalNerModel.pretrained(&quot;ner_sdoh_wip&quot;, &quot;en&quot;, &quot;clinical/models&quot;)\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;embeddings&quot;])\ .setOutputCol(&quot;ner&quot;) ner_converter = NerConverterInternal()\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;ner&quot;])\ .setOutputCol(&quot;ner_chunk&quot;) pipeline = Pipeline(stages=[ document_assembler, sentence_detector, tokenizer, clinical_embeddings, ner_model, ner_converter ]) sample_texts = [[&quot;Smith is a 55 years old, divorced Mexcian American woman with financial problems. She speaks spanish. She lives in an apartment. She has been struggling with diabetes for the past 10 years and has recently been experiencing frequent hospitalizations due to uncontrolled blood sugar levels. Smith works as a cleaning assistant and does not have access to health insurance or paid sick leave. She has a son student at college. Pt with likely long-standing depression. She is aware she needs rehab. Pt reprots having her catholic faith as a means of support as well.  She has long history of etoh abuse, beginning in her teens. She reports she has been a daily drinker for 30 years, most recently drinking beer daily. She smokes a pack of cigarettes a day. She had DUI back in April and was due to be in court this week.&quot;]] data = spark.createDataFrame(sample_texts).toDF(&quot;text&quot;) result = pipeline.fit(data).transform(data) val document_assembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val sentence_detector = SentenceDetectorDLModel.pretrained(&quot;sentence_detector_dl&quot;, &quot;en&quot;) .setInputCols(&quot;document&quot;) .setOutputCol(&quot;sentence&quot;) val tokenizer = new Tokenizer() .setInputCols(&quot;sentence&quot;) .setOutputCol(&quot;token&quot;) val clinical_embeddings = WordEmbeddingsModel.pretrained(&quot;embeddings_clinical&quot;, &quot;en&quot;, &quot;clinical/models&quot;) .setInputCols(Array(&quot;sentence&quot;, &quot;token&quot;)) .setOutputCol(&quot;embeddings&quot;) val ner_model = MedicalNerModel.pretrained(&quot;ner_sdoh_wip&quot;, &quot;en&quot;, &quot;clinical/models&quot;) .setInputCols(Array(&quot;sentence&quot;, &quot;token&quot;, &quot;embeddings&quot;)) .setOutputCol(&quot;ner&quot;) val ner_converter = new NerConverterInternal() .setInputCols(Array(&quot;sentence&quot;, &quot;token&quot;, &quot;ner&quot;)) .setOutputCol(&quot;ner_chunk&quot;) val pipeline = new Pipeline().setStages(Array( document_assembler, sentence_detector, tokenizer, clinical_embeddings, ner_model, ner_converter )) val data = Seq(&quot;He continues to smoke one pack of cigarettes daily, as he has for the past 28 years.&quot;).toDS.toDF(&quot;text&quot;) val result = pipeline.fit(data).transform(data) Results +------------------+-----+---+-------------------+ |chunk |begin|end|ner_label | +------------------+-----+---+-------------------+ |55 years old |11 |22 |Age | |divorced |25 |32 |Marital_Status | |Mexcian American |34 |49 |Race_Ethnicity | |woman |51 |55 |Gender | |financial problems|62 |79 |Financial_Status | |She |82 |84 |Gender | |spanish |93 |99 |Language | |She |102 |104|Gender | |apartment |118 |126|Housing | |She |129 |131|Gender | |diabetes |158 |165|Other_Disease | |cleaning assistant|307 |324|Employment | |health insurance |354 |369|Insurance_Status | |She |391 |393|Gender | |son |401 |403|Family_Member | |student |405 |411|Education | |college |416 |422|Education | |depression |454 |463|Mental_Health | |She |466 |468|Gender | |she |479 |481|Gender | |rehab |489 |493|Access_To_Care | |her |514 |516|Gender | |catholic faith |518 |531|Spiritual_Beliefs | |support |547 |553|Social_Support | |She |565 |567|Gender | |etoh abuse |589 |598|Alcohol | |her |614 |616|Gender | |teens |618 |622|Age | |She |625 |627|Gender | |she |637 |639|Gender | |drinker |658 |664|Alcohol | |drinking beer |694 |706|Alcohol | |daily |708 |712|Substance_Frequency| |She |715 |717|Gender | |smokes |719 |724|Smoking | |a pack |726 |731|Substance_Quantity | |cigarettes |736 |745|Smoking | |a day |747 |751|Substance_Frequency| |She |754 |756|Gender | |DUI |762 |764|Legal_Issues | +------------------+-----+---+-------------------+ Model Information Model Name: ner_sdoh_wip Compatibility: Healthcare NLP 4.2.8+ License: Licensed Edition: Official Input Labels: [sentence, token, embeddings] Output Labels: [ner] Language: en Size: 1.5 MB Benchmarking label tp fp fn total precision recall f1 Other_SDoH_Keywords 317.0 84.0 112.0 429.0 0.790524 0.738928 0.763855 Education 116.0 38.0 31.0 147.0 0.753247 0.789116 0.770764 Population_Group 27.0 4.0 11.0 38.0 0.870968 0.710526 0.782609 Quality_Of_Life 146.0 37.0 57.0 203.0 0.797814 0.719212 0.756477 Housing 809.0 91.0 118.0 927.0 0.898889 0.872708 0.885605 Substance_Frequency 74.0 19.0 44.0 118.0 0.795699 0.627119 0.701422 Smoking 136.0 4.0 2.0 138.0 0.971429 0.985507 0.978417 Eating_Disorder 40.0 2.0 0.0 40.0 0.952381 1.000000 0.975610 Obesity 16.0 1.0 5.0 21.0 0.941176 0.761905 0.842105 Healthcare_Institution 117.0 36.0 57.0 174.0 0.764706 0.672414 0.715596 Financial_Status 222.0 47.0 128.0 350.0 0.825279 0.634286 0.717286 Age 1328.0 109.0 48.0 1376.0 0.924148 0.965116 0.944188 Chidhood_Event 30.0 0.0 24.0 54.0 1.000000 0.555556 0.714286 Exercise 52.0 17.0 31.0 83.0 0.753623 0.626506 0.684211 Communicable_Disease 61.0 5.0 10.0 71.0 0.924242 0.859155 0.890511 Hypertension 45.0 1.0 12.0 57.0 0.978261 0.789474 0.873786 Other_Disease 1065.0 229.0 119.0 1184.0 0.823029 0.899493 0.859564 Violence_Or_Abuse 98.0 26.0 53.0 151.0 0.790323 0.649007 0.712727 Spiritual_Beliefs 94.0 9.0 21.0 115.0 0.912621 0.817391 0.862385 Employment 3797.0 272.0 288.0 4085.0 0.933153 0.929498 0.931322 Social_Exclusion 38.0 6.0 14.0 52.0 0.863636 0.730769 0.791667 Access_To_Care 810.0 95.0 160.0 970.0 0.895028 0.835052 0.864000 Marital_Status 177.0 4.0 9.0 186.0 0.977901 0.951613 0.964578 Diet 110.0 34.0 30.0 140.0 0.763889 0.785714 0.774648 Social_Support 1243.0 197.0 99.0 1342.0 0.863194 0.926230 0.893602 Disability 94.0 4.0 9.0 103.0 0.959184 0.912621 0.935323 Mental_Health 817.0 99.0 216.0 1033.0 0.891921 0.790900 0.838379 Alcohol 592.0 32.0 28.0 620.0 0.948718 0.954839 0.951768 Insurance_Status 145.0 23.0 32.0 177.0 0.863095 0.819209 0.840580 Substance_Quantity 107.0 42.0 39.0 146.0 0.718121 0.732877 0.725424 Hyperlipidemia 14.0 1.0 2.0 16.0 0.933333 0.875000 0.903226 Family_Member 4255.0 110.0 73.0 4328.0 0.974800 0.983133 0.978949 Legal_Issues 71.0 13.0 20.0 91.0 0.845238 0.780220 0.811429 Race_Ethnicity 81.0 9.0 7.0 88.0 0.900000 0.920455 0.910112 Gender 9698.0 183.0 193.0 9891.0 0.981480 0.980487 0.980983 Geographic_Entity 189.0 18.0 22.0 211.0 0.913043 0.895735 0.904306 Sexual_Orientation 21.0 0.0 3.0 24.0 1.000000 0.875000 0.933333 Transportation 27.0 2.0 27.0 54.0 0.931034 0.500000 0.650602 Sexual_Activity 56.0 4.0 24.0 80.0 0.933333 0.700000 0.800000 Language 35.0 6.0 2.0 37.0 0.853659 0.945946 0.897436 Substance_Use 400.0 40.0 24.0 424.0 0.909091 0.943396 0.925926</summary></entry><entry><title type="html">Extract Demographic Entities from Social Determinants of Health Texts</title><link href="/2023/02/10/ner_sdoh_demographics_wip_en.html" rel="alternate" type="text/html" title="Extract Demographic Entities from Social Determinants of Health Texts" /><published>2023-02-10T00:00:00+00:00</published><updated>2023-02-10T00:00:00+00:00</updated><id>/2023/02/10/ner_sdoh_demographics_wip_en</id><content type="html" xml:base="/2023/02/10/ner_sdoh_demographics_wip_en.html">## Description
 
 This model extracts demographic information related to Social Determinants of Health from various kinds of biomedical documents.
 
@@ -1010,76 +1237,4 @@ val pipelineDF = pipelineModel.transform(imageDF)
 
 ## References
 
-[https://huggingface.co/microsoft/swin_base_patch4_window7_224](https://huggingface.co/microsoft/swin_base_patch4_window7_224)</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="swin" /><category term="image" /><category term="en" /><category term="english" /><category term="image_classification" /><category term="imagenet" /><category term="tensorflow" /><summary type="html">Description Pretrained Swin model for Image Classification, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. Swin Transformer was introduced in the paper Swin Transformer: Hierarchical Vision Transformer using Shifted Windows by Liu et al. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU image_assembler = ImageAssembler()\ .setInputCol(&quot;image&quot;)\ .setOutputCol(&quot;image_assembler&quot;) imageClassifier = SwinForImageClassification.pretrained(&quot;image_classifier_swin_base_patch4_window7_224&quot;, &quot;en&quot;)\ .setInputCols(&quot;image_assembler&quot;)\ .setOutputCol(&quot;class&quot;) pipeline = Pipeline(stages=[ image_assembler, imageClassifier, ]) pipelineModel = pipeline.fit(imageDF) pipelineDF = pipelineModel.transform(imageDF) val imageAssembler = new ImageAssembler() .setInputCol(&quot;image&quot;) .setOutputCol(&quot;image_assembler&quot;) val imageClassifier = SwinForImageClassification .pretrained(&quot;image_classifier_swin_base_patch4_window7_224&quot;, &quot;en&quot;) .setInputCols(&quot;image_assembler&quot;) .setOutputCol(&quot;class&quot;) val pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier)) val pipelineModel = pipeline.fit(imageDF) val pipelineDF = pipelineModel.transform(imageDF) Model Information Model Name: image_classifier_swin_base_patch4_window7_224 Compatibility: Spark NLP 4.3.0+ License: Open Source Edition: Official Input Labels: [image_assembler] Output Labels: [class] Language: en Size: 665.2 MB References https://huggingface.co/microsoft/swin_base_patch4_window7_224</summary></entry><entry><title type="html">SwinForImageClassification - image_classifier_swin_base_patch4_window7_224_in22k</title><link href="/2023/02/07/image_classifier_swin_base_patch4_window7_224_in22k_en.html" rel="alternate" type="text/html" title="SwinForImageClassification - image_classifier_swin_base_patch4_window7_224_in22k" /><published>2023-02-07T00:00:00+00:00</published><updated>2023-02-07T00:00:00+00:00</updated><id>/2023/02/07/image_classifier_swin_base_patch4_window7_224_in22k_en</id><content type="html" xml:base="/2023/02/07/image_classifier_swin_base_patch4_window7_224_in22k_en.html">## Description
-
-Pretrained Swin model for Image Classification, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.
-
-Swin Transformer was introduced in the paper [Swin Transformer: Hierarchical Vision Transformer using Shifted Windows](https://arxiv.org/abs/2103.14030) by Liu et al.
-
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/image_classifier_swin_base_patch4_window7_224_in22k_en_4.3.0_3.0_1675783139673.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/image_classifier_swin_base_patch4_window7_224_in22k_en_4.3.0_3.0_1675783139673.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
-
-## How to use
-
-
-
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-                
-image_assembler = ImageAssembler()\
-  .setInputCol(&quot;image&quot;)\
-  .setOutputCol(&quot;image_assembler&quot;)
-
-imageClassifier = SwinForImageClassification.pretrained(&quot;image_classifier_swin_base_patch4_window7_224_in22k&quot;, &quot;en&quot;)\
-  .setInputCols(&quot;image_assembler&quot;)\
-  .setOutputCol(&quot;class&quot;)
-
-pipeline = Pipeline(stages=[
-  image_assembler,
-  imageClassifier,
-])
-
-pipelineModel = pipeline.fit(imageDF)
-
-pipelineDF = pipelineModel.transform(imageDF)
-```
-```scala
-
-val imageAssembler = new ImageAssembler()
-    .setInputCol(&quot;image&quot;)
-    .setOutputCol(&quot;image_assembler&quot;)
-
-val imageClassifier = SwinForImageClassification
-    .pretrained(&quot;image_classifier_swin_base_patch4_window7_224_in22k&quot;, &quot;en&quot;)
-    .setInputCols(&quot;image_assembler&quot;) 
-    .setOutputCol(&quot;class&quot;) 
-
-val pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier))
-
-val pipelineModel = pipeline.fit(imageDF)
-
-val pipelineDF = pipelineModel.transform(imageDF)
-```
-&lt;/div&gt;
-
-{:.model-param}
-## Model Information
-
-{:.table-model}
-|---|---|
-|Model Name:|image_classifier_swin_base_patch4_window7_224_in22k|
-|Compatibility:|Spark NLP 4.3.0+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[image_assembler]|
-|Output Labels:|[class]|
-|Language:|en|
-|Size:|825.5 MB|
-
-## References
-
-[https://huggingface.co/microsoft/swin_base_patch4_window7_224_in22k](https://huggingface.co/microsoft/swin_base_patch4_window7_224_in22k)</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="swin" /><category term="image" /><category term="en" /><category term="english" /><category term="image_classification" /><category term="imagenet" /><category term="tensorflow" /><summary type="html">Description Pretrained Swin model for Image Classification, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. Swin Transformer was introduced in the paper Swin Transformer: Hierarchical Vision Transformer using Shifted Windows by Liu et al. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU image_assembler = ImageAssembler()\ .setInputCol(&quot;image&quot;)\ .setOutputCol(&quot;image_assembler&quot;) imageClassifier = SwinForImageClassification.pretrained(&quot;image_classifier_swin_base_patch4_window7_224_in22k&quot;, &quot;en&quot;)\ .setInputCols(&quot;image_assembler&quot;)\ .setOutputCol(&quot;class&quot;) pipeline = Pipeline(stages=[ image_assembler, imageClassifier, ]) pipelineModel = pipeline.fit(imageDF) pipelineDF = pipelineModel.transform(imageDF) val imageAssembler = new ImageAssembler() .setInputCol(&quot;image&quot;) .setOutputCol(&quot;image_assembler&quot;) val imageClassifier = SwinForImageClassification .pretrained(&quot;image_classifier_swin_base_patch4_window7_224_in22k&quot;, &quot;en&quot;) .setInputCols(&quot;image_assembler&quot;) .setOutputCol(&quot;class&quot;) val pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier)) val pipelineModel = pipeline.fit(imageDF) val pipelineDF = pipelineModel.transform(imageDF) Model Information Model Name: image_classifier_swin_base_patch4_window7_224_in22k Compatibility: Spark NLP 4.3.0+ License: Open Source Edition: Official Input Labels: [image_assembler] Output Labels: [class] Language: en Size: 825.5 MB References https://huggingface.co/microsoft/swin_base_patch4_window7_224_in22k</summary></entry></feed>
+[https://huggingface.co/microsoft/swin_base_patch4_window7_224](https://huggingface.co/microsoft/swin_base_patch4_window7_224)</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="swin" /><category term="image" /><category term="en" /><category term="english" /><category term="image_classification" /><category term="imagenet" /><category term="tensorflow" /><summary type="html">Description Pretrained Swin model for Image Classification, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. Swin Transformer was introduced in the paper Swin Transformer: Hierarchical Vision Transformer using Shifted Windows by Liu et al. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU image_assembler = ImageAssembler()\ .setInputCol(&quot;image&quot;)\ .setOutputCol(&quot;image_assembler&quot;) imageClassifier = SwinForImageClassification.pretrained(&quot;image_classifier_swin_base_patch4_window7_224&quot;, &quot;en&quot;)\ .setInputCols(&quot;image_assembler&quot;)\ .setOutputCol(&quot;class&quot;) pipeline = Pipeline(stages=[ image_assembler, imageClassifier, ]) pipelineModel = pipeline.fit(imageDF) pipelineDF = pipelineModel.transform(imageDF) val imageAssembler = new ImageAssembler() .setInputCol(&quot;image&quot;) .setOutputCol(&quot;image_assembler&quot;) val imageClassifier = SwinForImageClassification .pretrained(&quot;image_classifier_swin_base_patch4_window7_224&quot;, &quot;en&quot;) .setInputCols(&quot;image_assembler&quot;) .setOutputCol(&quot;class&quot;) val pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier)) val pipelineModel = pipeline.fit(imageDF) val pipelineDF = pipelineModel.transform(imageDF) Model Information Model Name: image_classifier_swin_base_patch4_window7_224 Compatibility: Spark NLP 4.3.0+ License: Open Source Edition: Official Input Labels: [image_assembler] Output Labels: [class] Language: en Size: 665.2 MB References https://huggingface.co/microsoft/swin_base_patch4_window7_224</summary></entry></feed>
