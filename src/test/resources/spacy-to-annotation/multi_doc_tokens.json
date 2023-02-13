@@ -1,0 +1,12 @@
+[
+  {
+    "tokens": ["John", "went", "to", "the", "store", "last", "night", ".", "He", "bought", "some", "bread", "."],
+    "token_spaces": [true, true, true, true, true, true, false, true, true, true, true, false, false],
+    "sentence_ends": [7, 12]
+  },
+  {
+    "tokens": ["Hello", "world", "!", "How", "are", "you", "today", "?", "I", "'m", "fine", "thanks", "."],
+    "token_spaces": [true, false, true, true, true, true, false, true, false, true, true, false, false],
+    "sentence_ends": [2, 7, 12]
+  }
+]
