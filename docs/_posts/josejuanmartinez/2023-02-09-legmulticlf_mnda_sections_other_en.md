@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This models is a version of `legmulticlf_mnda_sections` (small) but including more negative examples (OTHER) to reinforce difference between groups and returning `OTHER` also as synonym to `[]`.
+This models is a version of `legmulticlf_mnda_sections` (medium) but including more negative examples (OTHER) to reinforce difference between groups and returning `OTHER` also as synonym to `[]`.
 
 It should be run on sentences of the NDA clauses, and will retrieve a series of 1..N labels for each of them. The possible clause types detected my this model in NDA / MNDA aggrements are:
 
