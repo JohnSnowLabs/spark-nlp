@@ -28,7 +28,7 @@
 
 </script><title>Multilabel Classification of NDA Clauses (small)</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis models should be run on each paragraph of the NDA clauses, and will retrieve a series of 1..N labels for each of them. The possible clause types detected my this model in NDA / MNDA aggrements are:  Parties to the Agreement - Names of the Parties Clause  Identification of What Information Is Confiden...">
+<meta name="description" content="DescriptionThis models should be run on each sentence of the NDA clauses, and will retrieve a series of 1..N labels for each of them. The possible clause types detected my this model in NDA / MNDA aggrements are:  Parties to the Agreement - Names of the Parties Clause  Identification of What Information Is Confident...">
 <link rel="canonical" href="/2023/02/02/legmulticlf_mnda_sections_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -436,7 +436,7 @@
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This models should be run on each paragraph of the NDA clauses, and will retrieve a series of 1..N labels for each of them. The possible clause types detected my this model in NDA / MNDA aggrements are:</p>
+<p>This models should be run on each sentence of the NDA clauses, and will retrieve a series of 1..N labels for each of them. The possible clause types detected my this model in NDA / MNDA aggrements are:</p>
 
 <ol>
   <li>Parties to the Agreement - Names of the Parties Clause</li>
@@ -468,10 +468,13 @@
     <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">().</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 <span class="p">)</span>
 
+<span class="n">sentence_splitter</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">().</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">]).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
+<span class="p">)</span>
 
 <span class="n">embeddings</span> <span class="o">=</span> <span class="p">(</span>
     <span class="n">nlp</span><span class="p">.</span><span class="n">UniversalSentenceEncoder</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span>
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>
 <span class="p">)</span>
 
@@ -479,7 +482,7 @@
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence_embeddings"</span><span class="p">])</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"class"</span><span class="p">)</span>
 
-<span class="n">clf_pipeline</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span><span class="n">embeddings</span><span class="p">,</span> <span class="n">classsifierdl_pred</span><span class="p">])</span>
+<span class="n">clf_pipeline</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">sentence_splitter</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">,</span> <span class="n">classsifierdl_pred</span><span class="p">])</span>
 
 <span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"Governing Law.</span><span class="se">\n</span><span class="s">This Agreement shall be govern..."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
