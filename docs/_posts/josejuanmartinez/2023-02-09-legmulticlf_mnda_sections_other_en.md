@@ -19,9 +19,9 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This models is a version of `legmulticlf_mnda_sections` (small) but including more negative examples (OTHER) to reinforce difference between groups.
+This models is a version of `legmulticlf_mnda_sections` (small) but including more negative examples (OTHER) to reinforce difference between groups and returning `OTHER` also as synonym to `[]`.
 
-It should be run on each paragraph of the NDA clauses, and will retrieve a series of 1..N labels for each of them. The possible clause types detected my this model in NDA / MNDA aggrements are:
+It should be run on sentences of the NDA clauses, and will retrieve a series of 1..N labels for each of them. The possible clause types detected my this model in NDA / MNDA aggrements are:
 
 1. Parties to the Agreement - Names of the Parties Clause  
 2. Identification of What Information Is Confidential - Definition of Confidential Information Clause
@@ -33,9 +33,7 @@ It should be run on each paragraph of the NDA clauses, and will retrieve a serie
 8. Dispute Resolution Clause  
 9. Exceptions Clause  
 10. Non-competition clause
-11. Other: Nothing of the above.
-
-Also `[]` can be retrieved as a synonym of `Other`
+11. Other: Nothing of the above (synonym to `[]`)-
 
 ## Predicted Entities
 
@@ -58,6 +56,12 @@ document_assembler = (
     nlp.DocumentAssembler().setInputCol("text").setOutputCol("document")
 )
 
+sentence_splitter = (
+    nlp.SentenceDetector()
+    .setInputCols(["document"])
+    .setOutputCol("sentence")
+    .setCustomBounds(["\n"])
+)
 
 embeddings = (
     nlp.UniversalSentenceEncoder.pretrained()
