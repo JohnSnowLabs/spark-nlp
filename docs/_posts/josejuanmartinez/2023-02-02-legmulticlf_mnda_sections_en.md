@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This models should be run on each paragraph of the NDA clauses, and will retrieve a series of 1..N labels for each of them. The possible clause types detected my this model in NDA / MNDA aggrements are:
+This models should be run on each sentence of the NDA clauses, and will retrieve a series of 1..N labels for each of them. The possible clause types detected my this model in NDA / MNDA aggrements are:
 
 1. Parties to the Agreement - Names of the Parties Clause  
 2. Identification of What Information Is Confidential - Definition of Confidential Information Clause
@@ -53,10 +53,13 @@ document_assembler = (
     nlp.DocumentAssembler().setInputCol("text").setOutputCol("document")
 )
 
+sentence_splitter = (
+    nlp.DocumentAssembler().setInputCols(["document"]).setOutputCol("sentence")
+)
 
 embeddings = (
     nlp.UniversalSentenceEncoder.pretrained()
-    .setInputCols("document")
+    .setInputCols("sentence")
     .setOutputCol("sentence_embeddings")
 )
 
@@ -64,7 +67,7 @@ classsifierdl_pred = nlp.MultiClassifierDLModel.pretrained('legmulticlf_mnda_sec
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("class")
 
-clf_pipeline = nlp.Pipeline(stages=[document_assembler,embeddings, classsifierdl_pred])
+clf_pipeline = nlp.Pipeline(stages=[document_assembler, sentence_splitter, embeddings, classsifierdl_pred])
 
 df = spark.createDataFrame([["Governing Law.\nThis Agreement shall be govern..."]]).toDF("text")
 
