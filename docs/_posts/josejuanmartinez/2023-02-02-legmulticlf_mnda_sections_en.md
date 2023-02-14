@@ -54,7 +54,10 @@ document_assembler = (
 )
 
 sentence_splitter = (
-    nlp.DocumentAssembler().setInputCols(["document"]).setOutputCol("sentence")
+    nlp.SentenceDetector()
+    .setInputCols(["document"])
+    .setOutputCol("sentence")
+    .setCustomBounds(["\n"])
 )
 
 embeddings = (
