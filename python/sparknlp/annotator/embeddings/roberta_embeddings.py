@@ -45,7 +45,7 @@ class RoBertaEmbeddings(AnnotatorModel,
     <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
 
     For extended examples of usage, see the `Examples
-    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBERTa.ipynb>`__.
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBERTa.ipynb>`__.
     To see which models are compatible and how to import them see
     `Import Transformers into Spark NLP 🚀
     <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.

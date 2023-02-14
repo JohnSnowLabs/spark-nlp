@@ -10,8 +10,8 @@ The ClassifierDL annotator uses a deep learning model (DNNs) we have built insid
 100 classes.
 
 For extended examples of usage, see the Examples
-[[1] ](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/scala/training/Train%20Multi-Class%20Text%20Classification%20on%20News%20Articles.scala)
-[[2] ](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/classification/ClassifierDL_Train_multi_class_news_category_classifier.ipynb).
+[[1] ](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/scala/training/Train%20Multi-Class%20Text%20Classification%20on%20News%20Articles.scala)
+[[2] ](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/ClassifierDL_Train_multi_class_news_category_classifier.ipynb).
 {%- endcapture -%}
 
 {%- capture input_anno -%}

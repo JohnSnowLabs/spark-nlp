@@ -53,7 +53,7 @@ class SentimentDLApproach(AnnotatorApproach, EvaluationDLParams, ClassifierEncod
     ...     .setLabelColumn("label") \\
     ...     .setTestDataset("test_data")
 
-    For extended examples of usage, see the `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/classification/SentimentDL_train_multiclass_sentiment_classifier.ipynb>`__.
+    For extended examples of usage, see the `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/SentimentDL_train_multiclass_sentiment_classifier.ipynb>`__.
 
     ======================= ======================
     Input Annotation types  Output Annotation type
@@ -236,7 +236,7 @@ class SentimentDLModel(AnnotatorModel, HasStorageRef, HasEngine):
     <https://nlp.johnsnowlabs.com/models?task=Sentiment+Analysis>`__.
 
     For extended examples of usage, see the `Examples
-    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/classification/SentimentDL_train_multiclass_sentiment_classifier.ipynb>`__.
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/SentimentDL_train_multiclass_sentiment_classifier.ipynb>`__.
 
     ======================= ======================
     Input Annotation types  Output Annotation type

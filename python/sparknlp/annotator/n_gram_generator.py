@@ -27,7 +27,7 @@ class NGramGenerator(AnnotatorModel):
     length is less than n (number of elements per n-gram), no n-grams are
     returned.
 
-    For more extended examples see the `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/chunking/NgramGenerator.ipynb>`__.
+    For more extended examples see the `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/chunking/NgramGenerator.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -139,4 +139,3 @@ class NGramGenerator(AnnotatorModel):
         if len(value) > 1:
             raise Exception("Delimiter should have length == 1")
         return self._set(delimiter=value)
-

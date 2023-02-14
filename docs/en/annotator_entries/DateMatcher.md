@@ -23,7 +23,7 @@ For example `"The 31st of April in the year 2008"` will be converted into `2008/
 
 Pretrained pipelines are available for this module, see [Pipelines](https://nlp.johnsnowlabs.com/docs/en/pipelines).
 
-For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/MultiDateMatcherMultiLanguage_en.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/MultiDateMatcherMultiLanguage_en.ipynb)
 and the [DateMatcherTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/DateMatcherTestSpec.scala).
 {%- endcapture -%}
 

@@ -30,7 +30,7 @@ TOKEN
 Annotator that cleans out tokens. Requires stems, hence tokens.
 Removes all dirty characters from text following a regex pattern and transforms words based on a provided dictionary
 
-For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/document-normalizer/document_normalizer_notebook.ipynb).
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/document-normalizer/document_normalizer_notebook.ipynb).
 {%- endcapture -%}
 
 {%- capture approach_input_anno -%}
