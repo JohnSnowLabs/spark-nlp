@@ -469,7 +469,10 @@
 <span class="p">)</span>
 
 <span class="n">sentence_splitter</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">().</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">]).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
+    <span class="n">nlp</span><span class="p">.</span><span class="n">SentenceDetector</span><span class="p">()</span>
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setCustomBounds</span><span class="p">([</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">])</span>
 <span class="p">)</span>
 
 <span class="n">embeddings</span> <span class="o">=</span> <span class="p">(</span>
