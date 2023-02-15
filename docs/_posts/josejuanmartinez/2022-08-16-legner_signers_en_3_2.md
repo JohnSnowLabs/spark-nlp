@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal NER (Headers / Subheaders)
+title: Legal NER (Signers)
 author: John Snow Labs
 name: legner_signers
 date: 2022-08-16
