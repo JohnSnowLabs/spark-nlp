@@ -332,3 +332,6 @@ src/*/resources/*.classes
 .bsp/sbt.json
 python/docs/_build/**
 python/docs/reference/_autosummary/**
+
+# MS Visio Code
+**/.vscode/
