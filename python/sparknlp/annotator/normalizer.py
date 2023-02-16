@@ -21,7 +21,7 @@ class Normalizer(AnnotatorApproach):
     words based on a provided dictionary
 
     For extended examples of usage, see the `Examples
-    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/document-normalizer/document_normalizer_notebook.ipynb>`__.
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/document-normalizer/document_normalizer_notebook.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type

@@ -223,7 +223,7 @@ class SentenceDetectorDLModel(AnnotatorModel, HasEngine):
     rows, if ``explodeSentences`` is set to ``true``.
 
     For extended examples of usage, see the `Examples
-    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/multilingual/SentenceDetectorDL.ipynb>`__.
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/multilingual/SentenceDetectorDL.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type

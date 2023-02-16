@@ -293,6 +293,9 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+# VS Code
+**/.vscode
+
 ### SBT ###
 # Simple Build Tool
 # http://www.scala-sbt.org/release/docs/Getting-Started/Directories.html#configuring-version-control

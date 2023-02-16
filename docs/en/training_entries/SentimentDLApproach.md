@@ -17,7 +17,7 @@ For the instantiated/pretrained models, see SentimentDLModel.
     [BertSentenceEmbeddings](/docs/en/transformers#bertsentenceembeddings), or
     [SentenceEmbeddings](docs/en/annotators#sentenceembeddings) can be used for the `inputCol`.
 
-For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/classification/SentimentDL_train_multiclass_sentiment_classifier.ipynb).
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/SentimentDL_train_multiclass_sentiment_classifier.ipynb).
 {%- endcapture -%}
 
 {%- capture approach_input_anno -%}

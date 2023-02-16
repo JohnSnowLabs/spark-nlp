@@ -29,7 +29,7 @@ class TokenAssembler(AnnotatorTransformer, AnnotatorProperties):
     annotators. Requires ``DOCUMENT`` and ``TOKEN`` type annotations as input.
 
     For more extended examples on document pre-processing see the
-    `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/token-assembler/Assembling_Tokens_to_Documents.ipynb>`__.
+    `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/token-assembler/Assembling_Tokens_to_Documents.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -122,4 +122,3 @@ class TokenAssembler(AnnotatorTransformer, AnnotatorProperties):
             Name of the Id Column
         """
         return self._set(preservePosition=value)
-
