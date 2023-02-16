@@ -47,7 +47,7 @@ tokenizer = nlp.Tokenizer() \
     .setOutputCol('token')
 
 # Load newly trained classifier
-sequenceClassifier_loaded = finance.BertForSequenceClassification.load("finclf_bert_broker_reports_suggested_actions", "en", "finance/models")\
+sequenceClassifier_loaded = finance.BertForSequenceClassification.pretrained("finclf_bert_broker_reports_suggested_actions", "en", "finance/models")\
   .setInputCols(["document",'token'])\
   .setOutputCol("class")
 
@@ -220,7 +220,6 @@ An in-house annotated dataset of broker reports.
 ```bash
               
 label          precision    recall  f1-score   support
-
   Accumulate       1.00      1.00      1.00        26
          Buy       0.88      0.79      0.83        19
         Hold       0.96      0.92      0.94        24
