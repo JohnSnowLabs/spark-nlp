@@ -21,7 +21,7 @@ class ChunkEmbeddings(AnnotatorModel):
     chunk embeddings from either Chunker, NGramGenerator, or NerConverter
     outputs.
 
-    For extended examples of usage, see the `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/embeddings/ChunkEmbeddings.ipynb>`__.
+    For extended examples of usage, see the `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/embeddings/ChunkEmbeddings.ipynb>`__.
 
     ========================== ======================
     Input Annotation types     Output Annotation type
@@ -147,4 +147,3 @@ class ChunkEmbeddings(AnnotatorModel):
             aggregation/pooling.
         """
         return self._set(skipOOV=value)
-

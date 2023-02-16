@@ -170,7 +170,7 @@ data has to be loaded into a dataframe, where the column is an
 **Tip**: The helper class [POS](/api/com/johnsnowlabs/nlp/training/POS) might be useful to read
 training data into data frames.
 
-For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/chinese/word_segmentation)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/chinese/word_segmentation)
 and the [WordSegmenterTest](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/WordSegmenterTest.scala).
 
 **References:**

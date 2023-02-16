@@ -34,7 +34,7 @@ of the classes the instance can be assigned to.
 Formally, multi-label classification is the problem of finding a model that maps inputs x to binary vectors y
 (assigning a value of 0 or 1 for each element (label) in y).
 
-For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/classification/MultiClassifierDL_train_multi_label_E2E_challenge_classifier.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/MultiClassifierDL_train_multi_label_E2E_challenge_classifier.ipynb)
 and the [MultiClassifierDLTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/MultiClassifierDLTestSpec.scala).
 {%- endcapture -%}
 
@@ -193,7 +193,7 @@ val multiClassifier = new MultiClassifierDLApproach()
   .setTestDataset("test_data")
 ```
 
-For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/classification/MultiClassifierDL_train_multi_label_E2E_challenge_classifier.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/MultiClassifierDL_train_multi_label_E2E_challenge_classifier.ipynb)
 and the [MultiClassifierDLTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/MultiClassifierDLTestSpec.scala).
 {%- endcapture -%}
 

@@ -8,7 +8,7 @@ Removes all dirty characters from text following one or more input regex pattern
 Can apply not wanted character removal with a specific policy.
 Can apply lower case normalization.
 
-For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/document-normalizer/document_normalizer_notebook.ipynb
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/document-normalizer/document_normalizer_notebook.ipynb
 ).
 {%- endcapture -%}
 
