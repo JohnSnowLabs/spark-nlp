@@ -13,7 +13,7 @@ supported: true
 engine: tensorflow
 annotator: RoBertaEmbeddings
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -33,6 +33,7 @@ Pretrained Legal Roberta Embeddings model, adapted from Hugging Face and curated
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 sentence_embeddings = RoBertaEmbeddings.pretrained("roberta_base_czech_legal", "cs")\
   .setInputCols(["sentence"])\
