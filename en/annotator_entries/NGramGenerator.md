@@ -13,7 +13,7 @@ When the input is empty, an empty array is returned.
 When the input array length is less than n (number of elements per n-gram), no n-grams are
 returned.
 
-For more extended examples see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/chunking/NgramGenerator.ipynb)
+For more extended examples see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/chunking/NgramGenerator.ipynb)
 and the [NGramGeneratorTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/NGramGeneratorTestSpec.scala).
 {%- endcapture -%}
 

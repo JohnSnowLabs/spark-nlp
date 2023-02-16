@@ -1382,7 +1382,7 @@ For usage and examples see the documentation of the main class.</p>
 <a href="/docs/en/annotators#chunker">Chunker</a>, <a href="/docs/en/annotators#ngramgenerator">NGramGenerator</a>,
 or <a href="/docs/en/annotators#nerconverter">NerConverter</a> outputs.</p>
 
-  <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/embeddings/ChunkEmbeddings.ipynb">Examples</a>
+  <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/embeddings/ChunkEmbeddings.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/ChunkEmbeddingsTestSpec.scala">ChunkEmbeddingsTestSpec</a>.</p>
 
   <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">CHUNK, WORD_EMBEDDINGS</code></p>
@@ -1722,7 +1722,7 @@ This example sentence will result in the form:</p>
   <p>When defining the regular expressions, tags enclosed in angle brackets are treated as groups, so here specifically
 <code class="language-plaintext highlighter-rouge">"&lt;NNP&gt;+"</code> means 1 or more nouns in succession. Additional patterns can also be set with <code class="language-plaintext highlighter-rouge">addRegexParsers</code>.</p>
 
-  <p>For more extended examples see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/chunking/Chunk_Extraction_with_Chunker.ipynb">Examples</a>)
+  <p>For more extended examples see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/chunking/Chunk_Extraction_with_Chunker.ipynb">Examples</a>)
 and the  <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ChunkerTestSpec.scala">ChunkerTestSpec</a>.</p>
 
   <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT, POS</code></p>
@@ -1901,8 +1901,8 @@ val classifier = new ClassifierDLApproach()
 </code></pre></div>    </div>
 
     <p>For extended examples of usage, see the Examples
-<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/scala/training/Train%20Multi-Class%20Text%20Classification%20on%20News%20Articles.scala">[1] </a>
-<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/classification/ClassifierDL_Train_multi_class_news_category_classifier.ipynb">[2] </a>
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/scala/training/Train%20Multi-Class%20Text%20Classification%20on%20News%20Articles.scala">[1] </a>
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/ClassifierDL_Train_multi_class_news_category_classifier.ipynb">[2] </a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLTestSpec.scala">ClassifierDLTestSpec</a>.</p>
 
     <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">SENTENCE_EMBEDDINGS</code></p>
@@ -2049,7 +2049,7 @@ For training your own model, please see the documentation of that class.</p>
 For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Text+Classification">Models Hub</a>.</p>
 
     <p>For extended examples of usage, see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/classification/ClassifierDL_Train_multi_class_news_category_classifier.ipynb">Examples</a>
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/ClassifierDL_Train_multi_class_news_category_classifier.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLTestSpec.scala">ClassifierDLTestSpec</a>.</p>
 
     <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">SENTENCE_EMBEDDINGS</code></p>
@@ -2200,7 +2200,7 @@ certain number of errors, <code class="language-plaintext highlighter-rouge">Con
     <p>For an in-depth explanation of the module see the article <a href="https://medium.com/spark-nlp/applying-context-aware-spell-checking-in-spark-nlp-3c29c46963bc">Applying Context Aware Spell Checking in Spark NLP</a>.</p>
 
     <p>For extended examples of usage, see the article <a href="https://towardsdatascience.com/training-a-contextual-spell-checker-for-italian-language-66dda528e4bf">Training a Contextual Spell Checker for Italian Language</a>,
-the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/italian/Training_Context_Spell_Checker_Italian.ipynb">Examples</a>
+the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/italian/Training_Context_Spell_Checker_Italian.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerTestSpec.scala">ContextSpellCheckerTestSpec</a>.</p>
 
     <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">TOKEN</code></p>
@@ -2333,7 +2333,7 @@ For training your own model, please see the documentation of that class.</p>
     <p>The default model is <code class="language-plaintext highlighter-rouge">"spellcheck_dl"</code>, if no name is provided.
 For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Spell+Check">Models Hub</a>.</p>
 
-    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/italian/Training_Context_Spell_Checker_Italian.ipynb">Examples</a>
+    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/italian/Training_Context_Spell_Checker_Italian.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerTestSpec.scala">ContextSpellCheckerTestSpec</a>.</p>
 
     <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">TOKEN</code></p>
@@ -2377,7 +2377,7 @@ To extract multiple dates from a document, please use the MultiDateMatcher.</p>
 
   <p>Pretrained pipelines are available for this module, see <a href="https://nlp.johnsnowlabs.com/docs/en/pipelines">Pipelines</a>.</p>
 
-  <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/MultiDateMatcherMultiLanguage_en.ipynb">Examples</a>
+  <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/MultiDateMatcherMultiLanguage_en.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/DateMatcherTestSpec.scala">DateMatcherTestSpec</a>.</p>
 
   <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
@@ -2632,7 +2632,7 @@ For training your own model, please see the documentation of that class.</p>
     <p>The default model is <code class="language-plaintext highlighter-rouge">"dependency_conllu"</code>, if no name is provided.
 For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models">Models Hub</a>.</p>
 
-    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/graph-extraction/graph_extraction_intro.ipynb">Examples</a>
+    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/graph-extraction/graph_extraction_intro.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/parser/dep/DependencyParserApproachTestSpec.scala">DependencyParserApproachTestSpec</a>.</p>
 
     <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">[String]DOCUMENT, POS, TOKEN</code></p>
@@ -3011,7 +3011,7 @@ The <code class="language-plaintext highlighter-rouge">DocumentAssembler</code> 
 can be used to pre-process the text (Default: <code class="language-plaintext highlighter-rouge">disabled</code>). For possible options please refer the parameters section.</p>
 
   <p>For more extended examples on document pre-processing see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/document-assembler/Loading_Documents_With_DocumentAssembler.ipynb">Examples</a>.</p>
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/document-assembler/Loading_Documents_With_DocumentAssembler.ipynb">Examples</a>.</p>
 
   <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">NONE</code></p>
 
@@ -3112,7 +3112,7 @@ Removes all dirty characters from text following one or more input regex pattern
 Can apply not wanted character removal with a specific policy.
 Can apply lower case normalization.</p>
 
-  <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/document-normalizer/document_normalizer_notebook.ipynb">Examples</a>.</p>
+  <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/document-normalizer/document_normalizer_notebook.ipynb">Examples</a>.</p>
 
   <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
 
@@ -3250,7 +3250,7 @@ compatible with Spark ML functions such as LDA, K-mean, Random Forest classifier
 <code class="language-plaintext highlighter-rouge">featureCol</code>.</p>
 
   <p>For more extended examples see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/text-similarity/Spark_NLP_Spark_ML_Text_Similarity.ipynb">Examples</a>.</p>
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/text-similarity/Spark_NLP_Spark_ML_Text_Similarity.ipynb">Examples</a>.</p>
 
   <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">EMBEDDINGS</code></p>
 
@@ -3608,7 +3608,7 @@ For usage and examples see the documentation of the main class.</p>
 Pipelines. The Finisher outputs annotation(s) values into <code class="language-plaintext highlighter-rouge">String</code>.</p>
 
   <p>For more extended examples on document pre-processing see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/model-downloader/Create%20custom%20pipeline%20-%20NerDL.ipynb">Examples</a>.</p>
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/model-downloader/Create%20custom%20pipeline%20-%20NerDL.ipynb">Examples</a>.</p>
 
   <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">ANY</code></p>
 
@@ -4083,7 +4083,7 @@ The output is a language code in <a href="https://en.wikipedia.org/wiki/List_of_
 if no values are provided.
 For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Language+Detection">Models Hub</a>.</p>
 
-  <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/language-detection/Language_Detection_and_Indentification.ipynb">Examples</a>
+  <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/language-detection/Language_Detection_and_Indentification.ipynb">Examples</a>
 And the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ld/dl/LanguageDetectorDLTestSpec.scala">LanguageDetectorDLTestSpec</a>.</p>
 
   <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
@@ -4200,7 +4200,7 @@ The dictionary can be set as a delimited text file.
 Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">LemmatizerModel.pretrained</code>.</p>
 
     <p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Lemmatization">Models Hub</a>.
-For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/italian/Train-Lemmatizer-Italian.ipynb">Examples</a>.</p>
+For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/italian/Train-Lemmatizer-Italian.ipynb">Examples</a>.</p>
 
     <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">TOKEN</code></p>
 
@@ -4418,7 +4418,7 @@ val multiClassifier = new MultiClassifierDLApproach()
   .setTestDataset("test_data")
 </code></pre></div>    </div>
 
-    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/classification/MultiClassifierDL_train_multi_label_E2E_challenge_classifier.ipynb">Examples</a>
+    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/MultiClassifierDL_train_multi_label_E2E_challenge_classifier.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/MultiClassifierDLTestSpec.scala">MultiClassifierDLTestSpec</a>.</p>
 
     <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">SENTENCE_EMBEDDINGS</code></p>
@@ -4611,7 +4611,7 @@ of the classes the instance can be assigned to.
 Formally, multi-label classification is the problem of finding a model that maps inputs x to binary vectors y
 (assigning a value of 0 or 1 for each element (label) in y).</p>
 
-    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/classification/MultiClassifierDL_train_multi_label_E2E_challenge_classifier.ipynb">Examples</a>
+    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/MultiClassifierDL_train_multi_label_E2E_challenge_classifier.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/MultiClassifierDLTestSpec.scala">MultiClassifierDLTestSpec</a>.</p>
 
     <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">SENTENCE_EMBEDDINGS</code></p>
@@ -4739,7 +4739,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
   <p>For example <code class="language-plaintext highlighter-rouge">"The 31st of April in the year 2008"</code> will be converted into <code class="language-plaintext highlighter-rouge">2008/04/31</code>.</p>
 
-  <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/MultiDateMatcherMultiLanguage_en.ipynb">Examples</a>
+  <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/MultiDateMatcherMultiLanguage_en.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/MultiDateMatcherTestSpec.scala">MultiDateMatcherTestSpec</a>.</p>
 
   <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
@@ -4851,7 +4851,7 @@ pre-process the text (Default: <code class="language-plaintext highlighter-rouge
 section.</p>
 
   <p>For more extended examples on document pre-processing see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/document-assembler/Loading_Multiple_Documents.ipynb">Examples</a>.</p>
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/document-assembler/Loading_Multiple_Documents.ipynb">Examples</a>.</p>
 
   <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">NONE</code></p>
 
@@ -4959,7 +4959,7 @@ words.</p>
 When the input array length is less than n (number of elements per n-gram), no n-grams are
 returned.</p>
 
-  <p>For more extended examples see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/chunking/NgramGenerator.ipynb">Examples</a>
+  <p>For more extended examples see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/chunking/NgramGenerator.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/NGramGeneratorTestSpec.scala">NGramGeneratorTestSpec</a>.</p>
 
   <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">TOKEN</code></p>
@@ -5216,7 +5216,7 @@ Excluding the label, this can be done with for example</p>
 
     <p>Optionally the user can provide an entity dictionary file with setExternalFeatures for better accuracy.</p>
 
-    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/crf-ner/ner_dl_crf.ipynb">Examples</a>
+    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/crf-ner/ner_dl_crf.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/crf/NerCrfApproachTestSpec.scala">NerCrfApproachTestSpec</a>.</p>
 
     <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS</code></p>
@@ -5351,7 +5351,7 @@ For training your own model, please see the documentation of that class.</p>
     <p>The default model is <code class="language-plaintext highlighter-rouge">"ner_crf"</code>, if no name is provided.
 For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition">Models Hub</a>.</p>
 
-    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/crf-ner/ner_dl_crf.ipynb">Examples</a>.</p>
+    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/crf-ner/ner_dl_crf.ipynb">Examples</a>.</p>
 
     <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS</code></p>
 
@@ -5433,7 +5433,7 @@ val nerTagger = new NerDLApproach()
   .setTestDataset("test_data")
 </code></pre></div>    </div>
 
-    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/dl-ner">Examples</a>
+    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dl-ner">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLSpec.scala">NerDLSpec</a>.</p>
 
     <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT, TOKEN, WORD_EMBEDDINGS</code></p>
@@ -5583,7 +5583,7 @@ Additionally, pretrained pipelines are available for this module, see <a href="h
 For example, the default model <code class="language-plaintext highlighter-rouge">"ner_dl"</code> requires the
 <a href="/docs/en/annotators#wordembeddings">WordEmbeddings</a> <code class="language-plaintext highlighter-rouge">"glove_100d"</code>.</p>
 
-    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/model-downloader/Create%20custom%20pipeline%20-%20NerDL.ipynb">Examples</a>
+    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/model-downloader/Create%20custom%20pipeline%20-%20NerDL.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLSpec.scala">NerDLSpec</a>.</p>
 
     <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT, TOKEN, WORD_EMBEDDINGS</code></p>
@@ -5819,7 +5819,7 @@ The strings specified with <code class="language-plaintext highlighter-rouge">se
     <p>Annotator that cleans out tokens. Requires stems, hence tokens.
 Removes all dirty characters from text following a regex pattern and transforms words based on a provided dictionary</p>
 
-    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/document-normalizer/document_normalizer_notebook.ipynb">Examples</a>.</p>
+    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/document-normalizer/document_normalizer_notebook.ipynb">Examples</a>.</p>
 
     <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">TOKEN</code></p>
 
@@ -6144,7 +6144,7 @@ This DataFrame for training can easily created by the helper class <a href="/doc
                       ...
 </code></pre></div>    </div>
 
-    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/french/Train-Perceptron-French.ipynb">Examples</a>
+    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/french/Train-Perceptron-French.ipynb">Examples</a>
 and <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron">PerceptronApproach tests</a>.</p>
 
     <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">TOKEN, DOCUMENT</code></p>
@@ -6285,7 +6285,7 @@ For training your own model, please see the documentation of that class.</p>
     <p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Part+of+Speech+Tagging">Models Hub</a>.
 Additionally, pretrained pipelines are available for this module, see <a href="https://nlp.johnsnowlabs.com/docs/en/pipelines">Pipelines</a>.</p>
 
-    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/french/Train-Perceptron-French.ipynb">Examples</a>.</p>
+    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/french/Train-Perceptron-French.ipynb">Examples</a>.</p>
 
     <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">TOKEN, DOCUMENT</code></p>
 
@@ -6323,7 +6323,7 @@ Additionally, pretrained pipelines are available for this module, see <a href="h
       <li><code class="language-plaintext highlighter-rouge">whitelist</code>: Whitelist of strings not to split</li>
     </ul>
 
-    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/italian/Training_Context_Spell_Checker_Italian.ipynb">Examples</a>
+    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/italian/Training_Context_Spell_Checker_Italian.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/TokenizerTestSpec.scala">TokenizerTestSpec</a>.</p>
 
     <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
@@ -6457,7 +6457,7 @@ identifier <code class="language-plaintext highlighter-rouge">"date"</code>.</p>
 
     <p>Pretrained pipelines are available for this module, see <a href="https://nlp.johnsnowlabs.com/docs/en/pipelines">Pipelines</a>.</p>
 
-    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/regex-matcher/Matching_Text_with_RegexMatcher.ipynb">Examples</a>
+    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/regex-matcher/Matching_Text_with_RegexMatcher.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/RegexMatcherTestSpec.scala">RegexMatcherTestSpec</a>.</p>
 
     <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
@@ -6723,7 +6723,7 @@ By default this pattern is <code class="language-plaintext highlighter-rouge">\s
   <p>Each extracted sentence can be returned in an Array or exploded to separate rows,
 if <code class="language-plaintext highlighter-rouge">explodeSentences</code> is set to <code class="language-plaintext highlighter-rouge">true</code>.</p>
 
-  <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/sentence-detection/SentenceDetector_advanced_examples.ipynb">Examples</a>.</p>
+  <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/sentence-detection/SentenceDetector_advanced_examples.ipynb">Examples</a>.</p>
 
   <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
 
@@ -6839,7 +6839,7 @@ using a CNN architecture. We also modified the original implementation a little 
     <p>Each extracted sentence can be returned in an Array or exploded to separate rows,
 if <code class="language-plaintext highlighter-rouge">explodeSentences</code> is set to <code class="language-plaintext highlighter-rouge">true</code>.</p>
 
-    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/multilingual/SentenceDetectorDL.ipynb">Examples</a> and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLSpec.scala">SentenceDetectorDLSpec</a>.</p>
+    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/multilingual/SentenceDetectorDL.ipynb">Examples</a> and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLSpec.scala">SentenceDetectorDLSpec</a>.</p>
 
     <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
 
@@ -6949,7 +6949,7 @@ For available pretrained models please see the <a href="https://nlp.johnsnowlabs
     <p>Each extracted sentence can be returned in an Array or exploded to separate rows,
 if <code class="language-plaintext highlighter-rouge">explodeSentences</code> is set to <code class="language-plaintext highlighter-rouge">true</code>.</p>
 
-    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/multilingual/SentenceDetectorDL.ipynb">Examples</a>
+    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/multilingual/SentenceDetectorDL.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sentence_detector_dl/SentenceDetectorDLSpec.scala">SentenceDetectorDLSpec</a>.</p>
 
     <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
@@ -6981,7 +6981,7 @@ or document embeddings by either summing up or averaging all the word embeddings
   <p>This can be configured with <code class="language-plaintext highlighter-rouge">setPoolingStrategy</code>, which either be <code class="language-plaintext highlighter-rouge">"AVERAGE"</code> or <code class="language-plaintext highlighter-rouge">"SUM"</code>.</p>
 
   <p>For more extended examples see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/text-similarity/Spark_NLP_Spark_ML_Text_Similarity.ipynb">Examples</a>.
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/text-similarity/Spark_NLP_Spark_ML_Text_Similarity.ipynb">Examples</a>.
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/SentenceEmbeddingsTestSpec.scala">SentenceEmbeddingsTestSpec</a>.</p>
 
   <p><strong>TIP:</strong> Here is how you can explode and convert these embeddings into <code class="language-plaintext highlighter-rouge">Vectors</code> or what’s known as <code class="language-plaintext highlighter-rouge">Feature</code> column so it can be used in Spark ML regression or clustering functions:</p>
@@ -7203,7 +7203,7 @@ val classifier = new SentimentDLApproach()
   .setTestDataset("test_data")
 </code></pre></div>    </div>
 
-    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/classification/SentimentDL_train_multiclass_sentiment_classifier.ipynb">Examples</a>
+    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/SentimentDL_train_multiclass_sentiment_classifier.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/SentimentDLTestSpec.scala">SentimentDLTestSpec</a>.</p>
 
     <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">SENTENCE_EMBEDDINGS</code></p>
@@ -7339,7 +7339,7 @@ For training your own model, please see the documentation of that class.</p>
 the IMDB dataset.
 For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Sentiment+Analysis">Models Hub</a>.</p>
 
-    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/classification/SentimentDL_train_multiclass_sentiment_classifier.ipynb">Examples</a>
+    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/SentimentDL_train_multiclass_sentiment_classifier.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/SentimentDLTestSpec.scala">SentimentDLTestSpec</a>.</p>
 
     <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">SENTENCE_EMBEDDINGS</code></p>
@@ -7377,7 +7377,7 @@ The dictionary can be set as a delimited text file.</p>
     <p>By default, the sentiment score will be assigned labels <code class="language-plaintext highlighter-rouge">"positive"</code> if the score is <code class="language-plaintext highlighter-rouge">&gt;= 0</code>, else <code class="language-plaintext highlighter-rouge">"negative"</code>.
 To retrieve the raw sentiment scores, <code class="language-plaintext highlighter-rouge">enableScore</code> needs to be set to <code class="language-plaintext highlighter-rouge">true</code>.</p>
 
-    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/dictionary-sentiment/sentiment.ipynb">Examples</a>
+    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dictionary-sentiment/sentiment.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/pragmatic/PragmaticSentimentTestSpec.scala">SentimentTestSpec</a>.</p>
 
     <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">TOKEN, DOCUMENT</code></p>
@@ -7537,7 +7537,7 @@ The dictionary can be set as a delimited text file.</p>
     <p>By default, the sentiment score will be assigned labels <code class="language-plaintext highlighter-rouge">"positive"</code> if the score is <code class="language-plaintext highlighter-rouge">&gt;= 0</code>, else <code class="language-plaintext highlighter-rouge">"negative"</code>.
 To retrieve the raw sentiment scores, <code class="language-plaintext highlighter-rouge">enableScore</code> needs to be set to <code class="language-plaintext highlighter-rouge">true</code>.</p>
 
-    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/dictionary-sentiment/sentiment.ipynb">Examples</a>
+    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dictionary-sentiment/sentiment.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/pragmatic/PragmaticSentimentTestSpec.scala">SentimentTestSpec</a>.</p>
 
     <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">TOKEN, DOCUMENT</code></p>
@@ -7563,7 +7563,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
   <h2 id="stemmer">Stemmer</h2>
 
   <p>Returns hard-stems out of words with the objective of retrieving the meaningful part of the word.
-For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/stemmer/Word_Stemming_with_Stemmer.ipynb">Examples</a>.</p>
+For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/stemmer/Word_Stemming_with_Stemmer.ipynb">Examples</a>.</p>
 
   <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">TOKEN</code></p>
 
@@ -7682,7 +7682,7 @@ pretrained models using <code class="language-plaintext highlighter-rouge">pretr
 </code></pre></div>  </div>
   <p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Stop+Words+Removal">Models Hub</a>.</p>
 
-  <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/stop-words/StopWordsCleaner.ipynb">Examples</a>
+  <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/stop-words/StopWordsCleaner.ipynb">Examples</a>
 and <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/StopWordsCleanerTestSpec.scala">StopWordsCleanerTestSpec</a>.</p>
 
   <blockquote>
@@ -8018,7 +8018,7 @@ For available pretrained models please see the <a href="https://nlp.johnsnowlabs
 
       <p>A text file of predefined phrases must be provided with <code class="language-plaintext highlighter-rouge">setEntities</code>.</p>
 
-      <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/text-matcher-pipeline/extractor.ipynb">Examples</a>
+      <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/text-matcher-pipeline/extractor.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/TextMatcherTestSpec.scala">TextMatcherTestSpec</a>.</p>
 
       <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT, TOKEN</code></p>
@@ -8280,7 +8280,7 @@ lemmatized, normalized, spell checked, etc, in order to use this document annota
 Requires <code class="language-plaintext highlighter-rouge">DOCUMENT</code> and <code class="language-plaintext highlighter-rouge">TOKEN</code> type annotations as input.</p>
 
     <p>For more extended examples on document pre-processing see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/token-assembler/Assembling_Tokens_to_Documents.ipynb">Examples</a>.</p>
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/token-assembler/Assembling_Tokens_to_Documents.ipynb">Examples</a>.</p>
 
     <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT, TOKEN</code></p>
 
@@ -8436,7 +8436,7 @@ Requires <code class="language-plaintext highlighter-rouge">DOCUMENT</code> and 
       <p>Identifies tokens with tokenization open standards. A few rules will help customizing it if defaults do not fit user needs.</p>
 
       <p>For extended examples of usage see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/document-normalizer/document_normalizer_notebook.ipynb">Examples</a>
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/document-normalizer/document_normalizer_notebook.ipynb">Examples</a>
 and <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/TokenizerTestSpec.scala">Tokenizer test class</a></p>
 
       <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
@@ -8706,7 +8706,7 @@ you find precise answers to specific questions.</p>
       <p>The default model is <code class="language-plaintext highlighter-rouge">"dependency_typed_conllu"</code>, if no name is provided.
 For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models">Models Hub</a>.</p>
 
-      <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/graph-extraction/graph_extraction_intro.ipynb">Examples</a>
+      <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/graph-extraction/graph_extraction_intro.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/parser/typdep/TypedDependencyModelTestSpec.scala">TypedDependencyModelTestSpec</a>.</p>
 
       <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">TOKEN, POS, DEPENDENCY</code></p>
@@ -8745,7 +8745,7 @@ Tokenization is needed to make sure tokens are within bounds. Transitivity requi
 
       <p>The training data needs to consist of a column for normalized text and a label column (either <code class="language-plaintext highlighter-rouge">"positive"</code> or <code class="language-plaintext highlighter-rouge">"negative"</code>).</p>
 
-      <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb">Examples</a>
+      <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/vivekn">ViveknSentimentTestSpec</a>.</p>
 
       <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">TOKEN, DOCUMENT</code></p>
@@ -8898,7 +8898,7 @@ For training your own model, please see the documentation of that class.</p>
       <p>The analyzer requires sentence boundaries to give a score in context.
 Tokenization is needed to make sure tokens are within bounds. Transitivity requirements are also required.</p>
 
-      <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb">Examples</a>
+      <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/sda/vivekn">ViveknSentimentTestSpec</a>.</p>
 
       <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">TOKEN, DOCUMENT</code></p>
@@ -9200,7 +9200,7 @@ induced 0.1535748762292387 0.33498936903209897 0.9235178224122094 0.115877292039
 Statistics about the rate of converted tokens, can be retrieved with<code class="language-plaintext highlighter-rouge">[WordEmbeddingsModel.withCoverageColumn</code>
 and <code class="language-plaintext highlighter-rouge">WordEmbeddingsModel.overallCoverage</code>.</p>
 
-      <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/quick_start_offline.ipynb">Examples</a>
+      <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/quick_start_offline.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsTestSpec.scala">WordEmbeddingsTestSpec</a>.</p>
 
       <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT, TOKEN</code></p>
@@ -9375,7 +9375,7 @@ This returns a single coverage object considering all rows in the field.
         </li>
       </ul>
 
-      <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/quick_start_offline.ipynb">Examples</a>
+      <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/quick_start_offline.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsTestSpec.scala">WordEmbeddingsTestSpec</a>.</p>
 
       <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT, TOKEN</code></p>
@@ -9440,7 +9440,7 @@ data has to be loaded into a dataframe, where the column is an
       <p><strong>Tip</strong>: The helper class <a href="/api/com/johnsnowlabs/nlp/training/POS">POS</a> might be useful to read
 training data into data frames.</p>
 
-      <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/chinese/word_segmentation">Examples</a>
+      <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/chinese/word_segmentation">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/WordSegmenterTest.scala">WordSegmenterTest</a>.</p>
 
       <p><strong>References:</strong></p>
@@ -9642,7 +9642,7 @@ first sent through a Sentence Boundary Detector and then a tokenizer.</p>
     <p>Note that each keyword will be given a keyword score greater than 0 (The lower the score better the keyword).
 Therefore to filter the keywords, an upper bound for the score can be set with <code class="language-plaintext highlighter-rouge">setThreshold</code>.</p>
 
-    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/keyword-extraction/Keyword_Extraction_YAKE.ipynb">Examples</a>
+    <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/keyword-extraction/Keyword_Extraction_YAKE.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/keyword/yake/YakeTestSpec.scala">YakeTestSpec</a>.</p>
 
     <p><strong>Sources</strong> :</p>

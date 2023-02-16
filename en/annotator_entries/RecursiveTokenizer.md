@@ -36,7 +36,7 @@ Unlike the Tokenizer, the RecursiveTokenizer operates based on these array strin
  - `infixes`: Strings that will be split when found at the middle of token.
  - `whitelist`: Whitelist of strings not to split
 
-For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/italian/Training_Context_Spell_Checker_Italian.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/italian/Training_Context_Spell_Checker_Italian.ipynb)
 and the [TokenizerTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/TokenizerTestSpec.scala).
 {%- endcapture -%}
 

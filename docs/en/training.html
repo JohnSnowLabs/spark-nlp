@@ -1117,7 +1117,7 @@ Retrieves the significant part of a word. A dictionary of predefined lemmas must
 The dictionary can be set as a delimited text file.
 Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">LemmatizerModel.pretrained</code>.</p>
 
-  <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/italian/Train-Lemmatizer-Italian.ipynb">Examples</a>.</p>
+  <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/italian/Train-Lemmatizer-Italian.ipynb">Examples</a>.</p>
 
   <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">TOKEN</code></p>
 
@@ -1281,7 +1281,7 @@ This DataFrame for training can easily created by the helper class <a href="#pos
                       ...
 </code></pre></div>  </div>
 
-  <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/french/Train-Perceptron-French.ipynb">Examples</a>
+  <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/french/Train-Perceptron-French.ipynb">Examples</a>
 and <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron">PerceptronApproach tests</a>.</p>
 
   <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">TOKEN, DOCUMENT</code></p>
@@ -1422,7 +1422,7 @@ using a CNN architecture. We also modified the original implementation a little 
   <p>Each extracted sentence can be returned in an Array or exploded to separate rows,
 if <code class="language-plaintext highlighter-rouge">explodeSentences</code> is set to <code class="language-plaintext highlighter-rouge">true</code>.</p>
 
-  <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/multilingual/SentenceDetectorDL.ipynb">Examples</a>.</p>
+  <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/multilingual/SentenceDetectorDL.ipynb">Examples</a>.</p>
 
   <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
 
@@ -1691,7 +1691,7 @@ set with <code class="language-plaintext highlighter-rouge">setPosColumn</code>.
 
   <p><strong>Tip</strong>: The helper class <a href="#pos-dataset">POS</a> might be useful to read training data into data frames.</p>
 
-  <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/chinese/word_segmentation">Examples</a>.</p>
+  <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/chinese/word_segmentation">Examples</a>.</p>
 
   <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
 
@@ -1811,7 +1811,7 @@ certain number of errors, <code class="language-plaintext highlighter-rouge">Con
   <p>For an in-depth explanation of the module see the article <a href="https://medium.com/spark-nlp/applying-context-aware-spell-checking-in-spark-nlp-3c29c46963bc">Applying Context Aware Spell Checking in Spark NLP</a>.</p>
 
   <p>For extended examples of usage, see the article <a href="https://towardsdatascience.com/training-a-contextual-spell-checker-for-italian-language-66dda528e4bf">Training a Contextual Spell Checker for Italian Language</a>,
-the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/italian/Training_Context_Spell_Checker_Italian.ipynb">Examples</a>.</p>
+the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/italian/Training_Context_Spell_Checker_Italian.ipynb">Examples</a>.</p>
 
   <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">TOKEN</code></p>
 
@@ -2159,7 +2159,7 @@ Excluding the label, this can be done with for example</p>
 
   <p>Optionally the user can provide an entity dictionary file with <code class="language-plaintext highlighter-rouge">setExternalFeatures</code> for better accuracy.</p>
 
-  <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/crf-ner/ner_dl_crf.ipynb">Examples</a>.</p>
+  <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/crf-ner/ner_dl_crf.ipynb">Examples</a>.</p>
 
   <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT, TOKEN, POS, WORD_EMBEDDINGS</code></p>
 
@@ -2314,7 +2314,7 @@ Excluding the label, this can be done with for example</p>
   (any word embeddings can be chosen, e.g. <a href="/docs/en/transformers#bertembeddings">BertEmbeddings</a> for BERT based embeddings).</li>
   </ul>
 
-  <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/dl-ner">Examples</a>.</p>
+  <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dl-ner">Examples</a>.</p>
 
   <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT, TOKEN, WORD_EMBEDDINGS</code></p>
 
@@ -2456,8 +2456,8 @@ The ClassifierDL annotator uses a deep learning model (DNNs) we have built insid
 100 classes.</p>
 
   <p>For extended examples of usage, see the Examples
-<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/scala/training/Train%20Multi-Class%20Text%20Classification%20on%20News%20Articles.scala">[1] </a>
-<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/classification/ClassifierDL_Train_multi_class_news_category_classifier.ipynb">[2] </a>.</p>
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/scala/training/Train%20Multi-Class%20Text%20Classification%20on%20News%20Articles.scala">[1] </a>
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/ClassifierDL_Train_multi_class_news_category_classifier.ipynb">[2] </a>.</p>
 
   <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">SENTENCE_EMBEDDINGS</code></p>
 
@@ -2603,7 +2603,7 @@ of the classes the instance can be assigned to.
 Formally, multi-label classification is the problem of finding a model that maps inputs x to binary vectors y
 (assigning a value of 0 or 1 for each element (label) in y).</p>
 
-  <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/classification/MultiClassifierDL_train_multi_label_E2E_challenge_classifier.ipynb">Examples</a>.</p>
+  <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/MultiClassifierDL_train_multi_label_E2E_challenge_classifier.ipynb">Examples</a>.</p>
 
   <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">SENTENCE_EMBEDDINGS</code></p>
 
@@ -2781,7 +2781,7 @@ of the classes the instance can be assigned to.
 Formally, multi-label classification is the problem of finding a model that maps inputs x to binary vectors y
 (assigning a value of 0 or 1 for each element (label) in y).</p>
 
-  <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/classification/MultiClassifierDL_train_multi_label_E2E_challenge_classifier.ipynb">Examples</a>.</p>
+  <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/MultiClassifierDL_train_multi_label_E2E_challenge_classifier.ipynb">Examples</a>.</p>
 
   <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">SENTENCE_EMBEDDINGS</code></p>
 
@@ -2951,7 +2951,7 @@ Tokenization is needed to make sure tokens are within bounds. Transitivity requi
 
   <p>The training data needs to consist of a column for normalized text and a label column (either <code class="language-plaintext highlighter-rouge">"positive"</code> or <code class="language-plaintext highlighter-rouge">"negative"</code>).</p>
 
-  <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb">Examples</a>.</p>
+  <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb">Examples</a>.</p>
 
   <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">TOKEN, DOCUMENT</code></p>
 
@@ -3333,7 +3333,7 @@ transformers library. After the training process is done, the model checkpoint
 can be loaded by this annotator. This is done with <code class="language-plaintext highlighter-rouge">loadSavedModel</code> (for loading
 the transformers model) and <code class="language-plaintext highlighter-rouge">load</code> for the saved Spark NLP model.</p>
 
-  <p>For an extended example see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20AlbertForTokenClassification.ipynb">Examples</a>.</p>
+  <p>For an extended example see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20AlbertForTokenClassification.ipynb">Examples</a>.</p>
 
   <p>Example for loading a saved transformers model:</p>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Installing prerequisites
@@ -3509,7 +3509,7 @@ transformers library. After the training process is done, the model checkpoint
 can be loaded by this annotator. This is done with <code class="language-plaintext highlighter-rouge">loadSavedModel</code> (for loading
 the transformers model) and <code class="language-plaintext highlighter-rouge">load</code> for the saved Spark NLP model.</p>
 
-  <p>For an extended example see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForSequenceClassification.ipynb">Examples</a>.</p>
+  <p>For an extended example see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForSequenceClassification.ipynb">Examples</a>.</p>
 
   <p>Example for loading a saved transformers model:</p>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Installing prerequisites
@@ -3681,7 +3681,7 @@ transformers library. After the training process is done, the model checkpoint
 can be loaded by this annotator. This is done with <code class="language-plaintext highlighter-rouge">loadSavedModel</code> (for loading
 the transformers model) and <code class="language-plaintext highlighter-rouge">load</code> for the saved Spark NLP model.</p>
 
-  <p>For an extended example see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForTokenClassification.ipynb">Examples</a>.</p>
+  <p>For an extended example see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BertForTokenClassification.ipynb">Examples</a>.</p>
 
   <p>Example for loading a saved transformers model:</p>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Installing prerequisites
@@ -3849,7 +3849,7 @@ transformers library. After the training process is done, the model checkpoint
 can be loaded by this annotator. This is done with <code class="language-plaintext highlighter-rouge">loadSavedModel</code> (for loading
 the transformers model) and <code class="language-plaintext highlighter-rouge">load</code> for the saved Spark NLP model.</p>
 
-  <p>For an extended example see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBertForSequenceClassification.ipynb">Examples</a>.</p>
+  <p>For an extended example see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBertForSequenceClassification.ipynb">Examples</a>.</p>
 
   <p>Example for loading a saved transformers model:</p>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Installing prerequisites
@@ -4020,7 +4020,7 @@ transformers library. After the training process is done, the model checkpoint
 can be loaded by this annotator. This is done with <code class="language-plaintext highlighter-rouge">loadSavedModel</code> (for loading
 the transformers model) and <code class="language-plaintext highlighter-rouge">load</code> for the saved Spark NLP model.</p>
 
-  <p>For an extended example see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBertForTokenClassification.ipynb">Examples</a>.</p>
+  <p>For an extended example see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBertForTokenClassification.ipynb">Examples</a>.</p>
 
   <p>Example for loading a saved transformers model:</p>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Installing prerequisites
@@ -4193,7 +4193,7 @@ transformers library. After the training process is done, the model checkpoint
 can be loaded by this annotator. This is done with <code class="language-plaintext highlighter-rouge">loadSavedModel</code> (for loading
 the transformers model) and <code class="language-plaintext highlighter-rouge">load</code> for the saved Spark NLP model.</p>
 
-  <p>For an extended example see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBertaForTokenClassification.ipynb">Examples</a>.</p>
+  <p>For an extended example see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBertaForTokenClassification.ipynb">Examples</a>.</p>
 
   <p>Example for loading a saved transformers model:</p>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Installing prerequisites
@@ -4376,7 +4376,7 @@ transformers library. After the training process is done, the model checkpoint
 can be loaded by this annotator. This is done with <code class="language-plaintext highlighter-rouge">loadSavedModel</code> (for loading
 the transformers model) and <code class="language-plaintext highlighter-rouge">load</code> for the saved Spark NLP model.</p>
 
-  <p>For an extended example see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XlmRoBertaForTokenClassification.ipynb">Examples</a>.</p>
+  <p>For an extended example see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XlmRoBertaForTokenClassification.ipynb">Examples</a>.</p>
 
   <p>Example for loading a saved transformers model:</p>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Installing prerequisites
