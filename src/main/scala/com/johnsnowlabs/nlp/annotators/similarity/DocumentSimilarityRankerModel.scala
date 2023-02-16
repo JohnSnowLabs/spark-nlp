@@ -1,30 +1,23 @@
 package com.johnsnowlabs.nlp.annotators.similarity
 
 import com.johnsnowlabs.nlp.AnnotatorType.{DOC_SIMILARITY_RANKINGS, SENTENCE_EMBEDDINGS}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach, AnnotatorModel, HasSimpleAnnotate}
 import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
-class DocumentSimilarityRanker(override val uid: String)
-  extends AnnotatorModel[DocumentSimilarityRanker]
-    with HasSimpleAnnotate[DocumentSimilarityRanker] {
+class DocumentSimilarityRankerModel(override val uid: String)
+  extends AnnotatorModel[DocumentSimilarityRankerModel]
+    with HasSimpleAnnotate[DocumentSimilarityRankerModel] {
 
-//  setDefault(
-//    inputCols -> Array(SENTENCE_EMBEDDINGS),
-//    outputCol -> DOC_SIMILARITY_RANKINGS,
-//    similarityMethod -> "brp",
-//    numberOfNeighbours -> 10
-//  )
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(SENTENCE_EMBEDDINGS)
+
+  override val outputAnnotatorType: AnnotatorType = DOC_SIMILARITY_RANKINGS
 
   def this() = this(Identifiable.randomUID("DOC_SIMILARITY_RANKER"))
 
   def setSimilarityMethod(simMethod: String): this.type = set(similarityMethod, simMethod)
 
   def getSimilarityMethod: String = $(similarityMethod)
-
-  def setQuery(q: String): this.type = set(query, q)
-
-  def getQuery: String = $(query)
 
   def setNumberOfNeighbours(nbOfNeighbours: Int): this.type = set(numberOfNeighbours, nbOfNeighbours)
 
@@ -50,16 +43,12 @@ class DocumentSimilarityRanker(override val uid: String)
     "similarityMethod",
     "Choose how you would like to aggregate Word Embeddings to Sentence Embeddings: AVERAGE or SUM")
 
-  /** Choose how you would like to aggregate Word Embeddings to Sentence Embeddings (Default:
-   * `"AVERAGE"`). Can either be `"AVERAGE"` or `"SUM"`.
-   *
-   * @group param
-   */
-  val query = new Param[String](
-    this,
-    "query",
-    "Choose how you would like to aggregate Word Embeddings to Sentence Embeddings: AVERAGE or SUM")
-
+  setDefault(
+    inputCols -> Array(SENTENCE_EMBEDDINGS),
+    outputCol -> DOC_SIMILARITY_RANKINGS,
+    similarityMethod -> "brp",
+    numberOfNeighbours -> 10
+  )
 
   /** takes a document and annotations and produces new annotations of this annotator's annotation
    * type
@@ -75,11 +64,6 @@ class DocumentSimilarityRanker(override val uid: String)
     Seq.empty
   }
 
-  /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
-   * type
-   */
-  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(SENTENCE_EMBEDDINGS)
-  override val outputAnnotatorType: AnnotatorType = DOC_SIMILARITY_RANKINGS
 }
 
-object DocumentSimilarityRanker extends DefaultParamsReadable[DocumentSimilarityRanker]
+object DocumentSimilarityRanker extends DefaultParamsReadable[DocumentSimilarityRankerModel]

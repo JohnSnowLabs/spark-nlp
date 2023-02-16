@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.similarity
 import com.johnsnowlabs.nlp.AnnotatorType.{DOC_SIMILARITY_RANKINGS, SENTENCE_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
-import com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRanker
+import com.johnsnowlabs.nlp.annotators.similarity.{DocumentSimilarityRanker, DocumentSimilarityRankerModel}
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
@@ -49,11 +49,10 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
       .setOutputCols("finished_sentence_embeddings")
       .setCleanAnnotations(false)
 
-    val similarityRanker = new DocumentSimilarityRanker()
+    val similarityRanker = new DocumentSimilarityRankerModel()
       .setInputCols("sentence_embeddings")
       .setOutputCol(DOC_SIMILARITY_RANKINGS)
       .setSimilarityMethod("brp")
-      .setQuery("ciao")
       .setNumberOfNeighbours(10)
 
     val pipeline = new Pipeline()
@@ -69,6 +68,8 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
 
     val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
 
+    pipelineDF.printSchema
     pipelineDF.show
+
   }
 }
