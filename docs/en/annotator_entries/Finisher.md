@@ -7,7 +7,7 @@ Converts annotation results into a format that easier to use. It is useful to ex
 Pipelines. The Finisher outputs annotation(s) values into `String`.
 
 For more extended examples on document pre-processing see the
-[Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/model-downloader/Create%20custom%20pipeline%20-%20NerDL.ipynb
+[Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/model-downloader/Create%20custom%20pipeline%20-%20NerDL.ipynb
 ).
 {%- endcapture -%}
 

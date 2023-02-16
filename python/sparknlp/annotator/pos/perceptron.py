@@ -45,7 +45,7 @@ class PerceptronApproach(AnnotatorApproach):
 
 
     For extended examples of usage, see the `Examples
-    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/french/Train-Perceptron-French.ipynb>`__.
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/french/Train-Perceptron-French.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -179,7 +179,7 @@ class PerceptronModel(AnnotatorModel):
     `Pipelines <https://nlp.johnsnowlabs.com/docs/en/pipelines>`__.
 
     For extended examples of usage, see the `Examples
-    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/french/Train-Perceptron-French.ipynb>`__.
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/french/Train-Perceptron-French.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -261,4 +261,3 @@ class PerceptronModel(AnnotatorModel):
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(PerceptronModel, name, lang, remote_loc)
-

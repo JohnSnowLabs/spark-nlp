@@ -20,7 +20,7 @@ For available pretrained models please see the
 [Models Hub](https://nlp.johnsnowlabs.com/models?task=Embeddings).
 
 For extended examples of usage, see the
-[Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/dl-ner/ner_bert.ipynb)
+[Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dl-ner/ner_bert.ipynb)
 and the
 [CamemBertEmbeddingsTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/CamemBertEmbeddingsTestSpec.scala).
 To see which models are compatible and how to import them see
