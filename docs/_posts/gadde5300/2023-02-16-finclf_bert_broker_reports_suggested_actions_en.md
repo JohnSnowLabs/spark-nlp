@@ -211,6 +211,10 @@ rating on the stock with a TP of INR 780 (premised on 1 0x FY24E P/E) .|[Neutral
 |Case sensitive:|true|
 |Max sentence length:|128|
 
+## References
+
+An in-house annotated dataset of broker reports.
+
 ## Benchmarking
 
 ```bash
