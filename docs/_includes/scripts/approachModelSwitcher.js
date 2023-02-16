@@ -1,4 +1,4 @@
-jQuery(document).ready(function () {
+/* jQuery(document).ready(function () {
     $(".model-button").click(function () {
         $(this).closest(".tabs-box").find(".model-button").removeClass('code-selector-un-active').addClass("code-selector-active");
 
@@ -22,3 +22,4 @@ jQuery(document).ready(function () {
         $(this.parentNode).siblings(".h3-box.approach-content").show()
     });
 });
+ */

@@ -37,7 +37,7 @@ There are also two convenient functions to retrieve the embeddings coverage with
     1.0
     ```
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/quick_start_offline.ipynb)
 and the [WordEmbeddingsTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsTestSpec.scala).
 {%- endcapture -%}
 
@@ -178,7 +178,7 @@ If a token is not found in the dictionary, then the result will be a zero vector
 Statistics about the rate of converted tokens, can be retrieved with`[WordEmbeddingsModel.withCoverageColumn`
 and `WordEmbeddingsModel.overallCoverage`.
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/quick_start_offline.ipynb)
 and the [WordEmbeddingsTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsTestSpec.scala).
 {%- endcapture -%}
 

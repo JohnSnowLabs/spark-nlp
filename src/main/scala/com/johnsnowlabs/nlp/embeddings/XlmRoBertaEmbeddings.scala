@@ -16,8 +16,13 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
+import com.johnsnowlabs.ml.ai.XlmRoberta
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.tensorflow.sentencepiece._
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
+  ReadSentencePieceModel,
+  SentencePieceWrapper,
+  WriteSentencePieceModel
+}
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadSentencePieceAsset,
   modelSanityCheck,
@@ -51,7 +56,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   * [[https://nlp.johnsnowlabs.com/models?task=Embeddings Models Hub]].
   *
   * For extended examples of usage, see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XLM-RoBERTa.ipynb Spark NLP Workshop]]
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XLM-RoBERTa.ipynb Examples]]
   * and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/XlmRoBertaEmbeddingsTestSpec.scala XlmRoBertaEmbeddingsTestSpec]].
   * To see which models are compatible and how to import them see
@@ -225,7 +230,7 @@ class XlmRoBertaEmbeddings(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowXlmRoberta]] = None
+  private var _model: Option[Broadcast[XlmRoberta]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
@@ -235,7 +240,7 @@ class XlmRoBertaEmbeddings(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowXlmRoberta(
+          new XlmRoberta(
             tensorflowWrapper,
             spp,
             $(caseSensitive),
@@ -247,7 +252,7 @@ class XlmRoBertaEmbeddings(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowXlmRoberta = _model.get.value
+  def getModelIfNotSet: XlmRoberta = _model.get.value
 
   /** Set Embeddings dimensions for the XLM-RoBERTa model. Only possible to set this when the
     * first time is saved dimension is not changeable, it comes from XLM-RoBERTa config file.
@@ -371,14 +376,14 @@ trait ReadXlmRobertaDLModel extends ReadTensorflowModel with ReadSentencePieceMo
   override val tfFile: String = "xlmroberta_tensorflow"
   override val sppFile: String = "xlmroberta_spp"
 
-  def readTensorflow(instance: XlmRoBertaEmbeddings, path: String, spark: SparkSession): Unit = {
+  def readModel(instance: XlmRoBertaEmbeddings, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_xlmroberta_tf", initAllTables = false)
     val spp = readSentencePieceModel(path, spark, "_xlmroberta_spp", sppFile)
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): XlmRoBertaEmbeddings = {
 

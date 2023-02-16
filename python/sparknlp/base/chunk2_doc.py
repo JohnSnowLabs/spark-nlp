@@ -24,9 +24,6 @@ class Chunk2Doc(AnnotatorTransformer, AnnotatorProperties):
     """Converts a ``CHUNK`` type column back into ``DOCUMENT``. Useful when
     trying to re-tokenize or do further analysis on a ``CHUNK`` result.
 
-    For more extended examples on document pre-processing see the
-    `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
-
     ====================== ======================
     Input Annotation types Output Annotation type
     ====================== ======================

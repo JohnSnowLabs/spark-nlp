@@ -67,11 +67,11 @@ We will use MLFlow serialization to serve our Spark NLP models.
 
 </div><div class="h3-box" markdown="1">
 
-### Strenghts
+### Strengths
 
 * *Easily configurable and scalable clusters in Databricks*
 
-* *Seamless integration of SPark NLP and Databricks for automatically creating Spark NLP clusters (check [Install on Databricks URL](https://www.johnsnowlabs.com/databricks/))*
+* *Seamless integration of Spark NLP and Databricks for automatically creating Spark NLP clusters (check [Install on Databricks URL](https://www.johnsnowlabs.com/databricks/))*
 
 * *Integration with MLFlow, experiment tracking, etc.*
 
@@ -170,7 +170,7 @@ Then, create a Lemmatization pipeline:
         .setOutputCol("prediction")  # It's mandatory to call it prediction
 
     pipeline = Pipeline(stages=[
-      documentAssembler, 
+      documentAssembler,
       tokenizer,
       lemmatizer
      ])
@@ -190,7 +190,7 @@ But we mentioned using conda is also available. Let’s use conda in this exampl
         'dependencies': [
             'python=3.8.8',
             {
-                "pip": [              
+                "pip": [
                   'pyspark==3.1.1',
                   'mlflow==1.21.0',
                   'spark-nlp==[YOUR_SPARKNLP_VERSION]'
@@ -319,7 +319,7 @@ To do that:
     ```
     Out[2]: 'com.johnsnowlabs.nlp:spark-nlp_2.12:[YOUR_SPARKNLP_VERSION],org.mlflow:mlflow-spark:1.21.0'
     ```
- 
+
  4. Add the Spark NLP imports.
 
     ```
@@ -378,7 +378,7 @@ Right now, the input text will be in input var. You can trigger an exception or 
                 T.StructField('metadata', T.MapType(T.StringType(), T.StringType()), False),
                 T.StructField('embeddings', T.ArrayType(T.FloatType()), False)
             ])
-    		
+
     spark_res = spark.createDataFrame(res_spark[0], schema=annotationType)
 
 7. Let’s transform our lemmatized tokens from the Dataframe into a list of strings:
@@ -434,12 +434,12 @@ As it’s an asynchronous call, it will return the number a number of run, but n
 You will get a big json, but the most relevant info, the output, will be up to the end:
 
 Results (list of lemmatized words)
-    
+
     {"notebook_output": {
       "status": "OK",
       "results": ["This", "is", "a", "example", "of", "how", "lemmatizer", "work"]
-    }}    
-    
+    }}
+
 The notebook will be prepared in the job, but idle, until you call it programatically, what will instantiate a run.
 
 Check the Jobs [API](https://docs.databricks.com/dev-tools/api/latest/jobs.html) for more information about what you can do with it and how to adapt it to your solutions for production purposes.

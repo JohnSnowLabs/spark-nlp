@@ -20,7 +20,7 @@ first sent through a Sentence Boundary Detector and then a tokenizer.
 Note that each keyword will be given a keyword score greater than 0 (The lower the score better the keyword).
 Therefore to filter the keywords, an upper bound for the score can be set with `setThreshold`.
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/8.Keyword_Extraction_YAKE.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/keyword-extraction/Keyword_Extraction_YAKE.ipynb)
 and the [YakeTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/keyword/yake/YakeTestSpec.scala).
 
  **Sources** :

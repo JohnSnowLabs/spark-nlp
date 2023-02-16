@@ -33,7 +33,7 @@ import org.apache.spark.ml.util.Identifiable
   * n (number of elements per n-gram), no n-grams are returned.
   *
   * For more extended examples see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/chunking/NgramGenerator.ipynb Spark NLP Workshop]]
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/chunking/NgramGenerator.ipynb Examples]]
   * and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/NGramGeneratorTestSpec.scala NGramGeneratorTestSpec]].
   *

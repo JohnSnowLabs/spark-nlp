@@ -30,7 +30,7 @@ class DocumentAssembler(AnnotatorTransformer):
     refer the parameters section.
 
     For more extended examples on document pre-processing see the
-    `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
+    `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/document-assembler/Loading_Documents_With_DocumentAssembler.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type

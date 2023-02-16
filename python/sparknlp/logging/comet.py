@@ -40,8 +40,8 @@ class CometLogger:
     To log a Spark NLP annotator, it will need an "outputLogPath" parameter, as the
     CometLogger reads the log file generated during the training process.
 
-    For more examples see the `Spark NLP Workshop
-    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/logging/Comet_SparkNLP_Intergration.ipynb>`__.
+    For more examples see the `Examples
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/logging/Comet_SparkNLP_Integration.ipynb>`__.
 
     Parameters
     ----------

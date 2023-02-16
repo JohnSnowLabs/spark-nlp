@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.base.embeddings_finisher &#8212; Spark NLP 4.2.7 documentation</title>
+    <title>sparknlp.base.embeddings_finisher &#8212; Spark NLP 4.3.0 documentation</title>
   
   
   
@@ -331,7 +331,8 @@
 <span class="sd">    require a ``featureCol``.</span>
 
 <span class="sd">    For more extended examples see the</span>
-<span class="sd">    `Spark NLP Workshop &lt;https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.1_Text_classification_examples_in_SparkML_SparkNLP.ipynb&gt;`__.</span>
+<span class="sd">    `Examples &lt;https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/text-similarity/Spark_NLP_Spark_ML_Text_Similarity.ipynb</span>
+<span class="sd">&gt;`__.</span>
 
 <span class="sd">    ====================== ======================</span>
 <span class="sd">    Input Annotation types Output Annotation type</span>
@@ -424,7 +425,8 @@
         <span class="nb">super</span><span class="p">(</span><span class="n">EmbeddingsFinisher</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.EmbeddingsFinisher&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
             <span class="n">cleanAnnotations</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">outputAsVector</span><span class="o">=</span><span class="kc">False</span>
+            <span class="n">outputAsVector</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">outputCols</span><span class="o">=</span><span class="p">[]</span>
         <span class="p">)</span>
 
     <span class="nd">@keyword_only</span>
@@ -482,8 +484,18 @@
 <span class="sd">            Whether to output the embeddings as Vectors instead of arrays</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputAsVector</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputAsVector</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="EmbeddingsFinisher.getInputCols"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/embeddings_finisher/index.html#sparknlp.base.embeddings_finisher.EmbeddingsFinisher.getInputCols">[docs]</a>    <span class="k">def</span> <span class="nf">getInputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets input columns name of annotations.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputCols</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="EmbeddingsFinisher.getOutputCols"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/embeddings_finisher/index.html#sparknlp.base.embeddings_finisher.EmbeddingsFinisher.getOutputCols">[docs]</a>    <span class="k">def</span> <span class="nf">getOutputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets output columns name of annotations.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outputCols</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;finished_&quot;</span> <span class="o">+</span> <span class="n">input_col</span> <span class="k">for</span> <span class="n">input_col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInputCols</span><span class="p">()]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outputCols</span><span class="p">)</span></div></div>
 </pre></div>
 
             </article>

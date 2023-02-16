@@ -9,9 +9,9 @@ ClassifierDL uses the state-of-the-art Universal Sentence Encoder as an input fo
 The ClassifierDL annotator uses a deep learning model (DNNs) we have built inside TensorFlow and supports up to
 100 classes.
 
-For extended examples of usage, see the Spark NLP Workshop
-[[1] ](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/scala/training/Train%20Multi-Class%20Text%20Classification%20on%20News%20Articles.scala)
-[[2] ](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.Text_Classification_with_ClassifierDL.ipynb).
+For extended examples of usage, see the Examples
+[[1] ](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/scala/training/Train%20Multi-Class%20Text%20Classification%20on%20News%20Articles.scala)
+[[2] ](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/ClassifierDL_Train_multi_class_news_category_classifier.ipynb).
 {%- endcapture -%}
 
 {%- capture input_anno -%}

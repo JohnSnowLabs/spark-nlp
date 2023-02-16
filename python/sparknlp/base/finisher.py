@@ -25,7 +25,8 @@ class Finisher(AnnotatorTransformer):
     outputs annotation(s) values into ``String``.
 
     For more extended examples on document pre-processing see the
-    `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
+    `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/model-downloader/Create%20custom%20pipeline%20-%20NerDL.ipynb
+>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -97,7 +98,6 @@ class Finisher(AnnotatorTransformer):
     includeMetadata = Param(Params._dummy(), "includeMetadata", "annotation metadata format", typeConverter=TypeConverters.toBoolean)
     outputAsArray = Param(Params._dummy(), "outputAsArray", "finisher generates an Array with the results instead of string", typeConverter=TypeConverters.toBoolean)
     parseEmbeddingsVectors = Param(Params._dummy(), "parseEmbeddingsVectors", "whether to include embeddings vectors in the process", typeConverter=TypeConverters.toBoolean)
-
     name = "Finisher"
 
     @keyword_only
@@ -109,7 +109,8 @@ class Finisher(AnnotatorTransformer):
             outputAsArray=True,
             parseEmbeddingsVectors=False,
             valueSplitSymbol="#",
-            annotationSplitSymbol="@"
+            annotationSplitSymbol="@",
+            outputCols=[]
         )
 
     @keyword_only
@@ -204,3 +205,13 @@ class Finisher(AnnotatorTransformer):
         """
         return self._set(parseEmbeddingsVectors=value)
 
+    def getInputCols(self):
+        """Gets input columns name of annotations."""
+        return self.getOrDefault(self.inputCols)
+
+    def getOutputCols(self):
+        """Gets output columns name of annotations."""
+        if len(self.getOrDefault(self.outputCols)) == 0:
+            return ["finished_" + input_col for input_col in self.getInputCols()]
+        else:
+            return self.getOrDefault(self.outputCols)

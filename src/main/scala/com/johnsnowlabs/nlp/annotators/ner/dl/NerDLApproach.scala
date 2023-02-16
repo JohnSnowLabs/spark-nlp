@@ -97,7 +97,7 @@ import scala.util.Random
   * }}}
   *
   * For extended examples of usage, see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/training/english/dl-ner Spark NLP Workshop]]
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dl-ner Examples]]
   * and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLSpec.scala NerDLSpec]].
   *

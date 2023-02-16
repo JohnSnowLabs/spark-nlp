@@ -172,6 +172,6 @@ class CoNLLGeneratorTestSpec extends AnyFlatSpec {
     val df = ResourceHelper.spark.read.load(
       "src/test/resources/conllgenerator/conllgenerator_nonint_token_metadata.parquet")
 
-    CoNLLGenerator.exportConllFiles(df, "./noninttokens")
+    CoNLLGenerator.exportConllFiles(df, "./tmp_noninttokens")
   }
 }

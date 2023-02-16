@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
+import com.johnsnowlabs.ml.ai.RoBerta
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadTextAsset,
@@ -242,7 +243,7 @@ class LongformerEmbeddings(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowRoBerta]] = None
+  private var _model: Option[Broadcast[RoBerta]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
@@ -251,7 +252,7 @@ class LongformerEmbeddings(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowRoBerta(
+          new RoBerta(
             tensorflowWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
@@ -264,7 +265,7 @@ class LongformerEmbeddings(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowRoBerta = _model.get.value
+  def getModelIfNotSet: RoBerta = _model.get.value
 
   /** Set Embeddings dimensions for the RoBERTa model. Only possible to set this when the first
     * time is saved dimension is not changeable, it comes from RoBERTa config file.
@@ -409,18 +410,18 @@ trait ReadablePretrainedLongformerModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadLongformerTensorflowModel extends ReadTensorflowModel {
+trait ReadLongformerDLModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[LongformerEmbeddings] =>
 
   override val tfFile: String = "longformer_tensorflow"
 
-  def readTensorflow(instance: LongformerEmbeddings, path: String, spark: SparkSession): Unit = {
+  def readModel(instance: LongformerEmbeddings, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_longformer_tf", initAllTables = false)
     instance.setModelIfNotSet(spark, tf)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): LongformerEmbeddings = {
 
@@ -470,6 +471,4 @@ trait ReadLongformerTensorflowModel extends ReadTensorflowModel {
 /** This is the companion object of [[LongformerEmbeddings]]. Please refer to that class for the
   * documentation.
   */
-object LongformerEmbeddings
-    extends ReadablePretrainedLongformerModel
-    with ReadLongformerTensorflowModel
+object LongformerEmbeddings extends ReadablePretrainedLongformerModel with ReadLongformerDLModel

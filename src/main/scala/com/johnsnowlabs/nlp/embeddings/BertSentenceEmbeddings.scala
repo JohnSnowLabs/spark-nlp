@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
+import com.johnsnowlabs.ml.ai.Bert
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadTextAsset,
@@ -49,7 +50,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   * [[https://nlp.johnsnowlabs.com/models?task=Embeddings Models Hub]].
   *
   * For extended examples of usage, see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BERT%20Sentence.ipynb Spark NLP Workshop]]
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BERT%20Sentence.ipynb Examples]]
   * and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddingsTestSpec.scala BertSentenceEmbeddingsTestSpec]].
   *
@@ -302,10 +303,10 @@ class BertSentenceEmbeddings(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowBert]] = None
+  private var _model: Option[Broadcast[Bert]] = None
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowBert = _model.get.value
+  def getModelIfNotSet: Bert = _model.get.value
 
   /** @group setParam */
   def setModelIfNotSet(spark: SparkSession, tensorflow: TensorflowWrapper): this.type = {
@@ -313,7 +314,7 @@ class BertSentenceEmbeddings(override val uid: String)
 
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowBert(
+          new Bert(
             tensorflow,
             sentenceStartTokenId,
             sentenceEndTokenId,
@@ -428,16 +429,13 @@ trait ReadBertSentenceDLModel extends ReadTensorflowModel {
 
   override val tfFile: String = "bert_sentence_tensorflow"
 
-  def readTensorflow(
-      instance: BertSentenceEmbeddings,
-      path: String,
-      spark: SparkSession): Unit = {
+  def readModel(instance: BertSentenceEmbeddings, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_bert_sentence_tf", initAllTables = false)
     instance.setModelIfNotSet(spark, tf)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): BertSentenceEmbeddings = {
 

@@ -15,9 +15,9 @@
  */
 package com.johnsnowlabs.nlp.annotators.coref
 
+import com.johnsnowlabs.ml.ai.SpanBertCoref
 import com.johnsnowlabs.ml.tensorflow.{
   ReadTensorflowModel,
-  TensorflowSpanBertCoref,
   TensorflowWrapper,
   WriteTensorflowModel
 }
@@ -57,7 +57,7 @@ import org.slf4j.{Logger, LoggerFactory}
   * models please see the [[https://nlp.johnsnowlabs.com/models Models Hub]].
   *
   * For extended examples of usage, see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/coreference-resolution/Coreference_Resolution_SpanBertCorefModel.ipynb Spark NLP Workshop]]
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/coreference-resolution/Coreference_Resolution_SpanBertCorefModel.ipynb Examples]]
   *
   * '''References:'''
   *   - [[https://github.com/mandarjoshi90/coref]]
@@ -265,7 +265,7 @@ class SpanBertCorefModel(override val uid: String)
   /** @group getParam */
   def getMaxSegmentLength: Int = $(maxSegmentLength)
 
-  private var _model: Option[Broadcast[TensorflowSpanBertCoref]] = None
+  private var _model: Option[Broadcast[SpanBertCoref]] = None
 
   setDefault(
     maxSentenceLength -> 512,
@@ -280,7 +280,7 @@ class SpanBertCorefModel(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowSpanBertCoref(
+          new SpanBertCoref(
             tensorflowWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
@@ -291,7 +291,7 @@ class SpanBertCorefModel(override val uid: String)
     this
   }
 
-  def getModelIfNotSet: TensorflowSpanBertCoref = _model.get.value
+  def getModelIfNotSet: SpanBertCoref = _model.get.value
 
   def tokenizeSentence(tokens: Seq[TokenizedSentence]): Seq[WordpieceTokenizedSentence] = {
     val basicTokenizer = new BasicTokenizer($(caseSensitive))
@@ -428,13 +428,13 @@ trait ReadSpanBertCorefTensorflowModel extends ReadTensorflowModel {
 
   override val tfFile: String = "spanbert_tensorflow"
 
-  def readTensorflow(instance: SpanBertCorefModel, path: String, spark: SparkSession): Unit = {
+  def readModel(instance: SpanBertCorefModel, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_bert_tf", initAllTables = false)
     instance.setModelIfNotSet(spark, tf)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): SpanBertCorefModel = {
 

@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.7 ScalaDoc  - com.johnsnowlabs.nlp.annotators.spell.context</title>
-          <meta name="description" content="Spark NLP 4.2.7 ScalaDoc - com.johnsnowlabs.nlp.annotators.spell.context" />
-          <meta name="keywords" content="Spark NLP 4.2.7 ScalaDoc com.johnsnowlabs.nlp.annotators.spell.context" />
+          <title>Spark NLP 4.3.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.spell.context</title>
+          <meta name="description" content="Spark NLP 4.3.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.spell.context" />
+          <meta name="keywords" content="Spark NLP 4.3.0 ScalaDoc com.johnsnowlabs.nlp.annotators.spell.context" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.7 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.3.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -347,7 +347,7 @@ according to three things:</p><ol class="decimal"><li>Different correction candi
 <a href="https://medium.com/spark-nlp/applying-context-aware-spell-checking-in-spark-nlp-3c29c46963bc" target="_blank">Applying Context Aware Spell Checking in Spark NLP</a>.</p><p>For extended examples of usage, see the article
 <a href="https://towardsdatascience.com/training-a-contextual-spell-checker-for-italian-language-66dda528e4bf" target="_blank">Training a Contextual Spell Checker for Italian Language</a>,
 the
-<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/blogposts/5.TrainingContextSpellChecker.ipynb" target="_blank">Spark NLP Workshop</a>
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/italian/Training_Context_Spell_Checker_Italian.ipynb" target="_blank">Examples</a>
 and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerTestSpec.scala" target="_blank">ContextSpellCheckerTestSpec</a>.</p><h4>Example</h4><p>For this example, we use the first Sherlock Holmes book as the training dataset.</p><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
@@ -413,7 +413,7 @@ model, please see the documentation of that class.</p><p>Pretrained models can b
   .setInputCols(<span class="lit">"token"</span>)
   .setOutputCol(<span class="lit">"checked"</span>)</pre><p>The default model is <code>&quot;spellcheck_dl&quot;</code>, if no name is provided. For available pretrained
 models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Spell+Check" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SPELL_CHECKER_EN.ipynb" target="_blank">Spark NLP Workshop</a>
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/italian/Training_Context_Spell_Checker_Italian.ipynb" target="_blank">Examples</a>
 and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerTestSpec.scala" target="_blank">ContextSpellCheckerTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.DocumentAssembler

@@ -51,7 +51,7 @@ import org.apache.spark.sql.{Dataset, SparkSession}
   * [[https://nlp.johnsnowlabs.com/models?task=Text+Classification Models Hub]].
   *
   * For extended examples of usage, see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.Text_Classification_with_ClassifierDL.ipynb Spark NLP Workshop]]
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/ClassifierDL_Train_multi_class_news_category_classifier.ipynb Examples]]
   * and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLTestSpec.scala ClassifierDLTestSpec]].
   *
@@ -282,7 +282,7 @@ trait ReadClassifierDLTensorflowModel extends ReadTensorflowModel {
 
   override val tfFile: String = "classifierdl_tensorflow"
 
-  def readTensorflow(instance: ClassifierDLModel, path: String, spark: SparkSession): Unit = {
+  def readModel(instance: ClassifierDLModel, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_classifierdl_tf", initAllTables = true)
     instance.setModelIfNotSet(spark, tf)
@@ -291,7 +291,7 @@ trait ReadClassifierDLTensorflowModel extends ReadTensorflowModel {
     instance.set(instance.classes, encoder.tags)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 }
 
 /** This is the companion object of [[ClassifierDLModel]]. Please refer to that class for the

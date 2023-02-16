@@ -28,8 +28,8 @@ class SentimentDetector(AnnotatorApproach):
     By default, the sentiment score will be assigned labels ``"positive"`` if
     the score is ``>= 0``, else ``"negative"``.
 
-    For extended examples of usage, see the `Spark NLP Workshop
-    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dictionary-sentiment/sentiment.ipynb>`__.
+    For extended examples of usage, see the `Examples
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dictionary-sentiment/sentiment.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -176,8 +176,8 @@ class SentimentDetectorModel(AnnotatorModel):
     By default, the sentiment score will be assigned labels ``"positive"`` if
     the score is ``>= 0``, else ``"negative"``.
 
-    For extended examples of usage, see the `Spark NLP Workshop
-    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dictionary-sentiment/sentiment.ipynb>`__.
+    For extended examples of usage, see the `Examples
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dictionary-sentiment/sentiment.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -206,4 +206,3 @@ class SentimentDetectorModel(AnnotatorModel):
             classname=classname,
             java_model=java_model
         )
-

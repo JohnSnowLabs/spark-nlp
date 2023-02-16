@@ -104,16 +104,4 @@ data:
           - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_CLINICAL_DATE.ipynb
-        - title: Detecting Clinical Entities with JSL
-          id: detecting_clinical_entities_jsl
-          image: 
-              src: /assets/images/Detect_Clinical_Entities_with_JSL.svg
-          excerpt: Automatically detects more than 77 clinical entities using our NER deep learning model.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/NER_JSL/
-          - text: Colab
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_JSL.ipynb
 ---

@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.7 ScalaDoc  - com.johnsnowlabs.nlp.annotators</title>
-          <meta name="description" content="Spark NLP 4.2.7 ScalaDoc - com.johnsnowlabs.nlp.annotators" />
-          <meta name="keywords" content="Spark NLP 4.2.7 ScalaDoc com.johnsnowlabs.nlp.annotators" />
+          <title>Spark NLP 4.3.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators</title>
+          <meta name="description" content="Spark NLP 4.3.0 ScalaDoc - com.johnsnowlabs.nlp.annotators" />
+          <meta name="keywords" content="Spark NLP 4.3.0 ScalaDoc com.johnsnowlabs.nlp.annotators" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.7 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.3.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -482,6 +482,10 @@
                         <a class="class" href="Chunker.html" title="This annotator matches a pattern of part-of-speech tags in order to return meaningful phrases from document."></a>
                         <a href="Chunker.html" title="This annotator matches a pattern of part-of-speech tags in order to return meaningful phrases from document.">Chunker</a>
                       </li><li class="current-entities indented4">
+                        <a class="object" href="Date2Chunk$.html" title="This is the companion object of Date2Chunk."></a>
+                        <a class="class" href="Date2Chunk.html" title="Converts DATE type Annotations to CHUNK type."></a>
+                        <a href="Date2Chunk.html" title="Converts DATE type Annotations to CHUNK type.">Date2Chunk</a>
+                      </li><li class="current-entities indented4">
                         <a class="object" href="DateMatcher$.html" title="This is the companion object of DateMatcher."></a>
                         <a class="class" href="DateMatcher.html" title="Matches standard date formats into a provided format Reads from different forms of date and time expressions and converts them to a provided date format."></a>
                         <a href="DateMatcher.html" title="Matches standard date formats into a provided format Reads from different forms of date and time expressions and converts them to a provided date format.">DateMatcher</a>
@@ -882,7 +886,7 @@ be easily distinguishable in the text itself. This example sentence will result 
   .setRegexParsers(<span class="std">Array</span>(<span class="lit">"&lt;NNP&gt;+"</span>, <span class="lit">"&lt;NNS&gt;+"</span>))</pre><p>When defining the regular expressions, tags enclosed in angle brackets are treated as groups,
 so here specifically <code>&quot;&lt;NNP&gt;+&quot;</code> means 1 or more nouns in succession. Additional patterns can
 also be set with <code>addRegexParsers</code>.</p><p>For more extended examples see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb" target="_blank">Spark NLP Workshop</a>
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/chunking/Chunk_Extraction_with_Chunker.ipynb" target="_blank">Examples</a>
 and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ChunkerTestSpec.scala" target="_blank">ChunkerTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.DocumentAssembler
@@ -935,6 +939,62 @@ result.selectExpr(<span class="lit">"explode(chunk) as result"</span>).show(<spa
 +-------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="pos/perceptron/PerceptronModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel">PerceptronModel</a> for
   Part-Of-Speech tagging</p></span></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.Date2Chunk" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="Date2ChunkextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.Date2Chunk]withHasSimpleAnnotate[com.johnsnowlabs.nlp.annotators.Date2Chunk]"></a><a id="Date2Chunk:Date2Chunk"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/Date2Chunk.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="Converts DATE type Annotations to CHUNK type." href="Date2Chunk.html"><span class="name">Date2Chunk</span></a><span class="result"> extends <a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="Date2Chunk.html" class="extype" name="com.johnsnowlabs.nlp.annotators.Date2Chunk">Date2Chunk</a>] with <a href="../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a>[<a href="Date2Chunk.html" class="extype" name="com.johnsnowlabs.nlp.annotators.Date2Chunk">Date2Chunk</a>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Converts <code>DATE</code> type Annotations to <code>CHUNK</code> type.</p><div class="fullcomment"><div class="comment cmt"><p>Converts <code>DATE</code> type Annotations to <code>CHUNK</code> type.</p><p>This can be useful if the following annotators after DateMatcher and MultiDateMatcher require
+<code>CHUNK</code> types.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotator._
+
+<span class="kw">import</span> org.apache.spark.ml.Pipeline
+
+<span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+
+<span class="kw">val</span> inputFormats = <span class="std">Array</span>(<span class="lit">"yyyy"</span>, <span class="lit">"yyyy/dd/MM"</span>, <span class="lit">"MM/yyyy"</span>, <span class="lit">"yyyy"</span>)
+<span class="kw">val</span> outputFormat = <span class="lit">"yyyy/MM/dd"</span>
+
+<span class="kw">val</span> date = <span class="kw">new</span> DateMatcher()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"date"</span>)
+
+
+<span class="kw">val</span> date2Chunk = <span class="kw">new</span> Date2Chunk()
+  .setInputCols(<span class="lit">"date"</span>)
+  .setOutputCol(<span class="lit">"date_chunk"</span>)
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  documentAssembler,
+  date,
+  date2Chunk
+))
+
+<span class="kw">val</span> data = <span class="std">Seq</span>(
+<span class="lit">""</span><span class="lit">"Omicron is a new variant of COVID-19, which the World Health Organization designated a variant of concern on Nov. 26, 2021/26/11."</span><span class="lit">""</span>,
+<span class="lit">""</span><span class="lit">"Neighbouring Austria has already locked down its population this week for at until 2021/10/12, becoming the first to reimpose such restrictions."</span><span class="lit">""</span>
+).toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> result = pipeline.fit(data).transform(data)
+
+result.transform(data).select(<span class="lit">"date_chunk"</span>).show(<span class="kw">false</span>)
+----------------------------------------------------+
+date_chunk                                          |
+----------------------------------------------------+
+[{chunk, <span class="num">118</span>, <span class="num">121</span>, <span class="num">2021</span>/<span class="num">01</span>/<span class="num">01</span>, {sentence -&gt; <span class="num">0</span>}, []}]|
+[{chunk, <span class="num">83</span>, <span class="num">86</span>, <span class="num">2021</span>/<span class="num">01</span>/<span class="num">01</span>, {sentence -&gt; <span class="num">0</span>}, []}]  |
+----------------------------------------------------+</pre></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcher" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="DateMatcherextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.DateMatcher]withHasSimpleAnnotate[com.johnsnowlabs.nlp.annotators.DateMatcher]withDateMatcherUtils"></a><a id="DateMatcher:DateMatcher"></a>
       <span class="permalink">
@@ -959,7 +1019,7 @@ sentence. To extract multiple dates from a document, please use the <a href="Mul
 <span class="lit">"next year"</span>, <span class="lit">"day after"</span>, <span class="lit">"the day before"</span>, <span class="lit">"0600h"</span>, <span class="lit">"06:00 hours"</span>, <span class="lit">"6pm"</span>, <span class="lit">"5:30 a.m."</span>,
 <span class="lit">"at 5"</span>, <span class="lit">"12:59"</span>, <span class="lit">"23:59"</span>, <span class="lit">"1988/11/23 6pm"</span>, <span class="lit">"next week at 7.30"</span>, <span class="lit">"5 am tomorrow"</span></pre><p>For example <code>&quot;The 31st of April in the year 2008&quot;</code> will be converted into <code>2008/04/31</code>.</p><p>Pretrained pipelines are available for this module, see
 <a href="https://nlp.johnsnowlabs.com/docs/en/pipelines" target="_blank">Pipelines</a>.</p><p>For extended examples of usage, see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb" target="_blank">Spark NLP Workshop</a>
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/MultiDateMatcherMultiLanguage_en.ipynb" target="_blank">Examples</a>
 and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/DateMatcherTestSpec.scala" target="_blank">DateMatcherTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
@@ -1061,7 +1121,7 @@ result.selectExpr(<span class="lit">"date"</span>).show(<span class="kw">false</
 from document type columns into Sentence. Removes all dirty characters from text following one
 or more input regex patterns. Can apply not wanted character removal with a specific policy.
 Can apply lower case normalization.</p><p>For extended examples of usage, see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb" target="_blank">Spark NLP Workshop</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/document-normalizer/document_normalizer_notebook.ipynb" target="_blank">Examples</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.DocumentAssembler
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotator.DocumentNormalizer
 <span class="kw">import</span> org.apache.spark.ml.Pipeline
@@ -1237,7 +1297,7 @@ or directly as an <a href="../util/io/ExternalResource.html" class="extype" name
 Pretrained models can be loaded with <a href="LemmatizerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.LemmatizerModel">LemmatizerModel.pretrained</a>.</p><p>For available pretrained models please see the
 <a href="https://nlp.johnsnowlabs.com/models?task=Lemmatization" target="_blank">Models Hub</a>. For extended examples
 of usage, see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb" target="_blank">Spark NLP Workshop</a>
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/italian/Train-Lemmatizer-Italian.ipynb" target="_blank">Examples</a>
 and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/LemmatizerTestSpec.scala" target="_blank">LemmatizerTestSpec</a>.</p><h4>Example</h4><p>In this example, the lemma dictionary <code>lemmas_small.txt</code> has the form of</p><pre>...
 pick	-&gt;	pick	picks	picking	picked
@@ -1328,7 +1388,7 @@ of that class. For available pretrained models please see the
 <span class="lit">"last wednesday"</span>, <span class="lit">"today"</span>, <span class="lit">"tomorrow"</span>, <span class="lit">"yesterday"</span>, <span class="lit">"next week"</span>, <span class="lit">"next month"</span>,
 <span class="lit">"next year"</span>, <span class="lit">"day after"</span>, <span class="lit">"the day before"</span>, <span class="lit">"0600h"</span>, <span class="lit">"06:00 hours"</span>, <span class="lit">"6pm"</span>, <span class="lit">"5:30 a.m."</span>,
 <span class="lit">"at 5"</span>, <span class="lit">"12:59"</span>, <span class="lit">"23:59"</span>, <span class="lit">"1988/11/23 6pm"</span>, <span class="lit">"next week at 7.30"</span>, <span class="lit">"5 am tomorrow"</span></pre><p>For example <code>&quot;The 31st of April in the year 2008&quot;</code> will be converted into <code>2008/04/31</code>.</p><p>For extended examples of usage, see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb" target="_blank">Spark NLP Workshop</a>
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/MultiDateMatcherMultiLanguage_en.ipynb" target="_blank">Examples</a>
 and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/MultiDateMatcherTestSpec.scala" target="_blank">MultiDateMatcherTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
@@ -1382,7 +1442,7 @@ array of n-grams (annotatorType CHUNK).</p><div class="fullcomment"><div class="
 array of n-grams (annotatorType CHUNK). Null values in the input array are ignored. It returns
 an array of n-grams where each n-gram is represented by a space-separated string of words.</p><p>When the input is empty, an empty array is returned. When the input array length is less than
 n (number of elements per n-gram), no n-grams are returned.</p><p>For more extended examples see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/chunking/NgramGenerator.ipynb" target="_blank">Spark NLP Workshop</a>
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/chunking/NgramGenerator.ipynb" target="_blank">Examples</a>
 and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/NGramGeneratorTestSpec.scala" target="_blank">NGramGeneratorTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
@@ -1444,7 +1504,7 @@ results.selectExpr(<span class="lit">"explode(ngrams) as result"</span>).show(<s
       
       <p class="shortcomment cmt">Annotator that cleans out tokens.</p><div class="fullcomment"><div class="comment cmt"><p>Annotator that cleans out tokens. Requires stems, hence tokens. Removes all dirty characters
 from text following a regex pattern and transforms words based on a provided dictionary</p><p>For extended examples of usage, see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb" target="_blank">Spark NLP Workshop</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/document-normalizer/document_normalizer_notebook.ipynb" target="_blank">Examples</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.DocumentAssembler
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotator.{Normalizer, Tokenizer}
 <span class="kw">import</span> org.apache.spark.ml.Pipeline
@@ -1579,7 +1639,7 @@ of that class.
       
       <p class="shortcomment cmt">Tokenizes raw text recursively based on a handful of definable rules.</p><div class="fullcomment"><div class="comment cmt"><p>Tokenizes raw text recursively based on a handful of definable rules.</p><p>Unlike the <a href="Tokenizer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.Tokenizer">Tokenizer</a>, the RecursiveTokenizer operates based on these array string
 parameters only:</p><ul><li><code>prefixes</code>: Strings that will be split when found at the beginning of token.</li><li><code>suffixes</code>: Strings that will be split when found at the end of token.</li><li><code>infixes</code>: Strings that will be split when found at the middle of token.</li><li><code>whitelist</code>: Whitelist of strings not to split</li></ul><p>For extended examples of usage, see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/7.Context_Spell_Checker.ipynb" target="_blank">Spark NLP Workshop</a>
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/italian/Training_Context_Spell_Checker_Italian.ipynb" target="_blank">Examples</a>
 and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/TokenizerTestSpec.scala" target="_blank">TokenizerTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
@@ -1649,7 +1709,7 @@ identifier <code>&quot;date&quot;</code>.</p><p>Rules must be provided by either
 <code>setExternalRules</code>. The dictionary can be set in either in the form of a delimited text file
 or directly as an <a href="../util/io/ExternalResource.html" class="extype" name="com.johnsnowlabs.nlp.util.io.ExternalResource">ExternalResource</a>.</p><p>Pretrained pipelines are available for this module, see
 <a href="https://nlp.johnsnowlabs.com/docs/en/pipelines" target="_blank">Pipelines</a>.</p><p>For extended examples of usage, see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb" target="_blank">Spark NLP Workshop</a>
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/regex-matcher/Matching_Text_with_RegexMatcher.ipynb" target="_blank">Examples</a>
 and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/RegexMatcherTestSpec.scala" target="_blank">RegexMatcherTestSpec</a>.</p><h4>Example</h4><p>In this example, the <code>rules.txt</code> has the form of</p><pre>the\s\w+, followed by <span class="lit">'the'</span>
 ceremonies, ceremony</pre><p>where each regex is separated by the identifier by <code>&quot;,&quot;</code></p><pre><span class="kw">import</span> ResourceHelper.spark.implicits._
@@ -1764,7 +1824,7 @@ result.selectExpr(<span class="lit">"regexToken.result"</span>).show(<span class
       <p class="shortcomment cmt">Returns hard-stems out of words with the objective of retrieving the meaningful part of the
 word.</p><div class="fullcomment"><div class="comment cmt"><p>Returns hard-stems out of words with the objective of retrieving the meaningful part of the
 word. For extended examples of usage, see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb" target="_blank">Spark NLP Workshop</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/stemmer/Word_Stemming_with_Stemmer.ipynb" target="_blank">Examples</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.DocumentAssembler
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotator.{Stemmer, Tokenizer}
 <span class="kw">import</span> org.apache.spark.ml.Pipeline
@@ -1823,7 +1883,7 @@ or loaded from pretrained models using <code>pretrained</code> of its companion 
   .setCaseSensitive(<span class="kw">false</span>)
 <span class="cmt">// will load the default pretrained model `"stopwords_en"`.</span></pre><p>For available pretrained models please see the
 <a href="https://nlp.johnsnowlabs.com/models?task=Stop+Words+Removal" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb" target="_blank">Spark NLP Workshop</a>
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/stop-words/StopWordsCleaner.ipynb" target="_blank">Examples</a>
 and
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/StopWordsCleanerTestSpec.scala" target="_blank">StopWordsCleanerTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.DocumentAssembler
@@ -1886,7 +1946,7 @@ result.selectExpr(<span class="lit">"cleanTokens.result"</span>).show(<span clas
       
       <p class="shortcomment cmt">Annotator to match exact phrases (by token) provided in a file against a Document.</p><div class="fullcomment"><div class="comment cmt"><p>Annotator to match exact phrases (by token) provided in a file against a Document.</p><p>A text file of predefined phrases must be provided with <code>setEntities</code>. The text file can als
 be set directly as an <a href="../util/io/ExternalResource.html" class="extype" name="com.johnsnowlabs.nlp.util.io.ExternalResource">ExternalResource</a>.</p><p>For extended examples of usage, see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb" target="_blank">Spark NLP Workshop</a>
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/text-matcher-pipeline/extractor.ipynb" target="_blank">Examples</a>
 and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/TextMatcherTestSpec.scala" target="_blank">TextMatcherTestSpec</a>.</p><h4>Example</h4><p>In this example, the entities file is of the form</p><pre>...
 dolore magna aliqua
@@ -2016,7 +2076,7 @@ result.selectExpr(<span class="lit">"explode(chunk) as result"</span>).show(<spa
       <p class="shortcomment cmt">Tokenizes raw text in document type columns into TokenizedSentence .</p><div class="fullcomment"><div class="comment cmt"><p>Tokenizes raw text in document type columns into TokenizedSentence .</p><p>This class represents a non fitted tokenizer. Fitting it will cause the internal RuleFactory
 to construct the rules for tokenizing from the input configuration.</p><p>Identifies tokens with tokenization open standards. A few rules will help customizing it if
 defaults do not fit user needs.</p><p>For extended examples of usage see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb" target="_blank">Spark NLP Workshop</a>
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/document-normalizer/document_normalizer_notebook.ipynb" target="_blank">Examples</a>
 and
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/TokenizerTestSpec.scala" target="_blank">Tokenizer test class</a></p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.DocumentAssembler
@@ -2112,6 +2172,24 @@ documentation.
       </span>
       
       <p class="shortcomment cmt">This is the companion object of <a href="Chunker.html" class="extype" name="com.johnsnowlabs.nlp.annotators.Chunker">Chunker</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="Chunker.html" class="extype" name="com.johnsnowlabs.nlp.annotators.Chunker">Chunker</a>. Please refer to that class for the documentation.
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.Date2Chunk" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="Date2Chunk"></a><a id="Date2Chunk:Date2Chunk"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/Date2Chunk$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="This is the companion object of Date2Chunk." href="Date2Chunk$.html"><span class="name">Date2Chunk</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="Date2Chunk.html" class="extype" name="com.johnsnowlabs.nlp.annotators.Date2Chunk">Date2Chunk</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">This is the companion object of <a href="Date2Chunk.html" class="extype" name="com.johnsnowlabs.nlp.annotators.Date2Chunk">Date2Chunk</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="Date2Chunk.html" class="extype" name="com.johnsnowlabs.nlp.annotators.Date2Chunk">Date2Chunk</a>. Please refer to that class for the
+documentation.
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.DateMatcher" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="DateMatcher"></a><a id="DateMatcher:DateMatcher"></a>
