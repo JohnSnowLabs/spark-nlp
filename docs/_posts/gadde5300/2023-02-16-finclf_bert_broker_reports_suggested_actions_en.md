@@ -227,7 +227,7 @@ label          precision    recall  f1-score   support
       Reduce       1.00      1.00      1.00        17
         Sell       0.90      0.95      0.93        20
        other       1.00      0.80      0.89        15
-    accuracy                           0.93       138
+    accuracy         -         -       0.93       138
    macro-avg       0.93      0.92      0.92       138
 weighted-avg       0.93      0.93      0.93       138
 ```
