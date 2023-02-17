@@ -460,7 +460,9 @@
 <span class="sd">    ...     &quot;hidden_layers&quot;: [300, 200, 100],</span>
 <span class="sd">    ...     &quot;hidden_act&quot;: &quot;tanh&quot;,</span>
 <span class="sd">    ...     &quot;hidden_act_l2&quot;: 1,</span>
-<span class="sd">    ...     &quot;batch_norm&quot;: 1</span>
+<span class="sd">    ...     &quot;batch_norm&quot;: 1,</span>
+<span class="sd">    ...     &quot;output_act&quot;: &quot;softmax&quot;,</span>
+<span class="sd">    ...     &quot;loss_func&quot;: &quot;cross_entropy&quot;,</span>
 <span class="sd">    ... }</span>
 <span class="sd">    ...</span>
 <span class="sd">    &gt;&gt;&gt; tf_graph.build(&quot;generic_classifier&quot;, build_params=DL_params, model_location=&quot;/content/gc_graph&quot;, model_filename=&quot;auto&quot;)</span>
@@ -521,7 +523,9 @@
             <span class="s2">&quot;hidden_act&quot;</span><span class="p">:</span> <span class="s2">&quot;relu&quot;</span><span class="p">,</span>
             <span class="s2">&quot;hidden_act_l2&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
             <span class="s2">&quot;hidden_weights_l2&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-            <span class="s2">&quot;batch_norm&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span></div>
+            <span class="s2">&quot;batch_norm&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">&quot;output_act&quot;</span><span class="p">:</span> <span class="s2">&quot;softmax&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;loss_func&quot;</span><span class="p">:</span> <span class="s2">&quot;cross_entropy&quot;</span></div>
         <span class="p">}</span>
 
 <div class="viewcode-block" id="GenericClassifierTFGraphBuilder.get_model_build_param_explanations"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/graph_builders/index.html#sparknlp_jsl._tf_graph_builders.graph_builders.GenericClassifierTFGraphBuilder.get_model_build_param_explanations">[docs]</a>    <span class="k">def</span> <span class="nf">get_model_build_param_explanations</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
@@ -541,7 +545,9 @@
             <span class="s2">&quot;hidden_act&quot;</span><span class="p">:</span> <span class="s2">&quot;Activation function of hidden layers: relu, sigmoid, tanh or linear.&quot;</span><span class="p">,</span>
             <span class="s2">&quot;hidden_act_l2&quot;</span><span class="p">:</span> <span class="s2">&quot;L2 regularization of hidden layer activations. Boolean (0 or 1).&quot;</span><span class="p">,</span>
             <span class="s2">&quot;hidden_weights_l2&quot;</span><span class="p">:</span> <span class="s2">&quot;L2 regularization of hidden layer weights. Boolean (0 or 1).&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;batch_norm&quot;</span><span class="p">:</span> <span class="s2">&quot;Batch normalization. Boolean (0 or 1).&quot;</span><span class="p">,</span></div>
+            <span class="s2">&quot;batch_norm&quot;</span><span class="p">:</span> <span class="s2">&quot;Batch normalization. Boolean (0 or 1).&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;output_act&quot;</span><span class="p">:</span> <span class="s2">&quot;Output activation function: softmax, sigmoid or linear.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;loss_func&quot;</span><span class="p">:</span> <span class="s2">&quot;Loss function: cross_entropy, mean_squares or hinge&quot;</span></div>
         <span class="p">}</span>
 
 <div class="viewcode-block" id="GenericClassifierTFGraphBuilder.build"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/graph_builders/index.html#sparknlp_jsl._tf_graph_builders.graph_builders.GenericClassifierTFGraphBuilder.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_location</span><span class="p">,</span> <span class="n">model_filename</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -575,6 +581,67 @@
                 <span class="n">model_location</span><span class="o">=</span><span class="n">model_location</span><span class="p">,</span> <span class="n">model_filename</span><span class="o">=</span><span class="n">model_filename</span></div></div>
             <span class="p">)</span>
 
+<div class="viewcode-block" id="LogRegClassifierTFGraphBuilder"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/graph_builders/index.html#sparknlp_jsl._tf_graph_builders.graph_builders.LogRegClassifierTFGraphBuilder">[docs]</a><span class="k">class</span> <span class="nc">LogRegClassifierTFGraphBuilder</span><span class="p">(</span><span class="n">GenericClassifierTFGraphBuilder</span><span class="p">):</span>
+<div class="viewcode-block" id="LogRegClassifierTFGraphBuilder.get_model_build_params"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/graph_builders/index.html#sparknlp_jsl._tf_graph_builders.graph_builders.LogRegClassifierTFGraphBuilder.get_model_build_params">[docs]</a>    <span class="k">def</span> <span class="nf">get_model_build_params</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the build parameters for the model.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            The build parameters for the model.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;input_dim&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;output_dim&quot;</span><span class="p">:</span> <span class="kc">None</span></div>
+        <span class="p">}</span>
+
+<div class="viewcode-block" id="LogRegClassifierTFGraphBuilder.get_model_build_param_explanations"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/graph_builders/index.html#sparknlp_jsl._tf_graph_builders.graph_builders.LogRegClassifierTFGraphBuilder.get_model_build_param_explanations">[docs]</a>    <span class="k">def</span> <span class="nf">get_model_build_param_explanations</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the explanations for the build parameters for the model.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            The explanations for the build parameters for the model.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;input_dim&quot;</span><span class="p">:</span> <span class="s2">&quot;Input dimension.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;output_dim&quot;</span><span class="p">:</span> <span class="s2">&quot;Output dimension.&quot;</span></div></div>
+        <span class="p">}</span>
+
+<div class="viewcode-block" id="SVMClassifierTFGraphBuilder"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/graph_builders/index.html#sparknlp_jsl._tf_graph_builders.graph_builders.SVMClassifierTFGraphBuilder">[docs]</a><span class="k">class</span> <span class="nc">SVMClassifierTFGraphBuilder</span><span class="p">(</span><span class="n">GenericClassifierTFGraphBuilder</span><span class="p">):</span>
+<div class="viewcode-block" id="SVMClassifierTFGraphBuilder.get_model_build_params"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/graph_builders/index.html#sparknlp_jsl._tf_graph_builders.graph_builders.SVMClassifierTFGraphBuilder.get_model_build_params">[docs]</a>    <span class="k">def</span> <span class="nf">get_model_build_params</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the build parameters for the model.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            The build parameters for the model.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;input_dim&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;output_dim&quot;</span><span class="p">:</span> <span class="kc">None</span></div>
+        <span class="p">}</span>
+
+<div class="viewcode-block" id="SVMClassifierTFGraphBuilder.get_model_build_param_explanations"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/graph_builders/index.html#sparknlp_jsl._tf_graph_builders.graph_builders.SVMClassifierTFGraphBuilder.get_model_build_param_explanations">[docs]</a>    <span class="k">def</span> <span class="nf">get_model_build_param_explanations</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the explanations for the build parameters for the model.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            The explanations for the build parameters for the model.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;input_dim&quot;</span><span class="p">:</span> <span class="s2">&quot;Input dimension.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;output_dim&quot;</span><span class="p">:</span> <span class="s2">&quot;Output dimension.&quot;</span></div></div>
+        <span class="p">}</span>
 
 <div class="viewcode-block" id="AssertionTFGraphBuilder"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/_tf_graph_builders/graph_builders/index.html#sparknlp_jsl._tf_graph_builders.graph_builders.AssertionTFGraphBuilder">[docs]</a><span class="k">class</span> <span class="nc">AssertionTFGraphBuilder</span><span class="p">(</span><span class="n">TFGraphBuilder</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -916,6 +983,8 @@
         <span class="s2">&quot;generic_classifier&quot;</span><span class="p">:</span> <span class="n">GenericClassifierTFGraphBuilder</span><span class="p">,</span>
         <span class="s2">&quot;assertion_dl&quot;</span><span class="p">:</span> <span class="n">AssertionTFGraphBuilder</span><span class="p">,</span>
         <span class="s2">&quot;relation_extraction&quot;</span><span class="p">:</span> <span class="n">RelationExtractionTFGraphBuilder</span><span class="p">,</span>
+        <span class="s2">&quot;logreg_classifier&quot;</span><span class="p">:</span> <span class="n">LogRegClassifierTFGraphBuilder</span><span class="p">,</span>
+        <span class="s2">&quot;svm_classifier&quot;</span><span class="p">:</span> <span class="n">SVMClassifierTFGraphBuilder</span><span class="p">,</span>
     <span class="p">}</span>
 
     <span class="nd">@staticmethod</span>
