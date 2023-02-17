@@ -13,7 +13,7 @@ supported: true
 engine: tensorflow
 annotator: LegalBertForSequenceClassification
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,6 +37,7 @@ Given a proposal on a socially important issue, the model classifies whether a c
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler() \
     .setInputCol("text")\
