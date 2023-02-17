@@ -1,0 +1,1116 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sparknlp_jsl.utils.deidentification_module &#8212; Spark NLP  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../../../static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../../../static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+
+  
+  <link href="../../../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../../static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../static/css/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
+<link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js"></script>
+    <script src="../../../static/jquery.js"></script>
+    <script src="../../../static/underscore.js"></script>
+    <script src="../../../static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../static/doctools.js"></script>
+    <script src="../../../static/sphinx_highlight.js"></script>
+    <script src="../../../static/toggleprompt.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'modules/sparknlp_jsl/utils/deidentification_module';</script>
+    <link rel="shortcut icon" href="../../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  <label class="overlay overlay-primary" for="__primary"></label>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+      
+<form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+  </div>
+
+  
+  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+      <span class="fa-solid fa-bars"></span>
+  </label>
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../../index.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../../static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  
+  <div class="col-lg-9 navbar-header-items">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../reference/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+    </ul>
+</nav>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+        <div class="navbar-end-item navbar-persistent--container">
+          
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+        </div>
+      
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+
+
+  
+  
+    <div class="navbar-persistent--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+    </div>
+  
+
+  
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+  </label>
+  
+
+</div>
+  </nav>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../reference/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+    </ul>
+</nav>
+      </div>
+      
+      </div>
+    
+
+    
+    
+    <div class="sidebar-header-items__end">
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+    
+  </div>
+
+  
+
+  
+  <div class="sidebar-end-items sidebar-primary__section">
+    <div class="sidebar-end-items__item">
+    </div>
+  </div>
+
+  
+  <div id="rtd-footer-container"></div>
+
+      </div>
+      <main id="main-content" class="bd-main">
+        
+        
+        <div class="bd-content">
+          <div class="bd-article-container">
+            
+            <div class="bd-header-article">
+                
+            </div>
+            
+            
+            <article class="bd-article" role="main">
+              
+  <h1>Source code for sparknlp_jsl.utils.deidentification_module</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">monotonically_increasing_id</span>
+
+<span class="kn">from</span> <span class="nn">sparknlp_jsl.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp_jsl.structured_deidentification</span> <span class="kn">import</span> <span class="n">StructuredDeidentification</span>
+<span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
+
+<span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">functions</span> <span class="k">as</span> <span class="n">F</span>
+<span class="kn">from</span> <span class="nn">sparknlp_jsl.annotator.deid.deIdentification</span> <span class="kn">import</span> <span class="n">DeIdentification</span>
+
+
+<div class="viewcode-block" id="Deidentifier"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/deidentification_module/index.html#sparknlp_jsl.utils.deidentification_module.Deidentifier">[docs]</a><span class="k">class</span> <span class="nc">Deidentifier</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spark</span><span class="p">):</span>
+<div class="viewcode-block" id="Deidentifier.spark"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/deidentification_module/index.html#sparknlp_jsl.utils.deidentification_module.Deidentifier.spark">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">spark</span> <span class="o">=</span> <span class="n">spark</span></div>
+
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; This class is used to deidentify the given data. </span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        spark : SparkSession</span>
+<span class="sd">            SparkSession object</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Deidentifier.deid_with_custom_pipeline"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/deidentification_module/index.html#sparknlp_jsl.utils.deidentification_module.Deidentifier.deid_with_custom_pipeline">[docs]</a>    <span class="k">def</span> <span class="nf">deid_with_custom_pipeline</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;This function is used to deidentify the given data with custom pipeline.&quot;&quot;&quot;</span>
+
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ID&quot;</span><span class="p">])</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">deidentification</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">DeIdentification</span><span class="p">()</span>
+                <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">sentence</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">token</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ner_chunk</span><span class="p">])</span>
+                <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;deidentified&quot;</span><span class="p">)</span>
+            <span class="p">)</span>
+
+            <span class="c1"># ---In case of mode is &quot;mask&quot;---</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;mask&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">unnormalized_date</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">masking_policy</span> <span class="o">==</span> <span class="s2">&quot;entity_labels&quot;</span><span class="p">:</span>
+                    <span class="c1"># deid model with &quot;entity_labels&quot;</span>
+                    <span class="n">deidentification</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">DeIdentification</span><span class="p">()</span>
+                        <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">sentence</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">token</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ner_chunk</span><span class="p">])</span>
+                        <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;deidentified&quot;</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setMode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setMaskingPolicy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">masking_policy</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setOutputAsDocument</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="p">)</span>
+
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">masking_policy</span> <span class="o">==</span> <span class="s2">&quot;same_length_chars&quot;</span><span class="p">:</span>
+                    <span class="c1"># deid model with &quot;same_length_chars&quot;</span>
+                    <span class="n">deidentification</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">DeIdentification</span><span class="p">()</span>
+                        <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">sentence</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">token</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ner_chunk</span><span class="p">])</span>
+                        <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;deidentified&quot;</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setMode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setMaskingPolicy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">masking_policy</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setOutputAsDocument</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="p">)</span>
+
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">masking_policy</span> <span class="o">==</span> <span class="s2">&quot;fixed_length_chars&quot;</span><span class="p">:</span>
+                    <span class="c1"># deid model with &quot;fixed_length_chars&quot;</span>
+                    <span class="n">deidentification</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">DeIdentification</span><span class="p">()</span>
+                        <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">sentence</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">token</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ner_chunk</span><span class="p">])</span>
+                        <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;deidentified&quot;</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setMode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setMaskingPolicy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">masking_policy</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setFixedMaskLength</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fixed_mask_length</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setOutputAsDocument</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="p">)</span>
+
+            <span class="c1"># ---In case of mode is &quot;obfuscate&quot;---</span>
+
+            <span class="k">elif</span> <span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;obfuscate&quot;</span>
+                    <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">unnormalized_date</span> <span class="ow">is</span> <span class="kc">False</span>
+                    <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">shift_days</span> <span class="ow">is</span> <span class="kc">False</span>
+            <span class="p">):</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">obfuscate_ref_source</span> <span class="o">==</span> <span class="s2">&quot;faker&quot;</span><span class="p">:</span>
+                    <span class="n">deidentification</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">DeIdentification</span><span class="p">()</span>
+                        <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">sentence</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">token</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ner_chunk</span><span class="p">])</span>
+                        <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;deidentified&quot;</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setMode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setObfuscateDate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obfuscate_date</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setObfuscateRefSource</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obfuscate_ref_source</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setOutputAsDocument</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="p">)</span>
+
+                <span class="k">elif</span> <span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">obfuscate_ref_source</span> <span class="o">==</span> <span class="s2">&quot;both&quot;</span>
+                        <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">obfuscate_ref_source</span> <span class="o">==</span> <span class="s2">&quot;file&quot;</span>
+                <span class="p">):</span>
+                    <span class="n">deidentification</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">DeIdentification</span><span class="p">()</span>
+                        <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">sentence</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">token</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ner_chunk</span><span class="p">])</span>
+                        <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;deidentified&quot;</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setMode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setObfuscateDate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obfuscate_date</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setObfuscateRefFile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obfuscate_ref_file_path</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setObfuscateRefSource</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obfuscate_ref_source</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setOutputAsDocument</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="p">)</span>
+
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">age_group_obfuscation</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                    <span class="n">deidentification</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">DeIdentification</span><span class="p">()</span>
+                        <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">sentence</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">token</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ner_chunk</span><span class="p">])</span>
+                        <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;deidentified&quot;</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setMode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setObfuscateDate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obfuscate_date</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setObfuscateRefSource</span><span class="p">(</span><span class="s2">&quot;faker&quot;</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setAgeRanges</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">age_ranges</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setOutputAsDocument</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="p">)</span>
+
+            <span class="c1"># --------Shifting days according to the ID column------------</span>
+            <span class="c1"># --------DocumentHashCoder Should Be Feed By the USER-----</span>
+
+            <span class="k">elif</span> <span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">shift_days</span> <span class="ow">is</span> <span class="kc">True</span>
+                    <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;obfuscate&quot;</span>
+                    <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">unnormalized_date</span> <span class="ow">is</span> <span class="kc">False</span>
+            <span class="p">):</span>
+                <span class="n">deidentification</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">DeIdentification</span><span class="p">()</span>
+                    <span class="o">.</span><span class="n">setInputCols</span><span class="p">(</span>
+                        <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">documentHashCoder_col_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">token</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ner_chunk</span><span class="p">]</span>
+                    <span class="p">)</span>
+                    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;deidentified&quot;</span><span class="p">)</span>
+                    <span class="o">.</span><span class="n">setDateTag</span><span class="p">(</span><span class="s2">&quot;DATE&quot;</span><span class="p">)</span>
+                    <span class="o">.</span><span class="n">setMode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
+                    <span class="o">.</span><span class="n">setObfuscateDate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obfuscate_date</span><span class="p">)</span>
+                    <span class="o">.</span><span class="n">setObfuscateRefSource</span><span class="p">(</span><span class="s2">&quot;faker&quot;</span><span class="p">)</span>
+                    <span class="o">.</span><span class="n">setLanguage</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">language</span><span class="p">)</span>
+                    <span class="o">.</span><span class="n">setRegion</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">region</span><span class="p">)</span>
+                    <span class="o">.</span><span class="n">setUseShifDays</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shift_days</span><span class="p">)</span>
+                    <span class="o">.</span><span class="n">setOutputAsDocument</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                <span class="p">)</span>
+
+            <span class="c1"># --------Unnormalized Date------------</span>
+
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">unnormalized_date</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">unnormalized_mode</span> <span class="o">==</span> <span class="s2">&quot;mask&quot;</span><span class="p">:</span>
+                    <span class="n">deidentification</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">DeIdentification</span><span class="p">()</span>
+                        <span class="o">.</span><span class="n">setInputCols</span><span class="p">(</span>
+                            <span class="p">[</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">ner_chunk</span><span class="p">,</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">token</span><span class="p">,</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">documentHashCoder_col_name</span><span class="p">,</span>
+                            <span class="p">]</span>
+                        <span class="p">)</span>
+                        <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;deidentified&quot;</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setMode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setObfuscateDate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obfuscate_date</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setDateTag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">date_tag</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setLanguage</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">language</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setObfuscateRefSource</span><span class="p">(</span><span class="s2">&quot;faker&quot;</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setUseShifDays</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setRegion</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">region</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setUnnormalizedDateMode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unnormalized_mode</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setOutputAsDocument</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="p">)</span>
+
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">unnormalized_mode</span> <span class="o">==</span> <span class="s2">&quot;obfuscate&quot;</span><span class="p">:</span>
+                    <span class="n">deidentification</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">DeIdentification</span><span class="p">()</span>
+                        <span class="o">.</span><span class="n">setInputCols</span><span class="p">(</span>
+                            <span class="p">[</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">ner_chunk</span><span class="p">,</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">token</span><span class="p">,</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">documentHashCoder_col_name</span><span class="p">,</span>
+                            <span class="p">]</span>
+                        <span class="p">)</span>
+                        <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;deidentified&quot;</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setMode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unnormalized_mode</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setObfuscateDate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obfuscate_date</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setDateTag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">date_tag</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setLanguage</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">language</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setObfuscateRefSource</span><span class="p">(</span><span class="s2">&quot;faker&quot;</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setUseShifDays</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setRegion</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">region</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setUnnormalizedDateMode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unnormalized_mode</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">setOutputAsDocument</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="p">)</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">input_file_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_file_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">input_file_path</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">separator</span>
+                <span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">input_file_type</span> <span class="o">==</span> <span class="s2">&quot;csv&quot;</span><span class="p">:</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+
+                <span class="k">elif</span> <span class="n">input_file_type</span> <span class="o">==</span> <span class="s2">&quot;json&quot;</span><span class="p">:</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">input_file_type</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">input_file_path</span>
+                    <span class="p">)</span>
+
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;You entered an invalid file path or file format...&quot;</span><span class="p">)</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Deidentification process of the &#39;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&#39; field has begun...&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">custom_pipeline</span><span class="o">.</span><span class="n">stages</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+                <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">custom_pipeline</span><span class="o">.</span><span class="n">stages</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+                <span class="n">deid_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
+                    <span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">custom_pipeline</span><span class="p">,</span> <span class="n">deidentification</span><span class="p">]</span>
+                <span class="p">)</span>
+
+                <span class="n">model</span> <span class="o">=</span> <span class="n">deid_pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+                <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;ID&quot;</span><span class="p">,</span> <span class="n">monotonically_increasing_id</span><span class="p">())</span>
+                <span class="n">output_df</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">result</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+                        <span class="s2">&quot;ID&quot;</span><span class="p">,</span>
+                        <span class="n">F</span><span class="o">.</span><span class="n">explode</span><span class="p">(</span>
+                            <span class="n">F</span><span class="o">.</span><span class="n">arrays_zip</span><span class="p">(</span><span class="s2">&quot;document.result&quot;</span><span class="p">,</span> <span class="s2">&quot;deidentified.result&quot;</span><span class="p">)</span>
+                        <span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;cols&quot;</span><span class="p">),</span>
+                    <span class="p">)</span>
+                    <span class="o">.</span><span class="n">select</span><span class="p">(</span>
+                        <span class="s2">&quot;ID&quot;</span><span class="p">,</span>
+                        <span class="n">F</span><span class="o">.</span><span class="n">expr</span><span class="p">(</span><span class="s2">&quot;cols[&#39;0&#39;]&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
+                        <span class="n">F</span><span class="o">.</span><span class="n">expr</span><span class="p">(</span><span class="s2">&quot;cols[&#39;1&#39;]&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">_deidentified&quot;</span><span class="p">),</span>
+                    <span class="p">)</span>
+                    <span class="o">.</span><span class="n">toPandas</span><span class="p">()</span>
+                <span class="p">)</span>
+
+                <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">output_df</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;ID&quot;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;outer&quot;</span><span class="p">)</span>
+                <span class="n">df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Deidentification process of the &#39;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&#39; field was completed...&quot;</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                    <span class="s2">&quot;You entered either an invalid field name or wrong separator for input csv file...&quot;</span>
+                <span class="p">)</span>
+
+        <span class="n">input_file_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_file_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">input_file_type</span> <span class="o">==</span> <span class="s2">&quot;csv&quot;</span><span class="p">:</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">output_file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Deidentifcation successfully completed and the results saved as &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">output_file_path</span><span class="si">}</span><span class="s2">&#39; !&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">input_file_type</span> <span class="o">==</span> <span class="s2">&quot;json&quot;</span><span class="p">:</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">output_file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s2">&quot;records&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Deidentifcation successfully completed and the results saved as &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">output_file_path</span><span class="si">}</span><span class="s2">&#39; !&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s2">&quot;NONE&quot;</span><span class="p">)</span>
+        <span class="n">return_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">return_df</span></div>
+
+    <span class="c1">### ---------------------Deidentification with pretrained pipeline--------------------- ###</span>
+
+<div class="viewcode-block" id="Deidentifier.deid_with_pp"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/deidentification_module/index.html#sparknlp_jsl.utils.deidentification_module.Deidentifier.deid_with_pp">[docs]</a>    <span class="k">def</span> <span class="nf">deid_with_pp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Deidentification with pretrained pipeline&quot;&quot;&quot;</span>
+
+        <span class="n">deid_pp</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span>
+            <span class="s2">&quot;clinical_deidentification&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;clinical/models&quot;</span>
+        <span class="p">)</span>
+
+        <span class="c1"># setting the output as document format</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">deid_pp</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">stages</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">setOutputAsDocument</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">input_file_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_file_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">input_file_path</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">separator</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">input_file_type</span> <span class="o">==</span> <span class="s2">&quot;csv&quot;</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+
+            <span class="k">elif</span> <span class="n">input_file_type</span> <span class="o">==</span> <span class="s2">&quot;json&quot;</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">input_file_type</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">input_file_path</span>
+                <span class="p">)</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;You entered an invalid file path or file format...&quot;</span><span class="p">)</span>
+
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ID&quot;</span><span class="p">])</span>
+        <span class="n">deid_pp</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">stages</span> <span class="o">=</span> <span class="n">deid_pp</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">stages</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">j</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="ow">is</span> <span class="s2">&quot;mask&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">unnormalized_date</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">masking_policy</span> <span class="o">==</span> <span class="s2">&quot;fixed_length_chars&quot;</span><span class="p">:</span>
+                    <span class="n">deid_pp</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">stages</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">setFixedMaskLength</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fixed_mask_length</span><span class="p">)</span>
+
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="ow">is</span> <span class="s2">&quot;obfuscate&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">unnormalized_date</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+                <span class="n">deid_pp</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">stages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setObfuscateDate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obfuscate_date</span><span class="p">)</span>
+                <span class="n">deid_pp</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">stages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setObfuscateRefSource</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">obfuscate_ref_source</span>
+                <span class="p">)</span>
+                <span class="n">deid_pp</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">stages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;obfuscated&quot;</span><span class="p">)</span>
+
+                <span class="c1"># --------Age group obfuscation------------</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">age_group_obfuscation</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                    <span class="n">deid_pp</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">stages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setObfuscateDate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obfuscate_date</span><span class="p">)</span>
+                    <span class="n">deid_pp</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">stages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setObfuscateRefSource</span><span class="p">(</span><span class="s2">&quot;faker&quot;</span><span class="p">)</span>
+                    <span class="n">deid_pp</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">stages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setAgeRanges</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">age_ranges</span><span class="p">)</span>
+                    <span class="n">deid_pp</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">stages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;obfuscated&quot;</span><span class="p">)</span>
+
+                <span class="c1"># --------Shifting days------------</span>
+
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">shift_days</span> <span class="ow">is</span> <span class="kc">True</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">number_of_days</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">deid_pp</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">stages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setObfuscateDate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obfuscate_date</span><span class="p">)</span>
+                    <span class="n">deid_pp</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">stages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setDateTag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">date_tag</span><span class="p">)</span>
+                    <span class="n">deid_pp</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">stages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setLanguage</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">language</span><span class="p">)</span>
+                    <span class="n">deid_pp</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">stages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setObfuscateRefSource</span><span class="p">(</span><span class="s2">&quot;faker&quot;</span><span class="p">)</span>
+                    <span class="n">deid_pp</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">stages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setUseShifDays</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="n">deid_pp</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">stages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setRegion</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">region</span><span class="p">)</span>
+                    <span class="n">deid_pp</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">stages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setDays</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number_of_days</span><span class="p">)</span>
+                    <span class="n">deid_pp</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">stages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;obfuscated&quot;</span><span class="p">)</span>
+
+            <span class="c1"># --------Masking Unnormalized Date Formats------------</span>
+
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">unnormalized_date</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">deid_pp</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">stages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setObfuscateDate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obfuscate_date</span><span class="p">)</span>
+                <span class="n">deid_pp</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">stages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setDateTag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">date_tag</span><span class="p">)</span>
+                <span class="n">deid_pp</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">stages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setLanguage</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">language</span><span class="p">)</span>
+                <span class="n">deid_pp</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">stages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setObfuscateRefSource</span><span class="p">(</span><span class="s2">&quot;faker&quot;</span><span class="p">)</span>
+                <span class="n">deid_pp</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">stages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setUseShifDays</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">deid_pp</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">stages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setRegion</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">region</span><span class="p">)</span>
+                <span class="n">deid_pp</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">stages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setUnnormalizedDateMode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unnormalized_mode</span><span class="p">)</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Deidentification process of the &#39;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&#39; field has begun...&quot;</span><span class="p">)</span>
+
+                <span class="n">df_deid</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span>
+                    <span class="n">df_deid</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">df_deid</span> <span class="o">=</span> <span class="n">df_deid</span><span class="o">.</span><span class="n">withColumnRenamed</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;text&quot;</span><span class="p">)</span>
+
+                <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span>
+                    <span class="n">df_deid</span> <span class="o">=</span> <span class="n">df_deid</span>
+
+                <span class="n">deid_res</span> <span class="o">=</span> <span class="n">deid_pp</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df_deid</span><span class="p">)</span>
+
+                <span class="n">deid_res</span> <span class="o">=</span> <span class="n">deid_res</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;ID&quot;</span><span class="p">,</span> <span class="n">monotonically_increasing_id</span><span class="p">())</span>
+
+                <span class="n">pd_deid</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">deid_res</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+                        <span class="s2">&quot;ID&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;text&quot;</span><span class="p">,</span>
+                        <span class="n">F</span><span class="o">.</span><span class="n">explode</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">arrays_zip</span><span class="p">(</span><span class="n">deid_res</span><span class="o">.</span><span class="n">masked</span><span class="o">.</span><span class="n">result</span><span class="p">))</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span>
+                            <span class="s2">&quot;cols&quot;</span>
+                        <span class="p">),</span>
+                    <span class="p">)</span>
+                    <span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;ID&quot;</span><span class="p">,</span> <span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">expr</span><span class="p">(</span><span class="s2">&quot;cols[&#39;0&#39;]&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;masked&quot;</span><span class="p">))</span>
+                    <span class="o">.</span><span class="n">toPandas</span><span class="p">()</span>
+                <span class="p">)</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;mask&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">masking_policy</span> <span class="o">==</span> <span class="s2">&quot;entity_labels&quot;</span><span class="p">:</span>
+                    <span class="n">pd_deid</span> <span class="o">=</span> <span class="n">pd_deid</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+                        <span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;masked&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">_deid&quot;</span><span class="p">,</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">_original&quot;</span><span class="p">}</span>
+                    <span class="p">)</span>
+
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;mask&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">masking_policy</span> <span class="o">==</span> <span class="s2">&quot;same_length_chars&quot;</span><span class="p">:</span>
+                    <span class="n">pd_deid</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">deid_res</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+                            <span class="s2">&quot;ID&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;text&quot;</span><span class="p">,</span>
+                            <span class="n">F</span><span class="o">.</span><span class="n">explode</span><span class="p">(</span>
+                                <span class="n">F</span><span class="o">.</span><span class="n">arrays_zip</span><span class="p">(</span><span class="n">deid_res</span><span class="o">.</span><span class="n">masked_with_chars</span><span class="o">.</span><span class="n">result</span><span class="p">)</span>
+                            <span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;cols&quot;</span><span class="p">),</span>
+                        <span class="p">)</span>
+                        <span class="o">.</span><span class="n">select</span><span class="p">(</span>
+                            <span class="s2">&quot;ID&quot;</span><span class="p">,</span> <span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">expr</span><span class="p">(</span><span class="s2">&quot;cols[&#39;0&#39;]&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;masked_with_chars&quot;</span><span class="p">)</span>
+                        <span class="p">)</span>
+                        <span class="o">.</span><span class="n">toPandas</span><span class="p">()</span>
+                    <span class="p">)</span>
+
+                    <span class="n">pd_deid</span> <span class="o">=</span> <span class="n">pd_deid</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+                        <span class="n">columns</span><span class="o">=</span><span class="p">{</span>
+                            <span class="s2">&quot;masked_with_chars&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">_deid&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">_original&quot;</span><span class="p">,</span>
+                        <span class="p">}</span>
+                    <span class="p">)</span>
+
+                <span class="k">elif</span> <span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;mask&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">masking_policy</span> <span class="o">==</span> <span class="s2">&quot;fixed_length_chars&quot;</span>
+                <span class="p">):</span>
+                    <span class="n">pd_deid</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">deid_res</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+                            <span class="s2">&quot;ID&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;text&quot;</span><span class="p">,</span>
+                            <span class="n">F</span><span class="o">.</span><span class="n">explode</span><span class="p">(</span>
+                                <span class="n">F</span><span class="o">.</span><span class="n">arrays_zip</span><span class="p">(</span><span class="n">deid_res</span><span class="o">.</span><span class="n">masked_fixed_length_chars</span><span class="o">.</span><span class="n">result</span><span class="p">)</span>
+                            <span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;cols&quot;</span><span class="p">),</span>
+                        <span class="p">)</span>
+                        <span class="o">.</span><span class="n">select</span><span class="p">(</span>
+                            <span class="s2">&quot;ID&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;text&quot;</span><span class="p">,</span>
+                            <span class="n">F</span><span class="o">.</span><span class="n">expr</span><span class="p">(</span><span class="s2">&quot;cols[&#39;0&#39;]&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;masked_fixed_length_chars&quot;</span><span class="p">),</span>
+                        <span class="p">)</span>
+                        <span class="o">.</span><span class="n">toPandas</span><span class="p">()</span>
+                    <span class="p">)</span>
+
+                    <span class="n">pd_deid</span> <span class="o">=</span> <span class="n">pd_deid</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+                        <span class="n">columns</span><span class="o">=</span><span class="p">{</span>
+                            <span class="s2">&quot;masked_fixed_length_chars&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">_deid&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">_original&quot;</span><span class="p">,</span>
+                        <span class="p">}</span>
+                    <span class="p">)</span>
+
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;obfuscate&quot;</span><span class="p">:</span>
+                    <span class="n">pd_deid</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">deid_res</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+                            <span class="s2">&quot;ID&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;text&quot;</span><span class="p">,</span>
+                            <span class="n">F</span><span class="o">.</span><span class="n">explode</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">arrays_zip</span><span class="p">(</span><span class="n">deid_res</span><span class="o">.</span><span class="n">obfuscated</span><span class="o">.</span><span class="n">result</span><span class="p">))</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span>
+                                <span class="s2">&quot;cols&quot;</span>
+                            <span class="p">),</span>
+                        <span class="p">)</span>
+                        <span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;ID&quot;</span><span class="p">,</span> <span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">expr</span><span class="p">(</span><span class="s2">&quot;cols[&#39;0&#39;]&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;obfuscated&quot;</span><span class="p">))</span>
+                        <span class="o">.</span><span class="n">toPandas</span><span class="p">()</span>
+                    <span class="p">)</span>
+
+                    <span class="n">pd_deid</span> <span class="o">=</span> <span class="n">pd_deid</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+                        <span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;obfuscated&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">_deid&quot;</span><span class="p">,</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">_original&quot;</span><span class="p">}</span>
+                    <span class="p">)</span>
+
+                <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">pd_deid</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;ID&quot;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;outer&quot;</span><span class="p">)</span>
+                <span class="n">df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;deidentification process of the &#39;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&#39; field was completed...&quot;</span><span class="p">)</span>
+
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                    <span class="s2">&quot;You entered either an invalid field name or wrong separator for the input csv file...&quot;</span>
+                <span class="p">)</span>
+
+        <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">output_file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Deidentifcation successfully completed and the results saved as &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">output_file_path</span><span class="si">}</span><span class="s2">&#39; !&quot;</span>
+        <span class="p">)</span>
+
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s2">&quot;NONE&quot;</span><span class="p">)</span>
+        <span class="n">return_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">return_df</span></div>
+
+<div class="viewcode-block" id="Deidentifier.deidentify"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/deidentification_module/index.html#sparknlp_jsl.utils.deidentification_module.Deidentifier.deidentify">[docs]</a>    <span class="k">def</span> <span class="nf">deidentify</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">custom_pipeline</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">ner_chunk</span><span class="o">=</span><span class="s2">&quot;ner_chunk&quot;</span><span class="p">,</span>
+            <span class="n">sentence</span><span class="o">=</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span>
+            <span class="n">token</span><span class="o">=</span><span class="s2">&quot;token&quot;</span><span class="p">,</span>
+            <span class="n">document</span><span class="o">=</span><span class="s2">&quot;document&quot;</span><span class="p">,</span>
+            <span class="n">masking_policy</span><span class="o">=</span><span class="s2">&quot;entity_labels&quot;</span><span class="p">,</span>
+            <span class="n">fixed_mask_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">obfuscate_date</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">obfuscate_ref_source</span><span class="o">=</span><span class="s2">&quot;faker&quot;</span><span class="p">,</span>
+            <span class="n">obfuscate_ref_file_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">age_group_obfuscation</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">age_ranges</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">shift_days</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">number_of_days</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">documentHashCoder_col_name</span><span class="o">=</span><span class="s2">&quot;documentHash&quot;</span><span class="p">,</span>
+            <span class="n">date_tag</span><span class="o">=</span><span class="s2">&quot;DATE&quot;</span><span class="p">,</span>
+            <span class="n">language</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span>
+            <span class="n">region</span><span class="o">=</span><span class="s2">&quot;us&quot;</span><span class="p">,</span>
+            <span class="n">unnormalized_date</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">unnormalized_mode</span><span class="o">=</span><span class="s2">&quot;mask&quot;</span><span class="p">,</span>
+            <span class="n">id_column_name</span><span class="o">=</span><span class="s2">&quot;id&quot;</span><span class="p">,</span>
+            <span class="n">date_shift_column_name</span><span class="o">=</span><span class="s2">&quot;dateshift&quot;</span><span class="p">,</span>
+            <span class="n">separator</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">input_file_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">output_file_path</span><span class="o">=</span><span class="s2">&quot;deidentified.csv&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;This function deidentifies the input file according to the given field names and saves the results as a csv/json file.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        custom_pipeline : Sparknlp PipelineModel, optional</span>
+<span class="sd">            custom PipelineModel to be used for deidentification, by default None</span>
+<span class="sd">        ner_chunk : str, optional</span>
+<span class="sd">            final chunk column name of custom pipeline that will be deidentified, by default &quot;ner_chunk&quot;</span>
+<span class="sd">        fields : dict, optional</span>
+<span class="sd">            fields to be deidentified and their deidentification modes, by default {&quot;text&quot;: &quot;mask&quot;}</span>
+<span class="sd">        sentence : str, optional</span>
+<span class="sd">            sentence column name of the given custom pipeline, by default &quot;sentence&quot;</span>
+<span class="sd">        token : str, optional</span>
+<span class="sd">            token column name of the given custom pipeline, by default &quot;token&quot;</span>
+<span class="sd">        document : str, optional</span>
+<span class="sd">            document column name of the given custom pipeline, by default &quot;document&quot;</span>
+<span class="sd">        masking_policy : str, optional</span>
+<span class="sd">            masking policy, by default &quot;entity_labels&quot;</span>
+<span class="sd">        fixed_mask_length : int, optional</span>
+<span class="sd">            fixed mask length, by default 4</span>
+<span class="sd">        obfuscate_date : bool, optional</span>
+<span class="sd">            obfuscate date, by default True</span>
+<span class="sd">        obfuscate_ref_source : str, optional</span>
+<span class="sd">            obfuscate reference source, by default &quot;faker&quot;</span>
+<span class="sd">        obfuscate_ref_file_path : str, optional</span>
+<span class="sd">            obfuscate reference file path, by default None</span>
+<span class="sd">        age_group_obfuscation : bool, optional</span>
+<span class="sd">            age group obfuscation, by default False</span>
+<span class="sd">        age_ranges : list, optional</span>
+<span class="sd">            age ranges for obfuscation, by default [1, 4, 12, 20, 40, 60, 80]</span>
+<span class="sd">        shift_days : bool, optional</span>
+<span class="sd">            shift days, by default False</span>
+<span class="sd">        number_of_days : int, optional</span>
+<span class="sd">            number of days, by default None</span>
+<span class="sd">        documentHashCoder_col_name : str, optional</span>
+<span class="sd">            document hash coder column name, by default &quot;documentHash&quot;</span>
+<span class="sd">        date_tag : str, optional</span>
+<span class="sd">            date tag, by default &quot;DATE&quot;</span>
+<span class="sd">        language : str, optional</span>
+<span class="sd">            language, by default &quot;en&quot;</span>
+<span class="sd">        region : str, optional</span>
+<span class="sd">            region, by default &quot;us&quot;</span>
+<span class="sd">        unnormalized_date : bool, optional</span>
+<span class="sd">            unnormalized date, by default False</span>
+<span class="sd">        unnormalized_mode : str, optional</span>
+<span class="sd">            unnormalized mode, by default &quot;mask&quot;</span>
+<span class="sd">        id_column_name : str, optional</span>
+<span class="sd">            ID column name, by default &quot;id&quot;</span>
+<span class="sd">        date_shift_column_name : str, optional</span>
+<span class="sd">            date shift column name, by default &quot;date_shift&quot;</span>
+<span class="sd">        separator : str, optional</span>
+<span class="sd">            separator of input csv file, by default &quot;\t&quot;</span>
+<span class="sd">        input_file_path : str, optional</span>
+<span class="sd">            input file path, by default None</span>
+<span class="sd">        output_file_path : str, optional</span>
+<span class="sd">            output file path, by default &#39;deidentified.csv&#39;</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Spark DataFrame</span>
+<span class="sd">            Spark DataFrame with deidentified text</span>
+<span class="sd">        csv/json file</span>
+<span class="sd">            A deidentified file.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">custom_pipeline</span> <span class="o">=</span> <span class="n">custom_pipeline</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ner_chunk</span> <span class="o">=</span> <span class="n">ner_chunk</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sentence</span> <span class="o">=</span> <span class="n">sentence</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">token</span> <span class="o">=</span> <span class="n">token</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">document</span> <span class="o">=</span> <span class="n">document</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">masking_policy</span> <span class="o">=</span> <span class="n">masking_policy</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fixed_mask_length</span> <span class="o">=</span> <span class="n">fixed_mask_length</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obfuscate_date</span> <span class="o">=</span> <span class="n">obfuscate_date</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obfuscate_ref_source</span> <span class="o">=</span> <span class="n">obfuscate_ref_source</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obfuscate_ref_file_path</span> <span class="o">=</span> <span class="n">obfuscate_ref_file_path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">age_group_obfuscation</span> <span class="o">=</span> <span class="n">age_group_obfuscation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">age_ranges</span> <span class="o">=</span> <span class="n">age_ranges</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shift_days</span> <span class="o">=</span> <span class="n">shift_days</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">number_of_days</span> <span class="o">=</span> <span class="n">number_of_days</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">documentHashCoder_col_name</span> <span class="o">=</span> <span class="n">documentHashCoder_col_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">date_tag</span> <span class="o">=</span> <span class="n">date_tag</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">language</span> <span class="o">=</span> <span class="n">language</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">region</span> <span class="o">=</span> <span class="n">region</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unnormalized_date</span> <span class="o">=</span> <span class="n">unnormalized_date</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unnormalized_mode</span> <span class="o">=</span> <span class="n">unnormalized_mode</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id_column_name</span> <span class="o">=</span> <span class="n">id_column_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">date_shift_column_name</span> <span class="o">=</span> <span class="n">date_shift_column_name</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span> <span class="o">=</span> <span class="n">fields</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">separator</span> <span class="o">=</span> <span class="n">separator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_file_path</span> <span class="o">=</span> <span class="n">input_file_path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">custom_pipeline</span> <span class="o">=</span> <span class="n">custom_pipeline</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_file_path</span> <span class="o">=</span> <span class="n">output_file_path</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fields</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;mask&quot;</span><span class="p">}</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">age_ranges</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">age_ranges</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">80</span><span class="p">]</span>
+
+        <span class="c1"># check if the given mode is valid</span>
+        <span class="n">mode_list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;mask&quot;</span><span class="p">,</span> <span class="s2">&quot;obfuscate&quot;</span><span class="p">]</span>
+        <span class="n">entered_mode_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">entered_mode_list</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">m</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">mode_list</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="s2">&quot;You entered an invalid mode option. Please enter &#39;mask&#39; or &#39;obfuscate&#39;...&quot;</span>
+                    <span class="p">)</span>
+
+        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+        <span class="c1"># check if the given unnormalized mode is valid</span>
+        <span class="n">unnormalized_mode_list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;mask&quot;</span><span class="p">,</span> <span class="s2">&quot;obfuscate&quot;</span><span class="p">]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">unnormalized_mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">unnormalized_mode_list</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;You entered an invalid unnormalized mode option. Please enter &#39;mask&#39; or &#39;obfuscate&#39;...&quot;</span>
+                <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+        <span class="c1"># check if the given masking policy is valid</span>
+        <span class="n">masking_policy_list</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;entity_labels&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;same_length_chars&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;fixed_length_chars&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">masking_policy</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">masking_policy_list</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;You entered an invalid masking policy option. Please enter &#39;entity_labels&#39;, &#39;same_length_chars&#39; or &#39;fixed_length_chars&#39;...&quot;</span>
+                <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">custom_pipeline</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">deid_pipeline</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">deid_with_pp</span><span class="p">()</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">custom_pipeline</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">deid_pipeline</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">deid_with_custom_pipeline</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">deid_pipeline</span></div>
+
+        <span class="c1">#### ------------------------------------- StructuredDeidentification ------------------------------------- ####</span>
+
+<div class="viewcode-block" id="Deidentifier.structured_deidentifier"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/deidentification_module/index.html#sparknlp_jsl.utils.deidentification_module.Deidentifier.structured_deidentifier">[docs]</a>    <span class="k">def</span> <span class="nf">structured_deidentifier</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">input_file_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">output_file_path</span><span class="o">=</span><span class="s2">&quot;deidentified.csv&quot;</span><span class="p">,</span>
+            <span class="n">separator</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">,</span>
+            <span class="n">columns_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">ref_source</span><span class="o">=</span><span class="s2">&quot;faker&quot;</span><span class="p">,</span>
+            <span class="n">obfuscateRefFile</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">columns_seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">shift_days</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">date_formats</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;This method is used to deidentify structured data. It takes the input as a file path and returns a deidentified dataframe and a file in csv/json format.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        input_file_path (str): The path of the input file.</span>
+<span class="sd">        output_file_path (str): The path of the output file.</span>
+<span class="sd">        separator (str): The seperator of the input csv file.</span>
+<span class="sd">        columns_dict (dict): A dictionary that contains the column names and the tags that should be used for deidentification.</span>
+<span class="sd">        ref_source (str): The source of the reference file. It can be &quot;faker&quot; or &quot;file&quot;.</span>
+<span class="sd">        obfuscateRefFile (str): The path of the reference file for obfuscation.</span>
+<span class="sd">        columns_seed (int): The seed value for the random number generator.</span>
+<span class="sd">        shift_days (int): The number of days to be shifted.</span>
+<span class="sd">        date_formats (list): A list of date formats.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        -------</span>
+<span class="sd">        Spark DataFrame: A deidentified dataframe.</span>
+<span class="sd">        csv/json file: A deidentified file.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_file_path</span> <span class="o">=</span> <span class="n">input_file_path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_file_path</span> <span class="o">=</span> <span class="n">output_file_path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">separator</span> <span class="o">=</span> <span class="n">separator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">columns_dict</span> <span class="o">=</span> <span class="n">columns_dict</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ref_source</span> <span class="o">=</span> <span class="n">ref_source</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obfuscateRefFile</span> <span class="o">=</span> <span class="n">obfuscateRefFile</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">columns_seed</span> <span class="o">=</span> <span class="n">columns_seed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shift_days</span> <span class="o">=</span> <span class="n">shift_days</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">date_formats</span> <span class="o">=</span> <span class="n">date_formats</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns_dict</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">columns_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;NAME&quot;</span><span class="p">:</span> <span class="s2">&quot;PATIENT&quot;</span><span class="p">,</span> <span class="s2">&quot;AGE&quot;</span><span class="p">:</span> <span class="s2">&quot;AGE&quot;</span><span class="p">}</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">date_formats</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">date_formats</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;dd/MM/yyyy&quot;</span><span class="p">,</span> <span class="s2">&quot;dd-MM-yyyy&quot;</span><span class="p">,</span> <span class="s2">&quot;d/M/yyyy&quot;</span><span class="p">,</span> <span class="s2">&quot;dd-MM-yyyy&quot;</span><span class="p">,</span> <span class="s2">&quot;d-M-yyyy&quot;</span><span class="p">]</span>
+
+        <span class="n">obfuscator</span> <span class="o">=</span> <span class="n">StructuredDeidentification</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="p">,</span>
+            <span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">columns_dict</span><span class="p">,</span>
+            <span class="n">obfuscateRefSource</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ref_source</span><span class="p">,</span>
+            <span class="n">columnsSeed</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">columns_seed</span><span class="p">,</span>
+            <span class="n">dateFormats</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">date_formats</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ref_source</span> <span class="o">==</span> <span class="s2">&quot;faker&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">shift_days</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">obfuscator</span> <span class="o">=</span> <span class="n">obfuscator</span>
+
+        <span class="k">elif</span> <span class="n">ref_source</span> <span class="o">==</span> <span class="s2">&quot;file&quot;</span><span class="p">:</span>
+            <span class="n">obfuscator</span> <span class="o">=</span> <span class="n">StructuredDeidentification</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="p">,</span>
+                <span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">columns_dict</span><span class="p">,</span>
+                <span class="n">obfuscateRefFile</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">obfuscateRefFile</span><span class="p">,</span>
+                <span class="n">obfuscateRefSource</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ref_source</span><span class="p">,</span>
+                <span class="n">columnsSeed</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">columns_seed</span><span class="p">,</span>
+                <span class="n">dateFormats</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">date_formats</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">ref_source</span> <span class="o">==</span> <span class="s2">&quot;both&quot;</span><span class="p">:</span>
+            <span class="n">obfuscator</span> <span class="o">=</span> <span class="n">StructuredDeidentification</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="p">,</span>
+                <span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">columns_dict</span><span class="p">,</span>
+                <span class="n">obfuscateRefFile</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">obfuscateRefFile</span><span class="p">,</span>
+                <span class="n">obfuscateRefSource</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ref_source</span><span class="p">,</span>
+                <span class="n">columnsSeed</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">columns_seed</span><span class="p">,</span>
+                <span class="n">dateFormats</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">date_formats</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">ref_source</span> <span class="o">==</span> <span class="s2">&quot;faker&quot;</span> <span class="ow">and</span> <span class="n">shift_days</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">obfuscator</span> <span class="o">=</span> <span class="n">StructuredDeidentification</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="p">,</span>
+                <span class="n">columns</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">columns_dict</span><span class="p">,</span>
+                <span class="n">obfuscateRefSource</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ref_source</span><span class="p">,</span>
+                <span class="n">columnsSeed</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">columns_seed</span><span class="p">,</span>
+                <span class="n">days</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">shift_days</span><span class="p">,</span>
+                <span class="n">dateFormats</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">date_formats</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">input_file_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_file_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">input_file_path</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">separator</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">input_file_type</span> <span class="o">==</span> <span class="s2">&quot;csv&quot;</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+
+            <span class="k">elif</span> <span class="n">input_file_type</span> <span class="o">==</span> <span class="s2">&quot;json&quot;</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">input_file_type</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">input_file_path</span>
+                <span class="p">)</span>
+
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;You entered an invalid file path or file format...&quot;</span><span class="p">)</span>
+
+        <span class="n">results_df</span> <span class="o">=</span> <span class="n">obfuscator</span><span class="o">.</span><span class="n">obfuscateColumns</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">results_df_pd</span> <span class="o">=</span> <span class="n">results_df</span><span class="o">.</span><span class="n">toPandas</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">input_file_type</span> <span class="o">==</span> <span class="s2">&quot;csv&quot;</span><span class="p">:</span>
+            <span class="n">results_df_pd</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">output_file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Deidentifcation successfully completed and the results saved as &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">output_file_path</span><span class="si">}</span><span class="s2">&#39; !&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">input_file_type</span> <span class="o">==</span> <span class="s2">&quot;json&quot;</span><span class="p">:</span>
+            <span class="n">results_df_pd</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">output_file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s2">&quot;records&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Deidentifcation successfully completed and the results saved as &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">output_file_path</span><span class="si">}</span><span class="s2">&#39; !&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">results_df</span></div></div>
+</pre></div>
+
+            </article>
+            
+            
+            
+            <footer class="bd-footer-article">
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            </footer>
+            
+          </div>
+          
+          
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+<div id="searchbox"></div>
+</div>
+
+<div class="toc-item">
+  
+</div>
+
+<div class="toc-item">
+  
+</div>
+
+            </div>
+          
+          
+        </div>
+        <footer class="bd-footer-content">
+          <div class="bd-footer-content__inner">
+            
+          </div>
+        </footer>
+        
+      </main>
+    </div>
+  </div>
+
+  
+    
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
+<script src="../../../static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
+
+  <footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    
+<p class="copyright">
+
+    &copy; Copyright 2022, John Snow Labs.<br>
+
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="theme-version">
+    Built with the
+    <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">
+        PyData Sphinx Theme
+    </a>
+    0.12.0.
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+<p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
+</p>
+
+  </div>
+  
+</div>
+  </footer>
+  </body>
+</html>

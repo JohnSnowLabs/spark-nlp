@@ -252,6 +252,7 @@
     <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.utils.alab_utils</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../conll_parse/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.utils.conll_parse</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deidentification_module/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.utils.deidentification_module</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../imports/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.utils.imports</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../licensed_annotator_type/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.utils.licensed_annotator_type</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../log_parse/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.utils.log_parse</span></code></a></li>
@@ -339,6 +340,9 @@
 <td><p>Generates CoNLL-style outputs from a single task in an Annotation Lab JSON export</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.utils.alab_utils.get_token_df" title="sparknlp_jsl.utils.alab_utils.get_token_df"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_token_df</span></code></a>(text)</p></td>
+<td><p>Args:</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.utils.alab_utils.read_conll" title="sparknlp_jsl.utils.alab_utils.read_conll"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_conll</span></code></a>(spark, filepath)</p></td>
 <td><p>Args:</p></td>
 </tr>
 </tbody>
@@ -570,6 +574,18 @@ defaults to None
 <dt>Args:</dt><dd><p>text (str): input text</p>
 </dd>
 <dt>Returns:</dt><dd><p>_type_: Pandas DataFrame with columns (‘token’, ‘begin’, ‘end’)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sparknlp_jsl.utils.alab_utils.read_conll">
+<span class="sig-name descname"><span class="pre">read_conll</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/utils/alab_utils.html#read_conll"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.utils.alab_utils.read_conll" title="Permalink to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>Args:</dt><dd><p>spark: Spark session with spark-nlp-jsl jar
+filepath: path to the conll file</p>
+</dd>
+<dt>Returns:</dt><dd><p>_type_: Spark DataFrame</p>
 </dd>
 </dl>
 </dd></dl>
@@ -834,6 +850,15 @@ defaults to None
       </a>
      </li>
      <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.utils.alab_utils.read_conll">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         read_conll()
+        </span>
+       </code>
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#sparknlp_jsl.utils.alab_utils.nlp_token_pipeline">
        nlp_token_pipeline
       </a>
@@ -951,6 +976,11 @@ defaults to None
      <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#sparknlp_jsl.utils.alab_utils.get_token_df">
        get_token_df
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp_jsl.utils.alab_utils.read_conll">
+       read_conll
       </a>
      </li>
     </ul>
