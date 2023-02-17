@@ -5,7 +5,7 @@ seotitle: Spark OCR | John Snow Labs
 title: Spark OCR release notes
 permalink: /docs/en/spark_ocr_versions/ocr_release_notes
 key: docs-ocr-release-notes
-modify_date: "2023-01-13"
+modify_date: "2023-02-17"
 show_nav: true
 sidebar:
     nav: spark-ocr
