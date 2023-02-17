@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2022 John Snow Labs
+ * Copyright 2017-2023 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,59 +14,46 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.nlp
+package com.johnsnowlabs.nlp.training
 
-import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-import org.apache.spark.ml.Transformer
-import org.apache.spark.ml.param.{Param, ParamMap}
-import org.apache.spark.ml.util.Identifiable
+import com.johnsnowlabs.nlp.AnnotatorType.TOKEN
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions.{col, udf}
 import org.apache.spark.sql.types._
-import org.apache.spark.sql.{DataFrame, Dataset}
+import org.apache.spark.sql.{Dataset, SparkSession}
 
+import scala.collection.JavaConverters._
 import scala.collection.mutable.ArrayBuffer
 
-class SpacyToAnnotation(override val uid: String) extends Transformer {
+class SpacyToAnnotation() {
 
-  def this() = this(Identifiable.randomUID("sequence_to_annotation"))
-
-  protected[nlp] val jsonInput = new ExternalResourceParam(
-    this,
-    "jsonInput",
-    "JSON input, it can takes in sequences of text, either tokens or sentences")
-
-  protected[nlp] val outputAnnotatorType =
-    new Param[String](this, "outputAnnotatorType", "Output annotator type")
-
-  def setJsonInput(path: String): this.type = {
-    set(
-      jsonInput,
-      ExternalResource(path, ReadAs.SPARK, Map("multiline" -> "true", "format" -> "JSON")))
+  def readJsonFileJava(
+      spark: SparkSession,
+      jsonFilePath: String,
+      params: java.util.Map[String, String]): Dataset[_] = {
+    readJsonFile(spark, jsonFilePath, params.asScala.toMap)
   }
 
-  def setOutputAnnotatorType(value: String): this.type = {
-    set(outputAnnotatorType, value)
-  }
+  def readJsonFile(
+      spark: SparkSession,
+      jsonFilePath: String,
+      params: Map[String, String] = Map()): Dataset[_] = {
 
-  setDefault(jsonInput -> ExternalResource(path = "", ReadAs.SPARK, Map("format" -> "JSON")))
-
-  override def transform(dataset: Dataset[_]): DataFrame = {
-
-    require($(outputAnnotatorType).nonEmpty, "outputAnnotatorType is mandatory")
+    val outputAnnotatorType = params.getOrElse("outputAnnotatorType", TOKEN)
 
     val availableAnnotatorTypes = Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
-    if (!availableAnnotatorTypes.contains($(outputAnnotatorType).toLowerCase)) {
-      throw new UnsupportedOperationException(
-        s"Cannot convert Annotator Type: ${$(outputAnnotatorType)}. Not yet supported")
+    if (!availableAnnotatorTypes.contains(outputAnnotatorType.toLowerCase)) {
+      throw new IllegalArgumentException(
+        s"Cannot convert Annotator Type: $outputAnnotatorType. Not yet supported")
     }
 
-    var inputDataset = dataset
-
-    if (dataset.isEmpty || ResourceHelper.validFile($(jsonInput).path)) {
-      inputDataset = ResourceHelper.readSparkDataFrame($(jsonInput))
+    if (!ResourceHelper.validFile(jsonFilePath)) {
+      throw new IllegalArgumentException(s"Invalid jsonFilePath: $jsonFilePath. Please verify")
     }
+
+    val inputDataset = spark.read.option("multiline", "true").json(jsonFilePath)
 
     validateSchema(inputDataset)
 
@@ -111,12 +98,6 @@ class SpacyToAnnotation(override val uid: String) extends Transformer {
         s"Schema validation failed. Expected field names: ${expectedFieldNames.mkString(
             ", ")}, actual field names: ${actualFieldNames.mkString(", ")}")
     }
-  }
-
-  override def copy(extra: ParamMap): Transformer = super.defaultCopy(extra)
-
-  override def transformSchema(schema: StructType): StructType = {
-    Annotation.dataType
   }
 
   private def buildTokenAnnotationsWithSentences: UserDefinedFunction =

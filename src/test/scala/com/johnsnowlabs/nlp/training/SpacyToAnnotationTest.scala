@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2022 John Snow Labs
+ * Copyright 2017-2023 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,23 +14,23 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.nlp
+package com.johnsnowlabs.nlp.training
 
-import com.johnsnowlabs.nlp.SpacyToAnnotationFixture._
 import com.johnsnowlabs.nlp.annotators.SparkSessionTest
+import com.johnsnowlabs.nlp.training.SpacyToAnnotationFixture._
+import com.johnsnowlabs.nlp.AssertAnnotations
 import com.johnsnowlabs.tags.FastTest
 import org.scalatest.flatspec.AnyFlatSpec
 
 class SpacyToAnnotationTest extends AnyFlatSpec with SparkSessionTest {
 
-  import spark.implicits._
+  val resourcesPath = "src/test/resources/spacy-to-annotation"
 
   "SequenceToAnnotation" should "transform token sequences to SparkNLP annotations" taggedAs FastTest in {
     val spacyToAnnotation = new SpacyToAnnotation()
-      .setJsonInput("src/test/resources/spacy-to-annotation/multi_doc_tokens.json")
-      .setOutputAnnotatorType("TOKEN")
 
-    val annotationsDataset = spacyToAnnotation.transform(emptyDataSet)
+    val annotationsDataset =
+      spacyToAnnotation.readJsonFile(spark, s"$resourcesPath/multi_doc_tokens.json")
 
     val actualDocuments = AssertAnnotations.getActualResult(annotationsDataset, "document")
     AssertAnnotations.assertFields(expectedMultiDocuments, actualDocuments)
@@ -45,10 +45,9 @@ class SpacyToAnnotationTest extends AnyFlatSpec with SparkSessionTest {
 
   it should "work when sentence_ends is not set" in {
     val spacyToAnnotation = new SpacyToAnnotation()
-      .setJsonInput("src/test/resources/spacy-to-annotation/without_sentence_ends.json")
-      .setOutputAnnotatorType("TOKEN")
 
-    val annotationsDataset = spacyToAnnotation.transform(emptyDataSet)
+    val annotationsDataset =
+      spacyToAnnotation.readJsonFile(spark, s"$resourcesPath/without_sentence_ends.json")
 
     val actualDocuments = AssertAnnotations.getActualResult(annotationsDataset, "document")
     AssertAnnotations.assertFields(expectedDocument, actualDocuments)
@@ -57,15 +56,12 @@ class SpacyToAnnotationTest extends AnyFlatSpec with SparkSessionTest {
     AssertAnnotations.assertFields(expectedTokens, actualTokens)
   }
 
-  it should "raise an error when using a wrong schema" in {
+  it should "raise an error when using a wrong jsonFilePath" in {
 
     val spacyToAnnotation = new SpacyToAnnotation()
-      .setOutputAnnotatorType("TOKEN")
-
-    val someDataSet = Seq("Some schema").toDS.toDF("text")
 
     assertThrows[IllegalArgumentException] {
-      spacyToAnnotation.transform(someDataSet)
+      spacyToAnnotation.readJsonFile(spark, s"")
     }
 
   }
