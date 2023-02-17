@@ -102,6 +102,6 @@ label                 precision  recall  f1-score  support
 capital_call_notices  1.00       1.00    1.00      12      
 other                 1.00       1.00    1.00      23      
 accuracy              -          -       1.00      35      
-macro avg             1.00       1.00    1.00      35      
-weighted avg          1.00       1.00    1.00      35   
+macro-avg             1.00       1.00    1.00      35      
+weighted-avg          1.00       1.00    1.00      35   
 ```
