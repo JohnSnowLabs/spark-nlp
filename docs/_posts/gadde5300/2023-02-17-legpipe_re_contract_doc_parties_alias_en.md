@@ -17,14 +17,7 @@ use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
-
-IMPORTANT: Don't run this model on the whole legal agreement. Instead:
-- Split by paragraphs. You can use [notebook 1](https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/tutorials/Certification_Trainings_JSL) in Finance or Legal as inspiration;
-- Use the `legclf_introduction_clause` Text Classifier to select only these paragraphs; 
-- 
-This is a Legal Relation Extraction Pretrained Pipeline, which can be used after the NER Model for extracting Parties, Document Types, Effective Dates and Aliases, called legner_contract_doc_parties.
-
-As an output, you will get the relations linking the different concepts together, if such relation exists. The list of relations is:
+This is a Legal Relation Extraction Pretrained Pipeline to get the relations linking the different concepts together, if such relation exists. The list of relations is:
 
 - dated_as: A Document has an Effective Date
 - has_alias: The Alias of a Party all along the document
