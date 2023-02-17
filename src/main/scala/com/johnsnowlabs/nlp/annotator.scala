@@ -18,7 +18,7 @@ package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.ReadSentencePieceModel
 import com.johnsnowlabs.nlp.annotators.audio.{
-  ReadHubertForAudioDLModel,
+  ReadHubertForAudioTensorflowModel,
   ReadWav2Vec2ForAudioDLModel,
   ReadablePretrainedHubertForAudioModel,
   ReadablePretrainedWav2Vec2ForAudioModel
@@ -30,9 +30,7 @@ import com.johnsnowlabs.nlp.annotators.coref.{
   ReadablePretrainedSpanBertCorefModel
 }
 import com.johnsnowlabs.nlp.annotators.cv.{
-  ReadSwinForImageDLModel,
   ReadViTForImageDLModel,
-  ReadablePretrainedSwinForImageModel,
   ReadablePretrainedViTForImageModel
 }
 import com.johnsnowlabs.nlp.annotators.er.ReadablePretrainedEntityRuler
@@ -42,9 +40,7 @@ import com.johnsnowlabs.nlp.annotators.ld.dl.{
 }
 import com.johnsnowlabs.nlp.annotators.ner.crf.ReadablePretrainedNerCrf
 import com.johnsnowlabs.nlp.annotators.ner.dl.{
-  ReadZeroShotNerDLModel,
   ReadablePretrainedNerDL,
-  ReadablePretrainedZeroShotNer,
   ReadsNERGraph,
   WithGraphResolver
 }
@@ -644,20 +640,6 @@ package object annotator {
       extends ReadablePretrainedCamemBertForSequenceModel
       with ReadCamemBertForSequenceTensorflowModel
 
-  type SwinForImageClassification =
-    com.johnsnowlabs.nlp.annotators.cv.SwinForImageClassification
-
-  object SwinForImageClassification
-      extends ReadablePretrainedSwinForImageModel
-      with ReadSwinForImageDLModel
-
-  type CamemBertForQuestionAnswering =
-    com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForQuestionAnswering
-
-  object CamemBertForQuestionAnswering
-      extends ReadablePretrainedCamemBertForQAModel
-      with ReadCamemBertForQADLModel
-
   type Wav2Vec2ForCTC =
     com.johnsnowlabs.nlp.annotators.audio.Wav2Vec2ForCTC
 
@@ -668,14 +650,7 @@ package object annotator {
   type HubertForCTC =
     com.johnsnowlabs.nlp.annotators.audio.HubertForCTC
 
-  object HubertForCTC extends ReadablePretrainedHubertForAudioModel with ReadHubertForAudioDLModel
-
-  type ZeroShotNerModel =
-    com.johnsnowlabs.nlp.annotators.ner.dl.ZeroShotNerModel
-
-  object ZeroShotNerModel extends ReadablePretrainedZeroShotNer with ReadZeroShotNerDLModel
-
-  type Date2Chunk = com.johnsnowlabs.nlp.annotators.Date2Chunk
-
-  object Date2Chunk extends DefaultParamsReadable[Date2Chunk]
+  object HubertForCTC
+      extends ReadablePretrainedHubertForAudioModel
+      with ReadHubertForAudioTensorflowModel
 }
