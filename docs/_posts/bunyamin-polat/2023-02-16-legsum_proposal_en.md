@@ -13,7 +13,7 @@ supported: true
 engine: tensorflow
 annotator: T5Transformer
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,6 +37,7 @@ This model is fine-tuned with a legal dataset (about EU proposals). Summarizes a
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
