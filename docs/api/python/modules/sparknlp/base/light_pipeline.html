@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.base.light_pipeline &#8212; Spark NLP 4.3.0 documentation</title>
+    <title>sparknlp.base.light_pipeline &#8212; Spark NLP 4.2.8 documentation</title>
   
   
   
@@ -490,6 +490,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">stages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pipeline_model</span><span class="o">.</span><span class="n">stages</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_skipPipelineValidation</span><span class="p">(</span><span class="n">stages</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Before _validateStagesInputCols&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_validateStagesInputCols</span><span class="p">(</span><span class="n">stages</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">optional_target</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>

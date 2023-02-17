@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.base.token2_chunk &#8212; Spark NLP 4.3.0 documentation</title>
+    <title>sparknlp.annotator.token.token2_chunk &#8212; Spark NLP 4.2.8 documentation</title>
   
   
   
@@ -15,35 +15,35 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
-<link href="../../../static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
-<link href="../../../static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link href="../../../../static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../../../../static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../../../../static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
 
   
-  <link href="../../../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
+  <link href="../../../../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
 
-    <link rel="stylesheet" type="text/css" href="../../../static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../static/graphviz.css" />
-    <link rel="stylesheet" type="text/css" href="../../../static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../static/css/custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
-<link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
+  <link rel="preload" as="script" href="../../../../static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
+<link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js"></script>
-    <script src="../../../static/jquery.js"></script>
-    <script src="../../../static/underscore.js"></script>
-    <script src="../../../static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../../../static/doctools.js"></script>
-    <script src="../../../static/sphinx_highlight.js"></script>
-    <script src="../../../static/toggleprompt.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'modules/sparknlp/base/token2_chunk';</script>
-    <link rel="shortcut icon" href="../../../static/fav.ico"/>
-    <link rel="index" title="Index" href="../../../genindex.html" />
-    <link rel="search" title="Search" href="../../../search.html" />
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js"></script>
+    <script src="../../../../static/jquery.js"></script>
+    <script src="../../../../static/underscore.js"></script>
+    <script src="../../../../static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../../static/doctools.js"></script>
+    <script src="../../../../static/sphinx_highlight.js"></script>
+    <script src="../../../../static/toggleprompt.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'modules/sparknlp/annotator/token/token2_chunk';</script>
+    <link rel="shortcut icon" href="../../../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="docsearch:language" content="en">
   </head>
@@ -68,7 +68,7 @@
     <div class="search-button__overlay"></div>
     <div class="search-button__search-container">
       
-<form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+<form class="bd-search d-flex align-items-center" action="../../../../search.html" method="get">
   <i class="fa-solid fa-magnifying-glass"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
@@ -87,7 +87,7 @@
   
 
 
-<a class="navbar-brand logo" href="../../../index.html">
+<a class="navbar-brand logo" href="../../../../index.html">
 
   
   
@@ -98,8 +98,8 @@
   
 
   
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Logo image">
-    <img src="../../../static/logo.png" class="logo__image only-dark" alt="Logo image">
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../../../static/logo.png" class="logo__image only-dark" alt="Logo image">
   
   
 </a>
@@ -118,28 +118,28 @@
     <ul id="navbar-main-elements" class="navbar-nav">
         
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../getting_started/index.html">
+                      <a class="nav-link nav-internal" href="../../../../getting_started/index.html">
                         Getting Started
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../user_guide/index.html">
+                      <a class="nav-link nav-internal" href="../../../../user_guide/index.html">
                         User Guide
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../third_party/index.html">
+                      <a class="nav-link nav-internal" href="../../../../third_party/index.html">
                         Third Party Projects
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../reference/index.html">
+                      <a class="nav-link nav-internal" href="../../../../reference/index.html">
                         API Reference
                       </a>
                     </li>
@@ -215,28 +215,28 @@
     <ul id="navbar-main-elements" class="navbar-nav">
         
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../getting_started/index.html">
+                      <a class="nav-link nav-internal" href="../../../../getting_started/index.html">
                         Getting Started
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../user_guide/index.html">
+                      <a class="nav-link nav-internal" href="../../../../user_guide/index.html">
                         User Guide
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../third_party/index.html">
+                      <a class="nav-link nav-internal" href="../../../../third_party/index.html">
                         Third Party Projects
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../reference/index.html">
+                      <a class="nav-link nav-internal" href="../../../../reference/index.html">
                         API Reference
                       </a>
                     </li>
@@ -294,7 +294,7 @@
             
             <article class="bd-article" role="main">
               
-  <h1>Source code for sparknlp.base.token2_chunk</h1><div class="highlight"><pre>
+  <h1>Source code for sparknlp.annotator.token.token2_chunk</h1><div class="highlight"><pre>
 <span></span><span class="c1">#  Copyright 2017-2022 John Snow Labs</span>
 <span class="c1">#</span>
 <span class="c1">#  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
@@ -314,7 +314,7 @@
 <span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
 
 
-<div class="viewcode-block" id="Token2Chunk"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/token2_chunk/index.html#sparknlp.base.token2_chunk.Token2Chunk">[docs]</a><span class="k">class</span> <span class="nc">Token2Chunk</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
+<div class="viewcode-block" id="Token2Chunk"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/token/token2_chunk/index.html#sparknlp.annotator.token.token2_chunk.Token2Chunk">[docs]</a><span class="k">class</span> <span class="nc">Token2Chunk</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts ``TOKEN`` type Annotations to ``CHUNK`` type.</span>
 
 <span class="sd">    This can be useful if a entities have been already extracted as ``TOKEN``</span>
@@ -419,8 +419,8 @@
   
     
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
-<script src="../../../static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
+  <script src="../../../../static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
+<script src="../../../../static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
 
   <footer class="bd-footer"><div class="bd-footer__inner container">
   

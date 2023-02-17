@@ -64,13 +64,12 @@ embeddings = annotator
 
 
 def start(gpu=False,
-          apple_silicon=False,
+          m1=False,
           aarch64=False,
           memory="16G",
           cache_folder="",
           log_folder="",
           cluster_tmp_dir="",
-          params=None,
           real_time_output=False,
           output_level=1):
     """Starts a PySpark instance with default parameters for Spark NLP.
@@ -93,8 +92,8 @@ def start(gpu=False,
     ----------
     gpu : bool, optional
         Whether to enable GPU acceleration (must be set up correctly), by default False
-    apple_silicon : bool, optional
-        Whether to enable Apple Silicon support for macOS
+    m1 : bool, optional
+        Whether to enable M1 support for macOS
     aarch64 : bool, optional
         Whether to enable Linux Aarch64 support
     memory : str, optional
@@ -121,12 +120,7 @@ def start(gpu=False,
         The initiated Spark session.
 
     """
-    current_version = "4.3.0"
-
-    if params is None:
-        params = {}
-    if '_instantiatedSession' in dir(SparkSession) and SparkSession._instantiatedSession is not None:
-        print('Warning::Spark Session already created, some configs may not take.')
+    current_version = "4.2.8"
 
     class SparkNLPConfig:
 
@@ -137,8 +131,8 @@ def start(gpu=False,
             # Spark NLP on CPU or GPU
             self.maven_spark3 = "com.johnsnowlabs.nlp:spark-nlp_2.12:{}".format(current_version)
             self.maven_gpu_spark3 = "com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:{}".format(current_version)
-            # Spark NLP on Apple Silicon
-            self.maven_silicon = "com.johnsnowlabs.nlp:spark-nlp-silicon_2.12:{}".format(current_version)
+            # Spark NLP on M1
+            self.maven_m1 = "com.johnsnowlabs.nlp:spark-nlp-m1_2.12:{}".format(current_version)
             # Spark NLP on Linux Aarch64
             self.maven_aarch64 = "com.johnsnowlabs.nlp:spark-nlp-aarch64_2.12:{}".format(current_version)
 
@@ -151,14 +145,14 @@ def start(gpu=False,
             .config("spark.kryoserializer.buffer.max", spark_nlp_config.serializer_max_buffer) \
             .config("spark.driver.maxResultSize", spark_nlp_config.driver_max_result_size)
 
-        if apple_silicon:
-            spark_jars_packages = spark_nlp_config.maven_silicon
+        if m1:
+            builder.config("spark.jars.packages", spark_nlp_config.maven_m1)
         elif aarch64:
-            spark_jars_packages = spark_nlp_config.maven_aarch64
+            builder.config("spark.jars.packages", spark_nlp_config.maven_aarch64)
         elif gpu:
-            spark_jars_packages = spark_nlp_config.maven_gpu_spark3
+            builder.config("spark.jars.packages", spark_nlp_config.maven_gpu_spark3)
         else:
-            spark_jars_packages = spark_nlp_config.maven_spark3
+            builder.config("spark.jars.packages", spark_nlp_config.maven_spark3)
 
         if cache_folder != '':
             builder.config("spark.jsl.settings.pretrained.cache_folder", cache_folder)
@@ -166,16 +160,6 @@ def start(gpu=False,
             builder.config("spark.jsl.settings.annotator.log_folder", log_folder)
         if cluster_tmp_dir != '':
             builder.config("spark.jsl.settings.storage.cluster_tmp_dir", cluster_tmp_dir)
-
-        if params.get("spark.jars.packages") is None:
-            builder.config("spark.jars.packages", spark_jars_packages)
-
-        for key, value in params.items():
-            if key == "spark.jars.packages":
-                packages = spark_jars_packages + "," + value
-                builder.config(key, packages)
-            else:
-                builder.config(key, value)
 
         return builder.getOrCreate()
 
@@ -192,31 +176,21 @@ def start(gpu=False,
                 spark_conf.set("spark.kryoserializer.buffer.max", spark_nlp_config.serializer_max_buffer)
                 spark_conf.set("spark.driver.maxResultSize", spark_nlp_config.driver_max_result_size)
 
-                if apple_silicon:
-                    spark_jars_packages = spark_nlp_config.maven_silicon
+                if m1:
+                    spark_conf.set("spark.jars.packages", spark_nlp_config.maven_m1)
                 elif aarch64:
-                    spark_jars_packages = spark_nlp_config.maven_aarch64
+                    spark_conf.set("spark.jars.packages", spark_nlp_config.maven_aarch64)
                 elif gpu:
-                    spark_jars_packages = spark_nlp_config.maven_gpu_spark3
+                    spark_conf.set("spark.jars.packages", spark_nlp_config.maven_gpu_spark3)
                 else:
-                    spark_jars_packages = spark_nlp_config.maven_spark3
+                    spark_conf.set("spark.jars.packages", spark_nlp_config.maven_spark3)
 
                 if cache_folder != '':
-                    spark_conf.set("spark.jsl.settings.pretrained.cache_folder", cache_folder)
+                    spark_conf.config("spark.jsl.settings.pretrained.cache_folder", cache_folder)
                 if log_folder != '':
-                    spark_conf.set("spark.jsl.settings.annotator.log_folder", log_folder)
+                    spark_conf.config("spark.jsl.settings.annotator.log_folder", log_folder)
                 if cluster_tmp_dir != '':
-                    spark_conf.set("spark.jsl.settings.storage.cluster_tmp_dir", cluster_tmp_dir)
-
-                if params.get("spark.jars.packages") is None:
-                    spark_conf.set("spark.jars.packages", spark_jars_packages)
-
-                for key, value in params.items():
-                    if key == "spark.jars.packages":
-                        packages = spark_jars_packages + "," + value
-                        spark_conf.set(key, packages)
-                    else:
-                        spark_conf.set(key, value)
+                    spark_conf.config("spark.jsl.settings.storage.cluster_tmp_dir", cluster_tmp_dir)
 
                 # Make the py4j JVM stdout and stderr available without buffering
                 popen_kwargs = {
@@ -291,4 +265,4 @@ def version():
     str
         The current Spark NLP version.
     """
-    return '4.3.0'
+    return '4.2.8'

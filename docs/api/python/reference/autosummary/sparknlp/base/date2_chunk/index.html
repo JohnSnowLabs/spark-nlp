@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.base.date2_chunk &#8212; Spark NLP 4.3.0 documentation</title>
+    <title>sparknlp.training._tf_graph_builders &#8212; Spark NLP 4.2.8 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
     <script src="../../../../../static/doctools.js"></script>
     <script src="../../../../../static/sphinx_highlight.js"></script>
     <script src="../../../../../static/toggleprompt.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/autosummary/sparknlp/base/date2_chunk/index';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/autosummary/sparknlp/training/_tf_graph_builders/index';</script>
     <link rel="shortcut icon" href="../../../../../static/fav.ico"/>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" />
@@ -200,7 +200,7 @@
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
   
   <div class="sidebar-header-items sidebar-primary__section">
@@ -271,36 +271,6 @@
   </div>
 
   
-  <div class="sidebar-start-items sidebar-primary__section">
-    <div class="sidebar-start-items__item"><nav class="bd-links" id="bd-docs-nav" aria-label="Section navigation">
-  <p class="bd-links__title" role="heading" aria-level="1">
-    Section Navigation
-  </p>
-  <div class="bd-toc-item navbar-nav">
-    <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../audio_assembler/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.audio_assembler</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../chunk2_doc/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.chunk2_doc</span></code></a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.date2_chunk</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../doc2_chunk/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.doc2_chunk</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../document_assembler/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.document_assembler</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../embeddings_finisher/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.embeddings_finisher</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../finisher/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.finisher</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../graph_finisher/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.graph_finisher</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../has_recursive_fit/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.has_recursive_fit</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../has_recursive_transform/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.has_recursive_transform</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../image_assembler/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.image_assembler</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../light_pipeline/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.light_pipeline</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../recursive_pipeline/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.recursive_pipeline</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../table_assembler/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.table_assembler</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../token2_chunk/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.token2_chunk</span></code></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../token_assembler/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.token_assembler</span></code></a></li>
-</ul>
-
-  </div>
-</nav>
-    </div>
-  </div>
-  
 
   
   <div class="sidebar-end-items sidebar-primary__section">
@@ -325,61 +295,23 @@
             
             <article class="bd-article" role="main">
               
-  <section id="module-sparknlp.base.date2_chunk">
-<span id="sparknlp-base-date2-chunk"></span><h1><a class="reference internal" href="#module-sparknlp.base.date2_chunk" title="sparknlp.base.date2_chunk"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.date2_chunk</span></code></a><a class="headerlink" href="#module-sparknlp.base.date2_chunk" title="Permalink to this heading">#</a></h1>
-<p>Contains classes for Date2Chunk.</p>
-<section id="module-contents">
-<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">#</a></h2>
-<section id="classes">
-<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">#</a></h3>
-<table class="autosummary longtable table autosummary">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.base.date2_chunk.Date2Chunk" title="sparknlp.base.date2_chunk.Date2Chunk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Date2Chunk</span></code></a></p></td>
-<td><p>Converts <code class="docutils literal notranslate"><span class="pre">DATE</span></code> type Annotations to <code class="docutils literal notranslate"><span class="pre">CHUNK</span></code> type.</p></td>
-</tr>
-</tbody>
-</table>
-<dl class="py class">
-<dt class="sig sig-object py" id="sparknlp.base.date2_chunk.Date2Chunk">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Date2Chunk</span></span><a class="reference internal" href="../../../../../modules/sparknlp/base/date2_chunk.html#Date2Chunk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.date2_chunk.Date2Chunk" title="Permalink to this definition">#</a></dt>
-<dd><p>Converts <code class="docutils literal notranslate"><span class="pre">DATE</span></code> type Annotations to <code class="docutils literal notranslate"><span class="pre">CHUNK</span></code> type.</p>
-<blockquote>
-<div><p>This can be useful if the following annotators after DateMatcher and MultiDateMatcher require <code class="docutils literal notranslate"><span class="pre">`CHUNK`</span></code> types.</p>
-</div></blockquote>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>None</strong></dt><dd></dd>
-</dl>
-</dd>
-</dl>
-<p>import sparknlp
-from sparknlp.base import *
-from sparknlp.annotator import *
-documentAssembler = DocumentAssembler() </p>
-<blockquote>
-<div><p>…     .setInputCol(“text”) …     .setOutputCol(“document”)
-&gt;&gt;&gt; date = DateMatcher() …     .setInputCols([“document”]) …     .setOutputCol(“date”)
-&gt;&gt;&gt; date2Chunk = Date2Chunk() …     .setInputCols([“date”]) …     .setOutputCol(“date_chunk”)
-&gt;&gt;&gt; pipeline = Pipeline().setStages([
-…     documentAssembler,
-…     date,
-…     date2Chunk
-… ])
-&gt;&gt;&gt; data = spark.createDataFrame([[“Omicron is a new variant of COVID-19, which the World Health Organization designated a variant of concern on Nov. 26, 2021/26/11.”]]).toDF(“text”)
-&gt;&gt;&gt; result = pipeline.fit(data).transform(data)
-&gt;&gt;&gt; result.select(“date_chunk”).show(1, truncate=False)</p>
-<blockquote>
-<div><p>—————————————————-+
-<a href="#id1"><span class="problematic" id="id2">|date_chunk                                          |
-----------------------------------------------------+
-|[{chunk, 118, 121, 2021/01/01, {sentence -&gt; 0}, []}]|</span></a>
-—————————————————-+</p>
-</div></blockquote>
-</div></blockquote>
-</dd></dl>
-
-</section>
+  <section id="module-sparknlp.training._tf_graph_builders">
+<span id="sparknlp-training-tf-graph-builders"></span><h1><a class="reference internal" href="#module-sparknlp.training._tf_graph_builders" title="sparknlp.training._tf_graph_builders"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.training._tf_graph_builders</span></code></a><a class="headerlink" href="#module-sparknlp.training._tf_graph_builders" title="Permalink to this heading">#</a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading">#</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tf2contrib/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.training._tf_graph_builders.tf2contrib</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tf2contrib/core_rnn_cell/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.training._tf_graph_builders.tf2contrib.core_rnn_cell</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tf2contrib/fused_rnn_cell/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.training._tf_graph_builders.tf2contrib.fused_rnn_cell</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tf2contrib/gru_ops/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.training._tf_graph_builders.tf2contrib.gru_ops</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tf2contrib/lstm_ops/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.training._tf_graph_builders.tf2contrib.lstm_ops</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tf2contrib/rnn/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.training._tf_graph_builders.tf2contrib.rnn</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tf2contrib/rnn_cell/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.training._tf_graph_builders.tf2contrib.rnn_cell</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
 </section>
 </section>
 
@@ -408,32 +340,9 @@ documentAssembler = DocumentAssembler() </p>
 <nav id="bd-toc-nav" class="page-toc">
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#module-contents">
-   Module Contents
+  <a class="reference internal nav-link" href="#subpackages">
+   Subpackages
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#classes">
-     Classes
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#sparknlp.base.date2_chunk.Date2Chunk">
-       <code class="docutils literal notranslate">
-        <span class="pre">
-         Date2Chunk
-        </span>
-       </code>
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#sparknlp.base.date2_chunk.Date2Chunk">
-       Date2Chunk
-      </a>
-     </li>
-    </ul>
-   </li>
-  </ul>
  </li>
 </ul>
 
@@ -452,7 +361,7 @@ documentAssembler = DocumentAssembler() </p>
 <div class="toc-item">
   
 <div class="tocsection sourcelink">
-    <a href="../../../../../_sources/reference/autosummary/sparknlp/base/date2_chunk/index.rst.txt">
+    <a href="../../../../../_sources/reference/autosummary/sparknlp/training/_tf_graph_builders/index.rst.txt">
         <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
 </div>

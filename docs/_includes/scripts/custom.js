@@ -35,8 +35,8 @@ jQuery(document).ready(function () {
   }
 });
 
-try{
-  //Accordion demos categories
+//Accordion demos categories
+if(document.querySelector(".acc-top")) {
   let acc = document.getElementsByClassName("acc-top"),
     isResizeble = false;
 
@@ -61,11 +61,11 @@ for (let i = 0; i < acc.length; i++) {
     }
   });
 }
-} catch(e){}
+}
 
 
-try {
-  //Show more in demos description
+//Show more in demos description
+if(document.querySelector('.tab-description')) {
   let tabDescription = document.querySelectorAll('.tab-description');
 
   tabDescription.forEach(element => {
@@ -84,11 +84,11 @@ try {
       this.parentElement.parentElement.classList.add('big-descr-close');
     });
   });
-} catch(e){}
+}
 
 
-try{
-  //disable Colab link
+//disable Colab link
+if(document.querySelector('.btn.disable')) {
   let btnDisable = document.querySelectorAll('.btn.disable');
 
   btnDisable.forEach(element => {
@@ -96,37 +96,35 @@ try{
       e.preventDefault();
     });
   });
-} catch(e){}
+}
 
 
-try {
-  // Ancor click
+// Ancor click
 const anchors = [].slice.call(document.querySelectorAll('.btn-box-install a')),
-animationTime = 300,
-framesCount = 20;
+      animationTime = 300,
+      framesCount = 20;
 
 anchors.forEach(function(item) {
-item.addEventListener('click', function(e) {
-  e.preventDefault();
-  let coordY = document.querySelector(item.getAttribute('href')).getBoundingClientRect().top + window.pageYOffset -100;
-
-  let scroller = setInterval(function() {
-      let scrollBy = coordY / framesCount;
-
-if(scrollBy > window.pageYOffset - coordY && window.innerHeight + window.pageYOffset < document.body.offsetHeight) {
-    window.scrollBy(0, scrollBy);
-} else {
-          window.scrollTo(0, coordY);
-  clearInterval(scroller);
-}
-  }, animationTime / framesCount);
-});
+    item.addEventListener('click', function(e) {
+        e.preventDefault();
+        let coordY = document.querySelector(item.getAttribute('href')).getBoundingClientRect().top + window.pageYOffset -100;
+    
+        let scroller = setInterval(function() {
+            let scrollBy = coordY / framesCount;
+      
+      if(scrollBy > window.pageYOffset - coordY && window.innerHeight + window.pageYOffset < document.body.offsetHeight) {
+          window.scrollBy(0, scrollBy);
+      } else {
+                window.scrollTo(0, coordY);
+        clearInterval(scroller);
+      }
+        }, animationTime / framesCount);
+  });
 }); 
-} catch(e){}
 
 
-try {
-  //Pagination active
+//Pagination active
+if(document.querySelector('.pagination_big')) {
   let paginationItems = document.querySelectorAll('.pagination_big li'),
       nextVersionContainer = document.querySelector('#nextver'),
       previosVersionContainer = document.querySelector('#previosver'),
@@ -155,11 +153,9 @@ try {
       break;
     }
   }
-} catch(e){}
-
-
-try{
-  // copy to clipboard
+}
+// copy to clipboard
+if (document.querySelector('.button-copy-s3')) {
   let btnCopy = document.querySelectorAll('.button-copy-s3');
 
   btnCopy.forEach((element) => {
@@ -175,6 +171,5 @@ try{
       navigator.clipboard.writeText(element.href);
     });
   });
-} catch(e){}
+}
 
-document.getElementById("year").innerHTML = new Date().getFullYear();

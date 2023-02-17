@@ -4,8 +4,9 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.base.date2_chunk &#8212; Spark NLP 4.3.0 documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>&lt;no title&gt; &#8212; Spark NLP 4.2.8 documentation</title>
   
   
   
@@ -40,7 +41,7 @@
     <script src="../../../static/doctools.js"></script>
     <script src="../../../static/sphinx_highlight.js"></script>
     <script src="../../../static/toggleprompt.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'modules/sparknlp/base/date2_chunk';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_templates/_autoapi/python/data';</script>
     <link rel="shortcut icon" href="../../../static/fav.ico"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -294,79 +295,37 @@
             
             <article class="bd-article" role="main">
               
-  <h1>Source code for sparknlp.base.date2_chunk</h1><div class="highlight"><pre>
-<span></span><span class="c1">#  Copyright 2017-2023 John Snow Labs</span>
-<span class="c1">#</span>
-<span class="c1">#  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
-<span class="c1">#  you may not use this file except in compliance with the License.</span>
-<span class="c1">#  You may obtain a copy of the License at</span>
-<span class="c1">#</span>
-<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
-<span class="c1">#</span>
-<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
-<span class="c1">#  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
-<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
-<span class="c1">#  See the License for the specific language governing permissions and</span>
-<span class="c1">#  limitations under the License.</span>
-<span class="sd">&quot;&quot;&quot;Contains classes for Date2Chunk.&quot;&quot;&quot;</span>
-
-<span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="o">*</span>
-
-
-<div class="viewcode-block" id="Date2Chunk"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/date2_chunk/index.html#sparknlp.base.date2_chunk.Date2Chunk">[docs]</a><span class="k">class</span> <span class="nc">Date2Chunk</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts ``DATE`` type Annotations to ``CHUNK`` type.</span>
-
-<span class="sd">    This can be useful if the following annotators after DateMatcher and MultiDateMatcher require ```CHUNK``` types.</span>
-
-<span class="sd">    ====================== ======================</span>
-<span class="sd">    Input Annotation types Output Annotation type</span>
-<span class="sd">    ====================== ======================</span>
-<span class="sd">    ``DATE``              ``CHUNK``</span>
-<span class="sd">    ====================== ======================</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    None</span>
-
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
-
-<span class="sd">import sparknlp</span>
-<span class="sd">from sparknlp.base import *</span>
-<span class="sd">from sparknlp.annotator import *</span>
-<span class="sd">documentAssembler = DocumentAssembler() \\</span>
-<span class="sd">    ...     .setInputCol(&quot;text&quot;) \\</span>
-<span class="sd">    ...     .setOutputCol(&quot;document&quot;)</span>
-<span class="sd">    &gt;&gt;&gt; date = DateMatcher() \\</span>
-<span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
-<span class="sd">    ...     .setOutputCol(&quot;date&quot;)</span>
-<span class="sd">    &gt;&gt;&gt; date2Chunk = Date2Chunk() \\</span>
-<span class="sd">    ...     .setInputCols([&quot;date&quot;]) \\</span>
-<span class="sd">    ...     .setOutputCol(&quot;date_chunk&quot;)</span>
-<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([</span>
-<span class="sd">    ...     documentAssembler,</span>
-<span class="sd">    ...     date,</span>
-<span class="sd">    ...     date2Chunk</span>
-<span class="sd">    ... ])</span>
-<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;Omicron is a new variant of COVID-19, which the World Health Organization designated a variant of concern on Nov. 26, 2021/26/11.&quot;]]).toDF(&quot;text&quot;)</span>
-<span class="sd">    &gt;&gt;&gt; result = pipeline.fit(data).transform(data)</span>
-<span class="sd">    &gt;&gt;&gt; result.select(&quot;date_chunk&quot;).show(1, truncate=False)</span>
-<span class="sd">       ----------------------------------------------------+</span>
-<span class="sd">       |date_chunk                                          |</span>
-<span class="sd">       ----------------------------------------------------+</span>
-<span class="sd">       |[{chunk, 118, 121, 2021/01/01, {sentence -&gt; 0}, []}]|</span>
-<span class="sd">       ----------------------------------------------------+</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Date2Chunk&quot;</span>
-
-    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DATE</span><span class="p">]</span>
-
-    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">Date2Chunk</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.Date2Chunk&quot;</span><span class="p">)</span></div>
+  <p>{% if obj.display %}
+.. py:{{ obj.type }}:: {{ obj.name }}</p>
+<blockquote>
+<div><p>{%+ if obj.value is not none or obj.annotation is not none -%}
+:annotation:</p>
+<blockquote>
+<div><blockquote>
+<div><p>{%- if obj.annotation %} :{{ obj.annotation }}
+{%- endif %}
+{%- if obj.value is not none %} = {%</p>
+<blockquote>
+<div><dl class="simple">
+<dt>if obj.value is string and obj.value.splitlines()|count &gt; 1 -%}</dt><dd><p>Multiline-String</p>
+</dd>
+</dl>
+</div></blockquote>
+</div></blockquote>
+<details><summary>Show Value</summary><div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span>{{ obj.value|indent(width=8) }}
 </pre></div>
+</div>
+</details>
+
+    {%- else -%}
+        {{ obj.value|string|truncate(100) }}
+    {%- endif %}
+{%- endif %}<p>{% endif %}</p>
+</div></blockquote>
+<p>{{ obj.docstring|indent(3) }}</p>
+</div></blockquote>
+<p>{% endif %}</p>
+
 
             </article>
             
@@ -386,6 +345,18 @@
               
 <div class="toc-item">
   
+<div class="tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="simple visible nav section-nav flex-column">
+</ul>
+
+</nav>
+</div>
+
+<div class="toc-item">
+  
 <div id="searchbox"></div>
 </div>
 
@@ -395,6 +366,12 @@
 
 <div class="toc-item">
   
+<div class="tocsection sourcelink">
+    <a href="../../../_sources/_templates/_autoapi/python/data.rst.txt">
+        <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+</div>
+
 </div>
 
             </div>

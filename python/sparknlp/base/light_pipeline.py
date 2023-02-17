@@ -193,6 +193,7 @@ class LightPipeline:
         """
         stages = self.pipeline_model.stages
         if not self._skipPipelineValidation(stages):
+            print("Before _validateStagesInputCols")
             self._validateStagesInputCols(stages)
 
         if optional_target == "":

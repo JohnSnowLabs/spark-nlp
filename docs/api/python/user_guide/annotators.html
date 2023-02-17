@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Annotators &#8212; Spark NLP 4.3.0 documentation</title>
+    <title>Annotators &#8212; Spark NLP 4.2.8 documentation</title>
   
   
   
@@ -454,18 +454,6 @@ version of a model.</p>
 <p><code class="docutils literal notranslate"><span class="pre">pretrained(name,</span> <span class="pre">language,</span> <span class="pre">extra_location)</span></code> will by default, bring a default pre-trained model.
 Sometimes we offer more than one model, in which case, you may have to use name, language or extra
 location to download them.</p>
-<p>For a complete list of available pretrained models, head to the <a class="reference external" href="https://nlp.johnsnowlabs.com/models">Spark NLP Models</a>. Alternatively you can also check for pretrained
-models of a particular annotator using <a class="reference internal" href="../reference/autosummary/sparknlp/pretrained/resource_downloader/index.html#sparknlp.pretrained.resource_downloader.ResourceDownloader.showPublicModels" title="sparknlp.pretrained.resource_downloader.ResourceDownloader.showPublicModels"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ResourceDownloader.showPublicModels()</span></code></a>.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">showPublicModels</span><span class="p">(</span><span class="s2">&quot;ClassifierDLModel&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">)</span>
-<span class="go">+-------------------------+------+---------+</span>
-<span class="go">| Model                   | lang | version |</span>
-<span class="go">+-------------------------+------+---------+</span>
-<span class="go">| classifierdl_use_trec6  |  en  | 2.5.0   |</span>
-<span class="go">| classifierdl_use_trec50 |  en  | 2.5.0   |</span>
-<span class="go">| classifierdl_use_spam   |  en  | 2.5.3   |</span>
-<span class="go">| ...                     |  en  | ...     |</span>
-</pre></div>
-</div>
 </section>
 <section id="common-functions">
 <h2>Common Functions<a class="headerlink" href="#common-functions" title="Permalink to this heading">#</a></h2>

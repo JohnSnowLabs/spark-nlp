@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.annotator.cv.vit_for_image_classification &#8212; Spark NLP 4.3.0 documentation</title>
+    <title>sparknlp.annotator.cv.vit_for_image_classification &#8212; Spark NLP 4.2.8 documentation</title>
   
   
   
@@ -326,7 +326,7 @@ provided.</p>
 <p>For available pretrained models please see the
 <a class="reference external" href="https://nlp.johnsnowlabs.com/models?task=Image+Classification">Models Hub</a>.</p>
 <p>Models from the HuggingFace 🤗 Transformers library are also compatible with Spark
-NLP 🚀. To see which models are compatible and how to import them see
+NLP 🚀. The Spark NLP Workshop example shows how to import them
 <a class="github reference external" href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669">JohnSnowLabs/spark-nlp#5669</a> and to see more extended
 examples, see
 <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/cv/ViTImageClassificationTestSpec.scala">ViTImageClassificationTestSpec</a>.</p>
@@ -382,23 +382,6 @@ computational resources to train.</em></p>
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;class&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span><span class="n">imageAssembler</span><span class="p">,</span> <span class="n">imageClassifier</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pipelineDF</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">imageDF</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">imageDF</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pipelineDF</span> \
-<span class="gp">... </span>  <span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;reverse(split(image.origin, &#39;/&#39;))[0] as image_name&quot;</span><span class="p">,</span> <span class="s2">&quot;class.result&quot;</span><span class="p">)</span> \
-<span class="gp">... </span>  <span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="go">+-----------------+----------------------------------------------------------+</span>
-<span class="go">|image_name       |result                                                    |</span>
-<span class="go">+-----------------+----------------------------------------------------------+</span>
-<span class="go">|palace.JPEG      |[palace]                                                  |</span>
-<span class="go">|egyptian_cat.jpeg|[Egyptian cat]                                            |</span>
-<span class="go">|hippopotamus.JPEG|[hippopotamus, hippo, river horse, Hippopotamus amphibius]|</span>
-<span class="go">|hen.JPEG         |[hen]                                                     |</span>
-<span class="go">|ostrich.JPEG     |[ostrich, Struthio camelus]                               |</span>
-<span class="go">|junco.JPEG       |[junco, snowbird]                                         |</span>
-<span class="go">|bluetick.jpg     |[bluetick]                                                |</span>
-<span class="go">|chihuahua.jpg    |[Chihuahua]                                               |</span>
-<span class="go">|tractor.JPEG     |[tractor]                                                 |</span>
-<span class="go">|ox.JPEG          |[ox]                                                      |</span>
-<span class="go">+-----------------+----------------------------------------------------------+</span>
 </pre></div>
 </div>
 <dl class="py method">

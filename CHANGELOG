@@ -1,31 +1,4 @@
 ========
-4.3.0
-========
-----------------
-New Features
-----------------
-* Implement HubertForCTC annotator for automatic speech recognition
-* Implement SwinForImageClassification annotator for Image Classification
-* Introducing CamemBERT for Question Answering annotator
-* Implement ZeroShotNerModel annotator for zero-shot NER baed on RoBERTa architecture
-* Implement Date2Chunk annotator
-* Enable params argument in spark_nlp start() function
-* Allow doc_id reading CoNLL file datasets
-
-----------------
-Bug Fixes & Enhancements
-----------------
-* Relocating all notebooks back to examples directory
-* Improve download/loading models & pipelines from AWS and GCP. When setting `cache_pretrained` directory to AWS and GCP will avoid copying existing models/pipelines
-* Improve GitHub templates for Bug reports, documentation, and feature request
-* Add documentation to ResourceDownloader
-* Refactor `ml` package to allow another DL engine in future
-* Apache Spark 3.3.1 is now the base version of Spark NLP
-* Spark NLP supports M2 in addition to M1. Therefore, we are renaming `spark-nlp-m1` to `spark-nlp-silicon` on Maven
-* Fix calculating delimiter id in CamemBERT
-* Fix loadSavedModel for private buckets
-
-========
 4.2.8
 ========
 ----------------

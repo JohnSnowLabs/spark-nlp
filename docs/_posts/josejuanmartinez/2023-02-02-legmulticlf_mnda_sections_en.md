@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This models should be run on each sentence of the NDA clauses, and will retrieve a series of 1..N labels for each of them. The possible clause types detected my this model in NDA / MNDA aggrements are:
+This models should be run on each paragraph of the NDA clauses, and will retrieve a series of 1..N labels for each of them. The possible clause types detected my this model in NDA / MNDA aggrements are:
 
 1. Parties to the Agreement - Names of the Parties Clause  
 2. Identification of What Information Is Confidential - Definition of Confidential Information Clause
@@ -53,16 +53,10 @@ document_assembler = (
     nlp.DocumentAssembler().setInputCol("text").setOutputCol("document")
 )
 
-sentence_splitter = (
-    nlp.SentenceDetector()
-    .setInputCols(["document"])
-    .setOutputCol("sentence")
-    .setCustomBounds(["\n"])
-)
 
 embeddings = (
     nlp.UniversalSentenceEncoder.pretrained()
-    .setInputCols("sentence")
+    .setInputCols("document")
     .setOutputCol("sentence_embeddings")
 )
 
@@ -70,7 +64,7 @@ classsifierdl_pred = nlp.MultiClassifierDLModel.pretrained('legmulticlf_mnda_sec
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("class")
 
-clf_pipeline = nlp.Pipeline(stages=[document_assembler, sentence_splitter, embeddings, classsifierdl_pred])
+clf_pipeline = nlp.Pipeline(stages=[document_assembler,embeddings, classsifierdl_pred])
 
 df = spark.createDataFrame([["Governing Law.\nThis Agreement shall be govern..."]]).toDF("text")
 
@@ -110,23 +104,23 @@ In-house MNDA
 ## Benchmarking
 
 ```bash
-              label    precision    recall  f1-score   support
-         APPLIC_LAW       0.93      0.96      0.95        28
-         ASSIGNMENT       0.95      0.91      0.93        22
-   DEF_OF_CONF_INFO       0.92      0.80      0.86        30
-      DISPUTE_RESOL       0.76      0.89      0.82        28
-         EXCEPTIONS       0.77      0.91      0.83        11
-   NAMES_OF_PARTIES       0.94      0.88      0.91        33
-           NON_COMP       1.00      0.91      0.95        23
-          NON_SOLIC       0.88      0.94      0.91        16
-           PREAMBLE       0.79      0.85      0.81        26
-           REMEDIES       0.91      0.91      0.91        32
-          REQ_DISCL       0.92      0.92      0.92        13
-RETURN_OF_CONF_INFO       1.00      0.96      0.98        24
-        TERMINATION       1.00      0.77      0.87        13
-   USE_OF_CONF_INFO       0.85      0.88      0.86        32
-          micro-avg       0.89      0.89      0.89       331
-          macro-avg       0.90      0.89      0.89       331
-       weighted-avg       0.90      0.89      0.89       331
-        samples-avg       0.87      0.89      0.88       331
+label precision    recall  f1-score   support
+         APPLIC_LAW       0.82      0.90      0.86        20
+         ASSIGNMENT       0.92      0.88      0.90        26
+   DEF_OF_CONF_INFO       0.85      0.85      0.85        27
+      DISPUTE_RESOL       0.74      0.50      0.60        28
+         EXCEPTIONS       0.93      0.78      0.85        18
+   NAMES_OF_PARTIES       0.85      0.81      0.83        21
+           NON_COMP       0.95      0.72      0.82        25
+          NON_SOLIC       0.68      0.93      0.79        14
+           PREAMBLE       0.53      0.56      0.55        16
+           REMEDIES       0.80      0.80      0.80        25
+          REQ_DISCL       1.00      0.67      0.80         9
+RETURN_OF_CONF_INFO       0.73      0.73      0.73        15
+        TERMINATION       0.75      0.43      0.55         7
+   USE_OF_CONF_INFO       0.86      0.62      0.72        40
+          micro-avg       0.82      0.74      0.77       291
+          macro-avg       0.82      0.73      0.76       291
+       weighted-avg       0.82      0.74      0.77       291
+        samples-avg       0.71      0.74      0.71       291
 ```
