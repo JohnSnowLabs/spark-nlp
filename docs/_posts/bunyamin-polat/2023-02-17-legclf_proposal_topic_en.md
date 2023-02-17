@@ -13,7 +13,7 @@ supported: true
 engine: tensorflow
 annotator: LegalClassifierDLModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,6 +37,7 @@ Given a proposal on a socially important issue, this model classifies it accordi
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
