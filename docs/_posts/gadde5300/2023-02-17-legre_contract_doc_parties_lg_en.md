@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Relation Extraction (Parties, Alias, Dates, Document Type) (Lg, Undirectional)
+title: Legal Relation Extraction (Parties, Alias, Dates, Document Type) (Lg, Unidirectional)
 author: John Snow Labs
 name: legre_contract_doc_parties_lg
 date: 2023-02-17
@@ -90,14 +90,14 @@ re_ner_chunk_filter = legal.RENerChunksFilter() \
     .setInputCols(["ner_chunks", "dependencies"])\
     .setOutputCol("re_ner_chunks")\
     .setMaxSyntacticDistance(7)\
-    .setRelationPairs(["DOC-EFFDATE, DOC-PARTY, PARTY-FORMER_NAME, PARTY-ALIAS"])
+    .setRelationPairs(["DOC-EFFDATE", "DOC-PARTY", "PARTY-FORMER_NAME", "PARTY-ALIAS"])
 
 re_model = legal.RelationExtractionDLModel().pretrained('legre_contract_doc_parties_lg', 'en', 'legal/models')\
     .setPredictionThreshold(0.5)\
     .setInputCols(["re_ner_chunks", "sentence"])\
     .setOutputCol("relations")
 
-nlpPipeline = Pipeline(stages=[
+nlpPipeline = nlp.Pipeline(stages=[
     document_assembler,
     sen,
     tokenizer,
