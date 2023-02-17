@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Relation Extraction Pretrained Pipeline(Parties, Alias, Dates, Document Type) (Lg, Undirectional)
+title: Legal Relation Extraction Pretrained Pipeline(Parties, Alias, Dates, Document Type) (Lg, Unidirectional)
 author: John Snow Labs
 name: legpipe_re_contract_doc_parties_alias
 date: 2023-02-17
