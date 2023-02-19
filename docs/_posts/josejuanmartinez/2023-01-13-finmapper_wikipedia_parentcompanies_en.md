@@ -80,8 +80,8 @@ use_er_model = finance.SentenceEntityResolverModel.pretrained("finel_wikipedia_p
 
 cm = finance.ChunkMapperModel()\
       .pretrained("finmapper_wikipedia_parentcompanies", "en", "finance/models")\
-      .setInputCols(["normalized"])\ # or ner_chunk for non normalized versions
-      .setOutputCol("mappings")
+      .setInputCols(["normalized"])\ 
+      .setOutputCol("mappings") # or ner_chunk for non normalized versions
 
 nlpPipeline = nlp.Pipeline(stages=[
         documentAssembler,
