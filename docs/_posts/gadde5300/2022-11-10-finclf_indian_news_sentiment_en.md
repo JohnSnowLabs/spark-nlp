@@ -60,7 +60,7 @@ classsifierdl = finance.ClassifierDLModel.pretrained("finclf_indian_news_sentime
                 .setInputCols(["sentence_embeddings"])\
                 .setOutputCol("label")
 
-bert_clf_pipeline = Pipeline(stages=[document_assembler,
+bert_clf_pipeline = nlp.Pipeline(stages=[document_assembler,
                                      tokenizer,
                                      embeddings,
                                      sembeddings,

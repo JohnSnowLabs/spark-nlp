@@ -72,7 +72,7 @@ ner_converter = nlp.NerConverter() \
     .setInputCols(['document', 'token', 'ner']) \
     .setOutputCol('ner_chunk')
 
-pipeline = Pipeline(stages=[
+pipeline = nlp.Pipeline(stages=[
     document_assembler, 
     tokenizer,
     embeddings,

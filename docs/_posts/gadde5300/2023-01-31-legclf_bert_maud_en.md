@@ -38,6 +38,7 @@ This dataset includes 152 merger agreements with 39,000 multiple-choice reading 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler() \
     .setInputCol('text') \
@@ -51,7 +52,7 @@ sequenceClassifier = legal.BertForSequenceClassification.pretrained("legclf_bert
   .setInputCols(["document",'token'])\
   .setOutputCol("class")
   
-pipeline = Pipeline(stages=[
+pipeline = nlp.Pipeline(stages=[
     document_assembler, 
     tokenizer,
     sequenceClassifier

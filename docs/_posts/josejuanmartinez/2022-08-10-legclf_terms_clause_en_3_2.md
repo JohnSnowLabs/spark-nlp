@@ -57,7 +57,7 @@ docClassifier = nlp.ClassifierDLModel.pretrained("legclf_terms_clause", "en", "l
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("category")
     
-nlpPipeline = Pipeline(stages=[
+nlpPipeline = nlp.Pipeline(stages=[
     documentAssembler, 
     embeddings,
     docClassifier])

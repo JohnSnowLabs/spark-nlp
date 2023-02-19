@@ -39,6 +39,7 @@ This is a Relation Extraction model to infer relations between elements in WHERE
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 documentAssembler = nlp.DocumentAssembler()\
@@ -67,7 +68,7 @@ reDL = legal.RelationExtractionDLModel\
     .setInputCols(["ner_chunk", "document"])\
     .setOutputCol("relations")
     
-pipeline = Pipeline(stages=[
+pipeline = nlp.Pipeline(stages=[
     documentAssembler,
     tokenizer,
     embeddings,

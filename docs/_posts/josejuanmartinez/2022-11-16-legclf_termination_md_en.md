@@ -58,7 +58,7 @@ docClassifier = legal.ClassifierDLModel.pretrained("legclf_termination_md", "en"
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("category")
     
-nlpPipeline = Pipeline(stages=[
+nlpPipeline = nlp.Pipeline(stages=[
     documentAssembler, 
     embeddings,
     docClassifier])

@@ -54,7 +54,7 @@ tokenClassifier = nlp.RoBertaForTokenClassification.pretrained("legner_law_money
 .setInputCols(["sentence", "token"]) \
 .setOutputCol("ner")
 
-pipeline = Pipeline(
+pipeline = nlp.Pipeline(
     stages=[
       documentAssembler, 
       sentenceDetector, 

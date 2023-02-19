@@ -51,7 +51,7 @@ resolver = finance.SentenceEntityResolverModel.pretrained("finel_wiki_parentorgs
       .setOutputCol("normalized_name")\
       .setDistanceFunction("EUCLIDEAN")
 
-pipelineModel = PipelineModel(
+pipelineModel = nlp.Pipeline(
       stages = [
           documentAssembler,
           embeddings,

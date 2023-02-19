@@ -76,7 +76,7 @@ reDL = legal.RelationExtractionDLModel().pretrained('legre_contract_doc_parties'
     .setInputCols(["ner_chunk", "document"])\
     .setOutputCol("relations")
 
-nlpPipeline = Pipeline(stages=[
+nlpPipeline = nlp.Pipeline(stages=[
     documentAssembler,
     tokenizer,
     embeddings,

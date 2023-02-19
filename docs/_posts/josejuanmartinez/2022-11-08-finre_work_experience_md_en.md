@@ -86,7 +86,7 @@ reDL = finance.RelationExtractionDLModel()\
     .setInputCols(["re_ner_chunk", "sentence"])\
     .setOutputCol("relations")
 
-nlpPipeline = Pipeline(stages=[
+nlpPipeline = nlp.Pipeline(stages=[
         documentAssembler,
         sentencizer,
         tokenizer,

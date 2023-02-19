@@ -74,7 +74,7 @@ tokenClassifier = legal.BertForTokenClassification.pretrained("legner_arabert_ar
   .setInputCols("token", "document")\
   .setOutputCol("label")
   
-pipeline = Pipeline(stages=[documentAssembler, tokenizer, tokenClassifier])
+pipeline = nlp.Pipeline(stages=[documentAssembler, tokenizer, tokenClassifier])
 
 example = spark.createDataFrame(pd.DataFrame({'text': ["""أمثلة:
 جامعة بيرزيت وبالتعاون مع مؤسسة ادوارد سعيد تنظم مهرجان للفن الشعبي سيبدأ الساعة الرابعة عصرا، بتاريخ 16/5/2016.

@@ -52,7 +52,7 @@ imageClassifier_loaded = nlp.ViTForImageClassification.pretrained("finvisualclf_
   .setInputCols(["image_assembler"])\
   .setOutputCol("class")
 
-pipeline = Pipeline().setStages([
+pipeline = nlp.Pipeline().setStages([
     document_assembler,
     imageClassifier_loaded
 ])

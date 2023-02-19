@@ -31,6 +31,7 @@ Pretrained BERT Embedding model, adapted from Hugging Face and curated to provid
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler() \
     .setInputCol("text") \

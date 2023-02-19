@@ -52,7 +52,7 @@ resolver = finance.SentenceEntityResolverModel.pretrained("finel_edgar_company_n
       .setOutputCol("normalized")\
       .setDistanceFunction("EUCLIDEAN")
 
-pipelineModel = PipelineModel(
+pipelineModel = nlp.Pipeline(
       stages = [
           documentAssembler,
           embeddings,

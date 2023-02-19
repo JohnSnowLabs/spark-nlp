@@ -39,6 +39,7 @@ This is a Legal Named Entity Recognition Model to identify the Subject (who), Ac
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 documentAssembler = nlp.DocumentAssembler()\

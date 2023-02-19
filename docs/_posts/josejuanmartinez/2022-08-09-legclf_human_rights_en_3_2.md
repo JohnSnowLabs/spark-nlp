@@ -85,7 +85,7 @@ tokenClassifier = nlp.RoBertaForSequenceClassification.pretrained("legclf_human_
     .setInputCols(["sentence", "token"]) \
     .setOutputCol("class")
 
-pipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, tokenClassifier])
+pipeline = nlp.Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, tokenClassifier])
 
 text = """Todos los seres humanos nacen libres e iguales en dignidad y derechos y, dotados como están de razón y conciencia, deben comportarse fraternalmente los unos con los otros."""
 

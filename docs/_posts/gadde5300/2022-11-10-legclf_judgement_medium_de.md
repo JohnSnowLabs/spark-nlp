@@ -36,6 +36,7 @@ This is a `md` version of German Legal Judgement Text Classifier written in Germ
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
  
 document_assembler = nlp.DocumentAssembler() \
@@ -50,7 +51,7 @@ classifierdl = legal.BertForSequenceClassification.pretrained("legclf_judgement_
     .setInputCols(["document", "token"])\
     .setOutputCol("label")
 
-bert_clf_pipeline = Pipeline(stages=[document_assembler,
+bert_clf_pipeline = nlp.Pipeline(stages=[document_assembler,
                                      tokenizer,
                                      classifierdl])
 

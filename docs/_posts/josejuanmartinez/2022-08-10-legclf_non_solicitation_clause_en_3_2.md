@@ -58,7 +58,7 @@ docClassifier = nlp.ClassifierDLModel.pretrained("legclf_non_solicitation_clause
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("category")
     
-nlpPipeline = Pipeline(stages=[
+nlpPipeline = nlp.Pipeline(stages=[
     documentAssembler, 
     embeddings,
     docClassifier])

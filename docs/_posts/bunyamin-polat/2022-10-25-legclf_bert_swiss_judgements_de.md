@@ -37,6 +37,7 @@ This model is a Bert-based model that can be used to classify Swiss Judgement do
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
+
 document_assembler = nlp.DocumentAssembler() \
     .setInputCol('text') \
     .setOutputCol('document')
@@ -51,7 +52,7 @@ clf_model = legal.BertForSequenceClassification.pretrained("legclf_bert_swiss_ju
     .setCaseSensitive(True)\
     .setMaxSentenceLength(512)
 
-clf_pipeline = Pipeline(stages=[
+clf_pipeline = nlp.Pipeline(stages=[
     document_assembler, 
     tokenizer,
     clf_model   

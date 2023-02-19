@@ -51,7 +51,7 @@ spanClassifier = nlp.RoBertaForQuestionAnswering.pretrained("legqa_roberta_cuad_
 .setOutputCol("answer") \
 .setCaseSensitive(True)
 
-pipeline = Pipeline().setStages([
+pipeline = nlp.Pipeline().setStages([
 documentAssembler,
 spanClassifier
 ])

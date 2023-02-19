@@ -33,6 +33,7 @@ Pretrained Longformer Embeddings model, adapted from Hugging Face and curated to
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
  embeddings = LongformerEmbeddings\
