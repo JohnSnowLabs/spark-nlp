@@ -84,8 +84,8 @@ use_er_model = legal.SentenceEntityResolverModel.pretrained("legel_edgar_company
 
 cm = legal.ChunkMapperModel()\
       .pretrained("legmapper_edgar_companyname", "en", "legal/models")\
-      .setInputCols(["normalized"])\ # or ner_chunk for non normalized versions
-      .setOutputCol("mappings")
+      .setInputCols(["normalized"])\
+      .setOutputCol("mappings")  # or ner_chunk for non normalized versions
 
 nlpPipeline = nlp.Pipeline(stages=[
         documentAssembler,
