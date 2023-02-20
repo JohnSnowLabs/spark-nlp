@@ -4,7 +4,7 @@ title: Korean Bert Embeddings Cased model (from onlydj96)
 author: John Snow Labs
 name: bert_embeddings_pretrain
 date: 2023-02-20
-tags: [open_source, bert_embeddings, bertformaskedlm, ko, tensorflow]
+tags: [open_source, bert, bert_embeddings, bertformaskedlm, ko, tensorflow]
 task: Embeddings
 language: ko
 edition: Spark NLP 4.3.0
@@ -66,7 +66,7 @@ val tokenizer = new Tokenizer()
 val embeddings = BertEmbeddings.pretrained("bert_embeddings_pretrain","ko") 
     .setInputCols(Array("document", "token"))
     .setOutputCol("embeddings")
-    .setCaseSensitive(True)    
+    .setCaseSensitive(true)    
    
 val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, embeddings))
 
