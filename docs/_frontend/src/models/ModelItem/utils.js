@@ -3,13 +3,14 @@ import Tooltip from '../Tooltip';
 
 const data = {
   medium:
-    'Used the average size Word/Sentence Embeddings in this model/pipeline.',
+    'Model or Pipeline which uses average amounts of data (usually few hundreds per class) with default word/sentence embeddings (bert etc).',
   small:
-    'Used the smallest size Word/Sentence Embeddings in this model/pipeline.',
+    'Model or Pipeline which uses low amounts of data (usually about 100 per class) and/or low-dimensional word/sentence embeddings (word2vec, etc).',
   fast: 'Used the fastest algorithms in this model/pipeline (speed over accuracy).',
   large:
-    'Trained on more data, which means they can generalize further and can provide better results in some cases. The model size and the inference speed will be same.',
-
+    'Model or Pipeline which much more data and representativity in the classes than md, and/or based on bert or bigger transformers (t5, etc).',
+  xlarge:
+    'Model or Pipeline which much more data and representativity in the classes than lg, and/or based on bert or bigger transformers (t5, etc).',
   slim: 'Reduced version of the models, trained with less data, or reduced number of labels. Performance will be more or less the same given the use case. The model size and the inference speed will be same.',
   greedy:
     'Greedy strategies, similarly as for regex, mean that given NER chunks close to each other, it decides to merge them in 1 instead of returning them separately.',
@@ -41,6 +42,12 @@ const data = {
   bidirectional:
     'This model was not trained to take into consideration the direction of the relation, meaning that it can return relations from left to right or right to left indistinctly.',
 };
+
+// aliases
+data.sm = data.small;
+data.md = data.medium;
+data.lg = data.large;
+data.xl = data.xlarge;
 
 export const addNamingConventions = (title) => {
   const parts = title.split(' ');
