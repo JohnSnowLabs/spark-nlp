@@ -13,7 +13,7 @@ supported: true
 engine: tensorflow
 annotator: BertEmbeddings
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -33,6 +33,7 @@ Pretrained BertForMaskedLM model, adapted from Hugging Face and curated to provi
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler() \
     .setInputCols(["text"]) \
