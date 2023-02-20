@@ -66,7 +66,7 @@ val tokenizer = new Tokenizer()
 val bert_loaded = BertEmbeddings.pretrained("bert_embeddings_pretrain","ko") 
     .setInputCols(Array("document", "token"))
     .setOutputCol("embeddings")
-    .setCaseSensitive(True)    
+    .setCaseSensitive(true)    
    
 val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, bert_loaded))
 
