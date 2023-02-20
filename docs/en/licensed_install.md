@@ -30,6 +30,8 @@ Finance NLP and Legal NLP are built on the top of a new John Snow Labs library, 
 If you are a former user of Spark NLP or Spark NLP for Healthcare, you will find this new way of deploying your Spark NLP clusters much more user-friendly!
 Clinical NLP (former Spark NLP for Healthcare) still can be run without johnsnowlabs library, although we highly recommend to install it with this new method.
 
+For advanced installation options, please check `johnsnowlabs` [webpage](https://nlu.johnsnowlabs.com/docs/en/install_advanced).  
+
 ### 1. Installing johnsnowlabs
 The first step you need to carry out is installing johnsnowlabs library. This is as easy as doing:
 

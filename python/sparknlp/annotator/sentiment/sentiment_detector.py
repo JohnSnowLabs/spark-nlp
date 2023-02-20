@@ -29,7 +29,7 @@ class SentimentDetector(AnnotatorApproach):
     the score is ``>= 0``, else ``"negative"``.
 
     For extended examples of usage, see the `Examples
-    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/dictionary-sentiment/sentiment.ipynb>`__.
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dictionary-sentiment/sentiment.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -177,7 +177,7 @@ class SentimentDetectorModel(AnnotatorModel):
     the score is ``>= 0``, else ``"negative"``.
 
     For extended examples of usage, see the `Examples
-    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/dictionary-sentiment/sentiment.ipynb>`__.
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dictionary-sentiment/sentiment.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -206,4 +206,3 @@ class SentimentDetectorModel(AnnotatorModel):
             classname=classname,
             java_model=java_model
         )
-

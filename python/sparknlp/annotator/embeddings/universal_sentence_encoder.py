@@ -38,7 +38,7 @@ class UniversalSentenceEncoder(AnnotatorModel,
     <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
 
     For extended examples of usage, see the `Examples
-    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/classification/ClassifierDL_Train_multi_class_news_category_classifier.ipynb>`__.
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/ClassifierDL_Train_multi_class_news_category_classifier.ipynb>`__.
 
     ====================== =======================
     Input Annotation types Output Annotation type

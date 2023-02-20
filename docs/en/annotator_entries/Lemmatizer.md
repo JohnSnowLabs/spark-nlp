@@ -54,7 +54,7 @@ The dictionary can be set as a delimited text file.
 Pretrained models can be loaded with `LemmatizerModel.pretrained`.
 
 For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Lemmatization).
-For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/italian/Train-Lemmatizer-Italian.ipynb).
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/italian/Train-Lemmatizer-Italian.ipynb).
 {%- endcapture -%}
 
 {%- capture approach_input_anno -%}

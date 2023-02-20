@@ -37,7 +37,7 @@ class StopWordsCleaner(AnnotatorModel):
     <https://nlp.johnsnowlabs.com/models?task=Stop+Words+Removal>`__.
 
     For extended examples of usage, see the `Examples
-    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/stop-words/StopWordsCleaner.ipynb>`__.
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/stop-words/StopWordsCleaner.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -188,4 +188,3 @@ class StopWordsCleaner(AnnotatorModel):
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(StopWordsCleaner, name, lang, remote_loc)
-

@@ -29,7 +29,7 @@ class ViveknSentimentApproach(AnnotatorApproach):
     label column (either ``"positive"`` or ``"negative"``).
 
     For extended examples of usage, see the `Examples
-    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb>`__.
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -172,7 +172,7 @@ class ViveknSentimentModel(AnnotatorModel):
     requirements are also required.
 
     For extended examples of usage, see the `Examples
-    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb>`__.
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -240,4 +240,3 @@ class ViveknSentimentModel(AnnotatorModel):
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(ViveknSentimentModel, name, lang, remote_loc)
-

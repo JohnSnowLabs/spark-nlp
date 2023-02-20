@@ -25,7 +25,7 @@ Note that some pretrained models require specific types of embeddings, depending
 For example, the default model `"ner_dl"` requires the
 [WordEmbeddings](/docs/en/annotators#wordembeddings) `"glove_100d"`.
 
-For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/model-downloader/Create%20custom%20pipeline%20-%20NerDL.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/model-downloader/Create%20custom%20pipeline%20-%20NerDL.ipynb)
 and the [NerDLSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLSpec.scala).
 {%- endcapture -%}
 
@@ -202,7 +202,7 @@ val nerTagger = new NerDLApproach()
   .setTestDataset("test_data")
 ```
 
-For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/dl-ner)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dl-ner)
 and the [NerDLSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLSpec.scala).
 {%- endcapture -%}
 

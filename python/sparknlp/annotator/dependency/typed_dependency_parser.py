@@ -196,7 +196,7 @@ class TypedDependencyParserModel(AnnotatorModel):
     <https://nlp.johnsnowlabs.com/models>`__.
 
     For extended examples of usage, see the `Examples
-    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/graph-extraction/graph_extraction_intro.ipynb>`__.
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/graph-extraction/graph_extraction_intro.ipynb>`__.
 
     ========================== ======================
     Input Annotation types     Output Annotation type
@@ -316,4 +316,3 @@ class TypedDependencyParserModel(AnnotatorModel):
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(TypedDependencyParserModel, name, lang, remote_loc)
-

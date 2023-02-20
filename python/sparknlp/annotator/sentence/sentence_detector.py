@@ -94,7 +94,7 @@ class SentenceDetector(AnnotatorModel, SentenceDetectorParams):
     if ``explodeSentences`` is set to ``true``.
 
     For extended examples of usage, see the `Examples
-    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/sentence-detection/SentenceDetector_advanced_examples.ipynb>`__.
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/sentence-detection/SentenceDetector_advanced_examples.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type

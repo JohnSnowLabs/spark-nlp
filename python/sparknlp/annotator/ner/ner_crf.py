@@ -39,7 +39,7 @@ class NerCrfApproach(AnnotatorApproach, NerApproach):
     Optionally the user can provide an entity dictionary file with
     :meth:`.setExternalFeatures` for better accuracy.
 
-    For extended examples of usage, see the `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/crf-ner/ner_dl_crf.ipynb>`__.
+    For extended examples of usage, see the `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/crf-ner/ner_dl_crf.ipynb>`__.
 
     ========================================= ======================
     Input Annotation types                    Output Annotation type
@@ -281,7 +281,7 @@ class NerCrfModel(AnnotatorModel):
     <https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition>`__.
 
     For extended examples of usage, see the `Examples
-    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/english/crf-ner/ner_dl_crf.ipynb>`__.
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/crf-ner/ner_dl_crf.ipynb>`__.
 
     ========================================= ======================
     Input Annotation types                    Output Annotation type
@@ -395,4 +395,3 @@ class NerCrfModel(AnnotatorModel):
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(NerCrfModel, name, lang, remote_loc)
-
