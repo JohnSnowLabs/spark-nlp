@@ -43,12 +43,12 @@ tokenizer = Tokenizer() \
     .setInputCols("document") \
     .setOutputCol("token")
 
-bert_loaded = BertEmbeddings.pretrained("bert_embeddings_pretrain","ko") \
+embeddings  = BertEmbeddings.pretrained("bert_embeddings_pretrain","ko") \
     .setInputCols(["document", "token"]) \
     .setOutputCol("embeddings") \
     .setCaseSensitive(True)
     
-pipeline = Pipeline(stages=[documentAssembler, tokenizer, bert_loaded])
+pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings ])
 
 data = spark.createDataFrame([["I love Spark NLP"]]).toDF("text")
 
@@ -63,12 +63,12 @@ val tokenizer = new Tokenizer()
     .setInputCols("document")
     .setOutputCol("token")
  
-val bert_loaded = BertEmbeddings.pretrained("bert_embeddings_pretrain","ko") 
+val embeddings  = BertEmbeddings.pretrained("bert_embeddings_pretrain","ko") 
     .setInputCols(Array("document", "token"))
     .setOutputCol("embeddings")
     .setCaseSensitive(true)    
    
-val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, bert_loaded))
+val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, embeddings ))
 
 val data = Seq("I love Spark NLP").toDS.toDF("text")
 
