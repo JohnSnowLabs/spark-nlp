@@ -48,7 +48,7 @@ embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_lsg16k_Italian_Legal
     
 pipeline = nlp.Pipeline(stages=[documentAssembler, tokenizer, embeddings])
 
-data = spark.createDataFrame([["I love Spark NLP"]]).toDF("text")
+data = spark.createDataFrame([["Adoro Spark NLP"]]).toDF("text")
 
 result = pipeline.fit(data).transform(data)
 ```
@@ -67,7 +67,7 @@ val embeddings = BertEmbeddings.pretrained("bert_embeddings_lsg16k_Italian_Legal
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, embeddings))
 
-val data = Seq("I love Spark NLP").toDF("text")
+val data = Seq("Adoro Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
