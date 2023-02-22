@@ -95,7 +95,7 @@ result = model.transform(df)
 
 ## References
 
-Legal documents, scrapped from the Internet, and classified in-house + SEC documents + Lawinsider categorization
+Legal documents, scrapped from the Internet, and classified in-house + SEC documents 
 
 ## Benchmarking
 

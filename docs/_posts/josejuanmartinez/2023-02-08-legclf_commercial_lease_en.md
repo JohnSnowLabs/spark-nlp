@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-The `legclf_commercial_lease` model is a Bert Sentence Embeddings Document Classifier used to classify if the document belongs to the class `commercial-lease` (check Lawinsider for similar document type classification) or not (Binary Classification).
+The `legclf_commercial_lease` model is a Bert Sentence Embeddings Document Classifier used to classify if the document belongs to the class `commercial-lease` or not (Binary Classification).
 
 Unlike the Longformer model, this model is lighter in terms of inference time.
 
@@ -94,7 +94,7 @@ result = model.transform(df)
 
 ## References
 
-Legal documents, scrapped from the Internet, and classified in-house + SEC documents + Lawinsider categorization
+Legal documents, scrapped from the Internet, and classified in-house + SEC documents 
 
 ## Benchmarking
 

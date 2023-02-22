@@ -18,7 +18,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-The `legclf_terms_agreement` model is a Legal Longformer Document Classifier to classify if the document belongs to the class terms-agreement (check [Lawinsider](https://www.lawinsider.com/tags) for similar document type classification) or not (Binary Classification).
+The `legclf_terms_agreement` model is a Legal Longformer Document Classifier to classify if the document belongs to the class terms-agreement or not (Binary Classification).
 
 Longformers have a restriction on 4096 tokens, so only the first 4096 tokens will be taken into account. We have realised that for the big majority of the documents in legal corpora, if they are clean and only contain the legal document without any extra information before, 4096 is enough to perform Document Classification.
 
@@ -109,7 +109,7 @@ result = model.transform(df)
 
 ## References
 
-Legal documents, scrapped from the Internet, and classified in-house + SEC documents + Lawinsider categorization
+Legal documents, scrapped from the Internet, and classified in-house + SEC documents 
 
 ## Benchmarking
 
