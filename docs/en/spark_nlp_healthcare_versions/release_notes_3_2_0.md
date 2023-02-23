@@ -150,7 +150,7 @@ sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli', 'e
       .setOutputCol("sbert_embeddings")
 
 rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_rxnorm_disposition", "en", "clinical/models") \
-      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
+      .setInputCols(["sbert_embeddings"]) \
       .setOutputCol("rxnorm_code")\
       .setDistanceFunction("EUCLIDEAN")
 
@@ -499,7 +499,7 @@ sentence_chunk_embeddings = BertSentenceChunkEmbeddings\
     .setChunkWeight(0.5)
 
 resolver = SentenceEntityResolverModel.pretrained('sbiobertresolve_icd10cm', 'en', 'clinical/models')\
-            .setInputCols(["ner_chunk", "sentence_chunk_embeddings"]) \
+            .setInputCols(["sentence_chunk_embeddings"]) \
               .setOutputCol("resolution")
 
 text = """A 20 year old female patient badly tripped while going down stairs. She complains of right leg pain.
