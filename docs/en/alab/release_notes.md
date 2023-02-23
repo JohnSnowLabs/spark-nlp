@@ -19,8 +19,6 @@ sidebar:
 
 Release date: **22-02-2023**
 
-# Improved Support for Prompts Engineering and Playground's Experiments in NLP Lab 4.7.1
-
 The latest version of NLP Lab, version 4.7.1, brings several enhancements that are worth highlighting. One of the most notable improvements is in relation prompts. NLP Lab now offers support for combining NER models, prompts and rules when defining relation prompts. 
 
 The playground feature in NLP Lab has also received some noteworthy upgrades in version 4.7.1. The "playground" environment was initially added to facilitate experiments with different NLP models, tweak prompts and rules, and explore the potential of language models in a safe, sandboxed environment. The improvements made to the playground in this version are expected to enhance the overall user experience, and to make the environment faster and more responsive.
@@ -80,8 +78,8 @@ Chunk file uploading is a method that breaks large files into smaller, more mana
 </div>
 
 <ul class="pagination owl-carousel pagination_big">
-    <li class="active"><a href="annotation_labs_releases/release_notes_4_6_5">4.7.1</a></li>
-    <li><a href="annotation_labs_releases/release_notes_4_6_3">4.6.5</a></li>    
+    <li class="active"><a href="annotation_labs_releases/release_notes_4_7_1">4.7.1</a></li>
+    <li><a href="annotation_labs_releases/release_notes_4_6_5">4.6.5</a></li>    
     <li><a href="annotation_labs_releases/release_notes_4_6_3">4.6.3</a></li>
     <li><a href="annotation_labs_releases/release_notes_4_6_2">4.6.2</a></li>
     <li><a href="annotation_labs_releases/release_notes_4_5_1">4.5.1</a></li>

@@ -2,10 +2,10 @@
 layout: docs
 header: true
 seotitle: Annotation Lab | John Snow Labs
-title: Annotation Lab Release Notes 4.6.2
-permalink: /docs/en/alab/annotation_labs_releases/release_notes_4_6_2
+title: Annotation Lab Release Notes 4.7.1
+permalink: /docs/en/alab/annotation_labs_releases/release_notes_4_7_1
 key: docs-licensed-release-notes
-modify_date: 2023-01-21
+modify_date: 2023-02-22
 show_nav: true
 sidebar:
   nav: annotation-lab
@@ -16,8 +16,6 @@ sidebar:
 ## 4.7.1
 
 Release date: **22-02-2023**
-
-# Improved Support for Prompts Engineering and Playground's Experiments in NLP Lab 4.7.1
 
 The latest version of NLP Lab, version 4.7.1, brings several enhancements that are worth highlighting. One of the most notable improvements is in relation prompts. NLP Lab now offers support for combining NER models, prompts and rules when defining relation prompts. 
 
