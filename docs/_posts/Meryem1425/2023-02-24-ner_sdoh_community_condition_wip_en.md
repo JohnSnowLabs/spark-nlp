@@ -36,6 +36,7 @@ This model extracts community condition information related to Social Determinan
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\
@@ -71,7 +72,8 @@ pipeline = Pipeline(stages=[
     ])
 
 sample_texts = ["He is currently experiencing financial stress due to job insecurity, and he lives in a small apartment in a densely populated area with limited access to green spaces and outdoor recreational activities.",
-             "Patient reports difficulty affording healthy food, and relies oncheaper, processed options."]
+             "Patient reports difficulty affording healthy food, and relies oncheaper, processed options.",
+               "She reports her husband and sons provide transportation top medical apptsand do her grocery shopping."]
 
 
 data = spark.createDataFrame(sample_texts, StringType()).toDF("text")
@@ -128,6 +130,7 @@ val result = pipeline.fit(data).transform(data)
 |green spaces                   |154  |165|Community_Living_Conditions|
 |outdoor recreational activities|171  |201|Community_Living_Conditions|
 |healthy food                   |37   |48 |Food_Insecurity            |
+|transportation                 |41   |54 |Transportation             |
 +-------------------------------+-----+---+---------------------------+
 ```
 
