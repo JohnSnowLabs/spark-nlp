@@ -47,6 +47,8 @@ object SparkNLP {
     * @param cluster_tmp_dir
     *   The location to save logs from annotators during training (By default, it will be in the
     *   users home directory under `annotator_logs`.)
+    * @param params
+    *   Custom parameters to set for the Spark configuration (Default: `Map.empty`)
     * @return
     *   SparkSession
     */
@@ -57,9 +59,13 @@ object SparkNLP {
       memory: String = "16G",
       cache_folder: String = "",
       log_folder: String = "",
-      cluster_tmp_dir: String = ""): SparkSession = {
+      cluster_tmp_dir: String = "",
+      params: Map[String, String] = Map.empty): SparkSession = {
 
-    val build = SparkSession
+    if (SparkSession.getActiveSession.isDefined)
+      println("Warning: Spark Session already created, some configs may not be applied.")
+
+    val builder = SparkSession
       .builder()
       .appName("Spark NLP")
       .master("local[*]")
@@ -68,26 +74,33 @@ object SparkNLP {
       .config("spark.kryoserializer.buffer.max", "2000M")
       .config("spark.driver.maxResultSize", "0")
 
-    if (apple_silicon) {
-      build.config("spark.jars.packages", MavenSparkSilicon)
-    } else if (aarch64) {
-      build.config("spark.jars.packages", MavenSparkAarch64)
-    } else if (gpu) {
-      build.config("spark.jars.packages", MavenGpuSpark3)
-    } else {
-      build.config("spark.jars.packages", MavenSpark3)
+    val sparkNlpJar =
+      if (apple_silicon) MavenSparkSilicon
+      else if (aarch64) MavenSparkAarch64
+      else if (gpu) MavenGpuSpark3
+      else MavenSpark3
+
+    if (!params.contains("spark.jars.packages")) {
+      builder.config("spark.jars.packages", sparkNlpJar)
+    }
+
+    params.foreach {
+      case (key, value) if key == "spark.jars.packages" =>
+        builder.config(key, sparkNlpJar + "," + value)
+      case (key, value) =>
+        builder.config(key, value)
     }
 
     if (cache_folder.nonEmpty)
-      build.config("spark.jsl.settings.pretrained.cache_folder", cache_folder)
+      builder.config("spark.jsl.settings.pretrained.cache_folder", cache_folder)
 
     if (log_folder.nonEmpty)
-      build.config("spark.jsl.settings.annotator.log_folder", log_folder)
+      builder.config("spark.jsl.settings.annotator.log_folder", log_folder)
 
     if (cluster_tmp_dir.nonEmpty)
-      build.config("spark.jsl.settings.storage.cluster_tmp_dir", cluster_tmp_dir)
+      builder.config("spark.jsl.settings.storage.cluster_tmp_dir", cluster_tmp_dir)
 
-    build.getOrCreate()
+    builder.getOrCreate()
   }
 
   def version(): String = {
