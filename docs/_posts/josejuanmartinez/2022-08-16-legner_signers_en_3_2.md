@@ -22,10 +22,6 @@ This is a Legal NER Model, aimed to process the last page of the agreements when
 - Title of those people in their companies;
 - Company (Party) they represent;
 
-This model can be used all along with its Relation Extraction model to retrieve the relations between these entities.
-
-Other models can be found to detect other parts of the document, as Headers/Subheaders, Signers, "Will-do", etc.
-
 ## Predicted Entities
 
 `SIGNING_TITLE`, `SIGNING_PERSON`, `PARTY`
