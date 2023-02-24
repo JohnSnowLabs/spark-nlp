@@ -461,10 +461,10 @@
 
   gtag('config', 'UA-70312582-1');
 
-</script><title>Detect SDOH of Social Environment</title><meta property="og:title" content=""/>
+</script><title>Multilingual DistilBertForMaskedLM Cased model (from hf-maintainers)</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis model extracts social environment terminologies related to Social Determinants of Health from various kinds of documents.Predicted EntitiesSocial_Support, Chidhood_Event, Social_Exclusion, Violence_Abuse_LegalLive DemoOpen in ColabDownloadCopy S3 URIHow to use  PythonScalaNLU  document_assembler = Do...">
-<link rel="canonical" href="/2023/02/10/ner_sdoh_social_environment_wip_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<meta name="description" content="DescriptionPretrained DistilBertForMaskedLM model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. distilbert-base-multilingual-cased is a Multilingual model originally trained by hf-maintainers.Live DemoOpen in ColabDownloadCopy S3 URIHow to use  PythonScalaNLU...">
+<link rel="canonical" href="/2023/02/23/distilbert_embeddings_base_multilingual_cased_xx.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
 
@@ -860,128 +860,68 @@
 
 <!-- end custom main top snippet --><article><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><div class="article__header"><div class="header-author"><div class="article__info clearfix"><div class="left-col">
             <a class="edit-on-github-btn" target="_blank" rel="alternate"
-               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/Meryem1425/2023-02-10-ner_sdoh_social_environment_wip_en.md">
+               href="https://github.com/johnsnowlabs/spark-nlp/tree/master/docs/_posts/Mary-Sci/2023-02-23-distilbert_embeddings_base_multilingual_cased_xx.md">
               <span class="fab fa-github"></span>
               <span class="edit-on-github-label">Edit on GitHub</span>
             </a>
-        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Feb 10, 2023</span>
-            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-02-10T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Detect SDOH of Social Environment</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Detect SDOH of Social Environment"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>licensed</li><li>clinical</li><li>social_determinants</li><li>en</li><li>ner</li><li>social</li><li>environment</li><li>sdoh</li><li>public_health</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-02-10T00:00:00+00:00">
-    <meta itemprop="keywords" content="licensed,clinical,social_determinants,en,ner,social,environment,sdoh,public_health"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
+        </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Feb 23, 2023</span>
+            </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-02-23T00:00:00+00:00"></div><header class="main-docs have_subtitle">
+          <h1>Multilingual DistilBertForMaskedLM Cased model (from hf-maintainers)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Multilingual DistilBertForMaskedLM Cased model (from hf-maintainers)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>distilbert</li><li>open_source</li><li>distilbert_embeddings</li><li>distilbertformaskedlm</li><li>xx</li><li>tensorflow</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-02-23T00:00:00+00:00">
+    <meta itemprop="keywords" content="distilbert,open_source,distilbert_embeddings,distilbertformaskedlm,xx,tensorflow"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
-<p>This model extracts social environment terminologies related to Social Determinants of Health from various kinds of documents.</p>
-
-<h2 id="predicted-entities">Predicted Entities</h2>
-
-<p><code class="language-plaintext highlighter-rouge">Social_Support</code>, <code class="language-plaintext highlighter-rouge">Chidhood_Event</code>, <code class="language-plaintext highlighter-rouge">Social_Exclusion</code>, <code class="language-plaintext highlighter-rouge">Violence_Abuse_Legal</code></p>
+<p>Pretrained DistilBertForMaskedLM model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. <code class="language-plaintext highlighter-rouge">distilbert-base-multilingual-cased</code> is a Multilingual model originally trained by <code class="language-plaintext highlighter-rouge">hf-maintainers</code>.</p>
 
 <p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
 <button class="button button-orange" disabled="">Open in Colab</button>
-<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_sdoh_social_environment_wip_en_4.2.8_3.0_1675998295035.zip" class="button button-orange">Download</a>
-<a href="s3://auxdata.johnsnowlabs.com/clinical/models/ner_sdoh_social_environment_wip_en_4.2.8_3.0_1675998295035.zip" class="button button-orange button-orange-trans button-icon button-copy-s3">Copy S3 URI</a></p>
+<a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_embeddings_base_multilingual_cased_xx_4.3.0_3.0_1677190875798.zip" class="button button-orange">Download</a>
+<a href="s3://auxdata.johnsnowlabs.com/public/models/distilbert_embeddings_base_multilingual_cased_xx_4.3.0_3.0_1677190875798.zip" class="button button-orange button-orange-trans button-icon button-copy-s3">Copy S3 URI</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
 <div class="tabs-box">
   <div class="tabs-model-aproach-head"><button class="tab-li-model-aproach tabheader_active">Python</button><button class="tab-li-model-aproach">Scala</button><button class="tab-li-model-aproach">NLU</button></div>
 
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"text"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="n">sentence_detector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sentence_detector_dl"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
-
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span>\
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="n">clinical_embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"embeddings_clinical"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">DistilBertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"distilbert_embeddings_base_multilingual_cased"</span><span class="p">,</span><span class="s">"xx"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+    
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">])</span>
 
-<span class="n">ner_model</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_sdoh_social_environment_wip"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
-
-<span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverterInternal</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
-
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-    <span class="n">document_assembler</span><span class="p">,</span> 
-    <span class="n">sentence_detector</span><span class="p">,</span>
-    <span class="n">tokenizer</span><span class="p">,</span>
-    <span class="n">clinical_embeddings</span><span class="p">,</span>
-    <span class="n">ner_model</span><span class="p">,</span>
-    <span class="n">ner_converter</span>   
-    <span class="p">])</span>
-
-<span class="n">sample_texts</span> <span class="o">=</span> <span class="p">[</span><span class="s">"He is the primary caregiver."</span><span class="p">,</span>
-             <span class="s">"There is some evidence of abuse."</span><span class="p">,</span>
-             <span class="s">"She stated that she was in a safe environment in prison, but that her siblings lived in an unsafe neighborhood, she was very afraid for them and witnessed their ostracism by other people."</span><span class="p">,</span>
-             <span class="s">"Medical history: Jane was born in a low - income household and experienced significant trauma during her childhood, including physical and emotional abuse."</span><span class="p">]</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">sample_texts</span><span class="p">,</span> <span class="n">StringType</span><span class="p">()).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"I love Spark NLP"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
 <span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">sentence_detector</span> <span class="k">=</span> <span class="nv">SentenceDetectorDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sentence_detector_dl"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
-
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"text"</span><span class="o">))</span> 
+    <span class="o">.</span><span class="py">setOutputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
+      
 <span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">clinical_embeddings</span> <span class="k">=</span> <span class="nv">WordEmbeddingsModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"embeddings_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
+ 
+<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">DistilBertEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"distilbert_embeddings_base_multilingual_cased"</span><span class="o">,</span><span class="s">"xx"</span><span class="o">)</span> 
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="nc">True</span><span class="o">)</span>    
+   
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">embeddings</span><span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">ner_model</span> <span class="k">=</span> <span class="nv">MedicalNerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_sdoh_social_environment_wip"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">))</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerConverterInternal</span><span class="o">()</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"ner"</span><span class="o">))</span>
-    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
-    <span class="n">document_assembler</span><span class="o">,</span> 
-    <span class="n">sentence_detector</span><span class="o">,</span>
-    <span class="n">tokenizer</span><span class="o">,</span>
-    <span class="n">clinical_embeddings</span><span class="o">,</span>
-    <span class="n">ner_model</span><span class="o">,</span>
-    <span class="n">ner_converter</span>   
-<span class="o">))</span>
-
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"Medical history: Jane was born in a low - income household and experienced significant trauma during her childhood, including physical and emotional abuse."</span><span class="o">).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"I love Spark NLP"</span><span class="o">).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
-
 </code></pre></div>  </div>
 </div>
-
-<h2 id="results">Results</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+--------------------+-----+---+---------------------------+
-|ner_label           |begin|end|chunk                      |
-+--------------------+-----+---+---------------------------+
-|Social_Support      |10   |26 |primary caregiver          |
-|Violence_Abuse_Legal|26   |30 |abuse                      |
-|Violence_Abuse_Legal|49   |54 |prison                     |
-|Social_Exclusion    |161  |169|ostracism                  |
-|Chidhood_Event      |87   |113|trauma during her childhood|
-|Violence_Abuse_Legal|139  |153|emotional abuse            |
-+--------------------+-----+---+---------------------------+
-</code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
@@ -989,15 +929,15 @@
   <tbody>
     <tr>
       <td>Model Name:</td>
-      <td>ner_sdoh_social_environment_wip</td>
+      <td>distilbert_embeddings_base_multilingual_cased</td>
     </tr>
     <tr>
       <td>Compatibility:</td>
-      <td>Healthcare NLP 4.2.8+</td>
+      <td>Spark NLP 4.3.0+</td>
     </tr>
     <tr>
       <td>License:</td>
-      <td>Licensed</td>
+      <td>Open Source</td>
     </tr>
     <tr>
       <td>Edition:</td>
@@ -1005,32 +945,31 @@
     </tr>
     <tr>
       <td>Input Labels:</td>
-      <td>[sentence, token, embeddings]</td>
+      <td>[sentence, token]</td>
     </tr>
     <tr>
       <td>Output Labels:</td>
-      <td>[ner]</td>
+      <td>[embeddings]</td>
     </tr>
     <tr>
       <td>Language:</td>
-      <td>en</td>
+      <td>xx</td>
     </tr>
     <tr>
       <td>Size:</td>
-      <td>858.7 KB</td>
+      <td>505.8 MB</td>
+    </tr>
+    <tr>
+      <td>Case sensitive:</td>
+      <td>false</td>
     </tr>
   </tbody>
 </table>
 
-<h2 id="benchmarking">Benchmarking</h2>
+<h2 id="references">References</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	       label	    tp	  fp	   fn	  total	 precision	  recall	      f1
-      Chidhood_Event	  34.0	 6.0	  5.0	   39.0	  0.850000	0.871795	0.860759
-    Social_Exclusion	  45.0	 6.0	 12.0  	 57.0	  0.882353	0.789474	0.833333
-      Social_Support	1139.0	57.0	103.0	 1242.0	  0.952341	0.917069	0.934372
-Violence_Abuse_Legal	 235.0	38.0	 44.0	  279.0	  0.860806	0.842294	0.851449
-</code></pre></div></div>
-</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2023-02-10T00:00:00+00:00"><!-- start custom article footer snippet -->
+<p>https://huggingface.co/distilbert-base-multilingual-cased</p>
+</div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2023-02-23T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
 
@@ -1188,7 +1127,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2023/02/10/ner_sdoh_income_social_status_wip_en.html">Extract Income and Social Status Entities from Social Determinants of Health Texts</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2023/02/23/deberta_embeddings_erlangshen_v2_chinese_sentencepiece_zh.html">Chinese Deberta Embeddings Cased model (from IDEA-CCNL)</a></div></div></div>
 
 </div>
 </div>
