@@ -485,7 +485,7 @@
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span> 
     <span class="o">.</span><span class="py">setImageType</span><span class="o">(</span><span class="nv">ImageType</span><span class="o">.</span><span class="py">TYPE_3BYTE_BGR</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">table_detector</span> <span class="k">=</span> <span class="nv">ImageTableDetector</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"general_model_table_detection_v2"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/ocr"</span><span class="o">)</span> <span class="o">\</span>
+<span class="k">val</span> <span class="nv">table_detector</span> <span class="k">=</span> <span class="nv">ImageTableDetector</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"general_model_table_detection_v2"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/ocr"</span><span class="o">)</span> 
     <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span> 
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"table_regions"</span><span class="o">)</span>
 

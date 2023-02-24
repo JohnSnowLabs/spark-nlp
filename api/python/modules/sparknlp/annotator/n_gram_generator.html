@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.n_gram_generator &#8212; Spark NLP 4.3.0 documentation</title>
+    <title>sparknlp.annotator.n_gram_generator &#8212; Spark NLP 4.3.1 documentation</title>
   
   
   
@@ -324,7 +324,7 @@
 <span class="sd">    length is less than n (number of elements per n-gram), no n-grams are</span>
 <span class="sd">    returned.</span>
 
-<span class="sd">    For more extended examples see the `Examples &lt;https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/chunking/NgramGenerator.ipynb&gt;`__.</span>
+<span class="sd">    For more extended examples see the `Examples &lt;https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/chunking/NgramGenerator.ipynb&gt;`__.</span>
 
 <span class="sd">    ====================== ======================</span>
 <span class="sd">    Input Annotation types Output Annotation type</span>
@@ -436,7 +436,6 @@
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Delimiter should have length == 1&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">delimiter</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div></div>
-
 </pre></div>
 
             </article>

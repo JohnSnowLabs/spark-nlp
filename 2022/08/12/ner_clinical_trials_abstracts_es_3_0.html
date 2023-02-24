@@ -501,7 +501,7 @@ The model detects CHEM (Pharmacological and Chemical Substances), pathologies (D
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">word_embeddings</span> <span class="k">=</span> <span class="nv">RoBertaEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"roberta_base_biomedical"</span><span class="o">,</span> <span class="s">"es"</span><span class="o">)</span>
-	<span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">sentence</span><span class="err">"</span>,<span class="err">"</span><span class="kt">token</span><span class="err">"</span><span class="o">])</span>
+	<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span><span class="s">"token"</span><span class="o">)</span>
 	<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">ner_model</span> <span class="k">=</span> <span class="nv">MedicalNerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_clinical_trials_abstracts"</span><span class="o">,</span> <span class="s">"es"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>

@@ -499,8 +499,8 @@
 <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"token"</span><span class="o">))</span>
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"normalized"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">lemma</span> <span class="k">=</span> <span class="nv">LemmatizerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"lemma"</span><span class="o">,</span> <span class="s">"ur"</span><span class="o">)</span> <span class="o">\</span>
-<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"normalized"</span><span class="o">))</span> <span class="o">\</span>
+<span class="k">val</span> <span class="nv">lemma</span> <span class="k">=</span> <span class="nv">LemmatizerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"lemma"</span><span class="o">,</span> <span class="s">"ur"</span><span class="o">)</span> 
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"normalized"</span><span class="o">))</span> 
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"lemma"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">WordEmbeddingsModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"urduvec_140M_300d"</span><span class="o">,</span> <span class="s">"ur"</span><span class="o">)</span>

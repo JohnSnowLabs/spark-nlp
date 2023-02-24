@@ -488,7 +488,7 @@
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"cleanedToken"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">doc2Vec</span> <span class="k">=</span> <span class="nv">Doc2VecModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"doc2vec_gigaword_wiki_300"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
-<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"cleanedToken"</span><span class="o">)\</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"cleanedToken"</span><span class="o">)</span>
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence_embeddings"</span><span class="o">)</span>
 </code></pre></div>  </div>
 

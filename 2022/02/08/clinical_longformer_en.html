@@ -460,7 +460,7 @@
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">LongformerEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"clinical_longformer"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
 <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
-<span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="nc">True</span><span class="o">)\</span>
+<span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="nc">True</span><span class="o">)</span>
 <span class="o">.</span><span class="py">setMaxSentenceLength</span><span class="o">(</span><span class="mi">4096</span><span class="o">)</span>
 </code></pre></div>  </div>
 

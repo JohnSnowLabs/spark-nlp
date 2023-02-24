@@ -489,7 +489,7 @@
 <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">))</span>
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nv">DistilBertForTokenClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"distilbert_base_token_classifier_masakhaner"</span><span class="o">,</span> <span class="s">"xx"</span><span class="o">))\</span>
+<span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nv">DistilBertForTokenClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"distilbert_base_token_classifier_masakhaner"</span><span class="o">,</span> <span class="s">"xx"</span><span class="o">))</span>
 <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span><span class="s">"token"</span><span class="o">))</span>
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
 

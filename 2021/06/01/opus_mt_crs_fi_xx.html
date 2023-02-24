@@ -474,7 +474,7 @@ It is currently the engine behind the Microsoft Translator Neural Machine Transl
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">marian</span> <span class="k">=</span> <span class="nv">MarianTransformer</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"opus_mt_crs_fi"</span><span class="o">,</span> <span class="s">"xx"</span><span class="o">)</span>
-<span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">sentence</span><span class="err">"</span><span class="o">])</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"translation"</span><span class="o">)</span>
 </code></pre></div>  </div>
 

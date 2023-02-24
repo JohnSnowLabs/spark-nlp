@@ -498,11 +498,11 @@
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">sentence_detector</span> <span class="k">=</span> <span class="nc">SentenceDetector</span><span class="o">()</span>
-<span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">document</span><span class="err">"</span><span class="o">])</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 	<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="nc">Tokenizer</span><span class="o">()\</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)\</span>
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">pos</span> <span class="k">=</span> <span class="nv">PerceptronModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"pos_afribooms"</span><span class="o">,</span> <span class="s">"af"</span><span class="o">)</span>

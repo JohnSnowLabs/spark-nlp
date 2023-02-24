@@ -498,7 +498,7 @@
 		<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">word_embeddings</span> <span class="k">=</span> <span class="nv">WordEmbeddingsModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"w2v_cc_300d"</span><span class="o">,</span><span class="s">"de"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
-   <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">sentence</span><span class="err">"</span>, <span class="err">"</span><span class="kt">token</span><span class="err">"</span><span class="o">])</span>
+   <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">clinical_ner</span> <span class="k">=</span> <span class="nv">MedicalNerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_healthcare"</span><span class="o">,</span> <span class="s">"de"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span> 

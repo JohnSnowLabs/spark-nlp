@@ -477,8 +477,8 @@
         <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
         <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
         
-<span class="k">val</span> <span class="nv">sentence_detector</span> <span class="k">=</span> <span class="nc">SentenceDetector</span><span class="o">()\</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">document</span><span class="err">"</span><span class="o">])\</span>
+<span class="k">val</span> <span class="nv">sentence_detector</span> <span class="k">=</span> <span class="nc">SentenceDetector</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">word_segmenter</span> <span class="k">=</span> <span class="nv">WordSegmenterModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"wordseg_gsd_ud_trad"</span><span class="o">,</span> <span class="s">"zh"</span><span class="o">)</span>

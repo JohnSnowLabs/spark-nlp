@@ -471,13 +471,13 @@
 <span class="n">pipelineDF</span> <span class="o">=</span> <span class="n">pipelineModel</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">imageDF</span><span class="p">)</span>
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="k">val</span> <span class="nv">imageAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ImageAssembler</span><span class="o">()\</span>
-<span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)\</span>
+<span class="k">val</span> <span class="nv">imageAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ImageAssembler</span><span class="o">()</span>
+<span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">imageClassifier</span> <span class="k">=</span> <span class="nc">ViTForImageClassification</span><span class="o">\</span>
-<span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"image_classifier_vit_Check_Missing_Teeth"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)\</span>
-<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)\</span>
+<span class="k">val</span> <span class="nv">imageClassifier</span> <span class="k">=</span> <span class="nv">ViTForImageClassification</span>
+<span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"image_classifier_vit_Check_Missing_Teeth"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"class"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">imageAssembler</span><span class="o">,</span> <span class="n">imageClassifier</span><span class="o">))</span>

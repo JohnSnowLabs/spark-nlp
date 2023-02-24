@@ -516,7 +516,7 @@
 
 <span class="k">val</span> <span class="nv">doc_ner</span> <span class="k">=</span> <span class="nc">VisualDocumentNerV21</span><span class="o">()</span>
     <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"visualner_10kfilings"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">([</span><span class="err">"</span><span class="kt">token</span><span class="err">"</span>, <span class="err">"</span><span class="kt">image</span><span class="err">"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"token"</span><span class="o">,</span> <span class="s">"image"</span><span class="o">))</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"entities"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">draw</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ImageDrawAnnotations</span><span class="o">()</span> 

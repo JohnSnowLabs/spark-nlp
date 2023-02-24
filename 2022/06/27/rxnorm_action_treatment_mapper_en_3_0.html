@@ -512,13 +512,13 @@
 <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"rxnorm_action_treatment_mapper"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
 <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"rxnorm_code"</span><span class="o">)</span>
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"action_mappings"</span><span class="o">)</span>
-<span class="o">.</span><span class="py">setRels</span><span class="o">([</span><span class="err">"</span><span class="kt">action</span><span class="err">"</span><span class="o">])</span>
+<span class="o">.</span><span class="py">setRels</span><span class="o">(</span><span class="s">"action"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">chunkerMapper_2</span> <span class="k">=</span> <span class="nv">ChunkMapperModel</span>
 <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"rxnorm_action_treatment_mapper"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
 <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"rxnorm_code"</span><span class="o">)</span>
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"treatment_mappings"</span><span class="o">)</span>
-<span class="o">.</span><span class="py">setRels</span><span class="o">([</span><span class="err">"</span><span class="kt">treatment</span><span class="err">"</span><span class="o">])</span>
+<span class="o">.</span><span class="py">setRels</span><span class="o">(</span><span class="s">"treatment"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">(</span><span class="n">stages</span> <span class="k">=</span> <span class="nc">Array</span><span class="o">(</span>
 <span class="n">documentAssembler</span><span class="o">,</span>

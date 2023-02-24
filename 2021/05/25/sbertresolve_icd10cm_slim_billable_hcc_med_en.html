@@ -472,10 +472,10 @@
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">sbert_embedder</span> <span class="k">=</span> <span class="nv">BertSentenceEmbeddings</span>
 <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbert_jsl_medium_uncased"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)</span>
-<span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">document</span><span class="err">"</span><span class="o">])</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sbert_embeddings"</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">icd10_resolver</span> <span class="k">=</span> <span class="nv">SentenceEntityResolverModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbertresolve_icd10cm_slim_billable_hcc_med"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span> 
-<span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">document</span><span class="err">"</span>, <span class="err">"</span><span class="kt">sbert_embeddings</span><span class="err">"</span><span class="o">])</span> 
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"sbert_embeddings"</span><span class="o">)</span> 
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"icd10cm_code"</span><span class="o">)</span>
 <span class="o">.</span><span class="py">setDistanceFunction</span><span class="o">(</span><span class="s">"EUCLIDEAN"</span><span class="o">)</span>
 <span class="o">.</span><span class="py">setReturnCosineDistances</span><span class="o">(</span><span class="nc">True</span><span class="o">)</span>

@@ -501,8 +501,8 @@
 
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span>  <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">tokenClassifier</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"""Based on these genetic and phenotypic properties, we propose that strain SMSP (T) represents \
-a novel species of the genus Methanoregula, for which we propose the name Methanoregula formicica \
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"""Based on these genetic and phenotypic properties, we propose that strain SMSP (T) represents 
+a novel species of the genus Methanoregula, for which we propose the name Methanoregula formicica 
 sp. nov., with the type strain SMSP (T) (= NBRC 105244 (T) = DSM 22288 (T))."""</span><span class="o">).</span><span class="py">toDS</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 
 

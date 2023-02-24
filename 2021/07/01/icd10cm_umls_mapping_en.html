@@ -453,7 +453,7 @@
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.pretrained.PretrainedPipeline</span>
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PretrainedPipeline</span><span class="o">(</span><span class="s">"icd10cm_umls_mapping"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span><span class="s">"clinical/models"</span><span class="o">)</span>
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">([</span><span class="err">"</span><span class="kt">M8950</span><span class="err">"</span>, <span class="err">"</span><span class="kt">R822</span><span class="err">"</span>, <span class="err">"</span><span class="kt">R0901</span><span class="err">"</span><span class="o">])</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="s">"M8950"</span><span class="o">,</span> <span class="s">"R822"</span><span class="o">,</span> <span class="s">"R0901"</span><span class="o">)</span>
 </code></pre></div>  </div>
 
   <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>

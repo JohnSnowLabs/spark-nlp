@@ -506,7 +506,7 @@
     <span class="o">.</span><span class="py">setLinkThreshold</span><span class="o">(</span><span class="mf">0.3</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">ocr</span> <span class="k">=</span> <span class="nv">ImageToTextV2</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ocr_small_printed"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/ocr"</span><span class="o">)</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">image</span><span class="err">"</span>, <span class="err">"</span><span class="kt">text_regions</span><span class="err">"</span><span class="o">])</span> 
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"image"</span><span class="o">,</span> <span class="s">"text_regions"</span><span class="o">)</span> 
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"hocr"</span><span class="o">)</span> 
     <span class="o">.</span><span class="py">setOutputFormat</span><span class="o">(</span><span class="nv">OcrOutputFormat</span><span class="o">.</span><span class="py">HOCR</span><span class="o">)</span> 
     <span class="o">.</span><span class="py">setGroupImages</span><span class="o">(</span><span class="nc">False</span><span class="o">)</span> 
