@@ -36,6 +36,7 @@ This model extracts health and behaviours problems related to Social Determinant
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = DocumentAssembler()\
     .setInputCol("text")\
@@ -70,8 +71,10 @@ pipeline = Pipeline(stages=[
     ner_converter   
     ])
 
-sample_texts = ["She has not been getting regular exercise for approximately two years due to chronic sciatic pain.",
-             "Medical History: The patient is a 32-year-old female who presents with a history of anxiety, depression, bulimia nervosa, elevated cholesterol, and substance abuse."]
+sample_texts = ["She has not been getting regular exercise and not followed diet for approximately two years due to chronic sciatic pain.",
+             "Medical History: The patient is a 32-year-old female who presents with a history of anxiety, depression, bulimia nervosa, elevated cholesterol, and substance abuse.",
+               "Pt was intubated atthe scene & currently sedated due to high BP. Also, he is currently on social security disability."]
+
 
 
 data = spark.createDataFrame(sample_texts, StringType()).toDF("text")
@@ -125,11 +128,14 @@ val result = pipeline.fit(data).transform(data)
 |chunk               |begin|end|ner_label      |
 +--------------------+-----+---+---------------+
 |regular exercise    |25   |40 |Exercise       |
-|chronic sciatic pain|77   |96 |Other_Disease  |
+|diet                |59   |62 |Diet           |
+|chronic sciatic pain|99   |118|Other_Disease  |
 |anxiety             |84   |90 |Mental_Health  |
 |depression          |93   |102|Mental_Health  |
 |bulimia nervosa     |105  |119|Eating_Disorder|
 |elevated cholesterol|122  |141|Hyperlipidemia |
+|high BP             |56   |62 |Hypertension   |
+|disability          |106  |115|Disability     |
 +--------------------+-----+---+---------------+
 ```
 
