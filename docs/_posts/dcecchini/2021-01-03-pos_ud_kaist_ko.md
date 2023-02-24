@@ -70,11 +70,11 @@ val document_assembler = DocumentAssembler()
 .setOutputCol("document")
 
 val sentence_detector = SentenceDetector()
-.setInputCols(["document"])
+.setInputCols("document")
 .setOutputCol("sentence")
 
 val word_segmenter = WordSegmenterModel.pretrained("wordseg_kaist_ud", "ko")
-.setInputCols(["sentence"])
+.setInputCols("sentence")
 .setOutputCol("token")
 
 val pos = PerceptronModel.pretrained("pos_ud_kaist", "ko")

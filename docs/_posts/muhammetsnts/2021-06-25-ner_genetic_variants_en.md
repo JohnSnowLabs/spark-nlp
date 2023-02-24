@@ -95,7 +95,7 @@ val tokenizer = new Tokenizer()
 .setOutputCol("token")
 
 val embeddings_clinical = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-.setInputCols(["sentence", "token"])
+.setInputCols("sentence", "token")
 .setOutputCol("embeddings")
 
 val ner = MedicalNerModel.pretrained("ner_genetic_variants", "en", "clinical/models") 

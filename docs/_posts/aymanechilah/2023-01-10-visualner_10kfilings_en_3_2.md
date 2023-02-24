@@ -103,7 +103,7 @@ val tokenizer = new HocrTokenizer()
 
 val doc_ner = VisualDocumentNerV21()
     .pretrained("visualner_10kfilings", "en", "clinical/models")
-    .setInputCols(Array(["token", "image"))
+    .setInputCols(Array("token", "image"))
     .setOutputCol("entities")
 
 val draw = new ImageDrawAnnotations() 

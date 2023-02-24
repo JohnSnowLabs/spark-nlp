@@ -61,17 +61,17 @@ snomed_lp = LightPipeline(snomed_pipelineModel)
 result = snomed_lp.fullAnnotate("schizophrenia")
 ```
 ```scala
-val documentAssembler = DocumentAssembler()\
-.setInputCol("text")\
+val documentAssembler = DocumentAssembler()
+.setInputCol("text")
 .setOutputCol("ner_chunk")
 
-val sbert_embedder = BertSentenceEmbeddings.pretrained('sbert_jsl_medium_uncased', 'en','clinical/models')\
-.setInputCols("ner_chunk")\
+val sbert_embedder = BertSentenceEmbeddings.pretrained('sbert_jsl_medium_uncased', 'en','clinical/models')
+.setInputCols("ner_chunk")
 .setOutputCol("sbert_embeddings")
 
-val snomed_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_snomed_conditions", "en", "clinical/models") \
-.setInputCols(Array("ner_chunk", "sbert_embeddings")) \
-.setOutputCol("snomed_code")\
+val snomed_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_snomed_conditions", "en", "clinical/models") 
+.setInputCols(Array("ner_chunk", "sbert_embeddings")) 
+.setOutputCol("snomed_code")
 .setDistanceFunction("EUCLIDEAN")
 
 val snomed_pipelineModel = new PipelineModel().setStages(Array(documentAssembler,sbert_embedder,snomed_resolver))

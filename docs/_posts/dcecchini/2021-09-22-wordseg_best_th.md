@@ -69,12 +69,12 @@ result = pipeline.fit(example ).transform(example)
 val document_assembler = DocumentAssembler()
         .setInputCol("text")
         .setOutputCol("document")
-val sentence_detector = SentenceDetector()\
-    .setInputCols(["document"])\
+val sentence_detector = SentenceDetector()
+    .setInputCols("document")
     .setOutputCol("sentence")
 
-val tokenizer = Tokenizer()\
-    .setInputCols("sentence")\
+val tokenizer = Tokenizer()
+    .setInputCols("sentence")
     .setOutputCol("token")
 
 val word_segmenter = WordSegmenterModel.pretrained("wordseg_best", "th")

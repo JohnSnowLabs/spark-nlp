@@ -62,17 +62,17 @@ lp = LightPipeline(model)
 result = lp.annotate("You have to take Neutrcare and colfosrinum and a bit of Fluorometholne & Ribotril")
 ```
 ```scala
-val documentAssembler = new DocumentAssembler()\
-.setInputCol("text")\
+val documentAssembler = new DocumentAssembler()
+.setInputCol("text")
 .setOutputCol("document")
 
-val tokenizer = new Tokenizer()\
-.setInputCols("document")\
+val tokenizer = new Tokenizer()
+.setInputCols("document")
 .setOutputCol("token")
 
-val spell = new NorvigSweetingModel.pretrained("spellcheck_drug_norvig", "en", "clinical/models")\
-.setInputCols("token")\
-.setOutputCol("spell")\
+val spell = new NorvigSweetingModel.pretrained("spellcheck_drug_norvig", "en", "clinical/models")
+.setInputCols("token")
+.setOutputCol("spell")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler,tokenizer,spell))
 

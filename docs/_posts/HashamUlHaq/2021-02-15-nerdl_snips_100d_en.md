@@ -69,7 +69,7 @@ val embeddings = WordEmbeddingsModel.pretrained("glove_100d", "en")
 val ner = NerDLModel.pretrained('nerdl_snips_100d')
 .setInputCols(Array('sentence', 'token', 'embeddings')).setOutputCol('ner')
 
-val ner_converter = NerConverter.setInputCols(Array('document', 'token', 'ner')) \
+val ner_converter = NerConverter.setInputCols(Array('document', 'token', 'ner')) 
 .setOutputCol('ner_chunk')
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, embeddings, ner, ner_converter))

@@ -86,8 +86,8 @@ val normalizer = Normalizer()
 .setInputCols(Array("token"))
 .setOutputCol("normalized")
 
-val lemma = LemmatizerModel.pretrained("lemma", "ur") \
-.setInputCols(Array("normalized")) \
+val lemma = LemmatizerModel.pretrained("lemma", "ur") 
+.setInputCols(Array("normalized")) 
 .setOutputCol("lemma")
 
 val embeddings = WordEmbeddingsModel.pretrained("urduvec_140M_300d", "ur")
