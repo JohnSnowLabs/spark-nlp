@@ -49,7 +49,7 @@ tokenizer = Tokenizer()\
     .setInputCols(["sentence"])\
     .setOutputCol("token")
 
-clinical_embeddings = WordEmbeddingsModel.pretrained('embeddings_clinical', "en", "clinical/models")\
+clinical_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
     .setInputCols(["sentence", "token"])\
     .setOutputCol("embeddings")
 
@@ -91,7 +91,7 @@ val tokenizer = new Tokenizer()
     .setInputCols("sentence")
     .setOutputCol("token")
 
-val clinical_embeddings = WordEmbeddingsModel.pretrained('embeddings_clinical', "en", "clinical/models")
+val clinical_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
     .setInputCols(Array("sentence", "token"))
     .setOutputCol("embeddings")
 
