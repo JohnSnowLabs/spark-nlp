@@ -72,7 +72,8 @@ pipeline = Pipeline(stages=[
     ])
 
 sample_texts = ["She has a pension and private health insurance, she reports feeling lonely and isolated.",
-             "He also reported food insecurityduring his childhood and lack of access to adequate healthcare."]
+             "He also reported food insecurityduring his childhood and lack of access to adequate healthcare.",
+               "She used to work as a unit clerk at XYZ Medical Center."]
 
 
 data = spark.createDataFrame(sample_texts, StringType()).toDF("text")
@@ -122,12 +123,13 @@ val result = pipeline.fit(data).transform(data)
 ## Results
 
 ```bash
-+-----------------------------+-----+---+----------------+
-|chunk                        |begin|end|ner_label       |
-+-----------------------------+-----+---+----------------+
-|private health insurance     |22   |45 |Insurance_Status|
-|access to adequate healthcare|65   |93 |Access_To_Care  |
-+-----------------------------+-----+---+----------------+
++-----------------------------+-----+---+----------------------+
+|chunk                        |begin|end|ner_label             |
++-----------------------------+-----+---+----------------------+
+|private health insurance     |22   |45 |Insurance_Status      |
+|access to adequate healthcare|65   |93 |Access_To_Care        |
+|XYZ Medical Center           |36   |53 |Healthcare_Institution|
++-----------------------------+-----+---+----------------------+
 ```
 
 {:.model-param}
