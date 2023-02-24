@@ -25,7 +25,7 @@ This is a NER model which allows you to detect some generic entities that may re
 `AGE`, `CITY`, `COUNTRY`, `DATE`, `EMAIL`, `FAX`, `LOCATION-OTHER`, `ORG`, `PERSON`, `PHONE`, `PROFESSION`, `STATE`, `STREET`, `URL`, `ZIP`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/legal/DEID_LEGAL/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legner_deid_en_1.0.0_3.2_1660050699764.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
 [Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legner_deid_en_1.0.0_3.2_1660050699764.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
