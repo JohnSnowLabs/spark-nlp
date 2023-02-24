@@ -97,8 +97,8 @@ val sentence_detector = new SentenceDetector()
     .setInputCols("document")
     .setOutputCol("sentences")
 
-val tokenizer = new Tokenizer()\
-    .setInputCols(["sentences"])\
+val tokenizer = new Tokenizer()
+    .setInputCols("sentences")
     .setOutputCol("tokens")
 
 val pos_tagger = PerceptronModel().pretrained("pos_clinical", "en", "clinical/models")

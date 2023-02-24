@@ -61,13 +61,13 @@ pipelineDF = pipelineModel.transform(imageDF)
 ```
 ```scala
 
-val imageAssembler = new ImageAssembler()\
-.setInputCol("image")\
+val imageAssembler = new ImageAssembler()
+.setInputCol("image")
 .setOutputCol("image_assembler")
 
-val imageClassifier = ViTForImageClassification\
-.pretrained("image_classifier_vit_taco_or_what", "en")\
-.setInputCols("image_assembler")\
+val imageClassifier = ViTForImageClassification
+.pretrained("image_classifier_vit_taco_or_what", "en")
+.setInputCols("image_assembler")
 .setOutputCol("class")
 
 val pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier))

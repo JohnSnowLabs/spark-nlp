@@ -60,7 +60,7 @@ val sentence = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
 .setOutputCol("sentence")
 
 val marian = MarianTransformer.pretrained("opus_mt_fr_bcl", "xx")
-.setInputCols(["sentence"])
+.setInputCols("sentence")
 .setOutputCol("translation")
 ```
 

@@ -110,7 +110,7 @@ val converter = new NerConverter()
 val chunkerMapper = ChunkMapperModel.pretrained("drug_category_mapper", "en", "clinical/models")
     .setInputCols("ner_chunk")
     .setOutputCol("mappings")
-    .setRels(Array(["main_category", "sub_category", "other_name"]))
+    .setRels(Array("main_category", "sub_category", "other_name"))
     
 val pipeline = new Pipeline().setStages(Array(
     document_assembler,

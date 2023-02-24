@@ -678,6 +678,9 @@ object ResourceHelper {
   }
 
   def validFile(path: String): Boolean = {
+
+    if (path.isEmpty) return false
+
     var isValid = validLocalFile(path) match {
       case Success(value) => value
       case Failure(_) => false

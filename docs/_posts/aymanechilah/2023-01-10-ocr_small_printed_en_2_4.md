@@ -91,7 +91,7 @@ val text_detector = ImageTextDetectorV2.pretrained("image_text_detector_v2", "en
     .setLinkThreshold(0.3)
 
 val ocr = ImageToTextV2.pretrained("ocr_small_printed", "en", "clinical/ocr") 
-    .setInputCols(["image", "text_regions"]) 
+    .setInputCols("image", "text_regions") 
     .setOutputCol("hocr") 
     .setOutputFormat(OcrOutputFormat.HOCR) 
     .setGroupImages(False) 

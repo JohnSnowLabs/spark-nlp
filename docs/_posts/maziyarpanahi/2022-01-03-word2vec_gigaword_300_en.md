@@ -77,7 +77,7 @@ val stops = StopWordsCleaner.pretrained()
 .setOutputCol("cleanedToken")
 
 val doc2Vec = Word2VecModel.pretrained("word2vec_gigaword_300", "en")
-.setInputCols("cleanedToken")\
+.setInputCols("cleanedToken")
 .setOutputCol("sentence_embeddings")
 ```
 

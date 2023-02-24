@@ -137,7 +137,7 @@ val re_Model = RelationExtractionModel()
     .pretrained("generic_re")
     .setInputCols(Array("embeddings", "pos_tags", "ner_chunks", "dependencies"))
     .setOutputCol("relations")
-    .setRelationPairs(Array("Biomarker-Biomarker_Result", "Biomarker_Result-Biomarker", "Oncogene-Biomarker_Result", "Biomarker_Result-Oncogene", "Pathology_Test-Pathology_Result", "Pathology_Result-Pathology_Test")) \
+    .setRelationPairs(Array("Biomarker-Biomarker_Result", "Biomarker_Result-Biomarker", "Oncogene-Biomarker_Result", "Biomarker_Result-Oncogene", "Pathology_Test-Pathology_Result", "Pathology_Result-Pathology_Test")) 
     .setMaxSyntacticDistance(4)
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, words_embedder, pos_tagger, ner_tagger, ner_chunker, dependecy_parser, re_Model))

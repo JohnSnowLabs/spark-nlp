@@ -92,7 +92,7 @@ val chunkerMapper = ChunkMapperModel
 .pretrained("rxnorm_ndc_mapper", "en", "clinical/models")
 .setInputCols("rxnorm_code")
 .setOutputCol("ndc_mappings")
-.setRels(["Product NDC", "Package NDC"])
+.setRels("Product NDC", "Package NDC")
 
 val pipeline = new Pipeline(stages = Array(
 documentAssembler,

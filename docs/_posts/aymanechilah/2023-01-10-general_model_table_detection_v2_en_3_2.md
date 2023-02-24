@@ -69,7 +69,7 @@ val binary_to_image = new BinaryToImage()
     .setOutputCol("image") 
     .setImageType(ImageType.TYPE_3BYTE_BGR)
 
-val table_detector = ImageTableDetector.pretrained("general_model_table_detection_v2", "en", "clinical/ocr") \
+val table_detector = ImageTableDetector.pretrained("general_model_table_detection_v2", "en", "clinical/ocr") 
     .setInputCol("image") 
     .setOutputCol("table_regions")
 

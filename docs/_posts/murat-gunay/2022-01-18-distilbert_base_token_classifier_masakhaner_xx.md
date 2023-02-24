@@ -76,7 +76,7 @@ val tokenizer = Tokenizer()
 .setInputCols(Array("sentence"))
 .setOutputCol("token")
 
-val tokenClassifier = DistilBertForTokenClassification.pretrained("distilbert_base_token_classifier_masakhaner", "xx"))\
+val tokenClassifier = DistilBertForTokenClassification.pretrained("distilbert_base_token_classifier_masakhaner", "xx"))
 .setInputCols(Array("sentence","token"))
 .setOutputCol("ner")
 

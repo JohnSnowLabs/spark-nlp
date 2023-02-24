@@ -71,12 +71,12 @@ val document_assembler = DocumentAssembler()
         .setInputCol("text")
         .setOutputCol("document")
         
-val sentence_detector = SentenceDetector()\
-    .setInputCols(["document"])\
+val sentence_detector = SentenceDetector()
+    .setInputCols("document")
     .setOutputCol("sentence")
 
-val tokenizer = Tokenizer()\
-    .setInputCols("sentence")\
+val tokenizer = Tokenizer()
+    .setInputCols("sentence")
     .setOutputCol("token")
 
 val embeddings = WordEmbeddingsModel.pretrained("glove_840B_300", "xx")

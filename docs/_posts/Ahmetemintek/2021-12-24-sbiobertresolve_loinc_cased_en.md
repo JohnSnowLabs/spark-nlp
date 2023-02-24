@@ -130,7 +130,7 @@ val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli"
 
 val resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_loinc_cased", "en", "clinical/models") 
 .setInputCols(Array("ner_chunk", "sbert_embeddings"))
-.setOutputCol("resolution")\
+.setOutputCol("resolution")
 .setDistanceFunction("EUCLIDEAN")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, word_embeddings, rad_ner, rad_ner_converter, chunk2doc,  sbert_embedder, resolver))

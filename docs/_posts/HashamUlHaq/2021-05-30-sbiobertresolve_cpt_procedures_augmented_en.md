@@ -63,7 +63,7 @@ val sbert_embedder = BertSentenceEmbeddings
 .setInputCols(Array("ner_chunk_doc"))
 .setOutputCol("sbert_embeddings")
 
-val resolver = SentenceEntityResolverModel\
+val resolver = SentenceEntityResolverModel
 .pretrained("sbiobertresolve_hcc_augmented","en", "clinical/models")
 .setInputCols(Array("ner_chunk", "sbert_embeddings"))
 .setOutputCol("resolution")
