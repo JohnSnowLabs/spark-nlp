@@ -39,45 +39,64 @@ IMPORTANT: This requires an exact match as the name appears in Wikidata. If you 
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = nlp.DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
-
+        .setInputCol("text")\
+        .setOutputCol("document")
+        
 sentenceDetector = nlp.SentenceDetector()\
-    .setInputCols(["document"])\
-    .setOutputCol("sentence")
+        .setInputCols(["document"])\
+        .setOutputCol("sentence")
 
 tokenizer = nlp.Tokenizer()\
-    .setInputCols(["sentence"])\
-    .setOutputCol("token")
+        .setInputCols(["sentence"])\
+        .setOutputCol("token")
 
 embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
-    .setInputCols(["sentence", "token"]) \
-    .setOutputCol("embeddings")
+        .setInputCols(["sentence", "token"]) \
+        .setOutputCol("embeddings")
 
 ner_model = finance.NerModel.pretrained('finner_orgs_prods_alias', 'en', 'finance/models')\
-    .setInputCols(["sentence", "token", "embeddings"])\
-    .setOutputCol("ner")
+        .setInputCols(["sentence", "token", "embeddings"])\
+        .setOutputCol("ner")
 
 ner_converter = nlp.NerConverter()\
-    .setInputCols(["sentence","token","ner"])\
-    .setOutputCol("ner_chunk")
+        .setInputCols(["sentence","token","ner"])\
+        .setOutputCol("ner_chunk")
 
-cm = finance.ChunkMapperModel().pretrained("finmapper_wikipedia_parentcompanies", "en", "finance/models")\
-    .setInputCols(["ner_chunk"])\
-    .setOutputCol("mappings")\
-    .setEnableFuzzyMatching(True)
+# Optional: To normalize the ORG name using Wikipedia data before the mapping
+##########################################################################
+chunkToDoc = nlp.Chunk2Doc()\
+        .setInputCols("ner_chunk")\
+        .setOutputCol("ner_chunk_doc")
+
+chunk_embeddings = nlp.UniversalSentenceEncoder.pretrained("tfhub_use", "en") \
+      .setInputCols("ner_chunk_doc") \
+      .setOutputCol("sentence_embeddings")
+    
+use_er_model = finance.SentenceEntityResolverModel.pretrained("finel_wikipedia_parentcompanies", "en", "finance/models") \
+      .setInputCols(["ner_chunk_doc", "sentence_embeddings"]) \
+      .setOutputCol("normalized")\
+      .setDistanceFunction("EUCLIDEAN")
+##########################################################################
+
+cm = finance.ChunkMapperModel()\
+      .pretrained("finmapper_wikipedia_parentcompanies", "en", "finance/models")\
+      .setInputCols(["normalized"])\ 
+      .setOutputCol("mappings") # or ner_chunk for non normalized versions
 
 nlpPipeline = nlp.Pipeline(stages=[
-    documentAssembler,
-    sentenceDetector,
-    tokenizer,
-    embeddings,
-    ner_model,
-    ner_converter,
-    cm
+        documentAssembler,
+        sentenceDetector,
+        tokenizer,
+        embeddings,
+        ner_model,
+        ner_converter,
+        chunkToDoc,
+        chunk_embeddings,
+        use_er_model,
+        cm
 ])
 
-text = ["""The AES Corporation is a Fortune 500 global energy company that owns and operates regional utilities and develops renewable energy projects, including forms of clean energy generation (solar, wind, etc.) and distribution, energy battery storage, and digital energy management applications."""]
+text = ["""Barclays is an American multinational bank which operates worldwide."""]
 
 test_data = spark.createDataFrame([text]).toDF("text")
 
@@ -85,7 +104,7 @@ model = nlpPipeline.fit(test_data)
 
 lp = nlp.LightPipeline(model)
 
-lp.fullAnnotate(text)
+lp.annotate(text)
 ```
 
 </div>
@@ -93,16 +112,15 @@ lp.fullAnnotate(text)
 ## Results
 
 ```bash
-{
-    "uri": "http://www.wikidata.org/entity/Q291508",
-    "language": "AES Corporation@en",
-    "relationship": "http://www.wikidata.org/prop/direct/P355",
-    "relationship_label": "is_parent_of",
-    "exchange": "New York Stock Exchange@en",
-    "ticker": "AES",
-    "related_company": "AES Andes@en",
-    "related_company_uri": "http://www.wikidata.org/entity/Q4651363"
-}
+{'mappings': ['http://www.wikidata.org/entity/Q245343',
+   'Barclays@en-ca',
+   'http://www.wikidata.org/prop/direct/P355',
+   'is_parent_of',
+   'London Stock Exchange@en',
+   'BARC',
+   'בנק ברקליס@he',
+   'http://www.wikidata.org/entity/Q29488227'],
+...
 ```
 
 {:.model-param}

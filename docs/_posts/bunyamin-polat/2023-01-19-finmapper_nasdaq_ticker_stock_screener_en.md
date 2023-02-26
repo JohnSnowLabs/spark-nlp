@@ -74,8 +74,7 @@ ner_converter = nlp.NerConverter()\
 
 CM = finance.ChunkMapperModel.pretrained('finmapper_nasdaq_ticker_stock_screener', 'en', 'finance/models')\
     .setInputCols(["ner_chunk"])\
-    .setOutputCol("mappings")\
-    .setEnableFuzzyMatching(True)\
+    .setOutputCol("mappings")
 
 pipeline = nlp.Pipeline().setStages([document_assembler,
                                  tokenizer, 
