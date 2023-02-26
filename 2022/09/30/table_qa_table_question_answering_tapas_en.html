@@ -490,7 +490,7 @@ Has aggregation operations?: True</p>
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"questions"</span><span class="p">,</span> <span class="s">"table"</span><span class="p">])</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"answers"</span><span class="p">)</span>
 
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
     <span class="n">document_assembler</span><span class="p">,</span>
     <span class="n">sentence_detector</span><span class="p">,</span>
     <span class="n">table_assembler</span><span class="p">,</span>

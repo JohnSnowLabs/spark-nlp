@@ -463,7 +463,7 @@
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"irs_code"</span><span class="p">)</span>\
       <span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDEAN"</span><span class="p">)</span>
 
-<span class="n">pipelineModel</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="p">(</span>
+<span class="n">pipelineModel</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">..</span><span class="n">Pipeline</span><span class="p">(</span>
       <span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
           <span class="n">documentAssembler</span><span class="p">,</span>
           <span class="n">embeddings</span><span class="p">,</span>

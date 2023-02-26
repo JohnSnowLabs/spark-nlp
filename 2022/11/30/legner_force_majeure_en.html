@@ -473,7 +473,7 @@
         .setInputCols([“sentence”,”token”,”ner”])<br />
         .setOutputCol(“ner_chunk”)</p>
 
-<p>nlpPipeline = Pipeline(stages=[
+<p>nlpPipeline = nlp.Pipeline(stages=[
         documentAssembler,
         sentenceDetector,
         tokenizer,

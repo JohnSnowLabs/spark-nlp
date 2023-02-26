@@ -467,7 +467,7 @@
   <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>\
   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'normalized'</span><span class="p">)</span>\
 
-<span class="n">prediction_Model</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">use</span><span class="p">,</span> <span class="n">use_er_model</span><span class="p">])</span>
+<span class="n">prediction_Model</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">use</span><span class="p">,</span> <span class="n">use_er_model</span><span class="p">])</span>
 
 <span class="n">test_pred</span> <span class="o">=</span> <span class="n">prediction_Model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">testsdf</span><span class="p">)</span>
 </code></pre></div>  </div>

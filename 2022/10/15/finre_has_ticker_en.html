@@ -510,7 +510,7 @@ Ticker: <code class="language-plaintext highlighter-rouge">AAPL</code></p>
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"relations"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setPredictionThreshold</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
 
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
     <span class="n">document_assembler</span><span class="p">,</span> 
     <span class="n">sentence_detector</span><span class="p">,</span>
     <span class="n">tokenizer</span><span class="p">,</span>
