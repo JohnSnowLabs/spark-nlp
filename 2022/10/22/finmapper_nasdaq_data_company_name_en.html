@@ -463,72 +463,77 @@
 
 <div class="tabs-box">
   <div class="tabs-model-aproach-head"><button class="tab-li-model-aproach tabheader_active">Python</button><button class="tab-li-model-aproach">Scala</button><button class="tab-li-model-aproach">NLU</button></div>
-
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 <span class="n">document_assembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
+      <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">'text'</span><span class="p">)</span>\
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
 
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Tokenizer</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+      <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
 <span class="n">embeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_embeddings_sec_bert_base"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 
 <span class="n">ner_model</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">NerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'finner_orgs_prods_alias'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'finance/models'</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
-
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
+ 
 <span class="n">ner_converter</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">NerConverter</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
+      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span>\
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
-<span class="n">CM</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">ChunkMapperModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'finmapper_nasdaq_data_company_name'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'finance/models'</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"mappings"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setEnableFuzzyMatching</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+<span class="c1"># Optional: To normalize the ORG name using NASDAQ data before the mapping
+##########################################################################
+</span><span class="n">chunkToDoc</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Chunk2Doc</span><span class="p">()</span>\
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk_doc"</span><span class="p">)</span>
 
+<span class="n">chunk_embeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">UniversalSentenceEncoder</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"tfhub_use_lg"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk_doc"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"chunk_embeddings"</span><span class="p">)</span>
+
+<span class="n">use_er_model</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">SentenceEntityResolverModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'finel_nasdaq_data_company_name'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'finance/models'</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"chunk_embeddings"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'normalized'</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDEAN"</span><span class="p">)</span>  
+<span class="c1">##########################################################################
+</span>
+<span class="n">CM</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">ChunkMapperModel</span><span class="p">()</span>\
+      <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'finmapper_nasdaq_data_company_name'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'finance/models'</span><span class="p">)</span>\
+      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"normalized"</span><span class="p">])</span>\ 
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"mappings"</span><span class="p">)</span> <span class="c1">#or ner_chunk without normalization
+</span>
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">document_assembler</span><span class="p">,</span>
                                  <span class="n">tokenizer</span><span class="p">,</span> 
                                  <span class="n">embeddings</span><span class="p">,</span>
                                  <span class="n">ner_model</span><span class="p">,</span> 
-                                 <span class="n">ner_converter</span><span class="p">,</span> 
-                                 <span class="n">CM</span><span class="p">])</span>
+                                 <span class="n">ner_converter</span><span class="p">,</span>
+                                 <span class="n">chunkToDoc</span><span class="p">,</span> <span class="c1"># Optional for normalization
+</span>                                 <span class="n">chunk_embeddings</span><span class="p">,</span> <span class="c1"># Optional for normalization
+</span>                                 <span class="n">use_er_model</span><span class="p">,</span> <span class="c1"># Optional for normalization
+</span>                                 <span class="n">CM</span><span class="p">])</span>
                                  
-<span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s">"""GLEASON CORP is a company which ..."""</span><span class="p">]</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s">"""GLEASON CORP is a company which ..."""</span>
 
-<span class="n">test_data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([</span><span class="n">text</span><span class="p">]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">test_data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">text</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
 <span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
 
-<span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
+<span class="n">lp</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">LightPipeline</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+<span class="n">lp</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
 </code></pre></div>  </div>
 
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">{</span>
-    <span class="s2">"ticker"</span>: <span class="s2">"GLE1"</span>,
-    <span class="s2">"name"</span>: <span class="s2">"GLEASON CORP"</span>,
-    <span class="s2">"exchange"</span>: <span class="s2">"NYSE"</span>,
-    <span class="s2">"category"</span>: <span class="s2">"Domestic Common Stock"</span>,
-    <span class="s2">"siccode"</span>: <span class="s2">"3541"</span>,
-    <span class="s2">"sicsector"</span>: <span class="s2">"Manufacturing"</span>,
-    <span class="s2">"sicindustry"</span>: <span class="s2">"Machine Tools Metal Cutting Types"</span>,
-    <span class="s2">"famaindustry"</span>: <span class="s2">"Machinery"</span>,
-    <span class="s2">"sector"</span>: <span class="s2">"Industrials"</span>,
-    <span class="s2">"industry"</span>: <span class="s2">"Tools &amp; Accessories"</span>,
-    <span class="s2">"currency"</span>: <span class="s2">"USD"</span>,
-    <span class="s2">"location"</span>: <span class="s2">"New York; U.S.A"</span>,
-    <span class="s2">"first_name"</span>: <span class="s2">"GLEASON"</span>,
-    <span class="s2">"abbreviation"</span>: <span class="s2">"CORP"</span>,
-    <span class="s2">"abbreviations"</span>: <span class="s2">"corp"</span>,
-    <span class="s2">"abb_variation"</span>: <span class="s2">"Gleason Corp,GLEASON CORP,GLEASON corp,GLEASON Corp ,GLEASON Corporation ,GLEASON"</span>,
-    <span class="s2">"short_name"</span>: <span class="s2">"GLEASON"</span>
-<span class="o">}</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Row<span class="o">(</span><span class="nv">annotatorType</span><span class="o">=</span><span class="s1">'labeled_dependency'</span>, <span class="nv">begin</span><span class="o">=</span>0, <span class="nv">end</span><span class="o">=</span>11, <span class="nv">relation</span><span class="o">=</span><span class="s1">'ticker'</span>, <span class="nv">result</span><span class="o">=</span><span class="s1">'GLE1'</span>...<span class="o">)</span>
+Row<span class="o">(</span><span class="nv">annotatorType</span><span class="o">=</span><span class="s1">'labeled_dependency'</span>, <span class="nv">begin</span><span class="o">=</span>0, <span class="nv">end</span><span class="o">=</span>11, <span class="nv">relation</span><span class="o">=</span><span class="s1">'name'</span>, <span class="nv">result</span><span class="o">=</span><span class="s1">'GLEASON CORP'</span>...<span class="o">)</span>
+Row<span class="o">(</span><span class="nv">annotatorType</span><span class="o">=</span><span class="s1">'labeled_dependency'</span>, <span class="nv">begin</span><span class="o">=</span>0, <span class="nv">end</span><span class="o">=</span>11, <span class="nv">relation</span><span class="o">=</span><span class="s1">'exchange'</span>, <span class="nv">result</span><span class="o">=</span><span class="s1">'NYSE'</span>...<span class="o">)</span>
+Row<span class="o">(</span><span class="nv">annotatorType</span><span class="o">=</span><span class="s1">'labeled_dependency'</span>, <span class="nv">begin</span><span class="o">=</span>0, <span class="nv">end</span><span class="o">=</span>11, <span class="nv">relation</span><span class="o">=</span><span class="s1">'category'</span> <span class="nv">result</span><span class="o">=</span><span class="s1">'Domestic Common Stock'</span>...<span class="o">)</span>
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>

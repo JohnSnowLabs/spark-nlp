@@ -28,7 +28,7 @@
 
 </script><title>Map Company Tickers to Subsidiary Companies (wikipedia, en)</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis models allows you to, given an extracter TICKER, retrieve all the parent / subsidiary /companies acquired and/or in the same group than it.Predicted EntitiesLive DemoOpen in ColabDownloadCopy S3 URIHow to use  PythonScalaNLU  documentAssembler = nlp.DocumentAssembler()\    .setInputCol("text")\    .s...">
+<meta name="description" content="DescriptionThis models allows you to, given an extracter TICKER, retrieve all the parent / subsidiary /companies acquired and/or in the same group than it.Predicted EntitiesLive DemoOpen in ColabDownloadCopy S3 URIHow to use  PythonScalaNLU  documentAssembler = nlp.DocumentAssembler()\        .setInputCol("text")\  ...">
 <link rel="canonical" href="/2023/01/13/finmapper_wikipedia_parentcompanies_ticker_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -450,16 +450,16 @@
 <div class="tabs-box">
   <div class="tabs-model-aproach-head"><button class="tab-li-model-aproach tabheader_active">Python</button><button class="tab-li-model-aproach">Scala</button><button class="tab-li-model-aproach">NLU</button></div>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
-
+        <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+        
 <span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">SentenceDetector</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
 
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Tokenizer</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
 <span class="n">embeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_embeddings_sec_bert_base"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
@@ -467,25 +467,25 @@
 
 <span class="n">ner_model</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">NerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finner_ticker"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>\
 
 <span class="n">ner_converter</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">NerConverter</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
-<span class="n">CM</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">ChunkMapperModel</span><span class="p">().</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'finmapper_wikipedia_parentcompanies_ticker'</span><span class="p">,</span><span class="s">'en'</span><span class="p">,</span><span class="s">'finance/models'</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"mappings"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setEnableFuzzyMatching</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">CM</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">ChunkMapperModel</span><span class="p">()</span>\
+      <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'finmapper_wikipedia_parentcompanies_ticker'</span><span class="p">,</span><span class="s">'en'</span><span class="p">,</span><span class="s">'finance/models'</span><span class="p">)</span>\
+      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">])</span>\
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"mappings"</span><span class="p">)</span>
 
 <span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-    <span class="n">documentAssembler</span><span class="p">,</span>
-    <span class="n">sentenceDetector</span><span class="p">,</span>
-    <span class="n">tokenizer</span><span class="p">,</span>
-    <span class="n">embeddings</span><span class="p">,</span>
-    <span class="n">ner_model</span><span class="p">,</span>
-    <span class="n">ner_converter</span><span class="p">,</span>
-    <span class="n">CM</span>
+        <span class="n">documentAssembler</span><span class="p">,</span>
+        <span class="n">sentenceDetector</span><span class="p">,</span>
+        <span class="n">tokenizer</span><span class="p">,</span>
+        <span class="n">embeddings</span><span class="p">,</span>
+        <span class="n">ner_model</span><span class="p">,</span>
+        <span class="n">ner_converter</span><span class="p">,</span>
+        <span class="n">CM</span>
 <span class="p">])</span>
 
 <span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s">"""ABG is a multinational corporation that is engaged in ..."""</span><span class="p">]</span>
@@ -494,23 +494,22 @@
 
 <span class="n">model</span> <span class="o">=</span> <span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
 
-<span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
+<span class="n">lp</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">LightPipeline</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">res</span><span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
 </code></pre></div>  </div>
 
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">{</span>
-    <span class="s2">"company_name"</span>: <span class="s2">"ABSA Group Limited"</span>,
-    <span class="s2">"uri"</span>: <span class="s2">"ABSA Group Limited@http://www.wikidata.org/entity/Q58641733"</span>,
-    <span class="s2">"language"</span>: <span class="s2">"ABSA Group Limited@ABSA Group Limited@en"</span>,
-    <span class="s2">"relationship"</span>: <span class="s2">"ABSA Group Limited@http://www.wikidata.org/prop/direct/P749"</span>,
-    <span class="s2">"relationship_label"</span>: <span class="s2">"ABSA Group Limited@is_parent_of"</span>,
-    <span class="s2">"exchange"</span>: <span class="s2">"ABSA Group Limited@JOHANNESBURG STOCK EXCHANGE@en"</span>,
-    <span class="s2">"related_company"</span>: <span class="s2">"ABSA Group Limited@</span><span class="se">\u</span><span class="s2">0628</span><span class="se">\u</span><span class="s2">0627</span><span class="se">\u</span><span class="s2">0631</span><span class="se">\u</span><span class="s2">0643</span><span class="se">\u</span><span class="s2">0644</span><span class="se">\u</span><span class="s2">064a</span><span class="se">\u</span><span class="s2">0632@ar"</span>,
-    <span class="s2">"related_company_uri"</span>: <span class="s2">"ABSA Group Limited@http://www.wikidata.org/entity/Q245343"</span>
-<span class="o">}</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">{</span><span class="s1">'mappings'</span>: <span class="o">[</span><span class="s1">'ABSA Group Limited'</span>,
+   <span class="s1">'ABSA Group Limited@http://www.wikidata.org/entity/Q58641733'</span>,
+   <span class="s1">'ABSA Group Limited@ABSA Group Limited@en'</span>,
+   <span class="s1">'ABSA Group Limited@http://www.wikidata.org/prop/direct/P749'</span>,
+   <span class="s1">'ABSA Group Limited@is_parent_of'</span>,
+   <span class="s1">'ABSA Group Limited@JOHANNESBURG STOCK EXCHANGE@en'</span>,
+   <span class="s1">'ABSA Group Limited@باركليز@ar'</span>,
+   <span class="s1">'ABSA Group Limited@http://www.wikidata.org/entity/Q245343'</span><span class="o">]</span>,
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>

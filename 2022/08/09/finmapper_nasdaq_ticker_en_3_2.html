@@ -460,36 +460,31 @@
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
 <span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">RoBertaForTokenClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"finner_roberta_ticker"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"finance/models"</span><span class="p">)</span>\
-      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">'token'</span><span class="p">])</span>\
-      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
+  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">'token'</span><span class="p">])</span>\
+  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
 
 <span class="n">ner_converter</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">NerConverter</span><span class="p">()</span>\
       <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span>\
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
-<span class="n">CM</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">ChunkMapperModel</span><span class="p">().</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'finmapper_nasdaq_ticker'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'finance/models'</span><span class="p">)</span>\
+<span class="n">CM</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">ChunkMapperModel</span><span class="p">()</span>\
+      <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">'finmapper_nasdaq_companyname'</span><span class="p">,</span> <span class="s">'en'</span><span class="p">,</span> <span class="s">'finance/models'</span><span class="p">)</span>\
       <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">])</span>\
       <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"mappings"</span><span class="p">)</span>\
-      <span class="p">.</span><span class="n">setRel</span><span class="p">(</span><span class="s">'company_name'</span><span class="p">)</span>\
-      <span class="p">.</span><span class="n">setEnableFuzzyMatching</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+      <span class="p">.</span><span class="n">setRel</span><span class="p">(</span><span class="s">'company_name'</span><span class="p">)</span>
 
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">(</span>
-      <span class="p">[</span>
-          <span class="n">document_assembler</span><span class="p">,</span>
-          <span class="n">tokenizer</span><span class="p">,</span> 
-          <span class="n">tokenClassifier</span><span class="p">,</span>
-          <span class="n">ner_converter</span><span class="p">,</span>  
-          <span class="n">CM</span>
-      <span class="p">]</span>
-      <span class="p">)</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">document_assembler</span><span class="p">,</span>
+                                 <span class="n">tokenizer</span><span class="p">,</span> 
+                                 <span class="n">tokenClassifier</span><span class="p">,</span>
+                                 <span class="n">ner_converter</span><span class="p">,</span>  
+                                 <span class="n">CM</span><span class="p">])</span>
 
 <span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s">"""There are some serious purchases and sales of AMZN stock today."""</span><span class="p">]</span>
 
 <span class="n">test_data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([</span><span class="n">text</span><span class="p">]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
 <span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
-
-<span class="n">res</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
+<span class="n">res</span><span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
 
 <span class="n">res</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">'mappings'</span><span class="p">).</span><span class="n">collect</span><span class="p">()</span>
 </code></pre></div>  </div>
@@ -498,13 +493,7 @@
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">{</span>
-    <span class="s2">"ticker"</span>: <span class="s2">"AMZN"</span>,
-    <span class="s2">"company_name"</span>: <span class="s2">"Amazon.com Inc."</span>,
-    <span class="s2">"short_name"</span>: <span class="s2">"Amazon.com"</span>,
-    <span class="s2">"industry"</span>: <span class="s2">"Retail - Apparel &amp; Specialty"</span>,
-    <span class="s2">"sector"</span>: <span class="s2">"Consumer Cyclical"</span>
-<span class="o">}</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>Row<span class="o">(</span><span class="nv">mappings</span><span class="o">=[</span>Row<span class="o">(</span><span class="nv">annotatorType</span><span class="o">=</span><span class="s1">'labeled_dependency'</span>, <span class="nv">begin</span><span class="o">=</span>46, <span class="nv">end</span><span class="o">=</span>49, <span class="nv">result</span><span class="o">=</span><span class="s1">'AMZN'</span>, <span class="nv">metadata</span><span class="o">={</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span>, <span class="s1">'chunk'</span>: <span class="s1">'0'</span>, <span class="s1">'entity'</span>: <span class="s1">'AMZN'</span>, <span class="s1">'relation'</span>: <span class="s1">'ticker'</span>, <span class="s1">'all_relations'</span>: <span class="s1">''</span><span class="o">}</span>, <span class="nv">embeddings</span><span class="o">=[])</span>, Row<span class="o">(</span><span class="nv">annotatorType</span><span class="o">=</span><span class="s1">'labeled_dependency'</span>, <span class="nv">begin</span><span class="o">=</span>46, <span class="nv">end</span><span class="o">=</span>49, <span class="nv">result</span><span class="o">=</span><span class="s1">'Amazon.com Inc.'</span>, <span class="nv">metadata</span><span class="o">={</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span>, <span class="s1">'chunk'</span>: <span class="s1">'0'</span>, <span class="s1">'entity'</span>: <span class="s1">'AMZN'</span>, <span class="s1">'relation'</span>: <span class="s1">'company_name'</span>, <span class="s1">'all_relations'</span>: <span class="s1">''</span><span class="o">}</span>, <span class="nv">embeddings</span><span class="o">=[])</span>, Row<span class="o">(</span><span class="nv">annotatorType</span><span class="o">=</span><span class="s1">'labeled_dependency'</span>, <span class="nv">begin</span><span class="o">=</span>46, <span class="nv">end</span><span class="o">=</span>49, <span class="nv">result</span><span class="o">=</span><span class="s1">'Amazon.com'</span>, <span class="nv">metadata</span><span class="o">={</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span>, <span class="s1">'chunk'</span>: <span class="s1">'0'</span>, <span class="s1">'entity'</span>: <span class="s1">'AMZN'</span>, <span class="s1">'relation'</span>: <span class="s1">'short_name'</span>, <span class="s1">'all_relations'</span>: <span class="s1">''</span><span class="o">}</span>, <span class="nv">embeddings</span><span class="o">=[])</span>, Row<span class="o">(</span><span class="nv">annotatorType</span><span class="o">=</span><span class="s1">'labeled_dependency'</span>, <span class="nv">begin</span><span class="o">=</span>46, <span class="nv">end</span><span class="o">=</span>49, <span class="nv">result</span><span class="o">=</span><span class="s1">'Retail - Apparel &amp; Specialty'</span>, <span class="nv">metadata</span><span class="o">={</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span>, <span class="s1">'chunk'</span>: <span class="s1">'0'</span>, <span class="s1">'entity'</span>: <span class="s1">'AMZN'</span>, <span class="s1">'relation'</span>: <span class="s1">'industry'</span>, <span class="s1">'all_relations'</span>: <span class="s1">''</span><span class="o">}</span>, <span class="nv">embeddings</span><span class="o">=[])</span>, Row<span class="o">(</span><span class="nv">annotatorType</span><span class="o">=</span><span class="s1">'labeled_dependency'</span>, <span class="nv">begin</span><span class="o">=</span>46, <span class="nv">end</span><span class="o">=</span>49, <span class="nv">result</span><span class="o">=</span><span class="s1">'Consumer Cyclical'</span>, <span class="nv">metadata</span><span class="o">={</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span>, <span class="s1">'chunk'</span>: <span class="s1">'0'</span>, <span class="s1">'entity'</span>: <span class="s1">'AMZN'</span>, <span class="s1">'relation'</span>: <span class="s1">'sector'</span>, <span class="s1">'all_relations'</span>: <span class="s1">''</span><span class="o">}</span>, <span class="nv">embeddings</span><span class="o">=[])</span>, Row<span class="o">(</span><span class="nv">annotatorType</span><span class="o">=</span><span class="s1">'labeled_dependency'</span>, <span class="nv">begin</span><span class="o">=</span>57, <span class="nv">end</span><span class="o">=</span>61, <span class="nv">result</span><span class="o">=</span><span class="s1">'NONE'</span>, <span class="nv">metadata</span><span class="o">={</span><span class="s1">'sentence'</span>: <span class="s1">'0'</span>, <span class="s1">'chunk'</span>: <span class="s1">'1'</span>, <span class="s1">'entity'</span>: <span class="s1">'today'</span><span class="o">}</span>, <span class="nv">embeddings</span><span class="o">=[])])]</span>
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>

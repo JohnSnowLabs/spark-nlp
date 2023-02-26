@@ -461,40 +461,60 @@
   <div class="tabs-model-aproach-head"><button class="tab-li-model-aproach tabheader_active">Python</button><button class="tab-li-model-aproach">Scala</button><button class="tab-li-model-aproach">NLU</button></div>
 
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Tokenizer</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
 <span class="n">embeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bert_embeddings_sec_bert_base"</span><span class="p">,</span><span class="s">"en"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 
 <span class="n">ner_model</span> <span class="o">=</span> <span class="n">legal</span><span class="p">.</span><span class="n">NerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legner_orgs_prods_alias"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
 
 <span class="n">ner_converter</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">NerConverter</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"ner"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span><span class="s">"ner"</span><span class="p">])</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
-<span class="n">cm</span> <span class="o">=</span> <span class="n">legal</span><span class="p">.</span><span class="n">ChunkMapperModel</span><span class="p">().</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legmapper_edgar_companyname"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">])</span>\
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"mappings"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">setEnableFuzzyMatching</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>\
+<span class="c1"># Optional: To normalize the ORG name using NASDAQ data before the mapping
+##########################################################################
+</span><span class="n">chunkToDoc</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Chunk2Doc</span><span class="p">()</span>\
+        <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>\
+        <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk_doc"</span><span class="p">)</span>
 
+<span class="n">chunk_embeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">UniversalSentenceEncoder</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"tfhub_use"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
+      <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"ner_chunk_doc"</span><span class="p">)</span> \
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>
+    
+<span class="n">use_er_model</span> <span class="o">=</span> <span class="n">legal</span><span class="p">.</span><span class="n">SentenceEntityResolverModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legel_edgar_company_name"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span> \
+      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk_doc"</span><span class="p">,</span> <span class="s">"sentence_embeddings"</span><span class="p">])</span> \
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"normalized"</span><span class="p">)</span>\
+      <span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDEAN"</span><span class="p">)</span>
+<span class="c1">##########################################################################
+</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="n">legal</span><span class="p">.</span><span class="n">ChunkMapperModel</span><span class="p">()</span>\
+      <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"legmapper_edgar_companyname"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"legal/models"</span><span class="p">)</span>\
+      <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"normalized"</span><span class="p">])</span>\
+      <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"mappings"</span><span class="p">)</span>  <span class="c1"># or ner_chunk for non normalized versions
+</span>
 <span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-    <span class="n">documentAssembler</span><span class="p">,</span>
-    <span class="n">tokenizer</span><span class="p">,</span>
-    <span class="n">embeddings</span><span class="p">,</span>
-    <span class="n">ner_model</span><span class="p">,</span>
-    <span class="n">ner_converter</span><span class="p">,</span>
-    <span class="n">cm</span>
+        <span class="n">documentAssembler</span><span class="p">,</span>
+        <span class="n">tokenizer</span><span class="p">,</span>
+        <span class="n">embeddings</span><span class="p">,</span>
+        <span class="n">ner_model</span><span class="p">,</span>
+        <span class="n">ner_converter</span><span class="p">,</span>
+        <span class="n">chunkToDoc</span><span class="p">,</span>
+        <span class="n">chunk_embeddings</span><span class="p">,</span>
+        <span class="n">use_er_model</span><span class="p">,</span>
+        <span class="n">cm</span>
 <span class="p">])</span>
 
-<span class="n">text</span> <span class="o">=</span> <span class="s">"""NIKE Inc is an American multinational corporation that is engaged in the design, development, manufacturing, and worldwide marketing and sales of footwear, apparel, equipment, accessories, and services"""</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s">"""NIKE Inc is an American multinational corporation that is engaged in the design, development, manufacturing, and worldwide marketing and sales of footwear, 
+apparel, equipment, accessories, and services"""</span>
 
 <span class="n">test_data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">text</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
@@ -502,31 +522,14 @@
 
 <span class="n">lp</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">LightPipeline</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 
-<span class="n">lp</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+<span class="n">lp</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
 </code></pre></div>  </div>
 
 </div>
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">{</span>
-    <span class="s2">"name"</span>: <span class="s2">"NIKE, Inc."</span>,
-    <span class="s2">"sic"</span>: <span class="s2">"RUBBER &amp; PLASTICS FOOTWEAR [3021]"</span>,
-    <span class="s2">"sic_code"</span>: <span class="s2">"3021"</span>,
-    <span class="s2">"irs_number"</span>: <span class="s2">"930584541"</span>,
-    <span class="s2">"fiscal_year_end"</span>: <span class="s2">"531"</span>,
-    <span class="s2">"state_location"</span>: <span class="s2">"OR"</span>,
-    <span class="s2">"state_incorporation"</span>: <span class="s2">"OR"</span>,
-    <span class="s2">"business_street"</span>: <span class="s2">"ONE BOWERMAN DR"</span>,
-    <span class="s2">"business_city"</span>: <span class="s2">"BEAVERTON"</span>,
-    <span class="s2">"business_state"</span>: <span class="s2">"OR"</span>,
-    <span class="s2">"business_zip"</span>: <span class="s2">"97005-6453"</span>,
-    <span class="s2">"business_phone"</span>: <span class="s2">"5036713173"</span>,
-    <span class="s2">"former_name"</span>: <span class="s2">"NIKE INC"</span>,
-    <span class="s2">"former_name_date"</span>: <span class="s2">"19920703"</span>,
-    <span class="s2">"date"</span>: <span class="s2">"2022-01-06"</span>,
-    <span class="s2">"company_id"</span>: <span class="s2">"320187"</span>
-<span class="o">}</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">{</span><span class="s2">"mappings"</span>: <span class="o">[[</span><span class="s2">"labeled_dependency"</span>, 0, 22, <span class="s2">"Jamestown Invest 1, LLC"</span>, <span class="o">{</span><span class="s2">"sentence"</span>: <span class="s2">"0"</span>, <span class="s2">"chunk"</span>: <span class="s2">"0"</span>, <span class="s2">"entity"</span>: <span class="s2">"Jamestown Invest 1, LLC"</span>, <span class="s2">"relation"</span>: <span class="s2">"name"</span>, <span class="s2">"all_relations"</span>: <span class="s2">""</span><span class="o">}]</span>, <span class="o">[</span><span class="s2">"labeled_dependency"</span>, 0, 22, <span class="s2">"REAL ESTATE INVESTMENT TRUSTS [6798]"</span>, <span class="o">{</span><span class="s2">"sentence"</span>: <span class="s2">"0"</span>, <span class="s2">"chunk"</span>: <span class="s2">"0"</span>, <span class="s2">"entity"</span>: <span class="s2">"Jamestown Invest 1, LLC"</span>, <span class="s2">"relation"</span>: <span class="s2">"sic"</span>, <span class="s2">"all_relations"</span>: <span class="s2">""</span><span class="o">}]</span>, <span class="o">[</span><span class="s2">"labeled_dependency"</span>, 0, 22, <span class="s2">"6798"</span>, <span class="o">{</span><span class="s2">"sentence"</span>: <span class="s2">"0"</span>, <span class="s2">"chunk"</span>: <span class="s2">"0"</span>, <span class="s2">"entity"</span>: <span class="s2">"Jamestown Invest 1, LLC"</span>, <span class="s2">"relation"</span>: <span class="s2">"sic_code"</span>, <span class="s2">"all_relations"</span>: <span class="s2">""</span><span class="o">}]</span>, <span class="o">[</span><span class="s2">"labeled_dependency"</span>, 0, 22, <span class="s2">"831529368"</span>, <span class="o">{</span><span class="s2">"sentence"</span>: <span class="s2">"0"</span>, <span class="s2">"chunk"</span>: <span class="s2">"0"</span>, <span class="s2">"entity"</span>: <span class="s2">"Jamestown Invest 1, LLC"</span>, <span class="s2">"relation"</span>: <span class="s2">"irs_number"</span>, <span class="s2">"all_relations"</span>: <span class="s2">""</span><span class="o">}]</span>, <span class="o">[</span><span class="s2">"labeled_dependency"</span>, 0, 22, <span class="s2">"1231"</span>, <span class="o">{</span><span class="s2">"sentence"</span>: <span class="s2">"0"</span>, <span class="s2">"chunk"</span>: <span class="s2">"0"</span>, <span class="s2">"entity"</span>: <span class="s2">"Jamestown Invest 1, LLC"</span>, <span class="s2">"relation"</span>: <span class="s2">"fiscal_year_end"</span>, <span class="s2">"all_relations"</span>: <span class="s2">""</span><span class="o">}]</span>, <span class="o">[</span><span class="s2">"labeled_dependency"</span>, 0, 22, <span class="s2">"GA"</span>, <span class="o">{</span><span class="s2">"sentence"</span>: <span class="s2">"0"</span>, <span class="s2">"chunk"</span>: <span class="s2">"0"</span>, <span class="s2">"entity"</span>: <span class="s2">"Jamestown Invest 1, LLC"</span>, <span class="s2">"relation"</span>: <span class="s2">"state_location"</span>, <span class="s2">"all_relations"</span>: <span class="s2">""</span><span class="o">}]</span>, <span class="o">[</span><span class="s2">"labeled_dependency"</span>, 0, 22, <span class="s2">"DE"</span>, <span class="o">{</span><span class="s2">"sentence"</span>: <span class="s2">"0"</span>, <span class="s2">"chunk"</span>: <span class="s2">"0"</span>, <span class="s2">"entity"</span>: <span class="s2">"Jamestown Invest 1, LLC"</span>, <span class="s2">"relation"</span>: <span class="s2">"state_incorporation"</span>, <span class="s2">"all_relations"</span>: <span class="s2">""</span><span class="o">}]</span>, <span class="o">[</span><span class="s2">"labeled_dependency"</span>, 0, 22, <span class="s2">"PONCE CITY MARKET"</span>, <span class="o">{</span><span class="s2">"sentence"</span>: <span class="s2">"0"</span>, <span class="s2">"chunk"</span>: <span class="s2">"0"</span>, <span class="s2">"entity"</span>: <span class="s2">"Jamestown Invest 1, LLC"</span>, <span class="s2">"relation"</span>: <span class="s2">"business_street"</span>, <span class="s2">"all_relations"</span>: <span class="s2">""</span><span class="o">}]</span>, <span class="o">[</span><span class="s2">"labeled_dependency"</span>, 0, 22, <span class="s2">"ATLANTA"</span>, <span class="o">{</span><span class="s2">"sentence"</span>: <span class="s2">"0"</span>, <span class="s2">"chunk"</span>: <span class="s2">"0"</span>, <span class="s2">"entity"</span>: <span class="s2">"Jamestown Invest 1, LLC"</span>, <span class="s2">"relation"</span>: <span class="s2">"business_city"</span>, <span class="s2">"all_relations"</span>: <span class="s2">""</span><span class="o">}]</span>, <span class="o">[</span><span class="s2">"labeled_dependency"</span>, 0, 22, <span class="s2">"GA"</span>, <span class="o">{</span><span class="s2">"sentence"</span>: <span class="s2">"0"</span>, <span class="s2">"chunk"</span>: <span class="s2">"0"</span>, <span class="s2">"entity"</span>: <span class="s2">"Jamestown Invest 1, LLC"</span>, <span class="s2">"relation"</span>: <span class="s2">"business_state"</span>, <span class="s2">"all_relations"</span>: <span class="s2">""</span><span class="o">}]</span>, <span class="o">[</span><span class="s2">"labeled_dependency"</span>, 0, 22, <span class="s2">"30308"</span>, <span class="o">{</span><span class="s2">"sentence"</span>: <span class="s2">"0"</span>, <span class="s2">"chunk"</span>: <span class="s2">"0"</span>, <span class="s2">"entity"</span>: <span class="s2">"Jamestown Invest 1, LLC"</span>, <span class="s2">"relation"</span>: <span class="s2">"business_zip"</span>, <span class="s2">"all_relations"</span>: <span class="s2">""</span><span class="o">}]</span>, <span class="o">[</span><span class="s2">"labeled_dependency"</span>, 0, 22, <span class="s2">"7708051000"</span>, <span class="o">{</span><span class="s2">"sentence"</span>: <span class="s2">"0"</span>, <span class="s2">"chunk"</span>: <span class="s2">"0"</span>, <span class="s2">"entity"</span>: <span class="s2">"Jamestown Invest 1, LLC"</span>, <span class="s2">"relation"</span>: <span class="s2">"business_phone"</span>, <span class="s2">"all_relations"</span>: <span class="s2">""</span><span class="o">}]</span>, <span class="o">[</span><span class="s2">"labeled_dependency"</span>, 0, 22, <span class="s2">"Jamestown Atlanta Invest 1, LLC"</span>, <span class="o">{</span><span class="s2">"sentence"</span>: <span class="s2">"0"</span>, <span class="s2">"chunk"</span>: <span class="s2">"0"</span>, <span class="s2">"entity"</span>: <span class="s2">"Jamestown Invest 1, LLC"</span>, <span class="s2">"relation"</span>: <span class="s2">"former_name"</span>, <span class="s2">"all_relations"</span>: <span class="s2">""</span><span class="o">}]</span>, <span class="o">[</span><span class="s2">"labeled_dependency"</span>, 0, 22, <span class="s2">"20180824"</span>, <span class="o">{</span><span class="s2">"sentence"</span>: <span class="s2">"0"</span>, <span class="s2">"chunk"</span>: <span class="s2">"0"</span>, <span class="s2">"entity"</span>: <span class="s2">"Jamestown Invest 1, LLC"</span>, <span class="s2">"relation"</span>: <span class="s2">"former_name_date"</span>, <span class="s2">"all_relations"</span>: <span class="s2">""</span><span class="o">}]</span>, <span class="o">[</span><span class="s2">"labeled_dependency"</span>, 0, 22, <span class="s2">"2019-11-21"</span>, <span class="o">{</span><span class="s2">"sentence"</span>: <span class="s2">"0"</span>, <span class="s2">"chunk"</span>: <span class="s2">"0"</span>, <span class="s2">"entity"</span>: <span class="s2">"Jamestown Invest 1, LLC"</span>, <span class="s2">"relation"</span>: <span class="s2">"date"</span>, <span class="s2">"all_relations"</span>: <span class="s2">"2019-10-24:::2019-11-25:::2019-11-12:::2022-01-13:::2022-03-31:::2022-04-11:::2022-07-12:::2022-06-30:::2021-01-14:::2021-04-06:::2021-03-31:::2021-04-28:::2021-06-30:::2021-09-10:::2021-09-22:::2021-09-30:::2021-10-08:::2020-03-16:::2021-12-30:::2020-04-06:::2020-04-29:::2020-06-12:::2020-07-20:::2020-07-07:::2020-07-28:::2020-07-31:::2020-09-09:::2020-09-25:::2020-10-08:::2020-11-12"</span><span class="o">}]</span>, <span class="o">[</span><span class="s2">"labeled_dependency"</span>, 0, 22, <span class="s2">"1751158"</span>, <span class="o">{</span><span class="s2">"sentence"</span>: <span class="s2">"0"</span>, <span class="s2">"chunk"</span>: <span class="s2">"0"</span>, <span class="s2">"entity"</span>: <span class="s2">"Jamestown Invest 1, LLC"</span>, <span class="s2">"relation"</span>: <span class="s2">"company_id"</span>, <span class="s2">"all_relations"</span>: <span class="s2">""</span><span class="o">}]]}</span>
 </code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
