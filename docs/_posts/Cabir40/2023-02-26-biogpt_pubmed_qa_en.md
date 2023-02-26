@@ -20,7 +20,7 @@ use_language_switcher: "Python-Scala-Java"
 ## Description
 
 This model has been trained with medical documents and can generate two types of answers, short and long.
-Types of questions are supported: "`short"` (producing yes/no/maybe) answers and `"full"` (long answers).
+Types of questions are supported: `"short"` (producing yes/no/maybe) answers and `"full"` (long answers).
 
 ## Predicted Entities
 
