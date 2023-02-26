@@ -20,6 +20,8 @@ use_language_switcher: "Python-Scala-Java"
 
 This model extracts healthcare-related terms from the documents transferred from the patient's own sentences.
 
+Note: 'wip' suffix indicates that the model development is work-in-progress and will be finalised and the model performance will improved in the upcoming releases.
+
 ## Predicted Entities
 
 `AdmissionDischarge`, `Age`, `BodyPart`, `ClinicalDept`, `DateTime`, `Disease`, `Dosage_Strength`, `Drug`, `Duration`, `Employment`, `Form`, `Frequency`, `Gender`, `Laterality`, `Procedure`, `PsychologicalCondition`, `RelationshipStatus`, `Route`, `Symptom`, `Test`, `Vaccine`, `VitalTest`
