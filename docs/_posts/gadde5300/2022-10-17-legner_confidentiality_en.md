@@ -39,6 +39,7 @@ This is a Legal Named Entity Recognition Model to identify the Subject (who), Ac
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 documentAssembler = nlp.DocumentAssembler()\
@@ -65,7 +66,7 @@ ner_converter = nlp.NerConverter()\
         .setInputCols(["sentence","token","ner"])\
         .setOutputCol("ner_chunk")
 
-nlpPipeline = Pipeline(stages=[documentAssembler,sentenceDetector,tokenizer,embeddings,ner_model,ner_converter])
+nlpPipeline = nlp.Pipeline(stages=[documentAssembler,sentenceDetector,tokenizer,embeddings,ner_model,ner_converter])
 
 data = spark.createDataFrame([["Each party will promptly return to the other upon request any Confidential Information of the other party then in its possession or under its control."]]).toDF("text")
 

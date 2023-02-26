@@ -36,6 +36,7 @@ This model requires `legner_bert_grants` as an NER in the pipeline. It's a `md` 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler()\
   .setInputCol("text")\
@@ -80,7 +81,7 @@ reDL = legal.RelationExtractionDLModel.pretrained("legre_grants_md", "en", "lega
     .setInputCols(["re_ner_chunks", "sentence"]) \
     .setOutputCol("relations")
 
-pipeline = Pipeline(stages=[documentAssembler,sentencizer, tokenizer,pos_tagger,dependency_parser, ner_model, ner_converter,re_filter, reDL])
+pipeline = nlp.Pipeline(stages=[documentAssembler,sentencizer, tokenizer,pos_tagger,dependency_parser, ner_model, ner_converter,re_filter, reDL])
 
 text = """Appointment  Subject to payment of the Annual Minimum Commitment ("AMC"  - defined herein), Diversinet hereby grants to Reseller an exclusive, non- transferable and non-assignable right to market, sell, and sub-license those Diversinet products listed in Schedule 2 (the "Products") within the  territory listed in Schedule 3 (the "Territory") to Canadian headquartered companies, and governmental and broader public sector entities located  in Canada. """
 

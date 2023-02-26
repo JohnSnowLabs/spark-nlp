@@ -72,7 +72,7 @@ assertion = finance.AssertionDLModel.pretrained("finassertion_competitors", "en"
     .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
     .setOutputCol("assertion")
     
-nlpPipeline = Pipeline(stages=[
+nlpPipeline = nlp.Pipeline(stages=[
     documentAssembler, 
     sentenceDetector,
     tokenizer,

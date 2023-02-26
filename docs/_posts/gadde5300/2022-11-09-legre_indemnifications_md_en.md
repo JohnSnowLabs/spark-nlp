@@ -39,6 +39,7 @@ This is a Relation Extraction model to group the different entities extracted wi
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler()\
         .setInputCol("text")\
@@ -87,7 +88,7 @@ reDL = legal.RelationExtractionDLModel.pretrained("legre_indemnifications_md", "
     .setInputCols(["re_ner_chunks", "sentence"]) \
     .setOutputCol("relations")
 
-nlpPipeline = Pipeline(stages=[
+nlpPipeline = nlp.Pipeline(stages=[
         documentAssembler,
         sentencizer,
         tokenizer,

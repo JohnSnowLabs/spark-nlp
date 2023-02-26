@@ -58,7 +58,7 @@ tokenClassifier = nlp.RoBertaForTokenClassification.pretrained("legner_laws_trea
     .setInputCols(["sentence", "token"]) \
     .setOutputCol("ner")
 
-pipeline = Pipeline(
+pipeline = nlp.Pipeline(
     stages=[documentAssembler, 
             sentenceDetector, 
             tokenizer, 

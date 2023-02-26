@@ -37,6 +37,7 @@ This Text Classifier will identify whether a broker's report recommends a downgr
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 # Test classifier in Spark NLP pipeline
 document_assembler = nlp.DocumentAssembler() \
@@ -52,7 +53,7 @@ sequenceClassifier_loaded = finance.BertForSequenceClassification.pretrained("fi
   .setInputCols(["document",'token'])\
   .setOutputCol("class")
 
-pipeline = Pipeline(stages=[
+pipeline = nlp.Pipeline(stages=[
     document_assembler, 
     tokenizer,
     sequenceClassifier_loaded    

@@ -44,6 +44,7 @@ Other models can be found to detect other parts of the document, as Headers/Subh
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 legal_pipeline = nlp.PretrainedPipeline("legpipe_ner_contract_doc_parties_alias_former", "en", "legal/models")
 

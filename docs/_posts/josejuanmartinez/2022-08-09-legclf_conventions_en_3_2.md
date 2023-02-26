@@ -46,6 +46,7 @@ This model was originally trained with 3799 legal texts (see the original work [
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler() \
        .setInputCol("text") \
@@ -63,7 +64,7 @@ tokenClassifier = nlp.RoBertaForSequenceClassification.pretrained("legclf_conven
     .setInputCols(["sentence", "token"]) \
     .setOutputCol("class")
 
-pipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, tokenClassifier])
+pipeline = nlp.Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, tokenClassifier])
 
 text = """La Convención, a lo largo de sus 54 artículos, reconoce que los niños (seres humanos menores de 18 años) son individuos con derecho de pleno desarrollo físico, mental y social, y con derecho a expresar libremente sus opiniones. Además la Convención es también un modelo para la salud, la supervivencia y el progreso de toda la sociedad humana. """
 

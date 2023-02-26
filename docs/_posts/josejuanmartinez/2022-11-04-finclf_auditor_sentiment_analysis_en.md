@@ -49,7 +49,7 @@ sentiment =  nlp.ClassifierDLModel.pretrained("finclf_auditor_sentiment_analysis
     .setInputCols("sentence_embeddings") \
     .setOutputCol("category")
 
-pipeline = Pipeline() \
+pipeline = nlp.Pipeline() \
     .setStages(
       [
         documentAssembler,

@@ -63,7 +63,7 @@ tokenClassifier = legal.BertForTokenClassification.pretrained("legner_obligation
   .setOutputCol("label")\
   .setCaseSensitive(True)
   
-pipeline =  Pipeline(stages=[
+pipeline =  nlp.Pipeline(stages=[
   documentAssembler,
   sparktokenizer,
   tokenClassifier

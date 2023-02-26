@@ -50,7 +50,7 @@ docClassifier = legal.ClassifierDLModel.pretrained('legclf_dates_sm', 'en', 'leg
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("label")
 
-nlpPipeline = Pipeline(stages=[
+nlpPipeline = nlp.Pipeline(stages=[
     documentAssembler, 
     embeddings,
     docClassifier])

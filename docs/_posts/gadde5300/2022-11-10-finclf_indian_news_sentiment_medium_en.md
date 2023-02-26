@@ -51,7 +51,7 @@ classifierdl = finance.BertForSequenceClassification.pretrained("finclf_indian_n
     .setInputCols(["document", "token"])\
     .setOutputCol("label")
 
-bert_clf_pipeline = Pipeline(stages=[document_assembler,
+bert_clf_pipeline = nlp.Pipeline(stages=[document_assembler,
                                      tokenizer,
                                      classifierdl])
 

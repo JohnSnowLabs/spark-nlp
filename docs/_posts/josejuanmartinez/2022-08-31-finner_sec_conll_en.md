@@ -64,7 +64,7 @@ jsl_ner_converter = nlp.NerConverter() \
 		.setInputCols(["sentence", "token", "jsl_ner"]) \
 		.setOutputCol("ner_chunk")
 
-jsl_ner_pipeline = Pipeline().setStages([
+jsl_ner_pipeline = nlp.Pipeline().setStages([
 				documentAssembler,
 				sentence_detector,
 				tokenizer,

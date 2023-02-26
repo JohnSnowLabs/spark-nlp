@@ -55,7 +55,7 @@ use_er_model = finance.SentenceEntityResolverModel.pretrained('finel_nasdaq_data
   .setInputCols("embeddings")\
   .setOutputCol('normalized')\
 
-prediction_Model = PipelineModel(stages=[documentAssembler, use, use_er_model])
+prediction_Model = nlp.Pipeline(stages=[documentAssembler, use, use_er_model])
 
 test_pred = prediction_Model.transform(testsdf)
 ```

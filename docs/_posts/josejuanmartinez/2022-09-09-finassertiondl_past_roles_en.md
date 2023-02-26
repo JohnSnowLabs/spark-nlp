@@ -78,7 +78,7 @@ assertion = finance.AssertionDLModel.pretrained("finassertiondl_past_roles", "en
     .setInputCols(["document", "merged_chunk", "embeddings"]) \
     .setOutputCol("assertion")
     
-nlpPipeline = Pipeline(stages=[
+nlpPipeline = nlp.Pipeline(stages=[
     documentAssembler, 
     tokenizer,
     embeddings,

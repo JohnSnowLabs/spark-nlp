@@ -35,6 +35,7 @@ This model allows you to, given a Ticker, get information about that company, in
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 document_assembler = nlp.DocumentAssembler()\

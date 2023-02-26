@@ -133,7 +133,7 @@ sequenceClassifier = finance.BertForSequenceClassification \
       .setCaseSensitive(True) \
       .setMaxSentenceLength(512)
 
-pipeline = Pipeline(
+pipeline = nlp.Pipeline(
   stages=[
     document_assembler, 
     tokenizer, 

@@ -49,7 +49,7 @@ docClassifier = finance.ClassifierDLModel.pretrained("finclf_earning_broker_10k"
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("label") \
 
-nlpPipeline = Pipeline(stages=[
+nlpPipeline = nlp.Pipeline(stages=[
     documentAssembler, 
     embeddings,
     docClassifier])

@@ -78,7 +78,7 @@ tapas = TapasForQuestionAnswering\
     .setInputCols(["questions", "table"])\
     .setOutputCol("answers")
 
-pipeline = Pipeline(stages=[
+pipeline = nlp.Pipeline(stages=[
     document_assembler,
     sentence_detector,
     table_assembler,

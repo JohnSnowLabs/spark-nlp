@@ -87,7 +87,7 @@ re_Model = finance.RelationExtractionDLModel.pretrained("finre_work_experience",
     .setOutputCol("relations")\
     .setPredictionThreshold(0.5)
 
-pipeline = Pipeline(stages=[
+pipeline = nlp.Pipeline(stages=[
     document_assembler, 
     sentence_detector,
     tokenizer,

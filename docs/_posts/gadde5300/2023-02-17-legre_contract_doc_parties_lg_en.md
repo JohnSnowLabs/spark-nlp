@@ -50,6 +50,7 @@ This is a `lg` model with Unidirectional Relations, meaning that the model retri
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler()\
   .setInputCol("text")\

@@ -74,7 +74,7 @@ reDL = legal.RelationExtractionDLModel\
     .setInputCols(["ner_chunk", "document"])\
     .setOutputCol("relations")
     
-pipeline = Pipeline(stages=[
+pipeline = nlp.Pipeline(stages=[
     documentAssembler,
     tokenizer,
     embeddings,

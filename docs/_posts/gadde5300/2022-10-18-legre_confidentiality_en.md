@@ -43,6 +43,7 @@ There are bigger models in Models Hub trained also with directed relationships.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler()\
   .setInputCol("text")\
@@ -90,7 +91,7 @@ reDL = legal.RelationExtractionDLModel.pretrained("legre_confidentiality", "en",
     .setInputCols(["re_ner_chunks", "sentence"]) \
     .setOutputCol("relations")
     
-pipeline = Pipeline(stages=[documentAssembler,sentencizer, tokenizer,pos_tagger,dependency_parser, embeddings, ner_model, ner_converter,re_filter, reDL])
+pipeline = nlp.Pipeline(stages=[documentAssembler,sentencizer, tokenizer,pos_tagger,dependency_parser, embeddings, ner_model, ner_converter,re_filter, reDL])
 text = "Each party will promptly return to the other upon request any Confidential Information of the other party then in its possession or under its control."
 data = spark.createDataFrame([[text]]).toDF("text")
 model = pipeline.fit(data)

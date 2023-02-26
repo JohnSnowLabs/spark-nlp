@@ -96,7 +96,7 @@ re_Model = finance.RelationExtractionDLModel.pretrained("finre_has_ticker", "en"
     .setOutputCol("relations")\
     .setPredictionThreshold(0.2)
 
-pipeline = Pipeline(stages=[
+pipeline = nlp.Pipeline(stages=[
     document_assembler, 
     sentence_detector,
     tokenizer,

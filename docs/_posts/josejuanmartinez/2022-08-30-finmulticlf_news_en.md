@@ -62,7 +62,7 @@ docClassifier = nlp.MultiClassifierDLModel.pretrained("finmulticlf_news", "en","
     .setInputCols("embeddings") \
     .setOutputCol("category")
 
-pipeline = Pipeline() \
+pipeline = nlp.Pipeline() \
     .setStages(
       [
         documentAssembler,
