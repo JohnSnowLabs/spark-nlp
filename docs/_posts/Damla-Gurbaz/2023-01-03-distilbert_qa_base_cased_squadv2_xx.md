@@ -10,6 +10,7 @@ language: xx
 edition: Spark NLP 4.3.0
 spark_version: 3.0
 supported: true
+recommended: true
 engine: tensorflow
 article_header:
   type: cover

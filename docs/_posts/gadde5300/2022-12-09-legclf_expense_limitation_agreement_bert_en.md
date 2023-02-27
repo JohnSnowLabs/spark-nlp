@@ -18,7 +18,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-The `legclf_expense_limitation_agreement_bert` model is a Bert Sentence Embeddings Document Classifier used to classify if the document belongs to the class `expense-limitation-agreement` (check [Lawinsider](https://www.lawinsider.com/tags) for similar document type classification) or not (Binary Classification).
+The `legclf_expense_limitation_agreement_bert` model is a Bert Sentence Embeddings Document Classifier used to classify if the document belongs to the class `expense-limitation-agreement` or not (Binary Classification).
 
 Unlike the Longformer model, this model is lighter in terms of inference time.
 

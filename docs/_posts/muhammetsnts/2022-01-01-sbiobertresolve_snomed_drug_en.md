@@ -115,7 +115,7 @@ val clinical_ner = MedicalNerModel.pretrained("ner_posology", "en", "clinical/mo
 
 val ner_converter = NerConverterInternal() 
 .setInputCols(Array("sentence", "token", "ner")) 
-.setOutputCol("ner_chunk")\
+.setOutputCol("ner_chunk")
 .setWhiteList(Array("DRUG"))
 
 val c2doc = Chunk2Doc()

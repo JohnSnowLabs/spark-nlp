@@ -50,7 +50,7 @@ classifier = nlp.RoBertaForSequenceClassification.pretrained("finclf_distilrober
     .setOutputCol("class")
 
 
-nlpPipeline = Pipeline(
+nlpPipeline = nlp.Pipeline(
       stages = [
           documentAssembler,
           tokenizer,

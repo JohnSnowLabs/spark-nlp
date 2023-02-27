@@ -176,11 +176,20 @@ nlu.load("en.relation.temporal_events").predict("""She is diagnosed with cancer 
 
 
 ```bash
-|    |     | relation   | entity1    |   entity1_begin |   entity1_end | chunk1   | entity2       |   entity2_begin |   entity2_end | chunk2      |   confidence |
-|---:|----:|:-----------|:-----------|----------------:|--------------:|:---------|:--------------|----------------:|--------------:|:------------|-------------:|
-|  0 |   0 | OVERLAP    | PROBLEM    |              20 |            25 | cancer   | DATE          |              30 |            33 | 1991        |     0.868028 |
-|  1 |   1 | AFTER      | OCCURRENCE |              49 |            56 | admitted | CLINICAL_DEPT |              61 |            71 | Mayo Clinic |     0.798134 |
-|  2 |   2 | BEFORE     | OCCURRENCE |              49 |            56 | admitted | OCCURRENCE    |              89 |            98 | discharged  |     0.63638  |
++--------+-------------+-------------+-----------+-----------+-------------+-------------+-----------+------------+----------+
+|relation|      entity1|entity1_begin|entity1_end|     chunk1|      entity2|entity2_begin|entity2_end|      chunk2|confidence|
++--------+-------------+-------------+-----------+-----------+-------------+-------------+-----------+------------+----------+
+|  BEFORE|   OCCURRENCE|            7|         15|  diagnosed|      PROBLEM|           22|         27|      cancer|0.78168863|
+| OVERLAP|      PROBLEM|           22|         27|     cancer|         DATE|           32|         35|        1991| 0.8492274|
+|   AFTER|   OCCURRENCE|           51|         58|   admitted|CLINICAL_DEPT|           63|         73| Mayo Clinic|0.85629463|
+|  BEFORE|   OCCURRENCE|           51|         58|   admitted|   OCCURRENCE|           91|        100|  discharged| 0.6843513|
+| OVERLAP|CLINICAL_DEPT|           63|         73|Mayo Clinic|         DATE|           78|         85|    May 2000| 0.7844673|
+|  BEFORE|CLINICAL_DEPT|           63|         73|Mayo Clinic|   OCCURRENCE|           91|        100|  discharged|0.60411876|
+| OVERLAP|CLINICAL_DEPT|           63|         73|Mayo Clinic|         DATE|          105|        116|October 2001|  0.540761|
+|  BEFORE|         DATE|           78|         85|   May 2000|   OCCURRENCE|           91|        100|  discharged| 0.6042761|
+| OVERLAP|         DATE|           78|         85|   May 2000|         DATE|          105|        116|October 2001|0.64867175|
+|  BEFORE|   OCCURRENCE|           91|        100| discharged|         DATE|          105|        116|October 2001| 0.5302478|
++--------+-------------+-------------+-----------+-----------+-------------+-------------+-----------+------------+----------+
 ```
 
 

@@ -65,7 +65,7 @@ nerconverter = nlp.NerConverter()\
   .setInputCols(["document", "token", "zero_shot_ner"])\
   .setOutputCol("ner_chunk")
 
-pipeline =  Pipeline(stages=[
+pipeline =  nlp.Pipeline(stages=[
   documentAssembler,
   sparktokenizer,
   zero_shot_ner,

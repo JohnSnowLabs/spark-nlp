@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.base.embeddings_finisher &#8212; Spark NLP 4.2.7 documentation</title>
+    <title>sparknlp.base.embeddings_finisher &#8212; Spark NLP 4.3.1 documentation</title>
   
   
   
@@ -280,6 +280,7 @@
     <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../audio_assembler/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.audio_assembler</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../chunk2_doc/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.chunk2_doc</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../date2_chunk/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.date2_chunk</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../doc2_chunk/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.doc2_chunk</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../document_assembler/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.document_assembler</span></code></a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.embeddings_finisher</span></code></a></li>
@@ -291,6 +292,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../light_pipeline/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.light_pipeline</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../recursive_pipeline/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.recursive_pipeline</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../table_assembler/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.table_assembler</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../token2_chunk/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.token2_chunk</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../token_assembler/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.base.token_assembler</span></code></a></li>
 </ul>
 
@@ -341,7 +343,8 @@
 <dt class="sig sig-object py" id="sparknlp.base.embeddings_finisher.EmbeddingsFinisher">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">EmbeddingsFinisher</span></span><a class="reference internal" href="../../../../../modules/sparknlp/base/embeddings_finisher.html#EmbeddingsFinisher"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.embeddings_finisher.EmbeddingsFinisher" title="Permalink to this definition">#</a></dt>
 <dd><p>Extracts embeddings from Annotations into a more easily usable form.</p>
-<p>This is useful for example:</p>
+<blockquote>
+<div><p>This is useful for example:</p>
 <ul class="simple">
 <li><p>WordEmbeddings,</p></li>
 <li><p>Transformer based embeddings such as BertEmbeddings,</p></li>
@@ -353,8 +356,11 @@ into array of floats or vectors which are compatible with Spark ML functions
 such as LDA, K-mean, Random Forest classifier or any other functions that
 require a <code class="docutils literal notranslate"><span class="pre">featureCol</span></code>.</p>
 <p>For more extended examples see the
-<a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.1_Text_classification_examples_in_SparkML_SparkNLP.ipynb">Spark NLP Workshop</a>.</p>
-<table class="table">
+<a href="#id1"><span class="problematic" id="id2">`</span></a>Examples &lt;<a class="github reference external" href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/text-similarity/Spark_NLP_Spark_ML_Text_Similarity.ipynb">JohnSnowLabs/spark-nlp</a></p>
+</div></blockquote>
+<p>&gt;`__.</p>
+<blockquote>
+<div><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
 <th class="head"><p>Output Annotation type</p></th>
@@ -366,6 +372,7 @@ require a <code class="docutils literal notranslate"><span class="pre">featureCo
 </tr>
 </tbody>
 </table>
+</div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -501,6 +508,18 @@ by default False.</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.base.embeddings_finisher.EmbeddingsFinisher.getInputCols">
+<span class="sig-name descname"><span class="pre">getInputCols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/base/embeddings_finisher.html#EmbeddingsFinisher.getInputCols"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.embeddings_finisher.EmbeddingsFinisher.getInputCols" title="Permalink to this definition">#</a></dt>
+<dd><p>Gets input columns name of annotations.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.base.embeddings_finisher.EmbeddingsFinisher.getOutputCols">
+<span class="sig-name descname"><span class="pre">getOutputCols</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/base/embeddings_finisher.html#EmbeddingsFinisher.getOutputCols"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.embeddings_finisher.EmbeddingsFinisher.getOutputCols" title="Permalink to this definition">#</a></dt>
+<dd><p>Gets output columns name of annotations.</p>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -586,6 +605,24 @@ by default False.</p>
          </code>
         </a>
        </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp.base.embeddings_finisher.EmbeddingsFinisher.getInputCols">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           EmbeddingsFinisher.getInputCols()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp.base.embeddings_finisher.EmbeddingsFinisher.getOutputCols">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           EmbeddingsFinisher.getOutputCols()
+          </span>
+         </code>
+        </a>
+       </li>
       </ul>
      </li>
      <li class="toc-h4 nav-item toc-entry">
@@ -611,6 +648,16 @@ by default False.</p>
        <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp.base.embeddings_finisher.EmbeddingsFinisher.setOutputAsVector">
          setOutputAsVector
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp.base.embeddings_finisher.EmbeddingsFinisher.getInputCols">
+         getInputCols
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp.base.embeddings_finisher.EmbeddingsFinisher.getOutputCols">
+         getOutputCols
         </a>
        </li>
       </ul>

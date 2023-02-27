@@ -152,7 +152,7 @@ val re_model = RelationExtractionDLModel()
 
 val pipeline = new Pipeline().setStages(Array(documenter, sentencer, tokenizer, pos_tagger, words_embedder, ner_tagger, ner_converter, dependency_parser, re_ner_chunk_filter, re_model))
 
-val result = pipeline.fit(Seq.empty["She has a retinal degeneration, hearing loss and renal failure, short stature, \
+val result = pipeline.fit(Seq.empty["She has a retinal degeneration, hearing loss and renal failure, short stature, 
 Mutations in the SH3PXD2B gene coding for the Tks4 protein are responsible for the autosomal recessive."].toDS.toDF("text")).transform(data)
 ```
 

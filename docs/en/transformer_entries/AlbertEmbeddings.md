@@ -32,7 +32,7 @@ albert = AlbertEmbeddings.load("/albert_base_uncased_en_2.5.0_2.4_1588073363475"
 ```
 The default model is `"albert_base_uncased"`, if no name is provided.
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/ner_albert.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dl-ner/ner_albert.ipynb)
 and the [AlbertEmbeddingsTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/AlbertEmbeddingsTestSpec.scala).
 
 **Sources:**

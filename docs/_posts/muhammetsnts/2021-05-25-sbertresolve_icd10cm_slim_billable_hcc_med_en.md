@@ -58,7 +58,7 @@ val document_assembler = DocumentAssembler()
 .setOutputCol("document")
 val sbert_embedder = BertSentenceEmbeddings
 .pretrained("sbert_jsl_medium_uncased","en","clinical/models")
-.setInputCols(["document"])
+.setInputCols("document")
 .setOutputCol("sbert_embeddings")
 val icd10_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_icd10cm_slim_billable_hcc_med","en", "clinical/models") 
 .setInputCols(["sbert_embeddings"]) 

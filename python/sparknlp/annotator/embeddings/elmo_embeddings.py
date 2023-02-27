@@ -53,7 +53,7 @@ class ElmoEmbeddings(AnnotatorModel,
       trainable. This tensor has shape ``[batch_size, max_length, 1024]``.
 
     For extended examples of usage, see the
-    `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/dl-ner/ner_elmo.ipynb>`__.
+    `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dl-ner/ner_elmo.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type

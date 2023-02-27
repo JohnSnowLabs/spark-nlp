@@ -199,9 +199,9 @@ class AhoCorasickAutomaton(
   }
 
   private def getAlphabetErrorMessage(char: Char): String = {
-    val workshopURL = "https://github.com/JohnSnowLabs/spark-nlp-workshop/"
+    val workshopURL = "https://github.com/JohnSnowLabs/spark-nlp/"
     val alphabetExample =
-      "blob/e3d3d942a75752d8040f73538c7f8ce5430e80d9/jupyter/training/english/entity-ruler/EntityRuler_Alphabet.ipynb"
+      "blob/master/examples/python/annotation/text/english/entity-ruler/EntityRuler_Alphabet.ipynb"
     val errorMessage: String =
       s"""Char $char not found in the alphabet. Your data could have unusual characters not found
          |in your document's language, which requires setting up a custom alphabet.
@@ -209,7 +209,7 @@ class AhoCorasickAutomaton(
          |Please set alphabet using setAlphabetResource parameter and make sure it has all
          |characters that can be found in your documents.
          |
-         |You can check an example in Spark NLP Workshop: $workshopURL$alphabetExample""".stripMargin
+         |You can check an example in Spark NLP Examples: $workshopURL$alphabetExample""".stripMargin
 
     errorMessage
   }

@@ -62,7 +62,7 @@ nerTagger = finance.NerModel.pretrained('finner_10q_xlbr', 'en', 'finance/models
    .setInputCols(["sentence", "token", "embeddings"])\
    .setOutputCol("ner")
               
-pipeline = Pipeline(stages=[documentAssembler,
+pipeline = nlp.Pipeline(stages=[documentAssembler,
                             sentence,
                             tokenizer,
                             embeddings,

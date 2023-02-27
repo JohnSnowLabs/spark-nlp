@@ -42,7 +42,7 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
 
     For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Translation>`__.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/TRANSLATION_MARIAN.ipynb>`__.
+    For extended examples of usage, see the `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/multilingual/Translation_Marian.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type

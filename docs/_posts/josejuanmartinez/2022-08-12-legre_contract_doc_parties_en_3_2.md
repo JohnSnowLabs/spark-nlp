@@ -10,6 +10,7 @@ language: en
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -75,7 +76,7 @@ reDL = legal.RelationExtractionDLModel().pretrained('legre_contract_doc_parties'
     .setInputCols(["ner_chunk", "document"])\
     .setOutputCol("relations")
 
-nlpPipeline = Pipeline(stages=[
+nlpPipeline = nlp.Pipeline(stages=[
     documentAssembler,
     tokenizer,
     embeddings,

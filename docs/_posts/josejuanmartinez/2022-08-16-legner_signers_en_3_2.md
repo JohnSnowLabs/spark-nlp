@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal NER (Headers / Subheaders)
+title: Legal NER (Signers)
 author: John Snow Labs
 name: legner_signers
 date: 2022-08-16
@@ -21,10 +21,6 @@ This is a Legal NER Model, aimed to process the last page of the agreements when
 - People Signing the document;
 - Title of those people in their companies;
 - Company (Party) they represent;
-
-This model can be used all along with its Relation Extraction model to retrieve the relations between these entities.
-
-Other models can be found to detect other parts of the document, as Headers/Subheaders, Signers, "Will-do", etc.
 
 ## Predicted Entities
 
@@ -68,7 +64,7 @@ ner_converter = nlp.NerConverter()\
         .setInputCols(["sentence","token","ner"])\
         .setOutputCol("ner_chunk")
 
-nlpPipeline = Pipeline(stages=[
+nlpPipeline = nlp.Pipeline(stages=[
         documentAssembler,
         sentenceDetector,
         tokenizer,

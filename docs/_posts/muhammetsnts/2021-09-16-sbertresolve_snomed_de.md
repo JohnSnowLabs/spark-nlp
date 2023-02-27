@@ -59,12 +59,12 @@ snomed_lp = LightPipeline(snomed_pipelineModel)
 
 ```
 ```scala
-val documentAssembler = DocumentAssembler()\
-.setInputCol("text")\
+val documentAssembler = DocumentAssembler()
+.setInputCol("text")
 .setOutputCol("ner_chunk")
 
-val sbert_embedder = BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "de")\
-.setInputCols(["ner_chunk"])\
+val sbert_embedder = BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "de")
+.setInputCols("ner_chunk")
 .setOutputCol("sbert_embeddings")
 
 val snomed_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_snomed", "de", "clinical/models") \

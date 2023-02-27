@@ -22,12 +22,26 @@ import org.json4s.{JNothing, JValue}
 
 private[johnsnowlabs] case class Preprocessor(
     do_normalize: Boolean = true,
-    do_resize: Boolean,
+    do_resize: Boolean = true,
     feature_extractor_type: String,
     image_mean: Array[Double],
     image_std: Array[Double],
     resample: Int,
-    size: Int)
+    size: Int,
+    do_rescale: Boolean = true,
+    rescale_factor: Double = 1 / 255.0d)
+
+private[johnsnowlabs] case class PreprocessorConfig(
+    do_normalize: Boolean,
+    do_resize: Boolean,
+    feature_extractor_type: Option[String],
+    image_processor_type: Option[String],
+    image_mean: Array[Double],
+    image_std: Array[Double],
+    resample: Int,
+    size: Any,
+    do_rescale: Option[Boolean],
+    rescale_factor: Option[Double])
 
 private[johnsnowlabs] object Preprocessor {
   def apply(
@@ -56,48 +70,72 @@ private[johnsnowlabs] object Preprocessor {
     }
   }
 
-  def schemaCheckViT(jsonStr: String): Boolean = {
-    val json = JsonMethods.parse(jsonStr)
-    val schemaCorrect =
-      if (json.has("do_normalize") && json.has("do_resize") && json.has("image_mean") && json
-          .has("image_std") && json.has("resample") && json.has("size")) true
-      else false
-
-    schemaCorrect
-  }
-
   def loadPreprocessorConfig(preprocessorConfigJsonContent: String): Preprocessor = {
 
     val preprocessorJsonErrorMsg =
-      s"""The schema of preprocessor_config.json file is incorrect. It should look like this:         
+      s"""The schema of preprocessor_config.json file is incorrect. It should look like this:
          |{
-         |  "do_normalize": true,
-         |  "do_resize": true,
-         |  "feature_extractor_type": "ViTFeatureExtractor",
-         |  "image_mean": [
-         |    0.5,
-         |    0.5,
-         |    0.5
-         |  ],
-         |  "image_std": [
-         |    0.5,
-         |    0.5,
-         |    0.5
-         |  ],
-         |  "resample": 2,
-         |  "size": 224
+         |  "do_normalize": bool,
+         |  "do_resize": bool,
+         |  ("feature_extractor_type"|"image_processor_type"): string,
+         |  "image_mean": Array[double],
+         |  "image_std": Array[double,
+         |  "resample": int,
+         |  "size": int,
+         |  ["do_rescale": bool],
+         |  ["rescale_factor": double]
          |}
          |""".stripMargin
-    require(Preprocessor.schemaCheckViT(preprocessorConfigJsonContent), preprocessorJsonErrorMsg)
 
     val preprocessorConfig =
       try {
-        JsonParser.parseObject[Preprocessor](preprocessorConfigJsonContent)
+        val config = JsonParser.parseObject[PreprocessorConfig](preprocessorConfigJsonContent)
+
+        // json4s parses BigInt by default
+        val size: Int = config.size match {
+          case sizeMap: Map[String, BigInt] =>
+            val width = sizeMap("width")
+            require(
+              width == sizeMap("height"),
+              "Different sizes for width and height are currently not supported.")
+            width.toInt
+          case sizeInt: BigInt => sizeInt.toInt
+          case _ =>
+            throw new IllegalArgumentException(
+              "Unsupported format for size. Should either be int or dict with entries \'width\' and \'height\'")
+        }
+
+        val extractorType = config.feature_extractor_type.getOrElse({
+          config.image_processor_type
+            .getOrElse(throw new IllegalArgumentException(
+              "Either \'feature_extractor_type\' or \'image_processor_type\' should be set."))
+            .replace("ImageProcessor", "FeatureExtractor")
+        })
+
+        val doRescale = config.do_rescale.getOrElse(false)
+
+        val rescaleFactor: Double = if (doRescale) config.rescale_factor.getOrElse {
+          throw new IllegalArgumentException(
+            "Value do_rescale is true but no rescale_factor found in config.")
+        }
+        else 1 / 255.0d // Default value
+
+        Preprocessor(
+          do_normalize = config.do_normalize,
+          do_resize = config.do_resize,
+          extractorType,
+          config.image_mean,
+          config.image_std,
+          config.resample,
+          size,
+          doRescale,
+          rescaleFactor)
       } catch {
         case e: Exception =>
-          println(s"${preprocessorJsonErrorMsg} \n error: ${e.getMessage}")
-          JsonParser.parseObject[Preprocessor](preprocessorConfigJsonContent)
+          println(s"$preprocessorJsonErrorMsg \n error: ${e.getMessage}")
+          throw e
       }
+
     preprocessorConfig
   }
 }

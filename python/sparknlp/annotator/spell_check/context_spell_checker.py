@@ -37,7 +37,7 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
 
     For extended examples of usage, see the article
     `Training a Contextual Spell Checker for Italian Language <https://towardsdatascience.com/training-a-contextual-spell-checker-for-italian-language-66dda528e4bf>`__,
-    the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/blogposts/5.TrainingContextSpellChecker.ipynb>`__.
+    the `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/italian/Training_Context_Spell_Checker_Italian.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -518,7 +518,7 @@ class ContextSpellCheckerModel(AnnotatorModel, HasEngine):
     The default model is ``"spellcheck_dl"``, if no name is provided.
     For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Spell+Check>`__.
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SPELL_CHECKER_EN.ipynb>`__.
+    For extended examples of usage, see the `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/italian/Training_Context_Spell_Checker_Italian.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type

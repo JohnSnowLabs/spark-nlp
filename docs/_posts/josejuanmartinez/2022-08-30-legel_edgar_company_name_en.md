@@ -51,7 +51,7 @@ resolver = legal.SentenceEntityResolverModel.pretrained("legel_edgar_company_nam
       .setOutputCol("irs_code")\
       .setDistanceFunction("EUCLIDEAN")
 
-pipelineModel = PipelineModel(
+pipelineModel = nlp..Pipeline(
       stages = [
           documentAssembler,
           embeddings,

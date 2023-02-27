@@ -16,9 +16,9 @@
 
 package com.johnsnowlabs.nlp.annotators.audio
 
+import com.johnsnowlabs.ml.ai.Wav2Vec2
 import com.johnsnowlabs.ml.tensorflow.{
   ReadTensorflowModel,
-  TensorflowWav2Vec2ForCTC,
   TensorflowWrapper,
   WriteTensorflowModel
 }
@@ -47,7 +47,7 @@ import org.json4s.jackson.JsonMethods._
   * pre-processed an array of floats.
   *
   * Note that this annotator is currently not supported on Apple Silicon processors such as the
-  * M1. This is due to the processor not supporting instructions for XLA.
+  * M1/M2 (Apple Silicon). This is due to the processor not supporting instructions for XLA.
   *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{
@@ -197,10 +197,10 @@ class Wav2Vec2ForCTC(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowWav2Vec2ForCTC]] = None
+  private var _model: Option[Broadcast[Wav2Vec2]] = None
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowWav2Vec2ForCTC = _model.get.value
+  def getModelIfNotSet: Wav2Vec2 = _model.get.value
 
   /** @group setParam */
   def setModelIfNotSet(spark: SparkSession, tensorflow: TensorflowWrapper): this.type = {
@@ -208,7 +208,7 @@ class Wav2Vec2ForCTC(override val uid: String)
 
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowWav2Vec2ForCTC(
+          new Wav2Vec2(
             tensorflow,
             configProtoBytes = getConfigProtoBytes,
             vocabs = $$(vocabulary),
@@ -301,18 +301,18 @@ trait ReadablePretrainedWav2Vec2ForAudioModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadWav2Vec2ForAudioTensorflowModel extends ReadTensorflowModel {
+trait ReadWav2Vec2ForAudioDLModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[Wav2Vec2ForCTC] =>
 
   override val tfFile: String = "wav_ctc_tensorflow"
 
-  def readTensorflow(instance: Wav2Vec2ForCTC, path: String, spark: SparkSession): Unit = {
+  def readModel(instance: Wav2Vec2ForCTC, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_wav_ctc_tf", initAllTables = false)
     instance.setModelIfNotSet(spark, tf)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): Wav2Vec2ForCTC = {
 
@@ -370,4 +370,4 @@ trait ReadWav2Vec2ForAudioTensorflowModel extends ReadTensorflowModel {
   */
 object Wav2Vec2ForCTC
     extends ReadablePretrainedWav2Vec2ForAudioModel
-    with ReadWav2Vec2ForAudioTensorflowModel
+    with ReadWav2Vec2ForAudioDLModel

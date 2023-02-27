@@ -73,7 +73,7 @@ tokenClassifier = finance.BertForTokenClassification.pretrained("finner_arabert_
   .setInputCols("token", "document")\
   .setOutputCol("label")
   
-pipeline = Pipeline(stages=[documentAssembler, tokenizer, tokenClassifier])
+pipeline = nlp.Pipeline(stages=[documentAssembler, tokenizer, tokenClassifier])
 
 import pandas as pd
 

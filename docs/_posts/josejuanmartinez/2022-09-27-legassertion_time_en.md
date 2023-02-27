@@ -52,7 +52,7 @@ assertion = legal.AssertionDLModel.pretrained("legassertion_time", "en", "legal/
     .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
     .setOutputCol("assertion")
     
-nlpPipeline = Pipeline(stages=[
+nlpPipeline = nlp.Pipeline(stages=[
     documentAssembler, 
     tokenizer,
     embeddings,

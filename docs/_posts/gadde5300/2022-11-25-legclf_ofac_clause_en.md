@@ -47,7 +47,7 @@ This model is a Binary Classifier (True, False) for the `ofac` clause type. To u
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
- documentAssembler = nlp.DocumentAssembler() \
+documentAssembler = nlp.DocumentAssembler() \
          .setInputCol("clause_text") \
          .setOutputCol("document")
 

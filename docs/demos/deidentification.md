@@ -20,7 +20,7 @@ data:
           activemenu: deidentification
       source: yes
       source: 
-        - title: Classify Patient Demographics
+        - title: Detect PHI Entities from Deidentification
           id: detect_demographic_information
           image: 
               src: /assets/images/Detect_demographic_information.svg

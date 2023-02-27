@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.base.light_pipeline &#8212; Spark NLP 4.2.7 documentation</title>
+    <title>sparknlp.base.light_pipeline &#8212; Spark NLP 4.3.1 documentation</title>
   
   
   
@@ -310,15 +310,12 @@
 <span class="c1">#  limitations under the License.</span>
 <span class="sd">&quot;&quot;&quot;Contains classes for the LightPipeline.&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">AnnotatorTransformer</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base.multi_document_assembler</span> <span class="kn">import</span> <span class="n">MultiDocumentAssembler</span>
-
 <span class="kn">import</span> <span class="nn">sparknlp.internal</span> <span class="k">as</span> <span class="nn">_internal</span>
-
 <span class="kn">from</span> <span class="nn">sparknlp.annotation</span> <span class="kn">import</span> <span class="n">Annotation</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotation_audio</span> <span class="kn">import</span> <span class="n">AnnotationAudio</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotation_image</span> <span class="kn">import</span> <span class="n">AnnotationImage</span>
 <span class="kn">from</span> <span class="nn">sparknlp.common</span> <span class="kn">import</span> <span class="n">AnnotatorApproach</span><span class="p">,</span> <span class="n">AnnotatorModel</span>
+<span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">AnnotatorTransformer</span>
 
 
 <div class="viewcode-block" id="LightPipeline"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/light_pipeline/index.html#sparknlp.base.light_pipeline.LightPipeline">[docs]</a><span class="k">class</span> <span class="nc">LightPipeline</span><span class="p">:</span>
@@ -368,8 +365,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">parse_embeddings</span> <span class="o">=</span> <span class="n">parse_embeddings</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span> <span class="o">=</span> <span class="n">_internal</span><span class="o">.</span><span class="n">_LightPipeline</span><span class="p">(</span><span class="n">pipelineModel</span><span class="p">,</span> <span class="n">parse_embeddings</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">_validateStagesInputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">stages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pipeline_model</span><span class="o">.</span><span class="n">stages</span>
+    <span class="k">def</span> <span class="nf">_validateStagesInputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stages</span><span class="p">):</span>
         <span class="n">annotator_types</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getAnnotatorTypes</span><span class="p">(</span><span class="n">stages</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">stage</span> <span class="ow">in</span> <span class="n">stages</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="n">AnnotatorApproach</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="n">AnnotatorModel</span><span class="p">):</span>
@@ -385,10 +381,20 @@
                                         <span class="sa">f</span><span class="s2">&quot; with the right output names and that they have following annotator types:&quot;</span>
                                         <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">input_annotator_types</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">_skipPipelineValidation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stages</span><span class="p">):</span>
+        <span class="n">exceptional_pipeline</span> <span class="o">=</span> <span class="p">[</span><span class="n">stage</span> <span class="k">for</span> <span class="n">stage</span> <span class="ow">in</span> <span class="n">stages</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_skipStageValidation</span><span class="p">(</span><span class="n">stage</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">exceptional_pipeline</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">_skipStageValidation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stage</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="s1">&#39;skipLPInputColsValidation&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">stage</span><span class="o">.</span><span class="n">skipLPInputColsValidation</span>
+
     <span class="k">def</span> <span class="nf">_getAnnotatorTypes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stages</span><span class="p">):</span>
         <span class="n">annotator_types</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">stage</span> <span class="ow">in</span> <span class="n">stages</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="n">MultiDocumentAssembler</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="s1">&#39;getOutputCols&#39;</span><span class="p">):</span>
                 <span class="n">output_cols</span> <span class="o">=</span> <span class="n">stage</span><span class="o">.</span><span class="n">getOutputCols</span><span class="p">()</span>
                 <span class="k">for</span> <span class="n">output_col</span> <span class="ow">in</span> <span class="n">output_cols</span><span class="p">:</span>
                     <span class="n">annotator_types</span><span class="p">[</span><span class="n">output_col</span><span class="p">]</span> <span class="o">=</span> <span class="n">stage</span><span class="o">.</span><span class="n">outputAnnotatorType</span>
@@ -482,7 +488,9 @@
 <span class="sd">        Annotation(named_entity, 30, 36, B-LOC, {&#39;word&#39;: &#39;Baghdad&#39;}),</span>
 <span class="sd">        Annotation(named_entity, 37, 37, O, {&#39;word&#39;: &#39;.&#39;})]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_validateStagesInputCols</span><span class="p">()</span>
+        <span class="n">stages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pipeline_model</span><span class="o">.</span><span class="n">stages</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_skipPipelineValidation</span><span class="p">(</span><span class="n">stages</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_validateStagesInputCols</span><span class="p">(</span><span class="n">stages</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">optional_target</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__isTextInput</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
@@ -581,7 +589,9 @@
 <span class="sd">        List[AnnotationImage]</span>
 <span class="sd">            The result of the annotation</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_validateStagesInputCols</span><span class="p">()</span>
+        <span class="n">stages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pipeline_model</span><span class="o">.</span><span class="n">stages</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_skipPipelineValidation</span><span class="p">(</span><span class="n">stages</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_validateStagesInputCols</span><span class="p">(</span><span class="n">stages</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">path_to_image</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
             <span class="n">path_to_image</span> <span class="o">=</span> <span class="p">[</span><span class="n">path_to_image</span><span class="p">]</span>
@@ -633,7 +643,9 @@
         <span class="k">def</span> <span class="nf">reformat</span><span class="p">(</span><span class="n">annotations</span><span class="p">):</span>
             <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">annotations</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_validateStagesInputCols</span><span class="p">()</span>
+        <span class="n">stages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pipeline_model</span><span class="o">.</span><span class="n">stages</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_skipPipelineValidation</span><span class="p">(</span><span class="n">stages</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_validateStagesInputCols</span><span class="p">(</span><span class="n">stages</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">optional_target</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">target</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>

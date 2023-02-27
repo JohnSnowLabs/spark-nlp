@@ -69,8 +69,8 @@ val document_assembler = DocumentAssembler()
         .setInputCol("text")
         .setOutputCol("document")
         
-val sentence_detector = SentenceDetector()\
-    .setInputCols(["document"])\
+val sentence_detector = SentenceDetector()
+    .setInputCols("document")
     .setOutputCol("sentence")
 
 val word_segmenter = WordSegmenterModel.pretrained("wordseg_gsd_ud", "ja")

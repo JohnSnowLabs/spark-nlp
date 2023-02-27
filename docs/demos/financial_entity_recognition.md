@@ -152,4 +152,28 @@ data:
           - text: Colab
             type: blue_btn
             url: 
+        - title: Capital Calls NER
+          id: capital_calls_ner   
+          image: 
+              src: /assets/images/Capital_Calls_NER.svg
+          excerpt: This demo shows how to extract financial and contact entities from Capital Call Notices.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/finance/FINNER_CAPITAL_CALLS/
+          - text: Colab
+            type: blue_btn
+            url:
+        - title: Detect financial entities in Chinese text 
+          id: detect_financial_entities_chinese_text   
+          image: 
+              src: /assets/images/Extract_financial_entities.svg
+          excerpt: This demo uses Name Entity Recognition to extract information like company names, holding shares, trading prices, dates, etc. from Chinese texts.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/finance/FINNER_FINANCE_CHINESE/
+          - text: Colab
+            type: blue_btn
+            url:
 ---

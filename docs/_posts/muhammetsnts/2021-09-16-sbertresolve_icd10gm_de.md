@@ -58,12 +58,12 @@ icd10gm_resolver])
 icd_lp = LightPipeline(icd10gm_pipelineModel)
 ```
 ```scala
-val documentAssembler = DocumentAssembler()\
-.setInputCol("text")\
+val documentAssembler = DocumentAssembler()
+.setInputCol("text")
 .setOutputCol("ner_chunk")
 
-val sbert_embedder = BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "de")\
-.setInputCols(["ner_chunk"])\
+val sbert_embedder = BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "de")
+.setInputCols("ner_chunk")
 .setOutputCol("sbert_embeddings")
 
 val icd10gm_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_icd10gm", "de", "clinical/models") \

@@ -1,7 +1,4 @@
-{% if not obj.display %}
 :orphan:
-
-{% endif %}
 
 .. INDEX
 

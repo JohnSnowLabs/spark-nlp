@@ -49,7 +49,7 @@ classsifier_dl = nlp.ClassifierDLModel.pretrained("finclf_bank_complaints", "en"
       .setInputCols(["sentence_embeddings"])\
       .setOutputCol("label")\
 
-clf_pipeline = Pipeline(
+clf_pipeline = nlp.Pipeline(
     stages = [
         document_assembler,
         embeddings,

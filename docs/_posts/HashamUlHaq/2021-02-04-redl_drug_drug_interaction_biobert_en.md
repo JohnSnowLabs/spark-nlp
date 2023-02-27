@@ -172,10 +172,11 @@ they should be used with caution because the pharmacologically predictable sympa
 ## Results
 
 ```bash
-|    | relation   | entity1   |   entity1_begin |   entity1_end | chunk1        | entity2   |   entity2_begin |   entity2_end | chunk2       |   confidence |
-|---:|:-----------|:----------|----------------:|--------------:|:--------------|:----------|----------------:|--------------:|:-------------|-------------:|
-|  0 | DDI-advise | DRUG      |               5 |            17 | carbamazepine | DRUG      |              62 |            73 | aripiprazole |      0.99238 |
-
++---------+-------+-------------+-----------+-------------+-------+-------------+-----------+------------+----------+
+| relation|entity1|entity1_begin|entity1_end|       chunk1|entity2|entity2_begin|entity2_end|      chunk2|confidence|
++---------+-------+-------------+-----------+-------------+-------+-------------+-----------+------------+----------+
+|DDI-false|   DRUG|            5|         17|carbamazepine|   DRUG|           62|         73|aripiprazole|0.91685396|
++---------+-------+-------------+-----------+-------------+-------+-------------+-----------+------------+----------+
 ```
 
 {:.model-param}

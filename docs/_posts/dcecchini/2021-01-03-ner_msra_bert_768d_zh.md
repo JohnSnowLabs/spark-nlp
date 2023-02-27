@@ -69,8 +69,8 @@ val document_assembler = DocumentAssembler()
         .setInputCol("text")
         .setOutputCol("document")
         
-val sentence_detector = SentenceDetector()\
-    .setInputCols(["document"])\
+val sentence_detector = SentenceDetector()
+    .setInputCols("document")
     .setOutputCol("sentence")
 
 val word_segmenter = WordSegmenterModel.pretrained("wordseg_large", "zh")
@@ -80,7 +80,7 @@ val embeddings = BertEmbeddings.pretrained(name='bert_base_chinese', lang='zh')
         .setInputCols(Array("document", "token"))
         .setOutputCol("embeddings")
 val ner = NerDLModel.pretrained("ner_msra_bert_768d", "zh")
-        .setInputCols(["document", "token", "embeddings"])
+        .setInputCols("document", "token", "embeddings")
         .setOutputCol("ner")
 val ner_converter = new NerConverter()
   .setInputCols("sentence", "token", "ner")

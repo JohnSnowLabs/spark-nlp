@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.annotator.spell_check.context_spell_checker &#8212; Spark NLP 4.2.7 documentation</title>
+    <title>sparknlp.annotator.spell_check.context_spell_checker &#8212; Spark NLP 4.3.1 documentation</title>
   
   
   
@@ -388,7 +388,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../../token/chunk_tokenizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.token.chunk_tokenizer</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../token/recursive_tokenizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.token.recursive_tokenizer</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../token/regex_tokenizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.token.regex_tokenizer</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../token/token2_chunk/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.token.token2_chunk</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../token/tokenizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.token.tokenizer</span></code></a></li>
 </ul>
 </li>
@@ -474,7 +473,7 @@ edit operations at the character level it requires — <strong>subword level</st
 </ol>
 <p>For extended examples of usage, see the article
 <a class="reference external" href="https://towardsdatascience.com/training-a-contextual-spell-checker-for-italian-language-66dda528e4bf">Training a Contextual Spell Checker for Italian Language</a>,
-the <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/blogposts/5.TrainingContextSpellChecker.ipynb">Spark NLP Workshop</a>.</p>
+the <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/italian/Training_Context_Spell_Checker_Italian.ipynb">Examples</a>.</p>
 <table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
@@ -535,6 +534,10 @@ distance.</p>
 correction.</p>
 </dd>
 <dt><strong>configProtoBytes</strong></dt><dd><p>ConfigProto from tensorflow, serialized into byte array.</p>
+</dd>
+<dt><strong>maxSentLen</strong></dt><dd><p>Maximum length for a sentence - internal use during training.</p>
+</dd>
+<dt><strong>graphFolder</strong></dt><dd><p>Folder path that contain external graph files.</p>
 </dd>
 </dl>
 </dd>
@@ -839,6 +842,34 @@ every correction</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerApproach.setGraphFolder">
+<span class="sig-name descname"><span class="pre">setGraphFolder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/spell_check/context_spell_checker.html#ContextSpellCheckerApproach.setGraphFolder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerApproach.setGraphFolder" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets folder path that contain external graph files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>path</strong><span class="classifier">str</span></dt><dd><p>Folder path that contain external graph files.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerApproach.setMaxSentLen">
+<span class="sig-name descname"><span class="pre">setMaxSentLen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sentlen</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/spell_check/context_spell_checker.html#ContextSpellCheckerApproach.setMaxSentLen"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerApproach.setMaxSentLen" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the maximum length of a sentence.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>sentlen</strong><span class="classifier">int</span></dt><dd><p>Maximum length of a sentence</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerApproach.addVocabClass">
 <span class="sig-name descname"><span class="pre">addVocabClass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vocab</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">userdist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/spell_check/context_spell_checker.html#ContextSpellCheckerApproach.addVocabClass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerApproach.addVocabClass" title="Permalink to this definition">#</a></dt>
 <dd><p>Adds a new class of words to correct, based on a vocabulary.</p>
@@ -904,7 +935,7 @@ object:</p>
 </div>
 <p>The default model is <code class="docutils literal notranslate"><span class="pre">&quot;spellcheck_dl&quot;</span></code>, if no name is provided.
 For available pretrained models please see the <a class="reference external" href="https://nlp.johnsnowlabs.com/models?task=Spell+Check">Models Hub</a>.</p>
-<p>For extended examples of usage, see the <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/SPELL_CHECKER_EN.ipynb">Spark NLP Workshop</a>.</p>
+<p>For extended examples of usage, see the <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/italian/Training_Context_Spell_Checker_Italian.ipynb">Examples</a>.</p>
 <table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
@@ -938,9 +969,21 @@ correction.</p>
 </dd>
 <dt><strong>correctSymbols</strong></dt><dd><p>Whether to correct special symbols or skip spell checking for them</p>
 </dd>
-<dt><strong>compareLowcase</strong></dt><dd><p>If true will compare tokens in low case with vocabulary</p>
+<dt><strong>compareLowcase</strong></dt><dd><p>If true will compare tokens in low case with vocabulary.</p>
 </dd>
 <dt><strong>configProtoBytes</strong></dt><dd><p>ConfigProto from tensorflow, serialized into byte array.</p>
+</dd>
+<dt><strong>vocabFreq</strong></dt><dd><p>Frequency words from the vocabulary.</p>
+</dd>
+<dt><strong>idsVocab</strong></dt><dd><p>Mapping of ids to vocabulary.</p>
+</dd>
+<dt><strong>vocabIds</strong></dt><dd><p>Mapping of vocabulary to ids.</p>
+</dd>
+<dt><strong>classes</strong></dt><dd><p>Classes the spell checker recognizes.</p>
+</dd>
+<dt><strong>weights</strong></dt><dd><p>Levenshtein weights.</p>
+</dd>
+<dt><strong>useNewLines</strong></dt><dd><p>When set to true new lines will be treated as any other character. When set to false correction is applied on paragraphs as defined by newline characters.</p>
 </dd>
 </dl>
 </dd>
@@ -1110,6 +1153,62 @@ every correction</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>b</strong><span class="classifier">List[int]</span></dt><dd><p>ConfigProto from tensorflow, serialized into byte array</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerModel.setVocabFreq">
+<span class="sig-name descname"><span class="pre">setVocabFreq</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/spell_check/context_spell_checker.html#ContextSpellCheckerModel.setVocabFreq"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerModel.setVocabFreq" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets frequency words from the vocabulary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">dict</span></dt><dd><p>Frequency words from the vocabulary.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerModel.setIdsVocab">
+<span class="sig-name descname"><span class="pre">setIdsVocab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">idsVocab</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/spell_check/context_spell_checker.html#ContextSpellCheckerModel.setIdsVocab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerModel.setIdsVocab" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets mapping of ids to vocabulary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>idsVocab</strong><span class="classifier">dict</span></dt><dd><p>Mapping of ids to vocabulary.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerModel.setVocabIds">
+<span class="sig-name descname"><span class="pre">setVocabIds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vocabIds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/spell_check/context_spell_checker.html#ContextSpellCheckerModel.setVocabIds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerModel.setVocabIds" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets mapping of vocabulary to ids.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>vocabIds</strong><span class="classifier">dict</span></dt><dd><p>Mapping of vocabulary to ids.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerModel.setClasses">
+<span class="sig-name descname"><span class="pre">setClasses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/spell_check/context_spell_checker.html#ContextSpellCheckerModel.setClasses"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerModel.setClasses" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets classes the spell checker recognizes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">list</span></dt><dd><p>Classes the spell checker recognizes.</p>
 </dd>
 </dl>
 </dd>
@@ -1422,6 +1521,24 @@ Spark NLPs repositories otherwise.</p>
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerApproach.setGraphFolder">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ContextSpellCheckerApproach.setGraphFolder()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerApproach.setMaxSentLen">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ContextSpellCheckerApproach.setMaxSentLen()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerApproach.addVocabClass">
          <code class="docutils literal notranslate">
           <span class="pre">
@@ -1527,6 +1644,42 @@ Spark NLPs repositories otherwise.</p>
          <code class="docutils literal notranslate">
           <span class="pre">
            ContextSpellCheckerModel.setConfigProtoBytes()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerModel.setVocabFreq">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ContextSpellCheckerModel.setVocabFreq()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerModel.setIdsVocab">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ContextSpellCheckerModel.setIdsVocab()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerModel.setVocabIds">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ContextSpellCheckerModel.setVocabIds()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerModel.setClasses">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ContextSpellCheckerModel.setClasses()
           </span>
          </code>
         </a>
@@ -1678,6 +1831,16 @@ Spark NLPs repositories otherwise.</p>
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerApproach.setGraphFolder">
+         setGraphFolder
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerApproach.setMaxSentLen">
+         setMaxSentLen
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerApproach.addVocabClass">
          addVocabClass
         </a>
@@ -1737,6 +1900,26 @@ Spark NLPs repositories otherwise.</p>
        <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerModel.setConfigProtoBytes">
          setConfigProtoBytes
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerModel.setVocabFreq">
+         setVocabFreq
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerModel.setIdsVocab">
+         setIdsVocab
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerModel.setVocabIds">
+         setVocabIds
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp.annotator.spell_check.context_spell_checker.ContextSpellCheckerModel.setClasses">
+         setClasses
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">

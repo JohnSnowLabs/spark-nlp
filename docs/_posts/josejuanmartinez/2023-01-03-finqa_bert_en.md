@@ -45,7 +45,7 @@ spanClassifier = nlp.BertForQuestionAnswering.pretrained("finqa_bert","en", "fin
        .setOutputCol("answer") \
        .setCaseSensitive(True)
 
-pipeline = Pipeline().setStages([
+pipeline = nlp.Pipeline().setStages([
         documentAssembler,
         spanClassifier
 ])

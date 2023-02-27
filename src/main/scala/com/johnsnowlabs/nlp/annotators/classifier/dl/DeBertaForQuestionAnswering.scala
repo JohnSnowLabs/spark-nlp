@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
+import com.johnsnowlabs.ml.ai.{DeBertaClassification, MergeTokenStrategy}
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
   ReadSentencePieceModel,
@@ -190,7 +191,7 @@ class DeBertaForQuestionAnswering(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowDeBertaClassification]] = None
+  private var _model: Option[Broadcast[DeBertaClassification]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
@@ -200,7 +201,7 @@ class DeBertaForQuestionAnswering(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowDeBertaClassification(
+          new DeBertaClassification(
             tensorflowWrapper,
             spp,
             configProtoBytes = getConfigProtoBytes,
@@ -212,7 +213,7 @@ class DeBertaForQuestionAnswering(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowDeBertaClassification = _model.get.value
+  def getModelIfNotSet: DeBertaClassification = _model.get.value
 
   /** Whether to lowercase tokens or not (Default: `true`).
     *
@@ -289,13 +290,15 @@ trait ReadablePretrainedDeBertaForQAModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadDeBertaForQATensorflowModel extends ReadTensorflowModel with ReadSentencePieceModel {
+trait ReadDeBertaForQuestionAnsweringDLModel
+    extends ReadTensorflowModel
+    with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[DeBertaForQuestionAnswering] =>
 
   override val tfFile: String = "deberta_classification_tensorflow"
   override val sppFile: String = "deberta_spp"
 
-  def readTensorflow(
+  def readModel(
       instance: DeBertaForQuestionAnswering,
       path: String,
       spark: SparkSession): Unit = {
@@ -306,7 +309,7 @@ trait ReadDeBertaForQATensorflowModel extends ReadTensorflowModel with ReadSente
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): DeBertaForQuestionAnswering = {
 
@@ -349,4 +352,4 @@ trait ReadDeBertaForQATensorflowModel extends ReadTensorflowModel with ReadSente
   */
 object DeBertaForQuestionAnswering
     extends ReadablePretrainedDeBertaForQAModel
-    with ReadDeBertaForQATensorflowModel
+    with ReadDeBertaForQuestionAnsweringDLModel

@@ -44,8 +44,8 @@ class YakeKeywordExtraction(AnnotatorModel):
     lower the score better the keyword). Therefore to filter the keywords, an
     upper bound for the score can be set with :meth:`.setThreshold`.
 
-    For extended examples of usage, see the `Spark NLP Workshop
-    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/8.Keyword_Extraction_YAKE.ipynb>`__.
+    For extended examples of usage, see the `Examples
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/keyword-extraction/Keyword_Extraction_YAKE.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -268,4 +268,3 @@ class YakeKeywordExtraction(AnnotatorModel):
         from pyspark.ml.wrapper import _jvm
         stopWordsObj = _jvm().org.apache.spark.ml.feature.StopWordsRemover
         return list(stopWordsObj.loadDefaultStopWords(language))
-

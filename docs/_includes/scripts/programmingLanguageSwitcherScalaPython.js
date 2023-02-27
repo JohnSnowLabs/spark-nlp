@@ -45,7 +45,7 @@ function tabs({tabsWrapperSelector, tabsParentSelector, tabsSelector, tabsConten
                     tabsLi.forEach((item, i) => {
                         if(target == item) {
                             hideTabsContent();
-                            showTabContent(i);
+                            try{showTabContent(i);}catch(e){}
                         }
                     });
                 }
@@ -90,5 +90,12 @@ tabs({
     tabsParentSelector: '.tabs-model-aproach-head', 
     tabsSelector: '.tab-li-model-aproach', 
     tabsContentSelector: '.tabs-python-scala-box', 
+    activeClass: 'tabheader_active'
+});
+tabs({
+    tabsWrapperSelector: '.tabs-box', 
+    tabsParentSelector: '.tabs-model-aproach-head', 
+    tabsSelector: '.tab-li-model-aproach', 
+    tabsContentSelector: '.tabs-box .highlighter-rouge', 
     activeClass: 'tabheader_active'
 });

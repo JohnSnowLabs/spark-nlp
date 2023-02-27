@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.seq2seq
 
+import com.johnsnowlabs.ml.ai.T5
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
   ReadSentencePieceModel,
   SentencePieceWrapper,
@@ -23,7 +24,6 @@ import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
 }
 import com.johnsnowlabs.ml.tensorflow.{
   ReadTensorflowModel,
-  TensorflowT5,
   TensorflowWrapper,
   WriteTensorflowModel
 }
@@ -62,7 +62,7 @@ import org.apache.spark.sql.SparkSession
   * please see the [[https://nlp.johnsnowlabs.com/models?q=t5 Models Hub]].
   *
   * For extended examples of usage, see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/10.Question_Answering_and_Summarization_with_T5.ipynb Spark NLP Workshop]]
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/question-answering/Question_Answering_and_Summarization_with_T5.ipynb Examples]]
   * and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/T5TestSpec.scala T5TestSpec]].
   *
@@ -394,7 +394,7 @@ class T5Transformer(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowT5]] = None
+  private var _model: Option[Broadcast[T5]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
@@ -404,7 +404,7 @@ class T5Transformer(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowT5(
+          new T5(
             tfWrapper,
             spp,
             configProtoBytes = getConfigProtoBytes,
@@ -414,7 +414,7 @@ class T5Transformer(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowT5 = _model.get.value
+  def getModelIfNotSet: T5 = _model.get.value
 
   setDefault(
     task -> "",
@@ -506,13 +506,13 @@ trait ReadablePretrainedT5TransformerModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadT5TransformerTensorflowModel extends ReadTensorflowModel with ReadSentencePieceModel {
+trait ReadT5TransformerDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[T5Transformer] =>
 
   override val tfFile: String = "t5_tensorflow"
   override val sppFile: String = "t5_spp"
 
-  def readTensorflow(instance: T5Transformer, path: String, spark: SparkSession): Unit = {
+  def readModel(instance: T5Transformer, path: String, spark: SparkSession): Unit = {
     val tf = readTensorflowModel(
       path,
       spark,
@@ -523,7 +523,7 @@ trait ReadT5TransformerTensorflowModel extends ReadTensorflowModel with ReadSent
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): T5Transformer = {
 
@@ -570,5 +570,5 @@ trait ReadT5TransformerTensorflowModel extends ReadTensorflowModel with ReadSent
   */
 object T5Transformer
     extends ReadablePretrainedT5TransformerModel
-    with ReadT5TransformerTensorflowModel
+    with ReadT5TransformerDLModel
     with ReadSentencePieceModel

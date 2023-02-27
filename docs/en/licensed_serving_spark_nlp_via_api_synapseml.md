@@ -60,7 +60,7 @@ They offer a seamless integratation with OpenCV, LightGBM, Microsoft Cognitive T
 
 </div><div class="h3-box" markdown="1">
 
-### Strenghts
+### Strengths
 
 * *Ready-to-use server*
 
@@ -117,43 +117,43 @@ Now, let’s create a Spark NLP for Healthcare pipeline to carry out Entity Reso
     document_assembler = DocumentAssembler()\
           .setInputCol("text")\
           .setOutputCol("document")
-    
+
     sentenceDetectorDL = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare", "en", 'clinical/models') \
           .setInputCols(["document"]) \
           .setOutputCol("sentence")
-    
+
     tokenizer = Tokenizer()\
           .setInputCols(["sentence"])\
           .setOutputCol("token")
-    
+
     word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
       .setInputCols(["sentence", "token"])\
       .setOutputCol("word_embeddings")
-    
+
     clinical_ner = MedicalNerModel.pretrained("ner_clinical", "en", "clinical/models") \
           .setInputCols(["sentence", "token", "word_embeddings"]) \
           .setOutputCol("ner")
-    
+
     ner_converter_icd = NerConverterInternal() \
           .setInputCols(["sentence", "token", "ner"]) \
           .setOutputCol("ner_chunk")\
           .setWhiteList(['PROBLEM'])\
           .setPreservePosition(False)
-    
+
     c2doc = Chunk2Doc()\
           .setInputCols("ner_chunk")\
-          .setOutputCol("ner_chunk_doc") 
-    
+          .setOutputCol("ner_chunk_doc")
+
     sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli', 'en','clinical/models')\
           .setInputCols(["ner_chunk_doc"])\
           .setOutputCol("sentence_embeddings")\
           .setCaseSensitive(False)
-        
+
     icd_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models") \
          .setInputCols(["sentence_embeddings"]) \
          .setOutputCol("icd10cm_code")\
          .setDistanceFunction("EUCLIDEAN")
-        
+
     resolver_pipeline = Pipeline(
         stages = [
             document_assembler,
@@ -196,7 +196,7 @@ Now, let’s spin up a server using Synapse ML Spark Serving. It will consist of
     ```
     serving_output = resolver_p_model.transform(serving_input) \
         .makeReply("icd10cm_code")
-    ```    
+    ```
 
     #3: Returning the response in json format
     ```

@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.7 ScalaDoc  - com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel</title>
-          <meta name="description" content="Spark NLP 4.2.7 ScalaDoc - com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel" />
-          <meta name="keywords" content="Spark NLP 4.2.7 ScalaDoc com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel" />
+          <title>Spark NLP 4.3.1 ScalaDoc  - com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel</title>
+          <meta name="description" content="Spark NLP 4.3.1 ScalaDoc - com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel" />
+          <meta name="keywords" content="Spark NLP 4.3.1 ScalaDoc com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.7 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.3.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -219,8 +219,8 @@
                         <a href="ReadElmoDLModel.html" title="">ReadElmoDLModel</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
-                        <a class="trait" href="ReadLongformerTensorflowModel.html" title=""></a>
-                        <a href="ReadLongformerTensorflowModel.html" title="">ReadLongformerTensorflowModel</a>
+                        <a class="trait" href="ReadLongformerDLModel.html" title=""></a>
+                        <a href="ReadLongformerDLModel.html" title="">ReadLongformerDLModel</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="trait" href="ReadRobertaDLModel.html" title=""></a>
@@ -423,7 +423,7 @@ wordsCoverage.select(<span class="lit">"text"</span>,<span class="lit">"cov_embe
     data in the embedded field. This returns a single coverage object considering all rows in
     the field.</li></ul><pre><span class="kw">val</span> wordsOverallCoverage = WordEmbeddingsModel.overallCoverage(wordsCoverage,<span class="lit">"embeddings"</span>).percentage
 <span class="num">1.0</span></pre><p>For extended examples of usage, see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb" target="_blank">Spark NLP Workshop</a>
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/quick_start_offline.ipynb" target="_blank">Examples</a>
 and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsTestSpec.scala" target="_blank">WordEmbeddingsTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler

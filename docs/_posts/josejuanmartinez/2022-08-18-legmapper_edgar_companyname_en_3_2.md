@@ -10,6 +10,7 @@ language: en
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"
@@ -83,8 +84,8 @@ use_er_model = legal.SentenceEntityResolverModel.pretrained("legel_edgar_company
 
 cm = legal.ChunkMapperModel()\
       .pretrained("legmapper_edgar_companyname", "en", "legal/models")\
-      .setInputCols(["normalized"])\ # or ner_chunk for non normalized versions
-      .setOutputCol("mappings")
+      .setInputCols(["normalized"])\
+      .setOutputCol("mappings")  # or ner_chunk for non normalized versions
 
 nlpPipeline = nlp.Pipeline(stages=[
         documentAssembler,

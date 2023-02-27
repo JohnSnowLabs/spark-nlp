@@ -47,7 +47,7 @@ import org.apache.spark.sql.Dataset
   * [[WordEmbeddingsModel WordEmbeddingsModel.overallCoverage]].
   *
   * For extended examples of usage, see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb Spark NLP Workshop]]
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/scala/training/NerDL/win/customNerDlPipeline/CustomForNerDLPipeline.java Examples]]
   * and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/WordEmbeddingsTestSpec.scala WordEmbeddingsTestSpec]].
   *

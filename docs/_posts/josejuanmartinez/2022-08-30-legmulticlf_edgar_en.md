@@ -67,7 +67,7 @@ multiClassifier = nlp.MultiClassifierDLModel.pretrained("legmulticlf_edgar", "en
   .setInputCols(["document", "sentence_embeddings"]) \
   .setOutputCol("class")
 
-ledgar_pipeline = Pipeline(
+ledgar_pipeline = nlp.Pipeline(
     stages=[document, 
             embeddings,
             multiClassifier])

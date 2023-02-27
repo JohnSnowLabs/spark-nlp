@@ -99,7 +99,7 @@ val documenter = new DocumentAssembler()
     .setOutputCol("document")
 
 val sentencer = new SentenceDetector()
-    .setInputCols(["document"])
+    .setInputCols("document")
     .setOutputCol("sentences")
 
 val tokenizer = new Tokenizer()

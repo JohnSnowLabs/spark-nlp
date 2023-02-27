@@ -10,6 +10,7 @@ language: en
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
+recommended: true
 annotator: ChunkMapperModel
 article_header:
   type: cover
@@ -88,8 +89,8 @@ use_er_model = finance.SentenceEntityResolverModel.pretrained('finel_nasdaq_data
 
 CM = finance.ChunkMapperModel()\
       .pretrained('finmapper_nasdaq_data_company_name', 'en', 'finance/models')\
-      .setInputCols(["normalized"])\ #or ner_chunk without normalization
-      .setOutputCol("mappings")
+      .setInputCols(["normalized"])\ 
+      .setOutputCol("mappings") #or ner_chunk without normalization
 
 pipeline = nlp.Pipeline().setStages([document_assembler,
                                  tokenizer, 

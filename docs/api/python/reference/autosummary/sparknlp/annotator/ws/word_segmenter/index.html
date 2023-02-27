@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.annotator.ws.word_segmenter &#8212; Spark NLP 4.2.7 documentation</title>
+    <title>sparknlp.annotator.ws.word_segmenter &#8212; Spark NLP 4.3.1 documentation</title>
   
   
   
@@ -388,7 +388,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../../token/chunk_tokenizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.token.chunk_tokenizer</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../token/recursive_tokenizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.token.recursive_tokenizer</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../token/regex_tokenizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.token.regex_tokenizer</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../token/token2_chunk/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.token.token2_chunk</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../token/tokenizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.token.tokenizer</span></code></a></li>
 </ul>
 </li>
@@ -459,11 +458,29 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">WordSegmenterApproach</span></span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/ws/word_segmenter.html#WordSegmenterApproach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterApproach" title="Permalink to this definition">#</a></dt>
 <dd><p>Trains a WordSegmenter which tokenizes non-english or non-whitespace
 separated texts.</p>
-<p>Many languages are not whitespace separated and their sentences are a
-concatenation of many symbols, like Korean, Japanese or Chinese. Without
-understanding the language, splitting the words into their corresponding
-tokens is impossible. The WordSegmenter is trained to understand these
-languages and split them into semantically correct parts.</p>
+<p>Many languages are not whitespace separated and their sentences are a concatenation
+of many symbols, like Korean, Japanese or Chinese. Without understanding the
+language, splitting the words into their corresponding tokens is impossible. The
+WordSegmenter is trained to understand these languages and split them into
+semantically correct parts.</p>
+<p>This annotator is based on the paper Chinese Word Segmentation as Character Tagging
+[1]. Word segmentation is treated as a tagging problem. Each character is be tagged
+as on of four different labels: LL (left boundary), RR (right boundary), MM (middle)
+and LR (word by itself). The label depends on the position of the word in the
+sentence. LL tagged words will combine with the word on the right. Likewise, RR
+tagged words combine with words on the left. MM tagged words are treated as the
+middle of the word and combine with either side. LR tagged words are words by
+themselves.</p>
+<dl class="simple">
+<dt>Example (from [1], Example 3(a) (raw), 3(b) (tagged), 3(c) (translation)):</dt><dd><ul class="simple">
+<li><p>上海 计划 到 本 世纪 末 实现 人均 国内 生产 总值 五千 美元</p></li>
+<li><p>上/LL 海/RR 计/LL 划/RR 到/LR 本/LR 世/LL 纪/RR 末/LR 实/LL 现/RR 人/LL 均/RR
+国/LL 内/RR 生/LL 产/RR 总/LL值/RR 五/LL 千/RR 美/LL 元/RR</p></li>
+<li><p>Shanghai plans to reach the goal of 5,000 dollars in per capita GDP by the end
+of the century.</p></li>
+</ul>
+</dd>
+</dl>
 <p>For instantiated/pretrained models, see <a class="reference internal" href="#sparknlp.annotator.ws.word_segmenter.WordSegmenterModel" title="sparknlp.annotator.ws.word_segmenter.WordSegmenterModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">WordSegmenterModel</span></code></a>.</p>
 <p>To train your own model, a training dataset consisting of <a class="reference external" href="https://en.wikipedia.org/wiki/Part-of-speech_tagging">Part-Of-Speech
 tags</a> is required.
@@ -472,19 +489,7 @@ Annotation of type <code class="docutils literal notranslate"><span class="pre">
 <p><strong>Tip</strong>:
 The helper class <a class="reference internal" href="../../../training/pos/index.html#sparknlp.training.pos.POS" title="sparknlp.training.pos.POS"><code class="xref py py-class docutils literal notranslate"><span class="pre">POS</span></code></a> might be useful to read training data into
 data frames.</p>
-<p>For extended examples of usage, see the <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/annotation/chinese/word_segmentation">Spark NLP Workshop</a>.</p>
-<table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
-<th class="head"><p>Output Annotation type</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DOCUMENT</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">TOKEN</span></code></p></td>
-</tr>
-</tbody>
-</table>
+<p>For extended examples of usage, see the <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/chinese/word_segmentation">Examples</a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -508,6 +513,24 @@ frequent, by default 0.97</p>
 </dl>
 </dd>
 </dl>
+<p class="rubric">References</p>
+<p><a class="reference external" href="https://aclanthology.org/O03-4002.pdf">[1]</a> Xue, Nianwen. “Chinese Word
+Segmentation as Character Tagging.” International Journal of Computational
+Linguistics &amp; Chinese Language Processing, Volume 8, Number 1, February 2003:
+Special Issue on Word Formation and Chinese Language Processing, 2003, pp. 29-48.
+ACLWeb, <a class="reference external" href="https://aclanthology.org/O03-4002">https://aclanthology.org/O03-4002</a>.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
+<th class="head"><p>Output Annotation type</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DOCUMENT</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TOKEN</span></code></p></td>
+</tr>
+</tbody>
+</table>
 <p class="rubric">Examples</p>
 <p>In this example, <code class="docutils literal notranslate"><span class="pre">&quot;chinese_train.utf8&quot;</span></code> is in the form of:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">十</span><span class="o">|</span><span class="n">LL</span> <span class="n">四</span><span class="o">|</span><span class="n">RR</span> <span class="n">不</span><span class="o">|</span><span class="n">LL</span> <span class="n">是</span><span class="o">|</span><span class="n">RR</span> <span class="n">四</span><span class="o">|</span><span class="n">LL</span> <span class="n">十</span><span class="o">|</span><span class="n">RR</span>
@@ -711,7 +734,7 @@ object:</p>
 <p>The default model is <code class="docutils literal notranslate"><span class="pre">&quot;wordseg_pku&quot;</span></code>, default language is <code class="docutils literal notranslate"><span class="pre">&quot;zh&quot;</span></code>, if no
 values are provided. For available pretrained models please see the <a class="reference external" href="https://nlp.johnsnowlabs.com/models?task=Word+Segmentation">Models
 Hub</a>.</p>
-<p>For extended examples of usage, see the <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/chinese/word_segmentation/words_segmenter_demo.ipynb">Spark NLP Workshop</a>.</p>
+<p>For extended examples of usage, see the <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/jupyter/annotation/chinese/word_segmentation/words_segmenter_demo.ipynb">Examples</a>.</p>
 <table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>

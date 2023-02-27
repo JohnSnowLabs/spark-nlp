@@ -22,10 +22,10 @@ This release includes some stabilization and bug fixes for issues reported by ou
 ## Improvement
 - Name of available models should be visible completely in the Predefined Labels tab
 
-## Bug
+## Bug Fixes
 - Finance models cannot be downloaded to NLP Lab with a floating license from Models Hub 
 - Trained visual NER model is not listed in the predefined labels section on the configuration page
-- Error due to circular dependancy of logger
+- Error due to circular dependency of logger
 
 </div><div class="prev_ver h3-box" markdown="1">
 

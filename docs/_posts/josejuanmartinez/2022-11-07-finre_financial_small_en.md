@@ -101,7 +101,7 @@ reDL = finance.RelationExtractionDLModel.pretrained('finre_financial_small', 'en
     .setInputCols(["re_ner_chunk", "sentence"])\
     .setOutputCol("relations")
 
-pipeline = Pipeline(stages=[
+pipeline = nlp.Pipeline(stages=[
         documentAssembler,
         sentencizer,
         tokenizer,

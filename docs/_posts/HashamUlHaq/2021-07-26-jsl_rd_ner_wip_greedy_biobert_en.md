@@ -86,7 +86,7 @@ val tokenizer = new Tokenizer()
     .setOutputCol("token")
 
 val embeddings_clinical = BertEmbeddings.pretrained("biobert_pubmed_base_cased")
-    .setInputCols(["sentence", "token"])
+    .setInputCols("sentence", "token")
     .setOutputCol("embeddings")
 
 val ner = MedicalNerModel.pretrained("jsl_rd_ner_wip_greedy_biobert", "en", "clinical/models") 

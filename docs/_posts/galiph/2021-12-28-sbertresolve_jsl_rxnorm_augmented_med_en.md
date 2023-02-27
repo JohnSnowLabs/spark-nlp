@@ -60,12 +60,12 @@ light_model = LightPipeline(rxnorm_pipelineModel)
 result = light_model.fullAnnotate(["Coumadin 5 mg", "aspirin", "Neurontin 300", "avandia 4 mg"])
 ```
 ```scala
-val documentAssembler = DocumentAssembler()\
-      .setInputCol("text")\
+val documentAssembler = DocumentAssembler()
+      .setInputCol("text")
       .setOutputCol("ner_chunk")
       
-val sbert_embedder = BertSentenceEmbeddings.pretrained("sbert_jsl_medium_rxnorm_uncased", "en", "clinical/models")\
-      .setInputCols("ner_chunk")\
+val sbert_embedder = BertSentenceEmbeddings.pretrained("sbert_jsl_medium_rxnorm_uncased", "en", "clinical/models")
+      .setInputCols("ner_chunk")
       .setOutputCol("sbert_embeddings")
     
 val rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_jsl_rxnorm_augmented_med", "en", "clinical/models") \

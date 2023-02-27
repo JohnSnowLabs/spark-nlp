@@ -18,7 +18,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-The `legclf_exchange_agreement_bert` model is a Bert Sentence Embeddings Document Classifier used to classify if the document belongs to the class `exchange-agreement` (check [Lawinsider](https://www.lawinsider.com/tags) for similar document type classification) or not (Binary Classification).
+The `legclf_exchange_agreement_bert` model is a Bert Sentence Embeddings Document Classifier used to classify if the document belongs to the class `exchange-agreement` or not (Binary Classification).
 
 Unlike the Longformer model, this model is lighter in terms of inference time.
 
@@ -98,7 +98,7 @@ result = model.transform(df)
 
 ## References
 
-Legal documents, scrapped from the Internet, and classified in-house + SEC documents + Lawinsider categorization
+Legal documents, scrapped from the Internet, and classified in-house + SEC documents 
 
 ## Benchmarking
 

@@ -6,7 +6,7 @@ seotitle: Release Notes | John Snow Labs
 title: Release Notes
 permalink: /docs/en/alab/release_notes
 key: docs-training
-modify_date: "2023-01-21"
+modify_date: "2023-02-08"
 use_language_switcher: "Python-Scala"
 show_nav: true
 sidebar:
@@ -15,86 +15,61 @@ sidebar:
 
 <div class="h3-box" markdown="1">
 
-## 4.6.2
+## 4.7.1
 
-Release date: **21-01-2023**
+Release date: **22-02-2023**
 
-NLP Lab 4.6.2 comes with support for zero-shot learning via prompts. Prompt engineering is a very recent but rapidly growing discipline that aims to guide language models such as GPT-3 to generate specific and desired outputs, such as answering a question or writing a coherent story. This version of the NLP Lab, adds support for the creation and use of prompts for entities and relations identification within text documents. 
-The goal of prompt engineering in this context is designing and crafting some questions, which are fed into a question-answering model together with some input text. The purpose is to guide the language model to generate specific and desired outputs, such as identifying entities or relations within the input text. 
-This release offers features such as creation and editing of prompts, a dedicated section for prompts management and sharing inside the resources Hub, an optimized configuration page allowing mixing models, prompts, and rules into the same project, and support for quick prompts deployments and testing to the Playground.
+The latest version of NLP Lab, version 4.7.1, brings several enhancements that are worth highlighting. One of the most notable improvements is in relation prompts. NLP Lab now offers support for combining NER models, prompts and rules when defining relation prompts. 
 
+The playground feature in NLP Lab has also received some noteworthy upgrades in version 4.7.1. The "playground" environment was initially added to facilitate experiments with different NLP models, tweak prompts and rules, and explore the potential of language models in a safe, sandboxed environment. The improvements made to the playground in this version are expected to enhance the overall user experience, and to make the environment faster and more responsive.
 
-## Prompts on the Hub
-The resources Hub has a new page dedicated to prompts. It allows users to easily discover and explore the existing prompts or create new prompts for identifying entities or relations. Currently, NLP Lab supports prompts for Healthcare, Finance, and Legal domains applied using pre-trained question-answering language models published on the NLP Models Hub and available to download in one click. The main advantage behind the use of prompts in entity or relation recognition is the ease of definition. Non-technical domain experts can easily create prompts, test and edit them on the playground on custom text snippets and, when ready, deploy them for pre-annotation as part of larger NLP projects. 
-Together with rules, prompts are very handy in situations where no pre-trained models exist, for the target entities and domains. With rules and prompts the annotators never start their projects from scratch but can capitalize on the power of zero-shot models and rules to help them pre-annotate the simple entities and relations and speed up the annotation process. As such the NLP Lab ensures fewer manual annotations are required from any given task.
+In addition to these improvements, the latest version of NLP Lab has extended support for importing large task archives. This means that users can now work with bigger datasets more efficiently, which will undoubtedly save them time and effort.
+Below are the specifics of the additions included in this release:
 
 
-  - **Creating NER Prompts**
+## Improvements in Prompts
+### Build Relation Prompts using NER Models, Prompts and Rules
+In previous version, relation prompts could be defined based on NER models and rules. In this release, NLP Lab allows for NER prompts to be reused when defining relation prompts. To include a NER prompt within a relation prompt, users need to navigate to the Questions section of the Relation Prompt creation page and search for the prompt to reuse. Once the NER prompt has been selected, users can start defining the question patterns. For example, users could create prompts that identify the relationship between people and the organizations they work for, or prompts that identify the relationship between a place and its geographic coordinates. The ability to incorporate NER prompts into relation prompts is a significant advancement in prompts engineering, and it opens up new possibilities for more sophisticated and accurate natural language processing.
 
-NER prompts, can be used to identify entities in natural language text documents. Those can be created based on healthcare, finance, and legal zero-shot models selectable from the "Domain" dropdown. For one prompt, the user adds one or more questions for which the answer represents the target entity to annotate.
+<img width="774" alt="image" src="https://user-images.githubusercontent.com/46840490/218919293-d931ed1f-10d1-4a97-b3e4-4d705546fb26.png">
 
-   ![entity_prompt](https://user-images.githubusercontent.com/26042994/211890279-2ea02cd5-36fa-4b56-86fd-38b0c20ba880.gif)
+## Improvements in Playground
+### Direct Navigation to Active Playground Sessions
 
-  - **Creating Relation Prompts**
+Navigating between multiple projects to and from the playground experiments can be necessary, especially when you want to revisit a previously edited prompt or rule. This is why NLP Lab Playground now allow users to navigate to any active Playground session without having to redeploy the server. 
+This feature enables users to check how their resources (models, rules and prompts) behave at project level, compare the preannotation results with ground truth, and quickly get back to experiments for modifying prompts or rules without losing progress or spending time on new deployments. This feature makes experimenting with NLP prompts and rules in a playground more efficient, streamlined, and productive.
 
-Prompts can also be used to identify relations between entities for healthcare, finance, and legal domains. The domain-specific zero-shot model to use for detecting relation can be selected from the "Domain" dropdown. The relation prompts are defined by a pair of entities related by a predicate. The entities can be selected from the available dropdowns listing all entities available in the current NLP Lab (included in available NER models or rules) for the specified domain. 
-   
-   ![relation_prompt](https://user-images.githubusercontent.com/26042994/211890317-362f193c-b80b-4caa-b242-69df6fa8a257.gif)
+![reopen_playground](https://user-images.githubusercontent.com/26042994/219060474-0c6fc8ab-f946-4ea5-886c-659f357b7f7d.gif)
 
-## A simplified configuration wizard allows the reuse of models, rules, and prompts
-The project configuration page was simplified by grouping into one page all available resources that can be reused for pre-annotation: models, rules, and prompts. Users can easily mix and match the relevant resources and add them to their configuration. 
+### Automatic Deployment of Updated Rules/Prompts 
 
-![updated_configuration_page](https://user-images.githubusercontent.com/26042994/211890361-14c5b17c-762d-4d0a-a6a6-0ac235565aa0.gif)
+Another benefit of experimenting with NLP prompts and rules in the playground is the immediate feedback that you receive. When you make changes to the parameters of your rules or to the questions in your prompts, the updates are deployed instantly. Manually deploying the server is not necessary any more for changes made to Rules/Prompts to be reflected in the preannotation results. Once the changes are saved, by simply clicking on the Test button, updated results are presented. 
+This allows you to experiment with a range of variables and see how each one affects the correctness and completeness of the results. The real-time feedback and immediate deployment of changes in the playground make it a powerful tool for pushing the boundaries of what is possible with language processing.
 
-**Note:** One project configuration can only reuse the prompts defined by one single zero-shot model. Prompts created based on multiple zero-shot models (e.g. finance or legal or healthcare) cannot be mixed into the same project because of high resource consumption. Furthermore, all prompts require a license with a scope that matches the domain of the prompt.
+### Playground Server Destroyed after 5 Minutes of Inactivity
 
-## Experiment with prompts in Playground
-NLP Lab's Playground supports the deployment and testing of prompts. Users can quickly test the results of applying a prompt on custom text, can easily edit the prompt, save it, and deploy it right away to see the change in the pre-annotation results.
+When active, the NLP playground consumes resources from your server. For this reason, NLP Lab defines an idle time limit of 5 minutes after which the playground is automatically destroyed. This is done to ensure that the server resources are not being wasted on idle sessions. When the server is destroyed, a message is displayed, so users are aware that the session has ended. Users can view information regarding the reason for the Playground's termination, and have the option to restart by pressing the Restart button.
 
-![demo3](https://user-images.githubusercontent.com/33893292/213699722-543d13f6-c410-4398-83a1-26a832a032ca.gif)
+![Screenshot 2023-02-15 at 9 02 36 PM](https://user-images.githubusercontent.com/26042994/219069508-fc241f70-1544-4c68-ba3e-9aa7158a065a.png)
 
-## Zero-Shot Models available in the NLP Models Hub
-NLP Models Hub now lists the newly released zero-shot models that are used to define prompts. These models need to be downloaded to NLP Lab instance before prompts can be created. A valid license must be available for the models to be downloaded to NLP Lab.
+### Playground Servers use Light Pipelines
+The replacement of regular preannotation pipelines with Light Pipelines has a significant impact on the performance of the NLP playground. Light pipelines allow for faster initial deployment, quicker pipeline update and fast processing of text data, resulting in overall quicker results in the UI.
 
-![Zero-shot-models](https://user-images.githubusercontent.com/26042994/211890478-3aa90dfc-f474-42c8-a73f-ce6c3efecbbe.png)
 
-## Bug Fixes
+### Direct Access to Model Details Page on the Playground
+Another useful feature of NLP Lab Playground is the ability to quickly and easily access information on the models being used. This information can be invaluable for users who are trying to gain a deeper understanding of the model’s inner workings and capabilities. In particular, by click on the model’s name it is now possible to navigate to the NLP Models hub page. This page provides users with additional details about the model, including its training data, architecture, and performance metrics. By exploring this information, users can gain a better understanding of the model’s strengths and weaknesses, and use this knowledge to make more informed decisions on how good the model is for the data they need to annotate. 
 
-- **Error while deploying classification model to the playground**
+![model_link](https://user-images.githubusercontent.com/26042994/219068322-0b0ccc7a-6acb-4522-b0ca-13eba6973c40.gif)
 
-  Previously, deploying the classification model to the playground had some issues which have been fixed in this version.
 
-- **Information on the model's details not visible completely on the playground **
+## Improvements in Task Import
 
-  In this version, we have fixed an issue related to the visibility of the information for Edition, Uploaded by, and Source inside the Models Detail accordion. Now, the UI can handle long model names on the playground page.
+### Support for Large Document Import
+One of the challenges when working on big annotation projects is dealing with large size tasks, especially when uploading them to the platform. This is particularly problematic for files/archives larger than 20 MB, which can often lead to timeouts and failed uploads. To address this issue, NLP Lab has implemented chunk file uploading on the task import page.
+Chunk file uploading is a method that breaks large files into smaller, more manageable chunks. This process makes the uploading of large files smoother and more reliable, as it reduces the risk of timeouts and failed uploads. This is especially important for NLP practitioners who work with large datasets, as it allows them to upload and process their data more quickly and effectively.
 
-- **Undo and Reset buttons are not working**
+![chunk-file-uploading](https://user-images.githubusercontent.com/10126570/218990805-8128a475-d33b-4fd8-9397-6aaa6895c9c7.gif)
 
-  With release 4.6.2, issues regarding undo/redo buttons in the labeling page for annotated tokens have been fixed. Now, the Undo and Redo button works as expected.
-
-- **Finance and Legal models cannot be downloaded to NLP Lab with a floating license from Models Hub**
-
-  Earlier, users were not able to download the Finance and Legal model from the NLP Models HUB page using floating licenses. This issue has been fixed. Now, legal and finance models are downloadable in the NLP lab using a floating license.
-
-- **Pre-annotation server cannot be deployed for Visual NER**
-
-  This version also fixes the issue of failing to deploy the pre-annotation server for Visual NER models.
-
-- **Draft saved is seen for submitted completion**
-
-  Previously, in the NER task when the user clicked on regions of a previously submitted completion and viewed the versions submitted by the users, a draft was saved. A draft should not be created and saved for submitted completions. This issue was fixed in 4.6.2.
-
-- **Training fails for NER when embedding_clinical is used and the license type is open-source**
-
-  Earlier it was not possible to train a NER model with the open-source library using embeddings_clinical. This issue has been fixed. Hence users can now train open-sourced models with embeddings_clinical.
-
-- **UI goes blank for the Visual NER project when an annotation is saved and the next button is clicked**
-
-  In the previous version, annotators were not served the next task after clicking the Next button. A blank page with a console error was seen. Now the next task is served in the Visual NER project without any error.
-
-- **Pre-annotation server cannot be deployed for RE model**
-
-  There was an issue with the deployment of trained NER models with a relation extraction model. This issue has been fixed in this version.
 
 </div><div class="prev_ver h3-box" markdown="1">
 
@@ -103,7 +78,10 @@ NLP Models Hub now lists the newly released zero-shot models that are used to de
 </div>
 
 <ul class="pagination owl-carousel pagination_big">
-    <li class="active"><a href="annotation_labs_releases/release_notes_4_6_2">4.6.2</a></li>
+    <li class="active"><a href="annotation_labs_releases/release_notes_4_7_1">4.7.1</a></li>
+    <li><a href="annotation_labs_releases/release_notes_4_6_5">4.6.5</a></li>    
+    <li><a href="annotation_labs_releases/release_notes_4_6_3">4.6.3</a></li>
+    <li><a href="annotation_labs_releases/release_notes_4_6_2">4.6.2</a></li>
     <li><a href="annotation_labs_releases/release_notes_4_5_1">4.5.1</a></li>
     <li><a href="annotation_labs_releases/release_notes_4_5_0">4.5.0</a></li>
     <li><a href="annotation_labs_releases/release_notes_4_4_1">4.4.1</a></li>
