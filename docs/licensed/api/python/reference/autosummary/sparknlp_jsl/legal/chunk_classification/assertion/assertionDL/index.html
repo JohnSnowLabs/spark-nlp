@@ -363,9 +363,9 @@ the <code class="docutils literal notranslate"><span class="pre">end</span></cod
 </tr>
 </tbody>
 </table>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
+<dd class="field-odd"><dl>
 <dt><strong>label</strong></dt><dd><p>Column with one label per document. Example of possible values: “present”, “absent”, “hypothetical”, “conditional”, “associated_with_other_person”, etc.</p>
 </dd>
 <dt><strong>startCol</strong></dt><dd><p>Column that contains the token number for the start of the target</p>
@@ -382,13 +382,20 @@ the <code class="docutils literal notranslate"><span class="pre">end</span></cod
 </dd>
 <dt><strong>maxSentLen</strong></dt><dd><p>Max length for an input sentence.</p>
 </dd>
-<dt><strong>graphFolder</strong></dt><dd><p>Folder path that contain external graph files</p>
+<dt><strong>graphFolder</strong></dt><dd><p>Folder path that contain external graph files. The path can a local file path,
+a distributed file path (HDFS, DBFS), or a cloud storage (S3).</p>
 </dd>
-<dt><strong>graphFile</strong></dt><dd><p>Graph file name to use</p>
+<dt><strong>graphFile</strong></dt><dd><p>Path that contains the external graph file.</p>
+<p>When specified, the provided file will be used, and no graph search will happen.
+The path can be a local file path,
+a distributed file path (HDFS, DBFS), or a cloud storage (S3).</p>
 </dd>
-<dt><strong>configProtoBytes</strong></dt><dd><p>ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()</p>
+<dt><strong>configProtoBytes</strong></dt><dd><p>ConfigProto from tensorflow, serialized into byte array. Get with
+config_proto.SerializeToString()</p>
 </dd>
-<dt><strong>validationSplit</strong></dt><dd><p>Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.</p>
+<dt><strong>validationSplit</strong></dt><dd><p>Choose the proportion of training dataset to be validated against the
+model on each Epoch. The value should be between 0.0 and 1.0 and by default
+it is 0.0 and off.</p>
 </dd>
 <dt><strong>evaluationLogExtended</strong></dt><dd><p>Select if you want to have mode eval.</p>
 </dd>
@@ -398,7 +405,9 @@ the <code class="docutils literal notranslate"><span class="pre">end</span></cod
 </dd>
 <dt><strong>enableOutputLogs</strong></dt><dd><p>whether or not to output logs</p>
 </dd>
-<dt><strong>outputLogsPath</strong></dt><dd><p>Folder path to save training logs</p>
+<dt><strong>outputLogsPath</strong></dt><dd><p>Folder path to save training logs. If no path is specified, the logs won’t
+be stored in disk. The path can be a local file path,
+a distributed file path (HDFS, DBFS), or a cloud storage (S3).</p>
 </dd>
 <dt><strong>verbose</strong></dt><dd><p>Level of verbosity during training</p>
 </dd>
@@ -539,7 +548,18 @@ annotator inputs, which can be obtained by e.g a</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.legal.chunk_classification.assertion.assertionDL.AssertionDLModel.pretrained">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pretrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'en'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../../modules/sparknlp_jsl/legal/chunk_classification/assertion/assertionDL.html#AssertionDLModel.pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.legal.chunk_classification.assertion.assertionDL.AssertionDLModel.pretrained" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Download a pre-trained AssertionDLModel.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>name (str): Name of the pre-trained model.
+lang (str): Language of the pre-trained model.
+remote_loc (str): Remote location of the pre-trained model. If None, use the
+open-source location. Other values are “clinical/models”,
+“finance/models”, or “legal/models”.</p>
+</dd>
+<dt>Returns:</dt><dd><p>AssertionDLModel: A pre-trained AssertionDLModel.</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

@@ -278,8 +278,7 @@
 
 
 <div class="viewcode-block" id="FinanceNerApproach"><a class="viewcode-back" href="../../../../../reference/autosummary/sparknlp_jsl/finance/token_classification/ner/finance_ner/index.html#sparknlp_jsl.finance.token_classification.ner.finance_ner.FinanceNerApproach">[docs]</a><span class="k">class</span> <span class="nc">FinanceNerApproach</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;This Named Entity recognition annotator allows to train generic NER model</span>
-<span class="sd">    based on Neural Networks.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Trains generic NER model based on Neural Networks.</span>
 
 <span class="sd">    The architecture of the neural network is a Char CNNs - BiLSTM - CRF that</span>
 <span class="sd">    achieves state-of-the-art in most datasets.</span>
@@ -306,6 +305,12 @@
 <span class="sd">    ``DOCUMENT, TOKEN, WORD_EMBEDDINGS`` ``NAMED_ENTITY``</span>
 <span class="sd">    ==================================== ======================</span>
 
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">        Both DocumentAssembler and SentenceDetector annotators are</span>
+<span class="sd">        annotators that output the ``DOCUMENT`` annotation type. Thus, any of them</span>
+<span class="sd">        can be used as the first annotators in a pipeline.</span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    labelColumn</span>
@@ -328,36 +333,133 @@
 <span class="sd">    batchSize</span>
 <span class="sd">        Batch size, by default 8</span>
 <span class="sd">    dropout</span>
-<span class="sd">        Dropout coefficient, by default 0.5</span>
+<span class="sd">        Dropout coefficient, by default 0.5.</span>
+
+<span class="sd">        The coefficient of the dropout layer. The value should be between 0.0 and 1.0.</span>
+<span class="sd">        Internally, it is used by Tensorflow as: `rate = 1.0 - dropout` when adding</span>
+<span class="sd">        a dropout layer on top of the recurrent layers.</span>
 <span class="sd">    graphFolder</span>
-<span class="sd">        Folder path that contain external graph files</span>
+<span class="sd">        Folder path that contains external graph files. The path can be a local file path,</span>
+<span class="sd">        a distributed file path (HDFS, DBFS), or a cloud storage (S3).</span>
+
+<span class="sd">        When instantiating the Tensorflow model, uses this folder to search for the</span>
+<span class="sd">        adequate Tensorflow graph. The search is done usaing the name of</span>
+<span class="sd">        the `.pb` file, which should be `blstn_{ntags}_{embedding_dim}_{lstm_size}_{nchars}.pb`.</span>
+<span class="sd">        The, the verifications on the obtained file are:</span>
+<span class="sd">        - Embedding dimension should be exactly the same as the one used to train the model.</span>
+<span class="sd">        - Number of tags should be greather than or equal to the number of tags in the</span>
+<span class="sd">        training data.</span>
+<span class="sd">        - Number of chars should be greather than or equal to the number of chars in</span>
+<span class="sd">        the training data.</span>
+
+<span class="sd">        The returned file will be the first one that satisfies all the conditions.</span>
+
+<span class="sd">        If the name of the file is ill-formed, errors will occur during training.</span>
+<span class="sd">    graphFile</span>
+<span class="sd">        Path that contains the external graph file.</span>
+
+<span class="sd">        When specified, the provided file will be used, and no graph search will happen.</span>
+<span class="sd">        The path can be a local file path,</span>
+<span class="sd">        a distributed file path (HDFS, DBFS), or a cloud storage (S3).</span>
+<span class="sd">    pretrainedModelPath</span>
+<span class="sd">        Path to an already trained FinanceNerModel, which is used as a starting point</span>
+<span class="sd">        for training the new model. The path can be a local file path,</span>
+<span class="sd">        a distributed file path (HDFS, DBFS), or a cloud storage (S3).</span>
 <span class="sd">    configProtoBytes</span>
 <span class="sd">        ConfigProto from tensorflow, serialized into byte array.</span>
 <span class="sd">    useContrib</span>
 <span class="sd">        whether to use contrib LSTM Cells. Not compatible with Windows. Might</span>
-<span class="sd">        slightly improve accuracy</span>
+<span class="sd">        slightly improve accuracy. By default True.</span>
 <span class="sd">    validationSplit</span>
 <span class="sd">        Choose the proportion of training dataset to be validated against the</span>
 <span class="sd">        model on each Epoch. The value should be between 0.0 and 1.0 and by</span>
-<span class="sd">        default it is 0.0 and off, by default 0.0</span>
+<span class="sd">        default it is 0.0 and off.</span>
+
+<span class="sd">        The validation dataset is randomly extracted from the training dataset</span>
+<span class="sd">        before training starts. If the value is 0.0, then no validation will be</span>
+<span class="sd">        performed (hold out data).</span>
 <span class="sd">    evaluationLogExtended</span>
 <span class="sd">        Whether logs for validation to be extended, by default False.</span>
 <span class="sd">    testDataset</span>
-<span class="sd">        Path to test dataset. If set used to calculate statistic on it during</span>
-<span class="sd">        training.</span>
+<span class="sd">        Path to test dataset in parquet format. If set, the dataset will be used</span>
+<span class="sd">        to calculate statistic on it during training.</span>
 <span class="sd">    includeConfidence</span>
-<span class="sd">        whether to include confidence scores in annotation metadata, by default</span>
-<span class="sd">        False</span>
+<span class="sd">        Whether to include confidence scores in annotation metadata, by default</span>
+<span class="sd">        False.</span>
+
+<span class="sd">        Setting this parameter to True will add the confidence score to</span>
+<span class="sd">        the metadata of the NAMED_ENTITY annotation. In addition, if</span>
+<span class="sd">        `includeAllConfidenceScores` is set to True, then the confidence scores</span>
+<span class="sd">        of all the tags will be added to the metadata, otherwise only for the</span>
+<span class="sd">        predicted tag (the one with maximum score).</span>
 <span class="sd">    includeAllConfidenceScores</span>
-<span class="sd">        whether to include all confidence scores in annotation metadata or just</span>
-<span class="sd">        the score of the predicted tag, by default False</span>
+<span class="sd">        Whether to include confidence scores for all tags in annotation metadata or just</span>
+<span class="sd">        the score of the predicted tag, by default False.</span>
+
+<span class="sd">        Needs the `includeConfidence` parameter to be set to True.</span>
 <span class="sd">    enableOutputLogs</span>
-<span class="sd">        Whether to use stdout in addition to Spark logs, by default False</span>
+<span class="sd">        Whether to use stdout in addition to Spark logs, by default False.</span>
 <span class="sd">    outputLogsPath</span>
-<span class="sd">        Folder path to save training logs</span>
+<span class="sd">        Folder path to save training logs. If no path is specified, the logs won&#39;t</span>
+<span class="sd">        be stored in disk. The path can be a local file path,</span>
+<span class="sd">        a distributed file path (HDFS, DBFS), or a cloud storage (S3).</span>
 <span class="sd">    enableMemoryOptimizer</span>
 <span class="sd">        Whether to optimize for large datasets or not. Enabling this option can</span>
-<span class="sd">        slow down training, by default False</span>
+<span class="sd">        slow down training.</span>
+
+<span class="sd">        In practice, if set to True the training will iterate over the spark Data Frame</span>
+<span class="sd">        and retrieve the batches from the Data Frame iterator. This can be slower</span>
+<span class="sd">        than the default option as it has to collect the batches on evey bach for every</span>
+<span class="sd">        epoch, but it can be useful if the dataset is too large to fit in memory.</span>
+
+<span class="sd">        If the training data can fit to memory, then it is recommended to set this</span>
+<span class="sd">        option to False (default value).</span>
+<span class="sd">    tagsMapping</span>
+<span class="sd">        A map specifying how old tags are mapped to new ones as a list of comma-separated</span>
+<span class="sd">        entities, where the first entity is the old tag and the second entity is</span>
+<span class="sd">        the new tag. For example, if the map is set to [&quot;OLDTAG,NEWTAG&quot;, &quot;B-PER,B-VIP&quot;,</span>
+<span class="sd">        &quot;I-PER, I-VIP&quot;], then all occurrences of &quot;OLDTAG&quot; will be mapped to &quot;NEWTAG&quot;,</span>
+<span class="sd">        all occurrences of &quot;B-PER&quot; will be mapped to &quot;B-VIP&quot;, and all occurrences of</span>
+<span class="sd">        &quot;I-PER&quot; will be mapped to &quot;I-VIP&quot;. It only works if setOverrideExistingTags</span>
+<span class="sd">        is set to False.</span>
+<span class="sd">    earlyStoppingPatience</span>
+<span class="sd">        Number of epochs to wait before early stopping if no improvement, by default 5.</span>
+
+<span class="sd">        Given the earlyStoppingCriterion, if the performance does not improve for the given</span>
+<span class="sd">        number of epochs, then the training will stop. If the value is 0, then early stopping</span>
+<span class="sd">        will occurs as soon as the criterion is met (no patience).</span>
+<span class="sd">    earlyStoppingCriterion</span>
+<span class="sd">        If set, this param specifies the criterion to stop training if performance is not improving.</span>
+<span class="sd">        Default value is 0 which is means that early stopping is not used.</span>
+
+<span class="sd">        The criterion is set to F1-score if the validationSplit is greater than 0.0</span>
+<span class="sd">        (F1-socre on validation set) or testDataset is defined (F1-score on test set),</span>
+<span class="sd">        otherwise it is set to model loss. The priority is as follows:</span>
+<span class="sd">        - If testDataset is defined, then the criterion is set to F1-score on test set.</span>
+<span class="sd">        - If validationSplit is greater than 0.0, then the criterion is set to</span>
+<span class="sd">        F1-score on validation set.</span>
+<span class="sd">        - Otherwise, the criterion is set to model loss.</span>
+
+<span class="sd">        Note that while the F1-score ranges from 0.0 to 1.0, the loss ranges</span>
+<span class="sd">        from 0.0 to infinity. So, depending on which case you are using,</span>
+<span class="sd">        the value you use for the criterion can be very different. For example,</span>
+<span class="sd">        if validationSplit is 0.1, then a criterion of 0.01 means that if the F1-score</span>
+<span class="sd">        on the validation set difference from last epoch is greater than 0.01, then the</span>
+<span class="sd">        training should stop.</span>
+<span class="sd">        However, if there is not validation or test set defined, then a criterion of 2.0</span>
+<span class="sd">        means that if the loss difference between the last epoch and the current one</span>
+<span class="sd">        is less than 2.0, then training should stop.</span>
+
+<span class="sd">        See also `earlyStoppingPatience`.</span>
+<span class="sd">    logPrefix</span>
+<span class="sd">        A prefix that will be appended to every log, default value is empty.</span>
+<span class="sd">    useBestModel</span>
+<span class="sd">        Whether to restore and use the model from the epoch that has achieved the</span>
+<span class="sd">        best performance at the end of the training. By default False (keep the</span>
+<span class="sd">        model from teh last trained epoch).</span>
+
+<span class="sd">        The best model depends on the earlyStoppingCriterion, which can be F1-score</span>
+<span class="sd">        on test/validation dataset or the value of loss.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -407,7 +509,12 @@
 <span class="sd">    &gt;&gt;&gt; pipelineModel = pipeline.fit(trainingData)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">_create_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">java_model</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_create_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">java_model</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates the model using the java model.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            java_model (str): The name of the java model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">FinanceNerModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span>
 
     <span class="nd">@keyword_only</span>
@@ -563,6 +670,18 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="FinanceNerModel.pretrained"><a class="viewcode-back" href="../../../../../reference/autosummary/sparknlp_jsl/finance/token_classification/ner/finance_ner/index.html#sparknlp_jsl.finance.token_classification.ner.finance_ner.FinanceNerModel.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;ner_clinical&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="s2">&quot;clinical/models&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Download a pre-trained FinanceNerModel.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): Name of the pre-trained model.</span>
+<span class="sd">            lang (str): Language of the pre-trained model.</span>
+<span class="sd">            remote_loc (str): Remote location of the pre-trained model. If None, use the</span>
+<span class="sd">            open-source location. Other values are &quot;clinical/models&quot;,</span>
+<span class="sd">            &quot;finance/models&quot;, or &quot;legal/models&quot;.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            FinanceNerModel: A pre-trained FinanceNerModel.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">sparknlp_jsl.pretrained</span> <span class="kn">import</span> <span class="n">InternalResourceDownloader</span>
         <span class="k">return</span> <span class="n">InternalResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">FinanceNerModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
                                                         <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div></div>

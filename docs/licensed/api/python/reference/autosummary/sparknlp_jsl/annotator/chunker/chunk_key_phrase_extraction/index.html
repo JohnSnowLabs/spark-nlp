@@ -321,6 +321,8 @@
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../qa/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../qa/gpt_generation_params/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa.gpt_generation_params</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../qa/medical_qa/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa.medical_qa</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../qa/qa_ner_generator/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa.qa_ner_generator</span></code></a></li>
 </ul>
 </li>
@@ -385,20 +387,39 @@
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction" title="sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChunkKeyPhraseExtraction</span></code></a></p></td>
-<td><p>Chunk KeyPhrase Extraction uses Bert Sentence Embeddings to determine the most relevant key phrases describing a</p></td>
+<td><p>Extracts key phrases from texts.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ChunkKeyPhraseExtraction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.embeddings.ChunkKeyPhraseExtraction'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunk_key_phrase_extraction.html#ChunkKeyPhraseExtraction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction" title="Permalink to this definition">#</a></dt>
-<dd><p>Chunk KeyPhrase Extraction uses Bert Sentence Embeddings to determine the most relevant key phrases describing a
-text. The input to the model consists of chunk annotations and sentence or document annotation. The model compares
-the chunks against the corresponding sentences/documents and selects the chunks which are most representative of
-the broader text context (i.e. the document or the sentence they belong to). The key phrases candidates (i.e. the
-input chunks) can be generated in various ways, e.g. by NGramGenerator, TextMatcher or NerConverter. The model
-operates either at sentence (selecting the most descriptive chunks from the sentence they belong to) or at document
-level. In the latter case, the key phrases are selected to represent all the input document annotations.</p>
+<dd><p>Extracts key phrases from texts.</p>
+<p><cite>ChunkKeyPhraseExtraction</cite> uses <cite>BertSentenceEmbeddings</cite> to determine the most
+relevant key phrases describing a text with the use of two approaches:
+- By using cosine similarities between the embedding representation of the chunks
+and the embedding representation of the corresponding sentences/documents.
+- By using the Maximal Marginal Relevance (MMR) algorithm (set with the
+<cite>setDivergence</cite> method) to determine the most relevant key phrases.</p>
+<p>If the <cite>selectMostDifferent</cite> parameter is set, return the key phrases that are the
+most different from each other (avoid too similar key phrases).</p>
+<p>The model compares the chunks against the corresponding sentences/documents and selects
+the chunks which are most representative of the broader text context
+(i.e., the document or the sentence they belong to). This allows, for example, to
+obtain a brief understanding of a document by selecting the most relevant
+phrases.</p>
+<p>The input to the model consists of chunk annotations and sentence or
+document annotation. The input chunks can be generated in various ways:
+- Using <cite>NGramGenerator</cite>, which allows to obtain ranked n-gram chunks from the text (can be
+used to identify new entities).
+- Using <cite>YakeKeywordExtractor</cite>, allowing to rank the keywords extracted using the
+YAKE algorithm.
+- Using <cite>TextMatcher</cite>, which allows to rank the desired chunks from the annotator.
+- Using <cite>NerConverter</cite>, which allows to extract ranked named entities (which entities
+are the most relevant in the sentence/document).</p>
+<p>The model operates either at sentence (selecting the most descriptive chunks from
+the sentence they belong to) or at document level. In the latter case, the key
+phrases are selected to represent all the input document annotations.</p>
 <table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
@@ -414,18 +435,42 @@ level. In the latter case, the key phrases are selected to represent all the inp
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>topN</strong></dt><dd><p>The number of key phrases to select.</p>
+<dt><strong>topN</strong></dt><dd><p>The number of key phrases to select. Default: 3.</p>
 </dd>
-<dt><strong>selectMostDifferent</strong></dt><dd><p>Finds the topN * 2 key phrases and then selects topN of them, such as that they are the most different from
-each other</p>
+<dt><strong>selectMostDifferent</strong></dt><dd><p>Pre-select <cite>topN * 2</cite> key phrases and out of those select the <cite>topN</cite> that are
+the most different from each other.
+This parameter should not be used in conjunction with <cite>divergence</cite> as they aim
+to achieve the same goal, but in different ways.
+Default: False.</p>
 </dd>
-<dt><strong>divergence</strong></dt><dd><p>The divergence value determines how different from each the extracted key phrases are. Uses Maximal Marginal
-Relevance (MMR). MMR should not be used in conjunction with selectMostDifferent as they aim to achieve the same
-goal, but in different ways.</p>
+<dt><strong>divergence</strong></dt><dd><p>The divergence value determines how different from each the extracted key phrases are.
+Possible values are within the interval [0, 1]. The higher the value is, the more
+divergence is enforced. A value of 0 means the key phrases are not compared to each
+other (no divergence is ensured) and their relevance is determined solely by
+their similarity to the document.
+This parameter should not be used if selectMostDifferent is set to True, as the two
+parameters aim to achieve the same goal in different ways.
+The default value is 0, meaning that the there is no constraint on the order of the
+extracted key phrases.
+The divergence is calculated using the Maximal Marginal Relevance measure.
+Default: 0.0.</p>
 </dd>
-<dt><strong>documentLevelProcessing</strong></dt><dd><p>Extract key phrases from the whole document  from particular sentences which the chunks refer to.</p>
+<dt><strong>documentLevelProcessing</strong></dt><dd><p>A flag indicating whether to extract key phrases from the document level,
+i.e. from all the sentences available at a given row, rather than from the
+particular sentences the chunks refer to. Default: True.</p>
 </dd>
-<dt><strong>concatenateSentences</strong></dt><dd><p>Concatenate the input sentence/documentation annotations before computing their embeddings.</p>
+<dt><strong>concatenateSentences</strong></dt><dd><p>A flag indicating whether to concatenate all input document/sentence
+annotations before computing their embedding. This parameter is only used
+if <cite>documentLevelProcessing</cite> is set to <cite>True</cite>.
+If <cite>concatenateSentences</cite> is set to <cite>True</cite>, then the model will concatenate
+the document/sentence input annotations and compute a single embedding.
+If it is set to <cite>False</cite>, then the model will compute the embedding of each
+sentence separately, and average the resulting embedding vectors in the end.
+Default: True.</p>
+</dd>
+<dt><strong>dropPunctuation</strong></dt><dd><p>This parameter indicates whether to remove punctuation marks from the input
+chunks. Chunks coming from NER models are not affected.
+Default: True.</p>
 </dd>
 </dl>
 </dd>
@@ -520,12 +565,12 @@ type two diabetes mellitus</p></td>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction.setTopN">
-<span class="sig-name descname"><span class="pre">setTopN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunk_key_phrase_extraction.html#ChunkKeyPhraseExtraction.setTopN"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction.setTopN" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">setTopN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunk_key_phrase_extraction.html#ChunkKeyPhraseExtraction.setTopN"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction.setTopN" title="Permalink to this definition">#</a></dt>
 <dd><p>Set the number of key phrases to extract. The default value is 3.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">integer</span></dt><dd><p>Number of key phrases to extract.</p>
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Number of key phrases to extract.</p>
 </dd>
 </dl>
 </dd>
@@ -534,19 +579,16 @@ type two diabetes mellitus</p></td>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction.setDivergence">
-<span class="sig-name descname"><span class="pre">setDivergence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunk_key_phrase_extraction.html#ChunkKeyPhraseExtraction.setDivergence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction.setDivergence" title="Permalink to this definition">#</a></dt>
-<dd><dl>
-<dt>Set the level of divergence of the extracted key phrases. The value should be in the interval [0, 1].</dt><dd><p>This parameter should not be used if setSelectMostDifferent is true - the two parameters aim to achieve the
-same goal in different ways. The default is 0, i.e. there is no constraint on the order of key phrases</p>
-<blockquote>
-<div><p>extracted.</p>
-</div></blockquote>
-</dd>
-</dl>
+<span class="sig-name descname"><span class="pre">setDivergence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunk_key_phrase_extraction.html#ChunkKeyPhraseExtraction.setDivergence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction.setDivergence" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the divergence value.</p>
+<p>The divergence value determines how different from each the extracted key phrases are.
+The value must be in the the interval [0, 1].
+The higher the value is, the more divergence is enforced.
+The default value is 0.0.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">float</span></dt><dd><p>Divergence value</p>
+<dt><strong>value</strong><span class="classifier">float</span></dt><dd><p>Divergence value between 0.0 and 1.0.</p>
 </dd>
 </dl>
 </dd>
@@ -555,13 +597,16 @@ same goal in different ways. The default is 0, i.e. there is no constraint on th
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction.setSelectMostDifferent">
-<span class="sig-name descname"><span class="pre">setSelectMostDifferent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunk_key_phrase_extraction.html#ChunkKeyPhraseExtraction.setSelectMostDifferent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction.setSelectMostDifferent" title="Permalink to this definition">#</a></dt>
-<dd><p>Let the model return the top N key phrases which are the most different from each other. Using this paramter
-only makes sense if the divergence parameter is set to 0. The default value is ‘false’</p>
+<span class="sig-name descname"><span class="pre">setSelectMostDifferent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunk_key_phrase_extraction.html#ChunkKeyPhraseExtraction.setSelectMostDifferent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction.setSelectMostDifferent" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the selectMostDifferent parameter.</p>
+<p>If set to True, the model returns the top N key phrases which are the
+most different from each other. If set to False, the model returns the
+top N key phrases which have the highest score.</p>
+<p>The default value is <cite>False</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">boolean</span></dt><dd><p>whether to select the most different key phrases or not.</p>
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>whether to select the most different key phrases or not.</p>
 </dd>
 </dl>
 </dd>
@@ -570,15 +615,15 @@ only makes sense if the divergence parameter is set to 0. The default value is �
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction.setDocumentLevelProcessing">
-<span class="sig-name descname"><span class="pre">setDocumentLevelProcessing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunk_key_phrase_extraction.html#ChunkKeyPhraseExtraction.setDocumentLevelProcessing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction.setDocumentLevelProcessing" title="Permalink to this definition">#</a></dt>
-<dd><dl class="simple">
-<dt>Extract key phrases from the whole document or from particular sentences which the chunks refer to.</dt><dd><p>The default value is ‘false’.</p>
-</dd>
-</dl>
+<span class="sig-name descname"><span class="pre">setDocumentLevelProcessing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunk_key_phrase_extraction.html#ChunkKeyPhraseExtraction.setDocumentLevelProcessing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction.setDocumentLevelProcessing" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the documentLevelProcessing parameter.</p>
+<p>If set to True, the model will extract key phrases from the whole
+document. If set to False, the model will extract key phrases from each
+sentence separately. The default value is <cite>True</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">boolean</span></dt><dd><p>Whether to extract key phrases from the whole document(all sentences).</p>
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to extract key phrases from the whole document(all sentences).</p>
 </dd>
 </dl>
 </dd>
@@ -587,17 +632,17 @@ only makes sense if the divergence parameter is set to 0. The default value is �
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction.setConcatenateSentences">
-<span class="sig-name descname"><span class="pre">setConcatenateSentences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunk_key_phrase_extraction.html#ChunkKeyPhraseExtraction.setConcatenateSentences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction.setConcatenateSentences" title="Permalink to this definition">#</a></dt>
-<dd><p>Concatenate the input sentence/documentation annotations before computing their embeddings. This parameter
-is only used if documentLevelProcessing is true. If concatenateSentences is set to true, the model will
-concatenate the document/sentence input annotations and compute a single embedding. If it is false, the model
-will compute the embedding of each sentence separately and then average the resulting embedding vectors.
-The default value is ‘false’.</p>
+<span class="sig-name descname"><span class="pre">setConcatenateSentences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunk_key_phrase_extraction.html#ChunkKeyPhraseExtraction.setConcatenateSentences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction.setConcatenateSentences" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the concatenateSentences parameter.</p>
+<p>If set to True, the model will concatenate the input sentence annotations
+before computing their embedding. If set to False, the model will compute
+the embedding of each sentence separately and then average them.
+The default value is <cite>True</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">boolean</span></dt><dd><p>Whether to concatenate the input sentence/document annotations in order to compute the embedding of the
-whole document.</p>
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to concatenate the input sentence/document annotations in order
+to compute the embedding of the whole document.</p>
 </dd>
 </dl>
 </dd>
@@ -606,14 +651,15 @@ whole document.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction.setDropPunctuation">
-<span class="sig-name descname"><span class="pre">setDropPunctuation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunk_key_phrase_extraction.html#ChunkKeyPhraseExtraction.setDropPunctuation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction.setDropPunctuation" title="Permalink to this definition">#</a></dt>
-<dd><p>This parameter determines whether to remove punctuation marks from the input chunks. Chunks coming from NER
-models are not affected.
-The default value is ‘true’.</p>
+<span class="sig-name descname"><span class="pre">setDropPunctuation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunk_key_phrase_extraction.html#ChunkKeyPhraseExtraction.setDropPunctuation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunk_key_phrase_extraction.ChunkKeyPhraseExtraction.setDropPunctuation" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the dropPunctuation parameter.</p>
+<p>This parameter determines whether to remove punctuation marks from the input chunks.
+Chunks coming from NER models are not affected.
+The default value is <cite>True</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">boolean</span></dt><dd><p>Whether to remove punctuation marks from input chunks.</p>
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to remove punctuation marks from input chunks.</p>
 </dd>
 </dl>
 </dd>
@@ -627,7 +673,7 @@ The default value is ‘true’.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the pretrained model, by default “sent_small_bert_L2_768”</p>
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the pretrained model.</p>
 </dd>
 <dt><strong>lang</strong><span class="classifier">str, optional</span></dt><dd><p>Language of the pretrained model, by default “en”</p>
 </dd>
@@ -638,7 +684,7 @@ Spark NLPs repositories otherwise.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt>BertSentenceEmbeddings</dt><dd><p>The restored model</p>
+<dt>ChunkKeyPhraseExtraction</dt><dd><p>The restored model</p>
 </dd>
 </dl>
 </dd>

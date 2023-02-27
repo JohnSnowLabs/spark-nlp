@@ -306,9 +306,14 @@
 <span class="sd">    maxSentLen</span>
 <span class="sd">        Max length for an input sentence.</span>
 <span class="sd">    graphFolder</span>
-<span class="sd">        Folder path that contain external graph files</span>
+<span class="sd">        Folder path that contain external graph files. The path can a local file path,</span>
+<span class="sd">        a distributed file path (HDFS, DBFS), or a cloud storage (S3).</span>
 <span class="sd">    graphFile</span>
-<span class="sd">        Graph file name to use</span>
+<span class="sd">        Path that contains the external graph file.</span>
+
+<span class="sd">        When specified, the provided file will be used, and no graph search will happen.</span>
+<span class="sd">        The path can be a local file path,</span>
+<span class="sd">        a distributed file path (HDFS, DBFS), or a cloud storage (S3).</span>
 <span class="sd">    configProtoBytes</span>
 <span class="sd">        ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()</span>
 <span class="sd">    validationSplit</span>
@@ -322,7 +327,9 @@
 <span class="sd">    enableOutputLogs</span>
 <span class="sd">        whether or not to output logs</span>
 <span class="sd">    outputLogsPath</span>
-<span class="sd">        Folder path to save training logs</span>
+<span class="sd">        Folder path to save training logs. If no path is specified, the logs won&#39;t</span>
+<span class="sd">        be stored in disk. The path can be a local file path,</span>
+<span class="sd">        a distributed file path (HDFS, DBFS), or a cloud storage (S3).</span>
 <span class="sd">    verbose</span>
 <span class="sd">        Level of verbosity during training</span>
 <span class="sd">    scopeWindow</span>
@@ -375,7 +382,12 @@
 <span class="sd">    &gt;&gt;&gt; assertionModel = assertionPipeline.fit(dataset)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">_create_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">java_model</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_create_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">java_model</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates the model using the java model.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            java_model (str): The name of the java model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">AssertionDLModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span>
 
     <span class="nd">@keyword_only</span>
@@ -472,10 +484,21 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="AssertionDLModel.pretrained"><a class="viewcode-back" href="../../../../../reference/autosummary/sparknlp_jsl/finance/chunk_classification/assertion/assertionDL/index.html#sparknlp_jsl.finance.chunk_classification.assertion.assertionDL.AssertionDLModel.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Download a pre-trained AssertionDLModel.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): Name of the pre-trained model.</span>
+<span class="sd">            lang (str): Language of the pre-trained model.</span>
+<span class="sd">            remote_loc (str): Remote location of the pre-trained model. If None, use the</span>
+<span class="sd">            open-source location. Other values are &quot;clinical/models&quot;,</span>
+<span class="sd">            &quot;finance/models&quot;, or &quot;legal/models&quot;.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            AssertionDLModel: A pre-trained AssertionDLModel.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">sparknlp_jsl.pretrained</span> <span class="kn">import</span> <span class="n">InternalResourceDownloader</span>
         <span class="k">return</span> <span class="n">InternalResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">AssertionDLModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
                                                         <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div></div>
-
 </pre></div>
 
             </article>

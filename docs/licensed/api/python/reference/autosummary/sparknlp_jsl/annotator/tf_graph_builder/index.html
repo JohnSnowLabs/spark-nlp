@@ -321,6 +321,8 @@
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../qa/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../qa/gpt_generation_params/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa.gpt_generation_params</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qa/medical_qa/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa.medical_qa</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../qa/qa_ner_generator/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa.qa_ner_generator</span></code></a></li>
 </ul>
 </li>
@@ -385,29 +387,27 @@
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilderModel" title="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilderModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TFGraphBuilderModel</span></code></a></p></td>
-<td><p>Abstract class for models that are fitted by estimators.</p></td>
+<td><p>Creates Tensorflow graphs.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder" title="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TFGraphBuilder</span></code></a></p></td>
-<td><p>Abstract class for estimators that fit models to data.</p></td>
+<td><p>Creates Tensorflow graphs.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilderModel">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">TFGraphBuilderModel</span></span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilderModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilderModel" title="Permalink to this definition">#</a></dt>
-<dd><p>Abstract class for models that are fitted by estimators.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 1.4.0.</span></p>
-</div>
+<dd><p>Creates Tensorflow graphs.</p>
+<p>This class is used to build a TensorFlow graph from a given model name and
+a set of input columns.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">TFGraphBuilder</span></span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder" title="Permalink to this definition">#</a></dt>
-<dd><p>Abstract class for estimators that fit models to data.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 1.3.0.</span></p>
-</div>
+<dd><p>Creates Tensorflow graphs.</p>
+<p>This class is used to build a TensorFlow graph from a given model name and
+a set of input columns.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.modelName">
 <span class="sig-name descname"><span class="pre">modelName</span></span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.modelName"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.modelName" title="Permalink to this definition">#</a></dt>
@@ -512,7 +512,7 @@ Possible value are: relu, sigmoid, tanh, linear</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setHiddenActL2">
 <span class="sig-name descname"><span class="pre">setHiddenActL2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.setHiddenActL2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setHiddenActL2" title="Permalink to this definition">#</a></dt>
-<dd><p>L2 regularization of hidden layer weights, used in RelationExtractionApproach</p>
+<dd><p>L2 regularization of hidden layer weights, used in RelationExtractionApproach.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -526,13 +526,13 @@ Possible value are: relu, sigmoid, tanh, linear</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getHiddenActL2">
 <span class="sig-name descname"><span class="pre">getHiddenActL2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.getHiddenActL2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getHiddenActL2" title="Permalink to this definition">#</a></dt>
-<dd><p>L2 regularization of hidden layer activations, used in RelationExtractionApproach</p>
+<dd><p>L2 regularization of hidden layer activations, used in RelationExtractionApproach.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setHiddenWeightsL2">
 <span class="sig-name descname"><span class="pre">setHiddenWeightsL2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.setHiddenWeightsL2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setHiddenWeightsL2" title="Permalink to this definition">#</a></dt>
-<dd><p>L2 regularization of hidden layer weights, used in RelationExtractionApproach</p>
+<dd><p>L2 regularization of hidden layer weights, used in RelationExtractionApproach.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -546,7 +546,7 @@ Possible value are: relu, sigmoid, tanh, linear</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getHiddenWeightsL2">
 <span class="sig-name descname"><span class="pre">getHiddenWeightsL2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.getHiddenWeightsL2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.getHiddenWeightsL2" title="Permalink to this definition">#</a></dt>
-<dd><p>L2 regularization of hidden layer weights, used in RelationExtractionApproach</p>
+<dd><p>L2 regularization of hidden layer weights, used in RelationExtractionApproach.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -572,13 +572,15 @@ Possible value are: relu, sigmoid, tanh, linear</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setIsLicensed">
 <span class="sig-name descname"><span class="pre">setIsLicensed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.setIsLicensed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setIsLicensed" title="Permalink to this definition">#</a></dt>
-<dd><p>Medical model, used in MedicalNerAprroach and NerDLApproach.
-Parameters
-———-
-value : boolean</p>
-<blockquote>
-<div><p>Where medical model or not (default is True)</p>
-</div></blockquote>
+<dd><p>Medical model, used in MedicalNerAprroach and NerDLApproach.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">boolean</span></dt><dd><p>Where medical model or not (default is True)</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -590,7 +592,7 @@ value : boolean</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setHiddenLayers">
 <span class="sig-name descname"><span class="pre">setHiddenLayers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.setHiddenLayers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setHiddenLayers" title="Permalink to this definition">#</a></dt>
-<dd><p>A list of hidden layer sizes for RelationExtractionApproach</p>
+<dd><p>A list of hidden layer sizes for RelationExtractionApproach.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -610,7 +612,7 @@ value : boolean</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setMaxSequenceLength">
 <span class="sig-name descname"><span class="pre">setMaxSequenceLength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.setMaxSequenceLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setMaxSequenceLength" title="Permalink to this definition">#</a></dt>
-<dd><p>Sets the maximum sequence length for AssertionDLApproach</p>
+<dd><p>Sets the maximum sequence length for AssertionDLApproach.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -630,7 +632,7 @@ value : boolean</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setHiddenUnitsNumber">
 <span class="sig-name descname"><span class="pre">setHiddenUnitsNumber</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.setHiddenUnitsNumber"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setHiddenUnitsNumber" title="Permalink to this definition">#</a></dt>
-<dd><p>Sets the number of hidden units for AssertionDLApproach and MedicalNerApproach</p>
+<dd><p>Sets the number of hidden units for AssertionDLApproach and MedicalNerApproach.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -650,7 +652,7 @@ value : boolean</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setUseRelationDirection">
 <span class="sig-name descname"><span class="pre">setUseRelationDirection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.setUseRelationDirection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setUseRelationDirection" title="Permalink to this definition">#</a></dt>
-<dd><p>Whether relation direction will be encoded in RelationExtractionApproach</p>
+<dd><p>Whether relation direction will be encoded in RelationExtractionApproach.</p>
 <section id="parameters">
 <h4>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">#</a></h4>
 <dl class="simple">
@@ -688,7 +690,7 @@ value : boolean</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setModelName">
 <span class="sig-name descname"><span class="pre">setModelName</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp_jsl/annotator/tf_graph_builder.html#TFGraphBuilder.setModelName"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.tf_graph_builder.TFGraphBuilder.setModelName" title="Permalink to this definition">#</a></dt>
-<dd><p>Sets the model name</p>
+<dd><p>Sets the model name.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">

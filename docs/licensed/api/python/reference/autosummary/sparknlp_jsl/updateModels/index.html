@@ -277,21 +277,21 @@
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.updateModels.UpdateModels" title="sparknlp_jsl.updateModels.UpdateModels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UpdateModels</span></code></a></p></td>
-<td><p></p></td>
+<td><p>Helper class that allow us to update pretrained models located in the cache folder</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp_jsl.updateModels.UpdateModels">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">UpdateModels</span></span><a class="reference internal" href="../../../../modules/sparknlp_jsl/updateModels.html#UpdateModels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.updateModels.UpdateModels" title="Permalink to this definition">#</a></dt>
-<dd><dl class="py method">
+<dd><p>Helper class that allow us to update pretrained models located in the cache folder</p>
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.updateModels.UpdateModels.updateCacheModels">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">updateCacheModels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cache_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp_jsl/updateModels.html#UpdateModels.updateCacheModels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.updateModels.UpdateModels.updateCacheModels" title="Permalink to this definition">#</a></dt>
-<dd><dl class="simple">
-<dt>This method refreshes all pretrained models located in the cache pretrained folder.</dt><dd><p>This method check what are the existing models in the cache pretrained folder and check if there is a new
-version for that model.If there are a new model then this model will be downloaded</p>
-</dd>
-</dl>
+<dd><p>Refreshes all pretrained models located in the cache pretrained folder.</p>
+<p>Checks the existing models in the cache pretrained folder and if there is are new
+version for each model. If there is a new version, it will be downloaded and
+overwrite the existing one.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -305,7 +305,7 @@ version for that model.If there are a new model then this model will be download
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.updateModels.UpdateModels.updateModels">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">updateModels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date_cutoff</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp_jsl/updateModels.html#UpdateModels.updateModels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.updateModels.UpdateModels.updateModels" title="Permalink to this definition">#</a></dt>
-<dd><p>This method download all new pretrained models since the date_cutoff.</p>
+<dd><p>Downloads all new pretrained models since the date_cutoff.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">

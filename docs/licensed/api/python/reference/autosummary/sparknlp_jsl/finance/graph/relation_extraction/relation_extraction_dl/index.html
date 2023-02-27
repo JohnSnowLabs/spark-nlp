@@ -385,7 +385,8 @@ For pretrained models please see the</p>
 <span class="gp">... </span>  <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
 <span class="gp">... </span>  <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;tokens&quot;</span><span class="p">)</span>
 <span class="gp">...</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">embedder</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;embeddings_clinical&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span> \
+<span class="gp">&gt;&gt;&gt; </span><span class="n">embedder</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;embeddings_clinical&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span> \
 <span class="gp">... </span>  <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">])</span> \
 <span class="gp">... </span>  <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;embeddings&quot;</span><span class="p">)</span>
 <span class="gp">...</span>
@@ -460,7 +461,8 @@ For pretrained models please see the</p>
 <span class="gp">... </span>     <span class="s2">&quot;relations.metadata.chunk2&quot;</span><span class="p">,</span>
 <span class="gp">... </span>     <span class="s2">&quot;relations.metadata.entity2&quot;</span><span class="p">,</span>
 <span class="gp">... </span>     <span class="s2">&quot;relations.result&quot;</span>
-<span class="gp">... </span>  <span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s2">&quot;result != 0&quot;</span><span class="p">)</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">... </span>  <span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s2">&quot;result != 0&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="go">+------+---------+-------------+---------------------------+------+</span>
 <span class="go">|chunk1|entity1  |chunk2       |entity2                    |result|</span>
 <span class="go">+------+---------+-------------+---------------------------+------+</span>
@@ -478,12 +480,31 @@ For pretrained models please see the</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.finance.graph.relation_extraction.relation_extraction_dl.RelationExtractionDLModel.loadSavedModel">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">loadSavedModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark_session</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../../modules/sparknlp_jsl/finance/graph/relation_extraction/relation_extraction_dl.html#RelationExtractionDLModel.loadSavedModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.finance.graph.relation_extraction.relation_extraction_dl.RelationExtractionDLModel.loadSavedModel" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Load a pre-trained RelationExtractionDLModel.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>folder (str): Folder containing the pre-trained model.
+spark_session (SparkSession): SparkSession.</p>
+</dd>
+<dt>Returns:</dt><dd><p>RelationExtractionDLModel: The pre-trained RelationExtractionDLModel.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.finance.graph.relation_extraction.relation_extraction_dl.RelationExtractionDLModel.pretrained">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pretrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'en'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../../modules/sparknlp_jsl/finance/graph/relation_extraction/relation_extraction_dl.html#RelationExtractionDLModel.pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.finance.graph.relation_extraction.relation_extraction_dl.RelationExtractionDLModel.pretrained" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Download a pre-trained RelationExtractionDLModel.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>name (str): Name of the pre-trained model.
+lang (str): Language of the pre-trained model.
+remote_loc (str): Remote location of the pre-trained model. If None, use the
+open-source location. Other values are “clinical/models”,
+“finance/models”, or “legal/models”.</p>
+</dd>
+<dt>Returns:</dt><dd><p>RelationExtractionDLModel: A pre-trained RelationExtractionDLModel.</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

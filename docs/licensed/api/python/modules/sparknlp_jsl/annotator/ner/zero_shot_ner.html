@@ -286,9 +286,10 @@
 <span class="sd">    entityDefinitions</span>
 <span class="sd">        A dictionary with definitions of named entities. The keys of dictionary are the entity labels and the</span>
 <span class="sd">        values are lists of questions. For example:</span>
-<span class="sd">              {</span>
+<span class="sd">            {</span>
 <span class="sd">                &quot;CITY&quot;: [&quot;Which city?&quot;, &quot;Which town?&quot;],</span>
-<span class="sd">                &quot;NAME&quot;: [&quot;What is her name?&quot;, &quot;What is his name?&quot;]}</span>
+<span class="sd">                &quot;NAME&quot;: [&quot;What is her name?&quot;, &quot;What is his name?&quot;]</span>
+<span class="sd">            }</span>
 
 <span class="sd">    predictionThreshold</span>
 <span class="sd">        Minimal confidence score to encode an entity (Default: 0.01f)</span>
@@ -299,38 +300,38 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; document_assembler = DocumentAssembler() \</span>
-<span class="sd">    ...     .setInputCol(&quot;text&quot;) \</span>
+<span class="sd">    &gt;&gt;&gt; document_assembler = DocumentAssembler() \\</span>
+<span class="sd">    ...     .setInputCol(&quot;text&quot;) \\</span>
 <span class="sd">    ...     .setOutputCol(&quot;document&quot;)</span>
-<span class="sd">    &gt;&gt;&gt; sentence_detector = annotators.SentenceDetector()\</span>
-<span class="sd">    ...     .setInputCols([&quot;document&quot;])\</span>
+<span class="sd">    &gt;&gt;&gt; sentence_detector = annotators.SentenceDetector()\\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;])\\</span>
 <span class="sd">    ...     .setOutputCol(&quot;sentence&quot;)</span>
-<span class="sd">    &gt;&gt;&gt; tokenizer = annotators.Tokenizer()\</span>
-<span class="sd">    ...     .setInputCols([&quot;sentence&quot;])\</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = annotators.Tokenizer()\\</span>
+<span class="sd">    ...     .setInputCols([&quot;sentence&quot;])\\</span>
 <span class="sd">    ...     .setOutputCol(&quot;token&quot;)</span>
-<span class="sd">    &gt;&gt;&gt; zero_shot_ner = ZeroShotNerModel()\</span>
-<span class="sd">    ...     .load(&quot;/models/sparknlp/zero_shot_ner&quot;)\</span>
+<span class="sd">    &gt;&gt;&gt; zero_shot_ner = ZeroShotNerModel()\\</span>
+<span class="sd">    ...     .load(&quot;/models/sparknlp/zero_shot_ner&quot;)\\</span>
 <span class="sd">    ...     .setEntityDefinitions(</span>
 <span class="sd">    ...         {</span>
 <span class="sd">    ...             &quot;NAME&quot;: [&quot;What is his name?&quot;, &quot;What is my name?&quot;, &quot;What is her name?&quot;],</span>
 <span class="sd">    ...             &quot;CITY&quot;: [&quot;Which city?&quot;, &quot;Which is the city?&quot;]</span>
-<span class="sd">    ...         })\</span>
-<span class="sd">    ...     .setInputCols([&quot;sentence&quot;, &quot;token&quot;])\</span>
-<span class="sd">    ...     .setOutputCol(&quot;zero_shot_ner&quot;)\</span>
+<span class="sd">    ...         })\\</span>
+<span class="sd">    ...     .setInputCols([&quot;sentence&quot;, &quot;token&quot;])\\</span>
+<span class="sd">    ...     .setOutputCol(&quot;zero_shot_ner&quot;)\\</span>
 <span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame(</span>
 <span class="sd">    ...         [[&quot;My name is Clara, I live in New York and Hellen lives in Paris.&quot;]]</span>
 <span class="sd">    ...     ).toDF(&quot;text&quot;)</span>
-<span class="sd">    &gt;&gt;&gt; Pipeline() \</span>
-<span class="sd">    ...     .setStages([document_assembler, sentence_detector, tokenizer, zero_shot_ner]) \</span>
-<span class="sd">    ...     .fit(data) \</span>
-<span class="sd">    ...     .transform(data) \</span>
-<span class="sd">    ...     .selectExpr(&quot;document&quot;, &quot;explode(zero_shot_ner) AS entity&quot;)\</span>
+<span class="sd">    &gt;&gt;&gt; Pipeline() \\</span>
+<span class="sd">    ...     .setStages([document_assembler, sentence_detector, tokenizer, zero_shot_ner]) \\</span>
+<span class="sd">    ...     .fit(data) \\</span>
+<span class="sd">    ...     .transform(data) \\</span>
+<span class="sd">    ...     .selectExpr(&quot;document&quot;, &quot;explode(zero_shot_ner) AS entity&quot;)\\</span>
 <span class="sd">    ...     .select(</span>
 <span class="sd">    ...         &quot;document.result&quot;,</span>
 <span class="sd">    ...         &quot;entity.result&quot;,</span>
 <span class="sd">    ...         &quot;entity.metadata.word&quot;,</span>
 <span class="sd">    ...         &quot;entity.metadata.confidence&quot;,</span>
-<span class="sd">    ...         &quot;entity.metadata.question&quot;)\</span>
+<span class="sd">    ...         &quot;entity.metadata.question&quot;)\\</span>
 <span class="sd">    ...     .show(truncate=False)</span>
 <span class="sd">        +-----------------------------------------------------------------+------+------+----------+------------------+</span>
 <span class="sd">        |result                                                           |result|word  |confidence|question          |</span>
@@ -357,7 +358,7 @@
                            <span class="s2">&quot;List of entities to ignore&quot;</span><span class="p">,</span>
                            <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ZeroShotNerModel.setPredictionThreshold"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/zero_shot_ner/index.html#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.setPredictionThreshold">[docs]</a>    <span class="k">def</span> <span class="nf">setPredictionThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">threshold</span><span class="p">):</span>
+<div class="viewcode-block" id="ZeroShotNerModel.setPredictionThreshold"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/zero_shot_ner/index.html#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.setPredictionThreshold">[docs]</a>    <span class="k">def</span> <span class="nf">setPredictionThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the minimal confidence score to encode an entity</span>
 
 <span class="sd">        Parameters</span>
@@ -367,7 +368,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">predictionThreshold</span><span class="o">=</span><span class="n">threshold</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ZeroShotNerModel.setEntityDefinitions"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/zero_shot_ner/index.html#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.setEntityDefinitions">[docs]</a>    <span class="k">def</span> <span class="nf">setEntityDefinitions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">definitions</span><span class="p">):</span>
+<div class="viewcode-block" id="ZeroShotNerModel.setEntityDefinitions"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/zero_shot_ner/index.html#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.setEntityDefinitions">[docs]</a>    <span class="k">def</span> <span class="nf">setEntityDefinitions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">definitions</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set entity definitions</span>
 
 <span class="sd">        Parameters</span>
@@ -398,12 +399,32 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="ZeroShotNerModel.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/zero_shot_ner/index.html#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;zero_shot_ner_roberta&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="s2">&quot;clinical/models&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Download a pre-trained ZeroShotNerModel.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): Name of the pre-trained model.</span>
+<span class="sd">            lang (str): Language of the pre-trained model.</span>
+<span class="sd">            remote_loc (str): Remote location of the pre-trained model. If None, use the</span>
+<span class="sd">            open-source location. Other values are &quot;clinical/models&quot;,</span>
+<span class="sd">            &quot;finance/models&quot;, or &quot;legal/models&quot;.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ZeroShotNerModel: A pre-trained ZeroShotNerModel.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">sparknlp_jsl.pretrained</span> <span class="kn">import</span> <span class="n">InternalResourceDownloader</span>
         <span class="k">return</span> <span class="n">InternalResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">ZeroShotNerModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
                                                         <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div>
 
     <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="ZeroShotNerModel.load"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/zero_shot_ner/index.html#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+<div class="viewcode-block" id="ZeroShotNerModel.load"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/ner/zero_shot_ner/index.html#sparknlp_jsl.annotator.ner.zero_shot_ner.ZeroShotNerModel.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load a pre-trained ZeroShotNerModel from a local path.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            path (str): Path to the pre-trained model.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ZeroShotNerModel: A pre-trained ZeroShotNerModel.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">sparknlp_jsl.internal</span> <span class="kn">import</span> <span class="n">_RobertaQAToZeroShotNerLoader</span>
         <span class="n">jModel</span> <span class="o">=</span> <span class="n">_RobertaQAToZeroShotNerLoader</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
         <span class="k">return</span> <span class="n">ZeroShotNerModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div></div>

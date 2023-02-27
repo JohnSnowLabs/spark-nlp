@@ -321,6 +321,8 @@
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../qa/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../qa/gpt_generation_params/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa.gpt_generation_params</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../qa/medical_qa/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa.medical_qa</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../qa/qa_ner_generator/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa.qa_ner_generator</span></code></a></li>
 </ul>
 </li>
@@ -385,14 +387,47 @@
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.embeddings.entity_chunk_embeddings.EntityChunkEmbeddings" title="sparknlp_jsl.annotator.embeddings.entity_chunk_embeddings.EntityChunkEmbeddings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EntityChunkEmbeddings</span></code></a></p></td>
-<td><p>Weighted average embeddings of multiple named entities chunk annotations</p></td>
+<td><p>Weighted average embeddings of multiple named entities chunk annotations.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.embeddings.entity_chunk_embeddings.EntityChunkEmbeddings">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">EntityChunkEmbeddings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.embeddings.EntityChunkEmbeddings'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/embeddings/entity_chunk_embeddings.html#EntityChunkEmbeddings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.embeddings.entity_chunk_embeddings.EntityChunkEmbeddings" title="Permalink to this definition">#</a></dt>
-<dd><p>Weighted average embeddings of multiple named entities chunk annotations</p>
+<dd><p>Weighted average embeddings of multiple named entities chunk annotations.</p>
+<p>Entity Chunk Embeddings uses BERT Sentence embeddings to compute a weighted average
+vector represention of related entity chunks.  The input the model consists of
+chunks of recognized named entities. One or more entities are selected as target
+entities and for each of them a list of related entities is specified (if empty,
+all other entities are assumed to be related).</p>
+<p>The model looks for chunks of the target entities and then tries to pair each
+target entity (e.g. DRUG)  with other related entities (e.g. DOSAGE, STRENGTH,
+FORM, etc). The criterion for pairing a target entity with another related
+entity is that they appear in the same sentence and the maximal syntactic
+distance is below a predefined threshold.</p>
+<p>The relationship between target and related entities is one-to-many, meaning
+that if there multiple instances of the same target entity (e.g.) within
+a sentence, the model will map a related entity (e.g. DOSAGE) to at most one
+of the instances of the target entity. For example, if there is a sentence
+“The patient was given 125 mg of paracetamol and metformin”, the model will
+pair “125 mg” to “paracetamol”, but not to “metformin”.</p>
+<p>The output of the model is an average embeddings of the chunks of each of the
+target entities and their related entities. It is possible to specify a
+particular weight for each entity type.</p>
+<p>An entity can be defined both as target a entity and as a related entity for
+some other target entity. For example, we may want to compute the embeddings
+of SYMPTOMs and their related entities, as well as the embeddings of DRUGs
+and their related entities, one of each is also SYMPTOM. In such cases, it is
+possible to use the TARGET_ENTITY:RELATED_ENTITY notation to specify the
+weight of an related entity (e.g. “DRUG:SYMPTOM” to set the weight of SYMPTOM
+when it appears as an related entity to target entity DRUG).
+The relative weights of entities for particular entity chunk embeddings are
+available in the annotations metadata.</p>
+<p>This model is a subclass of <cite>BertSentenceEmbeddings</cite> and shares all parameters
+with it. It can load any pretrained BertSentenceEmbeddings model.</p>
+<p>The default model is <cite>“sbiobert_base_cased_mli”</cite> from “clinical/models”.
+Other available models can be found at
+<a class="reference external" href="https://nlp.johnsnowlabs.com/models?task=Embeddings">Models Hub</a>.</p>
 <table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
@@ -405,14 +440,24 @@
 </tr>
 </tbody>
 </table>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>targetEntities</strong></dt><dd><p>Target entities and their related entities</p>
+<dd class="field-odd"><dl>
+<dt><strong>targetEntities: dict</strong></dt><dd><p>Target entities and their related entities. A target entity mapped
+to an empty list of related entities means all other entities are
+assumed to be related to it. The default value is an empty dictionary,
+meaning no target entities are specified.</p>
+<p>Entity names are case insensitive.</p>
 </dd>
-<dt><strong>entityWeights</strong></dt><dd><p>Relative weights of entities.</p>
+<dt><strong>entityWeights: dict</strong></dt><dd><p>Relative weights of entities. By default the dictionary is empty and all
+entities have equal weights. If it is non-empty and some entity is not
+in it, then its weight is set to 0.</p>
+<p>The notation TARGET_ENTITY:RELATED_ENTITY can be used to specify
+the weight of a entity which is related to specific target entity (e.g.
+“DRUG:SYMPTOM” -&gt; 0.3f).</p>
+<p>Entity names are case insensitive.</p>
 </dd>
-<dt><strong>maxSyntacticDistance</strong></dt><dd><p>Maximal syntactic distance between related entities. Default value is 2.</p>
+<dt><strong>maxSyntacticDistance: int</strong></dt><dd><p>Maximal syntactic distance between related entities. Default value is 2.</p>
 </dd>
 </dl>
 </dd>
@@ -427,15 +472,40 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp_jsl.base</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp_jsl.annotator</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">documenter</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>    <span class="o">...</span>     <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>    <span class="o">...</span>     <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;documents&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sentence_detector</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span>     <span class="o">...</span>     <span class="o">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s2">&quot;documents&quot;</span><span class="p">)</span>     <span class="o">...</span>     <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentences&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>     <span class="o">...</span>     <span class="o">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s2">&quot;sentences&quot;</span><span class="p">)</span>     <span class="o">...</span>     <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;tokens&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">()</span>     <span class="o">...</span>     <span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;embeddings_clinical&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span>    <span class="o">...</span>     <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentences&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">])</span>    <span class="o">...</span>     <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;embeddings&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ner_model</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">()</span>    <span class="o">...</span>     <span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;ner_posology_large&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span>    <span class="o">...</span>     <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentences&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">,</span> <span class="s2">&quot;embeddings&quot;</span><span class="p">])</span>    <span class="o">...</span>     <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;ner&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverterInternal</span><span class="p">()</span>    <span class="o">...</span>     <span class="o">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s2">&quot;sentences&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">,</span> <span class="s2">&quot;ner&quot;</span><span class="p">)</span>    <span class="o">...</span>     <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;ner_chunks&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pos_tager</span> <span class="o">=</span> <span class="n">PerceptronModel</span><span class="p">()</span>    <span class="o">...</span>     <span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;pos_clinical&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span>    <span class="o">...</span>     <span class="o">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s2">&quot;sentences&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">)</span>    <span class="o">...</span>     <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;pos_tags&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">dependency_parser</span> <span class="o">=</span> <span class="n">DependencyParserModel</span><span class="p">()</span>    <span class="o">...</span>     <span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;dependency_conllu&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">)</span>    <span class="o">...</span>     <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentences&quot;</span><span class="p">,</span> <span class="s2">&quot;pos_tags&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">])</span>    <span class="o">...</span>     <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;dependencies&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">drug_chunk_embeddings</span> <span class="o">=</span> <span class="n">EntityChunkEmbeddings</span><span class="p">()</span>    <span class="o">...</span>     <span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;sbiobert_base_cased_mli&quot;</span><span class="p">,</span><span class="s2">&quot;en&quot;</span><span class="p">,</span><span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span>    <span class="o">...</span>     <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;ner_chunks&quot;</span><span class="p">,</span> <span class="s2">&quot;dependencies&quot;</span><span class="p">])</span>    <span class="o">...</span>     <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;drug_chunk_embeddings&quot;</span><span class="p">)</span>    <span class="o">...</span>     <span class="o">.</span><span class="n">setMaxSyntacticDistance</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>    <span class="o">...</span>     <span class="o">.</span><span class="n">setTargetEntities</span><span class="p">({</span><span class="s2">&quot;DRUG&quot;</span><span class="p">:</span> <span class="p">[]})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">documenter</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>\
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;documents&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sentence_detector</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s2">&quot;documents&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentences&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s2">&quot;sentences&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;tokens&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;embeddings_clinical&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span>\
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentences&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">])</span>\
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;embeddings&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ner_model</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">()</span>\
+<span class="gp">... </span>    <span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;ner_posology_large&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span>\
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentences&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">,</span> <span class="s2">&quot;embeddings&quot;</span><span class="p">])</span>\
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;ner&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverterInternal</span><span class="p">()</span>\
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s2">&quot;sentences&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">,</span> <span class="s2">&quot;ner&quot;</span><span class="p">)</span>\
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;ner_chunks&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pos_tager</span> <span class="o">=</span> <span class="n">PerceptronModel</span><span class="p">()</span>\
+<span class="gp">... </span>    <span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;pos_clinical&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span>\
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s2">&quot;sentences&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">)</span>\
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;pos_tags&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dependency_parser</span> <span class="o">=</span> <span class="n">DependencyParserModel</span><span class="p">()</span>\
+<span class="gp">... </span>    <span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;dependency_conllu&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">)</span>\
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentences&quot;</span><span class="p">,</span> <span class="s2">&quot;pos_tags&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">])</span>\
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;dependencies&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">drug_chunk_embeddings</span> <span class="o">=</span> <span class="n">EntityChunkEmbeddings</span><span class="p">()</span>\
+<span class="gp">... </span>    <span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;sbiobert_base_cased_mli&quot;</span><span class="p">,</span><span class="s2">&quot;en&quot;</span><span class="p">,</span><span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span>\
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;ner_chunks&quot;</span><span class="p">,</span> <span class="s2">&quot;dependencies&quot;</span><span class="p">])</span>\
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;drug_chunk_embeddings&quot;</span><span class="p">)</span>\
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setMaxSyntacticDistance</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>\
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setTargetEntities</span><span class="p">({</span><span class="s2">&quot;DRUG&quot;</span><span class="p">:</span> <span class="p">[]})</span>
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setEntityWeights</span><span class="p">({</span><span class="s2">&quot;DRUG&quot;</span><span class="p">:</span> <span class="mf">0.8</span><span class="p">,</span> <span class="s2">&quot;STRENGTH&quot;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span> <span class="s2">&quot;DOSAGE&quot;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span> <span class="s2">&quot;FORM&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">})</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sampleData</span> <span class="o">=</span> <span class="s2">&quot;The parient was given metformin 125 mg, 250 mg of coumadin and then one pill paracetamol&quot;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">SparkContextForTest</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">sampleData</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
@@ -450,7 +520,10 @@
 <span class="gp">... </span>    <span class="n">dependency_parser</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">drug_chunk_embeddings</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">results</span>     <span class="o">...</span>     <span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;explode(drug_chunk_embeddings) AS drug_chunk&quot;</span><span class="p">)</span>     <span class="o">...</span>     <span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;drug_chunk.result&quot;</span><span class="p">,</span> <span class="s2">&quot;slice(drug_chunk.embeddings, 1, 5) AS drug_embedding&quot;</span><span class="p">)</span>     <span class="o">...</span>     <span class="o">.</span><span class="n">cache</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">results</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;explode(drug_chunk_embeddings) AS drug_chunk&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;drug_chunk.result&quot;</span><span class="p">,</span> <span class="s2">&quot;slice(drug_chunk.embeddings, 1, 5) AS drug_embedding&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">cache</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">results</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="go">+-----------------------------+-----------------------------------------------------------------+</span>
 <span class="go">|                       result|                                                  drug_embedding&quot;|</span>
@@ -493,11 +566,10 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.embeddings.entity_chunk_embeddings.EntityChunkEmbeddings.setEntityWeights">
-<span class="sig-name descname"><span class="pre">setEntityWeights</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/embeddings/entity_chunk_embeddings.html#EntityChunkEmbeddings.setEntityWeights"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.embeddings.entity_chunk_embeddings.EntityChunkEmbeddings.setEntityWeights" title="Permalink to this definition">#</a></dt>
-<dd><dl class="simple">
-<dt>Sets the relative weights of the embeddings of specific entities. By default the dictionary is empty and</dt><dd><p>all entities have equal weights. If non-empty and some entity is not in it, then its weight is set to 0.</p>
-</dd>
-</dl>
+<span class="sig-name descname"><span class="pre">setEntityWeights</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/embeddings/entity_chunk_embeddings.html#EntityChunkEmbeddings.setEntityWeights"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.embeddings.entity_chunk_embeddings.EntityChunkEmbeddings.setEntityWeights" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the relative weights of the embeddings of specific entities.</p>
+<p>By default the dictionary is empty and all entities have equal weights.</p>
+<p>If non-empty and some entity is not in it, then its weight is set to 0.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -512,14 +584,16 @@ Entity names are case-insensitive.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.embeddings.entity_chunk_embeddings.EntityChunkEmbeddings.setTargetEntities">
-<span class="sig-name descname"><span class="pre">setTargetEntities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entities</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/embeddings/entity_chunk_embeddings.html#EntityChunkEmbeddings.setTargetEntities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.embeddings.entity_chunk_embeddings.EntityChunkEmbeddings.setTargetEntities" title="Permalink to this definition">#</a></dt>
-<dd><p>Sets the target entities and maps them to their related entities. A target entity with an empty list of
-related entities means all other entities are assumed to be related to it.</p>
+<span class="sig-name descname"><span class="pre">setTargetEntities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entities</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/embeddings/entity_chunk_embeddings.html#EntityChunkEmbeddings.setTargetEntities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.embeddings.entity_chunk_embeddings.EntityChunkEmbeddings.setTargetEntities" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the target entities and maps them to their related entities.</p>
+<p>A target entity with an empty list of related entities means all
+other entities are assumed to be related to it.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>entities: dict[str, list[str]]</strong></dt><dd><p>Dictionary with target and related entities (TARGET: [RELATED1, RELATED2,…]). If the list of related
-entities is empty, then all non-target entities are considered.
+<dt><strong>entities: dict[str, list[str]]</strong></dt><dd><p>Dictionary with target and related entities (TARGET: [RELATED1, RELATED2,…]).
+If the list of related entities is empty, then all non-target entities are
+considered.
 Entity names are case insensitive.</p>
 </dd>
 </dl>
@@ -529,14 +603,16 @@ Entity names are case insensitive.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.embeddings.entity_chunk_embeddings.EntityChunkEmbeddings.setMaxSyntacticDistance">
-<span class="sig-name descname"><span class="pre">setMaxSyntacticDistance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distance</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/embeddings/entity_chunk_embeddings.html#EntityChunkEmbeddings.setMaxSyntacticDistance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.embeddings.entity_chunk_embeddings.EntityChunkEmbeddings.setMaxSyntacticDistance" title="Permalink to this definition">#</a></dt>
-<dd><p>Sets the maximal syntactic distance between related entities. Default value is 2.
-Parameters
-———-
-distance : int</p>
-<blockquote>
-<div><p>Maximal syntactic distance</p>
-</div></blockquote>
+<span class="sig-name descname"><span class="pre">setMaxSyntacticDistance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/embeddings/entity_chunk_embeddings.html#EntityChunkEmbeddings.setMaxSyntacticDistance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.embeddings.entity_chunk_embeddings.EntityChunkEmbeddings.setMaxSyntacticDistance" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the maximal syntactic distance between related entities. Default value is 2.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>distance</strong><span class="classifier">int</span></dt><dd><p>Maximal syntactic distance</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -546,7 +622,7 @@ distance : int</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the pretrained model, by default “sent_small_bert_L2_768”</p>
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the pretrained model.</p>
 </dd>
 <dt><strong>lang</strong><span class="classifier">str, optional</span></dt><dd><p>Language of the pretrained model, by default “en”</p>
 </dd>
@@ -557,7 +633,7 @@ Spark NLPs repositories otherwise.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt>BertSentenceEmbeddings</dt><dd><p>The restored model</p>
+<dt>EntityChunkEmbeddings</dt><dd><p>The restored model</p>
 </dd>
 </dl>
 </dd>

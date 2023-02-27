@@ -271,30 +271,48 @@
 
 
 <span class="k">class</span> <span class="nc">_UpdateCacheModels</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Updates the cache models in the specified folder.</span>
+
+<span class="sd">    If no folder is specified, it will update the cache models in the default folder.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cache_folder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">_UpdateCacheModels</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="s2">&quot;com.johnsnowlabs.util.UpdateModels.updateCacheModels&quot;</span><span class="p">,</span> <span class="n">cache_folder</span><span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">_UpdateModels</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Updates the models given the cutoff date.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">date_cutoff</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">_UpdateModels</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="s2">&quot;com.johnsnowlabs.util.UpdateModels.updateModels&quot;</span><span class="p">,</span> <span class="n">date_cutoff</span><span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">_HadoopOperations</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Hadoop operations.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">local_file</span><span class="p">,</span> <span class="n">hdfs_file</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">_HadoopOperations</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="s2">&quot;com.johnsnowlabs.util.HadoopOperations.moveFile&quot;</span><span class="p">,</span> <span class="n">local_file</span><span class="p">,</span> <span class="n">hdfs_file</span><span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">_MedicalBertTokenClassifierLoader</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Loader class for the MedicalBertTokenClassifierModel annotator.</span>
+
+<span class="sd">    This class is used to load the MedicalBertTokenClassifierModel annotator</span>
+<span class="sd">    from licensed pretrained models.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">jspark</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">_MedicalBertTokenClassifierLoader</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="s2">&quot;com.johnsnowlabs.nlp.annotators.classification.MedicalBertForTokenClassifier.loadSavedModel&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">jspark</span><span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">_MedicalBertTokenClassifierLoaderOpensource</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Loader class for the MedicalBertTokenClassifierModel annotator.</span>
+
+<span class="sd">    This class is used to load the MedicalBertTokenClassifierModel annotator</span>
+<span class="sd">    from pretrained open-source models.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bertForTokenClassifierPath</span><span class="p">,</span> <span class="n">tfModelPath</span><span class="p">,</span> <span class="n">jspark</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">_MedicalBertTokenClassifierLoaderOpensource</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="s2">&quot;com.johnsnowlabs.nlp.annotators.classification.MedicalBertForTokenClassifier.loadSavedModelOpenSource&quot;</span><span class="p">,</span>
@@ -302,6 +320,11 @@
 
 
 <span class="k">class</span> <span class="nc">_MedicalBertForSequenceClassificationLoader</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Loader class for the MedicalBertForSequenceClassification annotator.</span>
+
+<span class="sd">    This class is used to load the MedicalBertForSequenceClassificationModel annotator</span>
+<span class="sd">    from licensed pretrained models.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">jspark</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">_MedicalBertForSequenceClassificationLoader</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="s2">&quot;com.johnsnowlabs.nlp.annotators.classification.MedicalBertForSequenceClassification.loadSavedModel&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span>
@@ -309,16 +332,28 @@
 
 
 <span class="k">class</span> <span class="nc">_MedicalBertForSequenceClassificationLoaderOpensource</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Loader class for the MedicalBertForSequenceClassification annotator.</span>
+
+<span class="sd">    This class is used to load the MedicalBertForSequenceClassificationModel annotator</span>
+<span class="sd">    from pretrained open-source models.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bertForSequenceClassifierPath</span><span class="p">,</span> <span class="n">tfModelPath</span><span class="p">,</span> <span class="n">jspark</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">_MedicalBertForSequenceClassificationLoaderOpensource</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="s2">&quot;com.johnsnowlabs.nlp.annotators.classification.MedicalBertForSequenceClassification.loadSavedModelOpenSource&quot;</span><span class="p">,</span>
             <span class="n">bertForSequenceClassifierPath</span><span class="p">,</span> <span class="n">tfModelPath</span><span class="p">,</span> <span class="n">jspark</span><span class="p">)</span>
 
+
 <span class="k">class</span> <span class="nc">_FinanceBertForSequenceClassificationLoaderOpensource</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Loader class for the FinanceBertForSequenceClassification annotator.</span>
+
+<span class="sd">    This class is used to load the FinanceBertForSequenceClassificationModel annotator</span>
+<span class="sd">    from pretrained open-source models.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bertForSequenceClassifierPath</span><span class="p">,</span> <span class="n">tfModelPath</span><span class="p">,</span> <span class="n">jspark</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">_MedicalBertForSequenceClassificationLoaderOpensource</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="s2">&quot;com.johnsnowlabs.finance.sequence_classification.LegalBertForSequenceClassification.loadSavedModelOpenSource&quot;</span><span class="p">,</span>
             <span class="n">bertForSequenceClassifierPath</span><span class="p">,</span> <span class="n">tfModelPath</span><span class="p">,</span> <span class="n">jspark</span><span class="p">)</span>
+
 
 <span class="k">class</span> <span class="nc">_LegalBertForSequenceClassificationLoaderOpensource</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bertForSequenceClassifierPath</span><span class="p">,</span> <span class="n">tfModelPath</span><span class="p">,</span> <span class="n">jspark</span><span class="p">):</span>
@@ -328,16 +363,23 @@
 
 
 <span class="k">class</span> <span class="nc">_FinanceBertForSequenceClassificationLoaderOpensource</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Loader class for the LegalBertForSequenceClassification annotator.</span>
+
+<span class="sd">    This class is used to load the LegalBertForSequenceClassificationModel annotator</span>
+<span class="sd">    from pretrained open-source models.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bertForSequenceClassifierPath</span><span class="p">,</span> <span class="n">tfModelPath</span><span class="p">,</span> <span class="n">jspark</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">_MedicalBertForSequenceClassificationLoaderOpensource</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="s2">&quot;com.johnsnowlabs.nlp.annotators.classification.MedicalBertForSequenceClassification.loadSavedModelOpenSource&quot;</span><span class="p">,</span>
             <span class="n">bertForSequenceClassifierPath</span><span class="p">,</span> <span class="n">tfModelPath</span><span class="p">,</span> <span class="n">jspark</span><span class="p">)</span>
 
 
-
-
-
 <span class="k">class</span> <span class="nc">_MedicalDistilBertForSequenceClassificationLoader</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Loader class for the MedicalDistilBertForSequenceClassification annotator.</span>
+
+<span class="sd">    This class is used to load the MedicalDistilBertForSequenceClassificationModel annotator</span>
+<span class="sd">    from licensed pretrained models.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">jspark</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">_MedicalDistilBertForSequenceClassificationLoader</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="s2">&quot;com.johnsnowlabs.nlp.annotators.classification.MedicalDistilBertForSequenceClassification.loadSavedModel&quot;</span><span class="p">,</span>
@@ -345,132 +387,220 @@
 
 
 <span class="k">class</span> <span class="nc">_MedicalDistilBertForSequenceClassificationLoaderOpensource</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Loader class for the MedicalDistilBertForSequenceClassification annotator.</span>
+
+<span class="sd">    This class is used to load the MedicalDistilBertForSequenceClassificationModel annotator</span>
+<span class="sd">    from pretrained open-source models.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">destilbertForSequenceClassifierPath</span><span class="p">,</span> <span class="n">tfModelPath</span><span class="p">,</span> <span class="n">jspark</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">_MedicalDistilBertForSequenceClassificationLoaderOpensource</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="s2">&quot;com.johnsnowlabs.nlp.annotators.classification.MedicalDistilBertForSequenceClassification.loadSavedModelOpenSource&quot;</span><span class="p">,</span>
             <span class="n">destilbertForSequenceClassifierPath</span><span class="p">,</span> <span class="n">tfModelPath</span><span class="p">,</span> <span class="n">jspark</span><span class="p">)</span>
 
+
 <span class="k">class</span> <span class="nc">_BertSentenceEmbeddingsToBertSentenceChunkEmbeddingsLoader</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Loader class for the BertSentenceEmbeddingsToBertSentenceChunkEmbeddings annotator.</span>
+
+<span class="sd">    This class is used to load the BertSentenceEmbeddingsToBertSentenceChunkEmbeddingsModel</span>
+<span class="sd">    annotator from pretrained models.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">_BertSentenceEmbeddingsToBertSentenceChunkEmbeddingsLoader</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="s2">&quot;com.johnsnowlabs.nlp.annotators.embeddings.BertSentenceChunkEmbeddings.load&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
 
+
 <span class="k">class</span> <span class="nc">_ZeroShotRelationExtractionModelLoader</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Loader class for the ZeroShotRelationExtraction annotator.</span>
+
+<span class="sd">    This class is used to load the ZeroShotRelationExtractionModel annotator</span>
+<span class="sd">    from pretrained models.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">jspark</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">_ZeroShotRelationExtractionModelLoader</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="s2">&quot;com.johnsnowlabs.nlp.annotators.re.ZeroShotRelationExtractionModel.loadSavedModel&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">jspark</span><span class="p">)</span>
 
+
 <span class="k">class</span> <span class="nc">_LegalZeroShotRelationExtractionModelLoader</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Loader class for the LegalZeroShotRelationExtraction annotator.</span>
+
+<span class="sd">    This class is used to load the LegalZeroShotRelationExtractionModel annotator</span>
+<span class="sd">    from pretrained models.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">jspark</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">_ZeroShotRelationExtractionModelLoader</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="s2">&quot;com.johnsnowlabs.legal.graph.relation_extraction.ZeroShotRelationExtractionModel.loadSavedModel&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">jspark</span><span class="p">)</span>
+
+
 <span class="k">class</span> <span class="nc">_FinanceZeroShotRelationExtractionModelLoader</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Loader class for the FinanceZeroShotRelationExtraction annotator.</span>
+
+<span class="sd">    This class is used to load the FinanceZeroShotRelationExtractionModel annotator</span>
+<span class="sd">    from pretrained models.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">jspark</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">_ZeroShotRelationExtractionModelLoader</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="s2">&quot;com.johnsnowlabs.legal.graph.relation_extraction.ZeroShotRelationExtractionModel.loadSavedModel&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">jspark</span><span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">_EntityWeights</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Java wrapper class for the EntityWeights parameter.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">weights</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">_EntityWeights</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;com.johnsnowlabs.nlp.param.EntityWeights.fromJava&quot;</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">_TargetEntities</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Java wrapper class for the TargetEntities parameter.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entities</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">_TargetEntities</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;com.johnsnowlabs.nlp.param.TargetEntities.fromJava&quot;</span><span class="p">,</span> <span class="n">entities</span><span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">_CustomLabels</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Java wrapper class for the CustomLabels parameter.	</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">_CustomLabels</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;com.johnsnowlabs.nlp.param.CustomLabels.fromJava&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
 
+
 <span class="k">class</span> <span class="nc">_RelationalCategories</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Java wrapper class for the RelationalCategories parameter.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">categories</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">_RelationalCategories</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="s2">&quot;com.johnsnowlabs.nlp.param.RelationalCategories.fromJava&quot;</span><span class="p">,</span> <span class="n">categories</span><span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">_ShowUnCategorizedResources</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Shows the uncategorized resources available for download.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">_ShowUnCategorizedResources</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="s2">&quot;com.johnsnowlabs.nlp.pretrained.PythonResourceDownloader.showUnCategorizedResources&quot;</span><span class="p">)</span>
 
+
 <span class="k">class</span> <span class="nc">_ReturnPrivateModels</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns the private models available for download.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">annotator</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">version</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">_ReturnPrivateModels</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="s2">&quot;com.johnsnowlabs.nlp.pretrained.InternalsPythonResourceDownloader.returnPrivateModels&quot;</span><span class="p">,</span><span class="n">annotator</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span>
 
+
 <span class="k">class</span> <span class="nc">_ReturnPrivatePipelines</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns the private pipelines available for download.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">version</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">_ReturnPrivatePipelines</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="s2">&quot;com.johnsnowlabs.nlp.pretrained.InternalsPythonResourceDownloader.returnPrivatePipelines&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span>
 
 
-
 <span class="k">class</span> <span class="nc">_ShowPrivatePipelines</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Shows the private pipelines available for download.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">version</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">_ShowPrivatePipelines</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="s2">&quot;com.johnsnowlabs.nlp.pretrained.InternalsPythonResourceDownloader.showPrivatePipelines&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">_ShowPrivateModels</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Shows the private models available for download.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">annotator</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">version</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">_ShowPrivateModels</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="s2">&quot;com.johnsnowlabs.nlp.pretrained.InternalsPythonResourceDownloader.showPrivateModels&quot;</span><span class="p">,</span> <span class="n">annotator</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span>
 
+
 <span class="k">class</span> <span class="nc">_ShowAvailableAnnotators</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Shows the available annotators.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">_ShowAvailableAnnotators</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="s2">&quot;com.johnsnowlabs.nlp.pretrained.InternalsPythonResourceDownloader.showAvailableAnnotators&quot;</span><span class="p">)</span>
 
 
-
 <span class="k">class</span> <span class="nc">_MedicalNerGraphBuilder</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Gets the parameters needed for building Tensorflow graphs for NER.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">input_col</span><span class="p">,</span> <span class="n">label_col</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">_MedicalNerGraphBuilder</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="s2">&quot;com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach.getGraphParams&quot;</span><span class="p">,</span>
             <span class="n">dataset</span><span class="p">,</span> <span class="n">input_col</span><span class="p">,</span> <span class="n">label_col</span><span class="p">)</span>
 
+
 <span class="k">class</span> <span class="nc">_RelationExtractionGraphBuilder</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Gets the parameters needed for building Tensorflow graphs for Relation Extraction.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">_RelationExtractionGraphBuilder</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="s2">&quot;com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach.getGraphParams&quot;</span><span class="p">,</span> <span class="n">dataset</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="EntityWeights"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/internal/index.html#sparknlp_jsl.internal.EntityWeights">[docs]</a><span class="k">def</span> <span class="nf">EntityWeights</span><span class="p">(</span><span class="n">weights</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Entity weights parameter used by other annotators.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">_EntityWeights</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="TargetEntities"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/internal/index.html#sparknlp_jsl.internal.TargetEntities">[docs]</a><span class="k">def</span> <span class="nf">TargetEntities</span><span class="p">(</span><span class="n">entities</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Target entities parameter used by other annotators.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">_TargetEntities</span><span class="p">(</span><span class="n">entities</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="CustomLabels"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/internal/index.html#sparknlp_jsl.internal.CustomLabels">[docs]</a><span class="k">def</span> <span class="nf">CustomLabels</span><span class="p">(</span><span class="n">labels</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom labels parameter used by other annotators.</span>
+<span class="sd">    &quot;&quot;&quot;</span>	
     <span class="k">return</span> <span class="n">_CustomLabels</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span></div>
 
+
 <div class="viewcode-block" id="RelationalCategories"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/internal/index.html#sparknlp_jsl.internal.RelationalCategories">[docs]</a><span class="k">def</span> <span class="nf">RelationalCategories</span><span class="p">(</span><span class="n">categories</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Relational categories parameter used by other annotators.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">_RelationalCategories</span><span class="p">(</span><span class="n">categories</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span></div>
 
 
 <span class="k">class</span> <span class="nc">_RobertaQAToZeroShotNerLoader</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Loader class for RobertaQAToZeroShotNer annotator.</span>
+
+<span class="sd">    This class is used to load the RobertaQAToZeroShotNerModel annotator</span>
+<span class="sd">    from pretrained models.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">_RobertaQAToZeroShotNerLoader</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="s2">&quot;com.johnsnowlabs.nlp.annotators.ner.ZeroShotNerModel.load&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
 
 
-
 <span class="k">class</span> <span class="nc">_RobertaQAToFinanceZeroShotNerLoader</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Loader class for RobertaQAToFinanceZeroShotNer annotator.</span>
+
+<span class="sd">    This class is used to load the RobertaQAToFinanceZeroShotNerModel annotator</span>
+<span class="sd">    from pretrained models.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">_RobertaQAToFinanceZeroShotNerLoader</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="s2">&quot;com.johnsnowlabs.finance.token_classification.ner.ZeroShotNerModel.load&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
 
 
-
-
 <span class="k">class</span> <span class="nc">_RobertaQAToLegalZeroShotNerLoader</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Loader class for RobertaQAToLegalZeroShotNer annotator.	</span>
+
+<span class="sd">    This class is used to load the RobertaQAToLegalZeroShotNerModel annotator</span>
+<span class="sd">    from pretrained models.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">_RobertaQAToLegalZeroShotNerLoader</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="s2">&quot;com.johnsnowlabs.legal.token_classification.ner.ZeroShotNerModel.load&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">_MedicalQuestionAnsweringLoader</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Loader class for the MedicalQuestionAnswering annotator.</span>
+
+<span class="sd">    This class is used to load the MedicalQuestionAnswering annotator</span>
+<span class="sd">    from pretrained models.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">jspark</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">_MedicalQuestionAnsweringLoader</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="s2">&quot;com.johnsnowlabs.nlp.annotators.qa.MedicalQuestionAnswering.loadSavedModel&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">jspark</span><span class="p">)</span>
 </pre></div>
 
             </article>

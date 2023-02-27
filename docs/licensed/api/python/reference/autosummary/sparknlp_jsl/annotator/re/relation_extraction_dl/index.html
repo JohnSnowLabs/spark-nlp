@@ -321,6 +321,8 @@
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../qa/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../qa/gpt_generation_params/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa.gpt_generation_params</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../qa/medical_qa/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa.medical_qa</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../qa/qa_ner_generator/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa.qa_ner_generator</span></code></a></li>
 </ul>
 </li>
@@ -392,9 +394,9 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.re.relation_extraction_dl.RelationExtractionDLModel">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">RelationExtractionDLModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/re/relation_extraction_dl.html#RelationExtractionDLModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.re.relation_extraction_dl.RelationExtractionDLModel" title="Permalink to this definition">#</a></dt>
-<dd><p>Extracts and classifies instances of relations between named entities.
-In contrast with RelationExtractionModel, RelationExtractionDLModel is based on BERT.
-For pretrained models please see the</p>
+<dd><p>Extracts and classifies instances of relations between named entities.</p>
+<p>In contrast with RelationExtractionModel, RelationExtractionDLModel is based on BERT.
+For pretrained models please see the <a class="reference external" href="https://nlp.johnsnowlabs.com/models?task=Relation+Extraction">NLP Models Hub</a>.</p>
 <table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
@@ -410,9 +412,11 @@ For pretrained models please see the</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>predictionThreshold</strong></dt><dd><p>Minimal activation of the target unit to encode a new relation instance</p>
+<dt><strong>predictionThreshold</strong></dt><dd><p>Minimal activation of the target unit to encode a new relation instance. Default is 0.5.</p>
 </dd>
-<dt><strong>batchSize</strong></dt><dd><p>Number of relations to process at once</p>
+<dt><strong>batchSize</strong></dt><dd><p>Number of relations to process at once. Default is 10.</p>
+</dd>
+<dt><strong>customLabels</strong></dt><dd><p>List of custom labels to use.</p>
 </dd>
 </dl>
 </dd>
@@ -435,7 +439,8 @@ For pretrained models please see the</p>
 <span class="gp">... </span>  <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
 <span class="gp">... </span>  <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;tokens&quot;</span><span class="p">)</span>
 <span class="gp">...</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">embedder</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;embeddings_clinical&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span> \
+<span class="gp">&gt;&gt;&gt; </span><span class="n">embedder</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;embeddings_clinical&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span> \
 <span class="gp">... </span>  <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">])</span> \
 <span class="gp">... </span>  <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;embeddings&quot;</span><span class="p">)</span>
 <span class="gp">...</span>
@@ -491,15 +496,15 @@ For pretrained models please see the</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;MRI demonstrated infarction in the upper brain stem , left cerebellum and  right basil ganglia&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 <span class="gp">...</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;explode(relations) as relations&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;explode(relations) as relations&quot;</span><span class="p">)</span>\
 <span class="gp">... </span> <span class="o">.</span><span class="n">select</span><span class="p">(</span>
 <span class="gp">... </span>   <span class="s2">&quot;relations.metadata.chunk1&quot;</span><span class="p">,</span>
 <span class="gp">... </span>   <span class="s2">&quot;relations.metadata.entity1&quot;</span><span class="p">,</span>
 <span class="gp">... </span>   <span class="s2">&quot;relations.metadata.chunk2&quot;</span><span class="p">,</span>
 <span class="gp">... </span>   <span class="s2">&quot;relations.metadata.entity2&quot;</span><span class="p">,</span>
 <span class="gp">... </span>   <span class="s2">&quot;relations.result&quot;</span>
-<span class="gp">... </span> <span class="p">)</span>
-<span class="gp">... </span> <span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s2">&quot;result != 0&quot;</span><span class="p">)</span>
+<span class="gp">... </span> <span class="p">)</span>\
+<span class="gp">... </span> <span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s2">&quot;result != 0&quot;</span><span class="p">)</span>\
 <span class="gp">... </span> <span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="gp">...</span>
 <span class="gp">... </span><span class="c1"># Show results</span>
@@ -510,7 +515,8 @@ For pretrained models please see the</p>
 <span class="gp">... </span>     <span class="s2">&quot;relations.metadata.chunk2&quot;</span><span class="p">,</span>
 <span class="gp">... </span>     <span class="s2">&quot;relations.metadata.entity2&quot;</span><span class="p">,</span>
 <span class="gp">... </span>     <span class="s2">&quot;relations.result&quot;</span>
-<span class="gp">... </span>  <span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s2">&quot;result != 0&quot;</span><span class="p">)</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">... </span>  <span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s2">&quot;result != 0&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="go">+------+---------+-------------+---------------------------+------+</span>
 <span class="go">|chunk1|entity1  |chunk2       |entity2                    |result|</span>
 <span class="go">+------+---------+-------------+---------------------------+------+</span>
@@ -557,7 +563,7 @@ For pretrained models please see the</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.re.relation_extraction_dl.RelationExtractionDLModel.setPredictionThreshold">
-<span class="sig-name descname"><span class="pre">setPredictionThreshold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">threshold</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/re/relation_extraction_dl.html#RelationExtractionDLModel.setPredictionThreshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.re.relation_extraction_dl.RelationExtractionDLModel.setPredictionThreshold" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">setPredictionThreshold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/re/relation_extraction_dl.html#RelationExtractionDLModel.setPredictionThreshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.re.relation_extraction_dl.RelationExtractionDLModel.setPredictionThreshold" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets maximum syntactic distance between a pair of named entities to consider them as a relation</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -571,12 +577,21 @@ For pretrained models please see the</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.re.relation_extraction_dl.RelationExtractionDLModel.setCaseSensitive">
-<span class="sig-name descname"><span class="pre">setCaseSensitive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/re/relation_extraction_dl.html#RelationExtractionDLModel.setCaseSensitive"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.re.relation_extraction_dl.RelationExtractionDLModel.setCaseSensitive" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">setCaseSensitive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/re/relation_extraction_dl.html#RelationExtractionDLModel.setCaseSensitive"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.re.relation_extraction_dl.RelationExtractionDLModel.setCaseSensitive" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets case sensitivity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>True if case sensitive, False otherwise</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.re.relation_extraction_dl.RelationExtractionDLModel.setBatchSize">
-<span class="sig-name descname"><span class="pre">setBatchSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/re/relation_extraction_dl.html#RelationExtractionDLModel.setBatchSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.re.relation_extraction_dl.RelationExtractionDLModel.setBatchSize" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">setBatchSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/re/relation_extraction_dl.html#RelationExtractionDLModel.setBatchSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.re.relation_extraction_dl.RelationExtractionDLModel.setBatchSize" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets number of relations to process at once</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -590,7 +605,7 @@ For pretrained models please see the</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.re.relation_extraction_dl.RelationExtractionDLModel.setCustomLabels">
-<span class="sig-name descname"><span class="pre">setCustomLabels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/re/relation_extraction_dl.html#RelationExtractionDLModel.setCustomLabels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.re.relation_extraction_dl.RelationExtractionDLModel.setCustomLabels" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">setCustomLabels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/re/relation_extraction_dl.html#RelationExtractionDLModel.setCustomLabels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.re.relation_extraction_dl.RelationExtractionDLModel.setCustomLabels" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets custom relation labels</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -605,18 +620,37 @@ For pretrained models please see the</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.re.relation_extraction_dl.RelationExtractionDLModel.getClasses">
 <span class="sig-name descname"><span class="pre">getClasses</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/re/relation_extraction_dl.html#RelationExtractionDLModel.getClasses"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.re.relation_extraction_dl.RelationExtractionDLModel.getClasses" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns labels used to train this model</p>
+<dd><p>Returns labels used during training.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.re.relation_extraction_dl.RelationExtractionDLModel.loadSavedModel">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">loadSavedModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark_session</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/re/relation_extraction_dl.html#RelationExtractionDLModel.loadSavedModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.re.relation_extraction_dl.RelationExtractionDLModel.loadSavedModel" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Load a pre-trained RelationExtractionDLModel.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>folder (str): Folder containing the pre-trained model.
+spark_session (SparkSession): SparkSession.</p>
+</dd>
+<dt>Returns:</dt><dd><p>RelationExtractionDLModel: The pre-trained RelationExtractionDLModel.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.re.relation_extraction_dl.RelationExtractionDLModel.pretrained">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pretrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'en'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/re/relation_extraction_dl.html#RelationExtractionDLModel.pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.re.relation_extraction_dl.RelationExtractionDLModel.pretrained" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Download a pre-trained RelationExtractionDLModel.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>name (str): Name of the pre-trained model.
+lang (str): Language of the pre-trained model.
+remote_loc (str): Remote location of the pre-trained model. If None, use the
+open-source location. Other values are “clinical/models”,
+“finance/models”, or “legal/models”.</p>
+</dd>
+<dt>Returns:</dt><dd><p>RelationExtractionDLModel: A pre-trained RelationExtractionDLModel.</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

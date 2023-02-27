@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.3.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ner.NerConverterInternal</title>
-          <meta name="description" content="Spark NLP 4.3.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.ner.NerConverterInternal" />
-          <meta name="keywords" content="Spark NLP 4.3.0 ScalaDoc com.johnsnowlabs.nlp.annotators.ner.NerConverterInternal" />
+          <title>Spark NLP 4.3.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ner.NerConverterInternal</title>
+          <meta name="description" content="Spark NLP 4.3.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.ner.NerConverterInternal" />
+          <meta name="keywords" content="Spark NLP 4.3.1 ScalaDoc com.johnsnowlabs.nlp.annotators.ner.NerConverterInternal" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.3.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.3.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -155,8 +155,8 @@
                         <a href="IOBTagger.html" title="Merges token tags and NER labels from chunks in the specified format.">IOBTagger</a>
                       </li><li class="current-entities indented5">
                         <a class="object" href="MedicalNerApproach$.html" title=""></a>
-                        <a class="class" href="MedicalNerApproach.html" title=""></a>
-                        <a href="MedicalNerApproach.html" title="">MedicalNerApproach</a>
+                        <a class="class" href="MedicalNerApproach.html" title="Trains generic NER models based on Neural Networks."></a>
+                        <a href="MedicalNerApproach.html" title="Trains generic NER models based on Neural Networks.">MedicalNerApproach</a>
                       </li><li class="current-entities indented5">
                         <a class="object" href="MedicalNerModel$.html" title=""></a>
                         <a class="class" href="MedicalNerModel.html" title=""></a>
@@ -171,8 +171,8 @@
                         <a href="NerChunker.html" title="Extracts phrases that fits into a known pattern using the NER tags.">NerChunker</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
-                        <a class="class" href="" title="Converts a IOB or IOB2 representation of NER to a user-friendly one, by associating the tokens of recognized entities and their label."></a>
-                        <a href="" title="Converts a IOB or IOB2 representation of NER to a user-friendly one, by associating the tokens of recognized entities and their label.">NerConverterInternal</a>
+                        <a class="class" href="" title="Converts IOB or IOB2 representations of entities to a user-friendly one."></a>
+                        <a href="" title="Converts IOB or IOB2 representations of entities to a user-friendly one.">NerConverterInternal</a>
                       </li><li class="current-entities indented5">
                         <a class="object" href="NerConverterInternalModel$.html" title=""></a>
                         <a class="class" href="NerConverterInternalModel.html" title="Converts a IOB or IOB2 representation of NER to a user-friendly one, by associating the tokens of recognized entities and their label."></a>
@@ -237,10 +237,10 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Converts a IOB or IOB2 representation of NER to a user-friendly one,
-by associating the tokens of recognized entities and their label.
-Chunks with no associated entity (tagged &quot;O&quot;) are filtered.
-See also <a href="https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93beginning_(tagging)" target="_blank">Inside–outside–beginning (tagging)</a> for more information.</p><h4>Example</h4><p>The output of a <a href="MedicalNerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerModel">MedicalNerModel</a> follows the Annotator schema and looks like this after the transformation.</p><pre>result.selectExpr(<span class="lit">"explode(ner_result)"</span>).show(<span class="num">5</span>, <span class="kw">false</span>)
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Converts IOB or IOB2 representations of entities to a user-friendly one.</p><p>This is the AnnotatorApproach version of the <a href="NerConverterInternalModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.NerConverterInternalModel">NerConverterInternalModel</a> annotator.</p><p>Chunks with no associated entity (tagged &quot;O&quot;) are filtered.</p><p>This licensed annotator adds extra functionality to the open-source version by
+adding the following parameters: <a href="#blackList:org.apache.spark.ml.param.StringArrayParam" class="extmbr" name="com.johnsnowlabs.nlp.annotators.ner.NerConverterInternal#blackList"><code>blackList</code></a>, <a href="#greedyMode:org.apache.spark.ml.param.BooleanParam" class="extmbr" name="com.johnsnowlabs.nlp.annotators.ner.NerConverterInternal#greedyMode"><code>greedyMode</code></a>,
+<a href="#threshold:org.apache.spark.ml.param.FloatParam" class="extmbr" name="com.johnsnowlabs.nlp.annotators.ner.NerConverterInternal#threshold"><code>threshold</code></a>, and <a href="#ignoreStopWords:org.apache.spark.ml.param.StringArrayParam" class="extmbr" name="com.johnsnowlabs.nlp.annotators.ner.NerConverterInternal#ignoreStopWords"><code>ignoreStopWords</code></a> that are not
+available in the open-source annotator.</p><p>See also <a href="https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93beginning_(tagging)" target="_blank">Inside–outside–beginning (tagging)</a> for more information.</p><h4>Example</h4><p>The output of a <a href="MedicalNerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerModel">MedicalNerModel</a> follows the Annotator schema and looks like this after the transformation.</p><pre>result.selectExpr(<span class="lit">"explode(ner_result)"</span>).show(<span class="num">5</span>, <span class="kw">false</span>)
 +--------------------------------------------------------------------------+
 |col                                                                       |
 +--------------------------------------------------------------------------+
@@ -1259,7 +1259,7 @@ See also <a href="https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93b
         <span class="name">includeStandardField</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">whether or not to standardize the metadata key for entity, useful for chunk columns</p><div class="fullcomment"><div class="comment cmt"><p>whether or not to standardize the metadata key for entity, useful for chunk columns</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../params/SourceTrackingMetadataParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.params.SourceTrackingMetadataParams">SourceTrackingMetadataParams</a></dd></dl></div>
+      <p class="shortcomment cmt">whether to standardize the metadata key for entity, useful for chunk columns</p><div class="fullcomment"><div class="comment cmt"><p>whether to standardize the metadata key for entity, useful for chunk columns</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../params/SourceTrackingMetadataParams.html" class="extype" name="com.johnsnowlabs.nlp.annotators.params.SourceTrackingMetadataParams">SourceTrackingMetadataParams</a></dd></dl></div>
     </li><li name="org.apache.spark.internal.Logging#initializeLogIfNecessary" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="initializeLogIfNecessary(isInterpreter:Boolean,silent:Boolean):Boolean"></a><a id="initializeLogIfNecessary(Boolean,Boolean):Boolean"></a>
       <span class="permalink">

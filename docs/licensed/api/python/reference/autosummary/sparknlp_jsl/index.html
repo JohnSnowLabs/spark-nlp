@@ -370,19 +370,19 @@
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.start" title="sparknlp_jsl.start"><code class="xref py py-obj docutils literal notranslate"><span class="pre">start</span></code></a>(secret[, gpu, m1, public, params])</p></td>
-<td><p></p></td>
+<td><p>Starts a SparkSession with Spark NLP Licensed</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.get_credentials" title="sparknlp_jsl.get_credentials"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_credentials</span></code></a>(spark)</p></td>
-<td><p></p></td>
+<td><p>Gets John Snow Labs credentials</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.pub_version" title="sparknlp_jsl.pub_version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pub_version</span></code></a>()</p></td>
-<td><p></p></td>
+<td><p>Gets the public version of Spark NLP</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.version" title="sparknlp_jsl.version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">version</span></code></a>()</p></td>
-<td><p></p></td>
+<td><p>Gets the version of Spark NLP</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.library_settings" title="sparknlp_jsl.library_settings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">library_settings</span></code></a>(spark)</p></td>
-<td><p></p></td>
+<td><p>Gets the library settings</p></td>
 </tr>
 </tbody>
 </table>
@@ -427,28 +427,63 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sparknlp_jsl.start">
-<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">secret</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gpu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">public</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../modules/sparknlp_jsl.html#start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.start" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">secret</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gpu</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">public</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../modules/sparknlp_jsl.html#start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.start" title="Permalink to this definition">#</a></dt>
+<dd><p>Starts a SparkSession with Spark NLP Licensed</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>secret (str): Your secret key
+gpu (bool): Whether to use GPU or not
+m1 (bool): Whether to use M1 or not
+public (str): Spark NLP version
+params (dict): SparkSession params</p>
+</dd>
+<dt>Returns:</dt><dd><p>SparkSession: SparkSession with Spark NLP Licensed</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sparknlp_jsl.get_credentials">
 <span class="sig-name descname"><span class="pre">get_credentials</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../modules/sparknlp_jsl.html#get_credentials"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.get_credentials" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Gets John Snow Labs credentials</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>spark (SparkSession): SparkSession</p>
+</dd>
+<dt>Returns:</dt><dd><p>tuple: (secretKey, keyId, token)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sparknlp_jsl.pub_version">
 <span class="sig-name descname"><span class="pre">pub_version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../modules/sparknlp_jsl.html#pub_version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.pub_version" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Gets the public version of Spark NLP</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>str: Public version of Spark NLP</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sparknlp_jsl.version">
 <span class="sig-name descname"><span class="pre">version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../modules/sparknlp_jsl.html#version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.version" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Gets the version of Spark NLP</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>str: Version of Spark NLP</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sparknlp_jsl.library_settings">
 <span class="sig-name descname"><span class="pre">library_settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../modules/sparknlp_jsl.html#library_settings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.library_settings" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Gets the library settings</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>spark (SparkSession): SparkSession</p>
+</dd>
+<dt>Returns:</dt><dd><p>str: Library settings</p>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 </section>
