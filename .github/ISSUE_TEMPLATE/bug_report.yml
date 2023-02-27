@@ -1,6 +1,6 @@
 name: Bug report
-description: File a bug/issue to help us improve Spark NLP. Thank you for contributing!
-labels: [bug]
+description: File a possible bug/issue to help us improve Spark NLP. Thank you for contributing!
+labels: [question]
 assignees: "maziyarpanahi"
 
 body:
