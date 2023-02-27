@@ -384,7 +384,9 @@ default it is 0.0 and off.</p>
 </dd>
 <dt><strong>enableOutputLogs</strong></dt><dd><p>Whether to use stdout in addition to Spark logs, by default False</p>
 </dd>
-<dt><strong>outputLogsPath</strong></dt><dd><p>Folder path to save training logs</p>
+<dt><strong>outputLogsPath</strong></dt><dd><p>Folder path to save training logs. If no path is specified, the logs won’t
+be stored in disk. The path can be a local file path,
+a distributed file path (HDFS, DBFS), or a cloud storage (S3).</p>
 </dd>
 <dt><strong>labelColumn</strong></dt><dd><p>Column with label per each token</p>
 </dd>
@@ -555,24 +557,15 @@ dataset.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.finance.sequence_classification.finance_classifier_dl.FinanceClassifierDLModel.pretrained">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pretrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'en'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/finance/sequence_classification/finance_classifier_dl.html#FinanceClassifierDLModel.pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.finance.sequence_classification.finance_classifier_dl.FinanceClassifierDLModel.pretrained" title="Permalink to this definition">#</a></dt>
-<dd><p>Downloads and loads a pretrained model.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the pretrained model, by default “classifierdl_use_trec6”</p>
+<dd><p>Download a pre-trained FinanceClassifierDLModel.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>name (str): Name of the pre-trained model.
+lang (str): Language of the pre-trained model.
+remote_loc (str): Remote location of the pre-trained model. If None, use the
+open-source location. Other values are “clinical/models”,
+“finance/models”, or “legal/models”.</p>
 </dd>
-<dt><strong>lang</strong><span class="classifier">str, optional</span></dt><dd><p>Language of the pretrained model, by default “en”</p>
-</dd>
-<dt><strong>remote_loc</strong><span class="classifier">str, optional</span></dt><dd><p>Optional remote address of the resource, by default None. Will use
-Spark NLPs repositories otherwise.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><dl class="simple">
-<dt>ClassifierDLModel</dt><dd><p>The restored model</p>
-</dd>
-</dl>
+<dt>Returns:</dt><dd><p>FinanceClassifierDLModel: A pre-trained FinanceClassifierDLModel.</p>
 </dd>
 </dl>
 </dd></dl>

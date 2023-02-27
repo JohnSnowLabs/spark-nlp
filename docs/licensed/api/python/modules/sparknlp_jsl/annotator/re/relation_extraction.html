@@ -272,12 +272,22 @@
 
 
 <div class="viewcode-block" id="RelationExtractionApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach">[docs]</a><span class="k">class</span> <span class="nc">RelationExtractionApproach</span><span class="p">(</span><span class="n">GenericClassifierApproach</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Trains a TensorFlow model for relation extraction. The Tensorflow graph in ``.pb`` format needs to be specified with</span>
-<span class="sd">    ``setModelFile``. The result is a RelationExtractionModel.</span>
-<span class="sd">    To start training, see the parameters that need to be set in the Parameters section.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Trains a TensorFlow model for relation extraction.</span>
 
+<span class="sd">    For pretrained models, see the documentation of `RelationExtractionModel`.</span>
 
+<span class="sd">    To train a custom relation extraction model, you need to first create</span>
+<span class="sd">    a Tensorflow graph using either the `TfGraphBuilder` annotator or</span>
+<span class="sd">    the `tf_graph` module. Then, set the path to the Tensorflow graph</span>
+<span class="sd">    using the method `.setModelFile(&quot;path/to/tensorflow_graph.pb&quot;)`.</span>
+
+<span class="sd">    If the parameter `relationDirectionCol` is set, the model will be</span>
+<span class="sd">    trained using the direction information (see the parameter decription</span>
+<span class="sd">    for details). Otherwise, the model won&#39;t have direction between the</span>
+<span class="sd">    relation of the entities.</span>
+
+<span class="sd">    After training a model (using the `.fit()` method), the resulting object is</span>
+<span class="sd">    of class `RelationExtractionModel`.</span>
 
 <span class="sd">    ===========================================  ======================</span>
 <span class="sd">    Input Annotation types                       Output Annotation type</span>
@@ -300,7 +310,18 @@
 <span class="sd">    toEntityLabelCol</span>
 <span class="sd">        To Entity Label Column</span>
 <span class="sd">    relationDirectionCol</span>
-<span class="sd">        Relatio direction column</span>
+<span class="sd">        Relation direction column which contains the information of the</span>
+<span class="sd">        relation between the &quot;from entity&quot; and the &quot;to entity&quot;.</span>
+<span class="sd">        Possible values in this column are:</span>
+<span class="sd">        - &quot;leftwards&quot;: the relation arguments are ordered from right to left (&lt;-) in the text.</span>
+<span class="sd">        - &quot;rightwards&quot;: the relation arguments are ordered from left to right (-&gt;) in the text.</span>
+<span class="sd">        - &quot;both&quot;: Order doesn&#39;t matter, the relation is symmetric (&lt;-&gt;).</span>
+<span class="sd">        If this parameter is not set, the model will not have direction</span>
+<span class="sd">        between the relation of the entities.</span>
+<span class="sd">    pretrainedModelPath</span>
+<span class="sd">        Path to an already trained MedicalNerModel, which is used as a starting point</span>
+<span class="sd">        for training the new model. The path can be a local file path,</span>
+<span class="sd">        a distributed file path (HDFS, DBFS), or a cloud storage (S3).</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -314,49 +335,49 @@
 <span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.base import *</span>
 <span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.annotator import *</span>
 <span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
-<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler() \</span>
-<span class="sd">    ...   .setInputCol(&quot;text&quot;) \</span>
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler() \\</span>
+<span class="sd">    ...   .setInputCol(&quot;text&quot;) \\</span>
 <span class="sd">    ...   .setOutputCol(&quot;document&quot;)</span>
 <span class="sd">    ...</span>
-<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer() \</span>
-<span class="sd">    ...   .setInputCols([&quot;document&quot;]) \</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer() \\</span>
+<span class="sd">    ...   .setInputCols([&quot;document&quot;]) \\</span>
 <span class="sd">    ...   .setOutputCol(&quot;tokens&quot;)</span>
 <span class="sd">    ...</span>
-<span class="sd">    &gt;&gt;&gt; embedder = WordEmbeddingsModel \</span>
-<span class="sd">    ...   .pretrained(&quot;embeddings_clinical&quot;, &quot;en&quot;, &quot;clinical/models&quot;) \</span>
-<span class="sd">    ...   .setInputCols([&quot;document&quot;, &quot;tokens&quot;]) \</span>
+<span class="sd">    &gt;&gt;&gt; embedder = WordEmbeddingsModel \\</span>
+<span class="sd">    ...   .pretrained(&quot;embeddings_clinical&quot;, &quot;en&quot;, &quot;clinical/models&quot;) \\</span>
+<span class="sd">    ...   .setInputCols([&quot;document&quot;, &quot;tokens&quot;]) \\</span>
 <span class="sd">    ...   .setOutputCol(&quot;embeddings&quot;)</span>
 <span class="sd">    ...</span>
-<span class="sd">    &gt;&gt;&gt; posTagger = PerceptronModel \</span>
-<span class="sd">    ...   .pretrained(&quot;pos_clinical&quot;, &quot;en&quot;, &quot;clinical/models&quot;) \</span>
-<span class="sd">    ...   .setInputCols([&quot;document&quot;, &quot;tokens&quot;]) \</span>
+<span class="sd">    &gt;&gt;&gt; posTagger = PerceptronModel \\</span>
+<span class="sd">    ...   .pretrained(&quot;pos_clinical&quot;, &quot;en&quot;, &quot;clinical/models&quot;) \\</span>
+<span class="sd">    ...   .setInputCols([&quot;document&quot;, &quot;tokens&quot;]) \\</span>
 <span class="sd">    ...   .setOutputCol(&quot;posTags&quot;)</span>
 <span class="sd">    ...</span>
-<span class="sd">    &gt;&gt;&gt; nerTagger = MedicalNerModel \</span>
-<span class="sd">    ...   .pretrained(&quot;ner_events_clinical&quot;, &quot;en&quot;, &quot;clinical/models&quot;) \</span>
-<span class="sd">    ...   .setInputCols([&quot;document&quot;, &quot;tokens&quot;, &quot;embeddings&quot;]) \</span>
+<span class="sd">    &gt;&gt;&gt; nerTagger = MedicalNerModel \\</span>
+<span class="sd">    ...   .pretrained(&quot;ner_events_clinical&quot;, &quot;en&quot;, &quot;clinical/models&quot;) \\</span>
+<span class="sd">    ...   .setInputCols([&quot;document&quot;, &quot;tokens&quot;, &quot;embeddings&quot;]) \\</span>
 <span class="sd">    ...   .setOutputCol(&quot;ner_tags&quot;)</span>
 <span class="sd">    ...</span>
-<span class="sd">    &gt;&gt;&gt; nerConverter = NerConverter() \</span>
-<span class="sd">    ...   .setInputCols([&quot;document&quot;, &quot;tokens&quot;, &quot;ner_tags&quot;]) \</span>
+<span class="sd">    &gt;&gt;&gt; nerConverter = NerConverter() \\</span>
+<span class="sd">    ...   .setInputCols([&quot;document&quot;, &quot;tokens&quot;, &quot;ner_tags&quot;]) \\</span>
 <span class="sd">    ...   .setOutputCol(&quot;nerChunks&quot;)</span>
 <span class="sd">    ...</span>
-<span class="sd">    &gt;&gt;&gt; depencyParser = DependencyParserModel \</span>
-<span class="sd">    ...   .pretrained(&quot;dependency_conllu&quot;, &quot;en&quot;) \</span>
-<span class="sd">    ...   .setInputCols([&quot;document&quot;, &quot;posTags&quot;, &quot;tokens&quot;]) \</span>
+<span class="sd">    &gt;&gt;&gt; depencyParser = DependencyParserModel \\</span>
+<span class="sd">    ...   .pretrained(&quot;dependency_conllu&quot;, &quot;en&quot;) \\</span>
+<span class="sd">    ...   .setInputCols([&quot;document&quot;, &quot;posTags&quot;, &quot;tokens&quot;]) \\</span>
 <span class="sd">    ...   .setOutputCol(&quot;dependencies&quot;)</span>
 <span class="sd">    ...</span>
-<span class="sd">    &gt;&gt;&gt; re = RelationExtractionApproach() \</span>
-<span class="sd">    ...   .setInputCols([&quot;embeddings&quot;, &quot;posTags&quot;, &quot;train_ner_chunks&quot;, &quot;dependencies&quot;]) \</span>
-<span class="sd">    ...   .setOutputCol(&quot;relations_t&quot;) \</span>
-<span class="sd">    ...   .setLabelColumn(&quot;target_rel&quot;) \</span>
-<span class="sd">    ...   .setEpochsNumber(300) \</span>
-<span class="sd">    ...   .setBatchSize(200) \</span>
-<span class="sd">    ...   .setLearningRate(0.001) \</span>
-<span class="sd">    ...   .setModelFile(&quot;path/to/graph_file.pb&quot;) \</span>
-<span class="sd">    ...   .setFixImbalance(True) \</span>
-<span class="sd">    ...   .setValidationSplit(0.05) \</span>
-<span class="sd">    ...   .setFromEntity(&quot;from_begin&quot;, &quot;from_end&quot;, &quot;from_label&quot;) \</span>
+<span class="sd">    &gt;&gt;&gt; re = RelationExtractionApproach() \\</span>
+<span class="sd">    ...   .setInputCols([&quot;embeddings&quot;, &quot;posTags&quot;, &quot;train_ner_chunks&quot;, &quot;dependencies&quot;]) \\</span>
+<span class="sd">    ...   .setOutputCol(&quot;relations_t&quot;) \\</span>
+<span class="sd">    ...   .setLabelColumn(&quot;target_rel&quot;) \\</span>
+<span class="sd">    ...   .setEpochsNumber(300) \\</span>
+<span class="sd">    ...   .setBatchSize(200) \\</span>
+<span class="sd">    ...   .setLearningRate(0.001) \\</span>
+<span class="sd">    ...   .setModelFile(&quot;path/to/graph_file.pb&quot;) \\</span>
+<span class="sd">    ...   .setFixImbalance(True) \\</span>
+<span class="sd">    ...   .setValidationSplit(0.05) \\</span>
+<span class="sd">    ...   .setFromEntity(&quot;from_begin&quot;, &quot;from_end&quot;, &quot;from_label&quot;) \\</span>
 <span class="sd">    ...   .setToEntity(&quot;to_begin&quot;, &quot;to_end&quot;, &quot;to_label&quot;)</span>
 <span class="sd">    ...</span>
 <span class="sd">    &gt;&gt;&gt; pipeline = Pipeline(stages=[</span>
@@ -386,7 +407,7 @@
 <div class="viewcode-block" id="RelationExtractionApproach.toEntityBeginCol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.toEntityBeginCol">[docs]</a>    <span class="n">toEntityBeginCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;toEntityBeginCol&quot;</span><span class="p">,</span> <span class="s2">&quot;To Entity Begining Column&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 <div class="viewcode-block" id="RelationExtractionApproach.toEntityEndCol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.toEntityEndCol">[docs]</a>    <span class="n">toEntityEndCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;toEntityEndCol&quot;</span><span class="p">,</span> <span class="s2">&quot;To Entity End Column&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 <div class="viewcode-block" id="RelationExtractionApproach.toEntityLabelCol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.toEntityLabelCol">[docs]</a>    <span class="n">toEntityLabelCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;toEntityLabelCol&quot;</span><span class="p">,</span> <span class="s2">&quot;To Entity Label Column&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
-<div class="viewcode-block" id="RelationExtractionApproach.relationDirectionCol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.relationDirectionCol">[docs]</a>    <span class="n">relationDirectionCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;relationDirectionCol&quot;</span><span class="p">,</span> <span class="s2">&quot;To Entity Label Column&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+<div class="viewcode-block" id="RelationExtractionApproach.relationDirectionCol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.relationDirectionCol">[docs]</a>    <span class="n">relationDirectionCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;relationDirectionCol&quot;</span><span class="p">,</span> <span class="s2">&quot;Relation direction column&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="RelationExtractionApproach.customLabels"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.customLabels">[docs]</a>    <span class="n">customLabels</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;customLabels&quot;</span><span class="p">,</span>
                          <span class="s2">&quot;Custom relation labels&quot;</span><span class="p">,</span>
@@ -404,7 +425,7 @@
                                  <span class="s2">&quot;Maximal syntactic distance, as threshold (Default: 0)&quot;</span><span class="p">,</span>
                                  <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RelationExtractionApproach.setMaxSyntacticDistance"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setMaxSyntacticDistance">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSyntacticDistance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distance</span><span class="p">):</span>
+<div class="viewcode-block" id="RelationExtractionApproach.setMaxSyntacticDistance"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setMaxSyntacticDistance">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSyntacticDistance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distance</span><span class="p">:</span><span class="nb">int</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets maximal syntactic distance, as threshold (Default: 0)</span>
 
 <span class="sd">        Parameters</span>
@@ -415,7 +436,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSyntacticDistance</span><span class="o">=</span><span class="n">distance</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RelationExtractionApproach.setFromEntity"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setFromEntity">[docs]</a>    <span class="k">def</span> <span class="nf">setFromEntity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">begin_col</span><span class="p">,</span> <span class="n">end_col</span><span class="p">,</span> <span class="n">label_col</span><span class="p">):</span>
+<div class="viewcode-block" id="RelationExtractionApproach.setFromEntity"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setFromEntity">[docs]</a>    <span class="k">def</span> <span class="nf">setFromEntity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">begin_col</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">end_col</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">label_col</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets from entity</span>
 
 <span class="sd">        Parameters</span>
@@ -423,7 +444,7 @@
 <span class="sd">        begin_col : str</span>
 <span class="sd">             Column that has a reference of where the chunk begins</span>
 <span class="sd">        end_col: str</span>
-<span class="sd">             Column that has a reference of where the chunk end</span>
+<span class="sd">             Column that has a reference of where the chunk ends</span>
 <span class="sd">        label_col: str</span>
 <span class="sd">             Column that has a reference what are the type of chunk</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -432,7 +453,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">fromEntityLabelCol</span><span class="o">=</span><span class="n">label_col</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="RelationExtractionApproach.setToEntity"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setToEntity">[docs]</a>    <span class="k">def</span> <span class="nf">setToEntity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">begin_col</span><span class="p">,</span> <span class="n">end_col</span><span class="p">,</span> <span class="n">label_col</span><span class="p">):</span>
+<div class="viewcode-block" id="RelationExtractionApproach.setToEntity"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setToEntity">[docs]</a>    <span class="k">def</span> <span class="nf">setToEntity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">begin_col</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">end_col</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">label_col</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets to entity</span>
 
 <span class="sd">        Parameters</span>
@@ -440,7 +461,7 @@
 <span class="sd">        begin_col : str</span>
 <span class="sd">             Column that has a reference of where the chunk begins</span>
 <span class="sd">        end_col: str</span>
-<span class="sd">             Column that has a reference of where the chunk end</span>
+<span class="sd">             Column that has a reference of where the chunk ends</span>
 <span class="sd">        label_col: str</span>
 <span class="sd">             Column that has a reference what are the type of chunk</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -448,7 +469,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">toEntityEndCol</span><span class="o">=</span><span class="n">end_col</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">toEntityLabelCol</span><span class="o">=</span><span class="n">label_col</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RelationExtractionApproach.setCustomLabels"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setCustomLabels">[docs]</a>    <span class="k">def</span> <span class="nf">setCustomLabels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+<div class="viewcode-block" id="RelationExtractionApproach.setCustomLabels"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setCustomLabels">[docs]</a>    <span class="k">def</span> <span class="nf">setCustomLabels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span><span class="nb">dict</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets custom relation labels</span>
 
 <span class="sd">        Parameters</span>
@@ -456,11 +477,11 @@
 <span class="sd">        labels : dict[str, str]</span>
 <span class="sd">            Dictionary which maps old to new labels</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">labels</span> <span class="o">=</span> <span class="n">labels</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">cp_labels</span> <span class="o">=</span> <span class="n">labels</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="kn">from</span> <span class="nn">sparknlp_jsl.internal</span> <span class="kn">import</span> <span class="n">CustomLabels</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">customLabels</span><span class="o">=</span><span class="n">CustomLabels</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">customLabels</span><span class="o">=</span><span class="n">CustomLabels</span><span class="p">(</span><span class="n">cp_labels</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="RelationExtractionApproach.setRelationDirectionCol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setRelationDirectionCol">[docs]</a>    <span class="k">def</span> <span class="nf">setRelationDirectionCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">col</span><span class="p">):</span>
+<div class="viewcode-block" id="RelationExtractionApproach.setRelationDirectionCol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setRelationDirectionCol">[docs]</a>    <span class="k">def</span> <span class="nf">setRelationDirectionCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets relation direction column</span>
 
 <span class="sd">        Parameters</span>
@@ -470,23 +491,24 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">relationDirectionCol</span><span class="o">=</span><span class="n">col</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RelationExtractionApproach.setPretrainedModelPath"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setPretrainedModelPath">[docs]</a>    <span class="k">def</span> <span class="nf">setPretrainedModelPath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="RelationExtractionApproach.setPretrainedModelPath"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setPretrainedModelPath">[docs]</a>    <span class="k">def</span> <span class="nf">setPretrainedModelPath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets location of pretrained model.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        value : str</span>
-<span class="sd">           Path to an already trained pretrainedModelPath, which is used as a starting point for training the new model.</span>
+<span class="sd">           Path to an already trained model saved to disk, which is used as a starting point for training the new model.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">pretrainedModelPath</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RelationExtractionApproach.setОverrideExistingLabels"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setОverrideExistingLabels">[docs]</a>    <span class="k">def</span> <span class="nf">setОverrideExistingLabels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to override already learned tags when using a pretrained model to initialize the new model. Default is &#39;true&#39;</span>
+<div class="viewcode-block" id="RelationExtractionApproach.setОverrideExistingLabels"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionApproach.setОverrideExistingLabels">[docs]</a>    <span class="k">def</span> <span class="nf">setОverrideExistingLabels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span><span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to override already learned tags. Default is &#39;true&#39;.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        value : bool</span>
-<span class="sd">            Whether to override already learned labels when using a pretrained model to initialize the new model. Default is &#39;true&#39;</span>
+<span class="sd">            Whether to override already learned labels when using a pretrained model to</span>
+<span class="sd">            initialize the new model. Default is &#39;true&#39;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">overrideExistingLabels</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
@@ -498,11 +520,14 @@
             <span class="n">maxSyntacticDistance</span><span class="o">=</span><span class="mi">0</span></div>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="RelationExtractionModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel">[docs]</a><span class="k">class</span> <span class="nc">RelationExtractionModel</span><span class="p">(</span><span class="n">AnnotatorModelInternal</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Trains a TensorFlow model for relation extraction. The Tensorflow graph in ``.pb`` format needs to be specified with</span>
-<span class="sd">    ``setModelFile``. The result is a RelationExtractionModel.</span>
-<span class="sd">    To start training, see the parameters that need to be set in the Parameters section.</span>
+
+<div class="viewcode-block" id="RelationExtractionModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel">[docs]</a><span class="k">class</span> <span class="nc">RelationExtractionModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extracts and classifies instances of relations between named entities.</span>
+
+<span class="sd">    This is the AnnotatorModel version, if you want to train a model,</span>
+<span class="sd">    use :class:`RelationExtractionApproach`.</span>
+
+<span class="sd">    Visit `NLP Models Hub &lt;https://nlp.johnsnowlabs.com/models&gt;`_ for existing pretrained models.</span>
 
 <span class="sd">    ===========================================  ======================</span>
 <span class="sd">    Input Annotation types                       Output Annotation type</span>
@@ -513,13 +538,17 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    predictionThreshold</span>
-<span class="sd">        Minimal activation of the target unit to encode a new relation instance</span>
+<span class="sd">        Minimal activation of the target unit to encode a new relation instance.</span>
 <span class="sd">    relationPairs</span>
-<span class="sd">        List of dash-separated pairs of named entities (&quot;ENTITY1-ENTITY2&quot;, e.g. &quot;Biomarker-RelativeDay&quot;), which will be processed</span>
+<span class="sd">        List of dash-separated pairs of named entities.</span>
+<span class="sd">        For example, [&quot;Biomarker-RelativeDay&quot;] will process all relations between entities</span>
+<span class="sd">        of type &quot;Biomarker&quot; and &quot;RelativeDay&quot;.</span>
 <span class="sd">    relationPairsCaseSensitive</span>
-<span class="sd">        Determines whether relation pairs are case sensitive</span>
+<span class="sd">        Determines whether relation pairs are case sensitive.</span>
 <span class="sd">    maxSyntacticDistance</span>
 <span class="sd">        Maximal syntactic distance, as threshold (Default: 0)</span>
+<span class="sd">    customLabels</span>
+<span class="sd">        Custom relation labels.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -541,7 +570,7 @@
 <span class="sd">    ...   .setInputCols([&quot;document&quot;]) \\</span>
 <span class="sd">    ...   .setOutputCol(&quot;tokens&quot;)</span>
 <span class="sd">    ...</span>
-<span class="sd">    &gt;&gt;&gt; embedder = WordEmbeddingsModel \</span>
+<span class="sd">    &gt;&gt;&gt; embedder = WordEmbeddingsModel \\</span>
 <span class="sd">    ...   .pretrained(&quot;embeddings_clinical&quot;, &quot;en&quot;, &quot;clinical/models&quot;) \\</span>
 <span class="sd">    ...   .setInputCols([&quot;document&quot;, &quot;tokens&quot;]) \\</span>
 <span class="sd">    ...   .setOutputCol(&quot;embeddings&quot;)</span>
@@ -612,7 +641,7 @@
 <span class="sd">    ...      &quot;relations.metadata.chunk2&quot;,</span>
 <span class="sd">    ...      &quot;relations.metadata.entity2&quot;,</span>
 <span class="sd">    ...      &quot;relations.result&quot;</span>
-<span class="sd">    ...   ).where(&quot;result != 0&quot;) \</span>
+<span class="sd">    ...   ).where(&quot;result != 0&quot;) \\</span>
 <span class="sd">    ...   .show(truncate=False)</span>
 <span class="sd">    +------+---------+-------------+---------------------------+------+</span>
 <span class="sd">    |chunk1|entity1  |chunk2       |entity2                    |result|</span>
@@ -633,7 +662,7 @@
                                 <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="RelationExtractionModel.relationPairs"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.relationPairs">[docs]</a>    <span class="n">relationPairs</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;relationPairs&quot;</span><span class="p">,</span>
-                          <span class="s2">&quot;List of dash-separated pairs of named entities  which will be processed&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;List of dash-separated pairs of named entities to be processed&quot;</span><span class="p">,</span>
                           <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="RelationExtractionModel.relationPairsCaseSensitive"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.relationPairsCaseSensitive">[docs]</a>    <span class="n">relationPairsCaseSensitive</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;relationPairsCaseSensitive&quot;</span><span class="p">,</span> <span class="s2">&quot;Determines whether relation pairs are case sensitive&quot;</span><span class="p">,</span>
@@ -643,11 +672,18 @@
                                  <span class="s2">&quot;Maximal syntactic distance, as threshold (Default: 0)&quot;</span><span class="p">,</span>
                                  <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="RelationExtractionModel.customLabels"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.customLabels">[docs]</a>    <span class="n">customLabels</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;customLabels&quot;</span><span class="p">,</span>
+                         <span class="s2">&quot;Custom relation labels to be used in the relation extraction model&quot;</span><span class="p">,</span>
+                         <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="RelationExtractionModel.classes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.classes">[docs]</a>    <span class="n">classes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;classes&quot;</span><span class="p">,</span> <span class="s2">&quot;Categorization classes&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="RelationExtractionModel.setMaxSyntacticDistance"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.setMaxSyntacticDistance">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSyntacticDistance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distance</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets maximal syntactic distance, as threshold (Default: 0)</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets maximal syntactic distance, as threshold (Default: 0).</span>
+
+<span class="sd">        Determine how far the &quot;from entity&quot; can be from the &quot;to entity&quot; in the text.</span>
+<span class="sd">        Increasing this value will increase recall, but also increase the number of false positives.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -657,8 +693,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSyntacticDistance</span><span class="o">=</span><span class="n">distance</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RelationExtractionModel.setPredictionThreshold"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.setPredictionThreshold">[docs]</a>    <span class="k">def</span> <span class="nf">setPredictionThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">threshold</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets Minimal activation of the target unit to encode a new relation instance</span>
+<div class="viewcode-block" id="RelationExtractionModel.setPredictionThreshold"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.setPredictionThreshold">[docs]</a>    <span class="k">def</span> <span class="nf">setPredictionThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span><span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets Minimal activation of the target unit to encode a new relation instance.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -669,29 +705,29 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">predictionThreshold</span><span class="o">=</span><span class="n">threshold</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="RelationExtractionModel.setRelationPairs"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.setRelationPairs">[docs]</a>    <span class="k">def</span> <span class="nf">setRelationPairs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pairs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets List of dash-separated pairs of named entities (&quot;ENTITY1-ENTITY2&quot;, e.g. &quot;Biomarker-RelativeDay&quot;), which will be processed</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets List of dash-separated pairs of named entities to be processed.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        pairs : str</span>
-<span class="sd">            List of dash-separated pairs of named entities (&quot;ENTITY1-ENTITY2&quot;, e.g. &quot;Biomarker-RelativeDay&quot;), which will be processed</span>
+<span class="sd">        pairs : str or list[str]</span>
+<span class="sd">            List of dash-separated pairs of named entities to be processed.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">pairs</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">list</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pairs</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="n">pairs_str</span> <span class="o">=</span> <span class="n">pairs</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">pairs_str</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pairs</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">relationPairs</span><span class="o">=</span><span class="n">pairs_str</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RelationExtractionModel.setRelationPairsCaseSensitive"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.setRelationPairsCaseSensitive">[docs]</a>    <span class="k">def</span> <span class="nf">setRelationPairsCaseSensitive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="RelationExtractionModel.setRelationPairsCaseSensitive"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.setRelationPairsCaseSensitive">[docs]</a>    <span class="k">def</span> <span class="nf">setRelationPairsCaseSensitive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span><span class="nb">bool</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the case sensitivity of relation pairs</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        value : boolean</span>
+<span class="sd">        value : bool</span>
 <span class="sd">            whether relation pairs are case sensitive</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">relationPairsCaseSensitive</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RelationExtractionModel.setCustomLabels"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.setCustomLabels">[docs]</a>    <span class="k">def</span> <span class="nf">setCustomLabels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+<div class="viewcode-block" id="RelationExtractionModel.setCustomLabels"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.setCustomLabels">[docs]</a>    <span class="k">def</span> <span class="nf">setCustomLabels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span><span class="nb">dict</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets custom relation labels</span>
 
 <span class="sd">        Parameters</span>
@@ -723,6 +759,18 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="RelationExtractionModel.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/re/relation_extraction/index.html#sparknlp_jsl.annotator.re.relation_extraction.RelationExtractionModel.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Download a pre-trained RelationExtractionModel.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): Name of the pre-trained model.</span>
+<span class="sd">            lang (str): Language of the pre-trained model.</span>
+<span class="sd">            remote_loc (str): Remote location of the pre-trained model. If None, use the</span>
+<span class="sd">            open-source location. Other values are &quot;clinical/models&quot;,</span>
+<span class="sd">            &quot;finance/models&quot;, or &quot;legal/models&quot;.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            RelationExtractionModel: A pre-trained RelationExtractionModel.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">ResourceDownloader</span>
         <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;posology_re&quot;</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">PosologyREModel</span><span class="p">()</span>

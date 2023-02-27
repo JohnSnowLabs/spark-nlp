@@ -272,8 +272,7 @@
 
 
 <div class="viewcode-block" id="AnnotationMerger"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/annotation_merger/index.html#sparknlp_jsl.annotator.annotation_merger.AnnotationMerger">[docs]</a><span class="k">class</span> <span class="nc">AnnotationMerger</span><span class="p">(</span><span class="n">AnnotatorModelInternal</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Merges Annotations from multiple columns.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Merges Annotations from multiple columns.</span>
 
 <span class="sd">    ====================== ======================</span>
 <span class="sd">    Input Annotation types Output Annotation type</span>
@@ -289,21 +288,18 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">&gt;&gt;&gt; docs = [[&quot;&quot;]]</span>
-<span class="sd">&gt;&gt;&gt; test_data = spark.createDataFrame(docs).toDF(&quot;text&quot;)</span>
+<span class="sd">&gt;&gt;&gt; empty_data = spark.createDataFrame([[&quot;&quot;]]).toDF(&quot;text&quot;)</span>
 <span class="sd">&gt;&gt;&gt; document1 = DocumentAssembler().setInputCol(&quot;text&quot;).setOutputCol(&quot;document1&quot;)</span>
 <span class="sd">&gt;&gt;&gt; document2 = DocumentAssembler().setInputCol(&quot;text&quot;).setOutputCol(&quot;document2&quot;)</span>
-<span class="sd">&gt;&gt;&gt; annotation_merger = AnnotationMerger()\</span>
-<span class="sd">...     .setInputCols(&quot;document1&quot;, &quot;document2&quot;)\</span>
-<span class="sd">...     .setInputType(&quot;document&quot;)\</span>
+<span class="sd">&gt;&gt;&gt; annotation_merger = AnnotationMerger()\\</span>
+<span class="sd">...     .setInputCols(&quot;document1&quot;, &quot;document2&quot;)\\</span>
+<span class="sd">...     .setInputType(&quot;document&quot;)\\</span>
 <span class="sd">...     .setOutputCol(&quot;all_docs&quot;)</span>
 <span class="sd">&gt;&gt;&gt;</span>
-<span class="sd">&gt;&gt;&gt; pipeline = Pipeline().setStages([document1, document2, annotation_merger]).fit(docs)</span>
-<span class="sd">&gt;&gt;&gt; lp = LightPipeline(pipeline)</span>
+<span class="sd">&gt;&gt;&gt; pipelineModel = Pipeline().setStages([document1, document2, annotation_merger]).fit(empty_data)</span>
+<span class="sd">&gt;&gt;&gt; lp = LightPipeline(pipelineModel)</span>
 <span class="sd">&gt;&gt;&gt; lp.fullAnnotate(&quot;one doc to be replicated&quot;)</span>
 <span class="sd">[{&#39;document1&#39;: [Annotation(document, 0, 23, one doc to be replicated, {})], &#39;document2&#39;: [Annotation(document, 0, 23, one doc to be replicated, {})], &#39;all_docs&#39;: [Annotation(document, 0, 23, one doc to be replicated, {}), Annotation(document, 0, 23, one doc to be replicated, {})]}]</span>
-
-
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="AnnotationMerger.inputAnnotatorTypes"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/annotation_merger/index.html#sparknlp_jsl.annotator.annotation_merger.AnnotationMerger.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">]</span></div>
 <div class="viewcode-block" id="AnnotationMerger.outputAnnotatorType"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/annotator/annotation_merger/index.html#sparknlp_jsl.annotator.annotation_merger.AnnotationMerger.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">]</span></div>

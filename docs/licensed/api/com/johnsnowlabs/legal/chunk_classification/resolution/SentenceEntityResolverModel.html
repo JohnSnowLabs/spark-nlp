@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.3.0 ScalaDoc  - com.johnsnowlabs.legal.chunk_classification.resolution.SentenceEntityResolverModel</title>
-          <meta name="description" content="Spark NLP 4.3.0 ScalaDoc - com.johnsnowlabs.legal.chunk classification.resolution.SentenceEntityResolverModel" />
-          <meta name="keywords" content="Spark NLP 4.3.0 ScalaDoc com.johnsnowlabs.legal.chunk classification.resolution.SentenceEntityResolverModel" />
+          <title>Spark NLP 4.3.1 ScalaDoc  - com.johnsnowlabs.legal.chunk_classification.resolution.SentenceEntityResolverModel</title>
+          <meta name="description" content="Spark NLP 4.3.1 ScalaDoc - com.johnsnowlabs.legal.chunk classification.resolution.SentenceEntityResolverModel" />
+          <meta name="keywords" content="Spark NLP 4.3.1 ScalaDoc com.johnsnowlabs.legal.chunk classification.resolution.SentenceEntityResolverModel" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.3.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.3.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -1574,23 +1574,6 @@ and returns the normalized entity for a particular trained ontology / curated da
       <p class="shortcomment cmt">Whether to calculate and return cosine distances between a chunk/token and the k closest candidates.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to calculate and return cosine distances between a chunk/token and the k closest candidates.
 Can improve accuracy but increases computation.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../nlp/annotators/resolution/SentenceEntityResolverModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#getReturnEuclideanDistances" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
-      <a id="getReturnEuclideanDistances:Boolean"></a>
-      <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/legal/chunk_classification/resolution/SentenceEntityResolverModel.html#getReturnEuclideanDistances:Boolean" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">getReturnEuclideanDistances</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
-      </span>
-      
-      <p class="shortcomment cmt">Whether to Euclidean distances of the k closest candidates for a chunk/token.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to Euclidean distances of the k closest candidates for a chunk/token.
-</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../nlp/annotators/resolution/SentenceEntityResolverModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#getSearchTree" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getSearchTree:com.johnsnowlabs.ml.search.SerializableKDTree[com.johnsnowlabs.nlp.annotators.resolution.TreeData]"></a><a id="getSearchTree:SerializableKDTree[TreeData]"></a>
       <span class="permalink">
@@ -2315,42 +2298,6 @@ Can improve accuracy but increases computation.
       <p class="shortcomment cmt">Whether to return all embeddings of all K candidates of the resolution.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to return all embeddings of all K candidates of the resolution. Embeddings will be in the metadata.
 Increase in RAM usage to be expected (Default: false)
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../nlp/annotators/resolution/SentenceEntityResolverModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#returnCosineDistances" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
-      <a id="returnCosineDistances:org.apache.spark.ml.param.BooleanParam"></a><a id="returnCosineDistances:BooleanParam"></a>
-      <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/legal/chunk_classification/resolution/SentenceEntityResolverModel.html#returnCosineDistances:org.apache.spark.ml.param.BooleanParam" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">returnCosineDistances</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
-      </span>
-      
-      <p class="shortcomment cmt">Whether to calculate and return cosine distances between a chunk/token and the k closest candidates.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to calculate and return cosine distances between a chunk/token and the k closest candidates.
-Can improve accuracy but increases computation (Default: true)
-</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../nlp/annotators/resolution/SentenceEntityResolverModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#returnEuclideanDistances" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
-      <a id="returnEuclideanDistances:org.apache.spark.ml.param.BooleanParam"></a><a id="returnEuclideanDistances:BooleanParam"></a>
-      <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/legal/chunk_classification/resolution/SentenceEntityResolverModel.html#returnEuclideanDistances:org.apache.spark.ml.param.BooleanParam" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">returnEuclideanDistances</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
-      </span>
-      
-      <p class="shortcomment cmt">Whether to Euclidean distances of the k closest candidates for a chunk/token (Default: true)
-</p><div class="fullcomment"><div class="comment cmt"><p>Whether to Euclidean distances of the k closest candidates for a chunk/token (Default: true)
-</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../nlp/annotators/resolution/SentenceEntityResolverModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.util.MLWritable#save" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="save(path:String):Unit"></a><a id="save(String):Unit"></a>
       <span class="permalink">
@@ -2893,41 +2840,6 @@ Can improve accuracy but increases computation (Default: true)
       
       <p class="shortcomment cmt">Whether to return all embeddings of all K candidates of the resolution.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to return all embeddings of all K candidates of the resolution. Embeddings will be in the metadata. Increase in RAM usage to be expected
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../nlp/annotators/resolution/SentenceEntityResolverModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#setReturnCosineDistances" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
-      <a id="setReturnCosineDistances(value:Boolean):SentenceEntityResolverModel.this.type"></a><a id="setReturnCosineDistances(Boolean):SentenceEntityResolverModel.this.type"></a>
-      <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/legal/chunk_classification/resolution/SentenceEntityResolverModel.html#setReturnCosineDistances(value:Boolean):SentenceEntityResolverModel.this.type" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">setReturnCosineDistances</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.legal.chunk_classification.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a>.this.type</span>
-      </span>
-      
-      <p class="shortcomment cmt">Whether to calculate and return cosine distances between a chunk/token and the k closest candidates.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to calculate and return cosine distances between a chunk/token and the k closest candidates.
-Can improve accuracy but increases computation.
-</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../nlp/annotators/resolution/SentenceEntityResolverModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#setReturnEuclideanDistances" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
-      <a id="setReturnEuclideanDistances(value:Boolean):SentenceEntityResolverModel.this.type"></a><a id="setReturnEuclideanDistances(Boolean):SentenceEntityResolverModel.this.type"></a>
-      <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/legal/chunk_classification/resolution/SentenceEntityResolverModel.html#setReturnEuclideanDistances(value:Boolean):SentenceEntityResolverModel.this.type" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">setReturnEuclideanDistances</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.legal.chunk_classification.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a>.this.type</span>
-      </span>
-      
-      <p class="shortcomment cmt">Whether to Euclidean distances of the k closest candidates for a chunk/token.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to Euclidean distances of the k closest candidates for a chunk/token.
-</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../nlp/annotators/resolution/SentenceEntityResolverModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#setSearchTree" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setSearchTree(tree:com.johnsnowlabs.ml.search.SerializableKDTree[com.johnsnowlabs.nlp.annotators.resolution.TreeData]):SentenceEntityResolverModel.this.type"></a><a id="setSearchTree(SerializableKDTree[TreeData]):SentenceEntityResolverModel.this.type"></a>
       <span class="permalink">
@@ -3359,7 +3271,113 @@ Can improve accuracy but increases computation.
 
         
 
-        
+        <div class="values members">
+              <h3>Deprecated Value Members</h3>
+              <ol><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#getReturnEuclideanDistances" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
+      <a id="getReturnEuclideanDistances:Boolean"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/legal/chunk_classification/resolution/SentenceEntityResolverModel.html#getReturnEuclideanDistances:Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: ">getReturnEuclideanDistances</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Whether to Euclidean distances of the k closest candidates for a chunk/token.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to Euclidean distances of the k closest candidates for a chunk/token.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../nlp/annotators/resolution/SentenceEntityResolverModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a></dd><dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#returnCosineDistances" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
+      <a id="returnCosineDistances:org.apache.spark.ml.param.BooleanParam"></a><a id="returnCosineDistances:BooleanParam"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/legal/chunk_classification/resolution/SentenceEntityResolverModel.html#returnCosineDistances:org.apache.spark.ml.param.BooleanParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: ">returnCosineDistances</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Whether to calculate and return cosine distances between a chunk/token and the k closest candidates.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to calculate and return cosine distances between a chunk/token and the k closest candidates.
+Can improve accuracy but increases computation (Default: true)
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../nlp/annotators/resolution/SentenceEntityResolverModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a></dd><dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#returnEuclideanDistances" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
+      <a id="returnEuclideanDistances:org.apache.spark.ml.param.BooleanParam"></a><a id="returnEuclideanDistances:BooleanParam"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/legal/chunk_classification/resolution/SentenceEntityResolverModel.html#returnEuclideanDistances:org.apache.spark.ml.param.BooleanParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: ">returnEuclideanDistances</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Whether to Euclidean distances of the k closest candidates for a chunk/token (Default: true)
+</p><div class="fullcomment"><div class="comment cmt"><p>Whether to Euclidean distances of the k closest candidates for a chunk/token (Default: true)
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../nlp/annotators/resolution/SentenceEntityResolverModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a></dd><dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#setReturnCosineDistances" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
+      <a id="setReturnCosineDistances(value:Boolean):SentenceEntityResolverModel.this.type"></a><a id="setReturnCosineDistances(Boolean):SentenceEntityResolverModel.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/legal/chunk_classification/resolution/SentenceEntityResolverModel.html#setReturnCosineDistances(value:Boolean):SentenceEntityResolverModel.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: ">setReturnCosineDistances</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.legal.chunk_classification.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt">Whether to calculate and return cosine distances between a chunk/token and the k closest candidates.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to calculate and return cosine distances between a chunk/token and the k closest candidates.
+Can improve accuracy but increases computation.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../nlp/annotators/resolution/SentenceEntityResolverModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a></dd><dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel#setReturnEuclideanDistances" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
+      <a id="setReturnEuclideanDistances(value:Boolean):SentenceEntityResolverModel.this.type"></a><a id="setReturnEuclideanDistances(Boolean):SentenceEntityResolverModel.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/legal/chunk_classification/resolution/SentenceEntityResolverModel.html#setReturnEuclideanDistances(value:Boolean):SentenceEntityResolverModel.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name deprecated" title="Deprecated: ">setReturnEuclideanDistances</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.legal.chunk_classification.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt">Whether to Euclidean distances of the k closest candidates for a chunk/token.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to Euclidean distances of the k closest candidates for a chunk/token.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../nlp/annotators/resolution/SentenceEntityResolverModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.resolution.SentenceEntityResolverModel">SentenceEntityResolverModel</a></dd><dt>Annotations</dt><dd>
+                <span class="name">@deprecated</span>
+              
+        </dd><dt>Deprecated</dt><dd class="cmt"></dd></dl></div>
+    </li></ol>
+            </div>
         </div>
 
         <div id="inheritedMembers">

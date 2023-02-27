@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.3.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.assertion.AssertionChunkConverter</title>
-          <meta name="description" content="Spark NLP 4.3.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.assertion.AssertionChunkConverter" />
-          <meta name="keywords" content="Spark NLP 4.3.0 ScalaDoc com.johnsnowlabs.nlp.annotators.assertion.AssertionChunkConverter" />
+          <title>Spark NLP 4.3.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.assertion.AssertionChunkConverter</title>
+          <meta name="description" content="Spark NLP 4.3.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.assertion.AssertionChunkConverter" />
+          <meta name="keywords" content="Spark NLP 4.3.1 ScalaDoc com.johnsnowlabs.nlp.annotators.assertion.AssertionChunkConverter" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.3.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.3.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -183,8 +183,8 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="com.johnsnowlabs.nlp.annotators.assertion">assertion</a></dd></dl></div>
     </li><li class="current-entities indented5">
                         <span class="separator"></span>
-                        <a class="class" href="" title=""></a>
-                        <a href="" title="">AssertionChunkConverter</a>
+                        <a class="class" href="" title="Creates a chunk column with metadata for training assertion status detection models."></a>
+                        <a href="" title="Creates a chunk column with metadata for training assertion status detection models.">AssertionChunkConverter</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="class" href="Datapoint.html" title="Created by jose on 19/03/18."></a>
@@ -217,7 +217,35 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Creates a chunk column with metadata for training assertion status detection models.</p><p>In some cases, there may be issues while creating the chunk column when using
+token indices that can lead to loss of data to train assertion status models.
+The <code>AssertionChunkConverter</code> annotator uses both begin and end indices of the
+tokens as input to add a more robust metadata to the chunk column in a way that
+improves the reliability of the indices and avoid loss of data.</p><h4>Notes</h4><p>Chunk begin and end indices in the assertion status model training
+dataframe can be populated using the new version of ALAB module.</p><h4>Example</h4><p>Define the stages of the pipeline</p><pre><span class="kw">val</span> document = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+<span class="kw">val</span> sentenceDetector = <span class="kw">new</span> SentenceDetector()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"sentence"</span>)
+<span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer()
+  .setInputCols(<span class="lit">"sentence"</span>)
+  .setOutputCol(<span class="lit">"token"</span>)
+<span class="kw">val</span> converter  = <span class="kw">new</span> AssertionChunkConverter()
+  .setInputCols(<span class="lit">"tokens"</span>)
+  .setChunkTextCol(<span class="lit">"target"</span>)
+  .setChunkBeginCol(<span class="lit">"char_begin"</span>)
+  .setChunkEndCol(<span class="lit">"char_end"</span>)
+  .setOutputTokenBeginCol(<span class="lit">"token_begin"</span>)
+  .setOutputTokenEndCol(<span class="lit">"token_end"</span>)
+  .setOutputCol(<span class="lit">"chunk"</span>)</pre><p>Define the pipeline and obtain the results</p><pre><span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  document,
+  sentenceDetector,
+  tokenizer,
+  converter
+))
+
+results = pipeline.fit(data).transform(data)</pre></div><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -283,7 +311,7 @@
       </span>
       
       
-    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.AssertionChunkConverter#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.assertion.AssertionChunkConverter#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="&lt;init&gt;(uid:String):com.johnsnowlabs.nlp.annotators.assertion.AssertionChunkConverter"></a><a id="&lt;init&gt;:AssertionChunkConverter"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/assertion/AssertionChunkConverter.html#&lt;init&gt;(uid:String):com.johnsnowlabs.nlp.annotators.assertion.AssertionChunkConverter" title="Permalink">
@@ -298,7 +326,7 @@
         <span class="name">AssertionChunkConverter</span><span class="params">(<span name="uid">uid: <span class="extype" name="scala.Predef.String">String</span></span>)</span>
       </span>
       
-      
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>a unique identifier for the instantiated AnnotatorModel</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -1917,17 +1945,17 @@
         </div>
 
         <div id="groupedMembers">
-        <div class="group" name="anno">
-              <h3>anno</h3>
+        <div class="group" name="param">
+              <h3>Parameters</h3>
               
-            </div><div class="group" name="param">
-              <h3>param</h3>
+            </div><div class="group" name="anno">
+              <h3>Annotator types</h3>
+              <div class="comment cmt"><p>Required input and expected output annotator types</p></div>
+            </div><div class="group" name="Ungrouped">
+              <h3>Members</h3>
               
             </div><div class="group" name="setParam">
-              <h3>setParam</h3>
-              
-            </div><div class="group" name="Ungrouped">
-              <h3>Ungrouped</h3>
+              <h3>Parameter setters</h3>
               
             </div>
         </div>

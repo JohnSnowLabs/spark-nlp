@@ -321,6 +321,8 @@
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../qa/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../qa/gpt_generation_params/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa.gpt_generation_params</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../qa/medical_qa/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa.medical_qa</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../qa/qa_ner_generator/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa.qa_ner_generator</span></code></a></li>
 </ul>
 </li>
@@ -398,8 +400,9 @@
 <dd><p>Train a Assertion Model algorithm using deep learning.</p>
 <p>Example of possible values: “present”, “absent”, “hypothetical”, “conditional”,
 “associated_with_other_person”, etc.</p>
-<p>The training data should have annotations columns of type <code class="docutils literal notranslate"><span class="pre">DOCUMENT</span></code>, <code class="docutils literal notranslate"><span class="pre">CHUNK</span></code>, <code class="docutils literal notranslate"><span class="pre">WORD_EMBEDDINGS</span></code>, the <code class="docutils literal notranslate"><span class="pre">label</span></code> column
-(The assertion status that you want to predict), the <code class="docutils literal notranslate"><span class="pre">start</span></code> (the start index for the term that has the assertion status),
+<p>The training data should have annotations columns of type <code class="docutils literal notranslate"><span class="pre">DOCUMENT</span></code>, <code class="docutils literal notranslate"><span class="pre">CHUNK</span></code>,
+<code class="docutils literal notranslate"><span class="pre">WORD_EMBEDDINGS</span></code>, the <code class="docutils literal notranslate"><span class="pre">label</span></code> column (the assertion status that you want to
+predict), the <code class="docutils literal notranslate"><span class="pre">start</span></code> (the start index for the term that has the assertion status),
 the <code class="docutils literal notranslate"><span class="pre">end</span></code> column (the end index for the term that has the assertion status).
 This model use a deep learning to predict the entity.</p>
 <p>To use a pretrained model, check the documentation of AssertionDLModel.</p>
@@ -415,9 +418,9 @@ This model use a deep learning to predict the entity.</p>
 </tr>
 </tbody>
 </table>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
+<dd class="field-odd"><dl>
 <dt><strong>label</strong></dt><dd><p>Column with one label per document.
 Example of possible values: “present”, “absent”,
 “hypothetical”, “conditional”, “associated_with_other_person”, etc.</p>
@@ -436,15 +439,20 @@ Example of possible values: “present”, “absent”,
 </dd>
 <dt><strong>maxSentLen</strong></dt><dd><p>Max length for an input sentence.</p>
 </dd>
-<dt><strong>graphFolder</strong></dt><dd><p>Folder path that contain external graph files.</p>
+<dt><strong>graphFolder</strong></dt><dd><p>Folder path that contain external graph files. The path can a local file path,
+a distributed file path (HDFS, DBFS), or a cloud storage (S3).</p>
 </dd>
-<dt><strong>graphFile</strong></dt><dd><p>Graph file name to use</p>
+<dt><strong>graphFile</strong></dt><dd><p>Path that contains the external graph file.</p>
+<p>When specified, the provided file will be used, and no graph search will happen.
+The path can be a local file path,
+a distributed file path (HDFS, DBFS), or a cloud storage (S3).</p>
 </dd>
 <dt><strong>configProtoBytes</strong></dt><dd><p>ConfigProto from tensorflow, serialized into byte array.
 Get with config_proto.SerializeToString()</p>
 </dd>
-<dt><strong>validationSplit</strong></dt><dd><p>Choose the proportion of training dataset to be validated
-against the model on each epoch. The value should be between 0.0 and 1.0
+<dt><strong>validationSplit</strong></dt><dd><p>The proportion of training dataset to be used as validation set, meaning
+that the model will be validated against this dataset on each Epoch and will not
+be used for training. The value should be between 0.0 and 1.0
 and by default it is 0.0 (no validation).</p>
 </dd>
 <dt><strong>testDataset</strong></dt><dd><p>Path to test dataset. If set used to calculate statistic on it during training.</p>
@@ -453,7 +461,9 @@ and by default it is 0.0 (no validation).</p>
 </dd>
 <dt><strong>enableOutputLogs</strong></dt><dd><p>whether or not to output logs</p>
 </dd>
-<dt><strong>outputLogsPath</strong></dt><dd><p>Folder path to save training logs</p>
+<dt><strong>outputLogsPath</strong></dt><dd><p>Folder path to save training logs. If no path is specified, the logs won’t
+be stored in disk. The path can be a local file path,
+a distributed file path (HDFS, DBFS), or a cloud storage (S3).</p>
 </dd>
 <dt><strong>verbose</strong></dt><dd><p>Level of verbosity during training</p>
 </dd>
@@ -723,6 +733,7 @@ and by default it is 0.0 (no validation).</p>
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setValidationSplit">
 <span class="sig-name descname"><span class="pre">setValidationSplit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertionDL.html#AssertionDLApproach.setValidationSplit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setValidationSplit" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets the validation size for the training dataset.</p>
+<p>The value should be between 0.0 and 1.0.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>value (float): The proportion of training dataset to be used as validation set.</p>
 </dd>
@@ -733,9 +744,10 @@ and by default it is 0.0 (no validation).</p>
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setTestDataset">
 <span class="sig-name descname"><span class="pre">setTestDataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_as</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ReadAs.SPARK</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertionDL.html#AssertionDLApproach.setTestDataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setTestDataset" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets path to test dataset.</p>
-<p>If set used to calculate statistic on it during training.</p>
+<p>If set, the dataset will be used to calculate performance metrics during training.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><p>path (srt): Path to test dataset. If set used to calculate statistic on it during training.
+<dt>Args:</dt><dd><p>path (srt): Path to test dataset. If set used to calculate statistic on
+it during training.
 read_as (str): Read as format. Default is “SPARK” (ReadAs.SPARK).
 options (dict): Options for reading. Default is None.</p>
 </dd>
@@ -788,9 +800,10 @@ options (dict): Options for reading. Default is None.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setScopeWindow">
 <span class="sig-name descname"><span class="pre">setScopeWindow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertionDL.html#AssertionDLApproach.setScopeWindow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLApproach.setScopeWindow" title="Permalink to this definition">#</a></dt>
-<dd><p>Sets the scope of the window of the assertion expression</p>
+<dd><p>Sets the scope of the window of the assertion expression.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><p>value (list): Left and right offset if the scope window. Offsets must be non-negative values.</p>
+<dt>Args:</dt><dd><p>value (list): Left and right offset if the scope window. Offsets must be
+non-negative values.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -933,7 +946,17 @@ annotator inputs. To train a custom model, use AssertionDLApproach.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel.setConfigProtoBytes">
 <span class="sig-name descname"><span class="pre">setConfigProtoBytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertionDL.html#AssertionDLModel.setConfigProtoBytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel.setConfigProtoBytes" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Sets the configProtoBytes for the AssertionDLModel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>b</strong><span class="classifier">bytearray</span></dt><dd><p>ConfigProto from tensorflow, serialized into byte array.
+Get with config_proto.SerializeToString().</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel.setIncludeConfidence">
@@ -966,7 +989,27 @@ annotator inputs. To train a custom model, use AssertionDLApproach.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel.pretrained">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pretrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'en'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertionDL.html#AssertionDLModel.pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertionDL.AssertionDLModel.pretrained" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Downloads and loads a pretrained model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the pretrained model.</p>
+</dd>
+<dt><strong>lang</strong><span class="classifier">str, optional</span></dt><dd><p>Language of the pretrained model, by default “en”</p>
+</dd>
+<dt><strong>remote_loc</strong><span class="classifier">str, optional</span></dt><dd><p>Optional remote address of the resource, by default None. Will use
+Spark NLPs repositories otherwise.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>AssertionDLModel</dt><dd><p>The restored model</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

@@ -316,7 +316,7 @@
 <span class="sd">    ...   .setInputCols([&quot;document&quot;]) \\</span>
 <span class="sd">    ...   .setOutputCol(&quot;tokens&quot;)</span>
 <span class="sd">    ...</span>
-<span class="sd">    &gt;&gt;&gt; embedder = WordEmbeddingsModel \</span>
+<span class="sd">    &gt;&gt;&gt; embedder = WordEmbeddingsModel \\</span>
 <span class="sd">    ...   .pretrained(&quot;embeddings_clinical&quot;, &quot;en&quot;, &quot;clinical/models&quot;) \\</span>
 <span class="sd">    ...   .setInputCols([&quot;document&quot;, &quot;tokens&quot;]) \\</span>
 <span class="sd">    ...   .setOutputCol(&quot;embeddings&quot;)</span>
@@ -391,7 +391,7 @@
 <span class="sd">    ...      &quot;relations.metadata.chunk2&quot;,</span>
 <span class="sd">    ...      &quot;relations.metadata.entity2&quot;,</span>
 <span class="sd">    ...      &quot;relations.result&quot;</span>
-<span class="sd">    ...   ).where(&quot;result != 0&quot;) \</span>
+<span class="sd">    ...   ).where(&quot;result != 0&quot;) \\</span>
 <span class="sd">    ...   .show(truncate=False)</span>
 <span class="sd">    +------+---------+-------------+---------------------------+------+</span>
 <span class="sd">    |chunk1|entity1  |chunk2       |entity2                    |result|</span>
@@ -421,6 +421,18 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="RelationExtractionDLModel.pretrained"><a class="viewcode-back" href="../../../../../reference/autosummary/sparknlp_jsl/legal/graph/relation_extraction/relation_extraction_dl/index.html#sparknlp_jsl.legal.graph.relation_extraction.relation_extraction_dl.RelationExtractionDLModel.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Download a pre-trained RelationExtractionDLModel.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): Name of the pre-trained model.</span>
+<span class="sd">            lang (str): Language of the pre-trained model.</span>
+<span class="sd">            remote_loc (str): Remote location of the pre-trained model. If None, use the</span>
+<span class="sd">            open-source location. Other values are &quot;clinical/models&quot;,</span>
+<span class="sd">            &quot;finance/models&quot;, or &quot;legal/models&quot;.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            RelationExtractionDLModel: A pre-trained RelationExtractionDLModel.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">sparknlp_jsl.pretrained</span> <span class="kn">import</span> <span class="n">InternalResourceDownloader</span>
         <span class="k">return</span> <span class="n">InternalResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">RelationExtractionDLModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
                                                         <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div></div>

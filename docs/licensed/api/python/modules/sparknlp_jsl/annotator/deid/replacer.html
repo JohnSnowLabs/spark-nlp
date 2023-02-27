@@ -275,6 +275,68 @@
 
 
 <div class="viewcode-block" id="Replacer"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/replacer/index.html#sparknlp_jsl.annotator.deid.replacer.Replacer">[docs]</a><span class="k">class</span> <span class="nc">Replacer</span><span class="p">(</span><span class="n">AnnotatorModelInternal</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Replaces entities in the original text with new ones.</span>
+
+<span class="sd">    This class allows to replace entities in the original text with the ones obtained with,</span>
+<span class="sd">    for example, :py:class:`DeIdentificationModel`_ or :py:class:`DateNormalizer`_.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        useReplacement (bool): Enable or disable Replacement of entities. Default: True.</span>
+
+<span class="sd">    Examples:</span>
+
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler()\\</span>
+<span class="sd">    ...     .setInputCol(&quot;text&quot;)\\</span>
+<span class="sd">    ...     .setOutputCol(&quot;sentence&quot;)</span>
+
+<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer()\\</span>
+<span class="sd">    ...     .setInputCols(&quot;sentence&quot;)\\</span>
+<span class="sd">    ...     .setOutputCol(&quot;token&quot;)</span>
+
+<span class="sd">    &gt;&gt;&gt; word_embeddings = WordEmbeddingsModel.pretrained(&quot;embeddings_clinical&quot;, &quot;en&quot;, &quot;clinical/models&quot;)\\</span>
+<span class="sd">    ...         .setInputCols([&quot;sentence&quot;, &quot;token&quot;])\\</span>
+<span class="sd">    ...         .setOutputCol(&quot;embeddings&quot;)</span>
+
+<span class="sd">    &gt;&gt;&gt; clinical_ner = MedicalNerModel.pretrained(&quot;ner_deid_generic_augmented&quot;, &quot;en&quot;, &quot;clinical/models&quot;) \\</span>
+<span class="sd">    ...         .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;embeddings&quot;]) \\</span>
+<span class="sd">    ...         .setOutputCol(&quot;ner&quot;)</span>
+
+<span class="sd">    &gt;&gt;&gt; ner_converter_name = NerConverterInternal()\\</span>
+<span class="sd">    ...         .setInputCols([&quot;sentence&quot;,&quot;token&quot;,&quot;ner&quot;])\\</span>
+<span class="sd">    ...         .setOutputCol(&quot;ner_chunk&quot;)</span>
+
+<span class="sd">    &gt;&gt;&gt; nameChunkObfuscator = NameChunkObfuscatorApproach()\\</span>
+<span class="sd">    ...     .setInputCols(&quot;ner_chunk&quot;)\\</span>
+<span class="sd">    ...     .setOutputCol(&quot;replacement&quot;)\\</span>
+<span class="sd">    ...     .setRefFileFormat(&quot;csv&quot;)\\</span>
+<span class="sd">    ...     .setObfuscateRefFile(&quot;names_test.txt&quot;)\\</span>
+<span class="sd">    ...     .setRefSep(&quot;#&quot;)</span>
+
+<span class="sd">    &gt;&gt;&gt; replacer_name = Replacer()\\</span>
+<span class="sd">    ...     .setInputCols(&quot;replacement&quot;,&quot;sentence&quot;)\\</span>
+<span class="sd">    ...     .setOutputCol(&quot;obfuscated_document_name&quot;)\\</span>
+<span class="sd">    ...     .setUseReplacement(True)</span>
+
+<span class="sd">    &gt;&gt;&gt; nlpPipeline = Pipeline(stages=[</span>
+<span class="sd">    ...         documentAssembler,</span>
+<span class="sd">    ...         tokenizer,</span>
+<span class="sd">    ...         word_embeddings,</span>
+<span class="sd">    ...         clinical_ner,</span>
+<span class="sd">    ...         ner_converter_name,</span>
+<span class="sd">    ...         nameChunkObfuscator,</span>
+<span class="sd">    ...         replacer_name,</span>
+<span class="sd">    ...         ])</span>
+
+<span class="sd">    &gt;&gt;&gt; empty_data = spark.createDataFrame([[&quot;&quot;]]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; model_chunck_obfuscator = nlpPipeline.fit(empty_data)</span>
+<span class="sd">    &gt;&gt;&gt; sample_text = &#39;&#39;&#39;John Davies is a 62 y.o. patient admitted. Mr. Davies was seen by attending physician Dr. Lorand and was scheduled for emergency assessment.&#39;&#39;&#39;</span>
+<span class="sd">    &gt;&gt;&gt; lmodel = LightPipeline(model_chunck_obfuscator)</span>
+<span class="sd">    &gt;&gt;&gt; res = lmodel.fullAnnotate(sample_text)</span>
+<span class="sd">    &gt;&gt;&gt; print(&quot;Original text.  : &quot;, res[0][&#39;sentence&#39;][0].result)</span>
+<span class="sd">    &gt;&gt;&gt; print(&quot;Obfuscated text : &quot;, res[0][&#39;obfuscated_document_name&#39;][0].result)</span>
+<span class="sd">    Original text.  :  John Davies is a 62 y.o. patient admitted. Mr. Davies was seen by attending physician Dr. Lorand and was scheduled for emergency assessment.</span>
+<span class="sd">    Obfuscated text :  Fitzpatrick is a &lt;AGE&gt; y.o. patient admitted. Mr. Bowman was seen by attending physician Dr. Acosta and was scheduled for emergency assessment.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="Replacer.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/replacer/index.html#sparknlp_jsl.annotator.deid.replacer.Replacer.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Replacer&quot;</span></div>
 <div class="viewcode-block" id="Replacer.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/replacer/index.html#sparknlp_jsl.annotator.deid.replacer.Replacer.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span><span class="p">]</span></div>
 <div class="viewcode-block" id="Replacer.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/replacer/index.html#sparknlp_jsl.annotator.deid.replacer.Replacer.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span></div>
@@ -288,7 +350,7 @@
             <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="Replacer.setUseReplacement"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/replacer/index.html#sparknlp_jsl.annotator.deid.replacer.Replacer.setUseReplacement">[docs]</a>    <span class="k">def</span> <span class="nf">setUseReplacement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Replacer.setUseReplacement"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/replacer/index.html#sparknlp_jsl.annotator.deid.replacer.Replacer.setUseReplacement">[docs]</a>    <span class="k">def</span> <span class="nf">setUseReplacement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Enable or disable Replacement of entities</span>
 
 <span class="sd">        Parameters</span>
@@ -299,12 +361,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">useReplacement</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Replacer.getUseReplacement"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/replacer/index.html#sparknlp_jsl.annotator.deid.replacer.Replacer.getUseReplacement">[docs]</a>    <span class="k">def</span> <span class="nf">getUseReplacement</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Enable or disable Replacement of entities</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        value : bool</span>
-<span class="sd">            True for Replacing, False otherwise.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the value of useReplacement or its default value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">useReplacement</span><span class="p">)</span></div></div>
 </pre></div>

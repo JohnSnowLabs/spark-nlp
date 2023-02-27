@@ -335,7 +335,7 @@
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.finance.token_classification.ner.finance_ner.FinanceNerApproach" title="sparknlp_jsl.finance.token_classification.ner.finance_ner.FinanceNerApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FinanceNerApproach</span></code></a></p></td>
-<td><p>This Named Entity recognition annotator allows to train generic NER model</p></td>
+<td><p>Trains generic NER model based on Neural Networks.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.finance.token_classification.ner.finance_ner.FinanceNerModel" title="sparknlp_jsl.finance.token_classification.ner.finance_ner.FinanceNerModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FinanceNerModel</span></code></a></p></td>
 <td><p>This Named Entity recognition annotator is a generic NER model based on</p></td>
@@ -345,8 +345,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp_jsl.finance.token_classification.ner.finance_ner.FinanceNerApproach">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">FinanceNerApproach</span></span><a class="reference internal" href="../../../../../../../modules/sparknlp_jsl/finance/token_classification/ner/finance_ner.html#FinanceNerApproach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.finance.token_classification.ner.finance_ner.FinanceNerApproach" title="Permalink to this definition">#</a></dt>
-<dd><p>This Named Entity recognition annotator allows to train generic NER model
-based on Neural Networks.</p>
+<dd><p>Trains generic NER model based on Neural Networks.</p>
 <p>The architecture of the neural network is a Char CNNs - BiLSTM - CRF that
 achieves state-of-the-art in most datasets.</p>
 <p>For instantiated/pretrained models, see <code class="xref py py-class docutils literal notranslate"><span class="pre">NerDLModel</span></code>.</p>
@@ -374,9 +373,9 @@ for BERT based embeddings).</p></li>
 </tr>
 </tbody>
 </table>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
+<dd class="field-odd"><dl>
 <dt><strong>labelColumn</strong></dt><dd><p>Column with label per each token</p>
 </dd>
 <dt><strong>entities</strong></dt><dd><p>Entities to recognize</p>
@@ -396,40 +395,126 @@ epoch), by default 0.005</p>
 </dd>
 <dt><strong>batchSize</strong></dt><dd><p>Batch size, by default 8</p>
 </dd>
-<dt><strong>dropout</strong></dt><dd><p>Dropout coefficient, by default 0.5</p>
+<dt><strong>dropout</strong></dt><dd><p>Dropout coefficient, by default 0.5.</p>
+<p>The coefficient of the dropout layer. The value should be between 0.0 and 1.0.
+Internally, it is used by Tensorflow as: <cite>rate = 1.0 - dropout</cite> when adding
+a dropout layer on top of the recurrent layers.</p>
 </dd>
-<dt><strong>graphFolder</strong></dt><dd><p>Folder path that contain external graph files</p>
+<dt><strong>graphFolder</strong></dt><dd><p>Folder path that contains external graph files. The path can be a local file path,
+a distributed file path (HDFS, DBFS), or a cloud storage (S3).</p>
+<p>When instantiating the Tensorflow model, uses this folder to search for the
+adequate Tensorflow graph. The search is done usaing the name of
+the <cite>.pb</cite> file, which should be <cite>blstn_{ntags}_{embedding_dim}_{lstm_size}_{nchars}.pb</cite>.
+The, the verifications on the obtained file are:
+- Embedding dimension should be exactly the same as the one used to train the model.
+- Number of tags should be greather than or equal to the number of tags in the
+training data.
+- Number of chars should be greather than or equal to the number of chars in
+the training data.</p>
+<p>The returned file will be the first one that satisfies all the conditions.</p>
+<p>If the name of the file is ill-formed, errors will occur during training.</p>
+</dd>
+<dt><strong>graphFile</strong></dt><dd><p>Path that contains the external graph file.</p>
+<p>When specified, the provided file will be used, and no graph search will happen.
+The path can be a local file path,
+a distributed file path (HDFS, DBFS), or a cloud storage (S3).</p>
+</dd>
+<dt><strong>pretrainedModelPath</strong></dt><dd><p>Path to an already trained FinanceNerModel, which is used as a starting point
+for training the new model. The path can be a local file path,
+a distributed file path (HDFS, DBFS), or a cloud storage (S3).</p>
 </dd>
 <dt><strong>configProtoBytes</strong></dt><dd><p>ConfigProto from tensorflow, serialized into byte array.</p>
 </dd>
 <dt><strong>useContrib</strong></dt><dd><p>whether to use contrib LSTM Cells. Not compatible with Windows. Might
-slightly improve accuracy</p>
+slightly improve accuracy. By default True.</p>
 </dd>
 <dt><strong>validationSplit</strong></dt><dd><p>Choose the proportion of training dataset to be validated against the
 model on each Epoch. The value should be between 0.0 and 1.0 and by
-default it is 0.0 and off, by default 0.0</p>
+default it is 0.0 and off.</p>
+<p>The validation dataset is randomly extracted from the training dataset
+before training starts. If the value is 0.0, then no validation will be
+performed (hold out data).</p>
 </dd>
 <dt><strong>evaluationLogExtended</strong></dt><dd><p>Whether logs for validation to be extended, by default False.</p>
 </dd>
-<dt><strong>testDataset</strong></dt><dd><p>Path to test dataset. If set used to calculate statistic on it during
-training.</p>
+<dt><strong>testDataset</strong></dt><dd><p>Path to test dataset in parquet format. If set, the dataset will be used
+to calculate statistic on it during training.</p>
 </dd>
-<dt><strong>includeConfidence</strong></dt><dd><p>whether to include confidence scores in annotation metadata, by default
-False</p>
+<dt><strong>includeConfidence</strong></dt><dd><p>Whether to include confidence scores in annotation metadata, by default
+False.</p>
+<p>Setting this parameter to True will add the confidence score to
+the metadata of the NAMED_ENTITY annotation. In addition, if
+<cite>includeAllConfidenceScores</cite> is set to True, then the confidence scores
+of all the tags will be added to the metadata, otherwise only for the
+predicted tag (the one with maximum score).</p>
 </dd>
-<dt><strong>includeAllConfidenceScores</strong></dt><dd><p>whether to include all confidence scores in annotation metadata or just
-the score of the predicted tag, by default False</p>
+<dt><strong>includeAllConfidenceScores</strong></dt><dd><p>Whether to include confidence scores for all tags in annotation metadata or just
+the score of the predicted tag, by default False.</p>
+<p>Needs the <cite>includeConfidence</cite> parameter to be set to True.</p>
 </dd>
-<dt><strong>enableOutputLogs</strong></dt><dd><p>Whether to use stdout in addition to Spark logs, by default False</p>
+<dt><strong>enableOutputLogs</strong></dt><dd><p>Whether to use stdout in addition to Spark logs, by default False.</p>
 </dd>
-<dt><strong>outputLogsPath</strong></dt><dd><p>Folder path to save training logs</p>
+<dt><strong>outputLogsPath</strong></dt><dd><p>Folder path to save training logs. If no path is specified, the logs won’t
+be stored in disk. The path can be a local file path,
+a distributed file path (HDFS, DBFS), or a cloud storage (S3).</p>
 </dd>
 <dt><strong>enableMemoryOptimizer</strong></dt><dd><p>Whether to optimize for large datasets or not. Enabling this option can
-slow down training, by default False</p>
+slow down training.</p>
+<p>In practice, if set to True the training will iterate over the spark Data Frame
+and retrieve the batches from the Data Frame iterator. This can be slower
+than the default option as it has to collect the batches on evey bach for every
+epoch, but it can be useful if the dataset is too large to fit in memory.</p>
+<p>If the training data can fit to memory, then it is recommended to set this
+option to False (default value).</p>
+</dd>
+<dt><strong>tagsMapping</strong></dt><dd><p>A map specifying how old tags are mapped to new ones as a list of comma-separated
+entities, where the first entity is the old tag and the second entity is
+the new tag. For example, if the map is set to [“OLDTAG,NEWTAG”, “B-PER,B-VIP”,
+“I-PER, I-VIP”], then all occurrences of “OLDTAG” will be mapped to “NEWTAG”,
+all occurrences of “B-PER” will be mapped to “B-VIP”, and all occurrences of
+“I-PER” will be mapped to “I-VIP”. It only works if setOverrideExistingTags
+is set to False.</p>
+</dd>
+<dt><strong>earlyStoppingPatience</strong></dt><dd><p>Number of epochs to wait before early stopping if no improvement, by default 5.</p>
+<p>Given the earlyStoppingCriterion, if the performance does not improve for the given
+number of epochs, then the training will stop. If the value is 0, then early stopping
+will occurs as soon as the criterion is met (no patience).</p>
+</dd>
+<dt><strong>earlyStoppingCriterion</strong></dt><dd><p>If set, this param specifies the criterion to stop training if performance is not improving.
+Default value is 0 which is means that early stopping is not used.</p>
+<p>The criterion is set to F1-score if the validationSplit is greater than 0.0
+(F1-socre on validation set) or testDataset is defined (F1-score on test set),
+otherwise it is set to model loss. The priority is as follows:
+- If testDataset is defined, then the criterion is set to F1-score on test set.
+- If validationSplit is greater than 0.0, then the criterion is set to
+F1-score on validation set.
+- Otherwise, the criterion is set to model loss.</p>
+<p>Note that while the F1-score ranges from 0.0 to 1.0, the loss ranges
+from 0.0 to infinity. So, depending on which case you are using,
+the value you use for the criterion can be very different. For example,
+if validationSplit is 0.1, then a criterion of 0.01 means that if the F1-score
+on the validation set difference from last epoch is greater than 0.01, then the
+training should stop.
+However, if there is not validation or test set defined, then a criterion of 2.0
+means that if the loss difference between the last epoch and the current one
+is less than 2.0, then training should stop.</p>
+<p>See also <cite>earlyStoppingPatience</cite>.</p>
+</dd>
+<dt><strong>logPrefix</strong></dt><dd><p>A prefix that will be appended to every log, default value is empty.</p>
+</dd>
+<dt><strong>useBestModel</strong></dt><dd><p>Whether to restore and use the model from the epoch that has achieved the
+best performance at the end of the training. By default False (keep the
+model from teh last trained epoch).</p>
+<p>The best model depends on the earlyStoppingCriterion, which can be F1-score
+on test/validation dataset or the value of loss.</p>
 </dd>
 </dl>
 </dd>
 </dl>
+<p class="rubric">Notes</p>
+<p>Both DocumentAssembler and SentenceDetector annotators are
+annotators that output the <code class="docutils literal notranslate"><span class="pre">DOCUMENT</span></code> annotation type. Thus, any of them
+can be used as the first annotators in a pipeline.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
@@ -581,12 +666,32 @@ the score of the predicted tag, by default False</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.finance.token_classification.ner.finance_ner.FinanceNerModel.loadSavedModel">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">loadSavedModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ner_model_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark_session</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../../modules/sparknlp_jsl/finance/token_classification/ner/finance_ner.html#FinanceNerModel.loadSavedModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.finance.token_classification.ner.finance_ner.FinanceNerModel.loadSavedModel" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Load a pre-trained MedicalNerModel.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>ner_model_path (str): Path to the pre-trained model.
+folder (str): Folder where the Tensorflow model is located.
+spark_session (SparkSession): SparkSession.</p>
+</dd>
+<dt>Returns:</dt><dd><p>MedicalNerModel: A pre-trained MedicalNerModel.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.finance.token_classification.ner.finance_ner.FinanceNerModel.pretrained">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pretrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ner_clinical'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'en'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'clinical/models'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../../modules/sparknlp_jsl/finance/token_classification/ner/finance_ner.html#FinanceNerModel.pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.finance.token_classification.ner.finance_ner.FinanceNerModel.pretrained" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Download a pre-trained FinanceNerModel.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>name (str): Name of the pre-trained model.
+lang (str): Language of the pre-trained model.
+remote_loc (str): Remote location of the pre-trained model. If None, use the
+open-source location. Other values are “clinical/models”,
+“finance/models”, or “legal/models”.</p>
+</dd>
+<dt>Returns:</dt><dd><p>FinanceNerModel: A pre-trained FinanceNerModel.</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

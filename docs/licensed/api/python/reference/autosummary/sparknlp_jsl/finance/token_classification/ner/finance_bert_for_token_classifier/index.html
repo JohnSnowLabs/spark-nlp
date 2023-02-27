@@ -470,25 +470,15 @@ True</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.finance.token_classification.ner.finance_bert_for_token_classifier.FinanceBertForTokenClassification.pretrained">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pretrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'bert_token_classifier_ner_bionlp'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'en'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'clinical/models'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../../modules/sparknlp_jsl/finance/token_classification/ner/finance_bert_for_token_classifier.html#FinanceBertForTokenClassification.pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.finance.token_classification.ner.finance_bert_for_token_classifier.FinanceBertForTokenClassification.pretrained" title="Permalink to this definition">#</a></dt>
-<dd><p>Downloads and loads a pretrained model.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the pretrained model, by default
-“bert_base_token_classifier_conll03”
-lang : str, optional
-Language of the pretrained model, by default “en”
-remote_loc : str, optional
-Optional remote address of the resource, by default None. Will use
-Spark NLPs repositories otherwise.</p>
+<dd><p>Download a pre-trained FinanceBertForTokenClassification.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>name (str): Name of the pre-trained model.
+lang (str): Language of the pre-trained model.
+remote_loc (str): Remote location of the pre-trained model. If None, use the
+open-source location. Other values are “clinical/models”,
+“finance/models”, or “legal/models”.</p>
 </dd>
-</dl>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><dl class="simple">
-<dt>MedicalBertForTokenClassifier</dt><dd><p>The restored model</p>
-</dd>
-</dl>
+<dt>Returns:</dt><dd><p>FinanceBertForTokenClassification: A pre-trained FinanceBertForTokenClassification.</p>
 </dd>
 </dl>
 </dd></dl>

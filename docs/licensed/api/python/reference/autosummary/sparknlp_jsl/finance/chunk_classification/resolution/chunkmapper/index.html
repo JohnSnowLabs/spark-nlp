@@ -335,7 +335,7 @@
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.finance.chunk_classification.resolution.chunkmapper.ChunkMapperApproach" title="sparknlp_jsl.finance.chunk_classification.resolution.chunkmapper.ChunkMapperApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChunkMapperApproach</span></code></a></p></td>
-<td><p>The chunk mapper Approach load a JsonDictionary that have the relations to be mapped in the ChunkMapperModel</p></td>
+<td><p>Loads a JsonDictionary that have the relations to be mapped in the ChunkMapperModel.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.finance.chunk_classification.resolution.chunkmapper.ChunkMapperModel" title="sparknlp_jsl.finance.chunk_classification.resolution.chunkmapper.ChunkMapperModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChunkMapperModel</span></code></a></p></td>
 <td><p>The chunk mapper Approach load a JsonDictionary that have the relations to be mapped in the ChunkMapperModel</p></td>
@@ -345,9 +345,9 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp_jsl.finance.chunk_classification.resolution.chunkmapper.ChunkMapperApproach">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ChunkMapperApproach</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.finance.chunk_classification.resolution.ChunkMapperApproach'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../../modules/sparknlp_jsl/finance/chunk_classification/resolution/chunkmapper.html#ChunkMapperApproach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.finance.chunk_classification.resolution.chunkmapper.ChunkMapperApproach" title="Permalink to this definition">#</a></dt>
-<dd><blockquote>
-<div><p>The chunk mapper Approach load a JsonDictionary that have the relations to be mapped in the ChunkMapperModel</p>
-<table class="table">
+<dd><p>Loads a JsonDictionary that have the relations to be mapped in the ChunkMapperModel.</p>
+<blockquote>
+<div><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
 <th class="head"><p>Output Annotation type</p></th>
@@ -434,24 +434,15 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.finance.chunk_classification.resolution.chunkmapper.ChunkMapperModel.pretrained">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pretrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'en'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'clinical/models'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../../modules/sparknlp_jsl/finance/chunk_classification/resolution/chunkmapper.html#ChunkMapperModel.pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.finance.chunk_classification.resolution.chunkmapper.ChunkMapperModel.pretrained" title="Permalink to this definition">#</a></dt>
-<dd><p>Downloads and loads a pretrained model.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the pretrained model.</p>
+<dd><p>Download a pre-trained ChunkMapperModel.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>name (str): Name of the pre-trained model.
+lang (str): Language of the pre-trained model.
+remote_loc (str): Remote location of the pre-trained model. If None, use the
+open-source location. Other values are “clinical/models”,
+“finance/models”, or “legal/models”.</p>
 </dd>
-<dt><strong>lang</strong><span class="classifier">str, optional</span></dt><dd><p>Language of the pretrained model, by default “en”</p>
-</dd>
-<dt><strong>remote_loc</strong><span class="classifier">str, optional</span></dt><dd><p>Optional remote address of the resource, by default None. Will use
-Spark NLPs repositories otherwise.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><dl class="simple">
-<dt>ChunkMapperModel</dt><dd><p>The restored model</p>
-</dd>
-</dl>
+<dt>Returns:</dt><dd><p>ChunkMapperModel: A pre-trained ChunkMapperModel.</p>
 </dd>
 </dl>
 </dd></dl>

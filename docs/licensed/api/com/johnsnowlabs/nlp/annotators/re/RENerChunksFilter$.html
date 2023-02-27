@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.3.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter</title>
-          <meta name="description" content="Spark NLP 4.3.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter" />
-          <meta name="keywords" content="Spark NLP 4.3.0 ScalaDoc com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter" />
+          <title>Spark NLP 4.3.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter</title>
+          <meta name="description" content="Spark NLP 4.3.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter" />
+          <meta name="keywords" content="Spark NLP 4.3.1 ScalaDoc com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.3.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.3.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -175,8 +175,8 @@
                         <a href="REFeatureGenerator$.html" title="">REFeatureGenerator</a>
                       </li><li class="current-entities indented5">
                         <a class="object" href="" title=""></a>
-                        <a class="class" href="RENerChunksFilter.html" title="Filters and outputs combinations of relations between extracted entities, for further processing."></a>
-                        <a href="RENerChunksFilter.html" title="Filters and outputs combinations of relations between extracted entities, for further processing.">RENerChunksFilter</a>
+                        <a class="class" href="RENerChunksFilter.html" title="Filters entities' dependency relations."></a>
+                        <a href="RENerChunksFilter.html" title="Filters entities' dependency relations.">RENerChunksFilter</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="trait" href="ReadRelationExtractionDLModelTensorflowModel.html" title=""></a>
@@ -751,7 +751,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasSimpleAnnotate</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter#docLevelRelations" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter#docLevelRelations" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="docLevelRelations:org.apache.spark.ml.param.BooleanParam"></a><a id="docLevelRelations:BooleanParam"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/RENerChunksFilter$.html#docLevelRelations:org.apache.spark.ml.param.BooleanParam" title="Permalink">
@@ -766,7 +766,8 @@
         <span class="name">docLevelRelations</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="RENerChunksFilter.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter">RENerChunksFilter</a></dd></dl></div>
+      <p class="shortcomment cmt">Whether to include relations between entities from different sentences (Default: False).</p><div class="fullcomment"><div class="comment cmt"><p>Whether to include relations between entities from different sentences (Default: False).
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="RENerChunksFilter.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter">RENerChunksFilter</a></dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
       <span class="permalink">
@@ -1639,8 +1640,8 @@
         <span class="name">maxSyntacticDistance</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Maximal syntactic distance, as threshold (Default: 0)
-</p><div class="fullcomment"><div class="comment cmt"><p>Maximal syntactic distance, as threshold (Default: 0)
+      <p class="shortcomment cmt">Maximum syntactic distance between a pair of named entities to consider them as a relation.</p><div class="fullcomment"><div class="comment cmt"><p>Maximum syntactic distance between a pair of named entities to consider them as a relation.</p><p>Increase this value if you want to consider relations between entities that are far
+away, but be careful as it may add false positives (Default: 0).
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="RENerChunksFilter.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter">RENerChunksFilter</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#msgHelper" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="msgHelper(schema:org.apache.spark.sql.types.StructType):String"></a><a id="msgHelper(StructType):String"></a>
@@ -1857,7 +1858,8 @@
         <span class="name">relationPairs</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">List of dash-separated pairs of named entities (&quot;ENTITY1-ENTITY2&quot;, e.g.</p><div class="fullcomment"><div class="comment cmt"><p>List of dash-separated pairs of named entities (&quot;ENTITY1-ENTITY2&quot;, e.g. &quot;Biomarker-RelativeDay&quot;), which will be processed
+      <p class="shortcomment cmt">List of dash-separated pairs of named entities (&quot;ENTITY1-ENTITY2&quot;, e.g.</p><div class="fullcomment"><div class="comment cmt"><p>List of dash-separated pairs of named entities (&quot;ENTITY1-ENTITY2&quot;, e.g. &quot;Biomarker-RelativeDay&quot;), which will be processed.
+If not set, all relations between the entities will be considered.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="RENerChunksFilter.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter">RENerChunksFilter</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter#relationPairsCaseSensitive" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="relationPairsCaseSensitive:org.apache.spark.ml.param.BooleanParam"></a><a id="relationPairsCaseSensitive:BooleanParam"></a>
