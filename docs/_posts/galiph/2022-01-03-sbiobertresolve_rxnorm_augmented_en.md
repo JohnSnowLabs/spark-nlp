@@ -72,9 +72,9 @@ val sbert_embedder = BertSentenceEmbeddings
 .setInputCols(Array("ner_chunk"))
 .setOutputCol("sbert_embeddings")
 
-val rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_rxnorm_augmented_cased", "en", "clinical/models") 
-.setInputCols(Array("ner_chunk", "sbert_embeddings")) 
-.setOutputCol("rxnorm_code")
+val rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_rxnorm_augmented_cased", "en", "clinical/models") \
+.setInputCols(Array("sbert_embeddings")) \
+.setOutputCol("rxnorm_code")\
 .setDistanceFunction("EUCLIDEAN")
 
 val rxnorm_pipelineModel = new PipelineModel().setStages(Array(documentAssembler, sbert_embedder, rxnorm_resolver))

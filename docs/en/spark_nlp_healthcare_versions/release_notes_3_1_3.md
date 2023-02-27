@@ -88,7 +88,7 @@ We are releasing a new SentenceEntityResolver model for SNOMED codes. This model
 
 ```python
 snomed_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_snomed_findings_aux_concepts", "en", "clinical/models") \
-     .setInputCols(["ner_chunk", "sbert_embeddings"]) \
+     .setInputCols(["sbert_embeddings"]) \
      .setOutputCol("snomed_code")\
      .setDistanceFunction("EUCLIDEAN")
 

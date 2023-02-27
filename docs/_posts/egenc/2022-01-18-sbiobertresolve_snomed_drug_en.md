@@ -72,7 +72,7 @@ sentence_chunk_embeddings = BertSentenceEmbeddings.pretrained("sbiobert_base_cas
 
 
 snomed_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_snomed_drug", "en", "clinical/models") \
-.setInputCols(["ner_chunk", "sentence_embeddings"]) \
+.setInputCols(["sentence_embeddings"]) \
 .setOutputCol("snomed_code")\
 .setDistanceFunction("EUCLIDEAN")\
 
@@ -129,7 +129,7 @@ val sentence_chunk_embeddings = BertSentenceEmbeddings.pretrained("sbiobert_base
 
 
 val snomed_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_snomed_drug", "en", "clinical/models") 
-.setInputCols(Array("ner_chunk", "sentence_embeddings")) 
+.setInputCols(Array("sentence_embeddings")) 
 .setOutputCol("snomed_code")
 .setDistanceFunction("EUCLIDEAN")
 

@@ -399,7 +399,7 @@ chunk_embeddings = SentenceEmbeddings() \
     .setPoolingStrategy("AVERAGE")
 
 er = SentenceEntityResolverModel.pretrained("robertaresolve_snomed", "es", "clinical/models")\
-    .setInputCols(["ner_chunk_doc", "chunk_embeddings"]) \
+    .setInputCols(["chunk_embeddings"]) \
     .setOutputCol("snomed_code") \
     .setDistanceFunction("EUCLIDEAN")
 

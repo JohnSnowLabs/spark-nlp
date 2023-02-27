@@ -72,7 +72,7 @@ sbert_embedder = BertSentenceEmbeddings\
      .setOutputCol("sbert_embeddings")
 
 resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_umls_findings","en", "clinical/models") \
-     .setInputCols(["ner_chunk_doc", "sbert_embeddings"]) \
+     .setInputCols(["sbert_embeddings"]) \
      .setOutputCol("resolution")\
      .setDistanceFunction("EUCLIDEAN")
 

@@ -44,7 +44,7 @@ sbert_embedder = BertSentenceEmbeddings\
 .setInputCols(["ner_chunk"])\
 .setOutputCol("sbert_embeddings")
 icd10_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_icd10cm_slim_billable_hcc_med","en", "clinical/models") \
-.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setInputCols(["sbert_embeddings"]) \
 .setOutputCol("icd10cm_code")\
 .setDistanceFunction("EUCLIDEAN").setReturnCosineDistances(True)
 bert_pipeline_icd = PipelineModel(stages = [document_assembler, sbert_embedder, icd10_resolver])
@@ -61,7 +61,7 @@ val sbert_embedder = BertSentenceEmbeddings
 .setInputCols("document")
 .setOutputCol("sbert_embeddings")
 val icd10_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_icd10cm_slim_billable_hcc_med","en", "clinical/models") 
-.setInputCols("document", "sbert_embeddings") 
+.setInputCols(["sbert_embeddings"]) 
 .setOutputCol("icd10cm_code")
 .setDistanceFunction("EUCLIDEAN")
 .setReturnCosineDistances(True)

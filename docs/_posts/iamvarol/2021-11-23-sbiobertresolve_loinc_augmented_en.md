@@ -72,7 +72,7 @@ sbert_embedder = BertSentenceEmbeddings\
 
 
 resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_loinc_augmented","en", "clinical/models") \
-.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setInputCols(["sbert_embeddings"]) \
 .setOutputCol("loinc_code")\
 .setDistanceFunction("EUCLIDEAN")
 

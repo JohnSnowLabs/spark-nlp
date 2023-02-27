@@ -46,7 +46,7 @@ sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "e
 .setOutputCol("sbert_embeddings")
 
 rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_rxnorm_action_treatment", "en", "clinical/models")\
-.setInputCols(["ner_chunk", "sbert_embeddings"])\
+.setInputCols(["sbert_embeddings"])\
 .setOutputCol("rxnorm_code")\
 .setDistanceFunction("EUCLIDEAN")
 
@@ -66,7 +66,7 @@ val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli"
 .setOutputCol("sbert_embeddings")
 
 val rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_rxnorm_action_treatment", "en", "clinical/models")
-.setInputCols(Array("ner_chunk", "sbert_embeddings"))
+.setInputCols(Array("sbert_embeddings"))
 .setOutputCol("rxnorm_code")
 .setDistanceFunction("EUCLIDEAN")
 

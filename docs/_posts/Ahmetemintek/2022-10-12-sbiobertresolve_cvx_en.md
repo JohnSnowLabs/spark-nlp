@@ -46,7 +46,7 @@ sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "e
  .setOutputCol("sbert_embeddings")
 
 cvx_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_cvx", "en", "clinical/models")\
- .setInputCols(["ner_chunk", "sbert_embeddings"])\
+ .setInputCols(["sbert_embeddings"])\
  .setOutputCol("cvx_code")\
  .setDistanceFunction("EUCLIDEAN")
 
@@ -66,7 +66,7 @@ val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli"
  .setOutputCol("sbert_embeddings")
 
 val cvx_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_cvx", "en", "clinical/models")
- .setInputCols(Array("ner_chunk", "sbert_embeddings"))
+ .setInputCols(Array("sbert_embeddings"))
  .setOutputCol("cvx_code")
  .setDistanceFunction("EUCLIDEAN")
 

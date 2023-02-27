@@ -167,7 +167,7 @@ sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli', 'e
       .setOutputCol("sentence_embeddings")
 
 hcpcs_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_hcpcs", "en", "clinical/models") \
-      .setInputCols(["ner_chunk", "sentence_embeddings"]) \
+      .setInputCols(["sentence_embeddings"]) \
       .setOutputCol("hcpcs_code")\
       .setDistanceFunction("EUCLIDEAN")
 hcpcs_pipelineModel = PipelineModel(
@@ -199,7 +199,7 @@ sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli', 'e
       .setOutputCol("sentence_embeddings")
 
 icd_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_generalised", "en", "clinical/models") \
-      .setInputCols(["ner_chunk", "sentence_embeddings"]) \
+      .setInputCols(["sentence_embeddings"]) \
       .setOutputCol("icd_code")\
       .setDistanceFunction("EUCLIDEAN")
 
@@ -237,7 +237,7 @@ sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli', 'e
       .setOutputCol("sentence_embeddings")
 
 rxnorm_ndc_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_rxnorm_ndc", "en", "clinical/models") \
-      .setInputCols(["ner_chunk", "sentence_embeddings"]) \
+      .setInputCols(["sentence_embeddings"]) \
       .setOutputCol("rxnorm_code")\
       .setDistanceFunction("EUCLIDEAN")
 

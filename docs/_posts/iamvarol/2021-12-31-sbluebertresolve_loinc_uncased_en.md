@@ -71,7 +71,7 @@ sbert_embedder = BertSentenceEmbeddings.pretrained("sbluebert_base_uncased_mli",
 .setCaseSensitive(True)
 
 resolver = SentenceEntityResolverModel.pretrained("sbluebertresolve_loinc_uncased", "en", "clinical/models") \
-.setInputCols(["ner_chunk", "sbert_embeddings"])\
+.setInputCols(["sbert_embeddings"])\
 .setOutputCol("resolution")\
 .setDistanceFunction("EUCLIDEAN")
 
@@ -129,7 +129,7 @@ val sbert_embedder = BertSentenceEmbeddings.pretrained("sbluebert_base_uncased_m
 .setCaseSensitive(True)
 
 val resolver = SentenceEntityResolverModel.pretrained("sbluebertresolve_loinc_uncased", "en", "clinical/models") 
-.setInputCols(Array("ner_chunk", "sbert_embeddings"))
+.setInputCols(Array("sbert_embeddings"))
 .setOutputCol("resolution")
 .setDistanceFunction("EUCLIDEAN")
 
