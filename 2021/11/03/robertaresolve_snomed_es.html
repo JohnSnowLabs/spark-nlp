@@ -512,7 +512,7 @@
 <span class="o">.</span><span class="py">setPoolingStrategy</span><span class="o">(</span><span class="s">"AVERAGE"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">er</span> <span class="k">=</span> <span class="nv">SentenceEntityResolverModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"robertaresolve_snomed"</span><span class="o">,</span> <span class="s">"es"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
-<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"ner_chunk_embeddings"</span><span class="o">))</span>
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"ner_chunk_embeddings"</span><span class="o">))</span>
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"snomed_code"</span><span class="o">)</span>
 <span class="o">.</span><span class="py">setDistanceFunction</span><span class="o">(</span><span class="s">"EUCLIDEAN"</span><span class="o">)</span>
 

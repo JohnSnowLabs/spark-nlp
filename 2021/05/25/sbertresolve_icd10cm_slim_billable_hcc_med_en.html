@@ -459,7 +459,7 @@
 <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">])</span>\
 <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sbert_embeddings"</span><span class="p">)</span>
 <span class="n">icd10_resolver</span> <span class="o">=</span> <span class="n">SentenceEntityResolverModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbertresolve_icd10cm_slim_billable_hcc_med"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
-<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"sbert_embeddings"</span><span class="p">])</span> \
+<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sbert_embeddings"</span><span class="p">])</span> \
 <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"icd10cm_code"</span><span class="p">)</span>\
 <span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDEAN"</span><span class="p">).</span><span class="n">setReturnCosineDistances</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
 <span class="n">bert_pipeline_icd</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="p">(</span><span class="n">stages</span> <span class="o">=</span> <span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">sbert_embedder</span><span class="p">,</span> <span class="n">icd10_resolver</span><span class="p">])</span>
@@ -475,7 +475,7 @@
 <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sbert_embeddings"</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">icd10_resolver</span> <span class="k">=</span> <span class="nv">SentenceEntityResolverModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbertresolve_icd10cm_slim_billable_hcc_med"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span> 
-<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"sbert_embeddings"</span><span class="o">)</span> 
+<span class="o">.</span><span class="py">setInputCols</span><span class="o">([</span><span class="err">"</span><span class="kt">sbert_embeddings</span><span class="err">"</span><span class="o">])</span> 
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"icd10cm_code"</span><span class="o">)</span>
 <span class="o">.</span><span class="py">setDistanceFunction</span><span class="o">(</span><span class="s">"EUCLIDEAN"</span><span class="o">)</span>
 <span class="o">.</span><span class="py">setReturnCosineDistances</span><span class="o">(</span><span class="nc">True</span><span class="o">)</span>

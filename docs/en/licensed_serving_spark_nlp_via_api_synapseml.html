@@ -722,7 +722,7 @@ sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli', 'e
       .setCaseSensitive(False)
 
 icd_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models") \
-     .setInputCols(["ner_chunk", "sentence_embeddings"]) \
+     .setInputCols(["sentence_embeddings"]) \
      .setOutputCol("icd10cm_code")\
      .setDistanceFunction("EUCLIDEAN")
 

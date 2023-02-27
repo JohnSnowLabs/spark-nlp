@@ -11580,14 +11580,25 @@ For pretrained models please see the
   <!--Aproach-->
   <div class="h3-box tabs-python-scala-box">
 
-    <p>Contains all the parameters and methods to train a SentenceEntityResolverModel.
-The model transforms a dataset with Input Annotation type SENTENCE_EMBEDDINGS, coming from e.g.
-<a href="/docs/en/transformers#bertsentenceembeddings">BertSentenceEmbeddings</a>
-and returns the normalized entity for a particular trained ontology / curated dataset.
-(e.g. ICD-10, RxNorm, SNOMED etc.)</p>
+    <p>Trains a SentenceEntityResolverModel that maps sentence embeddings to entities in a knowledge base.</p>
 
-    <p>To use pretrained models please use SentenceEntityResolverModel
-and see the <a href="https://nlp.johnsnowlabs.com/models?task=Entity+Resolution">Models Hub</a> for available models.</p>
+    <p>To train a custom model, you need to provide a dataset with the following columns:</p>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">label</code>: Entity name</li>
+      <li><code class="language-plaintext highlighter-rouge">chunk</code>: Occurrence of the entity in the text, without standartization</li>
+      <li><code class="language-plaintext highlighter-rouge">sentence_embeddings</code>: Sentence embeddings from, e.g., the BertSentenceEmbeddings
+annotator.</li>
+    </ul>
+
+    <p>Optionally, you can also provide the following columns:</p>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">aux_label</code>: Auxiliary label which maps resolved entities to additional labels.
+If you have ground truth of the knowledge base entities, setting this column will help
+the model to learn better.</li>
+    </ul>
+
+    <p>You can find pretrained Sentence Embeddings (using BERT or other architecgture) in the
+<code class="language-plaintext highlighter-rouge">NLP Models Hub &lt;https://nlp.johnsnowlabs.com/models?task=Embeddings&gt;</code>_.</p>
 
     <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">SENTENCE_EMBEDDINGS</code></p>
 
@@ -11617,7 +11628,7 @@ and see the <a href="https://nlp.johnsnowlabs.com/models?task=Entity+Resolution"
 
         <div class="tab-mfl-content">
 
-          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">johnsnowlabs</span> <span class="kn">import</span> <span class="o">*</span> 
+          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">johnsnowlabs</span> <span class="kn">import</span> <span class="n">nlp</span><span class="p">,</span> <span class="n">medical</span> 
 
 <span class="c1"># Training a SNOMED resolution model using BERT sentence embeddings
 # Define pre-processing pipeline for training data. It needs consists of columns for the normalized training data and their labels.
@@ -11659,10 +11670,9 @@ and see the <a href="https://nlp.johnsnowlabs.com/models?task=Entity+Resolution"
 
         <div class="tab-mfl-content">
 
-          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">johnsnowlabs</span> <span class="kn">import</span> <span class="o">*</span> 
+          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">johnsnowlabs</span> <span class="kn">import</span> <span class="n">nlp</span><span class="p">,</span> <span class="n">finance</span>
 
-<span class="c1"># Training a SNOMED resolution model using BERT sentence embeddings
-# Define pre-processing pipeline for training data. It needs consists of columns for the normalized training data and their labels.
+<span class="c1"># Define pre-processing pipeline for training data. It needs consists of columns for the normalized training data and their labels.
 </span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span> \
   <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"normalized_text"</span><span class="p">)</span> \
   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
@@ -11671,17 +11681,17 @@ and see the <a href="https://nlp.johnsnowlabs.com/models?task=Entity+Resolution"
   <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
 
-<span class="n">bertEmbeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">BertSentenceEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sent_biobert_pubmed_base_cased"</span><span class="p">)</span> \
+<span class="n">bertEmbeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">BertSentenceEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sent_bert_large_cased"</span><span class="p">)</span> \
   <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span> \
   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"bert_embeddings"</span><span class="p">)</span>
 
-<span class="n">snomedTrainingPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+<span class="n">preprocessing_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
   <span class="n">documentAssembler</span><span class="p">,</span>
   <span class="n">sentenceDetector</span><span class="p">,</span>
   <span class="n">bertEmbeddings</span>
 <span class="p">])</span>
-<span class="n">snomedTrainingModel</span> <span class="o">=</span> <span class="n">snomedTrainingPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<span class="n">snomedData</span> <span class="o">=</span> <span class="n">snomedTrainingModel</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">cache</span><span class="p">()</span>
+<span class="n">preprocessing_model</span> <span class="o">=</span> <span class="n">preprocessing_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">processed_data</span> <span class="o">=</span> <span class="n">preprocessing_model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">cache</span><span class="p">()</span>
 
 <span class="c1"># Then the Resolver can be trained with
 </span><span class="n">bertExtractor</span> <span class="o">=</span> <span class="n">finance</span><span class="p">.</span><span class="n">SentenceEntityResolverApproach</span><span class="p">()</span> \
@@ -11694,17 +11704,16 @@ and see the <a href="https://nlp.johnsnowlabs.com/models?task=Entity+Resolution"
   <span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDIAN"</span><span class="p">)</span> \
   <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
 
-<span class="n">snomedModel</span> <span class="o">=</span> <span class="n">bertExtractor</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">snomedData</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">bertExtractor</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">processed_data</span><span class="p">)</span>
 </code></pre></div>          </div>
 
         </div>
 
         <div class="tab-mfl-content">
 
-          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">johnsnowlabs</span> <span class="kn">import</span> <span class="o">*</span> 
+          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">johnsnowlabs</span> <span class="kn">import</span> <span class="n">nlp</span><span class="p">,</span> <span class="n">legal</span>
 
-<span class="c1"># Training a SNOMED resolution model using BERT sentence embeddings
-# Define pre-processing pipeline for training data. It needs consists of columns for the normalized training data and their labels.
+<span class="c1"># Define pre-processing pipeline for training data. It needs consists of columns for the normalized training data and their labels.
 </span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">DocumentAssembler</span><span class="p">()</span> \
   <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"normalized_text"</span><span class="p">)</span> \
   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
@@ -11713,17 +11722,17 @@ and see the <a href="https://nlp.johnsnowlabs.com/models?task=Entity+Resolution"
   <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
 
-<span class="n">bertEmbeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">BertSentenceEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sent_biobert_pubmed_base_cased"</span><span class="p">)</span> \
+<span class="n">bertEmbeddings</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">BertSentenceEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sent_bert_base_uncased_legal"</span><span class="p">)</span> \
   <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span> \
   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"bert_embeddings"</span><span class="p">)</span>
 
-<span class="n">snomedTrainingPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+<span class="n">preprocessing_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
   <span class="n">documentAssembler</span><span class="p">,</span>
   <span class="n">sentenceDetector</span><span class="p">,</span>
   <span class="n">bertEmbeddings</span>
 <span class="p">])</span>
-<span class="n">snomedTrainingModel</span> <span class="o">=</span> <span class="n">snomedTrainingPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<span class="n">snomedData</span> <span class="o">=</span> <span class="n">snomedTrainingModel</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">cache</span><span class="p">()</span>
+<span class="n">data_preprocessing_model</span> <span class="o">=</span> <span class="n">preprocessing_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">processed_data</span> <span class="o">=</span> <span class="n">data_preprocessing_model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">cache</span><span class="p">()</span>
 
 <span class="c1"># Then the Resolver can be trained with
 </span><span class="n">bertExtractor</span> <span class="o">=</span> <span class="n">legal</span><span class="p">.</span><span class="n">SentenceEntityResolverApproach</span><span class="p">()</span> \
@@ -11736,7 +11745,7 @@ and see the <a href="https://nlp.johnsnowlabs.com/models?task=Entity+Resolution"
   <span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDIAN"</span><span class="p">)</span> \
   <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
 
-<span class="n">snomedModel</span> <span class="o">=</span> <span class="n">bertExtractor</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">snomedData</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">bertExtractor</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">processed_data</span><span class="p">)</span>
 </code></pre></div>          </div>
 
         </div>
@@ -11883,11 +11892,10 @@ and see the <a href="https://nlp.johnsnowlabs.com/models?task=Entity+Resolution"
 
     <p>The model transforms a dataset with Input Annotation type SENTENCE_EMBEDDINGS, coming from e.g.
 <a href="/docs/en/transformers#bertsentenceembeddings">BertSentenceEmbeddings</a>
-and returns the normalized entity for a particular trained ontology / curated dataset.
-(e.g. ICD-10, RxNorm, SNOMED etc.)</p>
+and returns the normalized entity for a particular trained ontology / curated dataset (e.g. ICD-10, RxNorm, SNOMED etc.).</p>
 
-    <p>To use pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Entity+Resolution">Models Hub</a> for available models.</p>
+    <p>For a list of pretrained models, please see the
+<a href="https://nlp.johnsnowlabs.com/models?task=Entity+Resolution">Models Hub</a>.</p>
 
     <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">SENTENCE_EMBEDDINGS</code></p>
 
@@ -11949,7 +11957,7 @@ and returns the normalized entity for a particular trained ontology / curated da
 
 <span class="c1"># Then the resolver is defined on the extracted entities and sentence embeddings
 </span><span class="n">cpt_resolver</span> <span class="o">=</span> <span class="n">medical</span><span class="p">.</span><span class="n">SentenceEntityResolverModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sbiobertresolve_cpt_procedures_augmented"</span><span class="p">,</span><span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"ner_chunk"</span><span class="p">,</span> <span class="s">"sbert_embeddings"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sbert_embeddings"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"cpt_code"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setDistanceFunction</span><span class="p">(</span><span class="s">"EUCLIDEAN"</span><span class="p">)</span>
 <span class="n">sbert_pipeline_cpt</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
@@ -12149,7 +12157,7 @@ and returns the normalized entity for a particular trained ontology / curated da
 
 <span class="c1">// Then the resolver is defined on the extracted entities and sentence embeddings</span>
 <span class="k">val</span> <span class="nv">cpt_resolver</span> <span class="k">=</span> <span class="nv">medical</span><span class="o">.</span><span class="py">SentenceEntityResolverModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sbiobertresolve_cpt_procedures_augmented"</span><span class="o">,</span><span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">,</span> <span class="s">"sbert_embeddings"</span><span class="o">))</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sbert_embeddings"</span><span class="o">))</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"cpt_code"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setDistanceFunction</span><span class="o">(</span><span class="s">"EUCLIDEAN"</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">sbert_pipeline_cpt</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
