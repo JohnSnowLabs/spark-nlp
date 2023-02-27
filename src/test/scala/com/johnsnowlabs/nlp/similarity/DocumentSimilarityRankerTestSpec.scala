@@ -49,7 +49,7 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
       .setOutputCols("finished_sentence_embeddings")
       .setCleanAnnotations(false)
 
-    val similarityRanker = new DocumentSimilarityRankerModel()
+    val docSimilarityRanker = new DocumentSimilarityRankerModel()
       .setInputCols("sentence_embeddings")
       .setOutputCol(DOC_SIMILARITY_RANKINGS)
       .setSimilarityMethod("brp")
@@ -64,7 +64,7 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
           embeddings,
           embeddingsSentence,
           sentenceFinisher,
-          similarityRanker))
+          docSimilarityRanker))
 
     val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
 
