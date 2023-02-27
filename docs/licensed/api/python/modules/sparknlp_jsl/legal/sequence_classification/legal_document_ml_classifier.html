@@ -367,7 +367,12 @@
 <span class="sd">    &gt;&gt;&gt; clf_model = pipeline.fit(data)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">_create_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">java_model</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_create_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">java_model</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates the model using the java model.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            java_model (str): The name of the java model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">LegalDocumentMLClassifierModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span>
 
     <span class="nd">@keyword_only</span>
@@ -415,6 +420,18 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="LegalDocumentMLClassifierModel.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/legal/sequence_classification/legal_document_ml_classifier/index.html#sparknlp_jsl.legal.sequence_classification.legal_document_ml_classifier.LegalDocumentMLClassifierModel.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Download a pre-trained LegalDocumentMLClassifierModel.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): Name of the pre-trained model.</span>
+<span class="sd">            lang (str): Language of the pre-trained model.</span>
+<span class="sd">            remote_loc (str): Remote location of the pre-trained model. If None, use the</span>
+<span class="sd">            open-source location. Other values are &quot;clinical/models&quot;,</span>
+<span class="sd">            &quot;finance/models&quot;, or &quot;legal/models&quot;.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            LegalDocumentMLClassifierModel: A pre-trained LegalDocumentMLClassifierModel.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">sparknlp_jsl.pretrained</span> <span class="kn">import</span> <span class="n">InternalResourceDownloader</span>
         <span class="k">return</span> <span class="n">InternalResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">LegalDocumentMLClassifierModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
                                                         <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div></div>

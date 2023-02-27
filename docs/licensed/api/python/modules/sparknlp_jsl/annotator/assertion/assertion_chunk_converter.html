@@ -273,64 +273,84 @@
 
 <span class="kn">from</span> <span class="nn">sparknlp</span> <span class="kn">import</span> <span class="n">DocumentAssembler</span>
 <div class="viewcode-block" id="AssertionChunkConverter"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertion_chunk_converter/index.html#sparknlp_jsl.annotator.assertion.assertion_chunk_converter.AssertionChunkConverter">[docs]</a><span class="k">class</span> <span class="nc">AssertionChunkConverter</span><span class="p">(</span><span class="n">AnnotatorTransformer</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates an extended chunk column with metadata that can be used for assertion status detection model training.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a chunk column with metadata for training assertion status detection models.</span>
 
-<span class="sd">    In some cases, there may be issues while creating the chunk column by using</span>
-<span class="sd">    token indices and losing some data while training and testing the assertion</span>
-<span class="sd">    status model if there are issues in these token indices.</span>
+<span class="sd">    In some cases, there may be issues while creating the chunk column when using</span>
+<span class="sd">    token indices that can lead to loss of data to train assertion status models.</span>
 
-<span class="sd">    &gt; Chunk begin and end indices in the assertion status model training dataframe</span>
-<span class="sd">    &gt; can be populated using the new version of ALAB module.</span>
+<span class="sd">    The `AssertionChunkConverter` annotator uses both begin and end indices of the</span>
+<span class="sd">    tokens as input to add a more robust metadata to the chunk column in a way that</span>
+<span class="sd">    improves the reliability of the indices and avoid loss of data.</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        chunkTextCol (str): Name of the column containing the text of the chunk</span>
-<span class="sd">        chunkBeginCol (str): Name of the column containing the start index of the chunk</span>
-<span class="sd">        chunkEndCol (str): Name of the column containing the end index of the chunk</span>
-<span class="sd">        outputTokenBeginCol (str): Name of the column containing selected token start index</span>
-<span class="sd">        outputTokenEndCol (str): Name of the column containing selected token end index</span>
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">        Chunk begin and end indices in the assertion status model training</span>
+<span class="sd">        dataframe can be populated using the new version of ALAB module.</span>
+
+
+<span class="sd">    ==============================  ======================</span>
+<span class="sd">    Input Annotation types          Output Annotation type</span>
+<span class="sd">    ==============================  ======================</span>
+<span class="sd">    ``TOKEN``                       ``CHUNK``</span>
+<span class="sd">    ==============================  ======================</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">        chunkTextCol: str</span>
+<span class="sd">            Name of the column containing the text of the chunk.</span>
+<span class="sd">        chunkBeginCol: str</span>
+<span class="sd">            Name of the column containing the start index of the chunk.</span>
+<span class="sd">        chunkEndCol: str</span>
+<span class="sd">            Name of the column containing the end index of the chunk.</span>
+<span class="sd">        outputTokenBeginCol: str</span>
+<span class="sd">            Name of the column containing selected token start index.</span>
+<span class="sd">        outputTokenEndCol: str</span>
+<span class="sd">            Name of the column containing selected token end index.</span>
 
 <span class="sd">    Examples</span>
-
-<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([</span>
-<span class="sd">    ...     [&quot;An angiography showed bleeding in two vessels off of the Minnie supplying the sigmoid that were succesfully embolized.&quot;, </span>
-<span class="sd">    ...     &quot;Minnie&quot;, 57, 64],</span>
-<span class="sd">    ...     [&quot;After discussing this with his PCP, Leon was clear that the patient had had recurrent DVTs and ultimately a PE and his PCP felt strongly that he required long-term anticoagulation &quot;, </span>
-<span class="sd">    ...     &quot;PCP&quot;, 31, 34]]).toDF(&quot;text&quot;, &quot;target&quot;, &quot;char_begin&quot;, &quot;char_end&quot;)</span>
-<span class="sd">    &gt;&gt;&gt; document_assembler = DocumentAssembler() \</span>
-<span class="sd">    ...     .setInputCol(&quot;text&quot;) \</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; document_assembler = DocumentAssembler() \\</span>
+<span class="sd">    ...     .setInputCol(&quot;text&quot;) \\</span>
 <span class="sd">    ...     .setOutputCol(&quot;document&quot;)</span>
-<span class="sd">    &gt;&gt;&gt; sentenceDetector = SentenceDetector()\</span>
-<span class="sd">    ...     .setInputCols([&quot;document&quot;])\</span>
+
+<span class="sd">    &gt;&gt;&gt; sentenceDetector = SentenceDetector()\\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;])\\</span>
 <span class="sd">    ...     .setOutputCol(&quot;sentence&quot;)</span>
-<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer() \</span>
-<span class="sd">    ...     .setInputCols([&quot;sentence&quot;]) \</span>
+
+<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;sentence&quot;]) \\</span>
 <span class="sd">    ...     .setOutputCol(&quot;tokens&quot;)</span>
-<span class="sd">    &gt;&gt;&gt; converter = AssertionChunkConverter() \</span>
-<span class="sd">    ...     .setInputCols(&quot;tokens&quot;)\</span>
-<span class="sd">    ...     .setChunkTextCol(&quot;target&quot;)\</span>
-<span class="sd">    ...     .setChunkBeginCol(&quot;char_begin&quot;)\</span>
-<span class="sd">    ...     .setChunkEndCol(&quot;char_end&quot;)\</span>
-<span class="sd">    ...     .setOutputTokenBeginCol(&quot;token_begin&quot;)\</span>
-<span class="sd">    ...     .setOutputTokenEndCol(&quot;token_end&quot;)\</span>
+
+<span class="sd">    &gt;&gt;&gt; converter = AssertionChunkConverter() \\</span>
+<span class="sd">    ...     .setInputCols(&quot;tokens&quot;)\\</span>
+<span class="sd">    ...     .setChunkTextCol(&quot;target&quot;)\\</span>
+<span class="sd">    ...     .setChunkBeginCol(&quot;char_begin&quot;)\\</span>
+<span class="sd">    ...     .setChunkEndCol(&quot;char_end&quot;)\\</span>
+<span class="sd">    ...     .setOutputTokenBeginCol(&quot;token_begin&quot;)\\</span>
+<span class="sd">    ...     .setOutputTokenEndCol(&quot;token_end&quot;)\\</span>
 <span class="sd">    ...     .setOutputCol(&quot;chunk&quot;)</span>
+
 <span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([document_assembler,sentenceDetector, tokenizer, converter])</span>
+
 <span class="sd">    &gt;&gt;&gt; results = pipeline.fit(data).transform(data)</span>
-<span class="sd">    &gt;&gt;&gt; results\</span>
-<span class="sd">    ... .selectExpr(</span>
-<span class="sd">    ...     &quot;target&quot;,</span>
-<span class="sd">    ...     &quot;char_begin&quot;,</span>
-<span class="sd">    ...     &quot;char_end&quot;,</span>
-<span class="sd">    ...     &quot;token_begin&quot;,</span>
-<span class="sd">    ...     &quot;token_end&quot;,</span>
-<span class="sd">    ...     &quot;tokens[token_begin].result&quot;,</span>
-<span class="sd">    ...     &quot;tokens[token_end].result&quot;,</span>
-<span class="sd">    ...     &quot;target&quot;,</span>
-<span class="sd">    ...     &quot;chunk&quot;)\</span>
-<span class="sd">    ... .show(truncate=False)</span>
+
+<span class="sd">    &gt;&gt;&gt; results\\</span>
+<span class="sd">    ...     .selectExpr(</span>
+<span class="sd">    ...         &quot;target&quot;,</span>
+<span class="sd">    ...         &quot;char_begin&quot;,</span>
+<span class="sd">    ...         &quot;char_end&quot;,</span>
+<span class="sd">    ...         &quot;token_begin&quot;,</span>
+<span class="sd">    ...         &quot;token_end&quot;,</span>
+<span class="sd">    ...         &quot;tokens[token_begin].result&quot;,</span>
+<span class="sd">    ...         &quot;tokens[token_end].result&quot;,</span>
+<span class="sd">    ...         &quot;target&quot;,</span>
+<span class="sd">    ...         &quot;chunk&quot;)\\</span>
+<span class="sd">    ...     .show(truncate=False)</span>
 <span class="sd">    +------+----------+--------+-----------+---------+--------------------------+------------------------+------+----------------------------------------------+</span>
 <span class="sd">    |target|char_begin|char_end|token_begin|token_end|tokens[token_begin].result|tokens[token_end].result|target|chunk                                         |</span>
 <span class="sd">    +------+----------+--------+-----------+---------+--------------------------+------------------------+------+----------------------------------------------+</span>
-<span class="sd">    |Minnie|57        |64      |10         |10       |Minnie                    |Minnie                  |Minnie|[{chunk, 57, 62, Minnie, {sentence -&gt; 0}, []}]|</span>
+<span class="sd">    |Minnie|57        |63      |10         |10       |Minnie                    |Minnie                  |Minnie|[{chunk, 57, 62, Minnie, {sentence -&gt; 0}, []}]|</span>
 <span class="sd">    |PCP   |31        |34      |5          |5        |PCP                       |PCP                     |PCP   |[{chunk, 31, 33, PCP, {sentence -&gt; 0}, []}]   |</span>
 <span class="sd">    +------+----------+--------+-----------+---------+--------------------------+------------------------+------+----------------------------------------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -373,68 +393,67 @@
 <span class="sd">        *value : str</span>
 <span class="sd">            Input columns for the annotator</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inputCols</span><span class="o">=</span><span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inputCols</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">value</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="AssertionChunkConverter.setOutputCol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertion_chunk_converter/index.html#sparknlp_jsl.annotator.assertion.assertion_chunk_converter.AssertionChunkConverter.setOutputCol">[docs]</a>    <span class="k">def</span> <span class="nf">setOutputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="AssertionChunkConverter.setOutputCol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertion_chunk_converter/index.html#sparknlp_jsl.annotator.assertion.assertion_chunk_converter.AssertionChunkConverter.setOutputCol">[docs]</a>    <span class="k">def</span> <span class="nf">setOutputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets column name of output annotations.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        *value : str</span>
+<span class="sd">        value : str</span>
 <span class="sd">            Name of output columns</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="AssertionChunkConverter.setChunkTextCol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertion_chunk_converter/index.html#sparknlp_jsl.annotator.assertion.assertion_chunk_converter.AssertionChunkConverter.setChunkTextCol">[docs]</a>    <span class="k">def</span> <span class="nf">setChunkTextCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">col</span><span class="p">):</span>
+<div class="viewcode-block" id="AssertionChunkConverter.setChunkTextCol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertion_chunk_converter/index.html#sparknlp_jsl.annotator.assertion.assertion_chunk_converter.AssertionChunkConverter.setChunkTextCol">[docs]</a>    <span class="k">def</span> <span class="nf">setChunkTextCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the name of the column containing the text of the chunk.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        col : string</span>
+<span class="sd">        col : str</span>
 <span class="sd">            Name of the column containing the text of the chunk</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">chunkTextCol</span><span class="o">=</span><span class="n">col</span><span class="p">)</span></div>
 
-
-<div class="viewcode-block" id="AssertionChunkConverter.setChunkBeginCol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertion_chunk_converter/index.html#sparknlp_jsl.annotator.assertion.assertion_chunk_converter.AssertionChunkConverter.setChunkBeginCol">[docs]</a>    <span class="k">def</span> <span class="nf">setChunkBeginCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">col</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the name of the column containing the start index of the chunk.</span>
+<div class="viewcode-block" id="AssertionChunkConverter.setChunkBeginCol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertion_chunk_converter/index.html#sparknlp_jsl.annotator.assertion.assertion_chunk_converter.AssertionChunkConverter.setChunkBeginCol">[docs]</a>    <span class="k">def</span> <span class="nf">setChunkBeginCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the name of the column containing the start index of the chunk</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        col : string</span>
+<span class="sd">        col : str</span>
 <span class="sd">            Name of the column containing the start index of the chunk</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">chunkBeginCol</span><span class="o">=</span><span class="n">col</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="AssertionChunkConverter.setChunkEndCol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertion_chunk_converter/index.html#sparknlp_jsl.annotator.assertion.assertion_chunk_converter.AssertionChunkConverter.setChunkEndCol">[docs]</a>    <span class="k">def</span> <span class="nf">setChunkEndCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">col</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the name of the column containing the end index of the chunk.</span>
+<div class="viewcode-block" id="AssertionChunkConverter.setChunkEndCol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertion_chunk_converter/index.html#sparknlp_jsl.annotator.assertion.assertion_chunk_converter.AssertionChunkConverter.setChunkEndCol">[docs]</a>    <span class="k">def</span> <span class="nf">setChunkEndCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the name of the column containing the end index of the chunk</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        col : string</span>
+<span class="sd">        col : str</span>
 <span class="sd">            Name of the column containing the end index of the chunk</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">chunkEndCol</span><span class="o">=</span><span class="n">col</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="AssertionChunkConverter.setOutputTokenBeginCol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertion_chunk_converter/index.html#sparknlp_jsl.annotator.assertion.assertion_chunk_converter.AssertionChunkConverter.setOutputTokenBeginCol">[docs]</a>    <span class="k">def</span> <span class="nf">setOutputTokenBeginCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">col</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the name of the column containing selected token start index.</span>
+<div class="viewcode-block" id="AssertionChunkConverter.setOutputTokenBeginCol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertion_chunk_converter/index.html#sparknlp_jsl.annotator.assertion.assertion_chunk_converter.AssertionChunkConverter.setOutputTokenBeginCol">[docs]</a>    <span class="k">def</span> <span class="nf">setOutputTokenBeginCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the name of the column containing selected token start index</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        col : string</span>
+<span class="sd">        col : str</span>
 <span class="sd">            Name of the column containing selected token start index</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputTokenBeginCol</span><span class="o">=</span><span class="n">col</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="AssertionChunkConverter.setOutputTokenEndCol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertion_chunk_converter/index.html#sparknlp_jsl.annotator.assertion.assertion_chunk_converter.AssertionChunkConverter.setOutputTokenEndCol">[docs]</a>    <span class="k">def</span> <span class="nf">setOutputTokenEndCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">col</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the name of the column containing selected token end index.</span>
+<div class="viewcode-block" id="AssertionChunkConverter.setOutputTokenEndCol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertion_chunk_converter/index.html#sparknlp_jsl.annotator.assertion.assertion_chunk_converter.AssertionChunkConverter.setOutputTokenEndCol">[docs]</a>    <span class="k">def</span> <span class="nf">setOutputTokenEndCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the name of the column containing selected token end index</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        col : string</span>
+<span class="sd">        col : str</span>
 <span class="sd">            Name of the column containing selected token end index</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputTokenEndCol</span><span class="o">=</span><span class="n">col</span><span class="p">)</span></div>

@@ -321,6 +321,8 @@
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../qa/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../qa/gpt_generation_params/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa.gpt_generation_params</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../qa/medical_qa/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa.medical_qa</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../qa/qa_ner_generator/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa.qa_ner_generator</span></code></a></li>
 </ul>
 </li>
@@ -432,7 +434,9 @@ FeaturesAssembler` as input, classifies them and outputs CATEGORY annotations.</
 </dd>
 <dt><strong>featureScaling</strong></dt><dd><p>Feature scaling method. Possible values are ‘zscore’, ‘minmax’ or empty (no scaling)</p>
 </dd>
-<dt><strong>outputLogsPath</strong></dt><dd><p>Path to folder where logs will be saved. If no path is specified, no logs are generated</p>
+<dt><strong>outputLogsPath</strong></dt><dd><p>Path to folder where logs will be saved. If no path is specified, the logs won’t
+be stored in disk. The path can be a local file path,
+a distributed file path (HDFS, DBFS), or a cloud storage (S3).</p>
 </dd>
 <dt><strong>Examples</strong></dt><dd></dd>
 <dt><strong>——–</strong></dt><dd></dd>
@@ -536,7 +540,7 @@ FeaturesAssembler` as input, classifies them and outputs CATEGORY annotations.</
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setMultiClass">
-<span class="sig-name descname"><span class="pre">setMultiClass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/generic_classifier/generic_classifier.html#GenericClassifierApproach.setMultiClass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setMultiClass" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">setMultiClass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/generic_classifier/generic_classifier.html#GenericClassifierApproach.setMultiClass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setMultiClass" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets the model in multi class prediction mode (Default: false)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -550,12 +554,12 @@ FeaturesAssembler` as input, classifies them and outputs CATEGORY annotations.</
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setLabelCol">
-<span class="sig-name descname"><span class="pre">setLabelCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label_column</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/generic_classifier/generic_classifier.html#GenericClassifierApproach.setLabelCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setLabelCol" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">setLabelCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label_column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/generic_classifier/generic_classifier.html#GenericClassifierApproach.setLabelCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setLabelCol" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets  Size for each batch in the optimization process</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>label</strong><span class="classifier">str</span></dt><dd><p>Column with the value result we are trying to predict.</p>
+<dt><strong>label_column</strong><span class="classifier">str</span></dt><dd><p>Column with the value result we are trying to predict.</p>
 </dd>
 </dl>
 </dd>
@@ -564,7 +568,7 @@ FeaturesAssembler` as input, classifies them and outputs CATEGORY annotations.</
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setBatchSize">
-<span class="sig-name descname"><span class="pre">setBatchSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/generic_classifier/generic_classifier.html#GenericClassifierApproach.setBatchSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setBatchSize" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">setBatchSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/generic_classifier/generic_classifier.html#GenericClassifierApproach.setBatchSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setBatchSize" title="Permalink to this definition">#</a></dt>
 <dd><p>Size for each batch in the optimization process</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -578,7 +582,7 @@ FeaturesAssembler` as input, classifies them and outputs CATEGORY annotations.</
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setEpochsNumber">
-<span class="sig-name descname"><span class="pre">setEpochsNumber</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epochs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/generic_classifier/generic_classifier.html#GenericClassifierApproach.setEpochsNumber"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setEpochsNumber" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">setEpochsNumber</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epochs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/generic_classifier/generic_classifier.html#GenericClassifierApproach.setEpochsNumber"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setEpochsNumber" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets number of epochs for the optimization process</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -592,12 +596,12 @@ FeaturesAssembler` as input, classifies them and outputs CATEGORY annotations.</
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setLearningRate">
-<span class="sig-name descname"><span class="pre">setLearningRate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lamda</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/generic_classifier/generic_classifier.html#GenericClassifierApproach.setLearningRate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setLearningRate" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">setLearningRate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/generic_classifier/generic_classifier.html#GenericClassifierApproach.setLearningRate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setLearningRate" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets learning rate for the optimization process</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>lamda</strong><span class="classifier">float</span></dt><dd><p>Learning rate for the optimization process</p>
+<dt><strong>learning_rate</strong><span class="classifier">float</span></dt><dd><p>Learning rate for the optimization process</p>
 </dd>
 </dl>
 </dd>
@@ -606,7 +610,7 @@ FeaturesAssembler` as input, classifies them and outputs CATEGORY annotations.</
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setDropout">
-<span class="sig-name descname"><span class="pre">setDropout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dropout</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/generic_classifier/generic_classifier.html#GenericClassifierApproach.setDropout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setDropout" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">setDropout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dropout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/generic_classifier/generic_classifier.html#GenericClassifierApproach.setDropout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setDropout" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets drouptup</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -620,7 +624,7 @@ FeaturesAssembler` as input, classifies them and outputs CATEGORY annotations.</
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setValidationSplit">
-<span class="sig-name descname"><span class="pre">setValidationSplit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">validation_split</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/generic_classifier/generic_classifier.html#GenericClassifierApproach.setValidationSplit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setValidationSplit" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">setValidationSplit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">validation_split</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/generic_classifier/generic_classifier.html#GenericClassifierApproach.setValidationSplit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setValidationSplit" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets validaiton split - how much data to use for validation</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -634,7 +638,7 @@ FeaturesAssembler` as input, classifies them and outputs CATEGORY annotations.</
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setModelFile">
-<span class="sig-name descname"><span class="pre">setModelFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/generic_classifier/generic_classifier.html#GenericClassifierApproach.setModelFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setModelFile" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">setModelFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/generic_classifier/generic_classifier.html#GenericClassifierApproach.setModelFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setModelFile" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets file name to load the mode from”</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -648,7 +652,7 @@ FeaturesAssembler` as input, classifies them and outputs CATEGORY annotations.</
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setFixImbalance">
-<span class="sig-name descname"><span class="pre">setFixImbalance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fix_imbalance</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/generic_classifier/generic_classifier.html#GenericClassifierApproach.setFixImbalance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setFixImbalance" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">setFixImbalance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fix_imbalance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/generic_classifier/generic_classifier.html#GenericClassifierApproach.setFixImbalance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setFixImbalance" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets A flag indicating whenther to balance the trainig set.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -662,7 +666,7 @@ FeaturesAssembler` as input, classifies them and outputs CATEGORY annotations.</
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setFeatureScaling">
-<span class="sig-name descname"><span class="pre">setFeatureScaling</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">feature_scaling</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/generic_classifier/generic_classifier.html#GenericClassifierApproach.setFeatureScaling"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setFeatureScaling" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">setFeatureScaling</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">feature_scaling</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/generic_classifier/generic_classifier.html#GenericClassifierApproach.setFeatureScaling"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setFeatureScaling" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets Feature scaling method. Possible values are ‘zscore’, ‘minmax’ or empty (no scaling</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -676,12 +680,12 @@ FeaturesAssembler` as input, classifies them and outputs CATEGORY annotations.</
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setOutputLogsPath">
-<span class="sig-name descname"><span class="pre">setOutputLogsPath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_logs_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/generic_classifier/generic_classifier.html#GenericClassifierApproach.setOutputLogsPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setOutputLogsPath" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">setOutputLogsPath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_logs_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/generic_classifier/generic_classifier.html#GenericClassifierApproach.setOutputLogsPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierApproach.setOutputLogsPath" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets path to folder where logs will be saved. If no path is specified, no logs are generated</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>label</strong><span class="classifier">str</span></dt><dd><p>Path to folder where logs will be saved. If no path is specified, no logs are generated</p>
+<dt><strong>output_logs_path</strong><span class="classifier">str</span></dt><dd><p>Path to folder where logs will be saved. If no path is specified, no logs are generated</p>
 </dd>
 </dl>
 </dd>
@@ -768,7 +772,7 @@ FeaturesAssembler` as input, classifies them and outputs CATEGORY annotations.</
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierModel.setMultiClass">
-<span class="sig-name descname"><span class="pre">setMultiClass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/generic_classifier/generic_classifier.html#GenericClassifierModel.setMultiClass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierModel.setMultiClass" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">setMultiClass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/generic_classifier/generic_classifier.html#GenericClassifierModel.setMultiClass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierModel.setMultiClass" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets the model in multi class prediction mode (Default: false)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -783,7 +787,27 @@ FeaturesAssembler` as input, classifies them and outputs CATEGORY annotations.</
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierModel.pretrained">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pretrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'en'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/generic_classifier/generic_classifier.html#GenericClassifierModel.pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.generic_classifier.generic_classifier.GenericClassifierModel.pretrained" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Downloads and loads a pretrained model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the pretrained model.</p>
+</dd>
+<dt><strong>lang</strong><span class="classifier">str, optional</span></dt><dd><p>Language of the pretrained model, by default “en”</p>
+</dd>
+<dt><strong>remote_loc</strong><span class="classifier">str, optional</span></dt><dd><p>Optional remote address of the resource, by default None. Will use
+Spark NLPs repositories otherwise.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>GenericClassifierModel</dt><dd><p>The restored model</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

@@ -275,8 +275,7 @@
 
 
 <div class="viewcode-block" id="StructuredDeidentification"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/structured_deidentification/index.html#sparknlp_jsl.structured_deidentification.StructuredDeidentification">[docs]</a><span class="k">class</span> <span class="nc">StructuredDeidentification</span><span class="p">:</span>
-
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; A helper class that allow to obfuscate a structured deidentification.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A helper class that allow to obfuscate a structured deidentification.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -355,6 +354,18 @@
             <span class="n">dateFormats</span><span class="p">)</span>
 
 <div class="viewcode-block" id="StructuredDeidentification.obfuscateColumns"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/structured_deidentification/index.html#sparknlp_jsl.structured_deidentification.StructuredDeidentification.obfuscateColumns">[docs]</a>    <span class="k">def</span> <span class="nf">obfuscateColumns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Obfuscate the columns of a dataframe.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        df : DataFrame</span>
+<span class="sd">            The dataframe to obfuscate</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DataFrame</span>
+<span class="sd">            A dataframe with the columns obfuscated</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">version</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)))</span>
         <span class="k">if</span>  <span class="n">version</span> <span class="o">&gt;=</span> <span class="mi">330</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">obfuscateColumns</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">_jdf</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">_getActiveSessionOrCreate</span><span class="p">())</span>

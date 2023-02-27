@@ -321,6 +321,8 @@
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../qa/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../qa/gpt_generation_params/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa.gpt_generation_params</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../qa/medical_qa/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa.medical_qa</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../qa/qa_ner_generator/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa.qa_ner_generator</span></code></a></li>
 </ul>
 </li>
@@ -385,20 +387,20 @@
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach" title="sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChunkFiltererApproach</span></code></a></p></td>
-<td><p>Model that Filters entities coming from CHUNK annotations. Filters can be set via a white list of terms or a regular expression.</p></td>
+<td><p>Trains a ChunkFiltererApproachModel annotator.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer" title="sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChunkFilterer</span></code></a></p></td>
-<td><p>Model that Filters entities coming from CHUNK annotations. Filters can be set via a white list of terms or a regular expression.</p></td>
+<td><p>Filters entities coming from CHUNK annotations.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ChunkFiltererApproach</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.chunker.ChunkFiltererApproach'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunker_filterer.html#ChunkFiltererApproach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach" title="Permalink to this definition">#</a></dt>
-<dd><dl class="simple">
-<dt>Model that Filters entities coming from CHUNK annotations. Filters can be set via a white list of terms or a regular expression.</dt><dd><p>White list criteria is enabled by default. To use regex, <cite>criteria</cite> has to be set to <cite>regex</cite>.</p>
-</dd>
-</dl>
+<dd><p>Trains a ChunkFiltererApproachModel annotator.</p>
+<p>Filters can be set via a white list of terms or a regular expression.</p>
+<p>White list criteria is enabled by default.</p>
+<p>To use regex, <cite>criteria</cite> has to be set to <cite>regex</cite>.</p>
 <table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
@@ -414,17 +416,24 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>whiteList</strong></dt><dd><p>If defined, list of entities to process. The rest will be ignored</p>
+<dt><strong>whiteList: list</strong></dt><dd><p>If defined, list of entities to process. The rest will be ignored.</p>
 </dd>
-<dt><strong>regex</strong></dt><dd><p>If defined, list of entities to process. The rest will be ignored.</p>
+<dt><strong>blackList: list</strong></dt><dd><p>If defined, list of entities to ignore. The rest will be processed.</p>
 </dd>
-<dt><strong>criteria</strong></dt><dd><dl class="simple">
-<dt>Tag representing what is the criteria to filter the chunks. possibles values (assertion|isIn|regex)</dt><dd><p>isIn : Filter by the chunk
-regex : Filter using a regex</p>
+<dt><strong>regex: str</strong></dt><dd><p>If defined, list of regex to process the chunks (Default: []).</p>
 </dd>
-</dl>
+<dt><strong>criteria: str</strong></dt><dd><p>Tag representing what is the criteria to filter the chunks. Possibles values are:
+- isIn: Filter by the chunk
+- regex: Filter using a regex</p>
 </dd>
-<dt><strong>entitiesConfidence</strong></dt><dd><p>Path to csv with  pairs (entity,confidenceThreshold). Filter the chunks with  entities which have confidence lower than the confidence threshold.</p>
+<dt><strong>filterValue: str</strong></dt><dd><p>If equal to “entity”, use the ner label to filter. If set to “result”,
+use the <cite>result</cite> attribute of the annotation to filter.</p>
+</dd>
+<dt><strong>entitiesConfidence: str</strong></dt><dd><p>Path to a CSV file containing the entity pairs to remove chunks based on
+the confidance level. The CSV file should have two columns: entity and
+confidenceThreshold. The entity column should contain the entity name
+and the confidenceThreshold column should contain the confidence
+threshold to filter the chunks.</p>
 </dd>
 </dl>
 </dd>
@@ -443,10 +452,19 @@ regex : Filter using a regex</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">docAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span><span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span><span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentence&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span><span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">posTagger</span> <span class="o">=</span> <span class="n">PerceptronModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span>     <span class="o">...</span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span>     <span class="o">...</span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;pos&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">chunker</span> <span class="o">=</span> <span class="n">Chunker</span><span class="p">()</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;pos&quot;</span><span class="p">,</span> <span class="s2">&quot;sentence&quot;</span><span class="p">])</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;chunk&quot;</span><span class="p">)</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">setRegexParsers</span><span class="p">([</span><span class="s2">&quot;(&lt;NN&gt;)+&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">posTagger</span> <span class="o">=</span> <span class="n">PerceptronModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;pos&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">chunker</span> <span class="o">=</span> <span class="n">Chunker</span><span class="p">()</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;pos&quot;</span><span class="p">,</span> <span class="s2">&quot;sentence&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;chunk&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setRegexParsers</span><span class="p">([</span><span class="s2">&quot;(&lt;NN&gt;)+&quot;</span><span class="p">])</span>
 <span class="gp">...</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">chunkerFilter</span> <span class="o">=</span> <span class="n">ChunkFiltererApproach</span><span class="p">()</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span><span class="s2">&quot;chunk&quot;</span><span class="p">])</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;filtered&quot;</span><span class="p">)</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">setCriteria</span><span class="p">(</span><span class="s2">&quot;isin&quot;</span><span class="p">)</span>     <span class="o">...</span>   <span class="o">.</span><span class="n">setWhiteList</span><span class="p">([</span><span class="s2">&quot;gastroenteritis&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">chunkerFilter</span> <span class="o">=</span> <span class="n">ChunkFiltererApproach</span><span class="p">()</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span><span class="s2">&quot;chunk&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;filtered&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setCriteria</span><span class="p">(</span><span class="s2">&quot;isin&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setWhiteList</span><span class="p">([</span><span class="s2">&quot;gastroenteritis&quot;</span><span class="p">])</span>
 <span class="gp">...</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
 <span class="gp">... </span>  <span class="n">docAssembler</span><span class="p">,</span>
@@ -456,30 +474,7 @@ regex : Filter using a regex</p>
 <span class="gp">... </span>  <span class="n">chunker</span><span class="p">,</span>
 <span class="gp">... </span>  <span class="n">chunkerFilter</span><span class="p">])</span>
 <span class="gp">...</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;explode(chunk)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;explode(chunk)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="go">+---------------------------------------------------------------------------------+</span>
-<span class="go">|col                                                                              |</span>
-<span class="go">+---------------------------------------------------------------------------------+</span>
-<span class="go">|{chunk, 11, 17, history, {sentence -&gt; 0, chunk -&gt; 0}, []}                        |</span>
-<span class="go">|{chunk, 22, 36, gastroenteritis, {sentence -&gt; 0, chunk -&gt; 1}, []}                |</span>
-<span class="go">|{chunk, 42, 53, stomach pain, {sentence -&gt; 0, chunk -&gt; 2}, []}                   |</span>
-<span class="go">|{chunk, 64, 70, patient, {sentence -&gt; 0, chunk -&gt; 3}, []}                        |</span>
-<span class="go">|{chunk, 81, 110, stomach pain now.We don&#39;t care, {sentence -&gt; 0, chunk -&gt; 4}, []}|</span>
-<span class="go">|{chunk, 118, 132, gastroenteritis, {sentence -&gt; 0, chunk -&gt; 5}, []}              |</span>
-<span class="go">+---------------------------------------------------------------------------------+</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;explode(filtered)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="go">+-------------------------------------------------------------------+</span>
-<span class="go">|col                                                                |</span>
-<span class="go">+-------------------------------------------------------------------+</span>
-<span class="go">|{chunk, 22, 36, gastroenteritis, {sentence -&gt; 0, chunk -&gt; 1}, []}  |</span>
-<span class="go">|{chunk, 118, 132, gastroenteritis, {sentence -&gt; 0, chunk -&gt; 5}, []}|</span>
-<span class="go">+-------------------------------------------------------------------+</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="py attribute">
@@ -529,7 +524,7 @@ regex : Filter using a regex</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach.setWhiteList">
-<span class="sig-name descname"><span class="pre">setWhiteList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunker_filterer.html#ChunkFiltererApproach.setWhiteList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach.setWhiteList" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">setWhiteList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunker_filterer.html#ChunkFiltererApproach.setWhiteList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach.setWhiteList" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets list of entities to process. The rest will be ignored.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -543,7 +538,7 @@ regex : Filter using a regex</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach.setBlackList">
-<span class="sig-name descname"><span class="pre">setBlackList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entities</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunker_filterer.html#ChunkFiltererApproach.setBlackList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach.setBlackList" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">setBlackList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entities</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunker_filterer.html#ChunkFiltererApproach.setBlackList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach.setBlackList" title="Permalink to this definition">#</a></dt>
 <dd><p>If defined, list of entities to ignore. The rest will be processed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -557,8 +552,8 @@ regex : Filter using a regex</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach.setRegex">
-<span class="sig-name descname"><span class="pre">setRegex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunker_filterer.html#ChunkFiltererApproach.setRegex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach.setRegex" title="Permalink to this definition">#</a></dt>
-<dd><p>Sets llist of regex to process. The rest will be ignored.</p>
+<span class="sig-name descname"><span class="pre">setRegex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunker_filterer.html#ChunkFiltererApproach.setRegex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach.setRegex" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the list of regex to process.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -571,12 +566,13 @@ regex : Filter using a regex</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach.setCriteria">
-<span class="sig-name descname"><span class="pre">setCriteria</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunker_filterer.html#ChunkFiltererApproach.setCriteria"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach.setCriteria" title="Permalink to this definition">#</a></dt>
-<dd><p>Set tag representing what is the criteria to filter the chunks. possibles values (isIn|regex)</p>
+<span class="sig-name descname"><span class="pre">setCriteria</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">criteria</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunker_filterer.html#ChunkFiltererApproach.setCriteria"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach.setCriteria" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the creteria parameter.</p>
+<p>Possibles values are “isIn” or “regex”.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>s</strong><span class="classifier">str</span></dt><dd><p>List of dash-separated pairs of named entities</p>
+<dt><strong>criteria</strong><span class="classifier">str</span></dt><dd><p>List of dash-separated pairs of named entities</p>
 </dd>
 </dl>
 </dd>
@@ -585,12 +581,14 @@ regex : Filter using a regex</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach.setFilterEntity">
-<span class="sig-name descname"><span class="pre">setFilterEntity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunker_filterer.html#ChunkFiltererApproach.setFilterEntity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach.setFilterEntity" title="Permalink to this definition">#</a></dt>
-<dd><p>Set tag representing what is the criteria to filter the chunks. possibles values (assertion|isIn|regex)</p>
+<span class="sig-name descname"><span class="pre">setFilterEntity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter_by</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunker_filterer.html#ChunkFiltererApproach.setFilterEntity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach.setFilterEntity" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the filterEntity parameter.</p>
+<p>If equal to “entity”, use the ner label to filter. If set to “result”,
+use the <cite>result</cite> attribute of the annotation to filter.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>s</strong><span class="classifier">str</span></dt><dd><p>possibles values result|entity.</p>
+<dt><strong>filter_by</strong><span class="classifier">str</span></dt><dd><p>possibles values result|entity.</p>
 </dd>
 </dl>
 </dd>
@@ -599,19 +597,31 @@ regex : Filter using a regex</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach.setEntitiesConfidenceResource">
-<span class="sig-name descname"><span class="pre">setEntitiesConfidenceResource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_as</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ReadAs.TEXT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunker_filterer.html#ChunkFiltererApproach.setEntitiesConfidenceResource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach.setEntitiesConfidenceResource" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">setEntitiesConfidenceResource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_as</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">ReadAs.TEXT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunker_filterer.html#ChunkFiltererApproach.setEntitiesConfidenceResource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFiltererApproach.setEntitiesConfidenceResource" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the entitiesConfidenceResource parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>path</strong><span class="classifier">str</span></dt><dd><p>Path to csv with  entity pairs to remove based on the confidance level</p>
+</dd>
+<dt><strong>read_as</strong><span class="classifier">str</span></dt><dd><p>Read file as ‘TEXT’, ‘SPARK’, or ‘BINARY’.</p>
+</dd>
+<dt><strong>options</strong><span class="classifier">dict</span></dt><dd><p>Options for reading the file.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ChunkFilterer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.chunker.ChunkFilterer'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunker_filterer.html#ChunkFilterer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer" title="Permalink to this definition">#</a></dt>
-<dd><dl class="simple">
-<dt>Model that Filters entities coming from CHUNK annotations. Filters can be set via a white list of terms or a regular expression.</dt><dd><p>White list criteria is enabled by default. To use regex, <cite>criteria</cite> has to be set to <cite>regex</cite>.This model was trained using the ChunkFiltererApproach
-and has embeded the list of pairs (entity,confidenceThreshold).</p>
-</dd>
-</dl>
+<dd><p>Filters entities coming from CHUNK annotations.</p>
+<p>Filters can be set via a white list of terms or a regular expression.</p>
+<p>White list criteria is enabled by default.</p>
+<p>To use regex, <cite>criteria</cite> has to be set to <cite>regex</cite>.</p>
 <table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
@@ -627,15 +637,19 @@ and has embeded the list of pairs (entity,confidenceThreshold).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>whiteList</strong></dt><dd><p>If defined, list of entities to process. The rest will be ignored</p>
+<dt><strong>whiteList: list</strong></dt><dd><p>If defined, list of entities to process. The rest will be ignored.</p>
 </dd>
-<dt><strong>regex</strong></dt><dd><p>If defined, list of entities to process. The rest will be ignored.</p>
+<dt><strong>blackList: list</strong></dt><dd><p>If defined, list of entities to ignore. The rest will be processed.</p>
 </dd>
-<dt><strong>criteria</strong></dt><dd><dl class="simple">
-<dt>Tag representing what is the criteria to filter the chunks. possibles values (assertion|isIn|regex)</dt><dd><p>isIn : Filter by the chunk
-regex : Filter using a regex</p>
+<dt><strong>regex: list</strong></dt><dd><p>If defined, list of regex to process the chunks (Default: []).</p>
 </dd>
-</dl>
+<dt><strong>criteria: str</strong></dt><dd><p>Tag representing what is the criteria to filter the chunks. Possibles values are:
+- isIn: Filter by the chunk
+- regex: Filter using a regex</p>
+</dd>
+<dt><strong>entitiesConfidence: str</strong></dt><dd><p>Path to csv with  pairs (entity,confidenceThreshold).
+Filter the chunks with  entities which have confidence lower than the
+confidence threshold.</p>
 </dd>
 </dl>
 </dd>
@@ -654,10 +668,19 @@ regex : Filter using a regex</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">docAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span><span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span><span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;sentence&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span><span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">posTagger</span> <span class="o">=</span> <span class="n">PerceptronModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span>        <span class="o">...</span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span>        <span class="o">...</span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;pos&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">chunker</span> <span class="o">=</span> <span class="n">Chunker</span><span class="p">()</span>        <span class="o">...</span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;pos&quot;</span><span class="p">,</span> <span class="s2">&quot;sentence&quot;</span><span class="p">])</span>        <span class="o">...</span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;chunk&quot;</span><span class="p">)</span>        <span class="o">...</span>   <span class="o">.</span><span class="n">setRegexParsers</span><span class="p">([</span><span class="s2">&quot;(&lt;NN&gt;)+&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">posTagger</span> <span class="o">=</span> <span class="n">PerceptronModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;pos&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">chunker</span> <span class="o">=</span> <span class="n">Chunker</span><span class="p">()</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;pos&quot;</span><span class="p">,</span> <span class="s2">&quot;sentence&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;chunk&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setRegexParsers</span><span class="p">([</span><span class="s2">&quot;(&lt;NN&gt;)+&quot;</span><span class="p">])</span>
 <span class="gp">...</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">chunkerFilter</span> <span class="o">=</span> <span class="n">ChunkFilterer</span><span class="p">()</span>        <span class="o">...</span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span><span class="s2">&quot;chunk&quot;</span><span class="p">])</span>        <span class="o">...</span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;filtered&quot;</span><span class="p">)</span>        <span class="o">...</span>   <span class="o">.</span><span class="n">setCriteria</span><span class="p">(</span><span class="s2">&quot;isin&quot;</span><span class="p">)</span>        <span class="o">...</span>   <span class="o">.</span><span class="n">setWhiteList</span><span class="p">([</span><span class="s2">&quot;gastroenteritis&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">chunkerFilter</span> <span class="o">=</span> <span class="n">ChunkFilterer</span><span class="p">()</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span><span class="s2">&quot;chunk&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;filtered&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setCriteria</span><span class="p">(</span><span class="s2">&quot;isin&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>  <span class="o">.</span><span class="n">setWhiteList</span><span class="p">([</span><span class="s2">&quot;gastroenteritis&quot;</span><span class="p">])</span>
 <span class="gp">...</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
 <span class="gp">... </span>  <span class="n">docAssembler</span><span class="p">,</span>
@@ -735,13 +758,22 @@ regex : Filter using a regex</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer.setWhiteList">
-<span class="sig-name descname"><span class="pre">setWhiteList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunker_filterer.html#ChunkFilterer.setWhiteList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer.setWhiteList" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">setWhiteList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunker_filterer.html#ChunkFilterer.setWhiteList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer.setWhiteList" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets list of entities to process. The rest will be ignored.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">list</span></dt><dd><p>If defined, list of entities to process. The rest will be ignored.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer.setBlackList">
-<span class="sig-name descname"><span class="pre">setBlackList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entities</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunker_filterer.html#ChunkFilterer.setBlackList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer.setBlackList" title="Permalink to this definition">#</a></dt>
-<dd><p>If defined, list of entities to ignore. The rest will be processed.</p>
+<span class="sig-name descname"><span class="pre">setBlackList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entities</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunker_filterer.html#ChunkFilterer.setBlackList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer.setBlackList" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the black list of entities to ignore.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -754,18 +786,48 @@ regex : Filter using a regex</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer.setRegex">
-<span class="sig-name descname"><span class="pre">setRegex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunker_filterer.html#ChunkFilterer.setRegex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer.setRegex" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer.setFilterEntity">
-<span class="sig-name descname"><span class="pre">setFilterEntity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunker_filterer.html#ChunkFilterer.setFilterEntity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer.setFilterEntity" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">setRegex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunker_filterer.html#ChunkFilterer.setRegex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer.setRegex" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the list of regex to process.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">list</span></dt><dd><p>List of dash-separated pairs of named entities</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer.setCriteria">
-<span class="sig-name descname"><span class="pre">setCriteria</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunker_filterer.html#ChunkFilterer.setCriteria"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer.setCriteria" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">setCriteria</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">criteria</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunker_filterer.html#ChunkFilterer.setCriteria"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer.setCriteria" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the creteria parameter.</p>
+<p>Possibles values are “isIn” or “regex”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>criteria</strong><span class="classifier">str</span></dt><dd><p>List of dash-separated pairs of named entities</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer.setFilterEntity">
+<span class="sig-name descname"><span class="pre">setFilterEntity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter_by</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/chunker/chunker_filterer.html#ChunkFilterer.setFilterEntity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer.setFilterEntity" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the filterEntity parameter.</p>
+<p>If equal to “entity”, use the ner label to filter. If set to “result”,
+use the <cite>result</cite> attribute of the annotation to filter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>filter_by</strong><span class="classifier">str</span></dt><dd><p>possibles values result|entity.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -1062,19 +1124,19 @@ regex : Filter using a regex</p>
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer.setFilterEntity">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer.setCriteria">
          <code class="docutils literal notranslate">
           <span class="pre">
-           ChunkFilterer.setFilterEntity()
+           ChunkFilterer.setCriteria()
           </span>
          </code>
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer.setCriteria">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer.setFilterEntity">
          <code class="docutils literal notranslate">
           <span class="pre">
-           ChunkFilterer.setCriteria()
+           ChunkFilterer.setFilterEntity()
           </span>
          </code>
         </a>
@@ -1224,13 +1286,13 @@ regex : Filter using a regex</p>
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer.setFilterEntity">
-         setFilterEntity
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer.setCriteria">
+         setCriteria
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer.setCriteria">
-         setCriteria
+        <a class="reference internal nav-link" href="#sparknlp_jsl.annotator.chunker.chunker_filterer.ChunkFilterer.setFilterEntity">
+         setFilterEntity
         </a>
        </li>
       </ul>

@@ -276,7 +276,7 @@
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.training.AnnotationToolJsonReader" title="sparknlp_jsl.training.AnnotationToolJsonReader"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AnnotationToolJsonReader</span></code></a></p></td>
-<td><p>The annotation tool json reader is a reader to parse Named Entity Recognition, Assertion and Relation Extraction Annotations</p></td>
+<td><p>Reads and process the exported json file from NLP Lab.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.training.CodiEspReader" title="sparknlp_jsl.training.CodiEspReader"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CodiEspReader</span></code></a></p></td>
 <td><p>Wrapper class for a Java companion object</p></td>
@@ -307,43 +307,145 @@
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp_jsl.training.AnnotationToolJsonReader">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AnnotationToolJsonReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pipeline_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">assertion_labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">excluded_labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cleanup_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'disabled'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split_chars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context_chars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scheme</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'IOB'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_chars_tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align_chars_tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">merge_overlapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SDDLPath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp_jsl/training.html#AnnotationToolJsonReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.training.AnnotationToolJsonReader" title="Permalink to this definition">#</a></dt>
-<dd><p>The annotation tool json reader is a reader to parse Named Entity Recognition, Assertion and Relation Extraction Annotations
-from a JSON exported from the Annotation Tool.</p>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp_jsl.training</span> <span class="kn">import</span> <span class="n">AnnotationToolJsonReader</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">assertion_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;AsPresent&quot;</span><span class="p">,</span><span class="s2">&quot;Absent&quot;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">excluded_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Treatment&quot;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">split_chars</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;\-&quot;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">context_chars</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot;;&quot;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">SDDLPath</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">rdr</span> <span class="o">=</span> <span class="n">AnnotationToolJsonReader</span><span class="p">(</span><span class="n">assertion_labels</span> <span class="o">=</span> <span class="n">assertion_labels</span><span class="p">,</span> <span class="n">excluded_labels</span> <span class="o">=</span> <span class="n">excluded_labels</span><span class="p">,</span> <span class="n">split_chars</span> <span class="o">=</span> <span class="n">split_chars</span><span class="p">,</span> <span class="n">context_chars</span> <span class="o">=</span> <span class="n">context_chars</span><span class="p">,</span><span class="n">SDDLPath</span><span class="o">=</span><span class="n">SDDLPath</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;src/test/resources/anc-pos-corpus-small/test-training.txt&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">rdr</span><span class="o">.</span><span class="n">readDataset</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">json_path</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">assertion_df</span> <span class="o">=</span> <span class="n">rdr</span><span class="o">.</span><span class="n">generateAssertionTrainSet</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">assertion_df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AnnotationToolJsonReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pipeline_model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">assertion_labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">excluded_labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cleanup_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'disabled'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split_chars</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context_chars</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scheme</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'IOB'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_chars_tol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">align_chars_tol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">merge_overlapping</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SDDLPath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp_jsl/training.html#AnnotationToolJsonReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.training.AnnotationToolJsonReader" title="Permalink to this definition">#</a></dt>
+<dd><p>Reads and process the exported json file from NLP Lab.</p>
+<blockquote>
+<div><p>Reader class that parses relevant information exported from NLP Lab into different
+formats. The reader can be used to create a training dataset for training assertion
+status (using the <cite>generateAssertionTrainSet</cite> method) or NER models (in the CoNLL format
+using the <cite>generateConll</cite> method).</p>
+<p>To generate the assertion data, the following attributes need to be specified when
+instantiating the class:</p>
+<ul class="simple">
+<li><p><cite>assertion_labels</cite>: The assertion labels to use.</p></li>
+<li><dl class="simple">
+<dt><cite>excluded_labels</cite>: The assertions labels that are excluded for the training dataset</dt><dd><p>creation (can be an empty list).</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<p>229937784
+FIH...|        18001|2022-03-04T13:19:…|        aleksei|        true|[{chunk, 136, 142…|             []|       []|[{document, 0, 37…|[{document, 1, 79…|[{token, 1, 9, 22…|[{named_entity, 1…|</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">null|     65|</div>
 </div>
+</div></blockquote>
+<p>305038693
+FIH...|        65001|2022-03-03T08:31:…|        aleksei|        true|[{chunk, 1, 9, 30…|             []|       []|[{document, 0, 17…|[{document, 1, 81…|[{token, 1, 9, 30…|[{named_entity, 1…|</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">null|     21|</div>
+</div>
+</div></blockquote>
+<p>844970557 RWH
+…|        21001|2022-03-04T13:00:…|        aleksei|        true|[{chunk, 1, 13, 8…|             []|       []|[{document, 0, 28…|[{document, 1, 25…|[{token, 1, 9, 84…|[{named_entity, 1…|</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">null|     97|</div>
+</div>
+</div></blockquote>
+<p>914783811
+FIH...|        97001|2022-03-02T12:07:…|        aleksei|        true|[{chunk, 1, 9, 91…|             []|       []|[{document, 0, 90…|[{document, 1, 11…|[{token, 1, 9, 91…|[{named_entity, 1…|</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">null|     84|</div>
+</div>
+</div></blockquote>
+<p>733882247
+FIH...|        84001|2022-03-02T15:01:…|        aleksei|        true|[{chunk, 1, 9, 73…|             []|       []|[{document, 0, 77…|[{document, 1, 10…|[{token, 1, 9, 73…|[{named_entity, 1…|</p>
+<blockquote>
+<div><table class="table">
+<tbody>
+</tbody>
+</table>
+<p>only showing top 5 rows
+&gt;&gt;&gt; assertion_df = rdr.generateAssertionTrainSet(df)
+&gt;&gt;&gt; rdr.generateConll(df, “annotations.conll”)</p>
+</div></blockquote>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.training.AnnotationToolJsonReader.readDataset">
-<span class="sig-name descname"><span class="pre">readDataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp_jsl/training.html#AnnotationToolJsonReader.readDataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.training.AnnotationToolJsonReader.readDataset" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">readDataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp_jsl/training.html#AnnotationToolJsonReader.readDataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.training.AnnotationToolJsonReader.readDataset" title="Permalink to this definition">#</a></dt>
+<dd><p>Reads the exported JSON file into a spark data frame.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>spark: Spark session.
+path (str): Path to the exported file.</p>
+</dd>
+<dt>Returns:</dt><dd><p>DataFrame: Spark DataFrame containing the exported data.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.training.AnnotationToolJsonReader.generateAssertionTrainSet">
 <span class="sig-name descname"><span class="pre">generateAssertionTrainSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentenceCol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sentence'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">assertionCol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'assertion_label'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp_jsl/training.html#AnnotationToolJsonReader.generateAssertionTrainSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.training.AnnotationToolJsonReader.generateAssertionTrainSet" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp_jsl.training.AnnotationToolJsonReader.generateConll">
-<span class="sig-name descname"><span class="pre">generateConll</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">taskColumn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'task_id'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenCol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'token'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nerLabel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'ner_label'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp_jsl/training.html#AnnotationToolJsonReader.generateConll"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.training.AnnotationToolJsonReader.generateConll" title="Permalink to this definition">#</a></dt>
-<dd><p>Deprecated</p>
+<dd><p>Generates assertion training data at token level.</p>
+<p>Using information from the sentence and assertion labels, this method generates a
+training data set with the following columns:
+- text: sentence text
+- target: the token text
+- label: the assertion label
+- start: start position of the token
+- end: end position of the token</p>
+<p>The tokens are identified internally with the constraints from the
+<cite>min_chars_tol</cite> and <cite>align_chars_tol</cite> parameters.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>df (DataFrame): Data Frame containing the sentences and assertion labels.
+sentenceCol (str, optional): Column name containing the sentence annotation.
+Defaults to “sentence”.
+assertionCol (str, optional): Column name containing the assertion annotation.
+Defaults to “assertion_label”.</p>
+</dd>
+<dt>Returns:</dt><dd><p>DataFrame: data frame with the training data.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.training.AnnotationToolJsonReader.generatePlainAssertionTrainSet">
 <span class="sig-name descname"><span class="pre">generatePlainAssertionTrainSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">taskColumn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'task_id'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenCol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'token'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nerLabel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'ner_label'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">assertion_label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'assertion_label'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp_jsl/training.html#AnnotationToolJsonReader.generatePlainAssertionTrainSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.training.AnnotationToolJsonReader.generatePlainAssertionTrainSet" title="Permalink to this definition">#</a></dt>
-<dd><p>Deprecated</p>
+<dd><p>Generates assertion training data at chunk level.</p>
+<p>Using information from the sentence, task id (from NLP Lab), ner label, and
+assertion labels, this method generates a training data set with the
+following columns:
+- sentence: sentence text
+- begin: start position of the token
+- end: end position of the token
+- ner: the NER chunk
+- assertion: the assertion label</p>
+<p>Internally uses the <cite>NerConverterInternal</cite> to identify the NER chunks.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>df (DataFrame): Data Frame containing the sentences and assertion labels.
+taskColumn (str, optional): Column name containing the task id annotation.
+Defaults to “task_id”.
+tokenCol (str, optional): Column name containing the token annotation.
+Defaults to “token”.
+nerLabel (str, optional): Column name containing the NER label annotation.
+Defaults to “ner_label”.
+assertion_label (str, optional): Column name containing the assertion label annotation.
+Defaults to “assertion_label”.</p>
+</dd>
+<dt>Returns:</dt><dd><p>DataFrame: data frame with the training data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.training.AnnotationToolJsonReader.generateConll">
+<span class="sig-name descname"><span class="pre">generateConll</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">taskColumn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'task_id'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenCol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'token'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nerLabel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'ner_label'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp_jsl/training.html#AnnotationToolJsonReader.generateConll"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.training.AnnotationToolJsonReader.generateConll" title="Permalink to this definition">#</a></dt>
+<dd><p>Saves a CoNLL file from the exported annotations.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>df (DataFrame): DataFrame containing the annotations read using <cite>readDataset</cite>.
+path (str): Path to where the CoNLL file will be saved.
+taskColumn (str, optional): Column containing the task id information.
+Defaults to “task_id”.
+tokenCol (str, optional): Column containing the token information.
+Defaults to “token”.
+nerLabel (str, optional): Column containing the NER label.
+Defaults to “ner_label”.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -416,7 +518,7 @@ from a JSON exported from the Annotation Tool.</p>
 <span class="go">        &quot;label2&quot;: &quot;label2&quot;</span>
 <span class="go">    }</span>
 <span class="go">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># apply preprocess function to dataframe</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># apply preprocess function to dataframe</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">REDatasetHelper</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">create_annotation_column</span><span class="p">(</span><span class="n">column_map</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 <span class="go">+-------+-------------+--------------------+--------------------+-------+--------------------+------+----+-----+--------------------+------+----+---------+---------+------------+-------------+------------+-------------+-------------+-------------+-------------+</span>
@@ -441,7 +543,7 @@ from a JSON exported from the Annotation Tool.</p>
 :param column_map: Required mapping between entity columns and dataset columns.
 Required columns are: begin1, end1, chunk1, label1, begin2, end2, chunk2, label2</p>
 <p class="rubric">Examples</p>
-<p># for dataset with following schema:
+<p># for dataset with following schema:
 &gt;&gt;&gt; data.printSchema()
 root</p>
 <blockquote>
@@ -558,19 +660,19 @@ root</p>
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl.training.AnnotationToolJsonReader.generateConll">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.training.AnnotationToolJsonReader.generatePlainAssertionTrainSet">
          <code class="docutils literal notranslate">
           <span class="pre">
-           AnnotationToolJsonReader.generateConll()
+           AnnotationToolJsonReader.generatePlainAssertionTrainSet()
           </span>
          </code>
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl.training.AnnotationToolJsonReader.generatePlainAssertionTrainSet">
+        <a class="reference internal nav-link" href="#sparknlp_jsl.training.AnnotationToolJsonReader.generateConll">
          <code class="docutils literal notranslate">
           <span class="pre">
-           AnnotationToolJsonReader.generatePlainAssertionTrainSet()
+           AnnotationToolJsonReader.generateConll()
           </span>
          </code>
         </a>
@@ -700,13 +802,13 @@ root</p>
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl.training.AnnotationToolJsonReader.generateConll">
-         generateConll
+        <a class="reference internal nav-link" href="#sparknlp_jsl.training.AnnotationToolJsonReader.generatePlainAssertionTrainSet">
+         generatePlainAssertionTrainSet
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#sparknlp_jsl.training.AnnotationToolJsonReader.generatePlainAssertionTrainSet">
-         generatePlainAssertionTrainSet
+        <a class="reference internal nav-link" href="#sparknlp_jsl.training.AnnotationToolJsonReader.generateConll">
+         generateConll
         </a>
        </li>
       </ul>

@@ -321,6 +321,8 @@
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../qa/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../qa/gpt_generation_params/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa.gpt_generation_params</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../qa/medical_qa/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa.medical_qa</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../qa/qa_ner_generator/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa.qa_ner_generator</span></code></a></li>
 </ul>
 </li>
@@ -385,19 +387,19 @@
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.normalizer.drug_normalizer.DrugNormalizer" title="sparknlp_jsl.annotator.normalizer.drug_normalizer.DrugNormalizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DrugNormalizer</span></code></a></p></td>
-<td><p>Annotator which normalizes raw text from clinical documents, e.g. scraped web pages or xml documents, from document type columns into Sentence.</p></td>
+<td><p>Normalizes drug mentions in clinical text.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.normalizer.drug_normalizer.DrugNormalizer">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DrugNormalizer</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/normalizer/drug_normalizer.html#DrugNormalizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.normalizer.drug_normalizer.DrugNormalizer" title="Permalink to this definition">#</a></dt>
-<dd><dl class="simple">
-<dt>Annotator which normalizes raw text from clinical documents, e.g. scraped web pages or xml documents, from document type columns into Sentence.</dt><dd><p>Removes all dirty characters from text following one or more input regex patterns.
-Can apply non wanted character removal which a specific policy.
-Can apply lower case normalization.</p>
-</dd>
-</dl>
+<dd><p>Normalizes drug mentions in clinical text.</p>
+<p>Adds apaces between punctuation and words, as well as normalize the
+drug mentions. The <cite>policy</cite> parameter controls what drug information
+should be normalized, check the parameter documentation for details.</p>
+<p>For usage examples and discussion, check out
+<a class="reference external" href="https://medium.com/spark-nlp/normalize-drug-names-and-dosage-units-with-spark-nlp-8b7ef606facf">this blog post</a>.</p>
 <table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
@@ -410,12 +412,18 @@ Can apply lower case normalization.</p>
 </tr>
 </tbody>
 </table>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>lowercase</strong></dt><dd><p>whether to convert strings to lowercase</p>
+<dd class="field-odd"><dl>
+<dt><strong>lowercase</strong></dt><dd><p>Whether to convert strings to lowercase</p>
 </dd>
-<dt><strong>policy</strong></dt><dd><p>policy to remove patterns from text. Defaults “all”</p>
+<dt><strong>policy</strong></dt><dd><p>Policy to remove patterns from text. Defaults “all”.</p>
+<p>Possible values are “all”, “abbreviations”, or “dosages”.
+- “abbreviations” will replace all abbreviations with their full form (for example,
+replacing “oral sol” to “oral solution”).
+- “dosages” will replace all dosages to a standardized form (for example,
+replacing “10 million units” to “10000000 unt”).
+- “all” will replace both abbreviations and dosages.</p>
 </dd>
 </dl>
 </dd>
@@ -462,12 +470,12 @@ Can apply lower case normalization.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.normalizer.drug_normalizer.DrugNormalizer.setLowercase">
-<span class="sig-name descname"><span class="pre">setLowercase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/normalizer/drug_normalizer.html#DrugNormalizer.setLowercase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.normalizer.drug_normalizer.DrugNormalizer.setLowercase" title="Permalink to this definition">#</a></dt>
-<dd><p>Sets whether to convert strings to lowercase</p>
+<span class="sig-name descname"><span class="pre">setLowercase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/normalizer/drug_normalizer.html#DrugNormalizer.setLowercase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.normalizer.drug_normalizer.DrugNormalizer.setLowercase" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether to convert strings to lowercase.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>p</strong><span class="classifier">bool</span></dt><dd><p>Whether to convert strings to lowercase</p>
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to convert strings to lowercase</p>
 </dd>
 </dl>
 </dd>
@@ -476,12 +484,18 @@ Can apply lower case normalization.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.normalizer.drug_normalizer.DrugNormalizer.setPolicy">
-<span class="sig-name descname"><span class="pre">setPolicy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/normalizer/drug_normalizer.html#DrugNormalizer.setPolicy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.normalizer.drug_normalizer.DrugNormalizer.setPolicy" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">setPolicy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/normalizer/drug_normalizer.html#DrugNormalizer.setPolicy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.normalizer.drug_normalizer.DrugNormalizer.setPolicy" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets policy to remove patterns from text.</p>
+<p>Possible values are “all”, “abbreviations”, or “dosages”.
+- “abbreviations” will replace all abbreviations with their full form (for example,
+replacing “oral sol” to “oral solution”).
+- “dosages” will replace all dosages to a standardized form (for example,
+replacing “10 million units” to “10000000 unt”).
+- “all” will replace both abbreviations and dosages.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>p</strong><span class="classifier">str</span></dt><dd><p>policy to remove patterns from text.</p>
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>policy to remove patterns from text.</p>
 </dd>
 </dl>
 </dd>

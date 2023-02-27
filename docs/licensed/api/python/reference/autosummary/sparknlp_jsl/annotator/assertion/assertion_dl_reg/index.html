@@ -321,6 +321,8 @@
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../qa/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../qa/gpt_generation_params/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa.gpt_generation_params</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../qa/medical_qa/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa.medical_qa</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../qa/qa_ner_generator/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa.qa_ner_generator</span></code></a></li>
 </ul>
 </li>
@@ -389,7 +391,7 @@
 <td><p>Train a Assertion algorithm using a regression log model.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegModel" title="sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AssertionLogRegModel</span></code></a></p></td>
-<td><p>This is a main class in AssertionLogReg family. Logarithmic Regression is used to extract Assertion Status</p></td>
+<td><p>Model to extract assertion status of entities using Logarithmic Regression.</p></td>
 </tr>
 </tbody>
 </table>
@@ -401,6 +403,7 @@
 - a :class: SentenceDetector,
 - a :class: Chunk,
 - a :class: WordEmbeddingsModel.</p>
+<p>For pretrained models, check the documentation of <a class="reference internal" href="#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegModel" title="sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">AssertionLogRegModel</span></code></a>.</p>
 <table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
@@ -462,7 +465,8 @@
 <span class="gp">...</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">glove</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;embeddings_clinical&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span> \
 <span class="gp">... </span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span> \
-<span class="gp">... </span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;word_embeddings&quot;</span><span class="p">)</span>     <span class="o">...</span>
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;word_embeddings&quot;</span><span class="p">)</span> \
+<span class="gp">...</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">chunk</span> <span class="o">=</span> <span class="n">Chunker</span><span class="p">()</span> \
 <span class="gp">... </span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="n">sentence</span><span class="p">])</span> \
 <span class="gp">... </span>   <span class="o">.</span><span class="n">setChunkCol</span><span class="p">(</span><span class="s2">&quot;chunk&quot;</span><span class="p">)</span> \
@@ -555,69 +559,81 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.setLabelCol">
 <span class="sig-name descname"><span class="pre">setLabelCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertion_dl_reg.html#AssertionLogRegApproach.setLabelCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.setLabelCol" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Sets the value of <code class="xref py py-attr docutils literal notranslate"><span class="pre">labelCol</span></code>.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.setMaxIter">
 <span class="sig-name descname"><span class="pre">setMaxIter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">maxiter</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertion_dl_reg.html#AssertionLogRegApproach.setMaxIter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.setMaxIter" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Sets the value of <a class="reference internal" href="#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.maxIter" title="sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.maxIter"><code class="xref py py-attr docutils literal notranslate"><span class="pre">maxIter</span></code></a>.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.setReg">
 <span class="sig-name descname"><span class="pre">setReg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lamda</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertion_dl_reg.html#AssertionLogRegApproach.setReg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.setReg" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Sets the value of <a class="reference internal" href="#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.regParam" title="sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.regParam"><code class="xref py py-attr docutils literal notranslate"><span class="pre">regParam</span></code></a>.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.setEnet">
 <span class="sig-name descname"><span class="pre">setEnet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enet</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertion_dl_reg.html#AssertionLogRegApproach.setEnet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.setEnet" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Sets the value of <a class="reference internal" href="#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.eNetParam" title="sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.eNetParam"><code class="xref py py-attr docutils literal notranslate"><span class="pre">eNetParam</span></code></a>.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.setBefore">
 <span class="sig-name descname"><span class="pre">setBefore</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">before</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertion_dl_reg.html#AssertionLogRegApproach.setBefore"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.setBefore" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Sets the value of <a class="reference internal" href="#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.beforeParam" title="sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.beforeParam"><code class="xref py py-attr docutils literal notranslate"><span class="pre">beforeParam</span></code></a>.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.setAfter">
 <span class="sig-name descname"><span class="pre">setAfter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">after</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertion_dl_reg.html#AssertionLogRegApproach.setAfter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.setAfter" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Sets the value of <a class="reference internal" href="#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.afterParam" title="sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.afterParam"><code class="xref py py-attr docutils literal notranslate"><span class="pre">afterParam</span></code></a>.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.setStartCol">
 <span class="sig-name descname"><span class="pre">setStartCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertion_dl_reg.html#AssertionLogRegApproach.setStartCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.setStartCol" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Sets the value of <a class="reference internal" href="#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.startCol" title="sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.startCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">startCol</span></code></a>.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.setEndCol">
 <span class="sig-name descname"><span class="pre">setEndCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">e</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertion_dl_reg.html#AssertionLogRegApproach.setEndCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.setEndCol" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Sets the value of <a class="reference internal" href="#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.endCol" title="sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.endCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">endCol</span></code></a>.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.setNerCol">
 <span class="sig-name descname"><span class="pre">setNerCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertion_dl_reg.html#AssertionLogRegApproach.setNerCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.setNerCol" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Sets the value of <a class="reference internal" href="#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.nerCol" title="sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.nerCol"><code class="xref py py-attr docutils literal notranslate"><span class="pre">nerCol</span></code></a>.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.setTargetNerLabels">
 <span class="sig-name descname"><span class="pre">setTargetNerLabels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertion_dl_reg.html#AssertionLogRegApproach.setTargetNerLabels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.setTargetNerLabels" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Sets the value of <a class="reference internal" href="#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.targetNerLabels" title="sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.targetNerLabels"><code class="xref py py-attr docutils literal notranslate"><span class="pre">targetNerLabels</span></code></a>.</p>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegModel">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AssertionLogRegModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.assertion.logreg.AssertionLogRegModel'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertion_dl_reg.html#AssertionLogRegModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegModel" title="Permalink to this definition">#</a></dt>
-<dd><dl class="simple">
-<dt>This is a main class in AssertionLogReg family. Logarithmic Regression is used to extract Assertion Status</dt><dd><p>from extracted entities and text. AssertionLogRegModel requires DOCUMENT, CHUNK and WORD_EMBEDDINGS type
-annotator inputs, which can be obtained by e.g a</p>
-</dd>
-</dl>
-<p>Excluding the label, this can be done with for example:</p>
+<dd><p>Model to extract assertion status of entities using Logarithmic Regression.</p>
+<p>To train a custom model, use <a class="reference internal" href="#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach" title="sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach"><code class="xref py py-class docutils literal notranslate"><span class="pre">AssertionLogRegApproach</span></code></a> instead.</p>
+<p>Logarithmic Regression is used to extract Assertion Status from extracted
+entities and text. AssertionLogRegModel requires DOCUMENT, CHUNK and WORD_EMBEDDINGS
+type annotations as inputs. Excluding the label, the annotations can be obtained
+with, for example:</p>
 <ul class="simple">
 <li><p>a <code class="xref py py-class docutils literal notranslate"><span class="pre">SentenceDetector</span></code>,</p></li>
 <li><p>a <code class="xref py py-class docutils literal notranslate"><span class="pre">Chunk</span></code>,</p></li>
 <li><p>a <code class="xref py py-class docutils literal notranslate"><span class="pre">WordEmbeddingsModel</span></code>.</p></li>
 </ul>
+<p>For a list of pretrained models, check the
+<a class="reference external" href="https://nlp.johnsnowlabs.com/models">NLP Models Hub</a> page.</p>
 <table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
@@ -746,7 +762,27 @@ annotator inputs, which can be obtained by e.g a</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegModel.pretrained">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pretrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'en'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/assertion/assertion_dl_reg.html#AssertionLogRegModel.pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegModel.pretrained" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Downloads and loads a pretrained model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the pretrained model.</p>
+</dd>
+<dt><strong>lang</strong><span class="classifier">str, optional</span></dt><dd><p>Language of the pretrained model, by default “en”</p>
+</dd>
+<dt><strong>remote_loc</strong><span class="classifier">str, optional</span></dt><dd><p>Optional remote address of the resource, by default None. Will use
+Spark NLPs repositories otherwise.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>AssertionLogRegModel</dt><dd><p>The restored model</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

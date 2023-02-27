@@ -281,6 +281,8 @@
 <span class="sd">    - a :class: Chunk,</span>
 <span class="sd">    - a :class: WordEmbeddingsModel.</span>
 
+<span class="sd">    For pretrained models, check the documentation of :class:`.AssertionLogRegModel`.</span>
+
 <span class="sd">    ========================================= ======================</span>
 <span class="sd">    Input Annotation types                    Output Annotation type</span>
 <span class="sd">    ========================================= ======================</span>
@@ -336,7 +338,7 @@
 <span class="sd">    ...</span>
 <span class="sd">    &gt;&gt;&gt; glove = WordEmbeddingsModel.pretrained(&quot;embeddings_clinical&quot;, &quot;en&quot;, &quot;clinical/models&quot;) \\</span>
 <span class="sd">    ...    .setInputCols([&quot;sentence&quot;, &quot;token&quot;]) \\</span>
-<span class="sd">    ...    .setOutputCol(&quot;word_embeddings&quot;) \</span>
+<span class="sd">    ...    .setOutputCol(&quot;word_embeddings&quot;) \\</span>
 <span class="sd">    ...</span>
 <span class="sd">    &gt;&gt;&gt; chunk = Chunker() \\</span>
 <span class="sd">    ...    .setInputCols([sentence]) \\</span>
@@ -386,36 +388,61 @@
                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AssertionLogRegApproach.setLabelCol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertion_dl_reg/index.html#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.setLabelCol">[docs]</a>    <span class="k">def</span> <span class="nf">setLabelCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the value of :py:attr:`labelCol`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AssertionLogRegApproach.setMaxIter"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertion_dl_reg/index.html#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.setMaxIter">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxIter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">maxiter</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the value of :py:attr:`maxIter`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxIter</span><span class="o">=</span><span class="n">maxiter</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AssertionLogRegApproach.setReg"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertion_dl_reg/index.html#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.setReg">[docs]</a>    <span class="k">def</span> <span class="nf">setReg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lamda</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the value of :py:attr:`regParam`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">regParam</span><span class="o">=</span><span class="n">lamda</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AssertionLogRegApproach.setEnet"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertion_dl_reg/index.html#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.setEnet">[docs]</a>    <span class="k">def</span> <span class="nf">setEnet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">enet</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the value of :py:attr:`eNetParam`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">eNetParam</span><span class="o">=</span><span class="n">enet</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AssertionLogRegApproach.setBefore"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertion_dl_reg/index.html#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.setBefore">[docs]</a>    <span class="k">def</span> <span class="nf">setBefore</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">before</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the value of :py:attr:`beforeParam`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">beforeParam</span><span class="o">=</span><span class="n">before</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AssertionLogRegApproach.setAfter"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertion_dl_reg/index.html#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.setAfter">[docs]</a>    <span class="k">def</span> <span class="nf">setAfter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">after</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the value of :py:attr:`afterParam`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">afterParam</span><span class="o">=</span><span class="n">after</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AssertionLogRegApproach.setStartCol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertion_dl_reg/index.html#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.setStartCol">[docs]</a>    <span class="k">def</span> <span class="nf">setStartCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the value of :py:attr:`startCol`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">startCol</span><span class="o">=</span><span class="n">s</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AssertionLogRegApproach.setEndCol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertion_dl_reg/index.html#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.setEndCol">[docs]</a>    <span class="k">def</span> <span class="nf">setEndCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the value of :py:attr:`endCol`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">endCol</span><span class="o">=</span><span class="n">e</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AssertionLogRegApproach.setNerCol"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertion_dl_reg/index.html#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.setNerCol">[docs]</a>    <span class="k">def</span> <span class="nf">setNerCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the value of :py:attr:`nerCol`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">nerCol</span><span class="o">=</span><span class="n">n</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AssertionLogRegApproach.setTargetNerLabels"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertion_dl_reg/index.html#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegApproach.setTargetNerLabels">[docs]</a>    <span class="k">def</span> <span class="nf">setTargetNerLabels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the value of :py:attr:`targetNerLabels`. </span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">targetNerLabels</span><span class="o">=</span><span class="n">v</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_create_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">java_model</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_create_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">java_model</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates the model using the java model.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            java_model (str): The name of the java model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">AssertionLogRegModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span>
 
     <span class="nd">@keyword_only</span>
@@ -426,16 +453,21 @@
 
 
 <div class="viewcode-block" id="AssertionLogRegModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertion_dl_reg/index.html#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegModel">[docs]</a><span class="k">class</span> <span class="nc">AssertionLogRegModel</span><span class="p">(</span><span class="n">AnnotatorModelInternal</span><span class="p">,</span> <span class="n">HasStorageRef</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;This is a main class in AssertionLogReg family. Logarithmic Regression is used to extract Assertion Status</span>
-<span class="sd">        from extracted entities and text. AssertionLogRegModel requires DOCUMENT, CHUNK and WORD_EMBEDDINGS type</span>
-<span class="sd">        annotator inputs, which can be obtained by e.g a</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Model to extract assertion status of entities using Logarithmic Regression. </span>
+<span class="sd">    </span>
+<span class="sd">    To train a custom model, use :class:`.AssertionLogRegApproach` instead.</span>
 
-<span class="sd">    Excluding the label, this can be done with for example:</span>
+<span class="sd">    Logarithmic Regression is used to extract Assertion Status from extracted</span>
+<span class="sd">    entities and text. AssertionLogRegModel requires DOCUMENT, CHUNK and WORD_EMBEDDINGS</span>
+<span class="sd">    type annotations as inputs. Excluding the label, the annotations can be obtained</span>
+<span class="sd">    with, for example:</span>
 
 <span class="sd">    - a :class:`.SentenceDetector`,</span>
 <span class="sd">    - a :class:`Chunk`,</span>
 <span class="sd">    - a :class:`.WordEmbeddingsModel`.</span>
 
+<span class="sd">    For a list of pretrained models, check the</span>
+<span class="sd">    `NLP Models Hub &lt;https://nlp.johnsnowlabs.com/models&gt;`_ page.</span>
 
 <span class="sd">    ========================================= ======================</span>
 <span class="sd">    Input Annotation types                    Output Annotation type</span>
@@ -535,6 +567,23 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="AssertionLogRegModel.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/assertion/assertion_dl_reg/index.html#sparknlp_jsl.annotator.assertion.assertion_dl_reg.AssertionLogRegModel.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str, optional</span>
+<span class="sd">            Name of the pretrained model.</span>
+<span class="sd">        lang : str, optional</span>
+<span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
+<span class="sd">        remote_loc : str, optional</span>
+<span class="sd">            Optional remote address of the resource, by default None. Will use</span>
+<span class="sd">            Spark NLPs repositories otherwise.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        AssertionLogRegModel</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">sparknlp_jsl.pretrained</span> <span class="kn">import</span> <span class="n">InternalResourceDownloader</span>
         <span class="k">return</span> <span class="n">InternalResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">AssertionLogRegModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
                                                         <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div></div>

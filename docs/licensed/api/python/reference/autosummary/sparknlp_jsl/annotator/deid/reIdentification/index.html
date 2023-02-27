@@ -321,6 +321,8 @@
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../qa/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../qa/gpt_generation_params/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa.gpt_generation_params</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../qa/medical_qa/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa.medical_qa</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../qa/qa_ner_generator/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa.qa_ner_generator</span></code></a></li>
 </ul>
 </li>
@@ -385,16 +387,41 @@
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.deid.reIdentification.ReIdentification" title="sparknlp_jsl.annotator.deid.reIdentification.ReIdentification"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ReIdentification</span></code></a></p></td>
-<td><p>Base class for :py:class:<a href="#id1"><span class="problematic" id="id2">`</span></a>Model`s that wrap Java/Scala</p></td>
+<td><p>Reidentifies obfuscated entities.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.reIdentification.ReIdentification">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ReIdentification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.deid.ReIdentification'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/reIdentification.html#ReIdentification"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.reIdentification.ReIdentification" title="Permalink to this definition">#</a></dt>
-<dd><p>Base class for :py:class:<a href="#id3"><span class="problematic" id="id4">`</span></a>Model`s that wrap Java/Scala
-implementations. Subclasses should inherit this class before
-param mix-ins, because this sets the UID from the Java model.</p>
+<dd><p>Reidentifies obfuscated entities.</p>
+<p>Requires the outputs from the <a href="#id1"><span class="problematic" id="id2">:py:class:`DeIdentification`_</span></a> annotator as input:
+- deidentified document
+- deidentification mappings set with <cite>DeIdentification.setMappingsColumn</cite>.</p>
+<p>To see how the entities are deidentified, please refer to the example of that class.</p>
+<p>Examples:
+<cite>result</cite> contains the deidentified document and the mappings in a spark data frame.
+&gt;&gt;&gt;     reideintification = (
+…         ReIdentification()
+…         .setInputCols(“dei”, “protectedEntities”)
+…         .setOutputCol(“reid”)
+…     ).transform(result)</p>
+<p>Deidentified results:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;dei.result&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span> <span class="o">=</span> <span class="n">false</span><span class="p">)</span>
+<span class="go">+--------------------------------------------------------------------------------------------------+</span>
+<span class="go">|result                                                                                            |</span>
+<span class="go">+--------------------------------------------------------------------------------------------------+</span>
+<span class="go">|[# 01010101 Date : 01/18/93 PCP : Dr. Gregory House , &lt;AGE&gt; years-old , Record date : 2079-11-14.]|</span>
+<span class="go">+--------------------------------------------------------------------------------------------------+</span>
+</pre></div>
+</div>
+<p>Reidentification results:
+&gt;&gt;&gt; reideintification.selectExpr(“explode(reid.result)”).show(false)
++———————————————————————————–+
+<a href="#id3"><span class="problematic" id="id4">|col                                                                                |
++-----------------------------------------------------------------------------------+
+|# 7194334 Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-11-09.|</span></a>
++———————————————————————————–+</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.reIdentification.ReIdentification.inputAnnotatorTypes">
 <span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/reIdentification.html#ReIdentification.inputAnnotatorTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.reIdentification.ReIdentification.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>

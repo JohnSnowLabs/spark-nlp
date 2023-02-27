@@ -321,6 +321,8 @@
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../qa/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../qa/gpt_generation_params/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa.gpt_generation_params</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../qa/medical_qa/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa.medical_qa</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../qa/qa_ner_generator/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.qa.qa_ner_generator</span></code></a></li>
 </ul>
 </li>
@@ -388,7 +390,7 @@
 <td><p>Base class for NerConverterInternal classes</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal" title="sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NerConverterInternal</span></code></a></p></td>
-<td><p>Converts IOB or IOB2 representations of entities to a user-friendly one</p></td>
+<td><p>Converts IOB or IOB2 representations of entities to a more user-friendly format.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel" title="sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternalModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NerConverterInternalModel</span></code></a></p></td>
 <td><p>Converts a IOB or IOB2 representation of NER to a user-friendly one,</p></td>
@@ -455,7 +457,7 @@ type are separated by those words, these entities can be combined to produce a s
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.ner.ner_converter_internal.CommonNerConverterInternalParams.setWhiteList">
-<span class="sig-name descname"><span class="pre">setWhiteList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entities</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/ner/ner_converter_internal.html#CommonNerConverterInternalParams.setWhiteList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.CommonNerConverterInternalParams.setWhiteList" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">setWhiteList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entities</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/ner/ner_converter_internal.html#CommonNerConverterInternalParams.setWhiteList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.CommonNerConverterInternalParams.setWhiteList" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets the <cite>whiteList</cite> parameter value.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -465,6 +467,13 @@ type are separated by those words, these entities can be combined to produce a s
 </dl>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverterInternal</span><span class="p">()</span>\
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;ner&quot;</span><span class="p">])</span>\
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;ner_chunk&quot;</span><span class="p">)</span>\
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setWhiteList</span><span class="p">([</span><span class="s2">&quot;PER&quot;</span><span class="p">,</span> <span class="s2">&quot;LOC&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -479,6 +488,13 @@ type are separated by those words, these entities can be combined to produce a s
 </dl>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverterInternal</span><span class="p">()</span>\
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;ner&quot;</span><span class="p">])</span>\
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;ner_chunk&quot;</span><span class="p">)</span>\
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setBlackList</span><span class="p">([</span><span class="s2">&quot;PER&quot;</span><span class="p">,</span> <span class="s2">&quot;LOC&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -493,6 +509,13 @@ type are separated by those words, these entities can be combined to produce a s
 </dl>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverterInternal</span><span class="p">()</span>\
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;ner&quot;</span><span class="p">])</span>\
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;ner_chunk&quot;</span><span class="p">)</span>\
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setPreservePosition</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -507,6 +530,13 @@ type are separated by those words, these entities can be combined to produce a s
 </dl>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverterInternal</span><span class="p">()</span>\
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;ner&quot;</span><span class="p">])</span>\
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;ner_chunk&quot;</span><span class="p">)</span>\
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setGreedyMode</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -521,6 +551,13 @@ type are separated by those words, these entities can be combined to produce a s
 </dl>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverterInternal</span><span class="p">()</span>\
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;ner&quot;</span><span class="p">])</span>\
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;ner_chunk&quot;</span><span class="p">)</span>\
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setThreshold</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -535,6 +572,13 @@ type are separated by those words, these entities can be combined to produce a s
 </dl>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverterInternal</span><span class="p">()</span>\
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;ner&quot;</span><span class="p">])</span>\
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;ner_chunk&quot;</span><span class="p">)</span>\
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setIgnoreStopWords</span><span class="p">([</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;an&quot;</span><span class="p">,</span> <span class="s2">&quot;the&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </dd></dl>
@@ -542,11 +586,16 @@ type are separated by those words, these entities can be combined to produce a s
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">NerConverterInternal</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/ner/ner_converter_internal.html#NerConverterInternal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal" title="Permalink to this definition">#</a></dt>
-<dd><p>Converts IOB or IOB2 representations of entities to a user-friendly one</p>
-<p>This is the AnnotatorApproachInternal version of the NerConverterInternal annotator.
-Converts a IOB or IOB2 representation of NER to a user-friendly one,
+<dd><p>Converts IOB or IOB2 representations of entities to a more user-friendly format.</p>
+<p>This is the AnnotatorApproach version of the NerConverterInternalModel annotator.</p>
+<p>Converts a IOB or IOB2 representation of NER to a user-friendly one,
 by associating the tokens of recognized entities and their label.
 Chunks with no associated entity (tagged “O”) are filtered.</p>
+<p>This licensed annotator adds extra functionality to the open-source version by
+adding the following parameters: <cite>blackList</cite>, <cite>greedyMode</cite>,
+<cite>threshold</cite>, and <cite>ignoreStopWords</cite> that are not available in the
+<cite>NerConverter</cite> annotator.</p>
+<p>See also <a class="reference external" href="https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93beginning_(tagging)">Inside–outside–beginning (tagging)</a> for more information.</p>
 <table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
@@ -562,9 +611,9 @@ Chunks with no associated entity (tagged “O”) are filtered.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>replaceDictResource</strong></dt><dd><p>If defined, path to a dictionary file to replace the tokens with</p>
+<dt><strong>replaceDictResource</strong></dt><dd><p>If defined, path to a dictionary file to replace the tokens with.</p>
 </dd>
-<dt><strong>replaceLabels</strong></dt><dd><p>If defined, a dictionary that maps old to new labels</p>
+<dt><strong>replaceLabels</strong></dt><dd><p>If defined, a dictionary that maps old to new labels.</p>
 </dd>
 </dl>
 </dd>
@@ -590,7 +639,8 @@ Chunks with no associated entity (tagged “O”) are filtered.</p>
 <span class="gp">... </span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">])</span> \
 <span class="gp">... </span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;embeddings_clinical&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span> \
-<span class="gp">... </span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span>    <span class="o">...</span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;embeddings&quot;</span><span class="p">)</span>
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span>\
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;embeddings&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">nerModel</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;ner_jsl&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span> \
 <span class="gp">... </span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;embeddings&quot;</span><span class="p">])</span> \
 <span class="gp">... </span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;ner&quot;</span><span class="p">)</span>
@@ -634,7 +684,7 @@ Chunks with no associated entity (tagged “O”) are filtered.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.setReplaceDictResource">
-<span class="sig-name descname"><span class="pre">setReplaceDictResource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_as</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">ReadAs.TEXT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/ner/ner_converter_internal.html#NerConverterInternal.setReplaceDictResource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.setReplaceDictResource" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">setReplaceDictResource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_as</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">ReadAs.TEXT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/ner/ner_converter_internal.html#NerConverterInternal.setReplaceDictResource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.setReplaceDictResource" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets the <cite>replaceDictResource</cite> parameter</p>
 <p>The method sets the <cite>replaceDictResource</cite> parameter to the path of the external resource.
 Usual usage is to set the path to a CSV file containing the dictionary pairs, one
@@ -654,18 +704,24 @@ Possible values:  “TEXT” (ReadAs.TEXT),  “SPARK” (ReadAs.SPARK) or “BI
 </dl>
 <p class="rubric">Examples</p>
 <p>Reading a CSV file</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverterInternal</span><span class="p">()</span>        <span class="o">...</span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;ner&quot;</span><span class="p">])</span>        <span class="o">...</span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;replaced_ner_chunk&quot;</span><span class="p">)</span>        <span class="o">...</span>    <span class="o">.</span><span class="n">setReplaceDictResource</span><span class="p">(</span><span class="s2">&quot;path/to/dictionary.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;TEXT&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;delimiter&quot;</span><span class="p">:</span> <span class="s2">&quot;,&quot;</span><span class="p">})</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverterInternal</span><span class="p">()</span>\
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;ner&quot;</span><span class="p">])</span>\
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;replaced_ner_chunk&quot;</span><span class="p">)</span>\
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setReplaceDictResource</span><span class="p">(</span><span class="s2">&quot;path/to/dictionary.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;TEXT&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;delimiter&quot;</span><span class="p">:</span> <span class="s2">&quot;,&quot;</span><span class="p">})</span>
 </pre></div>
 </div>
 <p>Reading a TSV file</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverterInternal</span><span class="p">()</span>        <span class="o">...</span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span><span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;jsl_ner&quot;</span><span class="p">])</span>        <span class="o">...</span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;replaced_ner_chunk&quot;</span><span class="p">)</span>        <span class="o">...</span>    <span class="o">.</span><span class="n">setReplaceDictResource</span><span class="p">(</span><span class="s2">&quot;path/to/dictionary.tsv&quot;</span><span class="p">,</span> <span class="s2">&quot;TEXT&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;delimiter&quot;</span><span class="p">:</span> <span class="s2">&quot;       &quot;</span><span class="p">})</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverterInternal</span><span class="p">()</span>\
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span><span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;jsl_ner&quot;</span><span class="p">])</span>\
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;replaced_ner_chunk&quot;</span><span class="p">)</span>\
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setReplaceDictResource</span><span class="p">(</span><span class="s2">&quot;path/to/dictionary.tsv&quot;</span><span class="p">,</span> <span class="s2">&quot;TEXT&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;delimiter&quot;</span><span class="p">:</span> <span class="s2">&quot;        &quot;</span><span class="p">})</span>
 </pre></div>
 </div>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.setReplaceLabels">
-<span class="sig-name descname"><span class="pre">setReplaceLabels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/ner/ner_converter_internal.html#NerConverterInternal.setReplaceLabels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.setReplaceLabels" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">setReplaceLabels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/ner/ner_converter_internal.html#NerConverterInternal.setReplaceLabels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.ner.ner_converter_internal.NerConverterInternal.setReplaceLabels" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets dictionary that maps old to new labels</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -676,12 +732,18 @@ Possible values:  “TEXT” (ReadAs.TEXT),  “SPARK” (ReadAs.SPARK) or “BI
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p>Change the labels PER to PERSON and LOC to LOCATION</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverterInternal</span><span class="p">()</span>        <span class="o">...</span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;ner&quot;</span><span class="p">])</span>        <span class="o">...</span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;ner_chunk&quot;</span><span class="p">)</span>        <span class="o">...</span>    <span class="o">.</span><span class="n">setReplaceLabels</span><span class="p">({</span><span class="s2">&quot;PER&quot;</span><span class="p">:</span> <span class="s2">&quot;PERSON&quot;</span><span class="p">,</span> <span class="s2">&quot;LOC&quot;</span><span class="p">:</span> <span class="s2">&quot;LOCATION&quot;</span><span class="p">})</span>
+<p>Change the labels PER to PERSON and LOC to LOCATION:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverterInternal</span><span class="p">()</span>\
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;ner&quot;</span><span class="p">])</span>\
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;ner_chunk&quot;</span><span class="p">)</span>\
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setReplaceLabels</span><span class="p">({</span><span class="s2">&quot;PER&quot;</span><span class="p">:</span> <span class="s2">&quot;PERSON&quot;</span><span class="p">,</span> <span class="s2">&quot;LOC&quot;</span><span class="p">:</span> <span class="s2">&quot;LOCATION&quot;</span><span class="p">})</span>
 </pre></div>
 </div>
 <p>Change <cite>ner_jsl</cite> entities for drugs.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverterInternal</span><span class="p">()</span>        <span class="o">...</span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;jsl_ner&quot;</span><span class="p">])</span>        <span class="o">...</span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;replaced_ner_chunk&quot;</span><span class="p">)</span>        <span class="o">...</span>    <span class="o">.</span><span class="n">setReplaceLabels</span><span class="p">(</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverterInternal</span><span class="p">()</span>\
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;jsl_ner&quot;</span><span class="p">])</span>\
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;replaced_ner_chunk&quot;</span><span class="p">)</span>\
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setReplaceLabels</span><span class="p">(</span>
 <span class="gp">... </span>       <span class="p">{</span>
 <span class="gp">... </span>           <span class="s2">&quot;Drug_BrandName&quot;</span><span class="p">:</span> <span class="s2">&quot;Drug&quot;</span><span class="p">,</span>
 <span class="gp">... </span>           <span class="s2">&quot;Frequency&quot;</span><span class="p">:</span> <span class="s2">&quot;Drug_Frequency&quot;</span><span class="p">,</span>
@@ -733,7 +795,8 @@ Chunks with no associated entity (tagged “O”) are filtered.</p>
 <span class="gp">... </span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">])</span> \
 <span class="gp">... </span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;embeddings_clinical&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span> \
-<span class="gp">... </span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span>    <span class="o">...</span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;embeddings&quot;</span><span class="p">)</span>
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span>\
+<span class="gp">... </span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;embeddings&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">nerModel</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s2">&quot;ner_jsl&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;clinical/models&quot;</span><span class="p">)</span> \
 <span class="gp">... </span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;embeddings&quot;</span><span class="p">])</span> \
 <span class="gp">... </span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;ner&quot;</span><span class="p">)</span>

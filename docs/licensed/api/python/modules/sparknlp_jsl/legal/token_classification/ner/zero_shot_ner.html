@@ -356,12 +356,32 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="ZeroShotNerModel.pretrained"><a class="viewcode-back" href="../../../../../reference/autosummary/sparknlp_jsl/legal/token_classification/ner/zero_shot_ner/index.html#sparknlp_jsl.legal.token_classification.ner.zero_shot_ner.ZeroShotNerModel.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;zero_shot_ner_roberta&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="s2">&quot;clinical/models&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Download a pre-trained ZeroShotNerModel.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): Name of the pre-trained model.</span>
+<span class="sd">            lang (str): Language of the pre-trained model.</span>
+<span class="sd">            remote_loc (str): Remote location of the pre-trained model. If None, use the</span>
+<span class="sd">            open-source location. Other values are &quot;clinical/models&quot;,</span>
+<span class="sd">            &quot;finance/models&quot;, or &quot;legal/models&quot;.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ZeroShotNerModel: A pre-trained ZeroShotNerModel.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">sparknlp_jsl.pretrained</span> <span class="kn">import</span> <span class="n">InternalResourceDownloader</span>
         <span class="k">return</span> <span class="n">InternalResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">ZeroShotNerModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
                                                         <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div>
 
     <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="ZeroShotNerModel.load"><a class="viewcode-back" href="../../../../../reference/autosummary/sparknlp_jsl/legal/token_classification/ner/zero_shot_ner/index.html#sparknlp_jsl.legal.token_classification.ner.zero_shot_ner.ZeroShotNerModel.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+<div class="viewcode-block" id="ZeroShotNerModel.load"><a class="viewcode-back" href="../../../../../reference/autosummary/sparknlp_jsl/legal/token_classification/ner/zero_shot_ner/index.html#sparknlp_jsl.legal.token_classification.ner.zero_shot_ner.ZeroShotNerModel.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load a pre-trained ZeroShotNerModel from a local path.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            path (str): Path to the pre-trained model.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ZeroShotNerModel: A pre-trained ZeroShotNerModel.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">sparknlp_jsl.internal</span> <span class="kn">import</span> <span class="n">_RobertaQAToLegalZeroShotNerLoader</span>
         <span class="n">jModel</span> <span class="o">=</span> <span class="n">_RobertaQAToLegalZeroShotNerLoader</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
         <span class="k">return</span> <span class="n">ZeroShotNerModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div></div>

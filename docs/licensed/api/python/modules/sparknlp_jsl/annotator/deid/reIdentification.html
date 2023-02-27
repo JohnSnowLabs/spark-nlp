@@ -271,6 +271,39 @@
 
 
 <div class="viewcode-block" id="ReIdentification"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/reIdentification/index.html#sparknlp_jsl.annotator.deid.reIdentification.ReIdentification">[docs]</a><span class="k">class</span> <span class="nc">ReIdentification</span><span class="p">(</span><span class="n">AnnotatorModelInternal</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reidentifies obfuscated entities.</span>
+
+<span class="sd">    Requires the outputs from the :py:class:`DeIdentification`_ annotator as input:</span>
+<span class="sd">    - deidentified document</span>
+<span class="sd">    - deidentification mappings set with `DeIdentification.setMappingsColumn`.</span>
+
+<span class="sd">    To see how the entities are deidentified, please refer to the example of that class.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">    `result` contains the deidentified document and the mappings in a spark data frame.</span>
+<span class="sd">    &gt;&gt;&gt;     reideintification = (</span>
+<span class="sd">    ...         ReIdentification()</span>
+<span class="sd">    ...         .setInputCols(&quot;dei&quot;, &quot;protectedEntities&quot;)</span>
+<span class="sd">    ...         .setOutputCol(&quot;reid&quot;)</span>
+<span class="sd">    ...     ).transform(result)</span>
+
+<span class="sd">    Deidentified results:</span>
+
+<span class="sd">    &gt;&gt;&gt; result.select(&quot;dei.result&quot;).show(truncate = false)</span>
+<span class="sd">    +--------------------------------------------------------------------------------------------------+</span>
+<span class="sd">    |result                                                                                            |</span>
+<span class="sd">    +--------------------------------------------------------------------------------------------------+</span>
+<span class="sd">    |[# 01010101 Date : 01/18/93 PCP : Dr. Gregory House , &lt;AGE&gt; years-old , Record date : 2079-11-14.]|</span>
+<span class="sd">    +--------------------------------------------------------------------------------------------------+</span>
+
+<span class="sd">    Reidentification results:</span>
+<span class="sd">    &gt;&gt;&gt; reideintification.selectExpr(&quot;explode(reid.result)&quot;).show(false)</span>
+<span class="sd">    +-----------------------------------------------------------------------------------+</span>
+<span class="sd">    |col                                                                                |</span>
+<span class="sd">    +-----------------------------------------------------------------------------------+</span>
+<span class="sd">    |# 7194334 Date : 01/13/93 PCP : Oliveira , 25 years-old , Record date : 2079-11-09.|</span>
+<span class="sd">    +-----------------------------------------------------------------------------------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="ReIdentification.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/reIdentification/index.html#sparknlp_jsl.annotator.deid.reIdentification.ReIdentification.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span><span class="p">]</span></div>
 <div class="viewcode-block" id="ReIdentification.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/reIdentification/index.html#sparknlp_jsl.annotator.deid.reIdentification.ReIdentification.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span></div>
 <div class="viewcode-block" id="ReIdentification.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/reIdentification/index.html#sparknlp_jsl.annotator.deid.reIdentification.ReIdentification.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;ReDeideintification&quot;</span></div>

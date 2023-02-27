@@ -273,154 +273,159 @@
 
 
 <div class="viewcode-block" id="SentenceEntityResolverApproach"><a class="viewcode-back" href="../../../../../reference/autosummary/sparknlp_jsl/legal/chunk_classification/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.legal.chunk_classification.resolution.sentence_entity_resolver.SentenceEntityResolverApproach">[docs]</a><span class="k">class</span> <span class="nc">SentenceEntityResolverApproach</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Thius class contains all the parameters and methods to train a SentenceEntityResolverModel.</span>
-<span class="sd">       The model transforms a dataset with Input Annotation type SENTENCE_EMBEDDINGS, coming from e.g.</span>
-<span class="sd">       [BertSentenceEmbeddings](/docs/en/transformers#bertsentenceembeddings)</span>
-<span class="sd">       and returns the normalized entity for a particular trained ontology / curated dataset.</span>
-<span class="sd">       (e.g. ICD-10, RxNorm, SNOMED etc.)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Contains all the parameters and methods to train a SentenceEntityResolverModel.</span>
 
-<span class="sd">       ========================================= ======================</span>
-<span class="sd">       Input Annotation types                    Output Annotation type</span>
-<span class="sd">       ========================================= ======================</span>
-<span class="sd">       ``SENTENCE_EMBEDDINGS``                    ``ENTITY``</span>
-<span class="sd">       ========================================= ======================</span>
+<span class="sd">    The model transforms a dataset with Input Annotation type SENTENCE_EMBEDDINGS,</span>
+<span class="sd">    coming from e.g. [BertSentenceEmbeddings](/docs/en/transformers#bertsentenceembeddings)</span>
+<span class="sd">    and returns the normalized entity for a particular trained ontology / curated dataset.</span>
+<span class="sd">    (e.g. ICD-10, RxNorm, SNOMED etc.)</span>
 
-<span class="sd">       Parameters</span>
-<span class="sd">       ----------</span>
-<span class="sd">       labelCol</span>
-<span class="sd">            Column name for the value we are trying to resolve</span>
-<span class="sd">       normalizedCol</span>
-<span class="sd">            Column name for the original, normalized description</span>
-<span class="sd">       pretrainedModelPath</span>
-<span class="sd">            Path to an already trained SentenceEntityResolverModel, which is used as a starting point for training the new model.</span>
-<span class="sd">       overrideExistingCodes</span>
-<span class="sd">            Whether to override the existing codes with new data while continue the training from a pretrained model. Default value is false(keep all the codes).</span>
-<span class="sd">       returnCosineDistances</span>
-<span class="sd">            Extract Cosine Distances. TRUE or False</span>
-<span class="sd">       aux_label_col</span>
-<span class="sd">            Auxiliary label which maps resolved entities to additional labels</span>
-<span class="sd">       useAuxLabel</span>
-<span class="sd">            Use AuxLabel Col or not</span>
-<span class="sd">       overrideExistingCodes</span>
-<span class="sd">            Whether to override the codes present in a pretrained model with new codes when the training process begins with a pretrained model</span>
-<span class="sd">       dropCodesList</span>
-<span class="sd">            A list of codes in a pretrained model that will be omitted when the training process begins with a pretrained model</span>
+<span class="sd">    ========================================= ======================</span>
+<span class="sd">    Input Annotation types                    Output Annotation type</span>
+<span class="sd">    ========================================= ======================</span>
+<span class="sd">    ``SENTENCE_EMBEDDINGS``                    ``ENTITY``</span>
+<span class="sd">    ========================================= ======================</span>
 
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    labelCol</span>
+<span class="sd">        Column name for the value we are trying to resolve</span>
+<span class="sd">    normalizedCol</span>
+<span class="sd">        Column name for the original, normalized description</span>
+<span class="sd">    pretrainedModelPath</span>
+<span class="sd">        Path to an already trained SentenceEntityResolverModel, which is used as a</span>
+<span class="sd">        starting point for training the new model. The path can be a local file path,</span>
+<span class="sd">        a distributed file path (HDFS, DBFS), or a cloud storage (S3).</span>
+<span class="sd">    overrideExistingCodes</span>
+<span class="sd">        Whether to override the existing codes with new data while continue the</span>
+<span class="sd">        training from a pretrained model. Default value is false(keep all the codes).</span>
+<span class="sd">    returnCosineDistances</span>
+<span class="sd">        Extract Cosine Distances. TRUE or False</span>
+<span class="sd">    aux_label_col</span>
+<span class="sd">        Auxiliary label which maps resolved entities to additional labels</span>
+<span class="sd">    useAuxLabel</span>
+<span class="sd">        Use AuxLabel Col or not</span>
+<span class="sd">    overrideExistingCodes</span>
+<span class="sd">        Whether to override the codes present in a pretrained model with new codes</span>
+<span class="sd">        when the training process begins with a pretrained model</span>
+<span class="sd">    dropCodesList</span>
+<span class="sd">        A list of codes in a pretrained model that will be omitted when the training</span>
+<span class="sd">        process begins with a pretrained model</span>
 
-<span class="sd">       Examples</span>
-<span class="sd">       --------</span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
 
-<span class="sd">       &gt;&gt;&gt; import sparknlp</span>
-<span class="sd">       &gt;&gt;&gt; from sparknlp.base import *</span>
-<span class="sd">       &gt;&gt;&gt; from sparknlp_jsl.common import *</span>
-<span class="sd">       &gt;&gt;&gt; from sparknlp.annotator import *</span>
-<span class="sd">       &gt;&gt;&gt; from sparknlp.training import *</span>
-<span class="sd">       &gt;&gt;&gt; import sparknlp_jsl</span>
-<span class="sd">       &gt;&gt;&gt; from sparknlp_jsl.base import *</span>
-<span class="sd">       &gt;&gt;&gt; from sparknlp_jsl.annotator import *</span>
-<span class="sd">       &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
-<span class="sd">       &gt;&gt;&gt; documentAssembler = DocumentAssembler().setInputCol(&quot;text&quot;).setOutputCol(&quot;document&quot;)</span>
-<span class="sd">       &gt;&gt;&gt; sentenceDetector = SentenceDetector().setInputCols([&quot;document&quot;]).setOutputCol(&quot;sentence&quot;)</span>
-<span class="sd">       &gt;&gt;&gt; tokenizer = Tokenizer().setInputCols([&quot;sentence&quot;]).setOutputCol(&quot;token&quot;)</span>
-<span class="sd">       &gt;&gt;&gt; bertEmbeddings = BertSentenceEmbeddings.pretrained(&quot;sent_biobert_pubmed_base_cased&quot;) \\</span>
-<span class="sd">       ...  .setInputCols([&quot;sentence&quot;]) \\</span>
-<span class="sd">       ...  .setOutputCol(&quot;embeddings&quot;)</span>
-<span class="sd">       &gt;&gt;&gt; snomedTrainingPipeline = Pipeline(stages=[</span>
-<span class="sd">       ...  documentAssembler,</span>
-<span class="sd">       ...  sentenceDetector,</span>
-<span class="sd">       ...  bertEmbeddings,</span>
-<span class="sd">       ... ])</span>
-<span class="sd">       &gt;&gt;&gt; snomedTrainingModel = snomedTrainingPipeline.fit(data)</span>
-<span class="sd">       &gt;&gt;&gt; snomedData = snomedTrainingModel.transform(data).cache()</span>
-<span class="sd">       &gt;&gt;&gt; assertionModel = assertionPipeline.fit(data)</span>
-<span class="sd">       &gt;&gt;&gt; assertionModel = assertionPipeline.fit(data)</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.common import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.training import *</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp_jsl</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler().setInputCol(&quot;text&quot;).setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; sentenceDetector = SentenceDetector().setInputCols([&quot;document&quot;]).setOutputCol(&quot;sentence&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer().setInputCols([&quot;sentence&quot;]).setOutputCol(&quot;token&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; bertEmbeddings = BertSentenceEmbeddings.pretrained(&quot;sent_biobert_pubmed_base_cased&quot;) \\</span>
+<span class="sd">    ...  .setInputCols([&quot;sentence&quot;]) \\</span>
+<span class="sd">    ...  .setOutputCol(&quot;embeddings&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; snomedTrainingPipeline = Pipeline(stages=[</span>
+<span class="sd">    ...  documentAssembler,</span>
+<span class="sd">    ...  sentenceDetector,</span>
+<span class="sd">    ...  bertEmbeddings,</span>
+<span class="sd">    ... ])</span>
+<span class="sd">    &gt;&gt;&gt; snomedTrainingModel = snomedTrainingPipeline.fit(data)</span>
+<span class="sd">    &gt;&gt;&gt; snomedData = snomedTrainingModel.transform(data).cache()</span>
+<span class="sd">    &gt;&gt;&gt; assertionModel = assertionPipeline.fit(data)</span>
+<span class="sd">    &gt;&gt;&gt; assertionModel = assertionPipeline.fit(data)</span>
 
-<span class="sd">       &gt;&gt;&gt; bertExtractor = SentenceEntityResolverApproach() \\</span>
-<span class="sd">       ...   .setNeighbours(25) \\</span>
-<span class="sd">       ...   .setThreshold(1000) \\</span>
-<span class="sd">       ...   .setInputCols([&quot;bert_embeddings&quot;]) \\</span>
-<span class="sd">       ...   .setNormalizedCol(&quot;normalized_text&quot;) \\</span>
-<span class="sd">       ...   .setLabelCol(&quot;label&quot;) \\</span>
-<span class="sd">       ...   .setOutputCol(&quot;snomed_code&quot;) \\</span>
-<span class="sd">       ...   .setDistanceFunction(&quot;EUCLIDIAN&quot;) \\</span>
-<span class="sd">       ...   .setCaseSensitive(False)</span>
+<span class="sd">    &gt;&gt;&gt; bertExtractor = SentenceEntityResolverApproach() \\</span>
+<span class="sd">    ...   .setNeighbours(25) \\</span>
+<span class="sd">    ...   .setThreshold(1000) \\</span>
+<span class="sd">    ...   .setInputCols([&quot;bert_embeddings&quot;]) \\</span>
+<span class="sd">    ...   .setNormalizedCol(&quot;normalized_text&quot;) \\</span>
+<span class="sd">    ...   .setLabelCol(&quot;label&quot;) \\</span>
+<span class="sd">    ...   .setOutputCol(&quot;snomed_code&quot;) \\</span>
+<span class="sd">    ...   .setDistanceFunction(&quot;EUCLIDIAN&quot;) \\</span>
+<span class="sd">    ...   .setCaseSensitive(False)</span>
 
-<span class="sd">       &gt;&gt;&gt; snomedModel = bertExtractor.fit(snomedData)</span>
-<span class="sd">       &quot;&quot;&quot;</span>
+<span class="sd">    &gt;&gt;&gt; snomedModel = bertExtractor.fit(snomedData)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">AnnotatorApproachInternal</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                                   <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.legal.chunk_classification.resolution.SentenceEntityResolverApproach&quot;</span><span class="p">)</span>
+        <span class="n">AnnotatorApproach</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.legal.chunk_classification.resolution.SentenceEntityResolverApproach&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span><span class="n">labelCol</span><span class="o">=</span><span class="s2">&quot;code&quot;</span><span class="p">,</span> <span class="n">normalizedCol</span><span class="o">=</span><span class="s2">&quot;code&quot;</span><span class="p">,</span> <span class="n">distanceFunction</span><span class="o">=</span><span class="s2">&quot;EUCLIDEAN&quot;</span><span class="p">,</span> <span class="n">neighbours</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
-                         <span class="n">threshold</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">missAsEmpty</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">returnCosineDistances</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+                        <span class="n">threshold</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">missAsEmpty</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">returnCosineDistances</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="SentenceEntityResolverModel"><a class="viewcode-back" href="../../../../../reference/autosummary/sparknlp_jsl/legal/chunk_classification/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.legal.chunk_classification.resolution.sentence_entity_resolver.SentenceEntityResolverModel">[docs]</a><span class="k">class</span> <span class="nc">SentenceEntityResolverModel</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Thius class contains all the parameters and methods to train a SentenceEntityResolverModel.</span>
-<span class="sd">       The model transforms a dataset with Input Annotation type SENTENCE_EMBEDDINGS, coming from e.g.</span>
-<span class="sd">       [BertSentenceEmbeddings](/docs/en/transformers#bertsentenceembeddings)</span>
-<span class="sd">       and returns the normalized entity for a particular trained ontology / curated dataset.</span>
-<span class="sd">       (e.g. ICD-10, RxNorm, SNOMED etc.)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Contains all the parameters and methods to train a SentenceEntityResolverModel.</span>
 
-<span class="sd">       ========================================= ======================</span>
-<span class="sd">       Input Annotation types                    Output Annotation type</span>
-<span class="sd">       ========================================= ======================</span>
-<span class="sd">       ``SENTENCE_EMBEDDINGS``                   ``ENTITY``</span>
-<span class="sd">       ========================================= ======================</span>
+<span class="sd">    The model transforms a dataset with Input Annotation type SENTENCE_EMBEDDINGS, coming from e.g.</span>
+<span class="sd">    [BertSentenceEmbeddings](/docs/en/transformers#bertsentenceembeddings)</span>
+<span class="sd">    and returns the normalized entity for a particular trained ontology / curated dataset.</span>
+<span class="sd">    (e.g. ICD-10, RxNorm, SNOMED etc.)</span>
 
-<span class="sd">       Parameters</span>
-<span class="sd">       ----------</span>
-<span class="sd">       returnCosineDistances</span>
-<span class="sd">            Extract Cosine Distances. TRUE or False</span>
-<span class="sd">       aux_label_col</span>
-<span class="sd">            Auxiliary label which maps resolved entities to additional labels</span>
-<span class="sd">       useAuxLabel</span>
-<span class="sd">            Use AuxLabel Col or not</span>
+<span class="sd">    ========================================= ======================</span>
+<span class="sd">    Input Annotation types                    Output Annotation type</span>
+<span class="sd">    ========================================= ======================</span>
+<span class="sd">    ``SENTENCE_EMBEDDINGS``                   ``ENTITY``</span>
+<span class="sd">    ========================================= ======================</span>
 
-<span class="sd">       searchTree</span>
-<span class="sd">            Search tree for resolution</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    returnCosineDistances</span>
+<span class="sd">        Extract Cosine Distances. TRUE or False</span>
+<span class="sd">    aux_label_col</span>
+<span class="sd">        Auxiliary label which maps resolved entities to additional labels</span>
+<span class="sd">    useAuxLabel</span>
+<span class="sd">        Use AuxLabel Col or not</span>
+<span class="sd">    searchTree</span>
+<span class="sd">        Search tree for resolution</span>
 
-<span class="sd">       Examples</span>
-<span class="sd">       --------</span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
 
-<span class="sd">       &gt;&gt;&gt; import sparknlp</span>
-<span class="sd">       &gt;&gt;&gt; from sparknlp.base import *</span>
-<span class="sd">       &gt;&gt;&gt; from sparknlp_jsl.common import *</span>
-<span class="sd">       &gt;&gt;&gt; from sparknlp.annotator import *</span>
-<span class="sd">       &gt;&gt;&gt; from sparknlp.training import *</span>
-<span class="sd">       &gt;&gt;&gt; import sparknlp_jsl</span>
-<span class="sd">       &gt;&gt;&gt; from sparknlp_jsl.base import *</span>
-<span class="sd">       &gt;&gt;&gt; from sparknlp_jsl.annotator import *</span>
-<span class="sd">       &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
-<span class="sd">       &gt;&gt;&gt; documentAssembler = DocumentAssembler().setInputCol(&quot;text&quot;).setOutputCol(&quot;document&quot;)</span>
-<span class="sd">       &gt;&gt;&gt; sentenceDetector = SentenceDetector().setInputCols([&quot;document&quot;]).setOutputCol(&quot;sentence&quot;)</span>
-<span class="sd">       &gt;&gt;&gt; tokenizer = Tokenizer().setInputCols([&quot;sentence&quot;]).setOutputCol(&quot;token&quot;)</span>
-<span class="sd">       &gt;&gt;&gt; bertEmbeddings = BertSentenceEmbeddings.pretrained(&quot;sent_biobert_pubmed_base_cased&quot;) \\</span>
-<span class="sd">       ...  .setInputCols([&quot;sentence&quot;]) \\</span>
-<span class="sd">       ...  .setOutputCol(&quot;embeddings&quot;)</span>
-<span class="sd">       &gt;&gt;&gt; snomedTrainingPipeline = Pipeline(stages=[</span>
-<span class="sd">       ...  documentAssembler,</span>
-<span class="sd">       ...  sentenceDetector,</span>
-<span class="sd">       ...  bertEmbeddings,</span>
-<span class="sd">       ... ])</span>
-<span class="sd">       &gt;&gt;&gt; snomedTrainingModel = snomedTrainingPipeline.fit(data)</span>
-<span class="sd">       &gt;&gt;&gt; snomedData = snomedTrainingModel.transform(data).cache()</span>
-<span class="sd">       &gt;&gt;&gt; assertionModel = assertionPipeline.fit(data)</span>
-<span class="sd">       &gt;&gt;&gt; assertionModel = assertionPipeline.fit(data)</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.common import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.training import *</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp_jsl</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler().setInputCol(&quot;text&quot;).setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; sentenceDetector = SentenceDetector().setInputCols([&quot;document&quot;]).setOutputCol(&quot;sentence&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer().setInputCols([&quot;sentence&quot;]).setOutputCol(&quot;token&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; bertEmbeddings = BertSentenceEmbeddings.pretrained(&quot;sent_biobert_pubmed_base_cased&quot;) \\</span>
+<span class="sd">    ...  .setInputCols([&quot;sentence&quot;]) \\</span>
+<span class="sd">    ...  .setOutputCol(&quot;embeddings&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; snomedTrainingPipeline = Pipeline(stages=[</span>
+<span class="sd">    ...  documentAssembler,</span>
+<span class="sd">    ...  sentenceDetector,</span>
+<span class="sd">    ...  bertEmbeddings,</span>
+<span class="sd">    ... ])</span>
+<span class="sd">    &gt;&gt;&gt; snomedTrainingModel = snomedTrainingPipeline.fit(data)</span>
+<span class="sd">    &gt;&gt;&gt; snomedData = snomedTrainingModel.transform(data).cache()</span>
+<span class="sd">    &gt;&gt;&gt; assertionModel = assertionPipeline.fit(data)</span>
+<span class="sd">    &gt;&gt;&gt; assertionModel = assertionPipeline.fit(data)</span>
 
-<span class="sd">       &gt;&gt;&gt; bertExtractor = SentenceEntityResolverApproach() \\</span>
-<span class="sd">       ...   .setNeighbours(25) \\</span>
-<span class="sd">       ...   .setThreshold(1000) \\</span>
-<span class="sd">       ...   .setInputCols([&quot;bert_embeddings&quot;]) \\</span>
-<span class="sd">       ...   .setNormalizedCol(&quot;normalized_text&quot;) \\</span>
-<span class="sd">       ...   .setLabelCol(&quot;label&quot;) \\</span>
-<span class="sd">       ...   .setOutputCol(&quot;snomed_code&quot;) \\</span>
-<span class="sd">       ...   .setDistanceFunction(&quot;EUCLIDIAN&quot;) \\</span>
-<span class="sd">       ...   .setCaseSensitive(False)</span>
+<span class="sd">    &gt;&gt;&gt; bertExtractor = SentenceEntityResolverApproach() \\</span>
+<span class="sd">    ...   .setNeighbours(25) \\</span>
+<span class="sd">    ...   .setThreshold(1000) \\</span>
+<span class="sd">    ...   .setInputCols([&quot;bert_embeddings&quot;]) \\</span>
+<span class="sd">    ...   .setNormalizedCol(&quot;normalized_text&quot;) \\</span>
+<span class="sd">    ...   .setLabelCol(&quot;label&quot;) \\</span>
+<span class="sd">    ...   .setOutputCol(&quot;snomed_code&quot;) \\</span>
+<span class="sd">    ...   .setDistanceFunction(&quot;EUCLIDIAN&quot;) \\</span>
+<span class="sd">    ...   .setCaseSensitive(False)</span>
 
-<span class="sd">       &gt;&gt;&gt; snomedModel = bertExtractor.fit(snomedData)</span>
-<span class="sd">       &quot;&quot;&quot;</span>
+<span class="sd">    &gt;&gt;&gt; snomedModel = bertExtractor.fit(snomedData)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="SentenceEntityResolverModel.name"><a class="viewcode-back" href="../../../../../reference/autosummary/sparknlp_jsl/legal/chunk_classification/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.legal.chunk_classification.resolution.sentence_entity_resolver.SentenceEntityResolverModel.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;SentenceEntityResolverModel&quot;</span></div>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.legal.chunk_classification.resolution.SentenceEntityResolverModel&quot;</span><span class="p">,</span>
@@ -432,6 +437,18 @@
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="SentenceEntityResolverModel.pretrained"><a class="viewcode-back" href="../../../../../reference/autosummary/sparknlp_jsl/legal/chunk_classification/resolution/sentence_entity_resolver/index.html#sparknlp_jsl.legal.chunk_classification.resolution.sentence_entity_resolver.SentenceEntityResolverModel.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Download a pre-trained SentenceEntityResolverModel.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): Name of the pre-trained model.</span>
+<span class="sd">            lang (str): Language of the pre-trained model.</span>
+<span class="sd">            remote_loc (str): Remote location of the pre-trained model. If None, use the</span>
+<span class="sd">            open-source location. Other values are &quot;clinical/models&quot;,</span>
+<span class="sd">            &quot;finance/models&quot;, or &quot;legal/models&quot;.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            SentenceEntityResolverModel: A pre-trained SentenceEntityResolverModel.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">sparknlp_jsl.pretrained</span> <span class="kn">import</span> <span class="n">InternalResourceDownloader</span>
         <span class="k">return</span> <span class="n">InternalResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">SentenceEntityResolverModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span>
                                                         <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;InternalsPythonResourceDownloader&#39;</span><span class="p">)</span></div></div>
