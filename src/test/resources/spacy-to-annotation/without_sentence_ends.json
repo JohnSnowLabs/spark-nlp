@@ -1,0 +1,6 @@
+[
+  {
+    "tokens": ["John", "went", "to", "the", "store", "last", "night", ".", "He", "bought", "some", "bread", "."],
+    "token_spaces": [true, true, true, true, true, true, false, true, true, true, true, false, false]
+  }
+]

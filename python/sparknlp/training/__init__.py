@@ -17,3 +17,4 @@ from sparknlp.training.conll import *
 from sparknlp.training.conllu import *
 from sparknlp.training.pos import *
 from sparknlp.training.pub_tator import *
+from sparknlp.training.spacy_to_annotation import *

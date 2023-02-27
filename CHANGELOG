@@ -1,4 +1,19 @@
 ========
+4.3.1
+========
+----------------
+New Features
+----------------
+* Easily use external Tokenizers such as spaCy in Spark NLP pipeline
+* Implement `params` parameter which can supply custom configurations to the SparkSession
+
+----------------
+Bug Fixes & Enhancements
+----------------
+* Add `entity` field to the metadata in Date2Chunk
+* Fix ViT models & pipelines examples in Models Hub
+
+========
 4.3.0
 ========
 ----------------

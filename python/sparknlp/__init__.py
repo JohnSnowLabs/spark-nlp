@@ -107,11 +107,13 @@ def start(gpu=False,
         for WordEmbeddings. By default, this locations is the location of
         `hadoop.tmp.dir` set via Hadoop configuration for Apache Spark. NOTE: `S3` is
         not supported and it must be local, HDFS, or DBFS.
+    params : dict, optional
+        Custom parameters to set for the Spark configuration, by default None.
     cluster_tmp_dir : str, optional
         The location to save logs from annotators during training. If not set, it will
         be in the users home directory under `annotator_logs`.
     real_time_output : bool, optional
-        Whether to output in real time, by default False
+        Whether to read and print JVM output in real time, by default False
     output_level : int, optional
         Output level for logs, by default 1
 
@@ -121,7 +123,7 @@ def start(gpu=False,
         The initiated Spark session.
 
     """
-    current_version = "4.3.0"
+    current_version = "4.3.1"
 
     if params is None:
         params = {}
@@ -291,4 +293,4 @@ def version():
     str
         The current Spark NLP version.
     """
-    return '4.3.0'
+    return '4.3.1'
