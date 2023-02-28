@@ -2,6 +2,7 @@ package com.johnsnowlabs.nlp.annotators.similarity
 
 import com.johnsnowlabs.nlp.AnnotatorType.{DOC_SIMILARITY_RANKINGS, SENTENCE_EMBEDDINGS}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
+import org.apache.spark.ml.feature.BucketedRandomProjectionLSHModel
 import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
@@ -66,6 +67,13 @@ class DocumentSimilarityRankerModel(override val uid: String)
 
   def getNumHashTables: Int = $(numHashTables)
 
+  val similarityModel = new Param[BucketedRandomProjectionLSHModel](
+    this,
+    "similarityModel", "similarityModel LSH based")
+  def setLSHModel(value: BucketedRandomProjectionLSHModel): this.type = set(similarityModel, value)
+
+  def getLSHModel: BucketedRandomProjectionLSHModel = $(similarityModel)
+
   setDefault(
     inputCols -> Array(SENTENCE_EMBEDDINGS),
     outputCol -> DOC_SIMILARITY_RANKINGS,
@@ -89,7 +97,7 @@ class DocumentSimilarityRankerModel(override val uid: String)
     // to produce the top-N ANN of it
     // FIXME reporting distance spread ?
     println("into the annotator")
-    Seq.empty
+    Seq(Annotation("ciao"))
   }
 
 }

@@ -4,6 +4,7 @@ import com.johnsnowlabs.nlp.AnnotatorType.{DOC_SIMILARITY_RANKINGS, SENTENCE_EMB
 import com.johnsnowlabs.nlp.{AnnotatorApproach, HasEnableCachingProperties}
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.ml.PipelineModel
+import org.apache.spark.ml.feature.BucketedRandomProjectionLSH
 import org.apache.spark.ml.param.Param
 import org.apache.spark.sql.Dataset
 
@@ -80,6 +81,27 @@ extends AnnotatorApproach[DocumentSimilarityRankerModel]
     numHashTables -> 3
   )
 
-  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): DocumentSimilarityRankerModel = ???
+  val INPUT_COL_FEATURES = "features"
+
+  val OUTPUT_COL_HASHES = "hashes"
+
+  override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): DocumentSimilarityRankerModel = {
+    val lsh = $(similarityMethod) match {
+      case "brp" => new BucketedRandomProjectionLSH()
+        .setBucketLength($(bucketLength))
+        .setNumHashTables($(numHashTables))
+        .setInputCol(INPUT_COL_FEATURES)
+        .setOutputCol(OUTPUT_COL_HASHES)
+      case _ => throw new IllegalArgumentException(s"${$(similarityMethod)} is not a valid value.")
+    }
+
+    val model = lsh.fit(dataset)
+
+    new DocumentSimilarityRankerModel()
+      .setBucketLength($(bucketLength))
+      .setNumHashTables($(numHashTables))
+      .setNumberOfNeighbours($(numberOfNeighbours))
+      .setLSHModel(model)
+  }
 
 }
