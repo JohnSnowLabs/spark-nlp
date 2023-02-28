@@ -93,11 +93,16 @@ class DocumentSimilarityRankerModel(override val uid: String)
    * relationship
    */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    // for each sentence embedding annotation we use the trained DocumentSimilarityRankerApproach\
-    // to produce the top-N ANN of it
-    // FIXME reporting distance spread ?
     println("into the annotator")
     Seq(Annotation("ciao"))
+
+//    iterate over input annotations
+//    - select the input ID based on result input text?
+//      - replace features value with embeddings
+//      - calculate the N closest IDs with their distances
+//      - insert closest and distance in as metadata arrays of N=numNeighbors
+//      - forward the embeddings in the metadata embeddings
+//    $(similarityModel).transform()
   }
 
 }

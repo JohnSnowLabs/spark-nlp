@@ -69,7 +69,7 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
     val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
 
     pipelineDF.printSchema
-    pipelineDF.show
+    pipelineDF.show(false)
 
   }
 }

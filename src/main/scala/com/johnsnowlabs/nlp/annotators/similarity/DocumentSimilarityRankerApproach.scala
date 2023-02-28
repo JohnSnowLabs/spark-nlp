@@ -7,6 +7,7 @@ import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.feature.BucketedRandomProjectionLSH
 import org.apache.spark.ml.param.Param
 import org.apache.spark.sql.Dataset
+import org.apache.spark.sql.functions.col
 
 class DocumentSimilarityRankerApproach(override val uid: String)
 extends AnnotatorApproach[DocumentSimilarityRankerModel]
@@ -95,7 +96,11 @@ extends AnnotatorApproach[DocumentSimilarityRankerModel]
       case _ => throw new IllegalArgumentException(s"${$(similarityMethod)} is not a valid value.")
     }
 
-    val model = lsh.fit(dataset)
+    val embeddingsDataset = dataset.withColumn("features", col("sentence_embeddings.embeddings"))
+
+    embeddingsDataset.show()
+
+    val model = lsh.fit(embeddingsDataset)
 
     new DocumentSimilarityRankerModel()
       .setBucketLength($(bucketLength))
