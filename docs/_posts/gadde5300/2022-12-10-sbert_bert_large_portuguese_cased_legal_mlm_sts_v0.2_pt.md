@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Portuguese BERT Sentence Embedding Large Cased model (mlm-sts-v0.2)
+title: Portuguese Legal BERT Sentence Embedding Large Cased model (mlm-sts-v0.2)
 author: John Snow Labs
 name: sbert_bert_large_portuguese_cased_legal_mlm_sts_v0.2
 date: 2022-12-10

@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Portuguese BERT Sentence Embedding Base Cased model (TSDAE-sts)
+title: Portuguese Legal BERT Sentence Embedding Base Cased model (TSDAE-sts)
 author: John Snow Labs
 name: sbert_Legal_BERTimbau_base_TSDAE_sts
 date: 2022-12-10
