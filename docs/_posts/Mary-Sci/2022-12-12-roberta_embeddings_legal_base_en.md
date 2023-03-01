@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English Legal RobertaForMaskedLM Base Cased model (from saibo)
+title: English Legal RobertaForMaskedLM Base Cased model
 author: John Snow Labs
 name: roberta_embeddings_legal_base
 date: 2022-12-12
