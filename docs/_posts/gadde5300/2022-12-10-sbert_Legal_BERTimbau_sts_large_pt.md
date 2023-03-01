@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Portuguese BERT Sentence Embedding Large Cased model (sts-large)
+title: Portuguese Legal BERT Sentence Embedding Large Cased model (sts-large)
 author: John Snow Labs
 name: sbert_Legal_BERTimbau_sts_large
 date: 2022-12-10

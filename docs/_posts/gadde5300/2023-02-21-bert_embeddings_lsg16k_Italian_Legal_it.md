@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English BERT Embeddings (from dlicari)
+title: English Legal BERT Embeddings
 author: John Snow Labs
 name: bert_embeddings_lsg16k_Italian_Legal
 date: 2023-02-21

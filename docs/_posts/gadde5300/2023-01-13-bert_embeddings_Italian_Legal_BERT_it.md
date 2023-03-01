@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Italian BERT Embedding  Cased model
+title: Italian Legal BERT Embedding  Cased model
 author: John Snow Labs
 name: bert_embeddings_Italian_Legal_BERT
 date: 2023-01-13

@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Italian Camembert Embedding  Cased model
+title: Italian Legal Camembert Embedding  Cased model
 author: John Snow Labs
 name: camembert_embeddings_Italian_Legal_BERT_SC
 date: 2023-01-13
