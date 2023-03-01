@@ -1,7 +1,10 @@
 
+
 <!DOCTYPE html>
 
-<html lang="en">
+
+<html lang="en" >
+
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,23 +18,23 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../../static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
-<link href="../../../../static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
-<link href="../../../../static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link href="../../../../static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../../../static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../../../static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
 
   
-  <link href="../../../../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
+  <link href="../../../../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../../../../static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../../static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../../../../static/css/custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../../static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
-<link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
+  <link rel="preload" as="script" href="../../../../static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
+<link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
 
     <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js"></script>
     <script src="../../../../static/jquery.js"></script>
@@ -44,79 +47,93 @@
     <link rel="shortcut icon" href="../../../../static/fav.ico"/>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="docsearch:language" content="en">
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
   
   
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
   
   
   <a class="skip-link" href="#main-content">Skip to main content</a>
-
   
-  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
   <label class="overlay overlay-primary" for="__primary"></label>
-
   
-  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
   <label class="overlay overlay-secondary" for="__secondary"></label>
-
   
   <div class="search-button__wrapper">
     <div class="search-button__overlay"></div>
     <div class="search-button__search-container">
-      
-<form class="bd-search d-flex align-items-center" action="../../../../search.html" method="get">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../search.html"
+      method="get">
   <i class="fa-solid fa-magnifying-glass"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form>
-    </div>
+</form></div>
   </div>
-
   
-  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
   <label class="sidebar-toggle primary-toggle" for="__primary">
-      <span class="fa-solid fa-bars"></span>
+    <span class="fa-solid fa-bars"></span>
   </label>
-  <div id="navbar-start">
-    
-    
   
-
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
 
 <a class="navbar-brand logo" href="../../../../index.html">
-
   
   
   
   
+    
+    
+      
+    
+    
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
   
   
-  
-
-  
-    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Logo image">
-    <img src="../../../../static/logo.png" class="logo__image only-dark" alt="Logo image">
-  
-  
-</a>
+</a></div>
     
   </div>
-
+  
   
   <div class="col-lg-9 navbar-header-items">
-    <div id="navbar-center" class="mr-auto">
+    
+    <div class="me-auto navbar-header-items__center">
       
-      <div class="navbar-center-item">
-        <nav class="navbar-nav">
-    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
-        Site Navigation
-    </p>
-    <ul id="navbar-main-elements" class="navbar-nav">
-        
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="../../../../getting_started/index.html">
                         Getting Started
@@ -130,76 +147,79 @@
                       </a>
                     </li>
                 
-    </ul>
-</nav>
-      </div>
+  </ul>
+</nav></div>
       
     </div>
-
-    <div id="navbar-end">
+    
+    
+    <div class="navbar-header-items__end">
       
-        <div class="navbar-end-item navbar-persistent--container">
+        <div class="navbar-item navbar-persistent--container">
           
-<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
-  <i class="fa-solid fa-magnifying-glass"></i>
-</button>
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
         </div>
       
       
-      <div class="navbar-end-item">
-        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
     <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
     <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
-</button>
-      </div>
-      
-      <div class="navbar-end-item">
-        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
-      </ul>
-      </div>
+  </button>
+`);
+</script></div>
       
     </div>
+    
   </div>
-
-
   
   
     <div class="navbar-persistent--mobile">
-<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
-  <i class="fa-solid fa-magnifying-glass"></i>
-</button>
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
     </div>
   
 
   
-  <label class="sidebar-toggle secondary-toggle" for="__secondary">
-      <span class="fa-solid fa-outdent"></span>
-  </label>
-  
-
 </div>
-  </nav>
-  
 
+    </nav>
+  
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
       <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
+
   
   <div class="sidebar-header-items sidebar-primary__section">
     
     
       <div class="sidebar-header-items__center">
-      
-      <div class="navbar-center-item">
-        <nav class="navbar-nav">
-    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
-        Site Navigation
-    </p>
-    <ul id="navbar-main-elements" class="navbar-nav">
         
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="../../../../getting_started/index.html">
                         Getting Started
@@ -213,174 +233,294 @@
                       </a>
                     </li>
                 
-    </ul>
-</nav>
+  </ul>
+</nav></div>
+        
       </div>
-      
-      </div>
-    
-
     
     
-    <div class="sidebar-header-items__end">
-      
-      <div class="navbar-end-item">
-        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
     <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
     <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
-</button>
+  </button>
+`);
+</script></div>
+        
       </div>
-      
-      <div class="navbar-end-item">
-        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
-      </ul>
-      </div>
-      
-    </div>
     
   </div>
-
   
-
   
-  <div class="sidebar-end-items sidebar-primary__section">
-    <div class="sidebar-end-items__item">
-    </div>
+  <div class="sidebar-primary-items__end sidebar-primary__section">
   </div>
-
   
   <div id="rtd-footer-container"></div>
 
+
       </div>
+      
       <main id="main-content" class="bd-main">
         
         
-        <div class="bd-content">
-          <div class="bd-article-container">
-            
-            <div class="bd-header-article">
-                
-            </div>
-            
-            
-            <article class="bd-article" role="main">
+          <div class="bd-content">
+            <div class="bd-article-container">
               
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
+    
+    
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../annotator.html" class="nav-link">sparknlp_jsl.annotator</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">sparknlp_jsl.annotator.merge.chunk_merge</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
   <h1>Source code for sparknlp_jsl.annotator.merge.chunk_merge</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">sparknlp_jsl.common</span> <span class="kn">import</span> <span class="o">*</span>
 
 
-<div class="viewcode-block" id="CommonChunkMergeParams"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.CommonChunkMergeParams">[docs]</a><span class="k">class</span> <span class="nc">CommonChunkMergeParams</span><span class="p">:</span>
-<div class="viewcode-block" id="CommonChunkMergeParams.mergeOverlapping"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.CommonChunkMergeParams.mergeOverlapping">[docs]</a>    <span class="n">mergeOverlapping</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
-                             <span class="s2">&quot;mergeOverlapping&quot;</span><span class="p">,</span>
-                             <span class="s2">&quot;whether to merge overlapping matched chunks. Defaults false&quot;</span><span class="p">,</span>
-                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+<div class="viewcode-block" id="FilteringParams"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.FilteringParams">[docs]</a><span class="k">class</span> <span class="nc">FilteringParams</span><span class="p">:</span>
 
-<div class="viewcode-block" id="CommonChunkMergeParams.setMergeOverlapping"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.CommonChunkMergeParams.setMergeOverlapping">[docs]</a>    <span class="k">def</span> <span class="nf">setMergeOverlapping</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to merge overlapping matched chunks. Defaults false</span>
+<div class="viewcode-block" id="FilteringParams.blackList"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.FilteringParams.blackList">[docs]</a>    <span class="n">blackList</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;blackList&quot;</span><span class="p">,</span> <span class="s2">&quot;If defined, list of entities to ignore. The rest will be processed. Do not include IOB prefix on labels&quot;</span><span class="p">,</span> <span class="n">typeConverter</span> <span class="o">=</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilteringParams.setBlackList"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.FilteringParams.setBlackList">[docs]</a>    <span class="k">def</span> <span class="nf">setBlackList</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets If defined, list of entities to ignore. The rest will be processed. Do not include IOB prefix on labels</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        b : bool</span>
-<span class="sd">            whether to merge overlapping matched chunks. Defaults false</span>
-
+<span class="sd">        value : List[str]</span>
+<span class="sd">            If defined, list of entities to ignore. The rest will be processed. Do not include IOB prefix on labels</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">mergeOverlapping</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">blackList</span> <span class="o">=</span> <span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="CommonChunkMergeParams.blackList"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.CommonChunkMergeParams.blackList">[docs]</a>    <span class="n">blackList</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;blackList&quot;</span><span class="p">,</span>
-                      <span class="s2">&quot;If defined, list of entities to ignore. The rest will be processed. Do not include IOB prefix on labels&quot;</span><span class="p">,</span>
-                      <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
+<div class="viewcode-block" id="FilteringParams.whiteList"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.FilteringParams.whiteList">[docs]</a>    <span class="n">whiteList</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;whiteList&quot;</span><span class="p">,</span> <span class="s2">&quot;If defined, list of entities to process. The rest will be ignored. Do not include IOB prefix on labels&quot;</span><span class="p">,</span> <span class="n">typeConverter</span> <span class="o">=</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="CommonChunkMergeParams.setBlackList"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.CommonChunkMergeParams.setBlackList">[docs]</a>    <span class="k">def</span> <span class="nf">setBlackList</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entities</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;If defined, list of entities to ignore. The rest will be processed.</span>
+<div class="viewcode-block" id="FilteringParams.setWhiteList"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.FilteringParams.setWhiteList">[docs]</a>    <span class="k">def</span> <span class="nf">setWhiteList</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets If defined, list of entities to process. The rest will be ignored. Do not include IOB prefix on labels</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        entities : list</span>
-<span class="sd">           If defined, list of entities to ignore. The rest will be processed.</span>
+<span class="sd">        value : List[str]</span>
+<span class="sd">            If defined, list of entities to process. The rest will be ignored. Do not include IOB prefix on labels</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">blackList</span><span class="o">=</span><span class="n">entities</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">whiteList</span> <span class="o">=</span> <span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilteringParams.criteria"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.FilteringParams.criteria">[docs]</a>    <span class="n">criteria</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;criteria&quot;</span><span class="p">,</span> <span class="s2">&quot;Tag representing dates in the obfuscate reference file (Default: isin)&quot;</span><span class="p">,</span> <span class="n">typeConverter</span> <span class="o">=</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilteringParams.setCriteria"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.FilteringParams.setCriteria">[docs]</a>    <span class="k">def</span> <span class="nf">setCriteria</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets Tag representing dates in the obfuscate reference file (Default: isin)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : string</span>
+<span class="sd">            Tag representing dates in the obfuscate reference file (Default: isin)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">criteria</span> <span class="o">=</span> <span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilteringParams.regex"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.FilteringParams.regex">[docs]</a>    <span class="n">regex</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;regex&quot;</span><span class="p">,</span> <span class="s2">&quot;If defined, list of regex to process the chunks&quot;</span><span class="p">,</span> <span class="n">typeConverter</span> <span class="o">=</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilteringParams.setRegex"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.FilteringParams.setRegex">[docs]</a>    <span class="k">def</span> <span class="nf">setRegex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets If defined, list of regex to process the chunks</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : List[str]</span>
+<span class="sd">            If defined, list of regex to process the chunks</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">regex</span> <span class="o">=</span> <span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilteringParams.entitiesConfidence"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.FilteringParams.entitiesConfidence">[docs]</a>    <span class="n">entitiesConfidence</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;entitiesConfidence&quot;</span><span class="p">,</span> <span class="s2">&quot;null&quot;</span><span class="p">,</span> <span class="n">typeConverter</span> <span class="o">=</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilteringParams.filterValue"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.FilteringParams.filterValue">[docs]</a>    <span class="n">filterValue</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;filterValue&quot;</span><span class="p">,</span> <span class="s2">&quot;possibles values result|entity&quot;</span><span class="p">,</span> <span class="n">typeConverter</span> <span class="o">=</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilteringParams.setFilterValue"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.FilteringParams.setFilterValue">[docs]</a>    <span class="k">def</span> <span class="nf">setFilterValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets possibles values result|entity</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : string</span>
+<span class="sd">            possibles values result|entity</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">filterValue</span> <span class="o">=</span> <span class="n">value</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="MergePriorizationParams"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergePriorizationParams">[docs]</a><span class="k">class</span> <span class="nc">MergePriorizationParams</span><span class="p">:</span>
-<div class="viewcode-block" id="MergePriorizationParams.orderingFeatures"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergePriorizationParams.orderingFeatures">[docs]</a>    <span class="n">orderingFeatures</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;orderingFeatures&quot;</span><span class="p">,</span>
-                             <span class="s2">&quot;Array of strings specifying the ordering features to use for overlapping entities. Possible values are ChunkBegin, ChunkLength, ChunkPrecedence, ChunkConfidence.&quot;</span><span class="p">,</span>
-                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
+<div class="viewcode-block" id="MergeCommonParams"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergeCommonParams">[docs]</a><span class="k">class</span> <span class="nc">MergeCommonParams</span><span class="p">:</span>
 
-<div class="viewcode-block" id="MergePriorizationParams.setOrderingFeatures"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergePriorizationParams.setOrderingFeatures">[docs]</a>    <span class="k">def</span> <span class="nf">setOrderingFeatures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_orderingFeatures</span><span class="p">):</span>
+<div class="viewcode-block" id="MergeCommonParams.mergeOverlapping"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergeCommonParams.mergeOverlapping">[docs]</a>    <span class="n">mergeOverlapping</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;mergeOverlapping&quot;</span><span class="p">,</span> <span class="s2">&quot;whether to merge overlapping chunks. Defaults to true&quot;</span><span class="p">,</span> <span class="n">typeConverter</span> <span class="o">=</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MergeCommonParams.setMergeOverlapping"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergeCommonParams.setMergeOverlapping">[docs]</a>    <span class="k">def</span> <span class="nf">setMergeOverlapping</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to merge overlapping chunks. Defaults to true</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : boolean</span>
+<span class="sd">            whether to merge overlapping chunks. Defaults to true</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">mergeOverlapping</span> <span class="o">=</span> <span class="n">value</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="MergePrioritizationParams"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergePrioritizationParams">[docs]</a><span class="k">class</span> <span class="nc">MergePrioritizationParams</span><span class="p">:</span>
+
+<div class="viewcode-block" id="MergePrioritizationParams.orderingFeatures"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergePrioritizationParams.orderingFeatures">[docs]</a>    <span class="n">orderingFeatures</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;orderingFeatures&quot;</span><span class="p">,</span> <span class="s2">&quot;Array of strings specifying the ordering features to use for overlapping entities. Possible values are ChunkBegin, ChunkLength, ChunkPrecedence, ChunkConfidence.&quot;</span><span class="p">,</span> <span class="n">typeConverter</span> <span class="o">=</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MergePrioritizationParams.setOrderingFeatures"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergePrioritizationParams.setOrderingFeatures">[docs]</a>    <span class="k">def</span> <span class="nf">setOrderingFeatures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets Array of strings specifying the ordering features to use for overlapping entities. Possible values are ChunkBegin, ChunkLength, ChunkPrecedence, ChunkConfidence.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        _orderingFeatures : list</span>
-<span class="sd">           Array of strings specifying the ordering features to use for overlapping entities. Possible values are ChunkBegin, ChunkLength, ChunkPrecedence, ChunkConfidence.</span>
+<span class="sd">        value : List[str]</span>
+<span class="sd">            Array of strings specifying the ordering features to use for overlapping entities. Possible values are ChunkBegin, ChunkLength, ChunkPrecedence, ChunkConfidence.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">orderingFeatures</span><span class="o">=</span><span class="n">_orderingFeatures</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">orderingFeatures</span> <span class="o">=</span> <span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MergePriorizationParams.selectionStrategy"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergePriorizationParams.selectionStrategy">[docs]</a>    <span class="n">selectionStrategy</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
-                              <span class="s2">&quot;selectionStrategy&quot;</span><span class="p">,</span>
-                              <span class="s2">&quot;Whether to select annotations sequentially based on annotation order (Sequential) or using any other available strategy, currently only DiverseLonger is available.&quot;</span><span class="p">,</span>
-                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+<div class="viewcode-block" id="MergePrioritizationParams.selectionStrategy"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergePrioritizationParams.selectionStrategy">[docs]</a>    <span class="n">selectionStrategy</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;selectionStrategy&quot;</span><span class="p">,</span> <span class="s2">&quot;Whether to select annotations sequentially based on annotation order `Sequential` or using any other available strategy; currently only `Sequential` and `DiverseLonger` are available.&quot;</span><span class="p">,</span> <span class="n">typeConverter</span> <span class="o">=</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MergePriorizationParams.setSelectionStrategy"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergePriorizationParams.setSelectionStrategy">[docs]</a>    <span class="k">def</span> <span class="nf">setSelectionStrategy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_selectionStrategy</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets Whether to select annotations sequentially based on annotation order (Sequential) or using any other available strategy, currently only DiverseLonger is available.</span>
+<div class="viewcode-block" id="MergePrioritizationParams.setSelectionStrategy"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergePrioritizationParams.setSelectionStrategy">[docs]</a>    <span class="k">def</span> <span class="nf">setSelectionStrategy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets Whether to select annotations sequentially based on annotation order `Sequential` or using any other available strategy; currently only `Sequential` and `DiverseLonger` are available.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        _selectionStrategy : str</span>
-<span class="sd">            Whether to select annotations sequentially based on annotation order (Sequential) or using any other available strategy, currently only DiverseLonger is available.</span>
-
+<span class="sd">        value : string</span>
+<span class="sd">            Whether to select annotations sequentially based on annotation order `Sequential` or using any other available strategy; currently only `Sequential` and `DiverseLonger` are available.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">selectionStrategy</span><span class="o">=</span><span class="n">_selectionStrategy</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">selectionStrategy</span> <span class="o">=</span> <span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MergePriorizationParams.defaultConfidence"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergePriorizationParams.defaultConfidence">[docs]</a>    <span class="n">defaultConfidence</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
-                              <span class="s2">&quot;chunkPrecedence&quot;</span><span class="p">,</span>
-                              <span class="s2">&quot;When ChunkConfidence Strategy is included and a given annotation does not have any confidence the value of this param will be used.&quot;</span><span class="p">,</span>
-                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
+<div class="viewcode-block" id="MergePrioritizationParams.defaultConfidence"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergePrioritizationParams.defaultConfidence">[docs]</a>    <span class="n">defaultConfidence</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;defaultConfidence&quot;</span><span class="p">,</span> <span class="s2">&quot;When ChunkConfidence ordering feature is included and a given annotation does not have any confidence the value of this param will be used.&quot;</span><span class="p">,</span> <span class="n">typeConverter</span> <span class="o">=</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MergePriorizationParams.setDefaultConfidence"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergePriorizationParams.setDefaultConfidence">[docs]</a>    <span class="k">def</span> <span class="nf">setDefaultConfidence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_defaultConfidence</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets when ChunkConfidence Strategy is included and a given annotation does not have any confidence the value of this param will be used.</span>
+<div class="viewcode-block" id="MergePrioritizationParams.setDefaultConfidence"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergePrioritizationParams.setDefaultConfidence">[docs]</a>    <span class="k">def</span> <span class="nf">setDefaultConfidence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets When ChunkConfidence ordering feature is included and a given annotation does not have any confidence the value of this param will be used.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        _defaultConfidence : str</span>
-<span class="sd">            When ChunkConfidence Strategy is included and a given annotation does not have any confidence the value of this param will be used.</span>
-
+<span class="sd">        value : float</span>
+<span class="sd">            When ChunkConfidence ordering feature is included and a given annotation does not have any confidence the value of this param will be used.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">defaultConfidence</span><span class="o">=</span><span class="n">_defaultConfidence</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">defaultConfidence</span> <span class="o">=</span> <span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MergePriorizationParams.chunkPrecedence"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergePriorizationParams.chunkPrecedence">[docs]</a>    <span class="n">chunkPrecedence</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
-                            <span class="s2">&quot;chunkPrecedence&quot;</span><span class="p">,</span>
-                            <span class="s2">&quot;When ChunkPrecedence Strategy is used this param contains the comma separated metadata fields that drive prioritization of overlapping annotations. When used by itself (empty chunkPrecedenceValuePrioritization) annotations will be prioritized based on number of metadata fields present. When used together with chunkPrecedenceValuePrioritization param it will prioritize based on the order of its values.&quot;</span><span class="p">,</span>
-                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+<div class="viewcode-block" id="MergePrioritizationParams.chunkPrecedence"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergePrioritizationParams.chunkPrecedence">[docs]</a>    <span class="n">chunkPrecedence</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;chunkPrecedence&quot;</span><span class="p">,</span> <span class="s2">&quot;When ChunkPrecedence ordering feature is used this param contains the comma separated fields in metadata that drive prioritization of overlapping annotations. When used by itself (empty chunkPrecedenceValuePrioritization) annotations will be prioritized based on number of metadata fields present. When used together with chunkPrecedenceValuePrioritization param it will prioritize based on the order of its values.&quot;</span><span class="p">,</span> <span class="n">typeConverter</span> <span class="o">=</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MergePriorizationParams.setChunkPrecedence"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergePriorizationParams.setChunkPrecedence">[docs]</a>    <span class="k">def</span> <span class="nf">setChunkPrecedence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_chunkPrecedence</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets ChunkPrecedence param</span>
+<div class="viewcode-block" id="MergePrioritizationParams.setChunkPrecedence"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergePrioritizationParams.setChunkPrecedence">[docs]</a>    <span class="k">def</span> <span class="nf">setChunkPrecedence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets When ChunkPrecedence ordering feature is used this param contains the comma separated fields in metadata that drive prioritization of overlapping annotations. When used by itself (empty chunkPrecedenceValuePrioritization) annotations will be prioritized based on number of metadata fields present. When used together with chunkPrecedenceValuePrioritization param it will prioritize based on the order of its values.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        _chunkPrecedence : str</span>
-<span class="sd">            Single or comma separated metadata fields that drive prioritization of overlapping annotations. When used by itself (empty chunkPrecedenceValuePrioritization) annotations will be prioritized based on number of metadata fields present. When used together with chunkPrecedenceValuePrioritization param it will prioritize based on the order of its values.</span>
-
+<span class="sd">        value : string</span>
+<span class="sd">            When ChunkPrecedence ordering feature is used this param contains the comma separated fields in metadata that drive prioritization of overlapping annotations. When used by itself (empty chunkPrecedenceValuePrioritization) annotations will be prioritized based on number of metadata fields present. When used together with chunkPrecedenceValuePrioritization param it will prioritize based on the order of its values.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">chunkPrecedence</span><span class="o">=</span><span class="n">_chunkPrecedence</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">chunkPrecedence</span> <span class="o">=</span> <span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MergePriorizationParams.chunkPrecedenceValuePrioritization"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergePriorizationParams.chunkPrecedenceValuePrioritization">[docs]</a>    <span class="n">chunkPrecedenceValuePrioritization</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;chunkPrecedenceValuePrioritization&quot;</span><span class="p">,</span>
-                                               <span class="s2">&quot;When ChunkPrecedence Strategy is used this param contains an Array of comma separated strings representing the desired order of prioritization for the values in the metadata fields included in chunkPrecedence.&quot;</span><span class="p">,</span>
-                                               <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
+<div class="viewcode-block" id="MergePrioritizationParams.chunkPrecedenceValuePrioritization"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergePrioritizationParams.chunkPrecedenceValuePrioritization">[docs]</a>    <span class="n">chunkPrecedenceValuePrioritization</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;chunkPrecedenceValuePrioritization&quot;</span><span class="p">,</span> <span class="s2">&quot;When ChunkPrecedence ordering feature is used this param contains an Array of comma separated values representing the desired order of prioritization for the VALUES in the metadata fields included from chunkPrecedence.&quot;</span><span class="p">,</span> <span class="n">typeConverter</span> <span class="o">=</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MergePriorizationParams.setChunkPrecedenceValuePrioritization"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergePriorizationParams.setChunkPrecedenceValuePrioritization">[docs]</a>    <span class="k">def</span> <span class="nf">setChunkPrecedenceValuePrioritization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_chunkPrecedenceValuePrioritization</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;When ChunkPrecedence Strategy is used this param contains an Array of comma separated strings representing the desired order of prioritization for the values in the metadata fields included in chunkPrecedence.</span>
+<div class="viewcode-block" id="MergePrioritizationParams.setChunkPrecedenceValuePrioritization"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergePrioritizationParams.setChunkPrecedenceValuePrioritization">[docs]</a>    <span class="k">def</span> <span class="nf">setChunkPrecedenceValuePrioritization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets When ChunkPrecedence ordering feature is used this param contains an Array of comma separated values representing the desired order of prioritization for the VALUES in the metadata fields included from chunkPrecedence.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        _chunkPrecedenceValuePrioritization : list</span>
-<span class="sd">           Array of strings specifying the ordering features to use for overlapping entities. Possible values are ChunkBegin, ChunkLength, ChunkPrecedence, ChunkConfidence.</span>
+<span class="sd">        value : List[str]</span>
+<span class="sd">            When ChunkPrecedence ordering feature is used this param contains an Array of comma separated values representing the desired order of prioritization for the VALUES in the metadata fields included from chunkPrecedence.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">chunkPrecedenceValuePrioritization</span><span class="o">=</span><span class="n">_chunkPrecedenceValuePrioritization</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">chunkPrecedenceValuePrioritization</span> <span class="o">=</span> <span class="n">value</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="ChunkMergeApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.ChunkMergeApproach">[docs]</a><span class="k">class</span> <span class="nc">ChunkMergeApproach</span><span class="p">(</span><span class="n">AnnotatorApproachInternal</span><span class="p">,</span> <span class="n">CommonChunkMergeParams</span><span class="p">,</span> <span class="n">MergePriorizationParams</span><span class="p">):</span>
+<div class="viewcode-block" id="MergeResourceParams"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergeResourceParams">[docs]</a><span class="k">class</span> <span class="nc">MergeResourceParams</span><span class="p">:</span>
+
+<div class="viewcode-block" id="MergeResourceParams.falsePositivesResource"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergeResourceParams.falsePositivesResource">[docs]</a>    <span class="n">falsePositivesResource</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;falsePositivesResource&quot;</span><span class="p">,</span> <span class="s2">&quot;Path to csv with false positive text, entity pairs to remove&quot;</span><span class="p">,</span> <span class="n">typeConverter</span> <span class="o">=</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MergeResourceParams.setFalsePositivesResource"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergeResourceParams.setFalsePositivesResource">[docs]</a>    <span class="k">def</span> <span class="nf">setFalsePositivesResource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">TEXT</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets file with false positive pairs</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        path : str</span>
+<span class="sd">            Path to the external resource</span>
+<span class="sd">        read_as : str, optional</span>
+<span class="sd">            How to read the resource, by default ReadAs.TEXT</span>
+<span class="sd">        options : dict, optional</span>
+<span class="sd">            Options for reading the resource, by default {&quot;format&quot;: &quot;text&quot;}</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">options</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">options</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;delimiter&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">falsePositivesResource</span><span class="o">=</span><span class="n">ExternalResource</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="p">,</span> <span class="n">options</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="MergeResourceParams.replaceDictResource"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergeResourceParams.replaceDictResource">[docs]</a>    <span class="n">replaceDictResource</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                                <span class="s2">&quot;replaceDictResource&quot;</span><span class="p">,</span>
+                                <span class="s2">&quot;replace dictionary pairs&quot;</span><span class="p">,</span>
+                                <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MergeResourceParams.setReplaceDictResource"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergeResourceParams.setReplaceDictResource">[docs]</a>    <span class="k">def</span> <span class="nf">setReplaceDictResource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">TEXT</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;delimiter&quot;</span><span class="p">:</span> <span class="s2">&quot;,&quot;</span><span class="p">}):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets replace dictionary pairs</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        path : str</span>
+<span class="sd">            Path to the external resource</span>
+
+<span class="sd">        read_as : str, optional</span>
+<span class="sd">            How to read the resource, by default ReadAs.TEXT</span>
+<span class="sd">        options : dict, optional</span>
+<span class="sd">            Options for reading the resource, by default {&quot;format&quot;: &quot;text&quot;}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">replaceDictResource</span><span class="o">=</span><span class="n">ExternalResource</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="p">,</span> <span class="n">options</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="MergeResourceParams.entitiesConfidenceResource"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergeResourceParams.entitiesConfidenceResource">[docs]</a>    <span class="n">entitiesConfidenceResource</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                                       <span class="s2">&quot;entitiesConfidenceResource&quot;</span><span class="p">,</span>
+                                       <span class="s2">&quot;Path to csv with  entity pairs to remove based on the confidance level&quot;</span><span class="p">,</span>
+                                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MergeResourceParams.setEntitiesConfidenceResource"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.MergeResourceParams.setEntitiesConfidenceResource">[docs]</a>    <span class="k">def</span> <span class="nf">setEntitiesConfidenceResource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">TEXT</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">options</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">options</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;delimiter&quot;</span><span class="p">:</span> <span class="s2">&quot;,&quot;</span><span class="p">}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">entitiesConfidenceResource</span><span class="o">=</span><span class="n">ExternalResource</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="p">,</span> <span class="n">options</span><span class="p">))</span></div></div>
+
+
+
+
+<div class="viewcode-block" id="ChunkMergeApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.ChunkMergeApproach">[docs]</a><span class="k">class</span> <span class="nc">ChunkMergeApproach</span><span class="p">(</span><span class="n">AnnotatorApproachInternal</span><span class="p">,</span> <span class="n">MergeCommonParams</span><span class="p">,</span> <span class="n">MergePrioritizationParams</span><span class="p">,</span> <span class="n">MergeResourceParams</span><span class="p">,</span> <span class="n">FilteringParams</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Merges two chunk columns coming from two annotators(NER, ContextualParser or any other annotator producing</span>
 <span class="sd">    chunks). The merger of the two chunk columns is made by selecting one chunk from one of the columns according</span>
@@ -455,49 +595,6 @@
 
 <div class="viewcode-block" id="ChunkMergeApproach.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.ChunkMergeApproach.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;ChunkMergeApproach&quot;</span></div>
 
-<div class="viewcode-block" id="ChunkMergeApproach.falsePositivesResource"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.ChunkMergeApproach.falsePositivesResource">[docs]</a>    <span class="n">falsePositivesResource</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
-                                   <span class="s2">&quot;falsePositivesResource&quot;</span><span class="p">,</span>
-                                   <span class="s2">&quot;file with false positive pairs&quot;</span><span class="p">,</span>
-                                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="ChunkMergeApproach.replaceDictResource"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.ChunkMergeApproach.replaceDictResource">[docs]</a>    <span class="n">replaceDictResource</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
-                                <span class="s2">&quot;replaceDictResource&quot;</span><span class="p">,</span>
-                                <span class="s2">&quot;replace dictionary pairs&quot;</span><span class="p">,</span>
-                                <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="ChunkMergeApproach.setFalsePositivesResource"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.ChunkMergeApproach.setFalsePositivesResource">[docs]</a>    <span class="k">def</span> <span class="nf">setFalsePositivesResource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">TEXT</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets file with false positive pairs</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        path : str</span>
-<span class="sd">            Path to the external resource</span>
-<span class="sd">        read_as : str, optional</span>
-<span class="sd">            How to read the resource, by default ReadAs.TEXT</span>
-<span class="sd">        options : dict, optional</span>
-<span class="sd">            Options for reading the resource, by default {&quot;format&quot;: &quot;text&quot;}</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">options</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">options</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;delimiter&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">}</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">falsePositivesResource</span><span class="o">=</span><span class="n">ExternalResource</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="p">,</span> <span class="n">options</span><span class="p">))</span></div>
-
-<div class="viewcode-block" id="ChunkMergeApproach.setReplaceDictResource"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.ChunkMergeApproach.setReplaceDictResource">[docs]</a>    <span class="k">def</span> <span class="nf">setReplaceDictResource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">TEXT</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;delimiter&quot;</span><span class="p">:</span> <span class="s2">&quot;,&quot;</span><span class="p">}):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets replace dictionary pairs</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        path : str</span>
-<span class="sd">            Path to the external resource</span>
-
-<span class="sd">        read_as : str, optional</span>
-<span class="sd">            How to read the resource, by default ReadAs.TEXT</span>
-<span class="sd">        options : dict, optional</span>
-<span class="sd">            Options for reading the resource, by default {&quot;format&quot;: &quot;text&quot;}</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">replaceDictResource</span><span class="o">=</span><span class="n">ExternalResource</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="p">,</span> <span class="n">options</span><span class="p">))</span></div>
-
     <span class="nd">@keyword_only</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">ChunkMergeApproach</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.merge.ChunkMergeApproach&quot;</span><span class="p">)</span>
@@ -528,7 +625,7 @@
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;InputCols datatype not supported. It must be either str or list&quot;</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="ChunkMergeModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.ChunkMergeModel">[docs]</a><span class="k">class</span> <span class="nc">ChunkMergeModel</span><span class="p">(</span><span class="n">AnnotatorModelInternal</span><span class="p">,</span> <span class="n">CommonChunkMergeParams</span><span class="p">,</span> <span class="n">MergePriorizationParams</span><span class="p">):</span>
+<div class="viewcode-block" id="ChunkMergeModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.ChunkMergeModel">[docs]</a><span class="k">class</span> <span class="nc">ChunkMergeModel</span><span class="p">(</span><span class="n">AnnotatorModelInternal</span><span class="p">,</span> <span class="n">MergeCommonParams</span><span class="p">,</span> <span class="n">MergePrioritizationParams</span><span class="p">,</span> <span class="n">FilteringParams</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The model produced by ChunkMergerAproach.</span>
 
@@ -552,11 +649,6 @@
 
 <div class="viewcode-block" id="ChunkMergeModel.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.ChunkMergeModel.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span><span class="p">]</span></div>
 <div class="viewcode-block" id="ChunkMergeModel.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.ChunkMergeModel.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span></div>
-
-<div class="viewcode-block" id="ChunkMergeModel.falsePositives"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.ChunkMergeModel.falsePositives">[docs]</a>    <span class="n">falsePositives</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;falsePositives&quot;</span><span class="p">,</span> <span class="s2">&quot;list of false positive tuples (text, entity)&quot;</span><span class="p">,</span>
-                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span></div>
-<div class="viewcode-block" id="ChunkMergeModel.replaceDict"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/merge/chunk_merge/index.html#sparknlp_jsl.annotator.merge.chunk_merge.ChunkMergeModel.replaceDict">[docs]</a>    <span class="n">replaceDict</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;replaceDict&quot;</span><span class="p">,</span> <span class="s2">&quot;dictionary of entities to replace&quot;</span><span class="p">,</span>
-                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">identity</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.merge.ChunkMergeModel&quot;</span><span class="p">,</span>
                  <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -606,86 +698,68 @@
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;InputCols datatype not supported. It must be either str or list&quot;</span><span class="p">)</span></div></div>
 </pre></div>
 
-            </article>
-            
-            
-            
-            <footer class="bd-footer-article">
-                <!-- Previous / next buttons -->
-<div class='prev-next-area'>
-</div>
-            </footer>
-            
-          </div>
-          
-          
-          
-            <div class="bd-sidebar-secondary bd-toc">
+                </article>
               
-<div class="toc-item">
-  
-<div id="searchbox"></div>
+              
+              
+                <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
 </div>
-
-<div class="toc-item">
-  
-</div>
-
-<div class="toc-item">
-  
-</div>
-
+                </footer>
+              
             </div>
-          
-          
-        </div>
-        <footer class="bd-footer-content">
-          <div class="bd-footer-content__inner">
+            
+            
+              
             
           </div>
-        </footer>
+          <footer class="bd-footer-content">
+            <div class="bd-footer-content__inner"></div>
+          </footer>
         
       </main>
     </div>
   </div>
-
   
-    
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../../static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
-<script src="../../../../static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
+  <script src="../../../../static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
+<script src="../../../../static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
 
-  <footer class="bd-footer"><div class="bd-footer__inner container">
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
   
-  <div class="footer-item">
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
     
-<p class="copyright">
-
-    &copy; Copyright 2022, John Snow Labs.<br>
-
-</p>
-
-  </div>
-  
-  <div class="footer-item">
-    <p class="theme-version">
-    Built with the
-    <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">
-        PyData Sphinx Theme
-    </a>
-    0.12.0.
-</p>
-  </div>
-  
-  <div class="footer-item">
+      © Copyright 2022, John Snow Labs.
+      <br/>
     
-<p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
-</p>
-
-  </div>
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.0.
+</p></div>
+      
+    </div>
   
 </div>
+
   </footer>
   </body>
 </html>
