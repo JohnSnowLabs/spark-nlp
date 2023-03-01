@@ -1,6 +1,6 @@
 ---
 layout: model
-title: French Legal CamemBERT Embedding  Cased model
+title: French Legal CamemBERT Embedding Cased model
 author: John Snow Labs
 name: camembert_embeddings_legal_distilcamembert
 date: 2023-01-13
