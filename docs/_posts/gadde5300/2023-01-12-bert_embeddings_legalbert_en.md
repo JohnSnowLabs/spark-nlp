@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English BERT Embedding  Cased model
+title: English Legal BERT Embedding  Cased model
 author: John Snow Labs
 name: bert_embeddings_legalbert
 date: 2023-01-12
