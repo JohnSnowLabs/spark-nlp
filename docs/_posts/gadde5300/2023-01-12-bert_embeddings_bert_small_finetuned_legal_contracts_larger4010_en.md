@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English Legal BERT Embedding Small Cased model
+title: English Legal BERT Embedding Small Uncased model(Uncased)
 author: John Snow Labs
 name: bert_embeddings_bert_small_finetuned_legal_contracts_larger4010
 date: 2023-01-12
