@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Portuguese Legal BERT Embedding Large Cased model
+title: Portuguese Legal BERT Embedding Large Cased model ( D1024 )
 author: John Snow Labs
 name: bert_embeddings_bert_large_portuguese_cased_legal_mlm
 date: 2023-01-13
