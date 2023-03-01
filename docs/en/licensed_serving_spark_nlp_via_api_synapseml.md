@@ -150,7 +150,7 @@ Now, let’s create a Spark NLP for Healthcare pipeline to carry out Entity Reso
           .setCaseSensitive(False)
 
     icd_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models") \
-         .setInputCols(["ner_chunk", "sentence_embeddings"]) \
+         .setInputCols(["sentence_embeddings"]) \
          .setOutputCol("icd10cm_code")\
          .setDistanceFunction("EUCLIDEAN")
 

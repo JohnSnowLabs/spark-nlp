@@ -74,7 +74,7 @@ sbert_embedder = BertSentenceEmbeddings\
 
 icd10_resolver = SentenceEntityResolverModel\
 .pretrained("sbiobertresolve_icd10cm_augmented","en", "clinical/models") \
-.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setInputCols(["sbert_embeddings"]) \
 .setOutputCol("resolution")\
 .setDistanceFunction("EUCLIDEAN")
 
@@ -123,7 +123,7 @@ val sbert_embedder = BertSentenceEmbeddings
 
 val icd10_resolver = SentenceEntityResolverModel
 .pretrained("sbiobertresolve_icd10cm_augmented","en", "clinical/models")
-.setInputCols(Array("ner_chunk", "sbert_embeddings"))
+.setInputCols(Array("sbert_embeddings"))
 .setOutputCol("resolution")
 .setDistanceFunction("EUCLIDEAN")
 

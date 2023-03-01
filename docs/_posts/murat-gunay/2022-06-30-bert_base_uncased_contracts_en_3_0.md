@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English Contracts BertEmbeddings model (Base, Uncased)
+title: English Legal Contracts BertEmbeddings model (Base, Uncased)
 author: John Snow Labs
 name: bert_base_uncased_contracts
 date: 2022-06-30

@@ -97,7 +97,7 @@ val chunk_embeddings = new SentenceEmbeddings()
 .setPoolingStrategy("AVERAGE")
 
 val er = SentenceEntityResolverModel.pretrained("robertaresolve_snomed", "es", "clinical/models")
-.setInputCols(Array("sentence", "ner_chunk_embeddings"))
+.setInputCols(Array("ner_chunk_embeddings"))
 .setOutputCol("snomed_code")
 .setDistanceFunction("EUCLIDEAN")
 

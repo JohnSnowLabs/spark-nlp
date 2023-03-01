@@ -419,7 +419,7 @@ pipeline.annotate("Z833 A0100 A000")
 ```python
 ...
 icd10_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd9","en", "clinical/models") \
-    .setInputCols(["ner_chunk", "sbert_embeddings"]) \
+    .setInputCols(["sbert_embeddings"]) \
     .setOutputCol("resolution")\
     .setDistanceFunction("EUCLIDEAN")
 ...

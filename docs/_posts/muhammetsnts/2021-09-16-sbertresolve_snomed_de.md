@@ -46,7 +46,7 @@ sbert_embedder = BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "de")
 .setOutputCol("sbert_embeddings")
 
 snomed_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_snomed", "de", "clinical/models") \
-.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setInputCols(["sbert_embeddings"]) \
 .setOutputCol("snomed_code")
 
 snomed_pipelineModel = PipelineModel(
@@ -67,8 +67,8 @@ val sbert_embedder = BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "
 .setInputCols("ner_chunk")
 .setOutputCol("sbert_embeddings")
 
-val snomed_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_snomed", "de", "clinical/models") 
-.setInputCols("ner_chunk", "sbert_embeddings") 
+val snomed_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_snomed", "de", "clinical/models") \
+.setInputCols(["sbert_embeddings"]) \
 .setOutputCol("snomed_code")
 
 val snomed_pipelineModel = new PipelineModel().setStages(Array(documentAssembler, sbert_embedder, snomed_resolver))

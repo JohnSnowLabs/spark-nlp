@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English BERT Embedding Small Cased model
+title: English Legal BERT Embedding Small Cased model
 author: John Snow Labs
 name: bert_embeddings_bert_small_finetuned_legal_definitions_longer
 date: 2023-01-12

@@ -185,7 +185,7 @@ sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli', 'e
       .setOutputCol("sentence_embeddings")
 
 rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_rxnorm_action_treatment", "en", "clinical/models") \
-      .setInputCols(["ner_chunk", "sentence_embeddings"]) \
+      .setInputCols(["sentence_embeddings"]) \
       .setOutputCol("rxnorm_code")\
       .setDistanceFunction("EUCLIDEAN")
 

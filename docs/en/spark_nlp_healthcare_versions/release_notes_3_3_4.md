@@ -216,7 +216,7 @@ We have four new Sentence Entity Resolver Models.
 ```bash
 ...
 mesh_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_mesh", "en", "clinical/models") \
-      .setInputCols(["ner_chunk", "sentence_embeddings"]) \
+      .setInputCols(["sentence_embeddings"]) \
       .setOutputCol("mesh_code")\
       .setDistanceFunction("EUCLIDEAN")\
       .setCaseSensitive(False)
@@ -253,7 +253,7 @@ result = resolver_model.transform(spark.createDataFrame([[sample_text]]).toDF("t
 ```bash
 ...
 ndc_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_ndc", "en", "clinical/models") \
-      .setInputCols(["ner_chunk", "sentence_embeddings"]) \
+      .setInputCols(["sentence_embeddings"]) \
       .setOutputCol("ndc_code")\
       .setDistanceFunction("EUCLIDEAN")\
       .setCaseSensitive(False)
@@ -284,7 +284,7 @@ result = resolver_model.transform(spark.createDataFrame([[sample_text]]).toDF("t
 ```bash
 ...
 loinc_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_loinc_augmented","en", "clinical/models") \
-     .setInputCols(["ner_chunk", "sentence_embeddings"]) \
+     .setInputCols(["sentence_embeddings"]) \
      .setOutputCol("loinc_code")\
      .setDistanceFunction("EUCLIDEAN")\
      .setCaseSensitive(False)
@@ -314,7 +314,7 @@ result = resolver_model.transform(spark.createDataFrame([[sample_text]]).toDF("t
 ```bash
 ...
 snomed_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_clinical_snomed_procedures_measurements", "en", "clinical/models") \
-      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
+      .setInputCols(["sbert_embeddings"]) \
       .setOutputCol("snomed_code")
 ...
 

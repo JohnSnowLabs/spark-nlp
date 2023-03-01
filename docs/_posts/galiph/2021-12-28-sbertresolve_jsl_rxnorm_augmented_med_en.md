@@ -46,7 +46,7 @@ sbert_embedder = BertSentenceEmbeddings.pretrained('sbert_jsl_medium_rxnorm_unca
       .setOutputCol("sbert_embeddings")
     
 rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_jsl_rxnorm_augmented_med", "en", "clinical/models") \
-      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
+      .setInputCols(["sbert_embeddings"]) \
       .setOutputCol("rxnorm_code")\
       .setDistanceFunction("EUCLIDEAN")
 
@@ -68,9 +68,9 @@ val sbert_embedder = BertSentenceEmbeddings.pretrained("sbert_jsl_medium_rxnorm_
       .setInputCols("ner_chunk")
       .setOutputCol("sbert_embeddings")
     
-val rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_jsl_rxnorm_augmented_med", "en", "clinical/models") 
-      .setInputCols(Array("ner_chunk", "sbert_embeddings")) 
-      .setOutputCol("rxnorm_code")
+val rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_jsl_rxnorm_augmented_med", "en", "clinical/models") \
+      .setInputCols(Array("sbert_embeddings")) \
+      .setOutputCol("rxnorm_code")\
       .setDistanceFunction("EUCLIDEAN")
 
 val rxnorm_pipelineModel = new PipelineModel().setStages(Array(documentAssembler, sbert_embedder, rxnorm_resolver))

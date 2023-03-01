@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Hebrew BERT Embedding  Cased model
+title: Hebrew Legal BERT Embedding Cased model (Cased)
 author: John Snow Labs
 name: bert_embeddings_Legal_heBERT_ft
 date: 2023-01-12

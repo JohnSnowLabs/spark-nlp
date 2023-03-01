@@ -282,7 +282,7 @@ sbert_embedder = BertSentenceEmbeddings\
     .setOutputCol("sbert_embeddings")
 
 icd10_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_augmented","en", "clinical/models") \
-    .setInputCols(["ner_chunk", "sbert_embeddings"]) \
+    .setInputCols(["sbert_embeddings"]) \
     .setOutputCol("icd10cm_code")\
     .setDistanceFunction("EUCLIDEAN")
 ```
