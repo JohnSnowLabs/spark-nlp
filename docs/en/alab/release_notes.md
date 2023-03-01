@@ -15,16 +15,17 @@ sidebar:
 
 <div class="h3-box" markdown="1">
 
-## 4.7.3
+## 4.7.4
 
 Release date: **27-02-2023**
 
-NLP Lab v4.7.3, which includes significant optimizations and bugfixes. The following are some of the key updates included in this release:
+NLP Lab v4.7.4, which includes significant optimizations and bugfixes. The following are some of the key updates included in this release:
 	
 - Ability to track NLP Lab installation and upgrades	
 - Resolved CVE issues related to Debian packages	
 - Corrected the number of completions needed to trigger Active learning when no test-tagged tasks are present."
 - Fixed timestamps for submitted completions
+
 
 </div><div class="prev_ver h3-box" markdown="1">
 
@@ -33,7 +34,7 @@ NLP Lab v4.7.3, which includes significant optimizations and bugfixes. The follo
 </div>
 
 <ul class="pagination owl-carousel pagination_big">
-    <li class="active"><a href="annotation_labs_releases/release_notes_4_7_3">4.7.3</a></li>
+    <li class="active"><a href="annotation_labs_releases/release_notes_4_7_4">4.7.4</a></li>
     <li><a href="annotation_labs_releases/release_notes_4_7_1">4.7.1</a></li>        
     <li><a href="annotation_labs_releases/release_notes_4_6_5">4.6.5</a></li>    
     <li><a href="annotation_labs_releases/release_notes_4_6_3">4.6.3</a></li>
