@@ -5,7 +5,7 @@ seotitle: Spark NLP for Healthcare | John Snow Labs
 title: Spark NLP for Healthcare Release Notes 4.3.1
 permalink: /docs/en/spark_nlp_healthcare_versions/release_notes_4_3_1
 key: docs-licensed-release-notes
-modify_date: 2023-03-01
+modify_date: 2023-03-02
 show_nav: true
 sidebar:
     nav: sparknlp-healthcare
@@ -36,7 +36,7 @@ We are releasing a new VOP NER model that was trained on the conversations gathe
 
 | model name                                     | description                                                                                         | predicted entities                     |
 |------------------------------------------------|-----------------------------------------------------------------------------------------------------|----------------------------------------|
-| [ner_vop_slim_wip](https://nlp.johnsnowlabs.com/2023/03/02/ner_vop_slim_wip_en.html) | This model extracts healthcare-related terms from the documents transferred from the patient's own sentences. | `AdmissionDischarge` `Age` `BodyPart` `ClinicalDept` `DateTime` `Disease` `Dosage_Strength` `Drug` `Duration` `Employment` `Form` `Frequency` `Gender` `Laterality` `Procedure` `PsychologicalCondition` `RelationshipStatus` `Route` `Symptom` `Test` `Vaccine` `VitalTest` |
+| [ner_vop_slim_wip](https://nlp.johnsnowlabs.com/2023/02/25/ner_vop_slim_wip_en.html) | This model extracts healthcare-related terms from the documents transferred from the patient's own sentences. | `AdmissionDischarge` `Age` `BodyPart` `ClinicalDept` `DateTime` `Disease` `Dosage_Strength` `Drug` `Duration` `Employment` `Form` `Frequency` `Gender` `Laterality` `Procedure` `PsychologicalCondition` `RelationshipStatus` `Route` `Symptom` `Test` `Vaccine` `VitalTest` |
 
 
 *Example*:
@@ -87,10 +87,10 @@ We are releasing 4 new SDOH NER models with various entity combinations.
 
 | model name                                     | description                                                                                         | predicted entities                     |
 |------------------------------------------------|-----------------------------------------------------------------------------------------------------|----------------------------------------|
-| [ner_sdoh_substance_usage_wip](https://nlp.johnsnowlabs.com/2023/03/02/ner_sdoh_substance_usage_wip_en.html)     | This model extracts substance usage information related to Social Determinants of Health from various kinds of biomedical documents.     | `Smoking` `Substance_Duration` `Substance_Use` `Substance_Quantity`   `Substance_Frequency` `Alcohol`    |
-| [ner_sdoh_access_to_healthcare_wip](https://nlp.johnsnowlabs.com/2023/03/02/ner_sdoh_access_to_healthcare_wip_en.html)                 | This model extracts access to healthcare information related to Social Determinants of Health from various kinds of biomedical documents.              | `Insurance_Status` `Healthcare_Institution` `Access_To_Care`  |
-| [ner_sdoh_community_condition_wip](https://nlp.johnsnowlabs.com/2023/03/02/ner_sdoh_community_condition_wip_en.html) | This model extracts community condition information related to Social Determinants of Health from various kinds of biomedical documents. | `Transportation` `Community_Living_Conditions` `Housing` `Food_Insecurity` |
-| [ner_sdoh_health_behaviours_problems_wip](https://nlp.johnsnowlabs.com/2023/03/02/ner_sdoh_health_behaviours_problems_wip_en.html) | This model extracts health and behaviours problems related to Social Determinants of Health from various kinds of biomedical documents. | `Diet` `Mental_Health` `Obesity` `Eating_Disorder` `Sexual_Activity` `Disability` `Quality_Of_Life` `Other_Disease`  `Exercise` `Communicable_Disease` `Hyperlipidemia` `Hypertension` |
+| [ner_sdoh_substance_usage_wip](https://nlp.johnsnowlabs.com/2023/02/23/ner_sdoh_substance_usage_wip_en.html)     | This model extracts substance usage information related to Social Determinants of Health from various kinds of biomedical documents.     | `Smoking` `Substance_Duration` `Substance_Use` `Substance_Quantity`   `Substance_Frequency` `Alcohol`    |
+| [ner_sdoh_access_to_healthcare_wip](https://nlp.johnsnowlabs.com/2023/02/24/ner_sdoh_access_to_healthcare_wip_en.html)                 | This model extracts access to healthcare information related to Social Determinants of Health from various kinds of biomedical documents.              | `Insurance_Status` `Healthcare_Institution` `Access_To_Care`  |
+| [ner_sdoh_community_condition_wip](https://nlp.johnsnowlabs.com/2023/02/24/ner_sdoh_community_condition_wip_en.html) | This model extracts community condition information related to Social Determinants of Health from various kinds of biomedical documents. | `Transportation` `Community_Living_Conditions` `Housing` `Food_Insecurity` |
+| [ner_sdoh_health_behaviours_problems_wip](https://nlp.johnsnowlabs.com/2023/02/24/ner_sdoh_health_behaviours_problems_wip_en.html) | This model extracts health and behaviours problems related to Social Determinants of Health from various kinds of biomedical documents. | `Diet` `Mental_Health` `Obesity` `Eating_Disorder` `Sexual_Activity` `Disability` `Quality_Of_Life` `Other_Disease`  `Exercise` `Communicable_Disease` `Hyperlipidemia` `Hypertension` |
 
 
 - ner_sdoh_substance_usage_wip
@@ -237,7 +237,7 @@ text= "She is given folic acid 1 mg daily , levothyroxine 0.1 mg and aspirin 81 
 | folic acid 1 mg      | DRUG   |   12281181 | ['12281181', '12283696', '12270292', ...| ['folic acid 1 MG [folic acid 1 MG]', 'folic acid 1.1 MG [folic acid 1.1 MG]',...|
 | levothyroxine 0.1 mg | DRUG   |   12275630 | ['12275630', '12275646', '12301585', ...| ['levothyroxine sodium 0.1 MG [levothyroxine sodium 0.1 MG]', 'levothyroxine  ...|
 | aspirin 81 mg        | DRUG   |   12278696 | ['12278696', '12299811', '12298729', ...| ['aspirin 81 MG [aspirin 81 MG]', 'aspirin 81 MG [YSP Aspirin] [aspirin 81 MG ...|
- ```
+```
 
 
  #### New Chunk Mapper Models For Mapping NDC Codes to Drug Brand Names As Well As Clinical Entities (like drugs/ingredients) to Rxnorm Codes
