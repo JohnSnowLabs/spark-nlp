@@ -29,6 +29,8 @@ sidebar:
 + New and updated demos
 + 8 new clinical models and pipelines added & updated in total
 
+</div><div class="h3-box" markdown="1">
+
 #### The First Voice of Patients (VOP) Named Entity Recognition Model
 
 We are releasing a new VOP NER model that was trained on the conversations gathered from patients forums.
@@ -80,6 +82,7 @@ sample_texts = ["Hello,I'm 20 year old girl. I'm diagnosed with hyperthyroid 1 m
 +--------------------+-----+----+----------------------+
 ```
 
+</div><div class="h3-box" markdown="1">
 
 #### New Social Determinants of Health (SDOH) Named Entity Recognition Models
 
@@ -212,6 +215,8 @@ sample_texts = ["She has not been getting regular exercise and not followed diet
 
 ```
 
+</div><div class="h3-box" markdown="1">
+
 #### New Entity Resolver Model for Mapping Rxnorm Codes According To the National Institute of Health (NIH) Database
 
 We are releasing `sbiobertresolve_rxnorm_nih` pretrained model to map clinical entities and concepts (like drugs/ingredients) to RxNorm codes according to the National Institute of Health (NIH) database using `sbiobert_base_cased_mli` Sentence Bert Embeddings.
@@ -239,8 +244,9 @@ text= "She is given folic acid 1 mg daily , levothyroxine 0.1 mg and aspirin 81 
 | aspirin 81 mg        | DRUG   |   12278696 | ['12278696', '12299811', '12298729', ...| ['aspirin 81 MG [aspirin 81 MG]', 'aspirin 81 MG [YSP Aspirin] [aspirin 81 MG ...|
 ```
 
+</div><div class="h3-box" markdown="1">
 
- #### New Chunk Mapper Models For Mapping NDC Codes to Drug Brand Names As Well As Clinical Entities (like drugs/ingredients) to Rxnorm Codes
+#### New Chunk Mapper Models For Mapping NDC Codes to Drug Brand Names As Well As Clinical Entities (like drugs/ingredients) to Rxnorm Codes
 
  We have two new chunk mapper models.
 
@@ -292,6 +298,8 @@ chunkerMapper = ChunkMapperModel\
 +-------------------------+-------------+-----------+
 ```
 
+</div><div class="h3-box" markdown="1">
+
 #### Format Consistency For Formatted Entity Obfuscation In `Deidentification` Module
 
 We have added a new `setSameLengthFormattedEntities` parameter that obfuscates the formatted entities like `PHONE`, `FAX`, `ID`, `IDNUM`, `BIOID`, `MEDICALRECORD`, `ZIP`, `VIN`, `SSN`, `DLN`, `PLATE` and `LICENSE` with the fake ones in the same format. Default is an empty list (`[]`).
@@ -329,7 +337,7 @@ Phone: (302) 786-5227"""
 +--------------------------------+--------------------------------+------------------------------+
 ```
 
-
+</div><div class="h3-box" markdown="1">
 
 #### New Parameters For Controlling The Validation Set While Training a NER Model With `MedicalNerApproach`
 
@@ -348,6 +356,8 @@ nerTagger = MedicalNerApproach()\
     .setRandomSeed(42)\
     ...
 ```
+
+</div><div class="h3-box" markdown="1">
 
 #### Whitelisting The Entities While Merging Multiple Entities In `ChunkMergeApproach`
 
@@ -385,25 +395,27 @@ sample_text = "Mr. ABC is a 25 years old with a nonproductive cough that started
 | 1     | May 2006                | DATE     |
 ```
 
+</div><div class="h3-box" markdown="1">
 
 #### Core Improvements and Bug Fixes
 
 - Fixed the bug in `get_assertion_data` method issue in ALAB module
 - Updated documentation pages with corrections and additions.
 
+</div><div class="h3-box" markdown="1">
 
 #### New and Updated Notebooks
 
 - Updated [Spark NLP for Healthcare Workshop in 3 hr](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/healthcare-nlp/00.SparkNLP_for_Healthcare_3h_Notebook.ipynb) with latest examples.
 
-
+</div><div class="h3-box" markdown="1">
 
 #### New and Updated Demos
 
 + [SOCIAL_DETERMINANT_ALCOHOL](https://demo.johnsnowlabs.com/healthcare/SOCIAL_DETERMINANT_ALCOHOL/ ) demo
 + [SOCIAL_DETERMINANT_TOBACCO](https://demo.johnsnowlabs.com/healthcare/SOCIAL_DETERMINANT_TOBACCO/ ) demo
 
-
+</div><div class="h3-box" markdown="1">
 
 #### 8 New Clinical Models and Pipelines Added & Updated in Total
 
@@ -417,8 +429,7 @@ sample_text = "Mr. ABC is a 25 years old with a nonproductive cough that started
 + `ndc_drug_brandname_mapper`
 + `rxnorm_nih_mapper`
 
-
-
+</div><div class="h3-box" markdown="1">
 
 For all Spark NLP for Healthcare models, please check: [Models Hub Page](https://nlp.johnsnowlabs.com/models?edition=Healthcare+NLP)
 
