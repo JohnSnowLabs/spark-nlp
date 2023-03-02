@@ -17,6 +17,7 @@
 package com.johnsnowlabs.nlp.util.io
 
 import com.amazonaws.AmazonServiceException
+import com.johnsnowlabs.client.aws.AWSGateway
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
@@ -24,7 +25,7 @@ import com.johnsnowlabs.nlp.util.io.ReadAs._
 import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher}
 import com.johnsnowlabs.util.ConfigHelper
 import org.apache.commons.io.{FileUtils, IOUtils}
-import org.apache.hadoop.fs.Path
+import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
 
@@ -103,26 +104,34 @@ object ResourceHelper {
 
   /** Structure for a SourceStream coming from compiled content */
   case class SourceStream(resource: String) {
-
     val (fileSystem, path) = OutputHelper.getFileSystem(resource)
     if (!fileSystem.exists(path)) {
       throw new FileNotFoundException(s"file or folder: $resource not found")
     }
 
-    val pipe: Seq[InputStream] = {
-
-      /** Check whether it exists in file system */
-      val files = fileSystem.listFiles(path, true)
-      val buffer = ArrayBuffer.empty[InputStream]
-      while (files.hasNext) buffer.append(fileSystem.open(files.next().getPath))
-      buffer
-    }
-
+    val pipe: Seq[InputStream] = getPipe(fileSystem)
     val openBuffers: Seq[BufferedSource] = pipe.map(pp => {
       new BufferedSource(pp)("UTF-8")
     })
 
     val content: Seq[Iterator[String]] = openBuffers.map(c => c.getLines())
+
+    private def getPipe(fileSystem: FileSystem): Seq[InputStream] = {
+      if (fileSystem.getScheme == "s3a") {
+        val awsGateway = new AWSGateway()
+        val (bucket, s3Path) = parseS3URI(path.toString)
+        val inputStreams = awsGateway.listS3Files(bucket, s3Path).map { summary =>
+          val s3Object = awsGateway.getS3Object(bucket, summary.getKey)
+          s3Object.getObjectContent
+        }
+        inputStreams
+      } else {
+        val files = fileSystem.listFiles(path, true)
+        val buffer = ArrayBuffer.empty[InputStream]
+        while (files.hasNext) buffer.append(fileSystem.open(files.next().getPath))
+        buffer
+      }
+    }
 
     /** Copies the resource into a local temporary folder and returns the folders URI.
       *

@@ -36,11 +36,22 @@ object OutputHelper {
   }
 
   def getFileSystem(resource: String): (FileSystem, Path) = {
-    val resourcePath = new Path(resource)
+    val resourcePath = new Path(parsePath(resource))
     val fileSystem =
       FileSystem.get(resourcePath.toUri, sparkSession.sparkContext.hadoopConfiguration)
-
     (fileSystem, resourcePath)
+  }
+
+  def parsePath(path: String): String = {
+    val pathPrefix = path.split("://").head
+    pathPrefix match {
+      case "file" => {
+        val pathParts = path.replace("file:", "").split("/")
+        pathParts.filter(f => !f.equals("")).mkString("/")
+      }
+      case "s3" => path.replace("s3", "s3a")
+      case _ => path
+    }
   }
 
   private def getLogsFolder: String =
@@ -125,6 +136,14 @@ object OutputHelper {
     val s3FilePath = s"""${s3Path.substring("s3://".length)}${sourceFilePath.split("/").last}"""
 
     awsGateway.copyInputStreamToS3(s3Bucket, s3FilePath, sourceFilePath)
+  }
+
+  def getAbsolutePath(path: String): Path = {
+    if (path.startsWith("file:")) {
+      val pathParts = path.replace("file:", "").split("/")
+      val recreatedPath = pathParts.filter(f => !f.equals("")).mkString("/")
+      new Path(recreatedPath)
+    } else new Path(path)
   }
 
 }
