@@ -38,18 +38,15 @@ class MultiDocumentAssembler(AnnotatorTransformer):
 
     Parameters
     ----------
-    inputCols
-        Input column name
-    outputCols
-        Output column name
-    idCol
+    inputCols: str or List[str]
+        Input column name.
+    outputCols: str or List[str]
+        Output column name.
+    idCol: str
         Name of String type column for row id.
-    metadataCol
+    metadataCol: str
         Name of Map type column with metadata information
-    calculationsCol
-        Name of float vector map column to use for embeddings and other
-        representations.
-    cleanupMode
+    cleanupMode: str
         How to cleanup the document , by default disabled.
         Possible values: ``disabled, inplace, inplace_full, shrink, shrink_full,
         each, each_full, delete_full``
@@ -89,7 +86,6 @@ class MultiDocumentAssembler(AnnotatorTransformer):
     outputCols = Param(Params._dummy(), "outputCols", "output finished annotation cols", typeConverter=TypeConverters.toListString)
     idCol = Param(Params._dummy(), "idCol", "column for setting an id to such string in row", typeConverter=TypeConverters.toString)
     metadataCol = Param(Params._dummy(), "metadataCol", "String to String map column to use as metadata", typeConverter=TypeConverters.toString)
-    calculationsCol = Param(Params._dummy(), "calculationsCol", "String to Float vector map column to use as embeddigns and other representations", typeConverter=TypeConverters.toString)
     cleanupMode = Param(Params._dummy(), "cleanupMode", "possible values: disabled, inplace, inplace_full, shrink, shrink_full, each, each_full, delete_full", typeConverter=TypeConverters.toString)
     name = 'MultiDocumentAssembler'
 
