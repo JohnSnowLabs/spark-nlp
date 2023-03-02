@@ -1,20 +1,39 @@
 package com.johnsnowlabs.nlp.annotators.similarity
 
 import com.johnsnowlabs.nlp.AnnotatorType.{DOC_SIMILARITY_RANKINGS, SENTENCE_EMBEDDINGS}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
-import org.apache.spark.ml.feature.BucketedRandomProjectionLSHModel
+import com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties
+import com.johnsnowlabs.nlp.serialization.MapFeature
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate, ParamsAndFeaturesWritable}
+import com.johnsnowlabs.storage.HasStorageRef
+import org.apache.hadoop.shaded.org.eclipse.jetty.websocket.common.frames.DataFrame
+import org.apache.spark.ml.feature.{BucketedRandomProjectionLSH, BucketedRandomProjectionLSHModel}
 import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
+import org.apache.spark.sql.{Dataset, SparkSession}
 
 class DocumentSimilarityRankerModel(override val uid: String)
   extends AnnotatorModel[DocumentSimilarityRankerModel]
-    with HasSimpleAnnotate[DocumentSimilarityRankerModel] {
+    with HasSimpleAnnotate[DocumentSimilarityRankerModel]
+    with HasStorageRef
+    with HasEmbeddingsProperties
+    with ParamsAndFeaturesWritable {
 
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(SENTENCE_EMBEDDINGS)
 
   override val outputAnnotatorType: AnnotatorType = DOC_SIMILARITY_RANKINGS
 
   def this() = this(Identifiable.randomUID("DOC_SIMILARITY_RANKER"))
+
+  val lshInputColName = new Param[String](
+    this,
+    "similarityMethod",
+    """ Input col name for similarity LSH model.
+      |(Default: `"brp"`, Bucketed Random Projection for Euclidean Distance)
+      |""".stripMargin)
+
+  def setLshInputColName(value: String): this.type = set(lshInputColName, value)
+
+  def getLshInputColName: String = $(lshInputColName)
 
   /** The similarity method used to calculate the neighbours.
    * (Default: `"brp"`, Bucketed Random Projection for Euclidean Distance)
@@ -27,6 +46,7 @@ class DocumentSimilarityRankerModel(override val uid: String)
     """The similarity method used to calculate the neighbours.
       |(Default: `"brp"`, Bucketed Random Projection for Euclidean Distance)
       |""".stripMargin)
+
   def setSimilarityMethod(value: String): this.type = set(similarityMethod, value)
 
   def getSimilarityMethod: String = $(similarityMethod)
@@ -40,7 +60,7 @@ class DocumentSimilarityRankerModel(override val uid: String)
     "numberOfNeighbours",
     """The number of neighbours the model will return (Default:`"10"`)""")
 
-  def setNumberOfNeighbours(value: Int): this.type = set(numberOfNeighbours, value)
+  def setLshNumberOfNeighbours(value: Int): this.type = set(numberOfNeighbours, value)
 
   def getNumberOfNeighbours: Int = $(numberOfNeighbours)
 
@@ -52,7 +72,7 @@ class DocumentSimilarityRankerModel(override val uid: String)
       |to the same bucket (increasing the numbers of true and false positives)
       |""".stripMargin)
 
-  def setBucketLength(value: Double): this.type = set(bucketLength, value)
+  def setLshBucketLength(value: Double): this.type = set(bucketLength, value)
 
   def getBucketLength: Double = $(bucketLength)
 
@@ -63,16 +83,28 @@ class DocumentSimilarityRankerModel(override val uid: String)
       |and decreasing it improves the running performance.
       |""".stripMargin)
 
-  def setNumHashTables(value: Int): this.type = set(numHashTables, value)
+  def setLshNumHashTables(value: Int): this.type = set(numHashTables, value)
 
   def getNumHashTables: Int = $(numHashTables)
 
-  val similarityModel = new Param[BucketedRandomProjectionLSHModel](
-    this,
-    "similarityModel", "similarityModel LSH based")
-  def setLSHModel(value: BucketedRandomProjectionLSHModel): this.type = set(similarityModel, value)
+  val similarityModel: MapFeature[String, BucketedRandomProjectionLSHModel] = new MapFeature(this, "similarityModel")
 
-  def getLSHModel: BucketedRandomProjectionLSHModel = $(similarityModel)
+  def setSimilarityModel(value: Map[String, BucketedRandomProjectionLSHModel]): this.type = set(similarityModel, value)
+
+  def generateDefaultLSHModel(value: String): BucketedRandomProjectionLSHModel = {
+    value match {
+      case "brp" => new BucketedRandomProjectionLSH().fit(getDataset)
+    }
+  }
+
+  def getSimilarityModel: BucketedRandomProjectionLSHModel =
+    $$(similarityModel).getOrElse("similarityModel", generateDefaultLSHModel("brp"))
+
+  val dataset: MapFeature[String, Dataset[_]] = new MapFeature(this, "dataset")
+
+  def setDataset(value: Map[String, Dataset[_]]): this.type = set(dataset, value)
+
+  def getDataset: Dataset[_] = $$(dataset).getOrElse("dataset", null)
 
   setDefault(
     inputCols -> Array(SENTENCE_EMBEDDINGS),
@@ -96,13 +128,20 @@ class DocumentSimilarityRankerModel(override val uid: String)
     println("into the annotator")
     Seq(Annotation("ciao"))
 
-//    iterate over input annotations
-//    - select the input ID based on result input text?
-//      - replace features value with embeddings
-//      - calculate the N closest IDs with their distances
-//      - insert closest and distance in as metadata arrays of N=numNeighbors
-//      - forward the embeddings in the metadata embeddings
-//    $(similarityModel).transform()
+    //    iterate over input annotations
+    //    - select the input ID based on result input text?
+    //      - replace features value with embeddings
+    //      - calculate the N closest IDs with their distances
+    //      - insert closest and distance in as metadata arrays of N=numNeighbors
+    //      - forward the embeddings in the metadata embeddings
+    //    $(similarityModel).transform()
+
+//    val _transformed = getSimilarityModel.transform(getDataset)
+
+//    val retrieved = $$(similarityModel).getOrElse("similarityModel", null)
+
+    println("Transformed")
+    Seq.empty
   }
 
 }

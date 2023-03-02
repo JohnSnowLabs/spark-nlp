@@ -4,22 +4,27 @@ import com.johnsnowlabs.nlp.AnnotatorType.{DOC_SIMILARITY_RANKINGS, SENTENCE_EMB
 import com.johnsnowlabs.nlp.{AnnotatorApproach, HasEnableCachingProperties}
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.feature.BucketedRandomProjectionLSH
+import org.apache.spark.ml.feature.{BucketedRandomProjectionLSH, VectorAssembler}
+import org.apache.spark.ml.functions.array_to_vector
 import org.apache.spark.ml.param.Param
+import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.Dataset
-import org.apache.spark.sql.functions.col
+import org.apache.spark.sql.functions.{col, expr, flatten}
 
 class DocumentSimilarityRankerApproach(override val uid: String)
-extends AnnotatorApproach[DocumentSimilarityRankerModel]
-  with HasStorageRef
-  with HasEnableCachingProperties {
-  override val description: AnnotatorType = ???
+  extends AnnotatorApproach[DocumentSimilarityRankerModel]
+    with HasStorageRef
+    with HasEnableCachingProperties {
 
-  override val outputAnnotatorType: AnnotatorType = ???
+  override val description: AnnotatorType = "LSH based document similarity annotator"
+
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
    * type
    */
-  override val inputAnnotatorTypes: Array[AnnotatorType] = ???
+  def this() = this(Identifiable.randomUID("DocumentSimilarityRankerApproach"))
+
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(SENTENCE_EMBEDDINGS)
+  override val outputAnnotatorType: AnnotatorType = DOC_SIMILARITY_RANKINGS
 
   /** The similarity method used to calculate the neighbours.
    * (Default: `"brp"`, Bucketed Random Projection for Euclidean Distance)
@@ -82,31 +87,40 @@ extends AnnotatorApproach[DocumentSimilarityRankerModel]
     numHashTables -> 3
   )
 
-  val INPUT_COL_FEATURES = "features"
+  val LSH_INPUT_COL_NAME = "features"
 
-  val OUTPUT_COL_HASHES = "hashes"
+  val LSH_OUTPUT_COL_NAME = "hashes"
 
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): DocumentSimilarityRankerModel = {
     val lsh = $(similarityMethod) match {
       case "brp" => new BucketedRandomProjectionLSH()
         .setBucketLength($(bucketLength))
         .setNumHashTables($(numHashTables))
-        .setInputCol(INPUT_COL_FEATURES)
-        .setOutputCol(OUTPUT_COL_HASHES)
+        .setInputCol(LSH_INPUT_COL_NAME)
+        .setOutputCol(LSH_OUTPUT_COL_NAME)
       case _ => throw new IllegalArgumentException(s"${$(similarityMethod)} is not a valid value.")
     }
 
-    val embeddingsDataset = dataset.withColumn("features", col("sentence_embeddings.embeddings"))
+    val embeddingsDataset = dataset.withColumn(LSH_INPUT_COL_NAME, col("sentence_embeddings.embeddings"))
+    embeddingsDataset.select(LSH_INPUT_COL_NAME).show(false)
 
-    embeddingsDataset.show()
+    val lshDataset = embeddingsDataset
+      .withColumn(s"$LSH_INPUT_COL_NAME", flatten(col(s"$LSH_INPUT_COL_NAME")))
+      .withColumn(s"$LSH_INPUT_COL_NAME", array_to_vector(col(s"$LSH_INPUT_COL_NAME")))
+    // .select(expr(s"transform($LSH_INPUT_COL_NAME, x -> x[0])").as(s"$LSH_INPUT_COL_NAME"))
+    lshDataset.show(false)
 
-    val model = lsh.fit(embeddingsDataset)
+    val model = lsh.fit(lshDataset)
+
+    val datasetMf = Map("lshDataset" -> lshDataset)
+    val modelMf = Map("similarityModel" -> model)
 
     new DocumentSimilarityRankerModel()
-      .setBucketLength($(bucketLength))
-      .setNumHashTables($(numHashTables))
-      .setNumberOfNeighbours($(numberOfNeighbours))
-      .setLSHModel(model)
+      .setLshInputColName(LSH_INPUT_COL_NAME)
+      .setLshBucketLength($(bucketLength))
+      .setLshNumHashTables($(numHashTables))
+      .setLshNumberOfNeighbours($(numberOfNeighbours))
+      .setSimilarityModel(modelMf)
+      .setDataset(datasetMf)
   }
-
 }

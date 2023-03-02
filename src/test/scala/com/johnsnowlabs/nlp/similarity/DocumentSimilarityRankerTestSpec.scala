@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.similarity
 import com.johnsnowlabs.nlp.AnnotatorType.{DOC_SIMILARITY_RANKINGS, SENTENCE_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
-import com.johnsnowlabs.nlp.annotators.similarity.{DocumentSimilarityRanker, DocumentSimilarityRankerModel}
+import com.johnsnowlabs.nlp.annotators.similarity.{DocumentSimilarityRanker, DocumentSimilarityRankerApproach, DocumentSimilarityRankerModel}
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
@@ -49,11 +49,13 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
       .setOutputCols("finished_sentence_embeddings")
       .setCleanAnnotations(false)
 
-    val docSimilarityRanker = new DocumentSimilarityRankerModel()
+    val docSimilarityRanker = new DocumentSimilarityRankerApproach()
       .setInputCols("sentence_embeddings")
       .setOutputCol(DOC_SIMILARITY_RANKINGS)
       .setSimilarityMethod("brp")
       .setNumberOfNeighbours(10)
+
+    // val docSimilarityFinalizer
 
     val pipeline = new Pipeline()
       .setStages(
@@ -64,7 +66,9 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
           embeddings,
           embeddingsSentence,
           sentenceFinisher,
-          docSimilarityRanker))
+          docSimilarityRanker
+//          docSimilarityFinalizer
+        ))
 
     val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
 
