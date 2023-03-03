@@ -47,7 +47,7 @@ tokenizer = nlp.Tokenizer() \
     .setInputCols(['document']) \
     .setOutputCol('token')
 
-sequenceClassifier_loaded = finance.BertForSequenceClassification.pretrained("finclf_bert_broker_sentiment_analysis", "en", "finance/models")\
+sequenceClassifier_loaded = finance.BertForSequenceClassification.pretrained("finclf_bert_news_tweets_sentiment_analysis", "en", "finance/models")\
   .setInputCols(["document",'token'])\
   .setOutputCol("class")
 
