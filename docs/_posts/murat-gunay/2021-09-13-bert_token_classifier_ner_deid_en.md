@@ -69,7 +69,6 @@ pipeline =  Pipeline(stages=[documentAssembler,
                              tokenClassifier, 
                              ner_converter])
 
-
 sample_text = """A. Record date : 2093-01-13, David Hale, M.D. Name : Hendrickson, Ora MR. # 7194334. PCP : Oliveira, non-smoking. Cocke County Baptist Hospital. 0295 Keats Street. Phone +1 (302) 786-5227. Patient's complaints first surfaced when he started working for Brothers Coal-Mine."""
 
 df = spark.createDataFrame([[sample_text]]).toDF("text")

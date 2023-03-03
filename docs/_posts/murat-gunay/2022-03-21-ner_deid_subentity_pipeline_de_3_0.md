@@ -21,8 +21,8 @@ use_language_switcher: "Python-Scala-Java"
 This pretrained pipeline is built on the top of [ner_deid_subentity](https://nlp.johnsnowlabs.com/2022/01/06/ner_deid_subentity_de.html) model.
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_DEID_DE/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/DEID_PHI_TEXT_MULTI.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_deid_subentity_pipeline_de_3.4.1_3.0_1647887751010.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
 [Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/ner_deid_subentity_pipeline_de_3.4.1_3.0_1647887751010.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
@@ -34,8 +34,9 @@ This pretrained pipeline is built on the top of [ner_deid_subentity](https://nlp
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
-pipeline = PretrainedPipeline("ner_deid_subentity_pipeline", "de", "clinical/models")
+from sparknlp.pretrained import PretrainedPipeline
 
+pipeline = PretrainedPipeline("ner_deid_subentity_pipeline", "de", "clinical/models")
 
 pipeline.annotate("Michael Berger wird am Morgen des 12 Dezember 2018 ins St. Elisabeth-Krankenhaus in Bad Kissingen eingeliefert. Herr Berger ist 76 Jahre alt und hat zu viel Wasser in den Beinen.")
 ```

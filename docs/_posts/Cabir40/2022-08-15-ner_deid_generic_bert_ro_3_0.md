@@ -66,7 +66,13 @@ ner_converter = NerConverter()\
 	.setInputCols(["sentence", "token", "ner"])\
 	.setOutputCol("ner_chunk")
     
-nlpPipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_ner, ner_converter])
+nlpPipeline = Pipeline(stages=[
+        documentAssembler, 
+        sentenceDetector, 
+        tokenizer, 
+        embeddings, 
+        clinical_ner, 
+        ner_converter])
 
 text = """
 Spitalul Pentru Ochi de Deal, Drumul Oprea Nr. 972 Vaslui, 737405 România

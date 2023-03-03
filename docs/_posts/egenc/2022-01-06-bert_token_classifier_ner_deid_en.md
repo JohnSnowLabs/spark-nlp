@@ -33,8 +33,8 @@ We sticked to official annotation guideline (AG) for 2014 i2b2 Deid challenge wh
 
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_DEID_DE){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/healthcare-nlp/04.1.Clinical_Multi_Language_Deidentification.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_ner_deid_en_3.3.4_2.4_1641472006823.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
 [Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_ner_deid_en_3.3.4_2.4_1641472006823.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
@@ -51,23 +51,27 @@ We sticked to official annotation guideline (AG) for 2014 i2b2 Deid challenge wh
 
 ```python
 documentAssembler = DocumentAssembler()\
-.setInputCol("text")\
-.setOutputCol("document")
+    .setInputCol("text")\
+    .setOutputCol("document")
 
 tokenizer = Tokenizer()\
-.setInputCols(["document"])\
-.setOutputCol("token")
+    .setInputCols(["document"])\
+    .setOutputCol("token")
 
 tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_deid", "en", "clinical/models")\
-.setInputCols(["token", "document"])\
-.setOutputCol("ner")\
-.setCaseSensitive(True)
+    .setInputCols(["token", "document"])\
+    .setOutputCol("ner")\
+    .setCaseSensitive(True)
 
 ner_converter = NerConverter()\
-.setInputCols(["document","token","ner"])\
-.setOutputCol("ner_chunk")
+    .setInputCols(["document","token","ner"])\
+    .setOutputCol("ner_chunk")
 
-pipeline =  Pipeline(stages=[documentAssembler, tokenizer, tokenClassifier, ner_converter])
+pipeline =  Pipeline(stages=[
+    documentAssembler, 
+    tokenizer, 
+    tokenClassifier, 
+    ner_converter])
 
 data = spark.createDataFrame([["""A. Record date : 2093-01-13, David Hale, M.D. Name : Hendrickson, Ora MR. # 7194334. PCP : Oliveira, non-smoking. Cocke County Baptist Hospital. 0295 Keats Street. Phone +1 (302) 786-5227. Patient's complaints first surfaced when he started working for Brothers Coal-Mine."""]]).toDF("text")
 
@@ -76,23 +80,27 @@ result = pipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-.setInputCol("text")
-.setOutputCol("document")
+    .setInputCol("text")
+    .setOutputCol("document")
 
 val tokenizer = new Tokenizer()
-.setInputCols(Array("document"))
-.setOutputCol("token")
+    .setInputCols(Array("document"))
+    .setOutputCol("token")
 
 val tokenClassifier = MedicalBertForTokenClassifier.pretrained("bert_token_classifier_ner_deid", "en", "clinical/models")
-.setInputCols(Array("document","token"))
-.setOutputCol("ner")
-.setCaseSensitive(True)
+    .setInputCols(Array("document","token"))
+    .setOutputCol("ner")
+    .setCaseSensitive(True)
 
 val ner_converter = new NerConverter()
-.setInputCols(Array("document","token","ner"))
-.setOutputCol("ner_chunk")
+    .setInputCols(Array("document","token","ner"))
+    .setOutputCol("ner_chunk")
 
-val pipeline =  new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier, ner_converter))
+val pipeline =  new Pipeline().setStages(Array(
+    documentAssembler, 
+    tokenizer, 
+    tokenClassifier, 
+    ner_converter))
 
 val data = Seq("""A. Record date : 2093-01-13, David Hale, M.D. Name : Hendrickson, Ora MR. # 7194334. PCP : Oliveira, non-smoking. Cocke County Baptist Hospital. 0295 Keats Street. Phone +1 (302) 786-5227. Patient's complaints first surfaced when he started working for Brothers Coal-Mine.""").toDS.toDF("text")
 

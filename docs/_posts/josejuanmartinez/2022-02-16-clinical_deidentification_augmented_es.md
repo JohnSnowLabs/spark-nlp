@@ -23,8 +23,8 @@ This pipeline is trained with sciwiki_300d embeddings and can be used to deident
 The PHI information will be masked and obfuscated in the resulting text. The pipeline can mask, fake or obfuscate the following entities: `AGE`, `DATE`, `PROFESSION`, `EMAIL`, `USERNAME`, `STREET`, `CITY`, `COUNTRY`, `DOCTOR`, `HOSPITAL`, `PATIENT`, `URL`, `MEDICALRECORD`, `IDNUM`, `ORGANIZATION`, `PHONE`, `ZIP`, `ACCOUNT`, `SSN`, `PLATE`, `SEX` and `IPADDR`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/DEID_PHI_TEXT_MULTI/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/DEID_PHI_TEXT_MULTI.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/clinical_deidentification_augmented_es_3.4.1_3.0_1645005904505.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
 [Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/clinical_deidentification_augmented_es_3.4.1_3.0_1645005904505.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
@@ -35,7 +35,7 @@ The PHI information will be masked and obfuscated in the resulting text. The pip
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-from johnsnowlabs import *
+from sparknlp.pretrained import PretrainedPipeline
 
 deid_pipeline = PretrainedPipeline("clinical_deidentification_augmented", "es", "clinical/models")
 
@@ -64,6 +64,7 @@ result = deid_pipeline .annotate(sample)
 ```
 ```scala
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+
 val deid_pipeline = new PretrainedPipeline("clinical_deidentification_augmented", "es", "clinical/models")
 
 sample = "Datos del paciente.

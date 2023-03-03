@@ -25,8 +25,8 @@ This pipeline can be used to deidentify PHI information from medical texts. The 
 
 
 {:.btn-box}
-[Live Demo](https://demo.johnsnowlabs.com/healthcare/DEID_PHI_TEXT/){:.button.button-orange}
-[Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.Pretrained_Clinical_Pipelines.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/DEID_PHI_TEXT_MULTI/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/DEID_PHI_TEXT_MULTI.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/clinical_deidentification_en_3.4.1_3.0_1646335814560.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
 [Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/clinical_deidentification_en_3.4.1_3.0_1646335814560.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
@@ -43,16 +43,13 @@ This pipeline can be used to deidentify PHI information from medical texts. The 
 ```python
 from sparknlp.pretrained import PretrainedPipeline
 
-
 deid_pipeline = PretrainedPipeline("clinical_deidentification", "en", "clinical/models")
-
 
 sample = """Name : Hendrickson, Ora, Record date: 2093-01-13, # 719435.
 Dr. John Green, ID: 1231511863, IP 203.120.223.13.
 He is a 60-year-old male was admitted to the Day Hospital for cystectomy on 01/13/93.
 Patient's VIN : 1HGBH41JXMN109286, SSN #333-44-6666, Driver's license no:A334455B.
 Phone (302) 786-5227, 0295 Keats Street, San Francisco, E-MAIL: smith@gmail.com."""
-
 
 result = deid_pipeline.annotate(sample)
 print("\n".join(result['masked']))
@@ -63,16 +60,13 @@ print("\n".join(result['obfuscated']))
 ```scala
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 
-
 val deid_pipeline = new PretrainedPipeline("clinical_deidentification","en","clinical/models")
-
 
 val sample = """Name : Hendrickson, Ora, Record date: 2093-01-13, # 719435.
 Dr. John Green, ID: 1231511863, IP 203.120.223.13.
 He is a 60-year-old male was admitted to the Day Hospital for cystectomy on 01/13/93.
 Patient's VIN : 1HGBH41JXMN109286, SSN #333-44-6666, Driver's license no:A334455B.
 Phone (302) 786-5227, 0295 Keats Street, San Francisco, E-MAIL: smith@gmail.com."""
-
 
 val result = deid_pipeline.annotate(sample)
 ```
