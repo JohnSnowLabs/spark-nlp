@@ -7,7 +7,7 @@ date: 2023-03-03
 tags: [is, open_source, distilbert, token_classification, ner, tensorflow]
 task: Named Entity Recognition
 language: is
-edition: Spark NLP 4.3.0
+edition: Spark NLP 4.3.1
 spark_version: 3.0
 supported: true
 engine: tensorflow
@@ -28,8 +28,8 @@ Pretrained DistilBertForTokenClassification model, adapted from Hugging Face and
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_token_classifier_icelandic_ner_distilbert_is_4.3.0_3.0_1677879765720.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/distilbert_token_classifier_icelandic_ner_distilbert_is_4.3.0_3.0_1677879765720.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_token_classifier_icelandic_ner_distilbert_is_4.3.1_3.0_1677881983874.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/distilbert_token_classifier_icelandic_ner_distilbert_is_4.3.1_3.0_1677881983874.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -83,7 +83,7 @@ val result = pipeline.fit(data).transform(data)
 {:.table-model}
 |---|---|
 |Model Name:|distilbert_token_classifier_icelandic_ner_distilbert|
-|Compatibility:|Spark NLP 4.3.0+|
+|Compatibility:|Spark NLP 4.3.1+|
 |License:|Open Source|
 |Edition:|Official|
 |Input Labels:|[document, token]|
