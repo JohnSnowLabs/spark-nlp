@@ -235,8 +235,7 @@ text= "She is given folic acid 1 mg daily , levothyroxine 0.1 mg and aspirin 81 
 
  We have two new chunk mapper models.
 
-+ [ndc_drug_brandname_mapper](https://nlp.johnsnowlabs.com/2023/02/22/ndc_drug_brandname_mapper_en.html) model maps NDC codes with their corresponding drug brand names as well as
-RxNorm Codes according to National Institute of Health (NIH).
++ [ndc_drug_brandname_mapper](https://nlp.johnsnowlabs.com/2023/02/22/ndc_drug_brandname_mapper_en.html) model maps NDC codes with their corresponding drug brand names as well as RxNorm Codes according to National Institute of Health (NIH).
 
 *Example*:
 
