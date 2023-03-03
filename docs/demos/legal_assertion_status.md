@@ -5,6 +5,7 @@ subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /legal_assertion_status
 key: demo
+nav_key: demo
 article_header:
   type: demo
 license: false

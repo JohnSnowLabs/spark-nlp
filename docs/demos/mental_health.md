@@ -5,6 +5,7 @@ seotitle: 'Clinical NLP: Mental Health - John Snow Labs'
 full_width: true
 permalink: /mental_health
 key: demo
+nav_key: demo
 article_header:
   type: demo
 license: false
