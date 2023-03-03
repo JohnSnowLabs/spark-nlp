@@ -2,8 +2,8 @@
 layout: docs
 header: true
 seotitle: Spark NLP for Healthcare | John Snow Labs
-title: Spark NLP for Healthcare Release Notes
-permalink: /docs/en/spark_nlp_healthcare_versions/licensed_release_notes
+title: Spark NLP for Healthcare Release Notes 4.3.1
+permalink: /docs/en/spark_nlp_healthcare_versions/release_notes_4_3_1
 key: docs-licensed-release-notes
 modify_date: 2023-03-02
 show_nav: true
@@ -235,7 +235,7 @@ text= "She is given folic acid 1 mg daily , levothyroxine 0.1 mg and aspirin 81 
 
  We have two new chunk mapper models.
 
- + `ndc_drug_brandname_mapper` model maps NDC codes with their corresponding drug brand names as well as RxNorm Codes According to According to National Institute of Health (NIH).
+ + [ndc_drug_brandname_mapper](https://nlp.johnsnowlabs.com/2023/02/22/ndc_drug_brandname_mapper_en.html) model maps NDC codes with their corresponding drug brand names as well as RxNorm Codes according to National Institute of Health (NIH).
 
 *Example*:
 
@@ -258,7 +258,7 @@ text= ["0009-4992", "57894-150"]
 |  1 | 57894-150  | ZYTIGA            |
 
 
-+ `rxnorm_nih_mapper` model maps entities with their corresponding RxNorm codes according to the National Institute of Health (NIH) database. It returns Rxnorm codes along with their NIH Rxnorm Term Types within a parenthesis.
++ [rxnorm_nih_mapper](https://nlp.johnsnowlabs.com/2023/02/23/rxnorm_nih_mapper_en.html) model maps entities with their corresponding RxNorm codes according to the National Institute of Health (NIH) database. It returns Rxnorm codes along with their NIH Rxnorm Term Types within a parenthesis.
 
 *Example*:
 
@@ -412,10 +412,10 @@ sample_text = "Mr. ABC is a 25 years old with a nonproductive cough that started
 For all Spark NLP for Healthcare models, please check: [Models Hub Page](https://nlp.johnsnowlabs.com/models?edition=Healthcare+NLP)
 
 
-</div>
-<div class="prev_ver h3-box" markdown="1">
 
-## Previous versions
+</div><div class="prev_ver h3-box" markdown="1">
+
+## Versions
 
 </div>
 {%- include docs-healthcare-pagination.html -%}
