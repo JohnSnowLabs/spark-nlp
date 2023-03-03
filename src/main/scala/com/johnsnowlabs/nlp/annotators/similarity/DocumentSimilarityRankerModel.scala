@@ -5,11 +5,9 @@ import com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate, ParamsAndFeaturesWritable}
 import com.johnsnowlabs.storage.HasStorageRef
-import org.apache.hadoop.shaded.org.eclipse.jetty.websocket.common.frames.DataFrame
-import org.apache.spark.ml.feature.{BucketedRandomProjectionLSH, BucketedRandomProjectionLSHModel}
-import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
-import org.apache.spark.sql.{Dataset, SparkSession}
+
+import scala.util.hashing.MurmurHash3
 
 class DocumentSimilarityRankerModel(override val uid: String)
   extends AnnotatorModel[DocumentSimilarityRankerModel]
@@ -24,95 +22,20 @@ class DocumentSimilarityRankerModel(override val uid: String)
 
   def this() = this(Identifiable.randomUID("DOC_SIMILARITY_RANKER"))
 
-  val lshInputColName = new Param[String](
-    this,
-    "similarityMethod",
-    """ Input col name for similarity LSH model.
-      |(Default: `"brp"`, Bucketed Random Projection for Euclidean Distance)
-      |""".stripMargin)
-
-  def setLshInputColName(value: String): this.type = set(lshInputColName, value)
-
-  def getLshInputColName: String = $(lshInputColName)
-
-  /** The similarity method used to calculate the neighbours.
-   * (Default: `"brp"`, Bucketed Random Projection for Euclidean Distance)
+  /** Dictionary of words with their vectors
    *
    * @group param
    */
-  val similarityMethod = new Param[String](
-    this,
-    "similarityMethod",
-    """The similarity method used to calculate the neighbours.
-      |(Default: `"brp"`, Bucketed Random Projection for Euclidean Distance)
-      |""".stripMargin)
+  val similarityMappings: MapFeature[String, Array[String]] = new MapFeature(this, "similarityMappings")
 
-  def setSimilarityMethod(value: String): this.type = set(similarityMethod, value)
+  /** @group setParam */
+  def setSimilarityMappings(value: Map[String, Array[String]]): this.type = set(similarityMappings, value)
 
-  def getSimilarityMethod: String = $(similarityMethod)
-
-  /** The number of neighbours the model will return (Default:`"10"`).
-   *
-   * @group param
-   */
-  val numberOfNeighbours = new Param[Int](
-    this,
-    "numberOfNeighbours",
-    """The number of neighbours the model will return (Default:`"10"`)""")
-
-  def setLshNumberOfNeighbours(value: Int): this.type = set(numberOfNeighbours, value)
-
-  def getNumberOfNeighbours: Int = $(numberOfNeighbours)
-
-  val bucketLength = new Param[Double](
-    this,
-    "bucketLength",
-    """The bucket length that controls the average size of hash buckets.
-      |A larger bucket length (i.e., fewer buckets) increases the probability of features being hashed
-      |to the same bucket (increasing the numbers of true and false positives)
-      |""".stripMargin)
-
-  def setLshBucketLength(value: Double): this.type = set(bucketLength, value)
-
-  def getBucketLength: Double = $(bucketLength)
-
-  val numHashTables = new Param[Int](
-    this,
-    "numHashTables",
-    """number of hash tables, where increasing number of hash tables lowers the false negative rate,
-      |and decreasing it improves the running performance.
-      |""".stripMargin)
-
-  def setLshNumHashTables(value: Int): this.type = set(numHashTables, value)
-
-  def getNumHashTables: Int = $(numHashTables)
-
-  val similarityModel: MapFeature[String, BucketedRandomProjectionLSHModel] = new MapFeature(this, "similarityModel")
-
-  def setSimilarityModel(value: Map[String, BucketedRandomProjectionLSHModel]): this.type = set(similarityModel, value)
-
-  def generateDefaultLSHModel(value: String): BucketedRandomProjectionLSHModel = {
-    value match {
-      case "brp" => new BucketedRandomProjectionLSH().fit(getDataset)
-    }
-  }
-
-  def getSimilarityModel: BucketedRandomProjectionLSHModel =
-    $$(similarityModel).getOrElse("similarityModel", generateDefaultLSHModel("brp"))
-
-  val dataset: MapFeature[String, Dataset[_]] = new MapFeature(this, "dataset")
-
-  def setDataset(value: Map[String, Dataset[_]]): this.type = set(dataset, value)
-
-  def getDataset: Dataset[_] = $$(dataset).getOrElse("dataset", null)
+  def getSimilarityMappings: Array[String] = $$(similarityMappings).getOrElse("similarityMappings", Array(""))
 
   setDefault(
     inputCols -> Array(SENTENCE_EMBEDDINGS),
-    outputCol -> DOC_SIMILARITY_RANKINGS,
-    similarityMethod -> "brp",
-    numberOfNeighbours -> 10,
-    bucketLength -> 2.0,
-    numHashTables -> 3
+    outputCol -> DOC_SIMILARITY_RANKINGS
   )
 
   /** takes a document and annotations and produces new annotations of this annotator's annotation
@@ -125,25 +48,29 @@ class DocumentSimilarityRankerModel(override val uid: String)
    * relationship
    */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    println("into the annotator")
-    Seq(Annotation("ciao"))
 
-    //    iterate over input annotations
-    //    - select the input ID based on result input text?
-    //      - replace features value with embeddings
-    //      - calculate the N closest IDs with their distances
-    //      - insert closest and distance in as metadata arrays of N=numNeighbors
-    //      - forward the embeddings in the metadata embeddings
-    //    $(similarityModel).transform()
+    //    1=>0|1
+    val mappings: Map[String, String] = getSimilarityMappings
+      .map(s => s.split("=>"))
+      .map { case Array(index, neighbors) => (index, neighbors) }
+      .toMap
 
-//    val _transformed = getSimilarityModel.transform(getDataset)
+    annotations.map(
+      annotation => {
+        val inputResult = annotation.result
+        val indexTarget = MurmurHash3.stringHash(inputResult, MurmurHash3.stringSeed).toString
+        val neighbors: String = mappings.getOrElse(indexTarget, "NA")
 
-//    val retrieved = $$(similarityModel).getOrElse("similarityModel", null)
-
-    println("Transformed")
-    Seq.empty
+        Annotation(
+          annotatorType = outputAnnotatorType,
+          begin = annotation.begin,
+          end = annotation.end,
+          result = annotation.result,
+          metadata = annotation.metadata + ("id"-> indexTarget) + ("neighbors" -> neighbors) ,
+          embeddings = annotation.embeddings)
+      }
+    )
   }
-
 }
 
 object DocumentSimilarityRanker extends DefaultParamsReadable[DocumentSimilarityRankerModel]

@@ -4,12 +4,14 @@ import com.johnsnowlabs.nlp.AnnotatorType.{DOC_SIMILARITY_RANKINGS, SENTENCE_EMB
 import com.johnsnowlabs.nlp.{AnnotatorApproach, HasEnableCachingProperties}
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.feature.{BucketedRandomProjectionLSH, VectorAssembler}
+import org.apache.spark.ml.feature.{BucketedRandomProjectionLSH, BucketedRandomProjectionLSHModel, VectorAssembler}
 import org.apache.spark.ml.functions.array_to_vector
+import org.apache.spark.ml.linalg.{DenseVector, Vectors}
 import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.Dataset
-import org.apache.spark.sql.functions.{col, expr, flatten}
+import org.apache.spark.sql.expressions.Window
+import org.apache.spark.sql.{DataFrame, Dataset}
+import org.apache.spark.sql.functions.{col, expr, flatten, hash, monotonically_increasing_id, row_number}
 
 class DocumentSimilarityRankerApproach(override val uid: String)
   extends AnnotatorApproach[DocumentSimilarityRankerModel]
@@ -91,6 +93,19 @@ class DocumentSimilarityRankerApproach(override val uid: String)
 
   val LSH_OUTPUT_COL_NAME = "hashes"
 
+  val INDEX_COL_NAME = "index"
+
+  def getANN(model: BucketedRandomProjectionLSHModel, query: (Int, DenseVector), similarityDataset: DataFrame) = {
+    query match {
+      case (index, key) =>
+        val similarRankedDocs = model.approxNearestNeighbors(similarityDataset, key, getNumberOfNeighbours)
+        val neighborsStr = similarRankedDocs.select(INDEX_COL_NAME).collect().map(_.getInt(0)).mkString("|")
+        index.toString.concat("=>").concat(neighborsStr)
+    }
+  }
+
+  val INPUT_EMBEDDINGS = "sentence_embeddings.embeddings"
+
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): DocumentSimilarityRankerModel = {
     val lsh = $(similarityMethod) match {
       case "brp" => new BucketedRandomProjectionLSH()
@@ -101,26 +116,27 @@ class DocumentSimilarityRankerApproach(override val uid: String)
       case _ => throw new IllegalArgumentException(s"${$(similarityMethod)} is not a valid value.")
     }
 
-    val embeddingsDataset = dataset.withColumn(LSH_INPUT_COL_NAME, col("sentence_embeddings.embeddings"))
-    embeddingsDataset.select(LSH_INPUT_COL_NAME).show(false)
+    val embeddingsDataset = dataset.withColumn(LSH_INPUT_COL_NAME, col(INPUT_EMBEDDINGS))
 
-    val lshDataset = embeddingsDataset
+    val similarityDataset: DataFrame = embeddingsDataset
       .withColumn(s"$LSH_INPUT_COL_NAME", flatten(col(s"$LSH_INPUT_COL_NAME")))
       .withColumn(s"$LSH_INPUT_COL_NAME", array_to_vector(col(s"$LSH_INPUT_COL_NAME")))
-    // .select(expr(s"transform($LSH_INPUT_COL_NAME, x -> x[0])").as(s"$LSH_INPUT_COL_NAME"))
-    lshDataset.show(false)
 
-    val model = lsh.fit(lshDataset)
+    val model = lsh.fit(similarityDataset)
 
-    val datasetMf = Map("lshDataset" -> lshDataset)
-    val modelMf = Map("similarityModel" -> model)
+    val similarityDatasetWithIndex = similarityDataset
+//      .withColumn(INDEX_COL_NAME, row_number.over(Window.orderBy(monotonically_increasing_id)) - 1)
+      .withColumn(INDEX_COL_NAME, hash(col("text")))
+
+    val indexedVectorTuples = similarityDatasetWithIndex
+      .select(INDEX_COL_NAME, LSH_INPUT_COL_NAME)
+      .rdd
+      .map(x => (x.getAs(INDEX_COL_NAME), x.getAs(LSH_INPUT_COL_NAME))).collect()
+
+    val similarityMappings: Array[String] = indexedVectorTuples
+      .map(query => getANN(model, query, similarityDatasetWithIndex))
 
     new DocumentSimilarityRankerModel()
-      .setLshInputColName(LSH_INPUT_COL_NAME)
-      .setLshBucketLength($(bucketLength))
-      .setLshNumHashTables($(numHashTables))
-      .setLshNumberOfNeighbours($(numberOfNeighbours))
-      .setSimilarityModel(modelMf)
-      .setDataset(datasetMf)
+      .setSimilarityMappings(Map("similarityMappings" -> similarityMappings))
   }
 }
