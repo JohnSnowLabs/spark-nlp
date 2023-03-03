@@ -6,6 +6,7 @@ name: jsl_ner_wip_clinical
 date: 2021-01-18
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Healthcare NLP 2.7.0
 spark_version: 2.4
 tags: [ner, en, clinical, licensed]

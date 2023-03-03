@@ -5,6 +5,7 @@ author: John Snow Labs
 name: embeddings_healthcare_100d
 class: WordEmbeddingsModel
 language: en
+nav_key: models
 repository: clinical/models
 date: 2020-05-29
 task: Embeddings

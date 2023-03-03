@@ -7,6 +7,7 @@ date: 2022-11-02
 tags: [en, clinical, licensed, resolver, chunk_mapping, pipeline, icd10cm]
 task: Pipeline Healthcare
 language: en
+nav_key: models
 edition: Spark NLP for Healthcare 4.2.1
 spark_version: 3.0
 supported: true

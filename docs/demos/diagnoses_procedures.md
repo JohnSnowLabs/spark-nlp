@@ -6,6 +6,9 @@ subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /diagnoses_procedures
 key: demo
+nav_key: demo
+nav_key: demo
+nav_key: demo
 article_header:
   type: demo
 license: false

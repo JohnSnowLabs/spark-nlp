@@ -7,6 +7,7 @@ date: 2021-11-03
 tags: [bert, hatespeech, en, english, sequence_classification, open_source]
 task: Text Classification
 language: en
+nav_key: models
 edition: Spark NLP 3.3.2
 spark_version: 3.0
 supported: true

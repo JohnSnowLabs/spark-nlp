@@ -6,6 +6,7 @@ name: classifierdl_use_trec6_pipeline
 date: 2021-01-08
 task: [Text Classification, Pipeline Public]
 language: en
+nav_key: models
 edition: Spark NLP 2.7.1
 spark_version: 2.4
 tags: [classifier, text_classification, en, open_source, pipeline]

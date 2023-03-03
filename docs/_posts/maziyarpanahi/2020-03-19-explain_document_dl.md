@@ -6,6 +6,7 @@ name: explain_document_dl
 date: 2020-03-19
 task: [Sentence Detection, Part of Speech Tagging, Lemmatization, Pipeline Public, Spell Check]
 language: en
+nav_key: models
 edition: Spark NLP 2.5.5
 spark_version: 2.4
 tags: [pipeline, en, open_source]

@@ -7,6 +7,7 @@ date: 2022-05-16
 tags: [distilbert, ner, token_classification, en, open_source]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true

@@ -7,6 +7,7 @@ date: 2021-11-29
 tags: [deid, ner, phi, deidentification, licensed, i2b2, en]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Healthcare NLP 3.3.2
 spark_version: 2.4
 supported: true

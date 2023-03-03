@@ -7,6 +7,7 @@ date: 2022-11-01
 tags: [date, en, licensed]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Spark NLP for Finance 1.0.0
 spark_version: 3.0
 supported: true

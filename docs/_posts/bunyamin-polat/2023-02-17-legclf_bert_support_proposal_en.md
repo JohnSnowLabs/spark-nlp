@@ -7,6 +7,7 @@ date: 2023-02-17
 tags: [en, legal, licensed, classification, proposal, support, tensorflow]
 task: Text Classification
 language: en
+nav_key: models
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true

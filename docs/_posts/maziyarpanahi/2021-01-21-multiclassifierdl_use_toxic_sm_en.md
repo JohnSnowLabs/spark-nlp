@@ -6,6 +6,7 @@ name: multiclassifierdl_use_toxic_sm
 date: 2021-01-21
 task: Text Classification
 language: en
+nav_key: models
 edition: Spark NLP 2.7.1
 spark_version: 2.4
 tags: [open_source, en, text_classification]

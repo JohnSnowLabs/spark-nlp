@@ -7,6 +7,7 @@ date: 2023-01-03
 tags: [en, licensed, ocr, streaming]
 task: Ocr Streaming
 language: en
+nav_key: models
 edition: Visual NLP 4.0.0
 spark_version: 3.0
 supported: true

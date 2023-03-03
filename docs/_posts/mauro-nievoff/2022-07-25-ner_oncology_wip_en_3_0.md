@@ -7,6 +7,7 @@ date: 2022-07-25
 tags: [licensed, english, clinical, ner, oncology, cancer, biomarker, en]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Healthcare NLP 3.5.0
 spark_version: 3.0
 supported: true

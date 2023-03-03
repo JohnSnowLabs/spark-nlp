@@ -7,6 +7,7 @@ date: 2023-02-22
 tags: [chunk_mapping, ndc, drug_brand_name, clinical, en, licensed]
 task: Chunk Mapping
 language: en
+nav_key: models
 edition: Healthcare NLP 4.3.0
 spark_version: 3.0
 supported: true

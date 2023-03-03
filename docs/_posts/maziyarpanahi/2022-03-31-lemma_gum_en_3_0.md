@@ -7,6 +7,7 @@ date: 2022-03-31
 tags: [open_source, universal_dependency, lemmatizer, en, english]
 task: Lemmatization
 language: en
+nav_key: models
 edition: Spark NLP 3.4.3
 spark_version: 3.0
 supported: true

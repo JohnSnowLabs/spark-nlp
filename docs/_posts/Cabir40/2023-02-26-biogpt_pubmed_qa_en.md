@@ -7,6 +7,7 @@ date: 2023-02-26
 tags: [licensed, en, clinical, biogpt, gpt, pubmed, question_answering, tensorflow]
 task: Question Answering
 language: en
+nav_key: models
 edition: Healthcare NLP 4.3.0
 spark_version: 3.0
 supported: true

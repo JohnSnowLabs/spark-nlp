@@ -7,6 +7,7 @@ date: 2021-06-23
 tags: [open_source, en, english, embeddings, albert, xxlarge]
 task: Embeddings
 language: en
+nav_key: models
 edition: Spark NLP 3.1.1
 spark_version: 2.4
 supported: true

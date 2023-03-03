@@ -7,6 +7,7 @@ date: 2022-01-18
 tags: [loinc, licensed, clinical, entity_resolution, en]
 task: Entity Resolution
 language: en
+nav_key: models
 edition: Healthcare NLP 3.3.4
 spark_version: 2.4
 supported: true

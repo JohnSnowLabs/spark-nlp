@@ -7,6 +7,7 @@ date: 2022-09-10
 tags: [bert, en, embeddings, open_source]
 task: Embeddings
 language: en
+nav_key: models
 edition: Spark NLP 4.1.0
 spark_version: 3.0
 supported: true

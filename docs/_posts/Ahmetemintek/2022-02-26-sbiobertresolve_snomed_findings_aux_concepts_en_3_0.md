@@ -7,6 +7,7 @@ date: 2022-02-26
 tags: [snomed, licensed, en, clinical, aux, ct]
 task: Entity Resolution
 language: en
+nav_key: models
 edition: Healthcare NLP 3.1.2
 spark_version: 3.0
 supported: true

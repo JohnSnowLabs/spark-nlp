@@ -7,6 +7,7 @@ date: 2022-05-17
 tags: [en, open_source, electra, embeddings]
 task: Embeddings
 language: en
+nav_key: models
 edition: Spark NLP 3.4.4
 spark_version: 3.0
 supported: true

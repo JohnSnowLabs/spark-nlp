@@ -7,6 +7,7 @@ date: 2021-12-23
 tags: [licensed, embeddings, clinical, en]
 task: Entity Resolution
 language: en
+nav_key: models
 edition: Healthcare NLP 3.3.4
 spark_version: 2.4
 supported: true

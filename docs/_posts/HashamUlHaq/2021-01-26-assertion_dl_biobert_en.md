@@ -6,6 +6,7 @@ name: assertion_dl_biobert
 date: 2021-01-26
 task: Assertion Status
 language: en
+nav_key: models
 edition: Healthcare NLP 2.7.2
 spark_version: 2.4
 tags: [assertion, en, licensed, clinical, biobert]

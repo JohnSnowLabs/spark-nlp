@@ -6,6 +6,7 @@ name: classifierdl_ade_biobert
 date: 2021-01-21
 task: Text Classification
 language: en
+nav_key: models
 edition: Healthcare NLP 2.7.1
 spark_version: 2.4
 tags: [licensed, clinical, en, classifier]

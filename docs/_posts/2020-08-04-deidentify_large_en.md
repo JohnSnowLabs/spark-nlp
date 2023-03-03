@@ -4,6 +4,7 @@ title: Deidentify PHI (Large)
 author: John Snow Labs
 name: deidentify_large
 language: en
+nav_key: models
 repository: clinical/models
 date: 2020-08-04
 task: De-identification

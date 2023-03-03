@@ -7,6 +7,7 @@ date: 2021-11-21
 tags: [en, english, amazon_polarity, distilbert, sequence_classification, sentiment, open_source]
 task: Text Classification
 language: en
+nav_key: models
 edition: Spark NLP 3.3.3
 spark_version: 3.0
 supported: true

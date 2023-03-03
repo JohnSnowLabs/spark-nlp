@@ -7,6 +7,7 @@ date: 2023-01-29
 tags: [en, legal, classification, right, first, refusal, clauses, right_of_first_refusal, licensed, tensorflow]
 task: Text Classification
 language: en
+nav_key: models
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true

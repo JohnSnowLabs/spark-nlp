@@ -6,6 +6,7 @@ name: sentence_detector_dl
 date: 2021-01-02
 task: Sentence Detection
 language: en
+nav_key: models
 edition: Spark NLP 2.7.0
 spark_version: 2.4
 tags: [en, sentence_detection, open_source]

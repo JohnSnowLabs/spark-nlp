@@ -7,6 +7,7 @@ date: 2022-03-01
 tags: [licensed, en, rct, bert, sequence_classification]
 task: Text Classification
 language: en
+nav_key: models
 edition: Healthcare NLP 3.4.1
 spark_version: 3.0
 supported: true

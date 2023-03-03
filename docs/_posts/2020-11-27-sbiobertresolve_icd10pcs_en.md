@@ -4,6 +4,7 @@ title: Sentence Entity Resolver for ICD10-PCS (sbiobert_base_cased_mli embedding
 author: John Snow Labs
 name: sbiobertresolve_icd10pcs
 language: en
+nav_key: models
 repository: clinical/models
 date: 2020-11-27
 task: Entity Resolution

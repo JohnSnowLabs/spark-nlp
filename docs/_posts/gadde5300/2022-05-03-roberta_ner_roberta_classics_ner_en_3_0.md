@@ -7,6 +7,7 @@ date: 2022-05-03
 tags: [roberta, ner, open_source, en]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true

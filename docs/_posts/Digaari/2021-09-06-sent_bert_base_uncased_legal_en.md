@@ -7,6 +7,7 @@ date: 2021-09-06
 tags: [legal, english, open_source, bert_sentence_embeddings, uncased, en]
 task: Embeddings
 language: en
+nav_key: models
 edition: Spark NLP 3.2.2
 spark_version: 3.0
 supported: true

@@ -7,6 +7,7 @@ date: 2022-02-22
 tags: [bert, sequence_classification, antisemitism, en, open_source]
 task: Text Classification
 language: en
+nav_key: models
 edition: Spark NLP 3.4.0
 spark_version: 3.0
 supported: true

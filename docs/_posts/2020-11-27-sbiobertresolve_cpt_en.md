@@ -4,6 +4,7 @@ title: Sentence Entity Resolver for CPT (sbiobert_base_cased_mli embeddings)
 author: John Snow Labs
 name: sbiobertresolve_cpt
 language: en
+nav_key: models
 repository: clinical/models
 date: 2020-11-27
 task: Entity Resolution

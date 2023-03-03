@@ -7,6 +7,7 @@ date: 2023-01-12
 tags: [en, open_source]
 task: Sentiment Analysis
 language: en
+nav_key: models
 edition: Spark NLP 4.3.0
 spark_version: 3.0
 supported: true

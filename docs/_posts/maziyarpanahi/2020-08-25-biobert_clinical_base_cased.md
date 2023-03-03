@@ -6,6 +6,7 @@ name: biobert_clinical_base_cased
 date: 2020-08-25
 task: Embeddings
 language: en
+nav_key: models
 edition: Spark NLP 2.6.0
 spark_version: 2.4
 tags: [embeddings, en, open_source]

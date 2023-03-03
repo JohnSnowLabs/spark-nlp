@@ -7,6 +7,7 @@ date: 2022-06-14
 tags: [ag_news, news, bert, bert_sequence, classification, en, open_source]
 task: Text Classification
 language: en
+nav_key: models
 edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: false
