@@ -7,6 +7,7 @@ date: 2022-03-10
 tags: [en, english, deberta, large, v3, embeddings, open_source]
 task: Embeddings
 language: en
+nav_key: models
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true

@@ -7,6 +7,7 @@ date: 2021-08-08
 tags: [few_nerd, ner, open_source, en, english, bert, token_classification]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Spark NLP 3.2.0
 spark_version: 2.4
 supported: true

@@ -7,6 +7,7 @@ date: 2021-12-16
 tags: [albert, imdb, sequence_classification, en, english, sentiment, open_source]
 task: Text Classification
 language: en
+nav_key: models
 edition: Spark NLP 3.4.0
 spark_version: 3.0
 supported: true

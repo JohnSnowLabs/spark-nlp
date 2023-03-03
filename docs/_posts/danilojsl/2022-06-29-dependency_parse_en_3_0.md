@@ -7,6 +7,7 @@ date: 2022-06-29
 tags: [pipeline, dependency_parsing, untyped_dependency_parsing, typed_dependency_parsing, laballed_depdency_parsing, unlaballed_depdency_parsing, en, open_source]
 task: Dependency Parser
 language: en
+nav_key: models
 edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true

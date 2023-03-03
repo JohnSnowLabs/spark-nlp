@@ -5,6 +5,7 @@ author: John Snow Labs
 name: sentence_detector_dl
 class: SentenceDetectorDLModel
 language: en
+nav_key: models
 date: 2020-09-13
 task: Sentence Detection
 edition: Spark NLP 2.6.2

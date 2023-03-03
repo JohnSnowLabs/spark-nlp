@@ -7,6 +7,7 @@ date: 2023-01-25
 tags: [clinical, licensed, ner, en]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Healthcare NLP 4.2.7
 spark_version: 3.0
 supported: true

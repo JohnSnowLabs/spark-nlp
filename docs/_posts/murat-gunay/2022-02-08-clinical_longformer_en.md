@@ -7,6 +7,7 @@ date: 2022-02-08
 tags: [longformer, clinical, en, open_source]
 task: Embeddings
 language: en
+nav_key: models
 edition: Spark NLP 3.4.0
 spark_version: 3.0
 supported: true

@@ -7,6 +7,7 @@ date: 2023-01-29
 tags: [en, legal, classification, other, definitional, provisions, clauses, other_definitional_provisions, licensed, tensorflow]
 task: Text Classification
 language: en
+nav_key: models
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true

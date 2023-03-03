@@ -7,6 +7,7 @@ date: 2022-10-25
 tags: [t5, licensed, clinical, en]
 task: Summarization
 language: en
+nav_key: models
 edition: Spark NLP for Healthcare 4.1.0
 spark_version: [3.0, 3.2]
 supported: true

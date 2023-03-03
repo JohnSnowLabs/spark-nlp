@@ -7,6 +7,7 @@ date: 2021-11-05
 tags: [question, statement, clinical, en, licensed]
 task: Text Classification
 language: en
+nav_key: models
 edition: Healthcare NLP 3.3.2
 spark_version: 3.0
 supported: true

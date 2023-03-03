@@ -7,6 +7,7 @@ date: 2022-01-07
 tags: [bacteria, bertfortokenclassification, ner, en, licensed]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Healthcare NLP 3.3.4
 spark_version: 2.4
 supported: true

@@ -7,6 +7,7 @@ date: 2021-06-08
 tags: [deidentification, en, licensed, pipeline]
 task: De-identification
 language: en
+nav_key: models
 edition: Healthcare NLP 3.0.4
 spark_version: 3.0
 supported: true

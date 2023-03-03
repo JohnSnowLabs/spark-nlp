@@ -5,6 +5,7 @@ author: John Snow Labs
 name: chunkresolve_loinc_clinical
 class: ChunkEntityResolverModel
 language: en
+nav_key: models
 repository: clinical/models
 date: 2020-05-16
 task: Entity Resolution

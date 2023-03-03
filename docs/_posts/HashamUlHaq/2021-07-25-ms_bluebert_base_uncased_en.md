@@ -7,6 +7,7 @@ date: 2021-07-25
 tags: [embeddings, bert, open_source, en, clinical]
 task: Embeddings
 language: en
+nav_key: models
 edition: Spark NLP 3.1.3
 spark_version: 3.0
 supported: true

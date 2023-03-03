@@ -7,6 +7,7 @@ date: 2022-10-12
 tags: [entity_resolution, cvx, clinical, en, licensed]
 task: Entity Resolution
 language: en
+nav_key: models
 edition: Healthcare NLP 4.2.1
 spark_version: 3.0
 supported: true

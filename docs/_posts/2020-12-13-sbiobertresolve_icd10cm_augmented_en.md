@@ -4,6 +4,7 @@ title: Sentence Entity Resolver for ICD10-CM (Augmented)
 author: John Snow Labs
 name: sbiobertresolve_icd10cm_augmented
 language: en
+nav_key: models
 repository: clinical/models
 date: 2020-12-13
 task: Entity Resolution

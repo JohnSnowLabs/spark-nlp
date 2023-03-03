@@ -8,6 +8,7 @@ tags: [typed_dependency_parsing, labelled_dependency_parsing, dependency_parsing
 supported: true
 task: Dependency Parser
 language: en
+nav_key: models
 edition: Spark NLP 3.0.0
 spark_version: 3.0
 annotator: TypedDependencyParserModel

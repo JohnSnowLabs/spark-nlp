@@ -7,6 +7,7 @@ date: 2022-03-31
 tags: [en, chunkmapping, chunkmapper, drug, action, treatment, licensed]
 task: Chunk Mapping
 language: en
+nav_key: models
 edition: Healthcare NLP 3.5.0
 spark_version: 3.0
 supported: true

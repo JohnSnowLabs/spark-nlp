@@ -7,6 +7,7 @@ date: 2021-12-20
 tags: [ner, clinical, drugprot, en, licensed]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Healthcare NLP 3.3.4
 spark_version: 3.0
 supported: true

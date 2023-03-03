@@ -7,6 +7,7 @@ date: 2023-02-17
 tags: [legal, licensed, agreements, en, pipeline]
 task: Relation Extraction
 language: en
+nav_key: models
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true

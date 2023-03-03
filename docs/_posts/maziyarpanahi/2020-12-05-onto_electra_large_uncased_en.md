@@ -6,6 +6,7 @@ name: onto_electra_large_uncased
 date: 2020-12-05
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Spark NLP 2.7.0
 spark_version: 2.4
 tags: [ner, en, open_source]

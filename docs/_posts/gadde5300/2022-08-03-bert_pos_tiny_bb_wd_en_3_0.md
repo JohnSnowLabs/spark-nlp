@@ -7,6 +7,7 @@ date: 2022-08-03
 tags: [bert, pos, part_of_speech, open_source, en]
 task: Part of Speech Tagging
 language: en
+nav_key: models
 edition: Spark NLP 4.1.0
 spark_version: 3.0
 supported: true

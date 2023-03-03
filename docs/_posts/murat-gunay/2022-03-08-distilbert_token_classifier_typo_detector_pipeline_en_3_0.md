@@ -7,6 +7,7 @@ date: 2022-03-08
 tags: [ner, bert, bert_for_token, typo, en, open_source]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Spark NLP 3.4.1
 spark_version: 3.0
 supported: true

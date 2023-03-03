@@ -7,6 +7,7 @@ date: 2022-06-13
 tags: [open_source, ner, token_classifier, roberta, conll03, en]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: false

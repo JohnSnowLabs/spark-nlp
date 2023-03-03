@@ -7,6 +7,7 @@ date: 2021-09-01
 tags: [roberta, sentence_embeddings, en, english, open_source]
 task: Embeddings
 language: en
+nav_key: models
 edition: Spark NLP 3.2.2
 spark_version: 3.0
 supported: true

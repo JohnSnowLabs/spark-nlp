@@ -7,6 +7,7 @@ date: 2022-11-30
 tags: [en, financial, ner, earning, calls, 10k, fillings, annual, reports, licensed]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true

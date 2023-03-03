@@ -5,6 +5,7 @@ author: John Snow Labs
 name: chunkresolve_athena_conditions_healthcare
 class: ChunkEntityResolverModel
 language: en
+nav_key: models
 repository: clinical/models
 date: 2020-09-16
 task: Entity Resolution

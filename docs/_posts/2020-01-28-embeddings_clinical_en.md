@@ -5,6 +5,7 @@ author: John Snow Labs
 name: embeddings_clinical
 class: WordEmbeddingsModel
 language: en
+nav_key: models
 repository: clinical/models
 date: 2020-01-28
 task: Embeddings

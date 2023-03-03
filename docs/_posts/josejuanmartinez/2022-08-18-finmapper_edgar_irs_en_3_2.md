@@ -7,6 +7,7 @@ date: 2022-08-18
 tags: [en, finance, companies, edgar, data, augmentation, irs, licensed]
 task: Chunk Mapping
 language: en
+nav_key: models
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true

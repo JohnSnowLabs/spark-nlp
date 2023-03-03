@@ -7,6 +7,7 @@ date: 2022-11-24
 tags: [10k, earning, calls, broker, reports, en, licensed]
 task: Text Classification
 language: en
+nav_key: models
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true

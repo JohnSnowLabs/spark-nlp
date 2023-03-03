@@ -7,6 +7,7 @@ date: 2022-08-01
 tags: [public_health, covid19_sentiment, en, licenced]
 task: Sentiment Analysis
 language: en
+nav_key: models
 edition: Healthcare NLP 4.0.2
 spark_version: 3.0
 supported: true

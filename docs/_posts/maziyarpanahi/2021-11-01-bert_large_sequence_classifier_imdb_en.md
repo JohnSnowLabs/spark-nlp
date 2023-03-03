@@ -7,6 +7,7 @@ date: 2021-11-01
 tags: [bert, large, en, english, sentiment, open_source, sequence_classification, imdb]
 task: Text Classification
 language: en
+nav_key: models
 edition: Spark NLP 3.3.2
 spark_version: 3.0
 supported: true

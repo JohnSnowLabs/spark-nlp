@@ -7,6 +7,7 @@ date: 2022-07-25
 tags: [public_health, en, licensed, sequence_classification, health, mention]
 task: Text Classification
 language: en
+nav_key: models
 edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true

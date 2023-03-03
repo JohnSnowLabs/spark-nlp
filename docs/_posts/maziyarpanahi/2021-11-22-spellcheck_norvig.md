@@ -8,6 +8,7 @@ tags: [en, open_source, spell_check, norvig]
 supported: true
 task: Spell Check
 language: en
+nav_key: models
 edition: Spark NLP 2.0.2
 spark_version: 2.4
 annotator: NorvigSweetingModel

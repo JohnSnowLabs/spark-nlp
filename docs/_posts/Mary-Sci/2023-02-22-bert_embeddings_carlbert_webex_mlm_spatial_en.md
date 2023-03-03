@@ -7,6 +7,7 @@ date: 2023-02-22
 tags: [open_source, bert, bert_embeddings, bertformaskedlm, en, tensorflow]
 task: Embeddings
 language: en
+nav_key: models
 edition: Spark NLP 4.3.0
 spark_version: 3.0
 supported: true

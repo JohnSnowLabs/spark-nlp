@@ -7,6 +7,7 @@ date: 2021-07-16
 tags: [licensed, en, relation_extraction, clinical]
 task: Relation Extraction
 language: en
+nav_key: models
 edition: Healthcare NLP 3.1.2
 spark_version: 3.0
 supported: true

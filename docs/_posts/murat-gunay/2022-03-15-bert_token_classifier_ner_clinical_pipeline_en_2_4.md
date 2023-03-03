@@ -7,6 +7,7 @@ date: 2022-03-15
 tags: [bert, bert_token_classifier, ner, clinical, en, licensed]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Healthcare NLP 3.4.1
 spark_version: 2.4
 supported: true

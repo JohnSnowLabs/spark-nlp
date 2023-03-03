@@ -7,6 +7,7 @@ date: 2022-06-15
 tags: [open_source, deberta, question_answering, en]
 task: Question Answering
 language: en
+nav_key: models
 edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true

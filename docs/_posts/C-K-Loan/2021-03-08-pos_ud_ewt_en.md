@@ -7,6 +7,7 @@ date: 2021-03-08
 tags: [part_of_speech, open_source, english, pos_ud_ewt, en]
 task: Part of Speech Tagging
 language: en
+nav_key: models
 edition: Spark NLP 3.0.0
 spark_version: 3.0
 supported: true

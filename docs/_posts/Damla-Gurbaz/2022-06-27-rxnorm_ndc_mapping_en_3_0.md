@@ -7,6 +7,7 @@ date: 2022-06-27
 tags: [rxnorm, ndc, pipeline, chunk_mapper, clinical, licensed, en]
 task: Pipeline Healthcare
 language: en
+nav_key: models
 edition: Healthcare NLP 3.5.3
 spark_version: 3.0
 supported: true

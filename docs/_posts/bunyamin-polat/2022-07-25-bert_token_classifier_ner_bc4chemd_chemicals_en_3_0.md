@@ -7,6 +7,7 @@ date: 2022-07-25
 tags: [en, ner, clinical, licensed, bertfortokenclassification]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true

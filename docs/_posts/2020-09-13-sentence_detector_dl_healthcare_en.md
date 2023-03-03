@@ -5,6 +5,7 @@ author: John Snow Labs
 name: sentence_detector_dl_healthcare
 class: DeepSentenceDetector
 language: en
+nav_key: models
 repository: clinical/models
 date: 2020-09-13
 task: Sentence Detection

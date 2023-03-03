@@ -7,6 +7,7 @@ date: 2022-09-28
 tags: [en, finance, bank, topic, classification, modeling, licensed]
 task: Text Classification
 language: en
+nav_key: models
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true

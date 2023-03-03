@@ -7,6 +7,7 @@ date: 2021-06-01
 tags: [clinical, deid, ner, en, licensed]
 task: [Named Entity Recognition, De-identification]
 language: en
+nav_key: models
 edition: Healthcare NLP 3.1.0
 spark_version: 3.0
 supported: true

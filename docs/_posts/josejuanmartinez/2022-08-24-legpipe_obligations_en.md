@@ -7,6 +7,7 @@ date: 2022-08-24
 tags: [en, legal, obligations, licensed]
 task: [Named Entity Recognition, Part of Speech Tagging, Dependency Parser]
 language: en
+nav_key: models
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true

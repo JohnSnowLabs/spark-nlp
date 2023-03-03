@@ -7,6 +7,7 @@ date: 2022-09-23
 tags: [open_source, camembert, token_classification, en, english, wikiner, ner]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Spark NLP 4.2.0
 spark_version: 3.0
 supported: true

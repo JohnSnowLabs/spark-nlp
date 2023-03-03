@@ -7,6 +7,7 @@ date: 2022-01-04
 tags: [en, open_source]
 task: Pipeline Public
 language: en
+nav_key: models
 edition: Spark NLP 3.3.4
 spark_version: 3.0
 supported: true

@@ -7,6 +7,7 @@ date: 2022-08-09
 tags: [en, finance, ner, deid, licensed]
 task: [De-identification, Named Entity Recognition]
 language: en
+nav_key: models
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true

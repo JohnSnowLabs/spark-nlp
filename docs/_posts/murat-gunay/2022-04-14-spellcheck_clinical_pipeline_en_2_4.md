@@ -7,6 +7,7 @@ date: 2022-04-14
 tags: [spellcheck, medical, medical_spell_checker, spell_corrector, spell_pipeline, en, licensed, clinical]
 task: Spell Check
 language: en
+nav_key: models
 edition: Healthcare NLP 3.4.1
 spark_version: 2.4
 supported: true

@@ -7,6 +7,7 @@ date: 2021-07-15
 tags: [licensed, clinical, en, pipeline]
 task: [Named Entity Recognition, Text Classification, Relation Extraction, Pipeline Healthcare]
 language: en
+nav_key: models
 edition: Healthcare NLP 3.1.2
 spark_version: 3.0
 supported: true

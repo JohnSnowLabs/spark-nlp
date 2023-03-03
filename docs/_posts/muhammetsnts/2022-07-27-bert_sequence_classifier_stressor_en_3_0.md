@@ -7,6 +7,7 @@ date: 2022-07-27
 tags: [stressor, public_health, en, licensed, sequence_classification]
 task: Text Classification
 language: en
+nav_key: models
 edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true

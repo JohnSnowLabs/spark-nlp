@@ -7,6 +7,7 @@ date: 2021-10-09
 tags: [token_classification, open_source, ner, en, english, longformer, conll]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Spark NLP 3.3.0
 spark_version: 3.0
 supported: true
