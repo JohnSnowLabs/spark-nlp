@@ -28,8 +28,8 @@ Pretrained DistilBertForTokenClassification model, adapted from Hugging Face and
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_token_classifier_autotrain_name_all_904029577_en_4.3.0_3.0_1677878381188.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/distilbert_token_classifier_autotrain_name_all_904029577_en_4.3.0_3.0_1677878381188.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_token_classifier_autotrain_name_all_904029577_en_4.3.0_3.0_1677879383250.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/distilbert_token_classifier_autotrain_name_all_904029577_en_4.3.0_3.0_1677879383250.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
