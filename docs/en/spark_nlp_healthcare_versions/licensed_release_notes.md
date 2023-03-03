@@ -58,10 +58,9 @@ sample_texts = ["Hello,I'm 20 year old girl. I'm diagnosed with hyperthyroid 1 m
 
 *Result*:
 
-```bash
-+--------------------+-----+----+----------------------+
+
 |chunk               |begin|end |ner_label             |
-+--------------------+-----+----+----------------------+
+|--------------------|-----|----|----------------------|
 |20 year old         |10   |20  |Age                   |
 |girl                |22   |25  |Gender                |
 |hyperthyroid        |47   |58  |Disease               |
@@ -79,8 +78,7 @@ sample_texts = ["Hello,I'm 20 year old girl. I'm diagnosed with hyperthyroid 1 m
 |1000 mcg            |702  |709 |Dosage_Strength       |
 |b12                 |711  |713 |Drug                  |
 |daily               |715  |719 |Frequency             |
-+--------------------+-----+----+----------------------+
-```
+
 
 </div><div class="h3-box" markdown="1">
 
@@ -116,10 +114,8 @@ sample_texts = ["He does drink occasional alcohol approximately 5 to 6 alcoholic
 
 *Result*:
 
-```bash
-+----------------+-----+---+-------------------+
 |chunk           |begin|end|ner_label          |
-+----------------+-----+---+-------------------+
+|----------------|-----|---|-------------------|
 |drink           |8    |12 |Alcohol            |
 |occasional      |14   |23 |Substance_Frequency|
 |alcohol         |25   |31 |Alcohol            |
@@ -131,8 +127,6 @@ sample_texts = ["He does drink occasional alcohol approximately 5 to 6 alcoholic
 |cigarettes      |34   |43 |Smoking            |
 |daily           |45   |49 |Substance_Frequency|
 |past 28 years   |70   |82 |Substance_Duration |
-+----------------+-----+---+-------------------+
-```
 
 
 - ner_sdoh_access_to_healthcare_wip
@@ -149,15 +143,12 @@ sample_texts = ["She has a pension and private health insurance, she reports fee
 
 *Result*:
 
-```bash
-+-----------------------------+-----+---+----------------------+
 |chunk                        |begin|end|ner_label             |
-+-----------------------------+-----+---+----------------------+
+|-----------------------------|-----|---|----------------------|
 |private health insurance     |22   |45 |Insurance_Status      |
 |access to adequate healthcare|65   |93 |Access_To_Care        |
 |XYZ Medical Center           |36   |53 |Healthcare_Institution|
-+-----------------------------+-----+---+----------------------+
-```
+
 
 - ner_sdoh_community_condition_wip
 
@@ -172,17 +163,14 @@ sample_texts = ["He is currently experiencing financial stress due to job insecu
 
 *Result*:
 
-```bash
-+-------------------------------+-----+---+---------------------------+
 |chunk                          |begin|end|ner_label                  |
-+-------------------------------+-----+---+---------------------------+
+|-------------------------------|-----|---|---------------------------|
 |small apartment                |87   |101|Housing                    |
 |green spaces                   |154  |165|Community_Living_Conditions|
 |outdoor recreational activities|171  |201|Community_Living_Conditions|
 |healthy food                   |37   |48 |Food_Insecurity            |
 |transportation                 |41   |54 |Transportation             |
-+-------------------------------+-----+---+---------------------------+
-```
+
 
 - ner_sdoh_health_behaviours_problems_wip
 
@@ -198,10 +186,9 @@ sample_texts = ["She has not been getting regular exercise and not followed diet
 
 *Result*:
 
-```bash
-+--------------------+-----+---+---------------+
+
 |chunk               |begin|end|ner_label      |
-+--------------------+-----+---+---------------+
+|--------------------|-----|---|---------------|
 |regular exercise    |25   |40 |Exercise       |
 |diet                |59   |62 |Diet           |
 |chronic sciatic pain|99   |118|Other_Disease  |
@@ -211,9 +198,7 @@ sample_texts = ["She has not been getting regular exercise and not followed diet
 |elevated cholesterol|122  |141|Hyperlipidemia |
 |high BP             |56   |62 |Hypertension   |
 |disability          |106  |115|Disability     |
-+--------------------+-----+---+---------------+
 
-```
 
 </div><div class="h3-box" markdown="1">
 
@@ -266,12 +251,12 @@ text= ["0009-4992", "57894-150"]
 
  *Result:*
 
-```bash
+
 |    | ndc_code   | drug_brand_name   |
 |---:|:-----------|:------------------|
 |  0 | 0009-4992  | ZYVOX             |
 |  1 | 57894-150  | ZYTIGA            |
-```
+
 
 + `rxnorm_nih_mapper` model maps entities with their corresponding RxNorm codes according to the National Institute of Health (NIH) database. It returns Rxnorm codes along with their NIH Rxnorm Term Types within a parenthesis.
 
@@ -288,15 +273,12 @@ chunkerMapper = ChunkMapperModel\
 
  *Result*:
 
-```bash
-+-------------------------+-------------+-----------+
 |ner_chunk                |mappings     |relation   |
-+-------------------------+-------------+-----------+
+|-------------------------|-------------|-----------|
 |Adapin 10 MG Oral Capsule|1911002 (SY) |rxnorm_code|
 |acetohexamide            |12250421 (IN)|rxnorm_code|
 |Parlodel                 |829 (BN)     |rxnorm_code|
-+-------------------------+-------------+-----------+
-```
+
 
 </div><div class="h3-box" markdown="1">
 
@@ -325,17 +307,14 @@ Phone: (302) 786-5227"""
 
 *Result*:
 
-```bash
-+--------------------------------+--------------------------------+------------------------------+
 |                        sentence|                         masking|                   obfuscation|
-+-------------------------------:+-------------------------------:+-----------------------------:+
+|--------------------------------|--------------------------------|------------------------------|
 |         Record date: 2003-01-13|           Record date: \<DATE\>|       Record date: 2003-03-07|
 |Name : Hendrickson, Ora, Age: 25|Name : \<PATIENT\>, Age: \<AGE\>|Name : Manya Horsfall, Age: 20|
 |                   MR:  #7194334|           MR: \<MEDICALRECORD\>|                  MR: #4868080|
 |                  ID: 1231511863|                   ID: \<IDNUM\>|                ID: 2174658035|
 |           Phone: (302) 786-5227|                 Phone:\<PHONE\>|         Phone: (467) 302-9509|
-+--------------------------------+--------------------------------+------------------------------+
-```
+
 
 </div><div class="h3-box" markdown="1">
 
@@ -377,23 +356,22 @@ sample_text = "Mr. ABC is a 25 years old with a nonproductive cough that started
 
 *Result for without `WhiteList`*:
 
-```bash
 | index | ner_chunk               | entity   |
 |-------|-------------------------|----------|
 | 0     | John Smith              | PATIENT  |
 | 1     | 25                      | AGE      |
 | 2     | May 2006                | DATE     |
 | 3     | Beverley Count Hospital | HOSPITAL |
-```
+
 
 *Result for with `WhiteList(["AGE","DATE"])`*:
 
-```bash
 | index | ner_chunk               | entity   |
 |-------|-------------------------|----------|
 | 0     | 25                      | AGE      |
 | 1     | May 2006                | DATE     |
-```
+
+
 
 </div><div class="h3-box" markdown="1">
 
@@ -432,6 +410,7 @@ sample_text = "Mr. ABC is a 25 years old with a nonproductive cough that started
 </div><div class="h3-box" markdown="1">
 
 For all Spark NLP for Healthcare models, please check: [Models Hub Page](https://nlp.johnsnowlabs.com/models?edition=Healthcare+NLP)
+
 
 </div>
 <div class="prev_ver h3-box" markdown="1">
