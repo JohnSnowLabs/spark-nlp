@@ -6,6 +6,7 @@ subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /detect_sentiment_emotion
 key: demo
+nav_key: demo
 article_header:
   type: demo
 license: false

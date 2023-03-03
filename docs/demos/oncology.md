@@ -5,6 +5,7 @@ seotitle: 'Clinical NLP: Oncology - John Snow Labs'
 full_width: true
 permalink: /oncology
 key: demo
+nav_key: demo
 article_header:
   type: demo
 license: false
