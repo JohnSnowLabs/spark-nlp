@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This Sentiment Analysis Text Classifier has been trained on  a collection of financial news articles and tweets that have been labeled with three different classes: "bullish," "bearish," and "neutral." The dataset on which the model has been trained on covers a wide range of financial topics including stocks, bonds, currencies, and commodities.
+This Sentiment Analysis Text Classifier has been trained on  a collection of financial news articles and tweets that have been labeled with three different classes: `bullish`, `bearish` and `neutral`. The dataset on which the model has been trained on covers a wide range of financial topics including stocks, bonds, currencies, and commodities.
 
 ## Predicted Entities
 
