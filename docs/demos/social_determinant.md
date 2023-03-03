@@ -6,6 +6,7 @@ subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /social_determinant
 key: demo
+nav_key: demo
 article_header:
   type: demo
 license: false
@@ -31,7 +32,7 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/SOCIAL_DETERMINANT_NER/
           - text: Colab
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/SOCIAL_DETERMINANT.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/SOCIAL_DETERMINANT_NER.ipynb
         - title: Classify Social Support 
           id: classify_social_support         
           image: 
@@ -43,17 +44,29 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/SOCIAL_DETERMINANT_CLASSIFICATION/
           - text: Colab
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/SOCIAL_DETERMINANT.ipynb
-        - title: Classify Substance Use, Alcohol and Tobacco Consumption, and Economic Status   
-          id: classify_substance_use_alcohol_tobacco_consumption_economic_status         
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/SOCIAL_DETERMINANT.ipynb                
+        - title: Classify Alcohol Status    
+          id: classify_alcohol_status         
           image: 
-              src: /assets/images/Extract_Social_Determinants_of_Health.svg
-          excerpt: This demo shows how you can detect social determinants of health in medical text using Spark NLP Healthcare Generic Classification models.
+              src: /assets/images/Classify_Alcohol_Status.svg
+          excerpt: This demo shows how you can detect alcohol use in medical text using Spark NLP Healthcare Generic Classification model.
           actions:
           - text: Live Demo
             type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/SOCIAL_DETERMINANT_GENERIC_CLASSIFICATION/
+            url: https://demo.johnsnowlabs.com/healthcare/SOCIAL_DETERMINANT_ALCOHOL/
           - text: Colab
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/SOCIAL_DETERMINANT.ipynb
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/SOCIAL_DETERMINANT_CLASSIFICATION.ipynb
+        - title: Classify Tobacco Consumption
+          id: classify_tobacco_consumption         
+          image: 
+              src: /assets/images/Classify_Tobacco_Consumption.svg
+          excerpt: This demo shows how you can detect tobacco use in medical text using Spark NLP Healthcare Generic Classification model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/SOCIAL_DETERMINANT_TOBACCO/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/SOCIAL_DETERMINANT_CLASSIFICATION.ipynb
 ---

@@ -5,6 +5,7 @@ seotitle: 'Visual NLP: Extract handwritten texts - John Snow Labs'
 full_width: true
 permalink: /extract_handwritten_texts
 key: demo
+nav_key: demo
 article_header:
   type: demo
 license: false
