@@ -55,7 +55,6 @@ roberta_embeddings = nlp.RoBertaEmbeddings.pretrained("roberta_embeddings_legal_
     .setOutputCol("embeddings") \
     .setMaxSentenceLength(512)
   
-# load trained model
 loaded_ner_model = legal.NerModel.pretrained("legner_definitions", "en", "legal/models")\
     .setInputCols(["sentence", "token", "embeddings"])\
     .setOutputCol("ner")
