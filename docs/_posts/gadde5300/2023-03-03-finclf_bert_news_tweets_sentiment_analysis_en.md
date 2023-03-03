@@ -39,7 +39,6 @@ This Sentiment Analysis Text Classifier has been trained on  a collection of fin
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
  
-# Test classifier in Spark NLP pipeline
 document_assembler = nlp.DocumentAssembler() \
     .setInputCol('text') \
     .setOutputCol('document')
@@ -48,7 +47,6 @@ tokenizer = nlp.Tokenizer() \
     .setInputCols(['document']) \
     .setOutputCol('token')
 
-# Load newly trained classifier
 sequenceClassifier_loaded = finance.BertForSequenceClassification.pretrained("finclf_bert_broker_sentiment_analysis", "en", "finance/models")\
   .setInputCols(["document",'token'])\
   .setOutputCol("class")
