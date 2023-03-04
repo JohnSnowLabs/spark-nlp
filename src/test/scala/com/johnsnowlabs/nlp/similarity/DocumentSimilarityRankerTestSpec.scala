@@ -53,7 +53,7 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
       .setInputCols("sentence_embeddings")
       .setOutputCol(DOC_SIMILARITY_RANKINGS)
       .setSimilarityMethod("brp")
-      .setNumberOfNeighbours(10)
+      .setNumberOfNeighbours(1)
 
     // val docSimilarityFinalizer
 

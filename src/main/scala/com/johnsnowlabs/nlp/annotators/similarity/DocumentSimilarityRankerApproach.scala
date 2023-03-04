@@ -10,8 +10,10 @@ import org.apache.spark.ml.linalg.{DenseVector, Vectors}
 import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.expressions.Window
-import org.apache.spark.sql.{DataFrame, Dataset}
-import org.apache.spark.sql.functions.{col, expr, flatten, hash, monotonically_increasing_id, row_number}
+import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
+import org.apache.spark.sql.functions.{col, expr, flatten, hash, monotonically_increasing_id, row_number, udf}
+
+import scala.util.hashing.MurmurHash3
 
 class DocumentSimilarityRankerApproach(override val uid: String)
   extends AnnotatorApproach[DocumentSimilarityRankerModel]
@@ -95,12 +97,12 @@ class DocumentSimilarityRankerApproach(override val uid: String)
 
   val INDEX_COL_NAME = "index"
 
-  def getANN(model: BucketedRandomProjectionLSHModel, query: (Int, DenseVector), similarityDataset: DataFrame) = {
+  def getANN(model: BucketedRandomProjectionLSHModel, query: (String, DenseVector), similarityDataset: DataFrame) = {
     query match {
       case (index, key) =>
         val similarRankedDocs = model.approxNearestNeighbors(similarityDataset, key, getNumberOfNeighbours)
-        val neighborsStr = similarRankedDocs.select(INDEX_COL_NAME).collect().map(_.getInt(0)).mkString("|")
-        index.toString.concat("=>").concat(neighborsStr)
+        val neighborsStr = similarRankedDocs.select(INDEX_COL_NAME).collect().map(_.getString(0)).mkString("|")
+        index.concat("=>").concat(neighborsStr)
     }
   }
 
@@ -124,9 +126,16 @@ class DocumentSimilarityRankerApproach(override val uid: String)
 
     val model = lsh.fit(similarityDataset)
 
+    val mh3UDF = udf{
+      (s: String) => MurmurHash3.stringHash(s, MurmurHash3.stringSeed).toString
+    }
+//    SparkSession.builder().getOrCreate().udf.register("hashSimilarityIndex", hashUDF)
+
     val similarityDatasetWithIndex = similarityDataset
 //      .withColumn(INDEX_COL_NAME, row_number.over(Window.orderBy(monotonically_increasing_id)) - 1)
-      .withColumn(INDEX_COL_NAME, hash(col("text")))
+      .withColumn(INDEX_COL_NAME, mh3UDF(col("text")))
+
+    similarityDatasetWithIndex.show
 
     val indexedVectorTuples = similarityDatasetWithIndex
       .select(INDEX_COL_NAME, LSH_INPUT_COL_NAME)
