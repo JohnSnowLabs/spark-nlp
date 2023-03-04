@@ -13,13 +13,13 @@ supported: true
 engine: tensorflow
 annotator: T5Transformer
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
 ## Description
 
-This model is fine-tuned with US news articles from `bloomberg.com`, `cnbc.com`, `reuters.com`, `wsj.com`, and `fortune.com`. It is a Financial news Summarizer, aimed to extract headers from US financial news.
+This model is fine-tuned with US news articles from `bloomberg.com`, `cnbc.com`, `reuters.com`, `wsj.com`, and `fortune.com`. It is a Financial News Summarizer, aimed to extract headers from US financial news.
 
 ## Predicted Entities
 
@@ -37,6 +37,7 @@ This model is fine-tuned with US news articles from `bloomberg.com`, `cnbc.com`,
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
