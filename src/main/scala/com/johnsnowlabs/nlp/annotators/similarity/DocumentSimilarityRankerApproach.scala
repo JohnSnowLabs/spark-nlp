@@ -129,13 +129,8 @@ class DocumentSimilarityRankerApproach(override val uid: String)
     val mh3UDF = udf{
       (s: String) => MurmurHash3.stringHash(s, MurmurHash3.stringSeed).toString
     }
-//    SparkSession.builder().getOrCreate().udf.register("hashSimilarityIndex", hashUDF)
 
-    val similarityDatasetWithIndex = similarityDataset
-//      .withColumn(INDEX_COL_NAME, row_number.over(Window.orderBy(monotonically_increasing_id)) - 1)
-      .withColumn(INDEX_COL_NAME, mh3UDF(col("text")))
-
-    similarityDatasetWithIndex.show
+    val similarityDatasetWithIndex = similarityDataset.withColumn(INDEX_COL_NAME, mh3UDF(col("text")))
 
     val indexedVectorTuples = similarityDatasetWithIndex
       .select(INDEX_COL_NAME, LSH_INPUT_COL_NAME)

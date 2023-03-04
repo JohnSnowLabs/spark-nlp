@@ -50,7 +50,6 @@ class DocumentSimilarityRankerModel(override val uid: String)
    */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
 
-    //    1=>0|1
     val mappings: Map[String, String] = getSimilarityMappings
       .map(s => s.split("=>"))
       .map { case Array(index, neighbors) => (index, neighbors) }

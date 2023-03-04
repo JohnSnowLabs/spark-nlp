@@ -17,9 +17,16 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
   val spark: SparkSession = ResourceHelper.spark
 
   "DocumentSimilarityRanker" should "should rank document similarity" taggedAs SlowTest in {
-    val smallCorpus = ResourceHelper.spark.read
-      .option("header", "true")
-      .csv("src/test/resources/embeddings/sentence_embeddings.csv")
+
+    val smallCorpus = spark.createDataFrame(
+      List(
+        "First document, this is my first sentence. This is my second sentence.",
+        "Second document, this is my first sentence. This is my second sentence.",
+        "Third document, climate change is arguably one of the most pressing problems of our time.",
+        "Fourth document, Florence in Italy, is among the most beautiful cities in Europe.",
+        "Fifth document, The French Riviera is the Mediterranean coastline of the southeast corner of France.",
+      ).map(Tuple1(_)))
+      .toDF("text")
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
