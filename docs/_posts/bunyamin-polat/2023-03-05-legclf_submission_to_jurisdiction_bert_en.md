@@ -48,6 +48,7 @@ This model can be combined with any of the other 400+ Legal Clauses Classifiers 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 document_assembler = nlp.DocumentAssembler()\
@@ -112,14 +113,11 @@ Train dataset available [here](https://huggingface.co/datasets/lex_glue)
 ## Benchmarking
 
 ```bash
-
-                            precision    recall  f1-score   support
-
+                     label  precision    recall  f1-score   support
                      Other       1.00      0.97      0.99        37
 Submission_To_Jurisdiction       0.96      1.00      0.98        24
-
-                  accuracy                           0.98        61
-                 macro avg       0.98      0.99      0.98        61
-              weighted avg       0.98      0.98      0.98        61
+                  accuracy         -         -       0.98        61
+                 macro-avg       0.98      0.99      0.98        61
+              weighted-avg       0.98      0.98      0.98        61
 
 ```
