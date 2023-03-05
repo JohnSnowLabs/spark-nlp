@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.nlp
+package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, Doc2Chunk, HasSimpleAnnotate}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 /** Converts a `CHUNK` type column back into `DOCUMENT`. Useful when trying to re-tokenize or do
@@ -27,7 +28,7 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
   * {{{
   * import spark.implicits._
   * import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
-  * import com.johnsnowlabs.nlp.Chunk2Doc
+  * import com.johnsnowlabs.nlp.annotators.Chunk2Doc
   *
   * val data = Seq((1, "New York and New Jersey aren't that far apart actually.")).toDF("id", "text")
   *

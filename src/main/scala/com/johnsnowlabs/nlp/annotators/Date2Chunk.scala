@@ -20,8 +20,6 @@ import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
-import scala.collection.immutable.Map
-
 /** Converts `DATE` type Annotations to `CHUNK` type.
   *
   * This can be useful if the following annotators after DateMatcher and MultiDateMatcher require
