@@ -117,7 +117,7 @@ Train dataset available [here](https://huggingface.co/datasets/lex_glue)
 Miscellaneous       0.78      0.83      0.80        52
         Other       0.88      0.84      0.86        76
      accuracy         -         -       0.84       128
-    macro avg       0.83      0.83      0.83       128
- weighted avg       0.84      0.84      0.84       128
+    macro-avg       0.83      0.83      0.83       128
+ weighted-avg       0.84      0.84      0.84       128
 
 ```
