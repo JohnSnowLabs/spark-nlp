@@ -43,6 +43,8 @@ from sparknlp.annotator.coref import *
 from sparknlp.annotator.tf_ner_dl_graph_builder import *
 from sparknlp.annotator.cv import *
 from sparknlp.annotator.audio import *
+from sparknlp.annotator.chunk2_doc import *
+from sparknlp.annotator.date2_chunk import *
 
 if sys.version_info[0] == 2:
     raise ImportError(

@@ -77,7 +77,7 @@ class Chunk2Doc(AnnotatorTransformer, AnnotatorProperties):
 
     @keyword_only
     def __init__(self):
-        super(Chunk2Doc, self).__init__(classname="com.johnsnowlabs.nlp.Chunk2Doc")
+        super(Chunk2Doc, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Chunk2Doc")
 
     @keyword_only
     def setParams(self):
