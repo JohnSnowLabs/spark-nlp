@@ -13,7 +13,7 @@ supported: true
 engine: tensorflow
 annotator: LegalClassifierDLModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -48,6 +48,7 @@ This model can be combined with any of the other 400+ Legal Clauses Classifiers 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 document_assembler = nlp.DocumentAssembler()\
@@ -112,14 +113,11 @@ Train dataset available [here](https://huggingface.co/datasets/lex_glue)
 ## Benchmarking
 
 ```bash
-
-              precision    recall  f1-score   support
-
+       label  precision    recall  f1-score   support
  Forfeitures       0.91      0.97      0.94        32
        Other       0.98      0.94      0.96        50
-
-    accuracy                           0.95        82
-   macro avg       0.95      0.95      0.95        82
-weighted avg       0.95      0.95      0.95        82
+    accuracy         -         -       0.95        82
+   macro-avg       0.95      0.95      0.95        82
+weighted-avg       0.95      0.95      0.95        82
 
 ```
