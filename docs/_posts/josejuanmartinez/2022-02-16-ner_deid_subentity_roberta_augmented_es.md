@@ -4,7 +4,7 @@ title: Detect PHI for Deidentification purposes (Spanish, Roberta, augmented)
 author: John Snow Labs
 name: ner_deid_subentity_roberta_augmented
 date: 2022-02-16
-tags: [deid, es, licensed]
+tags: [deid, es, licensed,clinical]
 task: De-identification
 language: es
 edition: Healthcare NLP 3.3.4
@@ -39,8 +39,8 @@ This is a version that includes Roberta Clinical embeddings. You can find as wel
 
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_DEID_ES/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/healthcare-nlp/04.1.Clinical_Multi_Language_Deidentification.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_deid_subentity_roberta_augmented_es_3.3.4_3.0_1645006804071.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
 [Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/ner_deid_subentity_roberta_augmented_es_3.3.4_3.0_1645006804071.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
@@ -56,82 +56,71 @@ This is a version that includes Roberta Clinical embeddings. You can find as wel
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = nlp.DocumentAssembler()\
-.setInputCol("text")\
-.setOutputCol("document")
-
+    .setInputCol("text")\
+    .setOutputCol("document")
 
 sentenceDetector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
-.setInputCols(["document"])\
-.setOutputCol("sentence")
-
+    .setInputCols(["document"])\
+    .setOutputCol("sentence")
 
 tokenizer = nlp.Tokenizer()\
-.setInputCols(["sentence"])\
-.setOutputCol("token")
-
+    .setInputCols(["sentence"])\
+    .setOutputCol("token")
 
 roberta_embeddings = nlp.RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")\
-.setInputCols(["sentence", "token"])\
-.setOutputCol("embeddings")
-
+    .setInputCols(["sentence", "token"])\
+    .setOutputCol("embeddings")
 
 clinical_ner = medical.NerModel.pretrained("ner_deid_subentity_roberta_augmented", "es", "clinical/models")\
-.setInputCols(["sentence","token","embeddings"])\
-.setOutputCol("ner")
-
+    .setInputCols(["sentence","token","embeddings"])\
+    .setOutputCol("ner")
 
 nlpPipeline = Pipeline(stages=[
-documentAssembler,
-sentenceDetector,
-tokenizer,
-roberta_embeddings,
-clinical_ner])
-
+    documentAssembler,
+    sentenceDetector,
+    tokenizer,
+    roberta_embeddings,
+    clinical_ner])
 
 text = ['''
 Antonio Miguel Martínez, varón de de 35 años de edad, de profesión auxiliar de enfermería y nacido en Cadiz, España. Aún no estaba vacunado, se infectó con Covid-19 el dia 14 de Marzo y tuvo que ir al Hospital. Fue tratado con anticuerpos monoclonales en la Clinica San Carlos.
 ''']
 
-
 df = spark.createDataFrame([text]).toDF("text")
-
 
 results = nlpPipeline.fit(df).transform(df)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-.setInputCol("text")
-.setOutputCol("document")
-
+    .setInputCol("text")
+    .setOutputCol("document")
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","xx")
-.setInputCols(Array("document"))
-.setOutputCol("sentence")
-
+    .setInputCols(Array("document"))
+    .setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-.setInputCols(Array("sentence"))
-.setOutputCol("token")
-
+    .setInputCols(Array("sentence"))
+    .setOutputCol("token")
 
 val roberta_embeddings = RoBertaEmbeddings.pretrained("roberta_base_biomedical", "es")
-.setInputCols(Array("sentence", "token"))
-.setOutputCol("embeddings")
-
+    .setInputCols(Array("sentence", "token"))
+    .setOutputCol("embeddings")
 
 val clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity_roberta_augmented", "es", "clinical/models")
-.setInputCols(Array("sentence","token","embeddings"))
-.setOutputCol("ner")
+    .setInputCols(Array("sentence","token","embeddings"))
+    .setOutputCol("ner")
 
-
-val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, roberta_embeddings, clinical_ner))
-
+val pipeline = new Pipeline().setStages(Array(
+    documentAssembler, 
+    sentenceDetector, 
+    tokenizer, 
+    roberta_embeddings, 
+    clinical_ner))
 
 val text = "Antonio Miguel Martínez, varón de de 35 años de edad, de profesión auxiliar de enfermería y nacido en Cadiz, España. Aún no estaba vacunado, se infectó con Covid-19 el dia 14 de Marzo y tuvo que ir al Hospital. Fue tratado con anticuerpos monoclonales en la Clinica San Carlos."
 
-
 val df = Seq(text).toDF("text")
-
 
 val results = pipeline.fit(df).transform(df)
 ```

@@ -74,7 +74,13 @@ ner_converter = NerConverter()\
     .setInputCols(["sentence", "token", "ner"])\
     .setOutputCol("ner_chunk_generic")
 
-nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, deid_ner, ner_converter])
+nlpPipeline = Pipeline(stages=[
+    document_assembler, 
+    sentence_detector, 
+    tokenizer, 
+    word_embeddings, 
+    deid_ner, 
+    ner_converter])
 
 model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
@@ -105,7 +111,13 @@ val ner_converter = new NerConverter()
     .setInputCols(Array("sentence", "token", "ner"))
     .setOutputCol("ner_chunk_generic")
 
-val nlpPipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, deid_ner, ner_converter))
+val nlpPipeline = new Pipeline().setStages(Array(
+    document_assembler, 
+    sentence_detector, 
+    tokenizer, 
+    word_embeddings, 
+    deid_ner, 
+    ner_converter))
 
 val data = Seq("""A. Record date : 2093-01-13, David Hale, M.D., Name : Hendrickson, Ora MR. # 7194334 Date : 01/13/93 PCP : Oliveira, 25 -year-old, Record date : 1-11-2000. Cocke County Baptist Hospital. 0295 Keats Street. Phone +1 (302) 786-5227.""").toDS.toDF("text")
 

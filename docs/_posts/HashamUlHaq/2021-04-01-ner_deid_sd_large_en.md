@@ -45,24 +45,24 @@ document_assembler = DocumentAssembler()\
     .setOutputCol("document")
     
 sentenceDetector = SentenceDetectorDLModel.pretrained()\
-  .setInputCols("document")\
-  .setOutputCol("sentence")
+    .setInputCols("document")\
+    .setOutputCol("sentence")
     
 tokenizer = Tokenizer()\
     .setInputCols(["sentence"])\
     .setOutputCol("token")
 
 embeddings_clinical = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-  .setInputCols(["sentence", "token"])\
-  .setOutputCol("embeddings")
+    .setInputCols(["sentence", "token"])\
+    .setOutputCol("embeddings")
 
 clinical_ner = MedicalNerModel.pretrained("ner_deid_sd_large", "en", "clinical/models")\
-  .setInputCols(["sentence", "token", "embeddings"])\
-  .setOutputCol("ner")
+    .setInputCols(["sentence", "token", "embeddings"])\
+    .setOutputCol("ner")
 
 ner_converter = NerConverter() \
-  .setInputCols(["sentence", "token", "ner"]) \
-  .setOutputCol("ner_chunk")
+    .setInputCols(["sentence", "token", "ner"]) \
+    .setOutputCol("ner_chunk")
 
 nlpPipeline = Pipeline(stages=[document_assembler, 
                                sentenceDetector, 
@@ -70,7 +70,6 @@ nlpPipeline = Pipeline(stages=[document_assembler,
                                embeddings_clinical, 
                                clinical_ner, 
                                ner_converter])
-
 
 sample_text = """Record date : 2093-01-13 , David Hale , M.D . , Name : Hendrickson Ora , MR # 7194334 Date : 01/13/93 . PCP : Oliveira , 25 years old , Record date : 2079-11-09 . Cocke County Baptist Hospital , 0295 Keats Street , Phone 302-786-5227."""
 
@@ -83,24 +82,24 @@ val document_assembler = new DocumentAssembler()
     .setOutputCol("document")
     
 val sentenceDetector = SentenceDetectorDLModel.pretrained()
-  .setInputCols("document")
-  .setOutputCol("sentence")
+    .setInputCols("document")
+    .setOutputCol("sentence")
     
 val tokenizer = new Tokenizer()
     .setInputCols("sentence")
     .setOutputCol("token")
 
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-  .setInputCols(Array("sentence", "token"))
-  .setOutputCol("embeddings")
+    .setInputCols(Array("sentence", "token"))
+    .setOutputCol("embeddings")
 
 val clinical_ner = MedicalNerModel.pretrained("ner_deid_sd_large", "en", "clinical/models")
-  .setInputCols(Array("sentence", "token", "embeddings")) 
-  .setOutputCol("ner")
+    .setInputCols(Array("sentence", "token", "embeddings")) 
+    .setOutputCol("ner")
 
 val ner_converter = new NerConverter()
-  .setInputCols(Array("sentence", "token", "ner"))
-  .setOutputCol("ner_chunk")
+    .setInputCols(Array("sentence", "token", "ner"))
+    .setOutputCol("ner_chunk")
 
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, 
