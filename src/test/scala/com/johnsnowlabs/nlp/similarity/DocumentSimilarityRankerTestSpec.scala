@@ -1,9 +1,9 @@
 package com.johnsnowlabs.nlp.similarity
 
-import com.johnsnowlabs.nlp.AnnotatorType.{DOC_SIMILARITY_RANKINGS, SENTENCE_EMBEDDINGS}
+import com.johnsnowlabs.nlp.AnnotatorType.DOC_SIMILARITY_RANKINGS
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
-import com.johnsnowlabs.nlp.annotators.similarity.{DocumentSimilarityRanker, DocumentSimilarityRankerApproach, DocumentSimilarityRankerModel}
+import com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerApproach
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
@@ -11,7 +11,11 @@ import com.johnsnowlabs.nlp.{AnnotatorBuilder, EmbeddingsFinisher}
 import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.functions.col
 import org.scalatest.flatspec.AnyFlatSpec
+
+import scala.util.hashing.MurmurHash3
+import scala.util.parsing.json.JSON.parseFull
 
 class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
   val spark: SparkSession = ResourceHelper.spark
@@ -60,7 +64,12 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
       .setInputCols("sentence_embeddings")
       .setOutputCol(DOC_SIMILARITY_RANKINGS)
       .setSimilarityMethod("brp")
-      .setNumberOfNeighbours(1)
+      .setNumberOfNeighbours(3)
+
+//    val finisher = new DocumentSimilarityRankerFinisher()
+//      .setInputCols("sentence_embeddings")
+//      .setOutputCols("finished_sentence_embeddings")
+//      .setCleanAnnotations(false)
 
     // val docSimilarityFinalizer
 
@@ -73,14 +82,22 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
           embeddings,
           embeddingsSentence,
           sentenceFinisher,
-          docSimilarityRanker
-//          docSimilarityFinalizer
+          docSimilarityRanker,
+          // finisher
         ))
 
     val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
 
     pipelineDF.printSchema
-    pipelineDF.show(false)
+    //    pipelineDF.show(false)
+    pipelineDF.select(DOC_SIMILARITY_RANKINGS).show(false)
 
+    // get text
+    val hashId = MurmurHash3.stringHash("First document, this is my first sentence. This is my second sentence.", MurmurHash3.stringSeed)
+
+    pipelineDF
+      .withColumn("lshId", col("doc_similarity_rankings.metadata").getItem("lshId"))
+      .withColumn("lshNeighbors", col("doc_similarity_rankings.metadata").getItem("lshId"))
+      .show
   }
 }

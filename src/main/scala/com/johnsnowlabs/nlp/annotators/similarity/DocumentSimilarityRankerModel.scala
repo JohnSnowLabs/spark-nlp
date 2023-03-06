@@ -27,12 +27,12 @@ class DocumentSimilarityRankerModel(override val uid: String)
    *
    * @group param
    */
-  val similarityMappings: MapFeature[String, Array[String]] = new MapFeature(this, "similarityMappings")
+  val similarityMappings: MapFeature[String, Map[Int, Array[Int]]] = new MapFeature(this, "similarityMappings")
 
   /** @group setParam */
-  def setSimilarityMappings(value: Map[String, Array[String]]): this.type = set(similarityMappings, value)
+  def setSimilarityMappings(value: Map[String, Map[Int, Array[Int]]]): this.type = set(similarityMappings, value)
 
-  def getSimilarityMappings: Array[String] = $$(similarityMappings).getOrElse("similarityMappings", Array(""))
+  def getSimilarityMappings: Map[Int, Array[Int]] = $$(similarityMappings).getOrElse("similarityMappings", Map.empty)
 
   setDefault(
     inputCols -> Array(SENTENCE_EMBEDDINGS),
@@ -48,29 +48,25 @@ class DocumentSimilarityRankerModel(override val uid: String)
    * any number of annotations processed for every input annotation. Not necessary one to one
    * relationship
    */
-  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-
-    val mappings: Map[String, String] = getSimilarityMappings
-      .map(s => s.split("=>"))
-      .map { case Array(index, neighbors) => (index, neighbors) }
-      .toMap
+  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] =
 
     annotations.map(
       annotation => {
         val inputResult = annotation.result
-        val indexTarget = MurmurHash3.stringHash(inputResult, MurmurHash3.stringSeed).toString
-        val neighbors: String = mappings.getOrElse(indexTarget, "NA")
+        val targetIndex = MurmurHash3.stringHash(inputResult, MurmurHash3.stringSeed)
+        val neighbors: Array[Int] = getSimilarityMappings.getOrElse(targetIndex, Array(-1)) // index NA
 
         Annotation(
           annotatorType = outputAnnotatorType,
           begin = annotation.begin,
           end = annotation.end,
           result = annotation.result,
-          metadata = annotation.metadata + ("id"-> indexTarget) + ("neighbors" -> neighbors) ,
+          metadata = annotation.metadata
+            + ("lshId"-> targetIndex.toString)
+            + ("lshNeighbors" -> neighbors.mkString("[", ",", "]")) ,
           embeddings = annotation.embeddings)
       }
     )
-  }
 }
 
 object DocumentSimilarityRanker extends DefaultParamsReadable[DocumentSimilarityRankerModel]

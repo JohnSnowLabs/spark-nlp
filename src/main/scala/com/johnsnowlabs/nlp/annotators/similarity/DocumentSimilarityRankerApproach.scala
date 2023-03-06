@@ -28,7 +28,18 @@ class DocumentSimilarityRankerApproach(override val uid: String)
   def this() = this(Identifiable.randomUID("DocumentSimilarityRankerApproach"))
 
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(SENTENCE_EMBEDDINGS)
+
   override val outputAnnotatorType: AnnotatorType = DOC_SIMILARITY_RANKINGS
+
+  val LSH_INPUT_COL_NAME = "features"
+
+  val LSH_OUTPUT_COL_NAME = "hashes"
+
+  val INDEX_COL_NAME = "index"
+
+  val INPUT_EMBEDDINGS = "sentence_embeddings.embeddings"
+
+  val TEXT = "text"
 
   /** The similarity method used to calculate the neighbours.
    * (Default: `"brp"`, Bucketed Random Projection for Euclidean Distance)
@@ -91,24 +102,23 @@ class DocumentSimilarityRankerApproach(override val uid: String)
     numHashTables -> 3
   )
 
-  val LSH_INPUT_COL_NAME = "features"
-
-  val LSH_OUTPUT_COL_NAME = "hashes"
-
-  val INDEX_COL_NAME = "index"
-
-  def getANN(model: BucketedRandomProjectionLSHModel, query: (String, DenseVector), similarityDataset: DataFrame) = {
+  def getNeighboursRankedDocIndexes(model: BucketedRandomProjectionLSHModel,
+                                    query: (Int, DenseVector),
+                                    similarityDataset: DataFrame) = {
     query match {
-      case (index, key) =>
-        val similarRankedDocs = model.approxNearestNeighbors(similarityDataset, key, getNumberOfNeighbours)
-        val neighborsStr = similarRankedDocs.select(INDEX_COL_NAME).collect().map(_.getString(0)).mkString("|")
-        index.concat("=>").concat(neighborsStr)
+      case (index, queryVector) =>
+        val similarRankedDocs = model.approxNearestNeighbors(similarityDataset, queryVector, getNumberOfNeighbours)
+        val neighboursRankedDocIndexes: Array[Int] = similarRankedDocs
+          .select(INDEX_COL_NAME)
+          .collect()
+          .map(_.getInt(0))
+
+        (index, neighboursRankedDocIndexes)
     }
   }
 
-  val INPUT_EMBEDDINGS = "sentence_embeddings.embeddings"
-
   override def train(dataset: Dataset[_], recursivePipeline: Option[PipelineModel]): DocumentSimilarityRankerModel = {
+
     val lsh = $(similarityMethod) match {
       case "brp" => new BucketedRandomProjectionLSH()
         .setBucketLength($(bucketLength))
@@ -126,21 +136,25 @@ class DocumentSimilarityRankerApproach(override val uid: String)
 
     val model = lsh.fit(similarityDataset)
 
-    val mh3UDF = udf{
-      (s: String) => MurmurHash3.stringHash(s, MurmurHash3.stringSeed).toString
+    val mh3UDF = udf {
+      (s: String) => MurmurHash3.stringHash(s, MurmurHash3.stringSeed)
     }
 
-    val similarityDatasetWithIndex = similarityDataset.withColumn(INDEX_COL_NAME, mh3UDF(col("text")))
+    val similarityDatasetWithIndex = similarityDataset.withColumn(INDEX_COL_NAME, mh3UDF(col(TEXT)))
 
     val indexedVectorTuples = similarityDatasetWithIndex
       .select(INDEX_COL_NAME, LSH_INPUT_COL_NAME)
       .rdd
-      .map(x => (x.getAs(INDEX_COL_NAME), x.getAs(LSH_INPUT_COL_NAME))).collect()
+      .map(x => (x.getAs[Int](INDEX_COL_NAME), x.getAs[DenseVector](LSH_INPUT_COL_NAME)))
+      .collect()
 
-    val similarityMappings: Array[String] = indexedVectorTuples
-      .map(query => getANN(model, query, similarityDatasetWithIndex))
+    val similarityMappings: Map[Int, Array[Int]] = indexedVectorTuples
+      .map(query => getNeighboursRankedDocIndexes(model, query, similarityDatasetWithIndex))
+      .toMap
 
     new DocumentSimilarityRankerModel()
-      .setSimilarityMappings(Map("similarityMappings" -> similarityMappings))
+      .setSimilarityMappings(
+        Map("similarityMappings" -> similarityMappings)
+      )
   }
 }
