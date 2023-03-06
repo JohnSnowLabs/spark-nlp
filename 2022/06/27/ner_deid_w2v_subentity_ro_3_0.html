@@ -480,7 +480,13 @@
         <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span>\
         <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
         
-<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">sentenceDetector</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">,</span> <span class="n">clinical_ner</span><span class="p">,</span> <span class="n">ner_converter</span><span class="p">])</span>
+<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">documentAssembler</span><span class="p">,</span> 
+        <span class="n">sentenceDetector</span><span class="p">,</span> 
+        <span class="n">tokenizer</span><span class="p">,</span> 
+        <span class="n">embeddings</span><span class="p">,</span> 
+        <span class="n">clinical_ner</span><span class="p">,</span> 
+        <span class="n">ner_converter</span><span class="p">])</span>
 
 <span class="n">text</span> <span class="o">=</span> <span class="s">"""
 Spitalul Pentru Ochi de Deal, Drumul Oprea Nr. 972 Vaslui, 737405 România
@@ -518,7 +524,13 @@ C.N.P : 2450502264401"""</span>
         <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"ner"</span><span class="o">))</span>
         <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
   
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">sentenceDetector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">embeddings</span><span class="o">,</span> <span class="n">clinical_ner</span><span class="o">,</span> <span class="n">ner_converter</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+        <span class="n">documentAssembler</span><span class="o">,</span> 
+        <span class="n">sentenceDetector</span><span class="o">,</span> 
+        <span class="n">tokenizer</span><span class="o">,</span> 
+        <span class="n">embeddings</span><span class="o">,</span> 
+        <span class="n">clinical_ner</span><span class="o">,</span> 
+        <span class="n">ner_converter</span><span class="o">))</span>
 
 <span class="k">val</span> <span class="nv">text</span> <span class="k">=</span> <span class="s">"""Spitalul Pentru Ochi de Deal, Drumul Oprea Nr. 972 Vaslui, 737405 România
 Tel: +40(235)413773

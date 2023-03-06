@@ -459,24 +459,24 @@
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
     
 <span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span>\
-  <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
     
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span>\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
 <span class="n">embeddings_clinical</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"embeddings_clinical"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 
 <span class="n">clinical_ner</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_deid_sd_large"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
-  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
 
 <span class="n">ner_converter</span> <span class="o">=</span> <span class="n">NerConverter</span><span class="p">()</span> \
-  <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span> \
-  <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner_chunk"</span><span class="p">)</span>
 
 <span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> 
                                <span class="n">sentenceDetector</span><span class="p">,</span> 
@@ -484,7 +484,6 @@
                                <span class="n">embeddings_clinical</span><span class="p">,</span> 
                                <span class="n">clinical_ner</span><span class="p">,</span> 
                                <span class="n">ner_converter</span><span class="p">])</span>
-
 
 <span class="n">sample_text</span> <span class="o">=</span> <span class="s">"""Record date : 2093-01-13 , David Hale , M.D . , Name : Hendrickson Ora , MR # 7194334 Date : 01/13/93 . PCP : Oliveira , 25 years old , Record date : 2079-11-09 . Cocke County Baptist Hospital , 0295 Keats Street , Phone 302-786-5227."""</span>
 
@@ -496,24 +495,24 @@
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
     
 <span class="k">val</span> <span class="nv">sentenceDetector</span> <span class="k">=</span> <span class="nv">SentenceDetectorDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
     
 <span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">word_embeddings</span> <span class="k">=</span> <span class="nv">WordEmbeddingsModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"embeddings_clinical"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">clinical_ner</span> <span class="k">=</span> <span class="nv">MedicalNerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_deid_sd_large"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">))</span> 
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">))</span> 
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">ner_converter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerConverter</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"ner"</span><span class="o">))</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"ner"</span><span class="o">))</span>
+    <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner_chunk"</span><span class="o">)</span>
 
 
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> 

@@ -28,7 +28,7 @@
 
 </script><title>Pipeline to Detect PHI for Deidentification (Sub Entity)</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis pretrained pipeline is built on the top of ner_deid_subentity model.Live DemoOpen in ColabDownloadCopy S3 URIHow to use  PythonScalaNLU  pipeline = PretrainedPipeline("ner_deid_subentity_pipeline", "de", "clinical/models")pipeline.annotate("Michael Berger wird am Morgen des 12 Dezember 2018 ins St. E...">
+<meta name="description" content="DescriptionThis pretrained pipeline is built on the top of ner_deid_subentity model.Live DemoOpen in ColabDownloadCopy S3 URIHow to use  PythonScalaNLU  from sparknlp.pretrained import PretrainedPipelinepipeline = PretrainedPipeline("ner_deid_subentity_pipeline", "de", "clinical/models")pipeline.annotate("Michael Be...">
 <link rel="canonical" href="/2022/03/21/ner_deid_subentity_pipeline_de_3_0.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -438,8 +438,8 @@
 
 <p>This pretrained pipeline is built on the top of <a href="https://nlp.johnsnowlabs.com/2022/01/06/ner_deid_subentity_de.html">ner_deid_subentity</a> model.</p>
 
-<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<button class="button button-orange" disabled="">Open in Colab</button>
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/healthcare/NER_DEID_DE/" class="button button-orange">Live Demo</a>
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/DEID_PHI_TEXT_MULTI.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
 <a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_deid_subentity_pipeline_de_3.4.1_3.0_1647887751010.zip" class="button button-orange button-orange-trans arr button-icon hidden">Download</a>
 <a href="s3://auxdata.johnsnowlabs.com/clinical/models/ner_deid_subentity_pipeline_de_3.4.1_3.0_1647887751010.zip" class="button button-orange button-orange-trans button-icon button-copy-s3">Copy S3 URI</a></p>
 
@@ -448,8 +448,9 @@
 <div class="tabs-box">
   <div class="tabs-model-aproach-head"><button class="tab-li-model-aproach tabheader_active">Python</button><button class="tab-li-model-aproach">Scala</button><button class="tab-li-model-aproach">NLU</button></div>
 
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"ner_deid_subentity_pipeline"</span><span class="p">,</span> <span class="s">"de"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
 
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"ner_deid_subentity_pipeline"</span><span class="p">,</span> <span class="s">"de"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>
 
 <span class="n">pipeline</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"Michael Berger wird am Morgen des 12 Dezember 2018 ins St. Elisabeth-Krankenhaus in Bad Kissingen eingeliefert. Herr Berger ist 76 Jahre alt und hat zu viel Wasser in den Beinen."</span><span class="p">)</span>
 </code></pre></div>  </div>

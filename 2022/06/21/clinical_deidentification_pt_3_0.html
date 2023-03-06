@@ -447,7 +447,7 @@
 
 <div class="tabs-box">
   <div class="tabs-model-aproach-head"><button class="tab-li-model-aproach tabheader_active">Python</button><button class="tab-li-model-aproach">Scala</button><button class="tab-li-model-aproach">NLU</button></div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">johnsnowlabs</span> <span class="kn">import</span> <span class="o">*</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
 
 <span class="n">deid_pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"clinical_deidentification"</span><span class="p">,</span> <span class="s">"pt"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>
 

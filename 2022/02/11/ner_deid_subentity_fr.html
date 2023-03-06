@@ -444,8 +444,8 @@
 
 <p><code class="language-plaintext highlighter-rouge">PATIENT</code>, <code class="language-plaintext highlighter-rouge">HOSPITAL</code>, <code class="language-plaintext highlighter-rouge">DATE</code>, <code class="language-plaintext highlighter-rouge">ORGANIZATION</code>, <code class="language-plaintext highlighter-rouge">E-MAIL</code>, <code class="language-plaintext highlighter-rouge">USERNAME</code>, <code class="language-plaintext highlighter-rouge">ZIP</code>, <code class="language-plaintext highlighter-rouge">MEDICALRECORD</code>, <code class="language-plaintext highlighter-rouge">PROFESSION</code>, <code class="language-plaintext highlighter-rouge">PHONE</code>, <code class="language-plaintext highlighter-rouge">DOCTOR</code>, <code class="language-plaintext highlighter-rouge">AGE</code>, <code class="language-plaintext highlighter-rouge">STREET</code>, <code class="language-plaintext highlighter-rouge">CITY</code>, <code class="language-plaintext highlighter-rouge">COUNTRY</code></p>
 
-<p class="btn-box"><button class="button button-orange" disabled="">Live Demo</button>
-<button class="button button-orange" disabled="">Open in Colab</button>
+<p class="btn-box"><a href="https://demo.johnsnowlabs.com/healthcare/DEID_PHI_TEXT_MULTI/" class="button button-orange">Live Demo</a>
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/healthcare-nlp/04.1.Clinical_Multi_Language_Deidentification.ipynb" class="button button-orange button-orange-trans co button-icon">Open in Colab</a>
 <a href="https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_deid_subentity_fr_3.4.1_2.4_1644590174130.zip" class="button button-orange button-orange-trans arr button-icon hidden">Download</a>
 <a href="s3://auxdata.johnsnowlabs.com/clinical/models/ner_deid_subentity_fr_3.4.1_2.4_1644590174130.zip" class="button button-orange button-orange-trans button-icon button-copy-s3">Copy S3 URI</a></p>
 
@@ -454,78 +454,68 @@
 <div class="tabs-box">
   <div class="tabs-model-aproach-head"><button class="tab-li-model-aproach tabheader_active">Python</button><button class="tab-li-model-aproach">Scala</button><button class="tab-li-model-aproach">NLU</button></div>
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
-<span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
-<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+	<span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+	<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
 <span class="n">sentenceDetector</span> <span class="o">=</span> <span class="n">SentenceDetectorDLModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sentence_detector_dl"</span><span class="p">,</span> <span class="s">"xx"</span><span class="p">)</span>\
-<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
-<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
-
+	<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>\
+	<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
 
 <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span>\
-<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span>\
-<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
-
+	<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span>\
+	<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
 <span class="n">embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"w2v_cc_300d"</span><span class="p">,</span> <span class="s">"fr"</span><span class="p">)</span>\
 	<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span>\
 	<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"word_embeddings"</span><span class="p">)</span>
 
-
 <span class="n">clinical_ner</span> <span class="o">=</span> <span class="n">MedicalNerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_deid_subentity"</span><span class="p">,</span> <span class="s">"fr"</span><span class="p">,</span> <span class="s">"clinical/models"</span><span class="p">)</span>\
-<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span> <span class="s">"word_embeddings"</span><span class="p">])</span>\
-<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
+	<span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span><span class="s">"token"</span><span class="p">,</span> <span class="s">"word_embeddings"</span><span class="p">])</span>\
+	<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
 
-
-<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
-<span class="n">documentAssembler</span><span class="p">,</span>
-<span class="n">sentenceDetector</span><span class="p">,</span>
-<span class="n">tokenizer</span><span class="p">,</span>
-<span class="n">embeddings</span><span class="p">,</span>
-<span class="n">clinical_ner</span><span class="p">])</span>
-
+<span class="n">nlpPipeline</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">.</span><span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+	<span class="n">documentAssembler</span><span class="p">,</span>
+	<span class="n">sentenceDetector</span><span class="p">,</span>
+	<span class="n">tokenizer</span><span class="p">,</span>
+	<span class="n">embeddings</span><span class="p">,</span>
+	<span class="n">clinical_ner</span><span class="p">])</span>
 
 <span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s">"J'ai vu en consultation Michel Martinez (49 ans) adressé au Centre Hospitalier De Plaisir pour un diabète mal contrôlé avec des symptômes datant de Mars 2015."</span><span class="p">]</span>
 
-
 <span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([</span><span class="n">text</span><span class="p">]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
-
 
 <span class="n">results</span> <span class="o">=</span> <span class="n">nlpPipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </code></pre></div>  </div>
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
-<span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
-
+	<span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+	<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">sentenceDetector</span> <span class="k">=</span> <span class="nv">SentenceDetectorDLModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sentence_detector_dl"</span><span class="o">,</span> <span class="s">"xx"</span><span class="o">)</span>
-<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
-<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
-
+	<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
+	<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
-<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">))</span>
-<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
-
+	<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">))</span>
+	<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">WordEmbeddingsModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"w2v_cc_300d"</span><span class="o">,</span> <span class="s">"fr"</span><span class="o">)</span>
-<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
-<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
-
+	<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">))</span>
+	<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">clinical_ner</span> <span class="k">=</span> <span class="nv">MedicalNerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_deid_subentity"</span><span class="o">,</span> <span class="s">"fr"</span><span class="o">,</span> <span class="s">"clinical/models"</span><span class="o">)</span>
-<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span><span class="s">"token"</span><span class="o">,</span><span class="s">"embeddings"</span><span class="o">))</span>
-<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+	<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span><span class="s">"token"</span><span class="o">,</span><span class="s">"embeddings"</span><span class="o">))</span>
+	<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
 
-
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">sentenceDetector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">embeddings</span><span class="o">,</span> <span class="n">clinical_ner</span><span class="o">))</span>
-
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+	<span class="n">documentAssembler</span><span class="o">,</span>
+	 <span class="n">sentenceDetector</span><span class="o">,</span> 
+	 <span class="n">tokenizer</span><span class="o">,</span> 
+	 <span class="n">embeddings</span><span class="o">,</span> 
+	 <span class="n">clinical_ner</span><span class="o">))</span>
 
 <span class="k">val</span> <span class="nv">text</span> <span class="k">=</span> <span class="s">"J'ai vu en consultation Michel Martinez (49 ans) adressé au Centre Hospitalier De Plaisir pour un diabète mal contrôlé avec des symptômes datant de Mars 2015."</span>
 
-
 <span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="n">text</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-
 
 <span class="k">val</span> <span class="nv">results</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
