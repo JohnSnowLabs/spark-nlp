@@ -90,6 +90,15 @@ private[nlp] object SpecialTokens {
             "<special7>",
             "<special8>",
             "<special9>"))
+      case "gptj" =>
+        new SpecialTokens(
+          vocab,
+          startTokenString = "<|endoftext|>",
+          endTokenString = "<|endoftext|>",
+          unkTokenString = "<|endoftext|>",
+          maskTokenString = "<|endoftext|>",
+          padTokenString = "<|endoftext|>")
+
     }
 }
 
