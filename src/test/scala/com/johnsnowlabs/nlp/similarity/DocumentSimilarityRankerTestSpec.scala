@@ -6,16 +6,13 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerApproach
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings
+import com.johnsnowlabs.nlp.finisher.DocumentSimilarityRankerFinisher
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{AnnotatorBuilder, EmbeddingsFinisher}
 import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.SparkSession
-import org.apache.spark.sql.functions.col
 import org.scalatest.flatspec.AnyFlatSpec
-
-import scala.util.hashing.MurmurHash3
-import scala.util.parsing.json.JSON.parseFull
 
 class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
   val spark: SparkSession = ResourceHelper.spark
@@ -66,12 +63,9 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
       .setSimilarityMethod("brp")
       .setNumberOfNeighbours(3)
 
-//    val finisher = new DocumentSimilarityRankerFinisher()
-//      .setInputCols("sentence_embeddings")
-//      .setOutputCols("finished_sentence_embeddings")
-//      .setCleanAnnotations(false)
-
-    // val docSimilarityFinalizer
+    val documentSimilarityFinisher = new DocumentSimilarityRankerFinisher()
+      .setInputCols("doc_similarity_rankings")
+      .setOutputCols("finished_doc_similarity_rankings")
 
     val pipeline = new Pipeline()
       .setStages(
@@ -83,21 +77,15 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
           embeddingsSentence,
           sentenceFinisher,
           docSimilarityRanker,
-          // finisher
+          documentSimilarityFinisher
         ))
 
     val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
 
-    pipelineDF.printSchema
-    //    pipelineDF.show(false)
-    pipelineDF.select(DOC_SIMILARITY_RANKINGS).show(false)
-
-    // get text
-    val hashId = MurmurHash3.stringHash("First document, this is my first sentence. This is my second sentence.", MurmurHash3.stringSeed)
-
-    pipelineDF
-      .withColumn("lshId", col("doc_similarity_rankings.metadata").getItem("lshId"))
-      .withColumn("lshNeighbors", col("doc_similarity_rankings.metadata").getItem("lshId"))
-      .show
+    pipelineDF.select(
+      "finished_doc_similarity_ranker_id",
+      "text",
+      "finished_doc_similarity_ranker_neighbors"
+    ).show(false)
   }
 }
