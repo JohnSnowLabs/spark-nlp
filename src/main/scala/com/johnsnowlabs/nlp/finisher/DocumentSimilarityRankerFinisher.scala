@@ -19,6 +19,10 @@ case class DocumentSimilarityRankerFinisher (override val uid: String)
 
   val LSH_NEIGHBORS_COL_NAME = "lshNeighbors"
 
+  val FINISHED_DOC_SIM_RANKER_ID_DEFAULT = "finished_doc_similarity_rankings_id"
+
+  val FINISHED_DOC_SIM_RANKER_NEIGHBORS_DEFAULT = "finished_doc_similarity_rankings_neighbors"
+
   /** Name of input annotation cols containing embeddings
    *
    * @group param
@@ -70,14 +74,24 @@ case class DocumentSimilarityRankerFinisher (override val uid: String)
   def getOutputCols: Array[String] = get(outputCols).getOrElse(getInputCols.map("finished_" + _))
 
   override def transform(dataset: Dataset[_]): DataFrame = {
-    val finisherBaseColName = "finished_doc_similarity_ranker"
+
+    require(getOutputCols.length == 1 || getOutputCols.length == 2,
+    "Output column array should have length 1 (default case) or 2 when value id and neighbors are assigned.")
+
+    val (idColName, neighborsColName) =
+      getOutputCols.length match {
+        case 1 => (FINISHED_DOC_SIM_RANKER_ID_DEFAULT, FINISHED_DOC_SIM_RANKER_NEIGHBORS_DEFAULT)
+        case 2 => (getOutputCols(0), getOutputCols(1))
+      }
+
     dataset
       .withColumn(
-        s"${finisherBaseColName}_id",
+        idColName,
         element_at(col(s"${AnnotatorType.DOC_SIMILARITY_RANKINGS}.metadata"), 1)
           .getItem(LSH_ID_COL_NAME)
       )
-      .withColumn(s"${finisherBaseColName}_neighbors",
+      .withColumn(
+        neighborsColName,
         element_at(col(s"${AnnotatorType.DOC_SIMILARITY_RANKINGS}.metadata"), 1)
           .getItem(LSH_NEIGHBORS_COL_NAME)
       )

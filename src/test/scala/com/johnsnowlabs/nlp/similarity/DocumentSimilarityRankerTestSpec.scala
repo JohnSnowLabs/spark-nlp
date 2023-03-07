@@ -24,8 +24,11 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
         "First document, this is my first sentence. This is my second sentence.",
         "Second document, this is my first sentence. This is my second sentence.",
         "Third document, climate change is arguably one of the most pressing problems of our time.",
-        "Fourth document, Florence in Italy, is among the most beautiful cities in Europe.",
-        "Fifth document, The French Riviera is the Mediterranean coastline of the southeast corner of France.",
+        "Fourth document, climate change is definitely one of the most pressing problems of our time.",
+        "Fifth document, Florence in Italy, is among the most beautiful cities in Europe.",
+        "Sixth document, Florence in Italy, is a very beautiful city in Europe like Lyon in France.",
+        "Seventh document, the French Riviera is the Mediterranean coastline of the southeast corner of France.",
+        "Eighth document, the warmest place in France is the French Riviera coast in Southern France.",
       ).map(Tuple1(_)))
       .toDF("text")
 
@@ -65,7 +68,12 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
 
     val documentSimilarityFinisher = new DocumentSimilarityRankerFinisher()
       .setInputCols("doc_similarity_rankings")
-      .setOutputCols("finished_doc_similarity_rankings")
+      .setOutputCols(
+        Array(
+          "finished_doc_similarity_rankings_id",
+          "finished_doc_similarity_rankings_neighbors"
+        )
+      )
 
     val pipeline = new Pipeline()
       .setStages(
@@ -83,9 +91,9 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
     val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
 
     pipelineDF.select(
-      "finished_doc_similarity_ranker_id",
+      "finished_doc_similarity_rankings_id",
       "text",
-      "finished_doc_similarity_ranker_neighbors"
+      "finished_doc_similarity_rankings_neighbors"
     ).show(false)
   }
 }
