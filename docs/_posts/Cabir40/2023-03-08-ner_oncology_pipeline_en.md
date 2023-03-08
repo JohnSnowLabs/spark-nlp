@@ -23,8 +23,8 @@ This pretrained pipeline is built on the top of [ner_oncology](https://nlp.johns
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_pipeline_en_4.3.0_3.2_1678289728198.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/ner_oncology_pipeline_en_4.3.0_3.2_1678289728198.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_pipeline_en_4.3.0_3.2_1678283681531.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/ner_oncology_pipeline_en_4.3.0_3.2_1678283681531.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
