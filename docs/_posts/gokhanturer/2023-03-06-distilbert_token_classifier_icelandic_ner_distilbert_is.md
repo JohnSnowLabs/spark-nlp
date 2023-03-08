@@ -2,7 +2,7 @@
 layout: model
 title: Icelandic DistilBertForTokenClassification Cased model (from m3hrdadfi)
 author: John Snow Labs
-name: distilbert_token_classifier_icelandic_ner_distilbert
+name: distilbert_token_classifier_icelandic_ner
 date: 2023-03-06
 tags: [is, open_source, distilbert, token_classification, ner, tensorflow]
 task: Named Entity Recognition
