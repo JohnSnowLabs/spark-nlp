@@ -18,7 +18,6 @@ package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.annotators.MultiDateMatcher
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}
@@ -27,7 +26,6 @@ import org.scalatest.flatspec.AnyFlatSpec
 class Date2ChunkTestSpec extends AnyFlatSpec {
 
   "Date2Chunk" should "correctly converts DATE to CHUNK type" taggedAs FastTest in {
-    import ResourceHelper.spark.implicits._
 
     val data: Dataset[Row] = DataBuilder.multipleDataBuild(
       Array(
@@ -72,20 +70,26 @@ class Date2ChunkTestSpec extends AnyFlatSpec {
 
     lightPipeline.annotate("Hello from Spark NLP in 2023 !")
 
-    val dateChunkResults = pipelineModel
-      .transform(data)
-      .select("date_chunk")
-      .as[Seq[Annotation]]
-      .collect()
-
-//    for ((a, b) <- dateChunkResults.zip(dateChunkAnswer)) {
-//      assert(a == b)
-//    }
-
     pipelineModel
       .transform(data)
       .select("date_chunk")
       .show(false)
+
+    pipelineModel
+      .transform(data)
+      .select("date_chunk.metadata")
+      .show(false)
+
+    pipelineModel
+      .transform(data)
+      .select("multi_date_chunk")
+      .show(false)
+
+    pipelineModel
+      .transform(data)
+      .select("multi_date_chunk.metadata")
+      .show(false)
+
   }
 
 }

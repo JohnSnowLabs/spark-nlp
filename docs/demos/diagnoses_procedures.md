@@ -6,6 +6,9 @@ subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /diagnoses_procedures
 key: demo
+nav_key: demo
+nav_key: demo
+nav_key: demo
 article_header:
   type: demo
 license: false
@@ -104,4 +107,16 @@ data:
           - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_CLINICAL_DATE.ipynb
+        - title: Detect Available Pretrained NER Models    
+          id: detect_available_pretrained_ner_models         
+          image: 
+              src: /assets/images/Detect_Available_Pretrained_NER_Models.svg
+          excerpt: This pipeline can be used to explore all the available pretrained NER models at once. When you run this pipeline over your text, you will end up with the predictions coming out of each pretrained clinical NER model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_PROFILING/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings_JSL/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
 ---

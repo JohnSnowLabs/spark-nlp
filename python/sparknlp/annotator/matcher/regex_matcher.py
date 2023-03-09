@@ -35,7 +35,7 @@ class RegexMatcher(AnnotatorApproach):
     <https://nlp.johnsnowlabs.com/docs/en/pipelines>`__.
 
     For extended examples of usage, see the `Examples
-    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/regex-matcher/Matching_Text_with_RegexMatcher.ipynb>`__.
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/regex-matcher/Matching_Text_with_RegexMatcher.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type

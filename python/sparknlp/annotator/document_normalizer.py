@@ -23,7 +23,7 @@ class DocumentNormalizer(AnnotatorModel):
     patterns. Can apply not wanted character removal with a specific policy.
     Can apply lower case normalization.
 
-    For extended examples of usage, see the `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/document-normalizer/document_normalizer_notebook.ipynb
+    For extended examples of usage, see the `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/document-normalizer/document_normalizer_notebook.ipynb
 >`__.
 
     ====================== ======================
@@ -197,4 +197,3 @@ class DocumentNormalizer(AnnotatorModel):
             File encoding to apply on normalized documents, by default "UTF-8"
         """
         return self._set(encoding=value)
-

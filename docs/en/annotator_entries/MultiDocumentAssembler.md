@@ -10,7 +10,7 @@ pre-process the text (Default: `disabled`). For possible options please refer th
 section.
 
 For more extended examples on document pre-processing see the
-[Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/document-assembler/Loading_Multiple_Documents.ipynb).
+[Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/document-assembler/Loading_Multiple_Documents.ipynb).
 {%- endcapture -%}
 
 {%- capture input_anno -%}

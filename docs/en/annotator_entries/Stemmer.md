@@ -4,7 +4,7 @@ Stemmer
 
 {%- capture description -%}
 Returns hard-stems out of words with the objective of retrieving the meaningful part of the word.
-For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/stemmer/Word_Stemming_with_Stemmer.ipynb).
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/stemmer/Word_Stemming_with_Stemmer.ipynb).
 {%- endcapture -%}
 
 {%- capture input_anno -%}

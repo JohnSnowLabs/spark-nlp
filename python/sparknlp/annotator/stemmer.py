@@ -20,7 +20,7 @@ class Stemmer(AnnotatorModel):
     meaningful part of the word.
 
     For extended examples of usage, see the `Examples
-    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/stemmer/Word_Stemming_with_Stemmer.ipynb>`__.
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/stemmer/Word_Stemming_with_Stemmer.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -77,4 +77,3 @@ class Stemmer(AnnotatorModel):
         self._setDefault(
             language="english"
         )
-

@@ -6,6 +6,7 @@ subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /financial_relation_extraction
 key: demo
+nav_key: demo
 article_header:
   type: demo
 license: false

@@ -6,6 +6,7 @@ seotitle: Databricks Solution Accelerators
 full_width: true
 permalink: /databricks_solution_accelerators
 key: demo
+nav_key: demo
 article_header:
   type: demo
 license: false

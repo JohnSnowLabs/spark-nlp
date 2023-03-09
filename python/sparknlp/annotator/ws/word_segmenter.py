@@ -54,7 +54,7 @@ class WordSegmenterApproach(AnnotatorApproach):
     data frames.
 
     For extended examples of usage, see the `Examples
-    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/chinese/word_segmentation>`__.
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/chinese/word_segmentation>`__.
 
     References
     ----------
