@@ -104,29 +104,32 @@ object ResourceHelper {
 
   /** Structure for a SourceStream coming from compiled content */
   case class SourceStream(resource: String) {
-    val (fileSystem, path) = OutputHelper.getFileSystem(resource)
-    if (!fileSystem.exists(path)) {
+
+    var fileSystem: Option[FileSystem] = None
+    private val (pathExists, path) = OutputHelper.doesPathExists(resource)
+    if (!pathExists) {
       throw new FileNotFoundException(s"file or folder: $resource not found")
+    } else {
+      fileSystem = Some(OutputHelper.getFileSystem(resource))
     }
 
-    val pipe: Seq[InputStream] = getPipe(fileSystem)
-    val openBuffers: Seq[BufferedSource] = pipe.map(pp => {
+    val pipe: Seq[InputStream] = getPipe(fileSystem.get)
+    private val openBuffers: Seq[BufferedSource] = pipe.map(pp => {
       new BufferedSource(pp)("UTF-8")
     })
-
     val content: Seq[Iterator[String]] = openBuffers.map(c => c.getLines())
 
     private def getPipe(fileSystem: FileSystem): Seq[InputStream] = {
       if (fileSystem.getScheme == "s3a") {
         val awsGateway = new AWSGateway()
-        val (bucket, s3Path) = parseS3URI(path.toString)
+        val (bucket, s3Path) = parseS3URI(path.get.toString)
         val inputStreams = awsGateway.listS3Files(bucket, s3Path).map { summary =>
           val s3Object = awsGateway.getS3Object(bucket, summary.getKey)
           s3Object.getObjectContent
         }
         inputStreams
       } else {
-        val files = fileSystem.listFiles(path, true)
+        val files = fileSystem.listFiles(path.get, true)
         val buffer = ArrayBuffer.empty[InputStream]
         while (files.hasNext) buffer.append(fileSystem.open(files.next().getPath))
         buffer
@@ -141,16 +144,16 @@ object ResourceHelper {
       *   URI of the created temporary folder with the resource
       */
     def copyToLocal(prefix: String = "sparknlp_tmp_"): URI = {
-      if (fileSystem.getScheme == "file")
+      if (fileSystem.get.getScheme == "file")
         return URI.create(resource)
 
       val destination: file.Path = Files.createTempDirectory(prefix)
 
-      val destinationUri = fileSystem.getScheme match {
+      val destinationUri = fileSystem.get.getScheme match {
         case "hdfs" =>
-          fileSystem.copyToLocalFile(false, path, new Path(destination.toUri), true)
-          if (fileSystem.getFileStatus(path).isDirectory)
-            Paths.get(destination.toString, path.getName).toUri
+          fileSystem.get.copyToLocalFile(false, path.get, new Path(destination.toUri), true)
+          if (fileSystem.get.getFileStatus(path.get).isDirectory)
+            Paths.get(destination.toString, path.get.getName).toUri
           else destination.toUri
         case "dbfs" =>
           val dbfsPath = path.toString.replace("dbfs:/", "/dbfs/")
@@ -160,9 +163,9 @@ object ResourceHelper {
           else FileUtils.copyDirectory(sourceFile, targetFile)
           targetFile.toURI
         case _ =>
-          val files = fileSystem.listFiles(path, false)
+          val files = fileSystem.get.listFiles(path.get, false)
           while (files.hasNext) {
-            fileSystem.copyFromLocalFile(files.next.getPath, new Path(destination.toUri))
+            fileSystem.get.copyFromLocalFile(files.next.getPath, new Path(destination.toUri))
           }
           destination.toUri
       }
@@ -728,7 +731,7 @@ object ResourceHelper {
 
   def moveFile(sourceFile: String, destinationFile: String): Unit = {
 
-    val (sourceFileSystem, _) = OutputHelper.getFileSystem(sourceFile)
+    val sourceFileSystem = OutputHelper.getFileSystem(sourceFile)
 
     if (destinationFile.startsWith("s3:")) {
       val s3Bucket = destinationFile.replace("s3://", "").split("/").head
