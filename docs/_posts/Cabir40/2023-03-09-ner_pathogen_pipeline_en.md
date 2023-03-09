@@ -55,7 +55,7 @@ val result = pipeline.fullAnnotate(text)
 ## Results
 
 ```bash
-|    | ber_chunks      |   begin |   end | ner_label        |   confidence |
+|    | ner_chunks      |   begin |   end | ner_label        |   confidence |
 |---:|:----------------|--------:|------:|:-----------------|-------------:|
 |  0 | Racecadotril    |       0 |    11 | Medicine         |     0.9468   |
 |  1 | loperamide      |      80 |    89 | Medicine         |     0.9986   |

@@ -55,7 +55,7 @@ val result = pipeline.fullAnnotate(text)
 ## Results
 
 ```bash
-|    | ber_chunks                    |   begin |   end | ner_label   |   confidence |
+|    | ner_chunks                    |   begin |   end | ner_label   |   confidence |
 |---:|:------------------------------|--------:|------:|:------------|-------------:|
 |  0 | suplementación                |      13 |    26 | PROC        |     0.9987   |
 |  1 | ácido fólico                  |      32 |    43 | CHEM        |     0.8828   |

@@ -65,7 +65,7 @@ val result = pipeline.fullAnnotate(text)
 ## Results
 
 ```bash
-|    | ber_chunks                   |   begin |   end | ner_label   |   confidence |
+|    | ner_chunks                   |   begin |   end | ner_label   |   confidence |
 |---:|:-----------------------------|--------:|------:|:------------|-------------:|
 |  0 | Spitalul Pentru Ochi de Deal |       0 |    27 | HOSPITAL    |      0.5594  |
 |  1 | Drumul Oprea Nr. 972         |      30 |    49 | STREET      |      0.99724 |

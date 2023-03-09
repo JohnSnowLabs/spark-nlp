@@ -55,7 +55,7 @@ val result = pipeline.fullAnnotate(text)
 ## Results
 
 ```bash
-|    | ber_chunks     |   begin |   end | ner_label   |   confidence |
+|    | ner_chunks     |   begin |   end | ner_label   |   confidence |
 |---:|:---------------|--------:|------:|:------------|-------------:|
 |  0 | Lactante varón |       0 |    13 | HUMAN       |      0.92045 |
 |  1 | familiares     |      41 |    50 | HUMAN       |      1       |
