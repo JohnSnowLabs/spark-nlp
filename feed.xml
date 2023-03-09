@@ -1,156 +1,148 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-03-09T11:26:42+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
-</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">Medical Question Answering (biogpt)</title><link href="/2023/03/09/medical_qa_biogpt_en.html" rel="alternate" type="text/html" title="Medical Question Answering (biogpt)" /><published>2023-03-09T00:00:00+00:00</published><updated>2023-03-09T00:00:00+00:00</updated><id>/2023/03/09/medical_qa_biogpt_en</id><content type="html" xml:base="/2023/03/09/medical_qa_biogpt_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-03-09T16:32:17+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">Medical Question Answering (biogpt)</title><link href="/2023/03/09/medical_qa_biogpt_en.html" rel="alternate" type="text/html" title="Medical Question Answering (biogpt)" /><published>2023-03-09T00:00:00+00:00</published><updated>2023-03-09T00:00:00+00:00</updated><id>/2023/03/09/medical_qa_biogpt_en</id><content type="html" xml:base="/2023/03/09/medical_qa_biogpt_en.html">## Description
 
-&lt;p&gt;This model has been trained with medical documents and can generate two types of answers, short and long.
-Types of questions are supported: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&quot;short&quot;&lt;/code&gt; (producing yes/no/maybe) answers and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&quot;full&quot;&lt;/code&gt; (long answers).&lt;/p&gt;
+This model has been trained with medical documents and can generate two types of answers, short and long.
+Types of questions are supported: `&quot;short&quot;` (producing yes/no/maybe) answers and `&quot;full&quot;` (long answers).
 
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+## Predicted Entities
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/medical_qa_biogpt_en_4.3.1_3.0_1678355315206.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/clinical/models/medical_qa_biogpt_en_4.3.1_3.0_1678355315206.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MultiDocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;question&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;context&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document_question&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;document_context&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/medical_qa_biogpt_en_4.3.1_3.0_1678355315206.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/medical_qa_biogpt_en_4.3.1_3.0_1678355315206.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;span class=&quot;n&quot;&gt;med_qa&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sparknlp_jsl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotators&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MedicalQuestionAnswering&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;medical_qa_biogpt&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;clinical/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document_question&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;document_context&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;answer&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setMaxNewTokens&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setTopK&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setQuestionType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;long&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# &quot;short&quot;
-&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;med_qa&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+## How to use
 
-&lt;span class=&quot;n&quot;&gt;paper_abstract&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;The visual indexing theory proposed by Zenon Pylyshyn (Cognition, 32, 65-97, 1989) predicts that visual attention mechanisms are employed when mental images are projected onto a visual scene.&quot;&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;long_question&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;What is the effect of directing attention on memory?&quot;&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;yes_no_question&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Does directing attention improve memory for items?&quot;&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;long_question&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;paper_abstract&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;long&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;yes_no_question&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;paper_abstract&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;short&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;question&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;context&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;question_type&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;where&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;question_type == 'long'&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;answer.result&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;truncate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+document_assembler = MultiDocumentAssembler()\
+    .setInputCols(&quot;question&quot;, &quot;context&quot;)\
+    .setOutputCols(&quot;document_question&quot;, &quot;document_context&quot;)
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;where&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;question_type == 'short'&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;answer.result&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;truncate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;MultiDocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;question&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;context&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document_question&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;document_context&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+med_qa = sparknlp_jsl.annotators.MedicalQuestionAnswering\
+    .pretrained(&quot;medical_qa_biogpt&quot;,&quot;en&quot;,&quot;clinical/models&quot;)\
+    .setInputCols([&quot;document_question&quot;, &quot;document_context&quot;])\
+    .setOutputCol(&quot;answer&quot;)\
+    .setMaxNewTokens(30)\
+    .setTopK(1)\
+    .setQuestionType(&quot;long&quot;) # &quot;short&quot;
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;med_qa&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;MedicalQuestionAnswering&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;medical_qa_biogpt&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;clinical/models&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document_question&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;document_context&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;answer&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setMaxNewTokens&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setTopK&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setQuestionType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;long&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;#&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;short&quot;&lt;/span&gt;
+pipeline = Pipeline(stages=[document_assembler, med_qa])
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;med_qa&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+paper_abstract = &quot;The visual indexing theory proposed by Zenon Pylyshyn (Cognition, 32, 65-97, 1989) predicts that visual attention mechanisms are employed when mental images are projected onto a visual scene.&quot;
+long_question = &quot;What is the effect of directing attention on memory?&quot;
+yes_no_question = &quot;Does directing attention improve memory for items?&quot;
 
-&lt;span class=&quot;n&quot;&gt;paper_abstract&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;The visual indexing theory proposed by Zenon Pylyshyn (Cognition, 32, 65-97, 1989) predicts that visual attention mechanisms are employed when mental images are projected onto a visual scene.&quot;&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;long_question&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;What is the effect of directing attention on memory?&quot;&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;yes_no_question&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Does directing attention improve memory for items?&quot;&lt;/span&gt;
+data = spark.createDataFrame(
+    [
+        [long_question, paper_abstract, &quot;long&quot;],
+        [yes_no_question, paper_abstract, &quot;short&quot;],
+    ]
+).toDF(&quot;question&quot;, &quot;context&quot;, &quot;question_type&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Seq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;long_question&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;paper_abstract&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;long&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;),&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;yes_no_question&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;paper_abstract&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;short&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;toDS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;question&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;context&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;question_type&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+pipeline.fit(data).transform(data.where(&quot;question_type == 'long'&quot;))\
+    .select(&quot;answer.result&quot;)\
+    .show(truncate=False)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+pipeline.fit(data).transform(data.where(&quot;question_type == 'short'&quot;))\
+    .select(&quot;answer.result&quot;)\
+    .show(truncate=False)
+```
+```scala
+val document_assembler = new MultiDocumentAssembler()
+    .setInputCols(&quot;question&quot;, &quot;context&quot;)
+    .setOutputCols(&quot;document_question&quot;, &quot;document_context&quot;)
+
+val med_qa = MedicalQuestionAnswering
+    .pretrained(&quot;medical_qa_biogpt&quot;,&quot;en&quot;,&quot;clinical/models&quot;)
+    .setInputCols((&quot;document_question&quot;, &quot;document_context&quot;))
+    .setOutputCol(&quot;answer&quot;)
+    .setMaxNewTokens(30)
+    .setTopK(1)
+    .setQuestionType(&quot;long&quot;) # &quot;short&quot;
+
+val pipeline = new Pipeline().setStages(Array(document_assembler, med_qa))
+
+paper_abstract = &quot;The visual indexing theory proposed by Zenon Pylyshyn (Cognition, 32, 65-97, 1989) predicts that visual attention mechanisms are employed when mental images are projected onto a visual scene.&quot;
+long_question = &quot;What is the effect of directing attention on memory?&quot;
+yes_no_question = &quot;Does directing attention improve memory for items?&quot;
+
+val data = Seq( 
+    (long_question, paper_abstract,&quot;long&quot; ),
+    (yes_no_question, paper_abstract, &quot;short&quot;))
+    .toDS.toDF(&quot;question&quot;, &quot;context&quot;, &quot;question_type&quot;)
+
+val result = pipeline.fit(data).transform(data)
+```
 &lt;/div&gt;
 
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+## Results
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+```bash
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 |result                                                                                                                                                                        |
 +------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-|[the present study investigated whether directing spatial attention to one location &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;a visual array would enhance memory &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;the array features. participants memorized two]|
+|[the present study investigated whether directing spatial attention to one location in a visual array would enhance memory for the array features. participants memorized two]|
 +------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+```
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;medical_qa_biogpt&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Healthcare NLP 4.3.1+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Licensed&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;1.1 GB&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Case sensitive:&lt;/td&gt;
-      &lt;td&gt;true&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="licensed" /><category term="clinical" /><category term="en" /><category term="gpt" /><category term="biogpt" /><category term="pubmed" /><category term="question_answering" /><category term="tensorflow" /><summary type="html">Description This model has been trained with medical documents and can generate two types of answers, short and long. Types of questions are supported: &quot;short&quot; (producing yes/no/maybe) answers and &quot;full&quot; (long answers). Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU document_assembler = MultiDocumentAssembler()\ .setInputCols(&quot;question&quot;, &quot;context&quot;)\ .setOutputCols(&quot;document_question&quot;, &quot;document_context&quot;) med_qa = sparknlp_jsl.annotators.MedicalQuestionAnswering\ .pretrained(&quot;medical_qa_biogpt&quot;,&quot;en&quot;,&quot;clinical/models&quot;)\ .setInputCols([&quot;document_question&quot;, &quot;document_context&quot;])\ .setOutputCol(&quot;answer&quot;)\ .setMaxNewTokens(30)\ .setTopK(1)\ .setQuestionType(&quot;long&quot;) # &quot;short&quot; pipeline = Pipeline(stages=[document_assembler, med_qa]) paper_abstract = &quot;The visual indexing theory proposed by Zenon Pylyshyn (Cognition, 32, 65-97, 1989) predicts that visual attention mechanisms are employed when mental images are projected onto a visual scene.&quot; long_question = &quot;What is the effect of directing attention on memory?&quot; yes_no_question = &quot;Does directing attention improve memory for items?&quot; data = spark.createDataFrame( [ [long_question, paper_abstract, &quot;long&quot;], [yes_no_question, paper_abstract, &quot;short&quot;], ] ).toDF(&quot;question&quot;, &quot;context&quot;, &quot;question_type&quot;) pipeline.fit(data).transform(data.where(&quot;question_type == 'long'&quot;))\ .select(&quot;answer.result&quot;)\ .show(truncate=False) pipeline.fit(data).transform(data.where(&quot;question_type == 'short'&quot;))\ .select(&quot;answer.result&quot;)\ .show(truncate=False) val document_assembler = new MultiDocumentAssembler() .setInputCols(&quot;question&quot;, &quot;context&quot;) .setOutputCols(&quot;document_question&quot;, &quot;document_context&quot;) val med_qa = MedicalQuestionAnswering .pretrained(&quot;medical_qa_biogpt&quot;,&quot;en&quot;,&quot;clinical/models&quot;) .setInputCols((&quot;document_question&quot;, &quot;document_context&quot;)) .setOutputCol(&quot;answer&quot;) .setMaxNewTokens(30) .setTopK(1) .setQuestionType(&quot;long&quot;) # &quot;short&quot; val pipeline = new Pipeline().setStages(Array(document_assembler, med_qa)) paper_abstract = &quot;The visual indexing theory proposed by Zenon Pylyshyn (Cognition, 32, 65-97, 1989) predicts that visual attention mechanisms are employed when mental images are projected onto a visual scene.&quot; long_question = &quot;What is the effect of directing attention on memory?&quot; yes_no_question = &quot;Does directing attention improve memory for items?&quot; val data = Seq( (long_question, paper_abstract,&quot;long&quot; ), (yes_no_question, paper_abstract, &quot;short&quot;)) .toDS.toDF(&quot;question&quot;, &quot;context&quot;, &quot;question_type&quot;) val result = pipeline.fit(data).transform(data) Results +------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+ |result | +------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+ |[the present study investigated whether directing spatial attention to one location in a visual array would enhance memory for the array features. participants memorized two]| +------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+ Model Information Model Name: medical_qa_biogpt Compatibility: Healthcare NLP 4.3.1+ License: Licensed Edition: Official Language: en Size: 1.1 GB Case sensitive: true</summary></entry><entry><title type="html">Pipeline to Detect Clinical Entities in Romanian (Bert, Base, Cased)</title><link href="/2023/03/09/ner_clinical_bert_pipeline_ro.html" rel="alternate" type="text/html" title="Pipeline to Detect Clinical Entities in Romanian (Bert, Base, Cased)" /><published>2023-03-09T00:00:00+00:00</published><updated>2023-03-09T00:00:00+00:00</updated><id>/2023/03/09/ner_clinical_bert_pipeline_ro</id><content type="html" xml:base="/2023/03/09/ner_clinical_bert_pipeline_ro.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+{:.table-model}
+|---|---|
+|Model Name:|medical_qa_biogpt|
+|Compatibility:|Healthcare NLP 4.3.1+|
+|License:|Licensed|
+|Edition:|Official|
+|Language:|en|
+|Size:|1.1 GB|
+|Case sensitive:|true|</content><author><name>John Snow Labs</name></author><category term="licensed" /><category term="clinical" /><category term="en" /><category term="gpt" /><category term="biogpt" /><category term="pubmed" /><category term="question_answering" /><category term="tensorflow" /><summary type="html">Description This model has been trained with medical documents and can generate two types of answers, short and long. Types of questions are supported: &quot;short&quot; (producing yes/no/maybe) answers and &quot;full&quot; (long answers). Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU document_assembler = MultiDocumentAssembler()\ .setInputCols(&quot;question&quot;, &quot;context&quot;)\ .setOutputCols(&quot;document_question&quot;, &quot;document_context&quot;) med_qa = sparknlp_jsl.annotators.MedicalQuestionAnswering\ .pretrained(&quot;medical_qa_biogpt&quot;,&quot;en&quot;,&quot;clinical/models&quot;)\ .setInputCols([&quot;document_question&quot;, &quot;document_context&quot;])\ .setOutputCol(&quot;answer&quot;)\ .setMaxNewTokens(30)\ .setTopK(1)\ .setQuestionType(&quot;long&quot;) # &quot;short&quot; pipeline = Pipeline(stages=[document_assembler, med_qa]) paper_abstract = &quot;The visual indexing theory proposed by Zenon Pylyshyn (Cognition, 32, 65-97, 1989) predicts that visual attention mechanisms are employed when mental images are projected onto a visual scene.&quot; long_question = &quot;What is the effect of directing attention on memory?&quot; yes_no_question = &quot;Does directing attention improve memory for items?&quot; data = spark.createDataFrame( [ [long_question, paper_abstract, &quot;long&quot;], [yes_no_question, paper_abstract, &quot;short&quot;], ] ).toDF(&quot;question&quot;, &quot;context&quot;, &quot;question_type&quot;) pipeline.fit(data).transform(data.where(&quot;question_type == 'long'&quot;))\ .select(&quot;answer.result&quot;)\ .show(truncate=False) pipeline.fit(data).transform(data.where(&quot;question_type == 'short'&quot;))\ .select(&quot;answer.result&quot;)\ .show(truncate=False) val document_assembler = new MultiDocumentAssembler() .setInputCols(&quot;question&quot;, &quot;context&quot;) .setOutputCols(&quot;document_question&quot;, &quot;document_context&quot;) val med_qa = MedicalQuestionAnswering .pretrained(&quot;medical_qa_biogpt&quot;,&quot;en&quot;,&quot;clinical/models&quot;) .setInputCols((&quot;document_question&quot;, &quot;document_context&quot;)) .setOutputCol(&quot;answer&quot;) .setMaxNewTokens(30) .setTopK(1) .setQuestionType(&quot;long&quot;) # &quot;short&quot; val pipeline = new Pipeline().setStages(Array(document_assembler, med_qa)) paper_abstract = &quot;The visual indexing theory proposed by Zenon Pylyshyn (Cognition, 32, 65-97, 1989) predicts that visual attention mechanisms are employed when mental images are projected onto a visual scene.&quot; long_question = &quot;What is the effect of directing attention on memory?&quot; yes_no_question = &quot;Does directing attention improve memory for items?&quot; val data = Seq( (long_question, paper_abstract,&quot;long&quot; ), (yes_no_question, paper_abstract, &quot;short&quot;)) .toDS.toDF(&quot;question&quot;, &quot;context&quot;, &quot;question_type&quot;) val result = pipeline.fit(data).transform(data) Results +------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+ |result | +------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+ |[the present study investigated whether directing spatial attention to one location in a visual array would enhance memory for the array features. participants memorized two]| +------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+ Model Information Model Name: medical_qa_biogpt Compatibility: Healthcare NLP 4.3.1+ License: Licensed Edition: Official Language: en Size: 1.1 GB Case sensitive: true</summary></entry><entry><title type="html">Pipeline to Detect Clinical Entities in Romanian (Bert, Base, Cased)</title><link href="/2023/03/09/ner_clinical_bert_pipeline_ro.html" rel="alternate" type="text/html" title="Pipeline to Detect Clinical Entities in Romanian (Bert, Base, Cased)" /><published>2023-03-09T00:00:00+00:00</published><updated>2023-03-09T00:00:00+00:00</updated><id>/2023/03/09/ner_clinical_bert_pipeline_ro</id><content type="html" xml:base="/2023/03/09/ner_clinical_bert_pipeline_ro.html">## Description
 
-&lt;p&gt;This pretrained pipeline is built on the top of &lt;a href=&quot;https://nlp.johnsnowlabs.com/2022/11/22/ner_clinical_bert_ro.html&quot;&gt;ner_clinical_bert&lt;/a&gt; model.&lt;/p&gt;
+This pretrained pipeline is built on the top of [ner_clinical_bert](https://nlp.johnsnowlabs.com/2022/11/22/ner_clinical_bert_ro.html) model.
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_clinical_bert_pipeline_ro_4.3.0_3.2_1678352766945.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/clinical/models/ner_clinical_bert_pipeline_ro_4.3.0_3.2_1678352766945.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_clinical_bert_pipeline_ro_4.3.0_3.2_1678352766945.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/ner_clinical_bert_pipeline_ro_4.3.0_3.2_1678352766945.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.pretrained&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_clinical_bert_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;ro&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clinical/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'''Solicitare: Angio CT cardio-toracic Dg. de trimitere Atrezie de valva pulmonara. Hipoplazie VS. Atrezie VAV stang. Anastomoza Glenn. Sp. Tromboza la nivelul anastomozei. Trimis de: Sectia Clinica Cardiologie (dr. Sue T.) Procedura Aparat GE Revolution HD. Branula albastra montata la nivelul membrului superior drept. Scout. Se administreaza 30 ml Iomeron 350 cu flux 2.2 ml/s, urmate de 20 ml ser fiziologic cu acelasi flux. Se efectueaza o examinare angio-CT cardiotoracica cu achizitii secventiale prospective la o frecventa cardiaca medie de 100/min.'''&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+from sparknlp.pretrained import PretrainedPipeline
 
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fullAnnotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.pretrained.PretrainedPipeline&lt;/span&gt;
+pipeline = PretrainedPipeline(&quot;ner_clinical_bert_pipeline&quot;, &quot;ro&quot;, &quot;clinical/models&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_clinical_bert_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;ro&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clinical/models&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+text = '''Solicitare: Angio CT cardio-toracic Dg. de trimitere Atrezie de valva pulmonara. Hipoplazie VS. Atrezie VAV stang. Anastomoza Glenn. Sp. Tromboza la nivelul anastomozei. Trimis de: Sectia Clinica Cardiologie (dr. Sue T.) Procedura Aparat GE Revolution HD. Branula albastra montata la nivelul membrului superior drept. Scout. Se administreaza 30 ml Iomeron 350 cu flux 2.2 ml/s, urmate de 20 ml ser fiziologic cu acelasi flux. Se efectueaza o examinare angio-CT cardiotoracica cu achizitii secventiale prospective la o frecventa cardiaca medie de 100/min.'''
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Solicitare: Angio CT cardio-toracic Dg. de trimitere Atrezie de valva pulmonara. Hipoplazie VS. Atrezie VAV stang. Anastomoza Glenn. Sp. Tromboza la nivelul anastomozei. Trimis de: Sectia Clinica Cardiologie (dr. Sue T.) Procedura Aparat GE Revolution HD. Branula albastra montata la nivelul membrului superior drept. Scout. Se administreaza 30 ml Iomeron 350 cu flux 2.2 ml/s, urmate de 20 ml ser fiziologic cu acelasi flux. Se efectueaza o examinare angio-CT cardiotoracica cu achizitii secventiale prospective la o frecventa cardiaca medie de 100/min.&quot;&lt;/span&gt;
+result = pipeline.fullAnnotate(text)
+```
+```scala
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fullAnnotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+val pipeline = new PretrainedPipeline(&quot;ner_clinical_bert_pipeline&quot;, &quot;ro&quot;, &quot;clinical/models&quot;)
+
+val text = &quot;Solicitare: Angio CT cardio-toracic Dg. de trimitere Atrezie de valva pulmonara. Hipoplazie VS. Atrezie VAV stang. Anastomoza Glenn. Sp. Tromboza la nivelul anastomozei. Trimis de: Sectia Clinica Cardiologie (dr. Sue T.) Procedura Aparat GE Revolution HD. Branula albastra montata la nivelul membrului superior drept. Scout. Se administreaza 30 ml Iomeron 350 cu flux 2.2 ml/s, urmate de 20 ml ser fiziologic cu acelasi flux. Se efectueaza o examinare angio-CT cardiotoracica cu achizitii secventiale prospective la o frecventa cardiaca medie de 100/min.&quot;
+
+val result = pipeline.fullAnnotate(text)
+```
 &lt;/div&gt;
 
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+## Results
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;|    | ber_chunks                        |   begin |   end | ner_label                 |   confidence |
+```bash
+|    | ber_chunks                        |   begin |   end | ner_label                 |   confidence |
 |---:|:----------------------------------|--------:|------:|:--------------------------|-------------:|
 |  0 | Angio CT                          |      12 |    19 | Imaging_Test              |     0.96415  |
 |  1 | cardio-toracic                    |      21 |    34 | Body_Part                 |     0.4776   |
@@ -176,86 +168,68 @@ Types of questions are supported: &lt;code class=&quot;language-plaintext highli
 | 21 | cardiotoracica                    |     461 |   474 | Body_Part                 |     0.9344   |
 | 22 | achizitii secventiale prospective |     479 |   511 | Imaging_Technique         |     0.966833 |
 | 23 | 100/min                           |     546 |   552 | Pulse                     |     0.9128   |
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+```
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;ner_clinical_bert_pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Type:&lt;/td&gt;
-      &lt;td&gt;pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Healthcare NLP 4.3.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Licensed&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;ro&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;483.6 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|ner_clinical_bert_pipeline|
+|Type:|pipeline|
+|Compatibility:|Healthcare NLP 4.3.0+|
+|License:|Licensed|
+|Edition:|Official|
+|Language:|ro|
+|Size:|483.6 MB|
 
-&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
+## Included Models
 
-&lt;ul&gt;
-  &lt;li&gt;DocumentAssembler&lt;/li&gt;
-  &lt;li&gt;SentenceDetectorDLModel&lt;/li&gt;
-  &lt;li&gt;TokenizerModel&lt;/li&gt;
-  &lt;li&gt;BertEmbeddings&lt;/li&gt;
-  &lt;li&gt;MedicalNerModel&lt;/li&gt;
-  &lt;li&gt;NerConverterInternalModel&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="licensed" /><category term="clinical" /><category term="ro" /><category term="ner" /><category term="bert" /><summary type="html">Description This pretrained pipeline is built on the top of ner_clinical_bert model. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.pretrained import PretrainedPipeline pipeline = PretrainedPipeline(&quot;ner_clinical_bert_pipeline&quot;, &quot;ro&quot;, &quot;clinical/models&quot;) text = '''Solicitare: Angio CT cardio-toracic Dg. de trimitere Atrezie de valva pulmonara. Hipoplazie VS. Atrezie VAV stang. Anastomoza Glenn. Sp. Tromboza la nivelul anastomozei. Trimis de: Sectia Clinica Cardiologie (dr. Sue T.) Procedura Aparat GE Revolution HD. Branula albastra montata la nivelul membrului superior drept. Scout. Se administreaza 30 ml Iomeron 350 cu flux 2.2 ml/s, urmate de 20 ml ser fiziologic cu acelasi flux. Se efectueaza o examinare angio-CT cardiotoracica cu achizitii secventiale prospective la o frecventa cardiaca medie de 100/min.''' result = pipeline.fullAnnotate(text) import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline val pipeline = new PretrainedPipeline(&quot;ner_clinical_bert_pipeline&quot;, &quot;ro&quot;, &quot;clinical/models&quot;) val text = &quot;Solicitare: Angio CT cardio-toracic Dg. de trimitere Atrezie de valva pulmonara. Hipoplazie VS. Atrezie VAV stang. Anastomoza Glenn. Sp. Tromboza la nivelul anastomozei. Trimis de: Sectia Clinica Cardiologie (dr. Sue T.) Procedura Aparat GE Revolution HD. Branula albastra montata la nivelul membrului superior drept. Scout. Se administreaza 30 ml Iomeron 350 cu flux 2.2 ml/s, urmate de 20 ml ser fiziologic cu acelasi flux. Se efectueaza o examinare angio-CT cardiotoracica cu achizitii secventiale prospective la o frecventa cardiaca medie de 100/min.&quot; val result = pipeline.fullAnnotate(text) Results | | ber_chunks | begin | end | ner_label | confidence | |---:|:----------------------------------|--------:|------:|:--------------------------|-------------:| | 0 | Angio CT | 12 | 19 | Imaging_Test | 0.96415 | | 1 | cardio-toracic | 21 | 34 | Body_Part | 0.4776 | | 2 | Atrezie | 53 | 59 | Disease_Syndrome_Disorder | 0.9602 | | 3 | valva pulmonara | 64 | 78 | Body_Part | 0.73105 | | 4 | Hipoplazie | 81 | 90 | Disease_Syndrome_Disorder | 0.628 | | 5 | VS | 92 | 93 | Body_Part | 0.9543 | | 6 | Atrezie | 96 | 102 | Disease_Syndrome_Disorder | 0.8763 | | 7 | VAV stang | 104 | 112 | Body_Part | 0.9444 | | 8 | Anastomoza Glenn | 115 | 130 | Disease_Syndrome_Disorder | 0.8648 | | 9 | Tromboza | 137 | 144 | Disease_Syndrome_Disorder | 0.991 | | 10 | GE Revolution HD | 238 | 253 | Medical_Device | 0.668367 | | 11 | Branula albastra | 256 | 271 | Medical_Device | 0.9179 | | 12 | membrului superior | 292 | 309 | Body_Part | 0.98815 | | 13 | drept | 311 | 315 | Direction | 0.5645 | | 14 | Scout | 318 | 322 | Body_Part | 0.3484 | | 15 | 30 ml | 342 | 346 | Dosage | 0.9996 | | 16 | Iomeron 350 | 348 | 358 | Drug_Ingredient | 0.9822 | | 17 | 2.2 ml/s | 368 | 375 | Dosage | 0.9327 | | 18 | 20 ml | 388 | 392 | Dosage | 0.9977 | | 19 | ser fiziologic | 394 | 407 | Drug_Ingredient | 0.9609 | | 20 | angio-CT | 452 | 459 | Imaging_Test | 0.9965 | | 21 | cardiotoracica | 461 | 474 | Body_Part | 0.9344 | | 22 | achizitii secventiale prospective | 479 | 511 | Imaging_Technique | 0.966833 | | 23 | 100/min | 546 | 552 | Pulse | 0.9128 | Model Information Model Name: ner_clinical_bert_pipeline Type: pipeline Compatibility: Healthcare NLP 4.3.0+ License: Licensed Edition: Official Language: ro Size: 483.6 MB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel BertEmbeddings MedicalNerModel NerConverterInternalModel</summary></entry><entry><title type="html">Pipeline to Extract Entities in Covid Trials</title><link href="/2023/03/09/ner_covid_trials_pipeline_en.html" rel="alternate" type="text/html" title="Pipeline to Extract Entities in Covid Trials" /><published>2023-03-09T00:00:00+00:00</published><updated>2023-03-09T00:00:00+00:00</updated><id>/2023/03/09/ner_covid_trials_pipeline_en</id><content type="html" xml:base="/2023/03/09/ner_covid_trials_pipeline_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+- DocumentAssembler
+- SentenceDetectorDLModel
+- TokenizerModel
+- BertEmbeddings
+- MedicalNerModel
+- NerConverterInternalModel</content><author><name>John Snow Labs</name></author><category term="licensed" /><category term="clinical" /><category term="ro" /><category term="ner" /><category term="bert" /><summary type="html">Description This pretrained pipeline is built on the top of ner_clinical_bert model. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.pretrained import PretrainedPipeline pipeline = PretrainedPipeline(&quot;ner_clinical_bert_pipeline&quot;, &quot;ro&quot;, &quot;clinical/models&quot;) text = '''Solicitare: Angio CT cardio-toracic Dg. de trimitere Atrezie de valva pulmonara. Hipoplazie VS. Atrezie VAV stang. Anastomoza Glenn. Sp. Tromboza la nivelul anastomozei. Trimis de: Sectia Clinica Cardiologie (dr. Sue T.) Procedura Aparat GE Revolution HD. Branula albastra montata la nivelul membrului superior drept. Scout. Se administreaza 30 ml Iomeron 350 cu flux 2.2 ml/s, urmate de 20 ml ser fiziologic cu acelasi flux. Se efectueaza o examinare angio-CT cardiotoracica cu achizitii secventiale prospective la o frecventa cardiaca medie de 100/min.''' result = pipeline.fullAnnotate(text) import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline val pipeline = new PretrainedPipeline(&quot;ner_clinical_bert_pipeline&quot;, &quot;ro&quot;, &quot;clinical/models&quot;) val text = &quot;Solicitare: Angio CT cardio-toracic Dg. de trimitere Atrezie de valva pulmonara. Hipoplazie VS. Atrezie VAV stang. Anastomoza Glenn. Sp. Tromboza la nivelul anastomozei. Trimis de: Sectia Clinica Cardiologie (dr. Sue T.) Procedura Aparat GE Revolution HD. Branula albastra montata la nivelul membrului superior drept. Scout. Se administreaza 30 ml Iomeron 350 cu flux 2.2 ml/s, urmate de 20 ml ser fiziologic cu acelasi flux. Se efectueaza o examinare angio-CT cardiotoracica cu achizitii secventiale prospective la o frecventa cardiaca medie de 100/min.&quot; val result = pipeline.fullAnnotate(text) Results | | ber_chunks | begin | end | ner_label | confidence | |---:|:----------------------------------|--------:|------:|:--------------------------|-------------:| | 0 | Angio CT | 12 | 19 | Imaging_Test | 0.96415 | | 1 | cardio-toracic | 21 | 34 | Body_Part | 0.4776 | | 2 | Atrezie | 53 | 59 | Disease_Syndrome_Disorder | 0.9602 | | 3 | valva pulmonara | 64 | 78 | Body_Part | 0.73105 | | 4 | Hipoplazie | 81 | 90 | Disease_Syndrome_Disorder | 0.628 | | 5 | VS | 92 | 93 | Body_Part | 0.9543 | | 6 | Atrezie | 96 | 102 | Disease_Syndrome_Disorder | 0.8763 | | 7 | VAV stang | 104 | 112 | Body_Part | 0.9444 | | 8 | Anastomoza Glenn | 115 | 130 | Disease_Syndrome_Disorder | 0.8648 | | 9 | Tromboza | 137 | 144 | Disease_Syndrome_Disorder | 0.991 | | 10 | GE Revolution HD | 238 | 253 | Medical_Device | 0.668367 | | 11 | Branula albastra | 256 | 271 | Medical_Device | 0.9179 | | 12 | membrului superior | 292 | 309 | Body_Part | 0.98815 | | 13 | drept | 311 | 315 | Direction | 0.5645 | | 14 | Scout | 318 | 322 | Body_Part | 0.3484 | | 15 | 30 ml | 342 | 346 | Dosage | 0.9996 | | 16 | Iomeron 350 | 348 | 358 | Drug_Ingredient | 0.9822 | | 17 | 2.2 ml/s | 368 | 375 | Dosage | 0.9327 | | 18 | 20 ml | 388 | 392 | Dosage | 0.9977 | | 19 | ser fiziologic | 394 | 407 | Drug_Ingredient | 0.9609 | | 20 | angio-CT | 452 | 459 | Imaging_Test | 0.9965 | | 21 | cardiotoracica | 461 | 474 | Body_Part | 0.9344 | | 22 | achizitii secventiale prospective | 479 | 511 | Imaging_Technique | 0.966833 | | 23 | 100/min | 546 | 552 | Pulse | 0.9128 | Model Information Model Name: ner_clinical_bert_pipeline Type: pipeline Compatibility: Healthcare NLP 4.3.0+ License: Licensed Edition: Official Language: ro Size: 483.6 MB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel BertEmbeddings MedicalNerModel NerConverterInternalModel</summary></entry><entry><title type="html">Pipeline to Extract Entities in Covid Trials</title><link href="/2023/03/09/ner_covid_trials_pipeline_en.html" rel="alternate" type="text/html" title="Pipeline to Extract Entities in Covid Trials" /><published>2023-03-09T00:00:00+00:00</published><updated>2023-03-09T00:00:00+00:00</updated><id>/2023/03/09/ner_covid_trials_pipeline_en</id><content type="html" xml:base="/2023/03/09/ner_covid_trials_pipeline_en.html">## Description
 
-&lt;p&gt;This pretrained pipeline is built on the top of &lt;a href=&quot;https://nlp.johnsnowlabs.com/2022/10/19/ner_covid_trials_en.html&quot;&gt;ner_covid_trials&lt;/a&gt; model.&lt;/p&gt;
+This pretrained pipeline is built on the top of [ner_covid_trials](https://nlp.johnsnowlabs.com/2022/10/19/ner_covid_trials_en.html) model.
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_covid_trials_pipeline_en_4.3.0_3.2_1678355313181.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/clinical/models/ner_covid_trials_pipeline_en_4.3.0_3.2_1678355313181.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_covid_trials_pipeline_en_4.3.0_3.2_1678355313181.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/ner_covid_trials_pipeline_en_4.3.0_3.2_1678355313181.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.pretrained&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_covid_trials_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clinical/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'''In December 2019 , a group of patients with the acute respiratory disease was detected in Wuhan , Hubei Province of China . A month later , a new beta-coronavirus was identified as the cause of the 2019 coronavirus infection . SARS-CoV-2 is a coronavirus that belongs to the group of β-coronaviruses of the subgenus Coronaviridae . The SARS-CoV-2 is the third known zoonotic coronavirus disease after severe acute respiratory syndrome ( SARS ) and Middle Eastern respiratory syndrome ( MERS ). The diagnosis of SARS-CoV-2 recommended by the WHO , CDC is the collection of a sample from the upper respiratory tract ( nasal and oropharyngeal exudate ) or from the lower respiratory tractsuch as expectoration of endotracheal aspirate and bronchioloalveolar lavage and its analysis using the test of real-time polymerase chain reaction ( qRT-PCR ).In 2020, the first COVID‑19 vaccine was developed and made available to the public through emergency authorizations and conditional approvals.'''&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+from sparknlp.pretrained import PretrainedPipeline
 
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fullAnnotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.pretrained.PretrainedPipeline&lt;/span&gt;
+pipeline = PretrainedPipeline(&quot;ner_covid_trials_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_covid_trials_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clinical/models&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+text = '''In December 2019 , a group of patients with the acute respiratory disease was detected in Wuhan , Hubei Province of China . A month later , a new beta-coronavirus was identified as the cause of the 2019 coronavirus infection . SARS-CoV-2 is a coronavirus that belongs to the group of β-coronaviruses of the subgenus Coronaviridae . The SARS-CoV-2 is the third known zoonotic coronavirus disease after severe acute respiratory syndrome ( SARS ) and Middle Eastern respiratory syndrome ( MERS ). The diagnosis of SARS-CoV-2 recommended by the WHO , CDC is the collection of a sample from the upper respiratory tract ( nasal and oropharyngeal exudate ) or from the lower respiratory tractsuch as expectoration of endotracheal aspirate and bronchioloalveolar lavage and its analysis using the test of real-time polymerase chain reaction ( qRT-PCR ).In 2020, the first COVID‑19 vaccine was developed and made available to the public through emergency authorizations and conditional approvals.'''
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;In December 2019 , a group of patients with the acute respiratory disease was detected in Wuhan , Hubei Province of China . A month later , a new beta-coronavirus was identified as the cause of the 2019 coronavirus infection . SARS-CoV-2 is a coronavirus that belongs to the group of β-coronaviruses of the subgenus Coronaviridae . The SARS-CoV-2 is the third known zoonotic coronavirus disease after severe acute respiratory syndrome ( SARS ) and Middle Eastern respiratory syndrome ( MERS ). The diagnosis of SARS-CoV-2 recommended by the WHO , CDC is the collection of a sample from the upper respiratory tract ( nasal and oropharyngeal exudate ) or from the lower respiratory tractsuch as expectoration of endotracheal aspirate and bronchioloalveolar lavage and its analysis using the test of real-time polymerase chain reaction ( qRT-PCR ).In 2020, the first COVID‑19 vaccine was developed and made available to the public through emergency authorizations and conditional approvals.&quot;&lt;/span&gt;
+result = pipeline.fullAnnotate(text)
+```
+```scala
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fullAnnotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+val pipeline = new PretrainedPipeline(&quot;ner_covid_trials_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;)
+
+val text = &quot;In December 2019 , a group of patients with the acute respiratory disease was detected in Wuhan , Hubei Province of China . A month later , a new beta-coronavirus was identified as the cause of the 2019 coronavirus infection . SARS-CoV-2 is a coronavirus that belongs to the group of β-coronaviruses of the subgenus Coronaviridae . The SARS-CoV-2 is the third known zoonotic coronavirus disease after severe acute respiratory syndrome ( SARS ) and Middle Eastern respiratory syndrome ( MERS ). The diagnosis of SARS-CoV-2 recommended by the WHO , CDC is the collection of a sample from the upper respiratory tract ( nasal and oropharyngeal exudate ) or from the lower respiratory tractsuch as expectoration of endotracheal aspirate and bronchioloalveolar lavage and its analysis using the test of real-time polymerase chain reaction ( qRT-PCR ).In 2020, the first COVID‑19 vaccine was developed and made available to the public through emergency authorizations and conditional approvals.&quot;
+
+val result = pipeline.fullAnnotate(text)
+```
 &lt;/div&gt;
 
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+## Results
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;|    | ber_chunks                          |   begin |   end | ner_label                 |   confidence |
+```bash
+|    | ber_chunks                          |   begin |   end | ner_label                 |   confidence |
 |---:|:------------------------------------|--------:|------:|:--------------------------|-------------:|
 |  0 | December 2019                       |       3 |    15 | Date                      |     0.99655  |
 |  1 | acute respiratory disease           |      48 |    72 | Disease_Syndrome_Disorder |     0.8597   |
@@ -277,102 +251,84 @@ Types of questions are supported: &lt;code class=&quot;language-plaintext highli
 | 17 | CDC                                 |     547 |   549 | Institution               |     0.8296   |
 | 18 | 2020                                |     848 |   851 | Date                      |     0.9997   |
 | 19 | COVID‑19 vaccine                    |     864 |   879 | Vaccine_Name              |     0.87505  |
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+```
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;ner_covid_trials_pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Type:&lt;/td&gt;
-      &lt;td&gt;pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Healthcare NLP 4.3.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Licensed&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;1.7 GB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|ner_covid_trials_pipeline|
+|Type:|pipeline|
+|Compatibility:|Healthcare NLP 4.3.0+|
+|License:|Licensed|
+|Edition:|Official|
+|Language:|en|
+|Size:|1.7 GB|
 
-&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
+## Included Models
 
-&lt;ul&gt;
-  &lt;li&gt;DocumentAssembler&lt;/li&gt;
-  &lt;li&gt;SentenceDetectorDLModel&lt;/li&gt;
-  &lt;li&gt;TokenizerModel&lt;/li&gt;
-  &lt;li&gt;WordEmbeddingsModel&lt;/li&gt;
-  &lt;li&gt;MedicalNerModel&lt;/li&gt;
-  &lt;li&gt;NerConverterInternalModel&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="ner" /><category term="en" /><category term="clinical" /><category term="licensed" /><category term="covid" /><summary type="html">Description This pretrained pipeline is built on the top of ner_covid_trials model. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.pretrained import PretrainedPipeline pipeline = PretrainedPipeline(&quot;ner_covid_trials_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) text = '''In December 2019 , a group of patients with the acute respiratory disease was detected in Wuhan , Hubei Province of China . A month later , a new beta-coronavirus was identified as the cause of the 2019 coronavirus infection . SARS-CoV-2 is a coronavirus that belongs to the group of β-coronaviruses of the subgenus Coronaviridae . The SARS-CoV-2 is the third known zoonotic coronavirus disease after severe acute respiratory syndrome ( SARS ) and Middle Eastern respiratory syndrome ( MERS ). The diagnosis of SARS-CoV-2 recommended by the WHO , CDC is the collection of a sample from the upper respiratory tract ( nasal and oropharyngeal exudate ) or from the lower respiratory tractsuch as expectoration of endotracheal aspirate and bronchioloalveolar lavage and its analysis using the test of real-time polymerase chain reaction ( qRT-PCR ).In 2020, the first COVID‑19 vaccine was developed and made available to the public through emergency authorizations and conditional approvals.''' result = pipeline.fullAnnotate(text) import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline val pipeline = new PretrainedPipeline(&quot;ner_covid_trials_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) val text = &quot;In December 2019 , a group of patients with the acute respiratory disease was detected in Wuhan , Hubei Province of China . A month later , a new beta-coronavirus was identified as the cause of the 2019 coronavirus infection . SARS-CoV-2 is a coronavirus that belongs to the group of β-coronaviruses of the subgenus Coronaviridae . The SARS-CoV-2 is the third known zoonotic coronavirus disease after severe acute respiratory syndrome ( SARS ) and Middle Eastern respiratory syndrome ( MERS ). The diagnosis of SARS-CoV-2 recommended by the WHO , CDC is the collection of a sample from the upper respiratory tract ( nasal and oropharyngeal exudate ) or from the lower respiratory tractsuch as expectoration of endotracheal aspirate and bronchioloalveolar lavage and its analysis using the test of real-time polymerase chain reaction ( qRT-PCR ).In 2020, the first COVID‑19 vaccine was developed and made available to the public through emergency authorizations and conditional approvals.&quot; val result = pipeline.fullAnnotate(text) Results | | ber_chunks | begin | end | ner_label | confidence | |---:|:------------------------------------|--------:|------:|:--------------------------|-------------:| | 0 | December 2019 | 3 | 15 | Date | 0.99655 | | 1 | acute respiratory disease | 48 | 72 | Disease_Syndrome_Disorder | 0.8597 | | 2 | beta-coronavirus | 146 | 161 | Virus | 0.6381 | | 3 | 2019 | 198 | 201 | Date | 0.8117 | | 4 | coronavirus infection | 203 | 223 | Disease_Syndrome_Disorder | 0.68335 | | 5 | SARS-CoV-2 | 227 | 236 | Virus | 0.9605 | | 6 | coronavirus | 243 | 253 | Virus | 0.9814 | | 7 | β-coronaviruses | 284 | 298 | Virus | 0.9564 | | 8 | subgenus Coronaviridae | 307 | 328 | Virus | 0.71465 | | 9 | SARS-CoV-2 | 336 | 345 | Virus | 0.9442 | | 10 | zoonotic coronavirus disease | 366 | 393 | Disease_Syndrome_Disorder | 0.922833 | | 11 | severe acute respiratory syndrome | 401 | 433 | Disease_Syndrome_Disorder | 0.959725 | | 12 | SARS | 437 | 440 | Disease_Syndrome_Disorder | 0.9959 | | 13 | Middle Eastern respiratory syndrome | 448 | 482 | Disease_Syndrome_Disorder | 0.9673 | | 14 | MERS | 486 | 489 | Disease_Syndrome_Disorder | 0.9759 | | 15 | SARS-CoV-2 | 511 | 520 | Virus | 0.9027 | | 16 | WHO | 541 | 543 | Institution | 0.9917 | | 17 | CDC | 547 | 549 | Institution | 0.8296 | | 18 | 2020 | 848 | 851 | Date | 0.9997 | | 19 | COVID‑19 vaccine | 864 | 879 | Vaccine_Name | 0.87505 | Model Information Model Name: ner_covid_trials_pipeline Type: pipeline Compatibility: Healthcare NLP 4.3.0+ License: Licensed Edition: Official Language: en Size: 1.7 GB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel WordEmbeddingsModel MedicalNerModel NerConverterInternalModel</summary></entry><entry><title type="html">Pipeline to Detect PHI for Generic Deidentification in Romanian (BERT)</title><link href="/2023/03/09/ner_deid_generic_bert_pipeline_ro.html" rel="alternate" type="text/html" title="Pipeline to Detect PHI for Generic Deidentification in Romanian (BERT)" /><published>2023-03-09T00:00:00+00:00</published><updated>2023-03-09T00:00:00+00:00</updated><id>/2023/03/09/ner_deid_generic_bert_pipeline_ro</id><content type="html" xml:base="/2023/03/09/ner_deid_generic_bert_pipeline_ro.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+- DocumentAssembler
+- SentenceDetectorDLModel
+- TokenizerModel
+- WordEmbeddingsModel
+- MedicalNerModel
+- NerConverterInternalModel</content><author><name>John Snow Labs</name></author><category term="ner" /><category term="en" /><category term="clinical" /><category term="licensed" /><category term="covid" /><summary type="html">Description This pretrained pipeline is built on the top of ner_covid_trials model. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.pretrained import PretrainedPipeline pipeline = PretrainedPipeline(&quot;ner_covid_trials_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) text = '''In December 2019 , a group of patients with the acute respiratory disease was detected in Wuhan , Hubei Province of China . A month later , a new beta-coronavirus was identified as the cause of the 2019 coronavirus infection . SARS-CoV-2 is a coronavirus that belongs to the group of β-coronaviruses of the subgenus Coronaviridae . The SARS-CoV-2 is the third known zoonotic coronavirus disease after severe acute respiratory syndrome ( SARS ) and Middle Eastern respiratory syndrome ( MERS ). The diagnosis of SARS-CoV-2 recommended by the WHO , CDC is the collection of a sample from the upper respiratory tract ( nasal and oropharyngeal exudate ) or from the lower respiratory tractsuch as expectoration of endotracheal aspirate and bronchioloalveolar lavage and its analysis using the test of real-time polymerase chain reaction ( qRT-PCR ).In 2020, the first COVID‑19 vaccine was developed and made available to the public through emergency authorizations and conditional approvals.''' result = pipeline.fullAnnotate(text) import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline val pipeline = new PretrainedPipeline(&quot;ner_covid_trials_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) val text = &quot;In December 2019 , a group of patients with the acute respiratory disease was detected in Wuhan , Hubei Province of China . A month later , a new beta-coronavirus was identified as the cause of the 2019 coronavirus infection . SARS-CoV-2 is a coronavirus that belongs to the group of β-coronaviruses of the subgenus Coronaviridae . The SARS-CoV-2 is the third known zoonotic coronavirus disease after severe acute respiratory syndrome ( SARS ) and Middle Eastern respiratory syndrome ( MERS ). The diagnosis of SARS-CoV-2 recommended by the WHO , CDC is the collection of a sample from the upper respiratory tract ( nasal and oropharyngeal exudate ) or from the lower respiratory tractsuch as expectoration of endotracheal aspirate and bronchioloalveolar lavage and its analysis using the test of real-time polymerase chain reaction ( qRT-PCR ).In 2020, the first COVID‑19 vaccine was developed and made available to the public through emergency authorizations and conditional approvals.&quot; val result = pipeline.fullAnnotate(text) Results | | ber_chunks | begin | end | ner_label | confidence | |---:|:------------------------------------|--------:|------:|:--------------------------|-------------:| | 0 | December 2019 | 3 | 15 | Date | 0.99655 | | 1 | acute respiratory disease | 48 | 72 | Disease_Syndrome_Disorder | 0.8597 | | 2 | beta-coronavirus | 146 | 161 | Virus | 0.6381 | | 3 | 2019 | 198 | 201 | Date | 0.8117 | | 4 | coronavirus infection | 203 | 223 | Disease_Syndrome_Disorder | 0.68335 | | 5 | SARS-CoV-2 | 227 | 236 | Virus | 0.9605 | | 6 | coronavirus | 243 | 253 | Virus | 0.9814 | | 7 | β-coronaviruses | 284 | 298 | Virus | 0.9564 | | 8 | subgenus Coronaviridae | 307 | 328 | Virus | 0.71465 | | 9 | SARS-CoV-2 | 336 | 345 | Virus | 0.9442 | | 10 | zoonotic coronavirus disease | 366 | 393 | Disease_Syndrome_Disorder | 0.922833 | | 11 | severe acute respiratory syndrome | 401 | 433 | Disease_Syndrome_Disorder | 0.959725 | | 12 | SARS | 437 | 440 | Disease_Syndrome_Disorder | 0.9959 | | 13 | Middle Eastern respiratory syndrome | 448 | 482 | Disease_Syndrome_Disorder | 0.9673 | | 14 | MERS | 486 | 489 | Disease_Syndrome_Disorder | 0.9759 | | 15 | SARS-CoV-2 | 511 | 520 | Virus | 0.9027 | | 16 | WHO | 541 | 543 | Institution | 0.9917 | | 17 | CDC | 547 | 549 | Institution | 0.8296 | | 18 | 2020 | 848 | 851 | Date | 0.9997 | | 19 | COVID‑19 vaccine | 864 | 879 | Vaccine_Name | 0.87505 | Model Information Model Name: ner_covid_trials_pipeline Type: pipeline Compatibility: Healthcare NLP 4.3.0+ License: Licensed Edition: Official Language: en Size: 1.7 GB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel WordEmbeddingsModel MedicalNerModel NerConverterInternalModel</summary></entry><entry><title type="html">Pipeline to Detect PHI for Generic Deidentification in Romanian (BERT)</title><link href="/2023/03/09/ner_deid_generic_bert_pipeline_ro.html" rel="alternate" type="text/html" title="Pipeline to Detect PHI for Generic Deidentification in Romanian (BERT)" /><published>2023-03-09T00:00:00+00:00</published><updated>2023-03-09T00:00:00+00:00</updated><id>/2023/03/09/ner_deid_generic_bert_pipeline_ro</id><content type="html" xml:base="/2023/03/09/ner_deid_generic_bert_pipeline_ro.html">## Description
 
-&lt;p&gt;This pretrained pipeline is built on the top of &lt;a href=&quot;https://nlp.johnsnowlabs.com/2022/11/22/ner_deid_generic_bert_ro.html&quot;&gt;ner_deid_generic_bert&lt;/a&gt; model.&lt;/p&gt;
+This pretrained pipeline is built on the top of [ner_deid_generic_bert](https://nlp.johnsnowlabs.com/2022/11/22/ner_deid_generic_bert_ro.html) model.
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_deid_generic_bert_pipeline_ro_4.3.0_3.2_1678352946195.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/clinical/models/ner_deid_generic_bert_pipeline_ro_4.3.0_3.2_1678352946195.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_deid_generic_bert_pipeline_ro_4.3.0_3.2_1678352946195.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/ner_deid_generic_bert_pipeline_ro_4.3.0_3.2_1678352946195.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.pretrained&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_deid_generic_bert_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;ro&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clinical/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'''Spitalul Pentru Ochi de Deal, Drumul Oprea Nr. 972 Vaslui, 737405 România
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+from sparknlp.pretrained import PretrainedPipeline
+
+pipeline = PretrainedPipeline(&quot;ner_deid_generic_bert_pipeline&quot;, &quot;ro&quot;, &quot;clinical/models&quot;)
+
+text = '''Spitalul Pentru Ochi de Deal, Drumul Oprea Nr. 972 Vaslui, 737405 România
 Tel: +40(235)413773
 Data setului de analize: 25 May 2022 15:36:00
 Nume si Prenume : BUREAN MARIA, Varsta: 77
 Medic : Agota Evelyn Tımar
-C.N.P : 2450502264401'''&lt;/span&gt;
+C.N.P : 2450502264401'''
 
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fullAnnotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.pretrained.PretrainedPipeline&lt;/span&gt;
+result = pipeline.fullAnnotate(text)
+```
+```scala
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_deid_generic_bert_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;ro&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clinical/models&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val pipeline = new PretrainedPipeline(&quot;ner_deid_generic_bert_pipeline&quot;, &quot;ro&quot;, &quot;clinical/models&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Spitalul Pentru Ochi de Deal, Drumul Oprea Nr. 972 Vaslui, 737405 România
+val text = &quot;Spitalul Pentru Ochi de Deal, Drumul Oprea Nr. 972 Vaslui, 737405 România
 Tel: +40(235)413773
 Data setului de analize: 25 May 2022 15:36:00
 Nume si Prenume : BUREAN MARIA, Varsta: 77
 Medic : Agota Evelyn Tımar
-C.N.P : 2450502264401&quot;&lt;/span&gt;
+C.N.P : 2450502264401&quot;
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fullAnnotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+val result = pipeline.fullAnnotate(text)
+```
 &lt;/div&gt;
 
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+## Results
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;|    | ber_chunks                   |   begin |   end | ner_label   |   confidence |
+```bash
+|    | ber_chunks                   |   begin |   end | ner_label   |   confidence |
 |---:|:-----------------------------|--------:|------:|:------------|-------------:|
 |  0 | Spitalul Pentru Ochi de Deal |       0 |    27 | LOCATION    |     0.99352  |
 |  1 | Drumul Oprea Nr. 972         |      30 |    49 | LOCATION    |     0.99994  |
 |  2 | Vaslui                       |      51 |    56 | LOCATION    |     1        |
 |  3 | 737405                       |      59 |    64 | LOCATION    |     1        |
-|  4 | +40&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;235&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;413773               |      79 |    92 | CONTACT     |     1        |
+|  4 | +40(235)413773               |      79 |    92 | CONTACT     |     1        |
 |  5 | 25 May 2022                  |     119 |   129 | DATE        |     1        |
 |  6 | si                           |     145 |   146 | NAME        |     0.9998   |
 |  7 | BUREAN MARIA                 |     158 |   169 | NAME        |     0.9993   |
@@ -380,86 +336,68 @@ C.N.P : 2450502264401&quot;&lt;/span&gt;
 |  9 | Agota Evelyn Tımar           |     191 |   210 | NAME        |     0.859975 |
 |    | C                            |         |       |             |              |
 | 10 | 2450502264401                |     218 |   230 | ID          |     1        |
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+```
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;ner_deid_generic_bert_pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Type:&lt;/td&gt;
-      &lt;td&gt;pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Healthcare NLP 4.3.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Licensed&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;ro&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;483.8 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|ner_deid_generic_bert_pipeline|
+|Type:|pipeline|
+|Compatibility:|Healthcare NLP 4.3.0+|
+|License:|Licensed|
+|Edition:|Official|
+|Language:|ro|
+|Size:|483.8 MB|
 
-&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
+## Included Models
 
-&lt;ul&gt;
-  &lt;li&gt;DocumentAssembler&lt;/li&gt;
-  &lt;li&gt;SentenceDetectorDLModel&lt;/li&gt;
-  &lt;li&gt;TokenizerModel&lt;/li&gt;
-  &lt;li&gt;BertEmbeddings&lt;/li&gt;
-  &lt;li&gt;MedicalNerModel&lt;/li&gt;
-  &lt;li&gt;NerConverterInternalModel&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="licensed" /><category term="clinical" /><category term="ro" /><category term="deidentification" /><category term="phi" /><category term="generic" /><category term="bert" /><summary type="html">Description This pretrained pipeline is built on the top of ner_deid_generic_bert model. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.pretrained import PretrainedPipeline pipeline = PretrainedPipeline(&quot;ner_deid_generic_bert_pipeline&quot;, &quot;ro&quot;, &quot;clinical/models&quot;) text = '''Spitalul Pentru Ochi de Deal, Drumul Oprea Nr. 972 Vaslui, 737405 România Tel: +40(235)413773 Data setului de analize: 25 May 2022 15:36:00 Nume si Prenume : BUREAN MARIA, Varsta: 77 Medic : Agota Evelyn Tımar C.N.P : 2450502264401''' result = pipeline.fullAnnotate(text) import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline val pipeline = new PretrainedPipeline(&quot;ner_deid_generic_bert_pipeline&quot;, &quot;ro&quot;, &quot;clinical/models&quot;) val text = &quot;Spitalul Pentru Ochi de Deal, Drumul Oprea Nr. 972 Vaslui, 737405 România Tel: +40(235)413773 Data setului de analize: 25 May 2022 15:36:00 Nume si Prenume : BUREAN MARIA, Varsta: 77 Medic : Agota Evelyn Tımar C.N.P : 2450502264401&quot; val result = pipeline.fullAnnotate(text) Results | | ber_chunks | begin | end | ner_label | confidence | |---:|:-----------------------------|--------:|------:|:------------|-------------:| | 0 | Spitalul Pentru Ochi de Deal | 0 | 27 | LOCATION | 0.99352 | | 1 | Drumul Oprea Nr. 972 | 30 | 49 | LOCATION | 0.99994 | | 2 | Vaslui | 51 | 56 | LOCATION | 1 | | 3 | 737405 | 59 | 64 | LOCATION | 1 | | 4 | +40(235)413773 | 79 | 92 | CONTACT | 1 | | 5 | 25 May 2022 | 119 | 129 | DATE | 1 | | 6 | si | 145 | 146 | NAME | 0.9998 | | 7 | BUREAN MARIA | 158 | 169 | NAME | 0.9993 | | 8 | 77 | 180 | 181 | AGE | 1 | | 9 | Agota Evelyn Tımar | 191 | 210 | NAME | 0.859975 | | | C | | | | | | 10 | 2450502264401 | 218 | 230 | ID | 1 | Model Information Model Name: ner_deid_generic_bert_pipeline Type: pipeline Compatibility: Healthcare NLP 4.3.0+ License: Licensed Edition: Official Language: ro Size: 483.8 MB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel BertEmbeddings MedicalNerModel NerConverterInternalModel</summary></entry><entry><title type="html">Pipeline to Detect Clinical Entities (ner_jsl)</title><link href="/2023/03/09/ner_jsl_pipeline_en.html" rel="alternate" type="text/html" title="Pipeline to Detect Clinical Entities (ner_jsl)" /><published>2023-03-09T00:00:00+00:00</published><updated>2023-03-09T00:00:00+00:00</updated><id>/2023/03/09/ner_jsl_pipeline_en</id><content type="html" xml:base="/2023/03/09/ner_jsl_pipeline_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+- DocumentAssembler
+- SentenceDetectorDLModel
+- TokenizerModel
+- BertEmbeddings
+- MedicalNerModel
+- NerConverterInternalModel</content><author><name>John Snow Labs</name></author><category term="licensed" /><category term="clinical" /><category term="ro" /><category term="deidentification" /><category term="phi" /><category term="generic" /><category term="bert" /><summary type="html">Description This pretrained pipeline is built on the top of ner_deid_generic_bert model. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.pretrained import PretrainedPipeline pipeline = PretrainedPipeline(&quot;ner_deid_generic_bert_pipeline&quot;, &quot;ro&quot;, &quot;clinical/models&quot;) text = '''Spitalul Pentru Ochi de Deal, Drumul Oprea Nr. 972 Vaslui, 737405 România Tel: +40(235)413773 Data setului de analize: 25 May 2022 15:36:00 Nume si Prenume : BUREAN MARIA, Varsta: 77 Medic : Agota Evelyn Tımar C.N.P : 2450502264401''' result = pipeline.fullAnnotate(text) import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline val pipeline = new PretrainedPipeline(&quot;ner_deid_generic_bert_pipeline&quot;, &quot;ro&quot;, &quot;clinical/models&quot;) val text = &quot;Spitalul Pentru Ochi de Deal, Drumul Oprea Nr. 972 Vaslui, 737405 România Tel: +40(235)413773 Data setului de analize: 25 May 2022 15:36:00 Nume si Prenume : BUREAN MARIA, Varsta: 77 Medic : Agota Evelyn Tımar C.N.P : 2450502264401&quot; val result = pipeline.fullAnnotate(text) Results | | ber_chunks | begin | end | ner_label | confidence | |---:|:-----------------------------|--------:|------:|:------------|-------------:| | 0 | Spitalul Pentru Ochi de Deal | 0 | 27 | LOCATION | 0.99352 | | 1 | Drumul Oprea Nr. 972 | 30 | 49 | LOCATION | 0.99994 | | 2 | Vaslui | 51 | 56 | LOCATION | 1 | | 3 | 737405 | 59 | 64 | LOCATION | 1 | | 4 | +40(235)413773 | 79 | 92 | CONTACT | 1 | | 5 | 25 May 2022 | 119 | 129 | DATE | 1 | | 6 | si | 145 | 146 | NAME | 0.9998 | | 7 | BUREAN MARIA | 158 | 169 | NAME | 0.9993 | | 8 | 77 | 180 | 181 | AGE | 1 | | 9 | Agota Evelyn Tımar | 191 | 210 | NAME | 0.859975 | | | C | | | | | | 10 | 2450502264401 | 218 | 230 | ID | 1 | Model Information Model Name: ner_deid_generic_bert_pipeline Type: pipeline Compatibility: Healthcare NLP 4.3.0+ License: Licensed Edition: Official Language: ro Size: 483.8 MB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel BertEmbeddings MedicalNerModel NerConverterInternalModel</summary></entry><entry><title type="html">Pipeline to Detect Clinical Entities (ner_jsl)</title><link href="/2023/03/09/ner_jsl_pipeline_en.html" rel="alternate" type="text/html" title="Pipeline to Detect Clinical Entities (ner_jsl)" /><published>2023-03-09T00:00:00+00:00</published><updated>2023-03-09T00:00:00+00:00</updated><id>/2023/03/09/ner_jsl_pipeline_en</id><content type="html" xml:base="/2023/03/09/ner_jsl_pipeline_en.html">## Description
 
-&lt;p&gt;This pretrained pipeline is built on the top of &lt;a href=&quot;https://nlp.johnsnowlabs.com/2022/10/19/ner_jsl_en.html&quot;&gt;ner_jsl&lt;/a&gt; model.&lt;/p&gt;
+This pretrained pipeline is built on the top of [ner_jsl](https://nlp.johnsnowlabs.com/2022/10/19/ner_jsl_en.html) model.
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_jsl_pipeline_en_4.3.0_3.2_1678353833465.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/clinical/models/ner_jsl_pipeline_en_4.3.0_3.2_1678353833465.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_jsl_pipeline_en_4.3.0_3.2_1678353833465.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/ner_jsl_pipeline_en_4.3.0_3.2_1678353833465.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.pretrained&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_jsl_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clinical/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'''The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). Additionally, there is no side effect observed after Influenza vaccine. One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature.'''&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+from sparknlp.pretrained import PretrainedPipeline
 
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fullAnnotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.pretrained.PretrainedPipeline&lt;/span&gt;
+pipeline = PretrainedPipeline(&quot;ner_jsl_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_jsl_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clinical/models&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+text = '''The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). Additionally, there is no side effect observed after Influenza vaccine. One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature.'''
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). Additionally, there is no side effect observed after Influenza vaccine. One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature.&quot;&lt;/span&gt;
+result = pipeline.fullAnnotate(text)
+```
+```scala
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fullAnnotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+val pipeline = new PretrainedPipeline(&quot;ner_jsl_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;)
+
+val text = &quot;The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). Additionally, there is no side effect observed after Influenza vaccine. One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature.&quot;
+
+val result = pipeline.fullAnnotate(text)
+```
 &lt;/div&gt;
 
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+## Results
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;|    | ber_chunks                                |   begin |   end | ner_label                    |   confidence |
+```bash
+|    | ber_chunks                                |   begin |   end | ner_label                    |   confidence |
 |---:|:------------------------------------------|--------:|------:|:-----------------------------|-------------:|
 |  0 | 21-day-old                                |      17 |    26 | Age                          |     0.997    |
 |  1 | Caucasian                                 |      28 |    36 | Race_Ethnicity               |     0.9995   |
@@ -471,7 +409,7 @@ C.N.P : 2450502264401&quot;&lt;/span&gt;
 |  7 | nares                                     |     135 |   139 | External_body_part_or_region |     0.7284   |
 |  8 | she                                       |     147 |   149 | Gender                       |     0.9978   |
 |  9 | mild                                      |     168 |   171 | Modifier                     |     0.7517   |
-| 10 | problems with his breathing &lt;span class=&quot;k&quot;&gt;while &lt;/span&gt;feeding |     173 |   213 | Symptom                      |     0.664583 |
+| 10 | problems with his breathing while feeding |     173 |   213 | Symptom                      |     0.664583 |
 | 11 | perioral cyanosis                         |     237 |   253 | Symptom                      |     0.6869   |
 | 12 | retractions                               |     258 |   268 | Symptom                      |     0.9912   |
 | 13 | Influenza vaccine                         |     325 |   341 | Vaccine_Name                 |     0.833    |
@@ -502,86 +440,68 @@ C.N.P : 2450502264401&quot;&lt;/span&gt;
 | 38 | diarrhea                                  |     908 |   915 | Symptom                      |     0.9956   |
 | 39 | His                                       |     918 |   920 | Gender                       |     0.9997   |
 | 40 | bowel                                     |     922 |   926 | Internal_organ_or_component  |     0.9218   |
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+```
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;ner_jsl_pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Type:&lt;/td&gt;
-      &lt;td&gt;pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Healthcare NLP 4.3.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Licensed&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;1.7 GB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|ner_jsl_pipeline|
+|Type:|pipeline|
+|Compatibility:|Healthcare NLP 4.3.0+|
+|License:|Licensed|
+|Edition:|Official|
+|Language:|en|
+|Size:|1.7 GB|
 
-&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
+## Included Models
 
-&lt;ul&gt;
-  &lt;li&gt;DocumentAssembler&lt;/li&gt;
-  &lt;li&gt;SentenceDetectorDLModel&lt;/li&gt;
-  &lt;li&gt;TokenizerModel&lt;/li&gt;
-  &lt;li&gt;WordEmbeddingsModel&lt;/li&gt;
-  &lt;li&gt;MedicalNerModel&lt;/li&gt;
-  &lt;li&gt;NerConverterInternalModel&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="ner" /><category term="licensed" /><category term="en" /><category term="clinical" /><summary type="html">Description This pretrained pipeline is built on the top of ner_jsl model. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.pretrained import PretrainedPipeline pipeline = PretrainedPipeline(&quot;ner_jsl_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) text = '''The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). Additionally, there is no side effect observed after Influenza vaccine. One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature.''' result = pipeline.fullAnnotate(text) import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline val pipeline = new PretrainedPipeline(&quot;ner_jsl_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) val text = &quot;The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). Additionally, there is no side effect observed after Influenza vaccine. One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature.&quot; val result = pipeline.fullAnnotate(text) Results | | ber_chunks | begin | end | ner_label | confidence | |---:|:------------------------------------------|--------:|------:|:-----------------------------|-------------:| | 0 | 21-day-old | 17 | 26 | Age | 0.997 | | 1 | Caucasian | 28 | 36 | Race_Ethnicity | 0.9995 | | 2 | male | 38 | 41 | Gender | 0.9998 | | 3 | 2 days | 52 | 57 | Duration | 0.805 | | 4 | congestion | 62 | 71 | Symptom | 0.9049 | | 5 | mom | 75 | 77 | Gender | 0.9907 | | 6 | suctioning yellow discharge | 88 | 114 | Symptom | 0.268133 | | 7 | nares | 135 | 139 | External_body_part_or_region | 0.7284 | | 8 | she | 147 | 149 | Gender | 0.9978 | | 9 | mild | 168 | 171 | Modifier | 0.7517 | | 10 | problems with his breathing while feeding | 173 | 213 | Symptom | 0.664583 | | 11 | perioral cyanosis | 237 | 253 | Symptom | 0.6869 | | 12 | retractions | 258 | 268 | Symptom | 0.9912 | | 13 | Influenza vaccine | 325 | 341 | Vaccine_Name | 0.833 | | 14 | One day ago | 344 | 354 | RelativeDate | 0.8667 | | 15 | mom | 357 | 359 | Gender | 0.9991 | | 16 | tactile temperature | 376 | 394 | Symptom | 0.3339 | | 17 | Tylenol | 417 | 423 | Drug_BrandName | 0.9988 | | 18 | Baby | 426 | 429 | Age | 0.9634 | | 19 | decreased p.o | 449 | 461 | Symptom | 0.75925 | | 20 | His | 472 | 474 | Gender | 0.9998 | | 21 | 20 minutes | 511 | 520 | Duration | 0.48575 | | 22 | 5 to 10 minutes | 531 | 545 | Duration | 0.526575 | | 23 | his | 560 | 562 | Gender | 0.988 | | 24 | respiratory congestion | 564 | 585 | Symptom | 0.6168 | | 25 | He | 588 | 589 | Gender | 0.9992 | | 26 | tired | 622 | 626 | Symptom | 0.8745 | | 27 | fussy | 641 | 645 | Symptom | 0.8509 | | 28 | over the past 2 days | 647 | 666 | RelativeDate | 0.60494 | | 29 | albuterol | 709 | 717 | Drug_Ingredient | 0.9876 | | 30 | ER | 743 | 744 | Clinical_Dept | 0.9974 | | 31 | His | 747 | 749 | Gender | 0.9996 | | 32 | urine output has also decreased | 751 | 781 | Symptom | 0.39878 | | 33 | he | 793 | 794 | Gender | 0.997 | | 34 | per 24 hours | 832 | 843 | Frequency | 0.462333 | | 35 | he | 850 | 851 | Gender | 0.9983 | | 36 | per 24 hours | 879 | 890 | Frequency | 0.562167 | | 37 | Mom | 893 | 895 | Gender | 0.9997 | | 38 | diarrhea | 908 | 915 | Symptom | 0.9956 | | 39 | His | 918 | 920 | Gender | 0.9997 | | 40 | bowel | 922 | 926 | Internal_organ_or_component | 0.9218 | Model Information Model Name: ner_jsl_pipeline Type: pipeline Compatibility: Healthcare NLP 4.3.0+ License: Licensed Edition: Official Language: en Size: 1.7 GB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel WordEmbeddingsModel MedicalNerModel NerConverterInternalModel</summary></entry><entry><title type="html">Pipeline to Extract Biomarkers and their Results</title><link href="/2023/03/09/ner_oncology_biomarker_pipeline_en.html" rel="alternate" type="text/html" title="Pipeline to Extract Biomarkers and their Results" /><published>2023-03-09T00:00:00+00:00</published><updated>2023-03-09T00:00:00+00:00</updated><id>/2023/03/09/ner_oncology_biomarker_pipeline_en</id><content type="html" xml:base="/2023/03/09/ner_oncology_biomarker_pipeline_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+- DocumentAssembler
+- SentenceDetectorDLModel
+- TokenizerModel
+- WordEmbeddingsModel
+- MedicalNerModel
+- NerConverterInternalModel</content><author><name>John Snow Labs</name></author><category term="ner" /><category term="licensed" /><category term="en" /><category term="clinical" /><summary type="html">Description This pretrained pipeline is built on the top of ner_jsl model. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.pretrained import PretrainedPipeline pipeline = PretrainedPipeline(&quot;ner_jsl_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) text = '''The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). Additionally, there is no side effect observed after Influenza vaccine. One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature.''' result = pipeline.fullAnnotate(text) import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline val pipeline = new PretrainedPipeline(&quot;ner_jsl_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) val text = &quot;The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). Additionally, there is no side effect observed after Influenza vaccine. One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature.&quot; val result = pipeline.fullAnnotate(text) Results | | ber_chunks | begin | end | ner_label | confidence | |---:|:------------------------------------------|--------:|------:|:-----------------------------|-------------:| | 0 | 21-day-old | 17 | 26 | Age | 0.997 | | 1 | Caucasian | 28 | 36 | Race_Ethnicity | 0.9995 | | 2 | male | 38 | 41 | Gender | 0.9998 | | 3 | 2 days | 52 | 57 | Duration | 0.805 | | 4 | congestion | 62 | 71 | Symptom | 0.9049 | | 5 | mom | 75 | 77 | Gender | 0.9907 | | 6 | suctioning yellow discharge | 88 | 114 | Symptom | 0.268133 | | 7 | nares | 135 | 139 | External_body_part_or_region | 0.7284 | | 8 | she | 147 | 149 | Gender | 0.9978 | | 9 | mild | 168 | 171 | Modifier | 0.7517 | | 10 | problems with his breathing while feeding | 173 | 213 | Symptom | 0.664583 | | 11 | perioral cyanosis | 237 | 253 | Symptom | 0.6869 | | 12 | retractions | 258 | 268 | Symptom | 0.9912 | | 13 | Influenza vaccine | 325 | 341 | Vaccine_Name | 0.833 | | 14 | One day ago | 344 | 354 | RelativeDate | 0.8667 | | 15 | mom | 357 | 359 | Gender | 0.9991 | | 16 | tactile temperature | 376 | 394 | Symptom | 0.3339 | | 17 | Tylenol | 417 | 423 | Drug_BrandName | 0.9988 | | 18 | Baby | 426 | 429 | Age | 0.9634 | | 19 | decreased p.o | 449 | 461 | Symptom | 0.75925 | | 20 | His | 472 | 474 | Gender | 0.9998 | | 21 | 20 minutes | 511 | 520 | Duration | 0.48575 | | 22 | 5 to 10 minutes | 531 | 545 | Duration | 0.526575 | | 23 | his | 560 | 562 | Gender | 0.988 | | 24 | respiratory congestion | 564 | 585 | Symptom | 0.6168 | | 25 | He | 588 | 589 | Gender | 0.9992 | | 26 | tired | 622 | 626 | Symptom | 0.8745 | | 27 | fussy | 641 | 645 | Symptom | 0.8509 | | 28 | over the past 2 days | 647 | 666 | RelativeDate | 0.60494 | | 29 | albuterol | 709 | 717 | Drug_Ingredient | 0.9876 | | 30 | ER | 743 | 744 | Clinical_Dept | 0.9974 | | 31 | His | 747 | 749 | Gender | 0.9996 | | 32 | urine output has also decreased | 751 | 781 | Symptom | 0.39878 | | 33 | he | 793 | 794 | Gender | 0.997 | | 34 | per 24 hours | 832 | 843 | Frequency | 0.462333 | | 35 | he | 850 | 851 | Gender | 0.9983 | | 36 | per 24 hours | 879 | 890 | Frequency | 0.562167 | | 37 | Mom | 893 | 895 | Gender | 0.9997 | | 38 | diarrhea | 908 | 915 | Symptom | 0.9956 | | 39 | His | 918 | 920 | Gender | 0.9997 | | 40 | bowel | 922 | 926 | Internal_organ_or_component | 0.9218 | Model Information Model Name: ner_jsl_pipeline Type: pipeline Compatibility: Healthcare NLP 4.3.0+ License: Licensed Edition: Official Language: en Size: 1.7 GB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel WordEmbeddingsModel MedicalNerModel NerConverterInternalModel</summary></entry><entry><title type="html">Pipeline to Extract Biomarkers and their Results</title><link href="/2023/03/09/ner_oncology_biomarker_pipeline_en.html" rel="alternate" type="text/html" title="Pipeline to Extract Biomarkers and their Results" /><published>2023-03-09T00:00:00+00:00</published><updated>2023-03-09T00:00:00+00:00</updated><id>/2023/03/09/ner_oncology_biomarker_pipeline_en</id><content type="html" xml:base="/2023/03/09/ner_oncology_biomarker_pipeline_en.html">## Description
 
-&lt;p&gt;This pretrained pipeline is built on the top of &lt;a href=&quot;https://nlp.johnsnowlabs.com/2022/11/24/ner_oncology_biomarker_en.html&quot;&gt;ner_oncology_biomarker&lt;/a&gt; model.&lt;/p&gt;
+This pretrained pipeline is built on the top of [ner_oncology_biomarker](https://nlp.johnsnowlabs.com/2022/11/24/ner_oncology_biomarker_en.html) model.
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_biomarker_pipeline_en_4.3.0_3.2_1678345026649.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/clinical/models/ner_oncology_biomarker_pipeline_en_4.3.0_3.2_1678345026649.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_biomarker_pipeline_en_4.3.0_3.2_1678345026649.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/ner_oncology_biomarker_pipeline_en_4.3.0_3.2_1678345026649.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.pretrained&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_oncology_biomarker_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clinical/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'''The results of immunohistochemical examination showed that she tested negative for CK7, synaptophysin (Syn), chromogranin A (CgA), Muc5AC, human epidermal growth factor receptor-2 (HER2), and Muc6; positive for CK20, Muc1, Muc2, E-cadherin, and p53; the Ki-67 index was about 87%.'''&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+from sparknlp.pretrained import PretrainedPipeline
 
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fullAnnotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.pretrained.PretrainedPipeline&lt;/span&gt;
+pipeline = PretrainedPipeline(&quot;ner_oncology_biomarker_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_oncology_biomarker_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clinical/models&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+text = '''The results of immunohistochemical examination showed that she tested negative for CK7, synaptophysin (Syn), chromogranin A (CgA), Muc5AC, human epidermal growth factor receptor-2 (HER2), and Muc6; positive for CK20, Muc1, Muc2, E-cadherin, and p53; the Ki-67 index was about 87%.'''
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;The results of immunohistochemical examination showed that she tested negative for CK7, synaptophysin (Syn), chromogranin A (CgA), Muc5AC, human epidermal growth factor receptor-2 (HER2), and Muc6; positive for CK20, Muc1, Muc2, E-cadherin, and p53; the Ki-67 index was about 87%.&quot;&lt;/span&gt;
+result = pipeline.fullAnnotate(text)
+```
+```scala
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fullAnnotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+val pipeline = new PretrainedPipeline(&quot;ner_oncology_biomarker_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;)
+
+val text = &quot;The results of immunohistochemical examination showed that she tested negative for CK7, synaptophysin (Syn), chromogranin A (CgA), Muc5AC, human epidermal growth factor receptor-2 (HER2), and Muc6; positive for CK20, Muc1, Muc2, E-cadherin, and p53; the Ki-67 index was about 87%.&quot;
+
+val result = pipeline.fullAnnotate(text)
+```
 &lt;/div&gt;
 
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+## Results
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;|    | ber_chunks                               |   begin |   end | ner_label        |   confidence |
+```bash
+|    | ber_chunks                               |   begin |   end | ner_label        |   confidence |
 |---:|:-----------------------------------------|--------:|------:|:-----------------|-------------:|
 |  0 | negative                                 |      70 |    77 | Biomarker_Result |      0.9984  |
 |  1 | CK7                                      |      83 |    85 | Biomarker        |      1       |
@@ -590,7 +510,7 @@ C.N.P : 2450502264401&quot;&lt;/span&gt;
 |  4 | chromogranin A                           |     109 |   122 | Biomarker        |      0.9692  |
 |  5 | CgA                                      |     125 |   127 | Biomarker        |      0.9994  |
 |  6 | Muc5AC                                   |     131 |   136 | Biomarker        |      0.9987  |
-|  7 | human epidermal growth &lt;span class=&quot;nb&quot;&gt;factor &lt;/span&gt;receptor-2 |     139 |   178 | Biomarker        |      0.99876 |
+|  7 | human epidermal growth factor receptor-2 |     139 |   178 | Biomarker        |      0.99876 |
 |  8 | HER2                                     |     181 |   184 | Biomarker        |      1       |
 |  9 | Muc6                                     |     192 |   195 | Biomarker        |      0.9999  |
 | 10 | positive                                 |     198 |   205 | Biomarker_Result |      0.9987  |
@@ -601,170 +521,134 @@ C.N.P : 2450502264401&quot;&lt;/span&gt;
 | 15 | p53                                      |     245 |   247 | Biomarker        |      1       |
 | 16 | Ki-67 index                              |     254 |   264 | Biomarker        |      0.99465 |
 | 17 | 87%                                      |     276 |   278 | Biomarker_Result |      0.9814  |
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+```
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;ner_oncology_biomarker_pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Type:&lt;/td&gt;
-      &lt;td&gt;pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Healthcare NLP 4.3.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Licensed&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;1.7 GB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|ner_oncology_biomarker_pipeline|
+|Type:|pipeline|
+|Compatibility:|Healthcare NLP 4.3.0+|
+|License:|Licensed|
+|Edition:|Official|
+|Language:|en|
+|Size:|1.7 GB|
 
-&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
+## Included Models
 
-&lt;ul&gt;
-  &lt;li&gt;DocumentAssembler&lt;/li&gt;
-  &lt;li&gt;SentenceDetectorDLModel&lt;/li&gt;
-  &lt;li&gt;TokenizerModel&lt;/li&gt;
-  &lt;li&gt;WordEmbeddingsModel&lt;/li&gt;
-  &lt;li&gt;MedicalNerModel&lt;/li&gt;
-  &lt;li&gt;NerConverterInternalModel&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="licensed" /><category term="clinical" /><category term="en" /><category term="ner" /><category term="oncology" /><category term="biomarker" /><summary type="html">Description This pretrained pipeline is built on the top of ner_oncology_biomarker model. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.pretrained import PretrainedPipeline pipeline = PretrainedPipeline(&quot;ner_oncology_biomarker_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) text = '''The results of immunohistochemical examination showed that she tested negative for CK7, synaptophysin (Syn), chromogranin A (CgA), Muc5AC, human epidermal growth factor receptor-2 (HER2), and Muc6; positive for CK20, Muc1, Muc2, E-cadherin, and p53; the Ki-67 index was about 87%.''' result = pipeline.fullAnnotate(text) import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline val pipeline = new PretrainedPipeline(&quot;ner_oncology_biomarker_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) val text = &quot;The results of immunohistochemical examination showed that she tested negative for CK7, synaptophysin (Syn), chromogranin A (CgA), Muc5AC, human epidermal growth factor receptor-2 (HER2), and Muc6; positive for CK20, Muc1, Muc2, E-cadherin, and p53; the Ki-67 index was about 87%.&quot; val result = pipeline.fullAnnotate(text) Results | | ber_chunks | begin | end | ner_label | confidence | |---:|:-----------------------------------------|--------:|------:|:-----------------|-------------:| | 0 | negative | 70 | 77 | Biomarker_Result | 0.9984 | | 1 | CK7 | 83 | 85 | Biomarker | 1 | | 2 | synaptophysin | 88 | 100 | Biomarker | 0.9995 | | 3 | Syn | 103 | 105 | Biomarker | 0.9979 | | 4 | chromogranin A | 109 | 122 | Biomarker | 0.9692 | | 5 | CgA | 125 | 127 | Biomarker | 0.9994 | | 6 | Muc5AC | 131 | 136 | Biomarker | 0.9987 | | 7 | human epidermal growth factor receptor-2 | 139 | 178 | Biomarker | 0.99876 | | 8 | HER2 | 181 | 184 | Biomarker | 1 | | 9 | Muc6 | 192 | 195 | Biomarker | 0.9999 | | 10 | positive | 198 | 205 | Biomarker_Result | 0.9987 | | 11 | CK20 | 211 | 214 | Biomarker | 1 | | 12 | Muc1 | 217 | 220 | Biomarker | 0.9999 | | 13 | Muc2 | 223 | 226 | Biomarker | 0.9999 | | 14 | E-cadherin | 229 | 238 | Biomarker | 0.9999 | | 15 | p53 | 245 | 247 | Biomarker | 1 | | 16 | Ki-67 index | 254 | 264 | Biomarker | 0.99465 | | 17 | 87% | 276 | 278 | Biomarker_Result | 0.9814 | Model Information Model Name: ner_oncology_biomarker_pipeline Type: pipeline Compatibility: Healthcare NLP 4.3.0+ License: Licensed Edition: Official Language: en Size: 1.7 GB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel WordEmbeddingsModel MedicalNerModel NerConverterInternalModel</summary></entry><entry><title type="html">Pipeline to Extract Demographic Entities from Oncology Texts</title><link href="/2023/03/09/ner_oncology_demographics_pipeline_en.html" rel="alternate" type="text/html" title="Pipeline to Extract Demographic Entities from Oncology Texts" /><published>2023-03-09T00:00:00+00:00</published><updated>2023-03-09T00:00:00+00:00</updated><id>/2023/03/09/ner_oncology_demographics_pipeline_en</id><content type="html" xml:base="/2023/03/09/ner_oncology_demographics_pipeline_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+- DocumentAssembler
+- SentenceDetectorDLModel
+- TokenizerModel
+- WordEmbeddingsModel
+- MedicalNerModel
+- NerConverterInternalModel</content><author><name>John Snow Labs</name></author><category term="licensed" /><category term="clinical" /><category term="en" /><category term="ner" /><category term="oncology" /><category term="biomarker" /><summary type="html">Description This pretrained pipeline is built on the top of ner_oncology_biomarker model. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.pretrained import PretrainedPipeline pipeline = PretrainedPipeline(&quot;ner_oncology_biomarker_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) text = '''The results of immunohistochemical examination showed that she tested negative for CK7, synaptophysin (Syn), chromogranin A (CgA), Muc5AC, human epidermal growth factor receptor-2 (HER2), and Muc6; positive for CK20, Muc1, Muc2, E-cadherin, and p53; the Ki-67 index was about 87%.''' result = pipeline.fullAnnotate(text) import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline val pipeline = new PretrainedPipeline(&quot;ner_oncology_biomarker_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) val text = &quot;The results of immunohistochemical examination showed that she tested negative for CK7, synaptophysin (Syn), chromogranin A (CgA), Muc5AC, human epidermal growth factor receptor-2 (HER2), and Muc6; positive for CK20, Muc1, Muc2, E-cadherin, and p53; the Ki-67 index was about 87%.&quot; val result = pipeline.fullAnnotate(text) Results | | ber_chunks | begin | end | ner_label | confidence | |---:|:-----------------------------------------|--------:|------:|:-----------------|-------------:| | 0 | negative | 70 | 77 | Biomarker_Result | 0.9984 | | 1 | CK7 | 83 | 85 | Biomarker | 1 | | 2 | synaptophysin | 88 | 100 | Biomarker | 0.9995 | | 3 | Syn | 103 | 105 | Biomarker | 0.9979 | | 4 | chromogranin A | 109 | 122 | Biomarker | 0.9692 | | 5 | CgA | 125 | 127 | Biomarker | 0.9994 | | 6 | Muc5AC | 131 | 136 | Biomarker | 0.9987 | | 7 | human epidermal growth factor receptor-2 | 139 | 178 | Biomarker | 0.99876 | | 8 | HER2 | 181 | 184 | Biomarker | 1 | | 9 | Muc6 | 192 | 195 | Biomarker | 0.9999 | | 10 | positive | 198 | 205 | Biomarker_Result | 0.9987 | | 11 | CK20 | 211 | 214 | Biomarker | 1 | | 12 | Muc1 | 217 | 220 | Biomarker | 0.9999 | | 13 | Muc2 | 223 | 226 | Biomarker | 0.9999 | | 14 | E-cadherin | 229 | 238 | Biomarker | 0.9999 | | 15 | p53 | 245 | 247 | Biomarker | 1 | | 16 | Ki-67 index | 254 | 264 | Biomarker | 0.99465 | | 17 | 87% | 276 | 278 | Biomarker_Result | 0.9814 | Model Information Model Name: ner_oncology_biomarker_pipeline Type: pipeline Compatibility: Healthcare NLP 4.3.0+ License: Licensed Edition: Official Language: en Size: 1.7 GB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel WordEmbeddingsModel MedicalNerModel NerConverterInternalModel</summary></entry><entry><title type="html">Pipeline to Extract Demographic Entities from Oncology Texts</title><link href="/2023/03/09/ner_oncology_demographics_pipeline_en.html" rel="alternate" type="text/html" title="Pipeline to Extract Demographic Entities from Oncology Texts" /><published>2023-03-09T00:00:00+00:00</published><updated>2023-03-09T00:00:00+00:00</updated><id>/2023/03/09/ner_oncology_demographics_pipeline_en</id><content type="html" xml:base="/2023/03/09/ner_oncology_demographics_pipeline_en.html">## Description
 
-&lt;p&gt;This pretrained pipeline is built on the top of &lt;a href=&quot;https://nlp.johnsnowlabs.com/2022/11/24/ner_oncology_demographics_en.html&quot;&gt;ner_oncology_demographics&lt;/a&gt; model.&lt;/p&gt;
+This pretrained pipeline is built on the top of [ner_oncology_demographics](https://nlp.johnsnowlabs.com/2022/11/24/ner_oncology_demographics_en.html) model.
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_demographics_pipeline_en_4.3.0_3.2_1678345339056.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/clinical/models/ner_oncology_demographics_pipeline_en_4.3.0_3.2_1678345339056.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_demographics_pipeline_en_4.3.0_3.2_1678345339056.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/ner_oncology_demographics_pipeline_en_4.3.0_3.2_1678345339056.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.pretrained&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_oncology_demographics_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clinical/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'''The patient is a 40-year-old man with history of heavy smoking.'''&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+from sparknlp.pretrained import PretrainedPipeline
 
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fullAnnotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.pretrained.PretrainedPipeline&lt;/span&gt;
+pipeline = PretrainedPipeline(&quot;ner_oncology_demographics_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_oncology_demographics_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clinical/models&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+text = '''The patient is a 40-year-old man with history of heavy smoking.'''
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;The patient is a 40-year-old man with history of heavy smoking.&quot;&lt;/span&gt;
+result = pipeline.fullAnnotate(text)
+```
+```scala
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fullAnnotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+val pipeline = new PretrainedPipeline(&quot;ner_oncology_demographics_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;)
+
+val text = &quot;The patient is a 40-year-old man with history of heavy smoking.&quot;
+
+val result = pipeline.fullAnnotate(text)
+```
 &lt;/div&gt;
 
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+## Results
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;|    | ber_chunks    |   begin |   end | ner_label      |   confidence |
+```bash
+|    | ber_chunks    |   begin |   end | ner_label      |   confidence |
 |---:|:--------------|--------:|------:|:---------------|-------------:|
 |  0 | 40-year-old   |      17 |    27 | Age            |       0.6743 |
 |  1 | man           |      29 |    31 | Gender         |       0.9365 |
 |  2 | heavy smoking |      49 |    61 | Smoking_Status |       0.7294 |
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+```
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;ner_oncology_demographics_pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Type:&lt;/td&gt;
-      &lt;td&gt;pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Healthcare NLP 4.3.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Licensed&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;1.7 GB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|ner_oncology_demographics_pipeline|
+|Type:|pipeline|
+|Compatibility:|Healthcare NLP 4.3.0+|
+|License:|Licensed|
+|Edition:|Official|
+|Language:|en|
+|Size:|1.7 GB|
 
-&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
+## Included Models
 
-&lt;ul&gt;
-  &lt;li&gt;DocumentAssembler&lt;/li&gt;
-  &lt;li&gt;SentenceDetectorDLModel&lt;/li&gt;
-  &lt;li&gt;TokenizerModel&lt;/li&gt;
-  &lt;li&gt;WordEmbeddingsModel&lt;/li&gt;
-  &lt;li&gt;MedicalNerModel&lt;/li&gt;
-  &lt;li&gt;NerConverterInternalModel&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="licensed" /><category term="clinical" /><category term="en" /><category term="ner" /><category term="oncology" /><category term="demographics" /><summary type="html">Description This pretrained pipeline is built on the top of ner_oncology_demographics model. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.pretrained import PretrainedPipeline pipeline = PretrainedPipeline(&quot;ner_oncology_demographics_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) text = '''The patient is a 40-year-old man with history of heavy smoking.''' result = pipeline.fullAnnotate(text) import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline val pipeline = new PretrainedPipeline(&quot;ner_oncology_demographics_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) val text = &quot;The patient is a 40-year-old man with history of heavy smoking.&quot; val result = pipeline.fullAnnotate(text) Results | | ber_chunks | begin | end | ner_label | confidence | |---:|:--------------|--------:|------:|:---------------|-------------:| | 0 | 40-year-old | 17 | 27 | Age | 0.6743 | | 1 | man | 29 | 31 | Gender | 0.9365 | | 2 | heavy smoking | 49 | 61 | Smoking_Status | 0.7294 | Model Information Model Name: ner_oncology_demographics_pipeline Type: pipeline Compatibility: Healthcare NLP 4.3.0+ License: Licensed Edition: Official Language: en Size: 1.7 GB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel WordEmbeddingsModel MedicalNerModel NerConverterInternalModel</summary></entry><entry><title type="html">Pipeline to Detect Entities Related to Cancer Diagnosis</title><link href="/2023/03/09/ner_oncology_diagnosis_pipeline_en.html" rel="alternate" type="text/html" title="Pipeline to Detect Entities Related to Cancer Diagnosis" /><published>2023-03-09T00:00:00+00:00</published><updated>2023-03-09T00:00:00+00:00</updated><id>/2023/03/09/ner_oncology_diagnosis_pipeline_en</id><content type="html" xml:base="/2023/03/09/ner_oncology_diagnosis_pipeline_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+- DocumentAssembler
+- SentenceDetectorDLModel
+- TokenizerModel
+- WordEmbeddingsModel
+- MedicalNerModel
+- NerConverterInternalModel</content><author><name>John Snow Labs</name></author><category term="licensed" /><category term="clinical" /><category term="en" /><category term="ner" /><category term="oncology" /><category term="demographics" /><summary type="html">Description This pretrained pipeline is built on the top of ner_oncology_demographics model. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.pretrained import PretrainedPipeline pipeline = PretrainedPipeline(&quot;ner_oncology_demographics_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) text = '''The patient is a 40-year-old man with history of heavy smoking.''' result = pipeline.fullAnnotate(text) import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline val pipeline = new PretrainedPipeline(&quot;ner_oncology_demographics_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) val text = &quot;The patient is a 40-year-old man with history of heavy smoking.&quot; val result = pipeline.fullAnnotate(text) Results | | ber_chunks | begin | end | ner_label | confidence | |---:|:--------------|--------:|------:|:---------------|-------------:| | 0 | 40-year-old | 17 | 27 | Age | 0.6743 | | 1 | man | 29 | 31 | Gender | 0.9365 | | 2 | heavy smoking | 49 | 61 | Smoking_Status | 0.7294 | Model Information Model Name: ner_oncology_demographics_pipeline Type: pipeline Compatibility: Healthcare NLP 4.3.0+ License: Licensed Edition: Official Language: en Size: 1.7 GB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel WordEmbeddingsModel MedicalNerModel NerConverterInternalModel</summary></entry><entry><title type="html">Pipeline to Detect Entities Related to Cancer Diagnosis</title><link href="/2023/03/09/ner_oncology_diagnosis_pipeline_en.html" rel="alternate" type="text/html" title="Pipeline to Detect Entities Related to Cancer Diagnosis" /><published>2023-03-09T00:00:00+00:00</published><updated>2023-03-09T00:00:00+00:00</updated><id>/2023/03/09/ner_oncology_diagnosis_pipeline_en</id><content type="html" xml:base="/2023/03/09/ner_oncology_diagnosis_pipeline_en.html">## Description
 
-&lt;p&gt;This pretrained pipeline is built on the top of &lt;a href=&quot;https://nlp.johnsnowlabs.com/2022/11/24/ner_oncology_diagnosis_en.html&quot;&gt;ner_oncology_diagnosis&lt;/a&gt; model.&lt;/p&gt;
+This pretrained pipeline is built on the top of [ner_oncology_diagnosis](https://nlp.johnsnowlabs.com/2022/11/24/ner_oncology_diagnosis_en.html) model.
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_diagnosis_pipeline_en_4.3.0_3.2_1678346464717.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/clinical/models/ner_oncology_diagnosis_pipeline_en_4.3.0_3.2_1678346464717.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_diagnosis_pipeline_en_4.3.0_3.2_1678346464717.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/ner_oncology_diagnosis_pipeline_en_4.3.0_3.2_1678346464717.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.pretrained&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_oncology_diagnosis_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clinical/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'''Two years ago, the patient presented with a tumor in her left breast and adenopathies. She was diagnosed with invasive ductal carcinoma. Last week she was also found to have a lung metastasis.'''&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+from sparknlp.pretrained import PretrainedPipeline
 
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fullAnnotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.pretrained.PretrainedPipeline&lt;/span&gt;
+pipeline = PretrainedPipeline(&quot;ner_oncology_diagnosis_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_oncology_diagnosis_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clinical/models&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+text = '''Two years ago, the patient presented with a tumor in her left breast and adenopathies. She was diagnosed with invasive ductal carcinoma. Last week she was also found to have a lung metastasis.'''
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Two years ago, the patient presented with a tumor in her left breast and adenopathies. She was diagnosed with invasive ductal carcinoma. Last week she was also found to have a lung metastasis.&quot;&lt;/span&gt;
+result = pipeline.fullAnnotate(text)
+```
+```scala
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fullAnnotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+val pipeline = new PretrainedPipeline(&quot;ner_oncology_diagnosis_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;)
+
+val text = &quot;Two years ago, the patient presented with a tumor in her left breast and adenopathies. She was diagnosed with invasive ductal carcinoma. Last week she was also found to have a lung metastasis.&quot;
+
+val result = pipeline.fullAnnotate(text)
+```
 &lt;/div&gt;
 
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+## Results
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;|    | ber_chunks   |   begin |   end | ner_label         |   confidence |
+```bash
+|    | ber_chunks   |   begin |   end | ner_label         |   confidence |
 |---:|:-------------|--------:|------:|:------------------|-------------:|
 |  0 | tumor        |      44 |    48 | Tumor_Finding     |       0.9958 |
 |  1 | adenopathies |      73 |    84 | Adenopathy        |       0.6287 |
@@ -772,217 +656,157 @@ C.N.P : 2450502264401&quot;&lt;/span&gt;
 |  3 | ductal       |     119 |   124 | Histological_Type |       0.9996 |
 |  4 | carcinoma    |     126 |   134 | Cancer_Dx         |       0.9988 |
 |  5 | metastasis   |     181 |   190 | Metastasis        |       0.9996 |
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+```
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;ner_oncology_diagnosis_pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Type:&lt;/td&gt;
-      &lt;td&gt;pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Healthcare NLP 4.3.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Licensed&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;1.7 GB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|ner_oncology_diagnosis_pipeline|
+|Type:|pipeline|
+|Compatibility:|Healthcare NLP 4.3.0+|
+|License:|Licensed|
+|Edition:|Official|
+|Language:|en|
+|Size:|1.7 GB|
 
-&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
+## Included Models
 
-&lt;ul&gt;
-  &lt;li&gt;DocumentAssembler&lt;/li&gt;
-  &lt;li&gt;SentenceDetectorDLModel&lt;/li&gt;
-  &lt;li&gt;TokenizerModel&lt;/li&gt;
-  &lt;li&gt;WordEmbeddingsModel&lt;/li&gt;
-  &lt;li&gt;MedicalNerModel&lt;/li&gt;
-  &lt;li&gt;NerConverterInternalModel&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="licensed" /><category term="clinical" /><category term="en" /><category term="ner" /><category term="oncology" /><summary type="html">Description This pretrained pipeline is built on the top of ner_oncology_diagnosis model. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.pretrained import PretrainedPipeline pipeline = PretrainedPipeline(&quot;ner_oncology_diagnosis_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) text = '''Two years ago, the patient presented with a tumor in her left breast and adenopathies. She was diagnosed with invasive ductal carcinoma. Last week she was also found to have a lung metastasis.''' result = pipeline.fullAnnotate(text) import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline val pipeline = new PretrainedPipeline(&quot;ner_oncology_diagnosis_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) val text = &quot;Two years ago, the patient presented with a tumor in her left breast and adenopathies. She was diagnosed with invasive ductal carcinoma. Last week she was also found to have a lung metastasis.&quot; val result = pipeline.fullAnnotate(text) Results | | ber_chunks | begin | end | ner_label | confidence | |---:|:-------------|--------:|------:|:------------------|-------------:| | 0 | tumor | 44 | 48 | Tumor_Finding | 0.9958 | | 1 | adenopathies | 73 | 84 | Adenopathy | 0.6287 | | 2 | invasive | 110 | 117 | Histological_Type | 0.9965 | | 3 | ductal | 119 | 124 | Histological_Type | 0.9996 | | 4 | carcinoma | 126 | 134 | Cancer_Dx | 0.9988 | | 5 | metastasis | 181 | 190 | Metastasis | 0.9996 | Model Information Model Name: ner_oncology_diagnosis_pipeline Type: pipeline Compatibility: Healthcare NLP 4.3.0+ License: Licensed Edition: Official Language: en Size: 1.7 GB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel WordEmbeddingsModel MedicalNerModel NerConverterInternalModel</summary></entry><entry><title type="html">Pipeline to Extract Mentions of Response to Cancer Treatment</title><link href="/2023/03/09/ner_oncology_response_to_treatment_pipeline_en.html" rel="alternate" type="text/html" title="Pipeline to Extract Mentions of Response to Cancer Treatment" /><published>2023-03-09T00:00:00+00:00</published><updated>2023-03-09T00:00:00+00:00</updated><id>/2023/03/09/ner_oncology_response_to_treatment_pipeline_en</id><content type="html" xml:base="/2023/03/09/ner_oncology_response_to_treatment_pipeline_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+- DocumentAssembler
+- SentenceDetectorDLModel
+- TokenizerModel
+- WordEmbeddingsModel
+- MedicalNerModel
+- NerConverterInternalModel</content><author><name>John Snow Labs</name></author><category term="licensed" /><category term="clinical" /><category term="en" /><category term="ner" /><category term="oncology" /><summary type="html">Description This pretrained pipeline is built on the top of ner_oncology_diagnosis model. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.pretrained import PretrainedPipeline pipeline = PretrainedPipeline(&quot;ner_oncology_diagnosis_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) text = '''Two years ago, the patient presented with a tumor in her left breast and adenopathies. She was diagnosed with invasive ductal carcinoma. Last week she was also found to have a lung metastasis.''' result = pipeline.fullAnnotate(text) import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline val pipeline = new PretrainedPipeline(&quot;ner_oncology_diagnosis_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) val text = &quot;Two years ago, the patient presented with a tumor in her left breast and adenopathies. She was diagnosed with invasive ductal carcinoma. Last week she was also found to have a lung metastasis.&quot; val result = pipeline.fullAnnotate(text) Results | | ber_chunks | begin | end | ner_label | confidence | |---:|:-------------|--------:|------:|:------------------|-------------:| | 0 | tumor | 44 | 48 | Tumor_Finding | 0.9958 | | 1 | adenopathies | 73 | 84 | Adenopathy | 0.6287 | | 2 | invasive | 110 | 117 | Histological_Type | 0.9965 | | 3 | ductal | 119 | 124 | Histological_Type | 0.9996 | | 4 | carcinoma | 126 | 134 | Cancer_Dx | 0.9988 | | 5 | metastasis | 181 | 190 | Metastasis | 0.9996 | Model Information Model Name: ner_oncology_diagnosis_pipeline Type: pipeline Compatibility: Healthcare NLP 4.3.0+ License: Licensed Edition: Official Language: en Size: 1.7 GB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel WordEmbeddingsModel MedicalNerModel NerConverterInternalModel</summary></entry><entry><title type="html">Pipeline to Extract Mentions of Response to Cancer Treatment</title><link href="/2023/03/09/ner_oncology_response_to_treatment_pipeline_en.html" rel="alternate" type="text/html" title="Pipeline to Extract Mentions of Response to Cancer Treatment" /><published>2023-03-09T00:00:00+00:00</published><updated>2023-03-09T00:00:00+00:00</updated><id>/2023/03/09/ner_oncology_response_to_treatment_pipeline_en</id><content type="html" xml:base="/2023/03/09/ner_oncology_response_to_treatment_pipeline_en.html">## Description
 
-&lt;p&gt;This pretrained pipeline is built on the top of &lt;a href=&quot;https://nlp.johnsnowlabs.com/2022/11/24/ner_oncology_response_to_treatment_en.html&quot;&gt;ner_oncology_response_to_treatment&lt;/a&gt; model.&lt;/p&gt;
+This pretrained pipeline is built on the top of [ner_oncology_response_to_treatment](https://nlp.johnsnowlabs.com/2022/11/24/ner_oncology_response_to_treatment_en.html) model.
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_response_to_treatment_pipeline_en_4.3.0_3.2_1678349824229.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/clinical/models/ner_oncology_response_to_treatment_pipeline_en_4.3.0_3.2_1678349824229.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_response_to_treatment_pipeline_en_4.3.0_3.2_1678349824229.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/ner_oncology_response_to_treatment_pipeline_en_4.3.0_3.2_1678349824229.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.pretrained&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_oncology_response_to_treatment_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clinical/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'''She completed her first-line therapy, but some months later there was recurrence of the breast cancer.'''&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+from sparknlp.pretrained import PretrainedPipeline
 
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fullAnnotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.pretrained.PretrainedPipeline&lt;/span&gt;
+pipeline = PretrainedPipeline(&quot;ner_oncology_response_to_treatment_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_oncology_response_to_treatment_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clinical/models&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+text = '''She completed her first-line therapy, but some months later there was recurrence of the breast cancer.'''
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;She completed her first-line therapy, but some months later there was recurrence of the breast cancer.&quot;&lt;/span&gt;
+result = pipeline.fullAnnotate(text)
+```
+```scala
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fullAnnotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+val pipeline = new PretrainedPipeline(&quot;ner_oncology_response_to_treatment_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;)
+
+val text = &quot;She completed her first-line therapy, but some months later there was recurrence of the breast cancer.&quot;
+
+val result = pipeline.fullAnnotate(text)
+```
 &lt;/div&gt;
 
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+## Results
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;|    | ber_chunks   |   begin |   end | ner_label             |   confidence |
+```bash
+|    | ber_chunks   |   begin |   end | ner_label             |   confidence |
 |---:|:-------------|--------:|------:|:----------------------|-------------:|
 |  0 | recurrence   |      70 |    79 | Response_To_Treatment |       0.9767 |
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+```
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;ner_oncology_response_to_treatment_pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Type:&lt;/td&gt;
-      &lt;td&gt;pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Healthcare NLP 4.3.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Licensed&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;1.7 GB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|ner_oncology_response_to_treatment_pipeline|
+|Type:|pipeline|
+|Compatibility:|Healthcare NLP 4.3.0+|
+|License:|Licensed|
+|Edition:|Official|
+|Language:|en|
+|Size:|1.7 GB|
 
-&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
+## Included Models
 
-&lt;ul&gt;
-  &lt;li&gt;DocumentAssembler&lt;/li&gt;
-  &lt;li&gt;SentenceDetectorDLModel&lt;/li&gt;
-  &lt;li&gt;TokenizerModel&lt;/li&gt;
-  &lt;li&gt;WordEmbeddingsModel&lt;/li&gt;
-  &lt;li&gt;MedicalNerModel&lt;/li&gt;
-  &lt;li&gt;NerConverterInternalModel&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="licensed" /><category term="clinical" /><category term="en" /><category term="oncology" /><category term="ner" /><category term="treatment" /><summary type="html">Description This pretrained pipeline is built on the top of ner_oncology_response_to_treatment model. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.pretrained import PretrainedPipeline pipeline = PretrainedPipeline(&quot;ner_oncology_response_to_treatment_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) text = '''She completed her first-line therapy, but some months later there was recurrence of the breast cancer.''' result = pipeline.fullAnnotate(text) import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline val pipeline = new PretrainedPipeline(&quot;ner_oncology_response_to_treatment_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) val text = &quot;She completed her first-line therapy, but some months later there was recurrence of the breast cancer.&quot; val result = pipeline.fullAnnotate(text) Results | | ber_chunks | begin | end | ner_label | confidence | |---:|:-------------|--------:|------:|:----------------------|-------------:| | 0 | recurrence | 70 | 79 | Response_To_Treatment | 0.9767 | Model Information Model Name: ner_oncology_response_to_treatment_pipeline Type: pipeline Compatibility: Healthcare NLP 4.3.0+ License: Licensed Edition: Official Language: en Size: 1.7 GB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel WordEmbeddingsModel MedicalNerModel NerConverterInternalModel</summary></entry><entry><title type="html">Pipeline to Extract Oncology Tests</title><link href="/2023/03/09/ner_oncology_test_pipeline_en.html" rel="alternate" type="text/html" title="Pipeline to Extract Oncology Tests" /><published>2023-03-09T00:00:00+00:00</published><updated>2023-03-09T00:00:00+00:00</updated><id>/2023/03/09/ner_oncology_test_pipeline_en</id><content type="html" xml:base="/2023/03/09/ner_oncology_test_pipeline_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+- DocumentAssembler
+- SentenceDetectorDLModel
+- TokenizerModel
+- WordEmbeddingsModel
+- MedicalNerModel
+- NerConverterInternalModel</content><author><name>John Snow Labs</name></author><category term="licensed" /><category term="clinical" /><category term="en" /><category term="oncology" /><category term="ner" /><category term="treatment" /><summary type="html">Description This pretrained pipeline is built on the top of ner_oncology_response_to_treatment model. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.pretrained import PretrainedPipeline pipeline = PretrainedPipeline(&quot;ner_oncology_response_to_treatment_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) text = '''She completed her first-line therapy, but some months later there was recurrence of the breast cancer.''' result = pipeline.fullAnnotate(text) import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline val pipeline = new PretrainedPipeline(&quot;ner_oncology_response_to_treatment_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) val text = &quot;She completed her first-line therapy, but some months later there was recurrence of the breast cancer.&quot; val result = pipeline.fullAnnotate(text) Results | | ber_chunks | begin | end | ner_label | confidence | |---:|:-------------|--------:|------:|:----------------------|-------------:| | 0 | recurrence | 70 | 79 | Response_To_Treatment | 0.9767 | Model Information Model Name: ner_oncology_response_to_treatment_pipeline Type: pipeline Compatibility: Healthcare NLP 4.3.0+ License: Licensed Edition: Official Language: en Size: 1.7 GB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel WordEmbeddingsModel MedicalNerModel NerConverterInternalModel</summary></entry><entry><title type="html">Pipeline to Extract Oncology Tests</title><link href="/2023/03/09/ner_oncology_test_pipeline_en.html" rel="alternate" type="text/html" title="Pipeline to Extract Oncology Tests" /><published>2023-03-09T00:00:00+00:00</published><updated>2023-03-09T00:00:00+00:00</updated><id>/2023/03/09/ner_oncology_test_pipeline_en</id><content type="html" xml:base="/2023/03/09/ner_oncology_test_pipeline_en.html">## Description
 
-&lt;p&gt;This pretrained pipeline is built on the top of &lt;a href=&quot;https://nlp.johnsnowlabs.com/2022/11/24/ner_oncology_test_en.html&quot;&gt;ner_oncology_test&lt;/a&gt; model.&lt;/p&gt;
+This pretrained pipeline is built on the top of [ner_oncology_test](https://nlp.johnsnowlabs.com/2022/11/24/ner_oncology_test_en.html) model.
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_test_pipeline_en_4.3.0_3.2_1678351357734.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/clinical/models/ner_oncology_test_pipeline_en_4.3.0_3.2_1678351357734.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_test_pipeline_en_4.3.0_3.2_1678351357734.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/ner_oncology_test_pipeline_en_4.3.0_3.2_1678351357734.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.pretrained&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_oncology_test_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clinical/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;''' biopsy was conducted using an ultrasound guided thick-needle. His chest computed tomography (CT) scan was negative.'''&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+from sparknlp.pretrained import PretrainedPipeline
 
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fullAnnotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.pretrained.PretrainedPipeline&lt;/span&gt;
+pipeline = PretrainedPipeline(&quot;ner_oncology_test_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_oncology_test_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;clinical/models&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+text = ''' biopsy was conducted using an ultrasound guided thick-needle. His chest computed tomography (CT) scan was negative.'''
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot; biopsy was conducted using an ultrasound guided thick-needle. His chest computed tomography (CT) scan was negative.&quot;&lt;/span&gt;
+result = pipeline.fullAnnotate(text)
+```
+```scala
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fullAnnotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+val pipeline = new PretrainedPipeline(&quot;ner_oncology_test_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;)
+
+val text = &quot; biopsy was conducted using an ultrasound guided thick-needle. His chest computed tomography (CT) scan was negative.&quot;
+
+val result = pipeline.fullAnnotate(text)
+```
 &lt;/div&gt;
 
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+## Results
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;|    | ber_chunks                |   begin |   end | ner_label      |   confidence |
+```bash
+|    | ber_chunks                |   begin |   end | ner_label      |   confidence |
 |---:|:--------------------------|--------:|------:|:---------------|-------------:|
 |  0 | biopsy                    |       1 |     6 | Pathology_Test |      0.9987  |
 |  1 | ultrasound guided         |      31 |    47 | Imaging_Test   |      0.87635 |
 |  2 | chest computed tomography |      67 |    91 | Imaging_Test   |      0.9176  |
 |  3 | CT                        |      94 |    95 | Imaging_Test   |      0.8294  |
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+```
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;ner_oncology_test_pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Type:&lt;/td&gt;
-      &lt;td&gt;pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Healthcare NLP 4.3.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Licensed&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;1.7 GB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|ner_oncology_test_pipeline|
+|Type:|pipeline|
+|Compatibility:|Healthcare NLP 4.3.0+|
+|License:|Licensed|
+|Edition:|Official|
+|Language:|en|
+|Size:|1.7 GB|
 
-&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
+## Included Models
 
-&lt;ul&gt;
-  &lt;li&gt;DocumentAssembler&lt;/li&gt;
-  &lt;li&gt;SentenceDetectorDLModel&lt;/li&gt;
-  &lt;li&gt;TokenizerModel&lt;/li&gt;
-  &lt;li&gt;WordEmbeddingsModel&lt;/li&gt;
-  &lt;li&gt;MedicalNerModel&lt;/li&gt;
-  &lt;li&gt;NerConverterInternalModel&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="licensed" /><category term="clinical" /><category term="oncology" /><category term="en" /><category term="ner" /><category term="test" /><summary type="html">Description This pretrained pipeline is built on the top of ner_oncology_test model. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.pretrained import PretrainedPipeline pipeline = PretrainedPipeline(&quot;ner_oncology_test_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) text = ''' biopsy was conducted using an ultrasound guided thick-needle. His chest computed tomography (CT) scan was negative.''' result = pipeline.fullAnnotate(text) import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline val pipeline = new PretrainedPipeline(&quot;ner_oncology_test_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) val text = &quot; biopsy was conducted using an ultrasound guided thick-needle. His chest computed tomography (CT) scan was negative.&quot; val result = pipeline.fullAnnotate(text) Results | | ber_chunks | begin | end | ner_label | confidence | |---:|:--------------------------|--------:|------:|:---------------|-------------:| | 0 | biopsy | 1 | 6 | Pathology_Test | 0.9987 | | 1 | ultrasound guided | 31 | 47 | Imaging_Test | 0.87635 | | 2 | chest computed tomography | 67 | 91 | Imaging_Test | 0.9176 | | 3 | CT | 94 | 95 | Imaging_Test | 0.8294 | Model Information Model Name: ner_oncology_test_pipeline Type: pipeline Compatibility: Healthcare NLP 4.3.0+ License: Licensed Edition: Official Language: en Size: 1.7 GB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel WordEmbeddingsModel MedicalNerModel NerConverterInternalModel</summary></entry></feed>
+- DocumentAssembler
+- SentenceDetectorDLModel
+- TokenizerModel
+- WordEmbeddingsModel
+- MedicalNerModel
+- NerConverterInternalModel</content><author><name>John Snow Labs</name></author><category term="licensed" /><category term="clinical" /><category term="oncology" /><category term="en" /><category term="ner" /><category term="test" /><summary type="html">Description This pretrained pipeline is built on the top of ner_oncology_test model. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.pretrained import PretrainedPipeline pipeline = PretrainedPipeline(&quot;ner_oncology_test_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) text = ''' biopsy was conducted using an ultrasound guided thick-needle. His chest computed tomography (CT) scan was negative.''' result = pipeline.fullAnnotate(text) import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline val pipeline = new PretrainedPipeline(&quot;ner_oncology_test_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) val text = &quot; biopsy was conducted using an ultrasound guided thick-needle. His chest computed tomography (CT) scan was negative.&quot; val result = pipeline.fullAnnotate(text) Results | | ber_chunks | begin | end | ner_label | confidence | |---:|:--------------------------|--------:|------:|:---------------|-------------:| | 0 | biopsy | 1 | 6 | Pathology_Test | 0.9987 | | 1 | ultrasound guided | 31 | 47 | Imaging_Test | 0.87635 | | 2 | chest computed tomography | 67 | 91 | Imaging_Test | 0.9176 | | 3 | CT | 94 | 95 | Imaging_Test | 0.8294 | Model Information Model Name: ner_oncology_test_pipeline Type: pipeline Compatibility: Healthcare NLP 4.3.0+ License: Licensed Edition: Official Language: en Size: 1.7 GB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel WordEmbeddingsModel MedicalNerModel NerConverterInternalModel</summary></entry></feed>
