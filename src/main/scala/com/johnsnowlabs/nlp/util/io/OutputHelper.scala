@@ -23,7 +23,7 @@ import org.apache.spark.SparkFiles
 
 import java.io.{File, FileWriter, PrintWriter}
 import java.nio.charset.StandardCharsets
-import scala.language.existentials
+import scala.util.{Failure, Success, Try}
 
 object OutputHelper {
 
@@ -34,20 +34,86 @@ object OutputHelper {
   def getFileSystem: FileSystem = {
     FileSystem.get(sparkSession.sparkContext.hadoopConfiguration)
   }
-
-  def getFileSystem(resource: String): (FileSystem, Path) = {
+  def getFileSystem(resource: String): FileSystem = {
     val resourcePath = new Path(parsePath(resource))
-    val fileSystem =
-      FileSystem.get(resourcePath.toUri, sparkSession.sparkContext.hadoopConfiguration)
-    (fileSystem, resourcePath)
+    FileSystem.get(resourcePath.toUri, sparkSession.sparkContext.hadoopConfiguration)
   }
 
   def parsePath(path: String): String = {
     val pathPrefix = path.split("://").head
     pathPrefix match {
       case "s3" => path.replace("s3", "s3a")
+      case "file" => {
+        val pattern = """^file:(/+)""".r
+        pattern.replaceAllIn(path, "file:///")
+      }
       case _ => path
     }
+  }
+
+  def doesPathExists(resource: String): (Boolean, Option[Path]) = {
+    val fileSystem = OutputHelper.getFileSystem(resource)
+    var modifiedPath = resource
+
+    fileSystem.getScheme match {
+      case "file" =>
+        val path = new Path(resource)
+        var exists = Try {
+          fileSystem.exists(path)
+        } match {
+          case Success(value) => value
+          case Failure(_) => false
+        }
+
+        if (!exists) {
+          modifiedPath = resource.replaceFirst("//+", "///")
+          exists = Try {
+            fileSystem.exists(new Path(modifiedPath))
+          } match {
+            case Success(value) => value
+            case Failure(_) => false
+          }
+        }
+
+        if (!exists) {
+          modifiedPath = resource.replaceFirst("/+", "//")
+          exists = Try {
+            fileSystem.exists(new Path(modifiedPath))
+          } match {
+            case Success(value) => value
+            case Failure(_) => false
+          }
+        }
+
+        if (!exists) {
+          val pattern = """^file:/*""".r
+          modifiedPath = pattern.replaceAllIn(resource, "")
+          exists = Try {
+            fileSystem.exists(new Path(modifiedPath))
+          } match {
+            case Success(value) => value
+            case Failure(_) => false
+          }
+        }
+
+        if (exists) {
+          (exists, Some(new Path(modifiedPath)))
+        } else (exists, None)
+      case _ => {
+        val exists = Try {
+          val modifiedPath = parsePath(resource)
+          fileSystem.exists(new Path(modifiedPath))
+        } match {
+          case Success(value) => value
+          case Failure(_) => false
+        }
+
+        if (exists) {
+          (exists, Some(new Path(modifiedPath)))
+        } else (exists, None)
+      }
+    }
+
   }
 
   private def getLogsFolder: String =
@@ -132,14 +198,6 @@ object OutputHelper {
     val s3FilePath = s"""${s3Path.substring("s3://".length)}${sourceFilePath.split("/").last}"""
 
     awsGateway.copyInputStreamToS3(s3Bucket, s3FilePath, sourceFilePath)
-  }
-
-  def getAbsolutePath(path: String): Path = {
-    if (path.startsWith("file:")) {
-      val pathParts = path.replace("file:", "").split("/")
-      val recreatedPath = pathParts.filter(f => !f.equals("")).mkString("/")
-      new Path(recreatedPath)
-    } else new Path(path)
   }
 
 }
