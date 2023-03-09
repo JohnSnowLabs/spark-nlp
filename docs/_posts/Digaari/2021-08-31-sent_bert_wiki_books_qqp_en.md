@@ -7,6 +7,7 @@ date: 2021-08-31
 tags: [en, sentence_embeddings, open_source, wikipedia_dataset, books_corpus_dataset, qqp_dataset]
 task: Embeddings
 language: en
+nav_key: models
 edition: Spark NLP 3.2.0
 spark_version: 3.0
 supported: true

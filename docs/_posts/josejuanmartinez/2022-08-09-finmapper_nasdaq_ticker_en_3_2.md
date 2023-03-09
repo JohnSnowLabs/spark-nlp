@@ -7,6 +7,7 @@ date: 2022-08-09
 tags: [en, finance, companies, tickers, nasdaq, licensed]
 task: Chunk Mapping
 language: en
+nav_key: models
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -35,6 +36,7 @@ This model allows you to, given a Ticker, get information about that company, in
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 document_assembler = nlp.DocumentAssembler()\
@@ -46,36 +48,31 @@ tokenizer = nlp.Tokenizer()\
       .setOutputCol("token")
 
 tokenClassifier = nlp.RoBertaForTokenClassification.pretrained("finner_roberta_ticker", "en", "finance/models")\
-      .setInputCols(["document",'token'])\
-      .setOutputCol("ner")
+  .setInputCols(["document",'token'])\
+  .setOutputCol("ner")
 
 ner_converter = nlp.NerConverter()\
       .setInputCols(["document", "token", "ner"])\
       .setOutputCol("ner_chunk")
 
-CM = finance.ChunkMapperModel().pretrained('finmapper_nasdaq_ticker', 'en', 'finance/models')\
+CM = finance.ChunkMapperModel()\
+      .pretrained('finmapper_nasdaq_companyname', 'en', 'finance/models')\
       .setInputCols(["ner_chunk"])\
       .setOutputCol("mappings")\
-      .setRel('company_name')\
-      .setEnableFuzzyMatching(True)
+      .setRel('company_name')
 
-pipeline = nlp.Pipeline().setStages(
-      [
-          document_assembler,
-          tokenizer, 
-          tokenClassifier,
-          ner_converter,  
-          CM
-      ]
-      )
+pipeline = Pipeline().setStages([document_assembler,
+                                 tokenizer, 
+                                 tokenClassifier,
+                                 ner_converter,  
+                                 CM])
 
 text = ["""There are some serious purchases and sales of AMZN stock today."""]
 
 test_data = spark.createDataFrame([text]).toDF("text")
 
 model = pipeline.fit(test_data)
-
-res = model.transform(test_data)
+res= model.transform(test_data)
 
 res.select('mappings').collect()
 ```
@@ -85,13 +82,7 @@ res.select('mappings').collect()
 ## Results
 
 ```bash
-{
-    "ticker": "AMZN",
-    "company_name": "Amazon.com Inc.",
-    "short_name": "Amazon.com",
-    "industry": "Retail - Apparel & Specialty",
-    "sector": "Consumer Cyclical"
-}
+[Row(mappings=[Row(annotatorType='labeled_dependency', begin=46, end=49, result='AMZN', metadata={'sentence': '0', 'chunk': '0', 'entity': 'AMZN', 'relation': 'ticker', 'all_relations': ''}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=46, end=49, result='Amazon.com Inc.', metadata={'sentence': '0', 'chunk': '0', 'entity': 'AMZN', 'relation': 'company_name', 'all_relations': ''}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=46, end=49, result='Amazon.com', metadata={'sentence': '0', 'chunk': '0', 'entity': 'AMZN', 'relation': 'short_name', 'all_relations': ''}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=46, end=49, result='Retail - Apparel & Specialty', metadata={'sentence': '0', 'chunk': '0', 'entity': 'AMZN', 'relation': 'industry', 'all_relations': ''}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=46, end=49, result='Consumer Cyclical', metadata={'sentence': '0', 'chunk': '0', 'entity': 'AMZN', 'relation': 'sector', 'all_relations': ''}, embeddings=[]), Row(annotatorType='labeled_dependency', begin=57, end=61, result='NONE', metadata={'sentence': '0', 'chunk': '1', 'entity': 'today'}, embeddings=[])])]
 ```
 
 {:.model-param}

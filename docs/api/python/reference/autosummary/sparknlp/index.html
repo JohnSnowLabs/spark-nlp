@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp &#8212; Spark NLP 4.3.0 documentation</title>
+    <title>sparknlp &#8212; Spark NLP 4.3.1 documentation</title>
   
   
   
@@ -448,10 +448,12 @@ for WordEmbeddings. By default, this locations is the location of
 <cite>hadoop.tmp.dir</cite> set via Hadoop configuration for Apache Spark. NOTE: <cite>S3</cite> is
 not supported and it must be local, HDFS, or DBFS.</p>
 </dd>
+<dt><strong>params</strong><span class="classifier">dict, optional</span></dt><dd><p>Custom parameters to set for the Spark configuration, by default None.</p>
+</dd>
 <dt><strong>cluster_tmp_dir</strong><span class="classifier">str, optional</span></dt><dd><p>The location to save logs from annotators during training. If not set, it will
 be in the users home directory under <cite>annotator_logs</cite>.</p>
 </dd>
-<dt><strong>real_time_output</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether to output in real time, by default False</p>
+<dt><strong>real_time_output</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether to read and print JVM output in real time, by default False</p>
 </dd>
 <dt><strong>output_level</strong><span class="classifier">int, optional</span></dt><dd><p>Output level for logs, by default 1</p>
 </dd>

@@ -7,6 +7,7 @@ date: 2022-04-18
 tags: [spellcheck, spell, spellcheck_pipeline, spelling_corrector, en, open_source]
 task: Spell Check
 language: en
+nav_key: models
 edition: Spark NLP 3.4.2
 spark_version: 2.4
 supported: true

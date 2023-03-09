@@ -7,6 +7,7 @@ date: 2022-11-21
 tags: [effective, renewal, termination, date, en, licensed]
 task: Text Classification
 language: en
+nav_key: models
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -50,7 +51,7 @@ docClassifier = legal.ClassifierDLModel.pretrained('legclf_dates_sm', 'en', 'leg
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("label")
 
-nlpPipeline = Pipeline(stages=[
+nlpPipeline = nlp.Pipeline(stages=[
     documentAssembler, 
     embeddings,
     docClassifier])

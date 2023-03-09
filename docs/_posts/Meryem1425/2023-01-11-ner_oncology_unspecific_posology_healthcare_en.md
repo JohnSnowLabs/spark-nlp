@@ -7,6 +7,7 @@ date: 2023-01-11
 tags: [licensed, clinical, oncology, en, ner, treatment, posology]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Healthcare NLP 4.2.4
 spark_version: 3.0
 supported: true

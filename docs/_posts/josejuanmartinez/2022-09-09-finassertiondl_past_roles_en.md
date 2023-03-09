@@ -7,6 +7,7 @@ date: 2022-09-09
 tags: [en, finance, assertion, status, job, experiences, past, licensed]
 task: Assertion Status
 language: en
+nav_key: models
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -78,7 +79,7 @@ assertion = finance.AssertionDLModel.pretrained("finassertiondl_past_roles", "en
     .setInputCols(["document", "merged_chunk", "embeddings"]) \
     .setOutputCol("assertion")
     
-nlpPipeline = Pipeline(stages=[
+nlpPipeline = nlp.Pipeline(stages=[
     documentAssembler, 
     tokenizer,
     embeddings,

@@ -7,6 +7,7 @@ date: 2022-08-31
 tags: [en, financial, ner, sec, licensed]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -64,7 +65,7 @@ jsl_ner_converter = nlp.NerConverter() \
 		.setInputCols(["sentence", "token", "jsl_ner"]) \
 		.setOutputCol("ner_chunk")
 
-jsl_ner_pipeline = Pipeline().setStages([
+jsl_ner_pipeline = nlp.Pipeline().setStages([
 				documentAssembler,
 				sentence_detector,
 				tokenizer,

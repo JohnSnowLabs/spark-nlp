@@ -21,8 +21,9 @@ from sparknlp.internal import AnnotatorTransformer
 
 
 class Chunk2Doc(AnnotatorTransformer, AnnotatorProperties):
-    """Converts a ``CHUNK`` type column back into ``DOCUMENT``. Useful when
-    trying to re-tokenize or do further analysis on a ``CHUNK`` result.
+    """Converts a ``CHUNK`` type column back into ``DOCUMENT``.
+    
+    Useful when trying to re-tokenize or do further analysis on a ``CHUNK`` result.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -82,4 +83,3 @@ class Chunk2Doc(AnnotatorTransformer, AnnotatorProperties):
     def setParams(self):
         kwargs = self._input_kwargs
         return self._set(**kwargs)
-

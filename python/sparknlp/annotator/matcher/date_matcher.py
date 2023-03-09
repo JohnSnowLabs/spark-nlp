@@ -187,7 +187,7 @@ class DateMatcher(AnnotatorModel, DateMatcherUtils):
     `Pipelines <https://nlp.johnsnowlabs.com/docs/en/pipelines>`__.
 
     For extended examples of usage, see the
-    `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/MultiDateMatcherMultiLanguage_en.ipynb>`__.
+    `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/MultiDateMatcherMultiLanguage_en.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -268,4 +268,3 @@ class DateMatcher(AnnotatorModel, DateMatcherUtils):
             anchorDateMonth=-1,
             anchorDateDay=-1
         )
-

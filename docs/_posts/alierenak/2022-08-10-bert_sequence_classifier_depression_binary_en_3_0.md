@@ -7,6 +7,7 @@ date: 2022-08-10
 tags: [public_health, en, licensed, sequence_classification, mental_health, depression]
 task: Text Classification
 language: en
+nav_key: models
 edition: Healthcare NLP 4.0.2
 spark_version: 3.0
 supported: true

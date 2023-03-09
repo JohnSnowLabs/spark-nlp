@@ -7,6 +7,7 @@ date: 2021-07-26
 tags: [licensed, clinical, en, ner]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Healthcare NLP 3.1.3
 spark_version: 3.0
 supported: true
@@ -86,7 +87,7 @@ val tokenizer = new Tokenizer()
     .setOutputCol("token")
 
 val embeddings_clinical = BertEmbeddings.pretrained("biobert_pubmed_base_cased")
-    .setInputCols(["sentence", "token"])
+    .setInputCols("sentence", "token")
     .setOutputCol("embeddings")
 
 val ner = MedicalNerModel.pretrained("jsl_rd_ner_wip_greedy_biobert", "en", "clinical/models") 

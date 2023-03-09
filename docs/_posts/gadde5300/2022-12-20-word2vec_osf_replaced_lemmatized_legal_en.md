@@ -7,6 +7,7 @@ date: 2022-12-20
 tags: [fasttext, en, english, embeddings, open_source]
 task: Embeddings
 language: en
+nav_key: models
 edition: Spark NLP 4.2.5
 spark_version: 3.0
 supported: true

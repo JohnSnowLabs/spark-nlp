@@ -7,6 +7,7 @@ date: 2022-11-21
 tags: [renewal, effective, termination, date, en, licensed]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -61,7 +62,7 @@ ner_converter = nlp.NerConverter()\
         .setInputCols(["sentence","token","ner"])\
         .setOutputCol("ner_chunk")
 
-nlpPipeline = Pipeline(stages=[
+nlpPipeline = nlp.Pipeline(stages=[
         documentAssembler,
         sentenceDetector,
         tokenizer,

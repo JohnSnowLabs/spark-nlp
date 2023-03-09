@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.8 ScalaDoc  - com.johnsnowlabs.annotator</title>
-          <meta name="description" content="Spark NLP 4.2.8 ScalaDoc - com.johnsnowlabs.annotator" />
-          <meta name="keywords" content="Spark NLP 4.2.8 ScalaDoc com.johnsnowlabs.annotator" />
+          <title>Spark NLP 4.3.1 ScalaDoc  - com.johnsnowlabs.annotator</title>
+          <meta name="description" content="Spark NLP 4.3.1 ScalaDoc - com.johnsnowlabs.annotator" />
+          <meta name="keywords" content="Spark NLP 4.3.1 ScalaDoc com.johnsnowlabs.annotator" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.8 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.3.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -119,14 +119,14 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs">johnsnowlabs</a></dd></dl></div>
     </li><li class="current-entities indented3">
                         <span class="separator"></span>
-                        <a class="class" href="AnnotationMerger.html" title=""></a>
-                        <a href="AnnotationMerger.html" title="">AnnotationMerger</a>
+                        <a class="class" href="AnnotationMerger.html" title="Merges Annotations from multiple columns."></a>
+                        <a href="AnnotationMerger.html" title="Merges Annotations from multiple columns.">AnnotationMerger</a>
                       </li><li class="current-entities indented3">
                         <a class="object" href="Doc2ChunkInternal$.html" title="This is the companion object of Doc2ChunkInternal."></a>
                         <a class="class" href="Doc2ChunkInternal.html" title=""></a>
                         <a href="Doc2ChunkInternal.html" title="">Doc2ChunkInternal</a>
                       </li><li class="current-entities indented3">
-                        <span class="separator"></span>
+                        <a class="object" href="FeaturesAssembler$.html" title=""></a>
                         <a class="class" href="FeaturesAssembler.html" title="The FeaturesAssembler is used to collect features from different columns."></a>
                         <a href="FeaturesAssembler.html" title="The FeaturesAssembler is used to collect features from different columns.">FeaturesAssembler</a>
                       </li><li class="current-entities indented3">
@@ -292,7 +292,7 @@
 
         <div id="types" class="types members">
               <h3>Type Members</h3>
-              <ol><li name="com.johnsnowlabs.annotator.AnnotationMerger" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+              <ol><li name="com.johnsnowlabs.annotator.AnnotationMerger" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="AnnotationMergerextendsAnnotatorModel[com.johnsnowlabs.annotator.AnnotationMerger]withCheckLicensewithHasMultipleInputAnnotationColswithHasSimpleAnnotate[com.johnsnowlabs.annotator.AnnotationMerger]"></a><a id="AnnotationMerger:AnnotationMerger"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/annotator/AnnotationMerger.html" title="Permalink">
@@ -304,10 +304,22 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="" href="AnnotationMerger.html"><span class="name">AnnotationMerger</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="AnnotationMerger.html" class="extype" name="com.johnsnowlabs.annotator.AnnotationMerger">AnnotationMerger</a>] with <span class="extype" name="com.johnsnowlabs.license.CheckLicense">CheckLicense</span> with <span class="extype" name="com.johnsnowlabs.nlp.HasMultipleInputAnnotationCols">HasMultipleInputAnnotationCols</span> with <span class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</span>[<a href="AnnotationMerger.html" class="extype" name="com.johnsnowlabs.annotator.AnnotationMerger">AnnotationMerger</a>]</span>
+        <a title="Merges Annotations from multiple columns." href="AnnotationMerger.html"><span class="name">AnnotationMerger</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="AnnotationMerger.html" class="extype" name="com.johnsnowlabs.annotator.AnnotationMerger">AnnotationMerger</a>] with <span class="extype" name="com.johnsnowlabs.license.CheckLicense">CheckLicense</span> with <span class="extype" name="com.johnsnowlabs.nlp.HasMultipleInputAnnotationCols">HasMultipleInputAnnotationCols</span> with <span class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</span>[<a href="AnnotationMerger.html" class="extype" name="com.johnsnowlabs.annotator.AnnotationMerger">AnnotationMerger</a>]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Merges Annotations from multiple columns.</p><div class="fullcomment"><div class="comment cmt"><p>Merges Annotations from multiple columns.</p><h4>Example</h4><pre><span class="kw">val</span> empty_data = <span class="std">Seq</span>([[<span class="lit">""</span>]]).toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> document1 = DocumentAssembler().setInputCol(<span class="lit">"text"</span>).setOutputCol(<span class="lit">"document1"</span>)
+<span class="kw">val</span> document2 = DocumentAssembler().setInputCol(<span class="lit">"text"</span>).setOutputCol(<span class="lit">"document2"</span>)
+<span class="kw">val</span> annotation_merger = AnnotationMerger()
+    .setInputCols(<span class="lit">"document1"</span>, <span class="lit">"document2"</span>)
+    .setInputType(<span class="lit">"document"</span>)
+    .setOutputCol(<span class="lit">"all_docs"</span>)
+
+<span class="kw">val</span> pipelineModel = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+    document1, document2, annotation_merger)).fit(empty_data)
+<span class="kw">val</span> lp = LightPipeline(pipelineModel)
+lp.fullAnnotate(<span class="lit">"one doc to be replicated"</span>)
+[{'document1': [Annotation(document, <span class="num">0</span>, <span class="num">23</span>, one doc to be replicated, {})], 'document2': [Annotation(document, <span class="num">0</span>, <span class="num">23</span>, one doc to be replicated, {})], 'all_docs': [Annotation(document, <span class="num">0</span>, <span class="num">23</span>, one doc to be replicated, {}), Annotation(document, <span class="num">0</span>, <span class="num">23</span>, one doc to be replicated, {})]}]</pre></div></div>
     </li><li name="com.johnsnowlabs.annotator.Doc2ChunkInternal" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="Doc2ChunkInternalextendsModel[com.johnsnowlabs.annotator.Doc2ChunkInternal]withRawAnnotator[com.johnsnowlabs.annotator.Doc2ChunkInternal]"></a><a id="Doc2ChunkInternal:Doc2ChunkInternal"></a>
       <span class="permalink">
@@ -325,7 +337,7 @@
       
       
     </li><li name="com.johnsnowlabs.annotator.FeaturesAssembler" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="FeaturesAssemblerextendsAnnotatorModel[com.johnsnowlabs.annotator.FeaturesAssembler]withDefaultParamsWritablewithHasOutputAnnotatorTypewithHasOutputAnnotationColwithHasStorageRefwithHasSimpleAnnotate[com.johnsnowlabs.annotator.FeaturesAssembler]withCheckLicense"></a><a id="FeaturesAssembler:FeaturesAssembler"></a>
+      <a id="FeaturesAssemblerextendsAnnotatorModel[com.johnsnowlabs.annotator.FeaturesAssembler]withHasStorageRefwithHasSimpleAnnotate[com.johnsnowlabs.annotator.FeaturesAssembler]withCheckLicense"></a><a id="FeaturesAssembler:FeaturesAssembler"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/annotator/FeaturesAssembler.html" title="Permalink">
         <i class="material-icons"></i>
@@ -336,7 +348,7 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="The FeaturesAssembler is used to collect features from different columns." href="FeaturesAssembler.html"><span class="name">FeaturesAssembler</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="FeaturesAssembler.html" class="extype" name="com.johnsnowlabs.annotator.FeaturesAssembler">FeaturesAssembler</a>] with <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span> with <span class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</span> with <span class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</span> with <span class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</span> with <span class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</span>[<a href="FeaturesAssembler.html" class="extype" name="com.johnsnowlabs.annotator.FeaturesAssembler">FeaturesAssembler</a>] with <span class="extype" name="com.johnsnowlabs.license.CheckLicense">CheckLicense</span></span>
+        <a title="The FeaturesAssembler is used to collect features from different columns." href="FeaturesAssembler.html"><span class="name">FeaturesAssembler</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="FeaturesAssembler.html" class="extype" name="com.johnsnowlabs.annotator.FeaturesAssembler">FeaturesAssembler</a>] with <span class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</span> with <span class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</span>[<a href="FeaturesAssembler.html" class="extype" name="com.johnsnowlabs.annotator.FeaturesAssembler">FeaturesAssembler</a>] with <span class="extype" name="com.johnsnowlabs.license.CheckLicense">CheckLicense</span></span>
       </span>
       
       <p class="shortcomment cmt">The FeaturesAssembler is used to collect features from different columns.</p><div class="fullcomment"><div class="comment cmt"><p>The FeaturesAssembler is used to collect features from different columns. It can collect features from single value
@@ -424,6 +436,22 @@ SparkNLP annotations (if the annotation is an embedding, it takes the embedding,
       <p class="shortcomment cmt">This is the companion object of <a href="Doc2ChunkInternal.html" class="extype" name="com.johnsnowlabs.annotator.Doc2ChunkInternal">Doc2ChunkInternal</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="Doc2ChunkInternal.html" class="extype" name="com.johnsnowlabs.annotator.Doc2ChunkInternal">Doc2ChunkInternal</a>. Please refer to that class for the
 documentation.
 </p></div></div>
+    </li><li name="com.johnsnowlabs.annotator.FeaturesAssembler" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="FeaturesAssembler"></a><a id="FeaturesAssembler:FeaturesAssembler"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/annotator/FeaturesAssembler$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="FeaturesAssembler$.html"><span class="name">FeaturesAssembler</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="FeaturesAssembler.html" class="extype" name="com.johnsnowlabs.annotator.FeaturesAssembler">FeaturesAssembler</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.annotator.Router" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="Router"></a><a id="Router:Router"></a>
       <span class="permalink">

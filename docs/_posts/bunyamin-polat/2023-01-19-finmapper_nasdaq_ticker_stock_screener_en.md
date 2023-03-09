@@ -7,6 +7,7 @@ date: 2023-01-19
 tags: [en, finance, licensed, nasdaq, ticker]
 task: Chunk Mapping
 language: en
+nav_key: models
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -74,8 +75,7 @@ ner_converter = nlp.NerConverter()\
 
 CM = finance.ChunkMapperModel.pretrained('finmapper_nasdaq_ticker_stock_screener', 'en', 'finance/models')\
     .setInputCols(["ner_chunk"])\
-    .setOutputCol("mappings")\
-    .setEnableFuzzyMatching(True)\
+    .setOutputCol("mappings")
 
 pipeline = nlp.Pipeline().setStages([document_assembler,
                                  tokenizer, 

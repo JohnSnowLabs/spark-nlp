@@ -4,6 +4,7 @@ title: Sentence Entity Resolver for ICD10-PCS (sbiobert_base_cased_mli embedding
 author: John Snow Labs
 name: sbiobertresolve_icd10pcs
 language: en
+nav_key: models
 repository: clinical/models
 date: 2020-11-27
 task: Entity Resolution
@@ -50,7 +51,7 @@ sbert_embedder = BertSentenceEmbeddings\
 .setOutputCol("sbert_embeddings")
 
 icd10pcs_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10pcs","en", "clinical/models") \
-.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setInputCols(["sbert_embeddings"]) \
 .setOutputCol("resolution")\
 .setDistanceFunction("EUCLIDEAN")
 

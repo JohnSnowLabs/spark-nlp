@@ -7,6 +7,7 @@ date: 2022-09-28
 tags: [en, legal, re, indemnification, licensed]
 task: Relation Extraction
 language: en
+nav_key: models
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -92,7 +93,7 @@ reDL = legal.RelationExtractionDLModel()\
     .setInputCols(["re_ner_chunks", "sentence"])\
     .setOutputCol("relations")
 
-nlpPipeline = Pipeline(stages=[
+nlpPipeline = nlp.Pipeline(stages=[
         documentAssembler,
         sentencizer,
         tokenizer,

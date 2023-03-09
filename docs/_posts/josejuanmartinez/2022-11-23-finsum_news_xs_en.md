@@ -7,6 +7,7 @@ date: 2022-11-23
 tags: [financial, summarization, en, licensed]
 task: Summarization
 language: en
+nav_key: models
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -50,7 +51,7 @@ t5 = nlp.T5Transformer() \
 
 data_df = spark.createDataFrame([["Deere Grows Sales 37% as Shipments Rise. Farm equipment supplier forecasts higher sales in year ahead, lifted by price increases and infrastructure investments. Deere & Co. said its fiscal fourth-quarter sales surged 37% as supply constraints eased and the company shipped more of its farm and construction equipment. The Moline, Ill.-based company, the largest supplier of farm equipment in the U.S., said demand held up as it raised prices on farm equipment, and forecast sales gains in the year ahead. Chief Executive John May cited strong demand and increased investment in infrastructure projects as the Biden administration ramps up spending. Elevated crop prices have kept farmers interested in new machinery even as their own production expenses increase."]]).toDF("text")
 
-pipeline = Pipeline().setStages([document_assembler, t5])
+pipeline = nlp.Pipeline().setStages([document_assembler, t5])
 results = pipeline.fit(data_df).transform(data_df)
 results.select("summaries.result").show(truncate=False)
 ```

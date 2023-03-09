@@ -7,6 +7,7 @@ date: 2022-09-21
 tags: [en, licensed]
 task: OCR Object Detection
 language: en
+nav_key: models
 edition: Visual NLP 4.0.0
 spark_version: 3.2
 supported: true

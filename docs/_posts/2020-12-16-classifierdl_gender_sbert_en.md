@@ -6,6 +6,7 @@ name: classifierdl_gender_sbert
 date: 2020-12-16
 task: Text Classification
 language: en
+nav_key: models
 edition: Healthcare NLP 2.6.5
 spark_version: 2.4
 tags: [classifier, en, clinical, licensed]

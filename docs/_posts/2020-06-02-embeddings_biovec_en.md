@@ -5,6 +5,7 @@ author: John Snow Labs
 name: embeddings_biovec
 class: WordEmbeddingsModel
 language: en
+nav_key: models
 repository: clinical/models
 date: 2020-06-02
 task: Embeddings

@@ -6,6 +6,7 @@ name: sentimentdl_use_imdb
 date: 2021-01-15
 task: Sentiment Analysis
 language: en
+nav_key: models
 edition: Spark NLP 2.7.0
 spark_version: 2.4
 tags: [open_source, en, sentiment]

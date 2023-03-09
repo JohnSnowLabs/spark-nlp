@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Portuguese BERT Embedding Base Cased model
+title: Portuguese Legal BERT Embedding Base Cased model
 author: John Snow Labs
 name: bert_embeddings_Legal_BERTimbau_base
 date: 2023-01-13

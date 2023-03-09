@@ -7,6 +7,7 @@ date: 2022-03-01
 tags: [atc, licensed, en, clinical, entity_resolution]
 task: Entity Resolution
 language: en
+nav_key: models
 edition: Healthcare NLP 3.4.1
 spark_version: 3.0
 supported: true
@@ -72,7 +73,7 @@ sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli", "e
       .setCaseSensitive(False)
     
 atc_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_atc", "en", "clinical/models")\
-      .setInputCols(["ner_chunk", "sentence_embeddings"]) \
+      .setInputCols(["sentence_embeddings"]) \
       .setOutputCol("atc_code")\
       .setDistanceFunction("EUCLIDEAN")
     
@@ -133,7 +134,7 @@ val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli"
       .setCaseSensitive(False)
     
 val atc_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_atc", "en", "clinical/models")
-      .setInputCols(Array("ner_chunk", "sentence_embeddings"))
+      .setInputCols(Array("sentence_embeddings"))
       .setOutputCol("atc_code")
       .setDistanceFunction("EUCLIDEAN")
     

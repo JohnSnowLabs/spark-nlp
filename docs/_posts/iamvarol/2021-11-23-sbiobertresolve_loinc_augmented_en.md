@@ -7,6 +7,7 @@ date: 2021-11-23
 tags: [loinc, entity_resolution, clinical, en, licensed]
 task: Entity Resolution
 language: en
+nav_key: models
 edition: Healthcare NLP 3.3.2
 spark_version: 2.4
 supported: true
@@ -72,7 +73,7 @@ sbert_embedder = BertSentenceEmbeddings\
 
 
 resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_loinc_augmented","en", "clinical/models") \
-.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setInputCols(["sbert_embeddings"]) \
 .setOutputCol("loinc_code")\
 .setDistanceFunction("EUCLIDEAN")
 

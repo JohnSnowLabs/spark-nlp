@@ -6,6 +6,7 @@ name: ner_aspect_based_sentiment
 date: 2020-12-29
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Spark NLP 2.6.2
 spark_version: 2.4
 tags: [sentiment, open_source, en, ner]

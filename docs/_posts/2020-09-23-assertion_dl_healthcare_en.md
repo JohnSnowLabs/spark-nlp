@@ -6,6 +6,7 @@ name: assertion_dl_healthcare
 class: AssertionDLModel
 reference embedding: healthcare_embeddings
 language: en
+nav_key: models
 repository: clinical/models
 date: 2020-09-23
 task: Assertion Status

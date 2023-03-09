@@ -7,6 +7,7 @@ date: 2022-08-09
 tags: [en, finance, bank, classification, licensed]
 task: Text Classification
 language: en
+nav_key: models
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -49,7 +50,7 @@ classsifier_dl = nlp.ClassifierDLModel.pretrained("finclf_bank_complaints", "en"
       .setInputCols(["sentence_embeddings"])\
       .setOutputCol("label")\
 
-clf_pipeline = Pipeline(
+clf_pipeline = nlp.Pipeline(
     stages = [
         document_assembler,
         embeddings,

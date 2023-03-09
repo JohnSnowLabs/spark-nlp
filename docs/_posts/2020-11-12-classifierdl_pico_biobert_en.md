@@ -6,6 +6,7 @@ name: classifierdl_pico_biobert
 date: 2020-11-12
 task: Text Classification
 language: en
+nav_key: models
 edition: Healthcare NLP 2.6.2
 spark_version: 2.4
 tags: [classifier, en, licensed, clinical]

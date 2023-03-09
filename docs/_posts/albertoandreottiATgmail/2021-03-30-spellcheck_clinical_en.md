@@ -8,6 +8,7 @@ tags: [en, licensed]
 supported: true
 task: Spell Check
 language: en
+nav_key: models
 edition: Healthcare NLP 3.0.0
 spark_version: 3.0
 annotator: SpellCheckModel

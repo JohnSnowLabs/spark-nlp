@@ -7,6 +7,7 @@ date: 2022-09-30
 tags: [en, table, qa, question, answering, open_source]
 task: Table Question Answering
 language: en
+nav_key: models
 edition: Spark NLP 4.2.0
 spark_version: 3.0
 supported: true
@@ -78,7 +79,7 @@ tapas = TapasForQuestionAnswering\
     .setInputCols(["questions", "table"])\
     .setOutputCol("answers")
 
-pipeline = Pipeline(stages=[
+pipeline = nlp.Pipeline(stages=[
     document_assembler,
     sentence_detector,
     table_assembler,

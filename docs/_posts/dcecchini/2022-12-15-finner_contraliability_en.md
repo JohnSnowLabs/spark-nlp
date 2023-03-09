@@ -7,6 +7,7 @@ date: 2022-12-15
 tags: [en, finance, contra, liability, licensed, ner]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -40,6 +41,7 @@ Please note this model requires some tokenization configuration to extract the c
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler()\
     .setInputCol("text")\

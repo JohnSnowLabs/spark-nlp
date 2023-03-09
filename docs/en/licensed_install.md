@@ -13,6 +13,15 @@ sidebar:
 
 <div class="h3-box" markdown="1">
 
+## AWS Marketplace
+The entire suite of John Snow Labs NLP and Visual NLP libraries are offered as a pay-as-you-go product on AWS Marketplace, pre-installed and ready to use. 30+ Notebooks are included in the AWS product to allow you to start experimenting on your own data right away. To subscribe to the pay-as-you-go product on AWS Marketplace navigate to the [product page](https://aws.amazon.com/marketplace/pp/prodview-nsww5rdpvou4w?sr=0-1&ref_=beagle&applicationId=AWSMPContessa) and follow the instructions in the video below. 
+
+<div class="cell cell--12 cell--lg-6 cell--sm-12"><div class="video-item">{%- include extensions/youtube.html id='agbV1CwMt1g' -%}<div class="video-descr">Subscribe to John Snow Labs NLP Libraries via AWS Marketplace</div></div></div>
+
+
+**Note**: 30-day free trial are available for AWS and Azure subscriptions. 
+
+
 ## Installation with johnsnowlabs
 On Oct 4th, 2022 we released `johnsnowlabs` library, which eases the installation and session starting processes in an 
 almost transparent way for the user.
@@ -20,6 +29,8 @@ almost transparent way for the user.
 Finance NLP and Legal NLP are built on the top of a new John Snow Labs library, called johnsnowlabs.
 If you are a former user of Spark NLP or Spark NLP for Healthcare, you will find this new way of deploying your Spark NLP clusters much more user-friendly!
 Clinical NLP (former Spark NLP for Healthcare) still can be run without johnsnowlabs library, although we highly recommend to install it with this new method.
+
+For advanced installation options, please check `johnsnowlabs` [webpage](https://nlu.johnsnowlabs.com/docs/en/install_advanced).  
 
 ### 1. Installing johnsnowlabs
 The first step you need to carry out is installing johnsnowlabs library. This is as easy as doing:

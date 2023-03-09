@@ -8,6 +8,7 @@ tags: [en, open_source]
 supported: true
 task: Spell Check
 language: en
+nav_key: models
 edition: Spark NLP 3.0.0
 spark_version: 3.0
 annotator: ContextSpellCheckerModel

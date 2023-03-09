@@ -7,6 +7,7 @@ date: 2023-01-23
 tags: [en, licensed]
 task: HOCR Table Recognition
 language: en
+nav_key: models
 edition: Visual NLP 4.2.4
 spark_version: 3.2.1
 supported: true

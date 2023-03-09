@@ -37,7 +37,7 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
 
     For extended examples of usage, see the article
     `Training a Contextual Spell Checker for Italian Language <https://towardsdatascience.com/training-a-contextual-spell-checker-for-italian-language-66dda528e4bf>`__,
-    the `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/italian/Training_Context_Spell_Checker_Italian.ipynb>`__.
+    the `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/italian/Training_Context_Spell_Checker_Italian.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -92,6 +92,10 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
         correction.
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
+    maxSentLen
+        Maximum length for a sentence - internal use during training.
+    graphFolder
+        Folder path that contain external graph files.
 
     References
     ----------
@@ -225,6 +229,16 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
     configProtoBytes = Param(Params._dummy(), "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
                              TypeConverters.toListInt)
+
+    maxSentLen = Param(Params._dummy(),
+                       "maxSentLen",
+                       "Maximum length of a sentence to be considered for training.",
+                       typeConverter=TypeConverters.toInt)
+
+    graphFolder = Param(Params._dummy(),
+                        "graphFolder",
+                        "Folder path that contain external graph files.",
+                        typeConverter=TypeConverters.toString)
 
     def setLanguageModelClasses(self, count):
         """Sets number of classes to use during factorization of the softmax
@@ -415,6 +429,26 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
         """
         return self._set(configProtoBytes=b)
 
+    def setGraphFolder(self, path):
+        """Sets folder path that contain external graph files.
+
+        Parameters
+        ----------
+        path : str
+            Folder path that contain external graph files.
+        """
+        return self._set(graphFolder=path)
+    
+    def setMaxSentLen(self, sentlen):
+        """Sets the maximum length of a sentence.
+
+        Parameters
+        ----------
+        sentlen : int
+            Maximum length of a sentence
+        """
+        return self._set(maxSentLen=sentlen)
+
     def addVocabClass(self, label, vocab, userdist=3):
         """Adds a new class of words to correct, based on a vocabulary.
 
@@ -484,7 +518,7 @@ class ContextSpellCheckerModel(AnnotatorModel, HasEngine):
     The default model is ``"spellcheck_dl"``, if no name is provided.
     For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Spell+Check>`__.
 
-    For extended examples of usage, see the `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/italian/Training_Context_Spell_Checker_Italian.ipynb>`__.
+    For extended examples of usage, see the `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/italian/Training_Context_Spell_Checker_Italian.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -513,10 +547,22 @@ class ContextSpellCheckerModel(AnnotatorModel, HasEngine):
     correctSymbols
         Whether to correct special symbols or skip spell checking for them
     compareLowcase
-        If true will compare tokens in low case with vocabulary
+        If true will compare tokens in low case with vocabulary.
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
-
+    vocabFreq
+        Frequency words from the vocabulary.
+    idsVocab
+        Mapping of ids to vocabulary.
+    vocabIds
+        Mapping of vocabulary to ids.
+    classes
+        Classes the spell checker recognizes.
+    weights
+        Levenshtein weights.
+    useNewLines
+        When set to true new lines will be treated as any other character. When set to false correction is applied on paragraphs as defined by newline characters.
+    
 
     References
     -------------
@@ -612,6 +658,31 @@ class ContextSpellCheckerModel(AnnotatorModel, HasEngine):
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
                              TypeConverters.toListInt)
 
+    vocabFreq = Param(
+        Params._dummy(),
+        "vocabFreq",
+        "Frequency words from the vocabulary.",
+        TypeConverters.identity,
+    )
+    idsVocab = Param(
+        Params._dummy(),
+        "idsVocab",
+        "Mapping of ids to vocabulary.",
+        TypeConverters.identity,
+    )
+    vocabIds = Param(
+        Params._dummy(),
+        "vocabIds",
+        "Mapping of vocabulary to ids.",
+        TypeConverters.identity,
+    )
+    classes = Param(
+        Params._dummy(),
+        "classes",
+        "Classes the spell checker recognizes.",
+        TypeConverters.identity,
+    )
+
     def setWordMaxDistance(self, dist):
         """Sets maximum distance for the generated candidates for every word.
 
@@ -705,6 +776,46 @@ class ContextSpellCheckerModel(AnnotatorModel, HasEngine):
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
+
+    def setVocabFreq(self, value: dict):
+        """Sets frequency words from the vocabulary.
+
+        Parameters
+        ----------
+        value : dict
+            Frequency words from the vocabulary.
+        """
+        return self._set(vocabFreq=value)
+
+    def setIdsVocab(self, idsVocab: dict):
+        """Sets mapping of ids to vocabulary.
+
+        Parameters
+        ----------
+        idsVocab : dict
+            Mapping of ids to vocabulary.
+        """
+        return self._set(idsVocab=idsVocab)
+    
+    def setVocabIds(self, vocabIds: dict):
+        """Sets mapping of vocabulary to ids.
+
+        Parameters
+        ----------
+        vocabIds : dict
+            Mapping of vocabulary to ids.
+        """
+        return self._set(vocabIds=vocabIds)
+
+    def setClasses(self, value):
+        """Sets classes the spell checker recognizes.
+
+        Parameters
+        ----------
+        value : list
+            Classes the spell checker recognizes.
+        """
+        return self._set(classes=value)
 
     def getWordClasses(self):
         """Gets the classes of words to be corrected.

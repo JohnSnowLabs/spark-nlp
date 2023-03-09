@@ -6,6 +6,7 @@ name: re_date_clinical
 date: 2021-01-18
 task: Relation Extraction
 language: en
+nav_key: models
 edition: Spark NLP for Healthcare 2.7.1
 spark_version: 2.4
 tags: [en, relation_extraction, clinical, licensed]
@@ -99,7 +100,7 @@ val documenter = new DocumentAssembler()
     .setOutputCol("document")
 
 val sentencer = new SentenceDetector()
-    .setInputCols(["document"])
+    .setInputCols("document")
     .setOutputCol("sentences")
 
 val tokenizer = new Tokenizer()

@@ -7,6 +7,7 @@ date: 2021-11-21
 tags: [sequence_classification, en, english, open_source, distilbert, sst]
 task: Text Classification
 language: en
+nav_key: models
 edition: Spark NLP 3.3.3
 spark_version: 3.0
 supported: true

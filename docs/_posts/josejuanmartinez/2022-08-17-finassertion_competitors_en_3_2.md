@@ -7,6 +7,7 @@ date: 2022-08-17
 tags: [en, finance, assertion, status, competitors, licensed]
 task: Assertion Status
 language: en
+nav_key: models
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -72,7 +73,7 @@ assertion = finance.AssertionDLModel.pretrained("finassertion_competitors", "en"
     .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
     .setOutputCol("assertion")
     
-nlpPipeline = Pipeline(stages=[
+nlpPipeline = nlp.Pipeline(stages=[
     documentAssembler, 
     sentenceDetector,
     tokenizer,

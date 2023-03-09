@@ -322,7 +322,7 @@ data = spark.createDataFrame([['DTaP'], ['MYCOBAX'], ['cholera, live attenuated'
 
 ```python
 cvx_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_cvx", "en", "clinical/models")\
-    .setInputCols(["ner_chunk", "sbert_embeddings"])\
+    .setInputCols(["sbert_embeddings"])\
     .setOutputCol("cvx_code")\
     .setDistanceFunction("EUCLIDEAN")
 

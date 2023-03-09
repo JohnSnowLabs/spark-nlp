@@ -5,6 +5,7 @@ author: John Snow Labs
 name: clinical_deidentification
 class: PipelineModel
 language: en
+nav_key: models
 repository: clinical/models
 date: 2020-01-31
 task: [De-identification, Pipeline Healthcare]

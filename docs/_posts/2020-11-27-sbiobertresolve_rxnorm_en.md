@@ -4,6 +4,7 @@ title: Sentence Entity Resolver for RxNorm (sbiobert_base_cased_mli embeddings)
 author: John Snow Labs
 name: sbiobertresolve_rxnorm
 language: en
+nav_key: models
 repository: clinical/models
 date: 2020-11-27
 task: Entity Resolution
@@ -47,7 +48,7 @@ sbert_embedder = BertSentenceEmbeddings\
 .setOutputCol("sbert_embeddings")
 
 rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_rxnorm","en", "clinical/models") \
-.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setInputCols(["sbert_embeddings"]) \
 .setOutputCol("resolution")\
 .setDistanceFunction("EUCLIDEAN")
 

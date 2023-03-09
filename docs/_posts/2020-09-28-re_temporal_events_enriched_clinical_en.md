@@ -6,6 +6,7 @@ name: re_temporal_events_enriched_clinical
 date: 2020-09-28
 task: Relation Extraction
 language: en
+nav_key: models
 edition: Healthcare NLP 2.6.0
 spark_version: 2.4
 tags: [re, en, clinical, licensed]
@@ -97,8 +98,8 @@ val sentence_detector = new SentenceDetector()
     .setInputCols("document")
     .setOutputCol("sentences")
 
-val tokenizer = new Tokenizer()\
-    .setInputCols(["sentences"])\
+val tokenizer = new Tokenizer()
+    .setInputCols("sentences")
     .setOutputCol("tokens")
 
 val pos_tagger = PerceptronModel().pretrained("pos_clinical", "en", "clinical/models")

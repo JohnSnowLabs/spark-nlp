@@ -7,6 +7,7 @@ date: 2022-09-02
 tags: [en, finance, ner, zero, shot, zeroshot, licensed]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -65,7 +66,7 @@ nerconverter = nlp.NerConverter()\
   .setInputCols(["document", "token", "zero_shot_ner"])\
   .setOutputCol("ner_chunk")
 
-pipeline =  Pipeline(stages=[
+pipeline =  nlp.Pipeline(stages=[
   documentAssembler,
   sparktokenizer,
   zero_shot_ner,

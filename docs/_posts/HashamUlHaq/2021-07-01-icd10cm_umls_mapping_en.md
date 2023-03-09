@@ -7,6 +7,7 @@ date: 2021-07-01
 tags: [icd10cm, umls, en, licensed, pipeline]
 task: Pipeline Healthcare
 language: en
+nav_key: models
 edition: Healthcare NLP 3.1.0
 spark_version: 2.4
 supported: true
@@ -40,7 +41,7 @@ pipeline.annotate(["M8950", "R822", "R0901"])
 ```scala
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 val pipeline = new PretrainedPipeline("icd10cm_umls_mapping","en","clinical/models")
-val result = pipeline.annotate(["M8950", "R822", "R0901"])
+val result = pipeline.annotate("M8950", "R822", "R0901")
 ```
 
 

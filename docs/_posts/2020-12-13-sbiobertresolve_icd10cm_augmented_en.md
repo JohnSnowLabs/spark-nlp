@@ -4,6 +4,7 @@ title: Sentence Entity Resolver for ICD10-CM (Augmented)
 author: John Snow Labs
 name: sbiobertresolve_icd10cm_augmented
 language: en
+nav_key: models
 repository: clinical/models
 date: 2020-12-13
 task: Entity Resolution
@@ -46,7 +47,7 @@ sbert_embedder = BertSentenceEmbeddings\
 .setOutputCol("sbert_embeddings")
 
 icd10_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_augmented","en", "clinical/models") \
-.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setInputCols(["sbert_embeddings"]) \
 .setOutputCol("resolution")\
 .setDistanceFunction("EUCLIDEAN")
 
@@ -68,7 +69,7 @@ val sbert_embedder = BertSentenceEmbeddings
 
 val icd10_resolver = SentenceEntityResolverModel
 .pretrained("sbiobertresolve_icd10cm_augmented","en", "clinical/models")
-.setInputCols(Array("ner_chunk", "sbert_embeddings"))
+.setInputCols(Array("sbert_embeddings"))
 .setOutputCol("resolution")
 .setDistanceFunction("EUCLIDEAN")
 

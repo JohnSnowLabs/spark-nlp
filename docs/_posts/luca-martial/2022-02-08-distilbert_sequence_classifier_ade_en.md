@@ -7,6 +7,7 @@ date: 2022-02-08
 tags: [bert, sequence_classification, en, licensed]
 task: Text Classification
 language: en
+nav_key: models
 edition: Healthcare NLP 3.4.1
 spark_version: 3.0
 supported: true
@@ -39,8 +40,8 @@ This model is a [DistilBERT](https://huggingface.co/distilbert-base-cased)-based
 
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/CLASSIFICATION_ADE/){:.button.button-orange}{:target="_blank"}
+[Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/healthcare-nlp/08.3.MedicalBertForSequenceClassification_in_SparkNLP.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/distilbert_sequence_classifier_ade_en_3.4.1_3.0_1644352732829.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
 [Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/distilbert_sequence_classifier_ade_en_3.4.1_3.0_1644352732829.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 

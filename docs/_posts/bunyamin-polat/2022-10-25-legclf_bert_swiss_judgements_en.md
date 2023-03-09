@@ -7,6 +7,7 @@ date: 2022-10-25
 tags: [en, legal, licensed, sequence_classification]
 task: Text Classification
 language: en
+nav_key: models
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -37,6 +38,7 @@ This model is a Bert-based model that can be used to classify Swiss Judgement do
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
+
 document_assembler = nlp.DocumentAssembler() \
     .setInputCol('text') \
     .setOutputCol('document')
@@ -51,7 +53,7 @@ clf_model = legal.BertForSequenceClassification.pretrained("legclf_bert_swiss_ju
     .setCaseSensitive(True)\
     .setMaxSentenceLength(512)
 
-clf_pipeline = Pipeline(stages=[
+clf_pipeline = nlp.Pipeline(stages=[
     document_assembler, 
     tokenizer,
     clf_model   

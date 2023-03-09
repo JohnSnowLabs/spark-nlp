@@ -86,7 +86,7 @@ val document_assembler = DocumentAssembler()
 .setOutputCol("document")
 
 val sentence_detector = SentenceDetector()
-.setInputCols(["document"])
+.setInputCols("document")
 .setOutputCol("sentence")
 
 val pos = PerceptronModel.pretrained("pos_ud_hdt", "de")

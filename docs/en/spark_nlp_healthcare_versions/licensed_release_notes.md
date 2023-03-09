@@ -5,7 +5,7 @@ seotitle: Spark NLP for Healthcare | John Snow Labs
 title: Spark NLP for Healthcare Release Notes
 permalink: /docs/en/spark_nlp_healthcare_versions/licensed_release_notes
 key: docs-licensed-release-notes
-modify_date: 2023-01-26
+modify_date: 2023-03-02
 show_nav: true
 sidebar:
     nav: sparknlp-healthcare
@@ -13,424 +13,403 @@ sidebar:
 
 <div class="h3-box" markdown="1">
 
-## 4.2.8
+## 4.3.1
 
 #### Highlights
 
-+ 4 new clinical named entity recognition models (3 oncology, 1 others)
-+ 5 new Social Determenant of Health text classification models
-+ New `DocumentMLClassifierApproach` annotator for training text classification models using SVM and Logistic Regression using TfIdf
-+ New `Resolution2Chunk` annotator to map entity resolver outputs (terminology codes) to other clinical terminologies
-+ New `DocMapperModel` annotator allows to use any mapper model in `DOCUMENT` type
-+ Option to return `Deidentification` output as a single document 
-+ Inter-Annotator Agreement (IAA) metrics module that works with NLP Lab seamlessly
-+ Assertion dataset preparation module now supports chunk start and end indices, rather than token indices
-+ Added `ner_source` in the `ChunkConverter` metadata
++ The first Voice of Patients (VOP) named entity recognition model
++ New Social Determinants of Health (SDOH) named entity recognition models
++ New entity resolution model for mapping Rxnorm codes according to the National Institute of Health (NIH) Database
++ New Chunk Mapper models for mapping NDC codes to drug brand names as well as clinical entities (like drugs/ingredients) to Rxnorm codes
++ Format consistency for formatted entity obfuscation in `Deidentification` module
++ New parameters for controlling the validation set while training a NER model with `MedicalNerApproach`
++ Whitelisting the entities while merging multiple entities in `ChunkMergeApproach`
 + Core improvements and bug fixes
-    - Added chunk confidence score in the `RelationExtractionModel` metadata
-    - Added confidence score in the `DocumentLogRegClassifierApproach` metadata
-    - Fixed non-deterministic Relation Extraction DL Models (30+ models updated in the model hub)
-    - Fixed incompatible PretrainedPipelines with PySpark v3.2.x and v3.3.x 
-    - Fixed `ZIP` label issue on `faker` mode with `setZipCodeTag` parameter in `Deidentification` 
-    - Fixed obfuscated numbers have the same number of chars as the original ones 
-    - Fixed name obfuscation hashes in `Deidentification` for romanian language 
-    - Fixed LightPipeline validation parameter for internal annotators
-    - LightPipeline support for `GenericClassifier` (`FeatureAssembler`) 
 + New and updated notebooks
-    -  New [Clinical Text Classification with Spark_NLP Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/30.Clinical_Text_Classification_with_Spark_NLP.ipynb) 
-    - New [Clinical Text Classification with DocumentMLClassifier Notebook](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/30.1.Text_Classification_with_DocumentMLClassifier.ipynb)
-    - Updated [ALAB Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Annotation_Lab/Complete_ALab_Module_SparkNLP_JSL.ipynb) 
 + New and updated demos
-    - [SOCIAL DETERMINANT](https://demo.johnsnowlabs.com/healthcare/SOCIAL_DETERMINANT/) demo
-+ 9 new clinical models and pipelines added & updated in total
++ 8 new clinical models and pipelines added & updated in total
 
+</div><div class="h3-box" markdown="1">
 
-#### 4 New Clinical Named Entity Recognition Models (3 Oncology, 1 Others)
+#### The First Voice of Patients (VOP) Named Entity Recognition Model
 
-- We are releasing 3 new oncological NER models that were trained by using `embeddings_healthcare_100d` embeddings model.
+We are releasing a new VOP NER model that was trained on the conversations gathered from patients forums.
+
 
 | model name                                     | description                                                                                         | predicted entities                     |
-|----------------------------------------------- |-----------------------------------------------------------------------------------------------------|--------------------------------------- |
-| [ner_oncology_anatomy_general_healthcare](https://nlp.johnsnowlabs.com/2023/01/11/ner_oncology_anatomy_general_healthcare_en.html)    | Extracts anatomical entities using an unspecific label                                              | `Anatomical_Site` `Direction`          |
-| [ner_oncology_biomarker_healthcare](https://nlp.johnsnowlabs.com/2023/01/11/ner_oncology_biomarker_healthcare_en.html)          | Extracts mentions of biomarkers and biomarker results in oncological texts.                         | `Biomarker_Result` `Biomarker`         |
-| [ner_oncology_unspecific_posology_healthcare](https://nlp.johnsnowlabs.com/2023/01/11/ner_oncology_unspecific_posology_healthcare_en.html)| Extracts mentions of treatments and posology information using unspecific labels (low granularity). | `Posology_Information` `Cancer_Therapy`|
+|------------------------------------------------|-----------------------------------------------------------------------------------------------------|----------------------------------------|
+| [ner_vop_slim_wip](https://nlp.johnsnowlabs.com/2023/02/25/ner_vop_slim_wip_en.html) | This model extracts healthcare-related terms from the documents transferred from the patient's own sentences. | `AdmissionDischarge` `Age` `BodyPart` `ClinicalDept` `DateTime` `Disease` `Dosage_Strength` `Drug` `Duration` `Employment` `Form` `Frequency` `Gender` `Laterality` `Procedure` `PsychologicalCondition` `RelationshipStatus` `Route` `Symptom` `Test` `Vaccine` `VitalTest` |
+
 
 *Example*:
 
 ```python
 ...
-word_embeddings = WordEmbeddingsModel()\
-    .pretrained("embeddings_healthcare_100d", "en", "clinical/models")\
-    .setInputCols(["sentence", "token"]) \
-    .setOutputCol("embeddings")  
+clinical_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
+    .setInputCols(["sentence", "token"])\
+    .setOutputCol("embeddings")
 
-ner = MedicalNerModel\
-    .pretrained("ner_oncology_anatomy_general_healthcare", "en", "clinical/models") \
-    .setInputCols(["sentence", "token", "embeddings"]) \
+ner_model = MedicalNerModel.pretrained("ner_vop_slim_wip", "en", "clinical/models")\
+    .setInputCols(["sentence", "token","embeddings"])\
     .setOutputCol("ner")
 
-text = "The patient presented a mass in her left breast, and a possible metastasis in her lungs and in her liver."
+sample_texts = ["Hello,I'm 20 year old girl. I'm diagnosed with hyperthyroid 1 month ago. I was feeling weak, poor digestion, depression, left chest pain, increased heart rate from 4 months. Also i have b12 deficiency so I'm taking weekly supplement of 1000 mcg b12 daily."]
 ```
 
 *Result*:
 
-```bash
-+------------------+----------------+
-|chunk             |ner_label       |
-+------------------+----------------+
-|left              |Direction       |
-|breast            |Anatomical_Site |
-|lungs             |Anatomical_Site |
-|liver             |Anatomical_Site |
-+------------------+----------------+
-```
+
+|chunk               |begin|end |ner_label             |
+|--------------------|-----|----|----------------------|
+|20 year old         |10   |20  |Age                   |
+|girl                |22   |25  |Gender                |
+|hyperthyroid        |47   |58  |Disease               |
+|1 month ago         |60   |70  |DateTime              |
+|weak                |87   |90  |Symptom               |
+|depression          |137  |146 |PsychologicalCondition|
+|left                |149  |152 |Laterality            |
+|chest               |154  |158 |BodyPart              |
+|pain                |160  |163 |Symptom               |
+|heart rate          |176  |185 |VitalTest             |
+|4 months            |215  |222 |Duration              |
+|b12 deficiency      |613  |626 |Disease               |
+|weekly              |667  |672 |Frequency             |
+|supplement          |674  |683 |Drug                  |
+|1000 mcg            |702  |709 |Dosage_Strength       |
+|b12                 |711  |713 |Drug                  |
+|daily               |715  |719 |Frequency             |
 
 
-- We are releasing new oncological NER models that used for model training is provided by European Clinical Case Corpus (E3C), a project aimed at offering a freely available multilingual corpus of semantically annotated clinical narratives.
+</div><div class="h3-box" markdown="1">
 
+#### New Social Determinants of Health (SDOH) Named Entity Recognition Models
+
+We are releasing 4 new SDOH NER models with various entity combinations.
+
+| model name                                     | description                                                                                         | predicted entities                     |
+|------------------------------------------------|-----------------------------------------------------------------------------------------------------|----------------------------------------|
+| [ner_sdoh_substance_usage_wip](https://nlp.johnsnowlabs.com/2023/02/23/ner_sdoh_substance_usage_wip_en.html)     | This model extracts substance usage information related to Social Determinants of Health from various kinds of biomedical documents.     | `Smoking` `Substance_Duration` `Substance_Use` `Substance_Quantity`   `Substance_Frequency` `Alcohol`    |
+| [ner_sdoh_access_to_healthcare_wip](https://nlp.johnsnowlabs.com/2023/02/24/ner_sdoh_access_to_healthcare_wip_en.html)                 | This model extracts access to healthcare information related to Social Determinants of Health from various kinds of biomedical documents.              | `Insurance_Status` `Healthcare_Institution` `Access_To_Care`  |
+| [ner_sdoh_community_condition_wip](https://nlp.johnsnowlabs.com/2023/02/24/ner_sdoh_community_condition_wip_en.html) | This model extracts community condition information related to Social Determinants of Health from various kinds of biomedical documents. | `Transportation` `Community_Living_Conditions` `Housing` `Food_Insecurity` |
+| [ner_sdoh_health_behaviours_problems_wip](https://nlp.johnsnowlabs.com/2023/02/24/ner_sdoh_health_behaviours_problems_wip_en.html) | This model extracts health and behaviours problems related to Social Determinants of Health from various kinds of biomedical documents. | `Diet` `Mental_Health` `Obesity` `Eating_Disorder` `Sexual_Activity` `Disability` `Quality_Of_Life` `Other_Disease`  `Exercise` `Communicable_Disease` `Hyperlipidemia` `Hypertension` |
+
+
+- ner_sdoh_substance_usage_wip
 
 *Example*:
 
 ```python
 ...
-ner = MedicalNerModel.pretrained('ner_eu_clinical_case', "en", "clinical/models") \
-	.setInputCols(["sentence", "token", "embeddings"]) \
-	.setOutputCol("ner")
+clinical_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
+    .setInputCols(["sentence", "token"])\
+    .setOutputCol("embeddings")
 
-text = """A 3-year-old boy with autistic disorder on hospital of pediatric ward A at university hospital. He has no family history of illness or autistic spectrum disorder."""
+ner_model = MedicalNerModel.pretrained("ner_sdoh_substance_usage_wip", "en", "clinical/models")\
+    .setInputCols(["sentence", "token","embeddings"])\
+    .setOutputCol("ner")
+
+sample_texts = ["He does drink occasional alcohol approximately 5 to 6 alcoholic drinks per month.",
+"He continues to smoke one pack of cigarettes daily, as he has for the past 28 years."]
 ```
 
 *Result*:
 
-```bash
-+------------------------------+------------------+
-|chunk                         |ner_label         |
-+------------------------------+------------------+
-|A 3-year-old boy              |patient           |
-|autistic disorder             |clinical_condition|
-|He                            |patient           |
-|illness                       |clinical_event    |
-|autistic spectrum disorder    |clinical_condition|
-+------------------------------+------------------+
-```
+|chunk           |begin|end|ner_label          |
+|----------------|-----|---|-------------------|
+|drink           |8    |12 |Alcohol            |
+|occasional      |14   |23 |Substance_Frequency|
+|alcohol         |25   |31 |Alcohol            |
+|5 to 6          |47   |52 |Substance_Quantity |
+|alcoholic drinks|54   |69 |Alcohol            |
+|per month       |71   |79 |Substance_Frequency|
+|smoke           |16   |20 |Smoking            |
+|one pack        |22   |29 |Substance_Quantity |
+|cigarettes      |34   |43 |Smoking            |
+|daily           |45   |49 |Substance_Frequency|
+|past 28 years   |70   |82 |Substance_Duration |
 
 
-#### 5 New Social Determinant of Health Text Classification  Models
-
-We are releasing 5 new models that can be used in Social Determinant of Health related classification tasks.
-
-
-| model name                                           	            | description                                                                                                                         | predicted entities          |
-|------------------------------------------------------------------ |------------------------------------------------------------------------------------------------------------------------------------ |---------------------------- |
-| [genericclassifier_sdoh_alcohol_usage_sbiobert_cased_mli](https://nlp.johnsnowlabs.com/2023/01/14/genericclassifier_sdoh_alcohol_usage_sbiobert_cased_mli_en.html)       | This model is intended for detecting alcohol use in clinical notes and trained by using GenericClassifierApproach annotator. | `Present` `Past` `Never` `None`  |
-| [genericclassifier_sdoh_alcohol_usage_binary_sbiobert_cased_mli](https://nlp.johnsnowlabs.com/2023/01/14/genericclassifier_sdoh_alcohol_usage_binary_sbiobert_cased_mli_en.html)| This model is intended for detecting alcohol use in clinical notes and trained by using GenericClassifierApproach annotator.  | `Present` `Never` `None`  |
-| [genericclassifier_sdoh_tobacco_usage_sbiobert_cased_mli](https://nlp.johnsnowlabs.com/2023/01/14/genericclassifier_sdoh_tobacco_usage_sbiobert_cased_mli_en.html)       | This model is intended for detecting tobacco use in clinical notes and trained by using GenericClassifierApproach annotator | `Present` `Past` `Never` `None` |
-| [genericclassifier_sdoh_economics_binary_sbiobert_cased_mli](https://nlp.johnsnowlabs.com/2023/01/14/genericclassifier_sdoh_economics_binary_sbiobert_cased_mli_en.html)    | This model classifies related to social economics status in the clinical documents and trained by using GenericClassifierApproach annotator. |  `True` `False` |
-| [genericclassifier_sdoh_substance_usage_binary_sbiobert_cased_mli](https://nlp.johnsnowlabs.com/2023/01/14/genericclassifier_sdoh_substance_usage_binary_sbiobert_cased_mli_en.html)| This model is intended for detecting substance use in clinical notes and trained by using GenericClassifierApproach annotator. | `Present` `None` |
+- ner_sdoh_access_to_healthcare_wip
 
 *Example*:
 
 ```python
 ...
-features_asm = FeaturesAssembler()\
-    .setInputCols(["sentence_embeddings"])\
-    .setOutputCol("features")
+sample_texts = ["She has a pension and private health insurance, she reports feeling lonely and isolated.",
+               "He also reported food insecurityduring his childhood and lack of access to adequate healthcare.",
+               "She used to work as a unit clerk at XYZ Medical Center."]
 
-generic_classifier_tobacco = GenericClassifierModel.pretrained("genericclassifier_sdoh_tobacco_usage_sbiobert_cased_mli", 'en', 'clinical/models')\
-    .setInputCols(["features"])\
-    .setOutputCol("class_tobacco")
-    
-generic_classifier_alcohol = GenericClassifierModel.pretrained("genericclassifier_sdoh_alcohol_usage_sbiobert_cased_mli", 'en', 'clinical/models')\
-    .setInputCols(["features"])\
-    .setOutputCol("class_alcohol")
-
-text = ["Retired schoolteacher, now substitutes. Lives with wife in location 1439. Has a 27 yo son and a 25 yo daughter. He uses alcohol and cigarettes",
-        "The patient quit smoking approximately two years ago with an approximately a 40 pack year history, mostly cigar use.",
-        "The patient denies any history of smoking or alcohol abuse. She lives with her one daughter.",
-        "She was previously employed as a hairdresser, though says she hasnt worked in 4 years. Not reported by patient, but there is apparently a history of alochol abuse."
-      ]
 ```
 
 *Result*:
 
-```bash
-+----------------------------------------------------------------------------------------------------+---------+---------+
-|                                                                                                text|  tobacco|  alcohol|
-+----------------------------------------------------------------------------------------------------+---------+---------+
-|Retired schoolteacher, now substitutes. Lives with wife in location 1439. Has a 27 yo son and a 2...|[Present]|[Present]|
-|The patient quit smoking approximately two years ago with an approximately a 40 pack year history...|   [Past]|   [None]|
-|        The patient denies any history of smoking or alcohol abuse. She lives with her one daughter.|  [Never]|  [Never]|
-|She was previously employed as a hairdresser, though says she hasnt worked in 4 years. Not report...|   [None]|   [Past]|
-+----------------------------------------------------------------------------------------------------+---------+---------+
-```
+|chunk                        |begin|end|ner_label             |
+|-----------------------------|-----|---|----------------------|
+|private health insurance     |22   |45 |Insurance_Status      |
+|access to adequate healthcare|65   |93 |Access_To_Care        |
+|XYZ Medical Center           |36   |53 |Healthcare_Institution|
 
 
-#### New `DocumentMLClassifierApproach` Annotator For Training Text Classification Models Using SVM And Logistic Regression Using TfIdf
-
-We have a new `DocumentMLClassifierApproach` that can be used for training text classification models with *Logistic Regression* and *SVM* algorithms. Training data requires "text" and their "label" columns only and the trained model will be a `DocumentMLClassifierModel()`.
-
-Input types: `TOKEN`                  
-Output type: `CATEGORY`
-
-
-| Parameters               | Description                                                      |
-|--------------------------|------------------------------------------------------------------|
-| labels                   | array to output the label in the original form.                  |
-| labelCol                 | column with the value result we are trying to predict.           |
-| maxIter                  | maximum number of iterations.                                    |
-| tol                      | convergence tolerance after each iteration.                      |
-| fitIntercept             | whether to fit an intercept term, default is true.               |
-| maxTokenNgram            | the max number of tokens for Ngrams                              |
-| minTokenNgram            | the min number of tokens for Ngrams                              |
-| vectorizationModelPath   | specify the vectorization model if it has been already trained.  |
-| classificationModelPath  | specify the classification model if it has been already trained. |
-| classificationModelClass | specify the SparkML classification class; possible values are `logreg`, `svm`  |  
-
+- ner_sdoh_community_condition_wip
 
 *Example*:
 
 ```python
 ...
-classifier_svm= DocumentMLClassifierApproach() \
-    .setInputCols("token") \
-    .setLabelCol("category") \
-    .setOutputCol("prediction") \
-    .setMaxTokenNgram(1)\
-    .setClassificationModelClass("svm") #or "logreg"
-
-model_svm = Pipeline(stages=[document, token, classifier_svm]).fit(trainingData)
-
-text = [
-    ["This 1-year-old child had a gastrostomy placed due to feeding difficulties."], 
-    ["He is a pleasant young man who has a diagnosis of bulbar cerebral palsy and hypotonia."], 
-    ["The patient is a 45-year-old female whose symptoms are pain in the left shoulder and some neck pain."],
-    ["The patient is a 61-year-old female with history of recurrent uroseptic stones."]
-]
+sample_texts = ["He is currently experiencing financial stress due to job insecurity, and he lives in a small apartment in a densely populated area with limited access to green spaces and outdoor recreational activities.",
+               "Patient reports difficulty affording healthy food, and relies oncheaper, processed options.",
+               "She reports her husband and sons provide transportation top medical apptsand do her grocery shopping."]
 ```
 
 *Result*:
 
-```bash
+|chunk                          |begin|end|ner_label                  |
+|-------------------------------|-----|---|---------------------------|
+|small apartment                |87   |101|Housing                    |
+|green spaces                   |154  |165|Community_Living_Conditions|
+|outdoor recreational activities|171  |201|Community_Living_Conditions|
+|healthy food                   |37   |48 |Food_Insecurity            |
+|transportation                 |41   |54 |Transportation             |
 
-+----------------------------------------------------------------------------------------------------+----------------+
-|text                                                                                                |prediction      |
-+----------------------------------------------------------------------------------------------------+----------------+
-|He is a pleasant young man who has a diagnosis of bulbar cerebral palsy and hypotonia.              |Neurology       |
-|This 1-year-old child had a gastrostomy placed due to feeding difficulties.                         |Gastroenterology|
-|The patient is a 61-year-old female with history of recurrent uroseptic stones.                     |Urology         |
-|The patient is a 45-year-old female whose symptoms are pain in the left shoulder and some neck pain.|Orthopedic      |
-+----------------------------------------------------------------------------------------------------+----------------+
 
-```
-
-####  Option To Return `Deidentification` Output As a Single Document 
-
-We can return `Deidentification()` output as a single document by setting new `setOutputAsDocument` as `True`. If it is `False`, the outputs will be list of sentences as it is used to be.
+- ner_sdoh_health_behaviours_problems_wip
 
 *Example*:
 
 ```python
+...
 
-deid_obfuscated = DeIdentification()\
-    .setInputCols(["sentence", "token", "ner_chunk_subentity"]) \
+sample_texts = ["She has not been getting regular exercise and not followed diet for approximately two years due to chronic sciatic pain.",
+               "Medical History: The patient is a 32-year-old female who presents with a history of anxiety, depression, bulimia nervosa, elevated cholesterol, and substance abuse.",
+               "Pt was intubated atthe scene & currently sedated due to high BP. Also, he is currently on social security disability."]
+```
+
+*Result*:
+
+
+|chunk               |begin|end|ner_label      |
+|--------------------|-----|---|---------------|
+|regular exercise    |25   |40 |Exercise       |
+|diet                |59   |62 |Diet           |
+|chronic sciatic pain|99   |118|Other_Disease  |
+|anxiety             |84   |90 |Mental_Health  |
+|depression          |93   |102|Mental_Health  |
+|bulimia nervosa     |105  |119|Eating_Disorder|
+|elevated cholesterol|122  |141|Hyperlipidemia |
+|high BP             |56   |62 |Hypertension   |
+|disability          |106  |115|Disability     |
+
+
+</div><div class="h3-box" markdown="1">
+
+#### New Entity Resolver Model for Mapping Rxnorm Codes According To the National Institute of Health (NIH) Database
+
+We are releasing `sbiobertresolve_rxnorm_nih` pretrained model to map clinical entities and concepts (like drugs/ingredients) to RxNorm codes according to the National Institute of Health (NIH) database using `sbiobert_base_cased_mli` Sentence Bert Embeddings.
+
+*Example*:
+
+```python
+...
+rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_rxnorm_nih","en", "clinical/models") \
+     .setInputCols(["sbert_embeddings"]) \
+     .setOutputCol("resolution")\
+     .setDistanceFunction("EUCLIDEAN")
+
+text= "She is given folic acid 1 mg daily , levothyroxine 0.1 mg and aspirin 81 mg daily ."
+```
+
+
+*Result:*
+
+```bash
+| ner_chunk            | entity |rxnorm_code | all_codes                               | resolutions                                                                      |
+|:---------------------|:-------|-----------:|:----------------------------------------|:---------------------------------------------------------------------------------|
+| folic acid 1 mg      | DRUG   |   12281181 | ['12281181', '12283696', '12270292', ...| ['folic acid 1 MG [folic acid 1 MG]', 'folic acid 1.1 MG [folic acid 1.1 MG]',...|
+| levothyroxine 0.1 mg | DRUG   |   12275630 | ['12275630', '12275646', '12301585', ...| ['levothyroxine sodium 0.1 MG [levothyroxine sodium 0.1 MG]', 'levothyroxine  ...|
+| aspirin 81 mg        | DRUG   |   12278696 | ['12278696', '12299811', '12298729', ...| ['aspirin 81 MG [aspirin 81 MG]', 'aspirin 81 MG [YSP Aspirin] [aspirin 81 MG ...|
+```
+
+</div><div class="h3-box" markdown="1">
+
+#### New Chunk Mapper Models For Mapping NDC Codes to Drug Brand Names As Well As Clinical Entities (like drugs/ingredients) to Rxnorm Codes
+
+ We have two new chunk mapper models.
+
++ [ndc_drug_brandname_mapper](https://nlp.johnsnowlabs.com/2023/02/22/ndc_drug_brandname_mapper_en.html) model maps NDC codes with their corresponding drug brand names as well as RxNorm Codes according to National Institute of Health (NIH).
+
+*Example*:
+
+```python
+...
+mapper = ChunkMapperModel.pretrained("ndc_drug_brandname_mapper", "en", "clinical/models")\
+    .setInputCols("document")\
+    .setOutputCol("mappings")\
+    .setRels(["drug_brand_name"])\
+
+text= ["0009-4992", "57894-150"]
+```
+
+ *Result:*
+
+
+|    | ndc_code   | drug_brand_name   |
+|---:|:-----------|:------------------|
+|  0 | 0009-4992  | ZYVOX             |
+|  1 | 57894-150  | ZYTIGA            |
+
+
++ [rxnorm_nih_mapper](https://nlp.johnsnowlabs.com/2023/02/23/rxnorm_nih_mapper_en.html) model maps entities with their corresponding RxNorm codes according to the National Institute of Health (NIH) database. It returns Rxnorm codes along with their NIH Rxnorm Term Types within a parenthesis.
+
+*Example*:
+
+```python
+...
+chunkerMapper = ChunkMapperModel\
+ .pretrained("rxnorm_nih_mapper", "en", "clinical/models")\
+ .setInputCols(["ner_chunk"])\
+ .setOutputCol("mappings")\
+ .setRels(["rxnorm_code"])
+```
+
+ *Result*:
+
+|ner_chunk                |mappings     |relation   |
+|-------------------------|-------------|-----------|
+|Adapin 10 MG Oral Capsule|1911002 (SY) |rxnorm_code|
+|acetohexamide            |12250421 (IN)|rxnorm_code|
+|Parlodel                 |829 (BN)     |rxnorm_code|
+
+
+</div><div class="h3-box" markdown="1">
+
+#### Format Consistency For Formatted Entity Obfuscation In `Deidentification` Module
+
+We have added a new `setSameLengthFormattedEntities` parameter that obfuscates the formatted entities like `PHONE`, `FAX`, `ID`, `IDNUM`, `BIOID`, `MEDICALRECORD`, `ZIP`, `VIN`, `SSN`, `DLN`, `PLATE` and `LICENSE` with the fake ones in the same format. Default is an empty list (`[]`).
+
+*Example*:
+
+```python
+obfuscated = DeIdentification()\
+    .setInputCols(["sentence", "token", "deid_ner_chunk"]) \
     .setOutputCol("obfuscated") \
     .setMode("obfuscate")\
+    .setLanguage('en')\
     .setObfuscateDate(True)\
-    .setObfuscateRefFile('obfuscate.txt')\
-    .setObfuscateRefSource("file")\
-    .setUnnormalizedDateMode("obfuscate")\
-    .setOutputAsDocument(True) # or False for sentence level result
+    .setObfuscateRefSource('faker')\
+    .setSameLengthFormattedEntities(["PHONE","MEDICALRECORD", "IDNUM"])
 
-text ='''
-Record date : 2093-01-13 , David Hale , M.D . , Name : Hendrickson , Ora MR # 7194334 Date : 01/13/93 . Patient : Oliveira, 25 years-old , Record date : 2079-11-09 . Cocke County Baptist Hospital . 0295 Keats Street
-'''
-
-```
-
-*Result of .setOutputAsDocument(True)*:
-
-```bash
-
-'obfuscated': ['Record date : 2093-01-14 , Beer-Karge , M.D . , Name : Hasan Jacobi Jäckel MR # <MEDICALRECORD> Date : 01-31-1991 . Patient : Herr Anselm Trüb, 51 years-old , Record date : 2080-01-08 . Klinik St. Hedwig . <MEDICALRECORD> Keats Street']
-
-```
-
-*Result of .setOutputAsDocument(False)*:
-
-```bash
-
-'obfuscated': ['Record date : 2093-02-19 , Kaul , M.D . , Name : Frauke Oestrovsky MR # <MEDICALRECORD> Date : 05-08-1971 .',
-               'Patient : Lars Bloch, 33 years-old , Record date : 2079-11-11 .',
-               'University Hospital of Düsseldorf . <MEDICALRECORD> Keats Street']
-
-```
-
-#### New `Resolution2Chunk` Annotator To Map Entity Resolver Outputs (terminology codes) To Other Clinical Terminologies
-
-We have a new `Resolution2Chunk` annotator that maps the entity resolver outputs to other clinical terminologies.
-
-*Example*:
-
-```python
-icd_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_augmented_billable_hcc","en", "clinical/models") \
-    .setInputCols(["sentence_embeddings"]) \
-    .setOutputCol("icd10cm_code")\
-    .setDistanceFunction("EUCLIDEAN")
-    
-resolver2chunk = Resolution2Chunk()\
-    .setInputCols(["icd10cm_code"]) \
-    .setOutputCol("resolver2chunk")\
-
-chunkerMapper = ChunkMapperModel.pretrained("icd10cm_snomed_mapper", "en", "clinical/models")\
-    .setInputCols(["resolver2chunk"])\
-    .setOutputCol("mappings")\
-    .setRels(["snomed_code"])
-
-sample_text = """Diabetes Mellitus"""
+sample_text = """Record date: 2003-01-13
+Name : Hendrickson, Ora, Age: 25
+MR: #7194334
+ID: 1231511863
+Phone: (302) 786-5227"""
 ```
 
 *Result*:
 
-```bash
-+-----------------+-----------------+------------+-----------+
-|text             |ner_chunk        |icd10cm_code|snomed_code|
-+-----------------+-----------------+------------+-----------+
-|Diabetes Mellitus|Diabetes Mellitus|E109        |170756003  |
-+-----------------+-----------------+------------+-----------+
-```
+|                        sentence|                         masking|                   obfuscation|
+|--------------------------------|--------------------------------|------------------------------|
+|         Record date: 2003-01-13|           Record date: \<DATE\>|       Record date: 2003-03-07|
+|Name : Hendrickson, Ora, Age: 25|Name : \<PATIENT\>, Age: \<AGE\>|Name : Manya Horsfall, Age: 20|
+|                   MR:  #7194334|           MR: \<MEDICALRECORD\>|                  MR: #4868080|
+|                  ID: 1231511863|                   ID: \<IDNUM\>|                ID: 2174658035|
+|           Phone: (302) 786-5227|                 Phone:\<PHONE\>|         Phone: (467) 302-9509|
 
 
-#### New `DocMapperModel` Annotator Allows To Use With Any Mapper Model In `DOCUMENT` Type
+</div><div class="h3-box" markdown="1">
 
-Any `ChunkMapperModel` can be used with this new annotator called `DocMapperModel` and as its name suggests, it is used to map short strings via `DocumentAssembler` without using any other annotator between to convert strings to `Chunk` type that `ChunkMapperModel` expects. 
+#### New Parameters For Controlling The Validation Set While Training a NER Model With `MedicalNerApproach`
 
+We added a new parameter to `MedicalNerApproach` for controlling the validation set while training.
 
-*Example*:
-
-```python
-documentAssembler = DocumentAssembler()\
-    .setInputCol("text")\
-    .setOutputCol("document")
-
-model = DocMapperModel.pretrained("drug_brandname_ndc_mapper", "en", "clinical/models")\
-    .setInputCols("document")\
-    .setOutputCol("mappings")
-
-sample_text = "ZYVOX"
-```
-
-*Result*:
-
-```bash
-| Brand_Name   | Strenth_NDC              |
-|:-------------|:-------------------------|
-| ZYVOX        | 600 mg/300mL | 0009-4992 |
-```
-
-
-#### Inter-Annotator Agreement (IAA) metrics module that works with NLP Lab seamlessly          
-
-We added a new `get_IAA_metrics()` method to ALAB module. This method allows you to compare and evaluate the annotations in the seed corpus that all annotators annotated the same documents at the begining of an annotation project. It returns all the results in CSV files. Here are the parameters;
-
-- `spark` : SparkSession.
-- `conll_dir` (str): path to the folder that conll files in.
-- `annotator_names` (list): list of annotator names.
-- `set_ref_annotator` (str): reference annotator name. If present, all comparisons made with respect to it, if it is `None` all annotators will be compared by each other. Default is `None`.
-- `return_NerDLMetrics` (boolean): If `True`, we get the `full_chunk` and - `partial_chunk_per_token` IAA metrics by using NerDLMetrics. If `False`, we get the chunk based metrics using `evaluate` method of `training_log_parser` module and the token based metrics using classification reports, then write the results in "eval_metric_files" folder. Default is `False`. 
-- `save_dir` (str): path to save the token based results dataframes, default is "results_token_based".
-
-For more details and examples, please check [ALAB Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Annotation_Lab/Complete_ALab_Module_SparkNLP_JSL.ipynb).
-
++ `setRandomValidationSplitPerEpoch`: If it is `True`, the validation set is randomly splitted for each epoch; and if it is `False`, the split is done only once before training (the same validation split used after each epoch). Default is `False`.
 
 *Example*:
 
 ```python
-alab.get_IAA_metrics(spark, conll_dir = path_to_conll_folder, annotator_names = ["annotator_1","annotator_2","annotator_3","annotator_4"], set_ref_annotator = "annotator_1", return_NerDLMetrics = False, save_dir = "./token_based_results")
+nerTagger = MedicalNerApproach()\
+    .setInputCols(["sentence", "token", "embeddings"])\
+    .setLabelColumn("label")\
+    .setValidationSplit(0.2)\
+    .setRandomValidationSplitPerEpoch(True)\
+    .setRandomSeed(42)\
+    ...
 ```
 
+</div><div class="h3-box" markdown="1">
 
-#### Assertion dataset preparation module now supports chunk start and end indices, rather than token indices.
+#### Whitelisting The Entities While Merging Multiple Entities In `ChunkMergeApproach`
 
-Here are the new features in `get_assertion_data()`;
-
-+ Now it returns the `char_begin` and `char_end` indices of the chunks. These columns can be used in `AssertionDLApproach()` annotator instead of `token_begin` and `token_end` columns for training an Assertion Status Detection model. 
-+ Added `included_task_ids` parameter that allows you to prepare the assertion model training dataframe  with only the included tasks. Default is `None`.
-+ Added `seed` parameter that allows you to get the same training dataframe at each time when you set `unannotated_label_strategy`. Default is `None`. 
-
-For more details and examples, please check [ALAB Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Annotation_Lab/Complete_ALab_Module_SparkNLP_JSL.ipynb).
-
-
-
-#### Added `ner_source` in the `ChunkConverter` Metadata
-
-We added `ner_source` in the metadata of `ChunkConverter` output. In this way, the sources of the chunks can be seen if there are multiple components that have the same NER label in the same pipeline. 
+We have added `setWhiteList` parameter to `ChunkMergeApproach` annotator that you can whitelist detected entities while merging.
 
 *Example*:
 
 ```python
-...
-age_contextual_parser = ContextualParserApproach() \
-    .setInputCols(["sentence", "token"]) \
-    .setOutputCol("age_cp") \
-    .setJsonPath("age.json") \
-    .setCaseSensitive(False) \
-    .setPrefixAndSuffixMatch(False)    
+chunk_merge = ChunkMergeApproach()\
+      .setInputCols("deid_chunk_1", "deid_chunk_2")\
+      .setOutputCol("merged_chunk")\
+      .setMergeOverlapping(True)\
+      #.setWhiteList(["AGE","DATE"])
 
-chunks_age = ChunkConverter()\
-    .setInputCols("age_cp")\
-    .setOutputCol("age_chunk")
-...
-
-sample_text = """The patient is a 28 years old female with a history of gestational diabetes mellitus was diagnosed in April 2002 in County Baptist Hospital ."""
+sample_text = "Mr. ABC is a 25 years old with a nonproductive cough that started last week. He has a history of pericarditis in May 2006 and developed cough with right-sided chest pain, and admitted to Beverley Count Hospital."
 ```
 
-*Result*:
+*Result for without `WhiteList`*:
 
-```python
-[Annotation(chunk, 17, 18, 28, {'tokenIndex': '4', 'entity': 'Age', 'field': 'Age', 'ner_source': 'age_chunk', 'chunk': '0', 'normalized': '', 'sentence': '0', 'confidenceValue': '0.74'})]
+| index | ner_chunk               | entity   |
+|-------|-------------------------|----------|
+| 0     | John Smith              | PATIENT  |
+| 1     | 25                      | AGE      |
+| 2     | May 2006                | DATE     |
+| 3     | Beverley Count Hospital | HOSPITAL |
 
-```
 
+*Result for with `WhiteList(["AGE","DATE"])`*:
+
+| index | ner_chunk               | entity   |
+|-------|-------------------------|----------|
+| 0     | 25                      | AGE      |
+| 1     | May 2006                | DATE     |
+
+
+
+</div><div class="h3-box" markdown="1">
 
 #### Core Improvements and Bug Fixes
 
-- Added chunk confidence score in the `RelationExtractionModel` metadata
-- Added confidence score in the `DocumentLogRegClassifierApproach` metadata
-- Fixed non-deterministic Relation Extraction DL Models (30+ models updated in the model hub)
-- Fixed incompatible PretrainedPipelines with PySpark v3.2.x and v3.3.x 
-- Fixed `ZIP` label issue on `faker` mode with `setZipCodeTag` parameter in `Deidentification` 
-- Fixed obfuscated numbers have the same number of chars as the original ones 
-- Fixed name obfuscation hashes in `Deidentification` for romanian language 
-- Fixed LightPipeline validation parameter for internal annotators
-- LightPipeline support for `GenericClassifier` (`FeatureAssembler`)
+- Fixed the bug in `get_assertion_data` method issue in ALAB module
+- Updated documentation pages with corrections and additions.
 
+</div><div class="h3-box" markdown="1">
 
 #### New and Updated Notebooks
 
-+ New [Clinical Text Classification with Spark_NLP Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/30.Clinical_Text_Classification_with_Spark_NLP.ipynb) show how can use medical text with ClassifierDL, MultiClassifierDL, GenericClassifier, and DocumentLogRegClassifier
-+ New [Clinical Text Classification with DocumentMLClassifier Notebook](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/30.1.Text_Classification_with_DocumentMLClassifier.ipynb) show how can use medical text with DocumentMLClassifier
-+ Updated [ALAB Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Annotation_Lab/Complete_ALab_Module_SparkNLP_JSL.ipynb) with the changes in `get_assertion_data()` and the new `get_IAA_metrics()` method.
+- Updated [Spark NLP for Healthcare Workshop in 3 hr](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/healthcare-nlp/00.SparkNLP_for_Healthcare_3h_Notebook.ipynb) with latest examples.
 
+</div><div class="h3-box" markdown="1">
 
 #### New and Updated Demos
 
-+ [SOCIAL DETERMINANT](https://demo.johnsnowlabs.com/healthcare/SOCIAL_DETERMINANT/) demo
++ [SOCIAL_DETERMINANT_ALCOHOL](https://demo.johnsnowlabs.com/healthcare/SOCIAL_DETERMINANT_ALCOHOL/ ) demo
++ [SOCIAL_DETERMINANT_TOBACCO](https://demo.johnsnowlabs.com/healthcare/SOCIAL_DETERMINANT_TOBACCO/ ) demo
+
+</div><div class="h3-box" markdown="1">
+
+#### 8 New Clinical Models and Pipelines Added & Updated in Total
 
 
-#### 9 New Clinical Models and Pipelines Added & Updated in Total
++ `ner_sdoh_substance_usage_wip`
++ `ner_sdoh_access_to_healthcare_wip`
++ `ner_sdoh_community_condition_wip`
++ `ner_sdoh_health_behaviours_problems_wip`
++ `ner_vop_slim_wip`
++ `sbiobertresolve_rxnorm_nih`
++ `ndc_drug_brandname_mapper`
++ `rxnorm_nih_mapper`
 
-+ `ner_oncology_anatomy_general_healthcare`
-+ `ner_oncology_biomarker_healthcare`
-+ `ner_oncology_unspecific_posology_healthcare`
-+ `ner_eu_clinical_case`
-+ `genericclassifier_sdoh_economics_binary_sbiobert_cased_mli`
-+ `genericclassifier_sdoh_substance_usage_binary_sbiobert_cased_mli`
-+ `genericclassifier_sdoh_tobacco_usage_sbiobert_cased_mli`
-+ `genericclassifier_sdoh_alcohol_usage_sbiobert_cased_mli`
-+ `genericclassifier_sdoh_alcohol_usage_binary_sbiobert_cased_mli`
+</div><div class="h3-box" markdown="1">
 
 For all Spark NLP for Healthcare models, please check: [Models Hub Page](https://nlp.johnsnowlabs.com/models?edition=Healthcare+NLP)
-
 
 
 </div>

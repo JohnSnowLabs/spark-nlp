@@ -7,6 +7,7 @@ date: 2021-05-20
 tags: [en, english, embeddings, roberta, open_source]
 task: Embeddings
 language: en
+nav_key: models
 edition: Spark NLP 3.1.0
 spark_version: 3.0
 supported: true

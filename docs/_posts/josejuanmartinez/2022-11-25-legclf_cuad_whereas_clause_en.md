@@ -7,6 +7,7 @@ date: 2022-11-25
 tags: [whereas, en, licensed]
 task: Text Classification
 language: en
+nav_key: models
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -58,7 +59,7 @@ docClassifier = legal.ClassifierDLModel.pretrained("legclf_cuad_whereas_clause",
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("category")
     
-nlpPipeline = Pipeline(stages=[
+nlpPipeline = nlp.Pipeline(stages=[
     documentAssembler, 
     embeddings,
     docClassifier])

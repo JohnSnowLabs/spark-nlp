@@ -1,12 +1,13 @@
 ---
 layout: model
-title: English RobertaForMaskedLM Base Cased model (from saibo)
+title: English Legal RobertaForMaskedLM Base Cased model
 author: John Snow Labs
 name: roberta_embeddings_legal_base
 date: 2022-12-12
 tags: [en, open_source, roberta_embeddings, robertaformaskedlm]
 task: Embeddings
 language: en
+nav_key: models
 edition: Spark NLP 4.2.4
 spark_version: 3.0
 supported: true

@@ -7,6 +7,7 @@ date: 2022-03-04
 tags: [deidentification, en, licensed, pipeline]
 task: Pipeline Healthcare
 language: en
+nav_key: models
 edition: Healthcare NLP 3.4.1
 spark_version: 3.0
 supported: true
@@ -22,7 +23,7 @@ This pipeline is trained with lightweight `glove_100d` embeddings and can be use
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_DEMOGRAPHICS/){:.button.button-orange}
-[Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/11.Pretrained_Clinical_Pipelines.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_DEMOGRAPHICS.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/clinical_deidentification_glove_en_3.4.1_3.0_1646402880942.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
 [Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/clinical_deidentification_glove_en_3.4.1_3.0_1646402880942.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 

@@ -7,6 +7,7 @@ date: 2023-02-08
 tags: [ner, zero_shot, roberta, qa, en, open_source, tensorflow]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Spark NLP 4.3.0
 spark_version: [3.2, 3.0]
 supported: true

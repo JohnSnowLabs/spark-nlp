@@ -6,6 +6,7 @@ name: classifierdl_use_atis
 date: 2021-01-25
 task: Text Classification
 language: en
+nav_key: models
 edition: Spark NLP 2.7.1
 spark_version: 2.4
 tags: [en, classifier, open_source]

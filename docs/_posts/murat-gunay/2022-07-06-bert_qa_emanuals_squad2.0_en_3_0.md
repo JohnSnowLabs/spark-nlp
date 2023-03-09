@@ -7,6 +7,7 @@ date: 2022-07-06
 tags: [en, open_source, bert, question_answering]
 task: Question Answering
 language: en
+nav_key: models
 edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true

@@ -7,6 +7,7 @@ date: 2022-09-27
 tags: [en, licensed]
 task: Assertion Status
 language: en
+nav_key: models
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -52,7 +53,7 @@ assertion = legal.AssertionDLModel.pretrained("legassertion_time", "en", "legal/
     .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
     .setOutputCol("assertion")
     
-nlpPipeline = Pipeline(stages=[
+nlpPipeline = nlp.Pipeline(stages=[
     documentAssembler, 
     tokenizer,
     embeddings,

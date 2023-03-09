@@ -7,6 +7,7 @@ date: 2022-06-29
 tags: [typed_dependency_parsing, labelled_dependency_parsing, dependency_parsing, en, open_source]
 task: Dependency Parser
 language: en
+nav_key: models
 edition: Spark NLP 3.4.4
 spark_version: 3.0
 supported: true

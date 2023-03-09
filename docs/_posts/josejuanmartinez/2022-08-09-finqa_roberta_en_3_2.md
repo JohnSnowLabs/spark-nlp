@@ -7,6 +7,7 @@ date: 2022-08-09
 tags: [en, finance, qa, licensed]
 task: Question Answering
 language: en
+nav_key: models
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -48,7 +49,7 @@ spanClassifier = nlp.RoBertaForQuestionAnswering.pretrained("finqa_roberta","en"
 .setCaseSensitive(True)
 
 
-pipeline = Pipeline(stages=[documentAssembler, spanClassifier])
+pipeline = nlp.Pipeline(stages=[documentAssembler, spanClassifier])
 
 example = spark.createDataFrame([["What is the current total Operating Profit?", "Operating profit totaled EUR 9.4 mn , down from EUR 11.7 mn in 2004"]]).toDF("question", "context")
 

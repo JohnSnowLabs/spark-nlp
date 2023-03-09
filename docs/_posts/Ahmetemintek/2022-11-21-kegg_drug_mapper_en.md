@@ -7,6 +7,7 @@ date: 2022-11-21
 tags: [drug, efficacy, molecular_weight, cas, pubchem, chebi, ligandbox, nikkaji, pdbcct, chunk_mapper, clinical, en, licensed]
 task: Chunk Mapping
 language: en
+nav_key: models
 edition: Healthcare NLP 4.2.2
 spark_version: 3.0
 supported: true
@@ -110,7 +111,7 @@ val converter = new NerConverter()
 val chunkerMapper = ChunkMapperModel.pretrained("kegg_drug_mapper", "en", "clinical/models")
     .setInputCols("ner_chunk")
     .setOutputCol("mappings")
-    .setRels(Array(["efficacy", "molecular_weight", "CAS", "PubChem", "ChEBI", "LigandBox", "NIKKAJI", "PDB-CCD"]))
+    .setRels(Array("efficacy", "molecular_weight", "CAS", "PubChem", "ChEBI", "LigandBox", "NIKKAJI", "PDB-CCD"))
 
 
 val pipeline = new Pipeline().setStages(Array(

@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.8 ScalaDoc  - com.johnsnowlabs.legal.token_classification.ner.LegalNerApproach</title>
-          <meta name="description" content="Spark NLP 4.2.8 ScalaDoc - com.johnsnowlabs.legal.token classification.ner.LegalNerApproach" />
-          <meta name="keywords" content="Spark NLP 4.2.8 ScalaDoc com.johnsnowlabs.legal.token classification.ner.LegalNerApproach" />
+          <title>Spark NLP 4.3.1 ScalaDoc  - com.johnsnowlabs.legal.token_classification.ner.LegalNerApproach</title>
+          <meta name="description" content="Spark NLP 4.3.1 ScalaDoc - com.johnsnowlabs.legal.token classification.ner.LegalNerApproach" />
+          <meta name="keywords" content="Spark NLP 4.3.1 ScalaDoc com.johnsnowlabs.legal.token classification.ner.LegalNerApproach" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.8 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.3.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -155,8 +155,8 @@
                         <a href="LegalBertForTokenClassification.html" title="">LegalBertForTokenClassification</a>
                       </li><li class="current-entities indented5">
                         <a class="object" href="LegalNerApproach$.html" title=""></a>
-                        <a class="class" href="" title=""></a>
-                        <a href="" title="">LegalNerApproach</a>
+                        <a class="class" href="" title="Trains generic NER models based on Neural Networks."></a>
+                        <a href="" title="Trains generic NER models based on Neural Networks.">LegalNerApproach</a>
                       </li><li class="current-entities indented5">
                         <a class="object" href="LegalNerModel$.html" title=""></a>
                         <a class="class" href="LegalNerModel.html" title=""></a>
@@ -211,7 +211,44 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Trains generic NER models based on Neural Networks.</p><p>The architecture of the neural network is a Char CNNs - BiLSTM - CRF that
+achieves state-of-the-art in most datasets.</p><p>For instantiated/pretrained models, see <a href="LegalNerModel.html" class="extype" name="com.johnsnowlabs.legal.token_classification.ner.LegalNerModel">LegalNerModel</a></p><p>The training data should be a labeled Spark Dataset, in the <span class="extype" name="CoNLL">CoNLL</span> 2003
+IOB format with <code>Annotation</code> type columns. The data should have columns
+of type <code><code>DOCUMENT, TOKEN, WORD_EMBEDDINGS</code></code> and an additional
+label column of annotator type <code><code>NAMED_ENTITY</code></code>.</p><p>Excluding the label, this can be done with, for example, the annotators
+<span class="extype" name="SentenceDetector">SentenceDetector</span>, <span class="extype" name="Tokenizer">Tokenizer</span>, and
+<span class="extype" name="WordEmbeddingsModel">WordEmbeddingsModel</span> (any embeddings can be chosen, e.g. <span class="extype" name="BertEmbeddings">BertEmbeddings</span>
+for BERT based embeddings).</p><p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/training/english/dl-ner" target="_blank">Spark NLP Workshop</a>.</p><h4>Notes</h4><p>Both DocumentAssembler and SentenceDetector annotators are
+annotators that output the <code><code>DOCUMENT</code></code> annotation type.
+Thus, any of them can be used as the first annotators in a pipeline.</p><h4>Example</h4><p>First extract the prerequisites for the LegalNerApproach</p><pre><span class="kw">val</span> document = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+<span class="kw">val</span> sentenceDetector = <span class="kw">new</span> SentenceDetector()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"sentence"</span>)
+<span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer()
+  .setInputCols(<span class="lit">"sentence"</span>)
+  .setOutputCol(<span class="lit">"token"</span>)
+<span class="kw">val</span> embeddings = BertEmbeddings.pretrained()
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>)
+  .setOutputCol(<span class="lit">"embeddings"</span>)</pre><p>Then define the NER annotator</p><pre><span class="kw">val</span> nerTagger = <span class="kw">new</span> LegalNerApproach()
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>, <span class="lit">"embeddings"</span>)
+  .setLabelColumn(<span class="lit">"label"</span>)
+  .setOutputCol(<span class="lit">"ner"</span>)
+  .setMaxEpochs(<span class="num">10</span>)
+  .setLr(<span class="num">0.005</span>f)
+  .setPo(<span class="num">0.005</span>f)
+  .setBatchSize(<span class="num">32</span>)
+  .setValidationSplit(<span class="num">0.1</span>f)</pre><p>Then the training can start</p><pre><span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  document,
+  sentenceDetector,
+  tokenizer,
+  embeddings,
+  nerTagger
+))
+
+trainingData = conll.readDataset(spark, <span class="lit">"path/to/train_data.conll"</span>)
+pipelineModel = pipeline.fit(trainingData)</pre></div><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -277,7 +314,7 @@
       </span>
       
       
-    </li><li name="com.johnsnowlabs.legal.token_classification.ner.LegalNerApproach#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.legal.token_classification.ner.LegalNerApproach#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="&lt;init&gt;(uid:String):com.johnsnowlabs.legal.token_classification.ner.LegalNerApproach"></a><a id="&lt;init&gt;:LegalNerApproach"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/legal/token_classification/ner/LegalNerApproach.html#&lt;init&gt;(uid:String):com.johnsnowlabs.legal.token_classification.ner.LegalNerApproach" title="Permalink">
@@ -292,7 +329,7 @@
         <span class="name">LegalNerApproach</span><span class="params">(<span name="uid">uid: <span class="extype" name="scala.Predef.String">String</span></span>)</span>
       </span>
       
-      
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>a unique identifier for the instantiated AnnotatorModel</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -497,8 +534,7 @@
         <span class="name">batchSize</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Batch size
-</p><div class="fullcomment"><div class="comment cmt"><p>Batch size
+      <p class="shortcomment cmt">Batch size, by default 8.</p><div class="fullcomment"><div class="comment cmt"><p>Batch size, by default 8.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../nlp/annotators/ner/MedicalNerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach">MedicalNerApproach</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach#beforeTraining" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="beforeTraining(spark:org.apache.spark.sql.SparkSession):Unit"></a><a id="beforeTraining(SparkSession):Unit"></a>
@@ -549,9 +585,9 @@
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>HasInputAnnotationCols</dd></dl></div>
     </li><li name="com.johnsnowlabs.license.CheckLicense#checkValidEnvironment" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="checkValidEnvironment(spark:Option[org.apache.spark.sql.SparkSession]):Unit"></a><a id="checkValidEnvironment(Option[SparkSession]):Unit"></a>
+      <a id="checkValidEnvironment(spark:Option[org.apache.spark.sql.SparkSession],scopes:Option[Seq[String]]):Unit"></a><a id="checkValidEnvironment(Option[SparkSession],Option[Seq[String]]):Unit"></a>
       <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/legal/token_classification/ner/LegalNerApproach.html#checkValidEnvironment(spark:Option[org.apache.spark.sql.SparkSession]):Unit" title="Permalink">
+      <a href="../../../../../com/johnsnowlabs/legal/token_classification/ner/LegalNerApproach.html#checkValidEnvironment(spark:Option[org.apache.spark.sql.SparkSession],scopes:Option[Seq[String]]):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -560,7 +596,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">checkValidEnvironment</span><span class="params">(<span name="spark">spark: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">checkValidEnvironment</span><span class="params">(<span name="spark">spark: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span>]</span>, <span name="scopes">scopes: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>CheckLicense</dd></dl></div>
@@ -748,8 +784,9 @@
         <span class="name">dropout</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.FloatParam">FloatParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">&quot;Dropout coefficient
-</p><div class="fullcomment"><div class="comment cmt"><p>&quot;Dropout coefficient
+      <p class="shortcomment cmt">Dropout coefficient, by default 0.5.</p><div class="fullcomment"><div class="comment cmt"><p>Dropout coefficient, by default 0.5.</p><p>The coefficient of the dropout layer. The value should be between 0.0 and 1.0.
+Internally, it is used by Tensorflow as: <code>rate = 1.0 - dropout</code> when adding
+a dropout layer on top of the recurrent layers.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../nlp/annotators/ner/MedicalNerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach">MedicalNerApproach</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach#earlyStoppingCriterion" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="earlyStoppingCriterion:org.apache.spark.ml.param.FloatParam"></a><a id="earlyStoppingCriterion:FloatParam"></a>
@@ -766,8 +803,22 @@
         <span class="name">earlyStoppingCriterion</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.FloatParam">FloatParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">If set, this param specifies the criterion to stop training if performance is not improving.</p><div class="fullcomment"><div class="comment cmt"><p>If set, this param specifies the criterion to stop training if performance is not improving. Default value is 0 which is means that early stopping is not used.
-</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../nlp/annotators/ner/MedicalNerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach">MedicalNerApproach</a></dd></dl></div>
+      <p class="shortcomment cmt">If set, this param specifies the criterion to stop training if performance is not improving.</p><div class="fullcomment"><div class="comment cmt"><p>If set, this param specifies the criterion to stop training if performance is not improving.</p><p>Default value is 0 which is means that early stopping is not used.</p><p>The criterion is set to F1-score if the validationSplit is greater than 0.0
+(F1-socre on validation set) or testDataset is defined (F1-score on test set),
+otherwise it is set to model loss. The priority is as follows:
+- If testDataset is defined, then the criterion is set to F1-score on test set.
+- If validationSplit is greater than 0.0, then the criterion is set to
+F1-score on validation set.
+- Otherwise, the criterion is set to model loss.</p><p>Note that while the F1-score ranges from 0.0 to 1.0, the loss ranges
+from 0.0 to infinity. So, depending on which case you are in,
+the value you use for the criterion can be very different. For example,
+if validationSplit is 0.1, then a criterion of 0.01 means that if the F1-score
+on the validation set difference from last epoch is greater than 0.01, then the
+training should stop.
+However, if there is not validation or test set defined, then a criterion of 2.0
+means that if the loss difference between the last epoch and the current one
+is less than 2.0, then training should stop.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../nlp/annotators/ner/MedicalNerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach">MedicalNerApproach</a></dd><dt>See also</dt><dd><span class="cmt"><p><a href="../../../nlp/annotators/ner/MedicalNerApproach.html#earlyStoppingPatience:org.apache.spark.ml.param.IntParam" class="extmbr" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach#earlyStoppingPatience">earlyStoppingPatience</a>.</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach#earlyStoppingPatience" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="earlyStoppingPatience:org.apache.spark.ml.param.IntParam"></a><a id="earlyStoppingPatience:IntParam"></a>
       <span class="permalink">
@@ -783,9 +834,11 @@
         <span class="name">earlyStoppingPatience</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Number of epochs with no performance improvement before training is terminated.</p><div class="fullcomment"><div class="comment cmt"><p>Number of epochs with no performance improvement before training is terminated. Default value is 0.
-</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../nlp/annotators/ner/MedicalNerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach">MedicalNerApproach</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach#enableMemoryOptimizer" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">Number of epochs to wait before early stopping if no improvement, by default 5.</p><div class="fullcomment"><div class="comment cmt"><p>Number of epochs to wait before early stopping if no improvement, by default 5.</p><p>Given the <a href="../../../nlp/annotators/ner/MedicalNerApproach.html#earlyStoppingCriterion:org.apache.spark.ml.param.FloatParam" class="extmbr" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach#earlyStoppingCriterion">earlyStoppingCriterion</a>, if the performance does not improve for the given
+number of epochs, then the training will stop. If the value is 0, then early stopping
+will occurs as soon as the criterion is met (no patience).
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../nlp/annotators/ner/MedicalNerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach">MedicalNerApproach</a></dd><dt>See also</dt><dd><span class="cmt"><p><a href="../../../nlp/annotators/ner/MedicalNerApproach.html#earlyStoppingCriterion:org.apache.spark.ml.param.FloatParam" class="extmbr" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach#earlyStoppingCriterion">earlyStoppingCriterion</a>.</p></span></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach#enableMemoryOptimizer" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="enableMemoryOptimizer:org.apache.spark.ml.param.BooleanParam"></a><a id="enableMemoryOptimizer:BooleanParam"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/legal/token_classification/ner/LegalNerApproach.html#enableMemoryOptimizer:org.apache.spark.ml.param.BooleanParam" title="Permalink">
@@ -800,7 +853,14 @@
         <span class="name">enableMemoryOptimizer</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../nlp/annotators/ner/MedicalNerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach">MedicalNerApproach</a></dd></dl></div>
+      <p class="shortcomment cmt">Whether to optimize for large datasets or not.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to optimize for large datasets or not. Enabling this option can slow down training.</p><p>In practice, if set to true the training will iterate over the spark Data Frame
+and retrieve the batches from the Data Frame iterator. This can be slower
+than the default option as it has to collect the batches on evey bach for every
+epoch, but it can be useful if the dataset is too large to fit in memory.</p><p>It controls if we want the features collected and generated at
+once and then feed into the network batch by batch (False) or collected and
+generated by batch and then feed into the network in batches (True) .</p><p>If the training data can fit to memory, then it is recommended to set this
+option to False (default value).
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../nlp/annotators/ner/MedicalNerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach">MedicalNerApproach</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.param.EvaluationDLParams#enableOutputLogs" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="enableOutputLogs:org.apache.spark.ml.param.BooleanParam"></a><a id="enableOutputLogs:BooleanParam"></a>
       <span class="permalink">
@@ -1271,7 +1331,7 @@
       <p class="shortcomment cmt">Early stopping patience
 </p><div class="fullcomment"><div class="comment cmt"><p>Early stopping patience
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../nlp/annotators/ner/MedicalNerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach">MedicalNerApproach</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach#getEnableMemoryOptimizer" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach#getEnableMemoryOptimizer" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="getEnableMemoryOptimizer:Boolean"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/legal/token_classification/ner/LegalNerApproach.html#getEnableMemoryOptimizer:Boolean" title="Permalink">
@@ -1286,8 +1346,7 @@
         <span class="name">getEnableMemoryOptimizer</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       
-      <p class="shortcomment cmt">Memory Optimizer
-</p><div class="fullcomment"><div class="comment cmt"><p>Memory Optimizer
+      <p class="shortcomment cmt">Whether to optimize for large datasets or not.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to optimize for large datasets or not. Enabling this option can slow down training.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../nlp/annotators/ner/MedicalNerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach">MedicalNerApproach</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.param.EvaluationDLParams#getEnableOutputLogs" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getEnableOutputLogs:Boolean"></a>
@@ -1553,6 +1612,23 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>NerApproach</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach#getRandomValidationSplitPerEpoch" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
+      <a id="getRandomValidationSplitPerEpoch:Boolean"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/legal/token_classification/ner/LegalNerApproach.html#getRandomValidationSplitPerEpoch:Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getRandomValidationSplitPerEpoch</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Checks if a random validation split is done after each epoch or at the beginning of training only.</p><div class="fullcomment"><div class="comment cmt"><p>Checks if a random validation split is done after each epoch or at the beginning of training only.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../nlp/annotators/ner/MedicalNerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach">MedicalNerApproach</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach#getUseBestModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
       <a id="getUseBestModel:Boolean"></a>
       <span class="permalink">
@@ -1619,8 +1695,9 @@
         <span class="name">graphFile</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">File path that contain external graph file
-</p><div class="fullcomment"><div class="comment cmt"><p>File path that contain external graph file
+      <p class="shortcomment cmt">Path that contains the external graph file.</p><div class="fullcomment"><div class="comment cmt"><p>Path that contains the external graph file.</p><p>When specified, the provided file will be used, and no graph search will happen.
+The path can be a local file path, a distributed file path (HDFS, DBFS),
+or a cloud storage (S3).
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../nlp/annotators/ner/MedicalNerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach">MedicalNerApproach</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach#graphFolder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="graphFolder:org.apache.spark.ml.param.Param[String]"></a><a id="graphFolder:Param[String]"></a>
@@ -1637,8 +1714,14 @@
         <span class="name">graphFolder</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Folder path that contain external graph files
-</p><div class="fullcomment"><div class="comment cmt"><p>Folder path that contain external graph files
+      <p class="shortcomment cmt">Folder path that contains external graph files.</p><div class="fullcomment"><div class="comment cmt"><p>Folder path that contains external graph files.</p><p>The path can be a local file path, a distributed file path (HDFS, DBFS),
+or a cloud storage (S3).</p><p>When instantiating the Tensorflow model, uses this folder to search for the
+adequate Tensorflow graph. The search is done using the name of the <code>.pb</code>
+file, which should be in this format:
+<code>blstn_{ntags}_{embedding_dim}_{lstm_size}_{nchars}.pb</code>.</p><p>Then, the search follows these rules:
+- Embedding dimension should be exactly the same as the one used to train the model.
+- Number of unique tags should be greater than or equal to the number of unique tags in the training data.
+- Number of unique chars should be greater than or equal to the number of unique chars in the training data.</p><p>The returned file will be the first one that satisfies all the conditions.</p><p>If the name of the file is ill-formed, errors will occur during training.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../nlp/annotators/ner/MedicalNerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach">MedicalNerApproach</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#hasDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hasDefault[T](param:org.apache.spark.ml.param.Param[T]):Boolean"></a><a id="hasDefault[T](Param[T]):Boolean"></a>
@@ -1706,8 +1789,7 @@
         <span class="name">includeAllConfidenceScores</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">val includeAllConfidenceScores = new BooleanParam(this, &quot;includeAllConfidenceScores&quot;, &quot;whether to include all confidence scores in annotation metadata&quot;)
-</p><div class="fullcomment"><div class="comment cmt"><p>val includeAllConfidenceScores = new BooleanParam(this, &quot;includeAllConfidenceScores&quot;, &quot;whether to include all confidence scores in annotation metadata&quot;)
+      <p class="shortcomment cmt">Whether to include confidence scores for all tags in annotation metadata or just the score of the predicted tag, by default False.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to include confidence scores for all tags in annotation metadata or just the score of the predicted tag, by default False.</p><p>Needs the <a href="../../../nlp/annotators/ner/MedicalNerApproach.html#includeConfidence:org.apache.spark.ml.param.BooleanParam" class="extmbr" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach#includeConfidence">includeConfidence</a> parameter to be set to true.</p><p>Enabling this may slow down the inference speed.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../nlp/annotators/ner/MedicalNerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach">MedicalNerApproach</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach#includeConfidence" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="includeConfidence:org.apache.spark.ml.param.BooleanParam"></a><a id="includeConfidence:BooleanParam"></a>
@@ -1724,8 +1806,10 @@
         <span class="name">includeConfidence</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">val includeConfidence = new BooleanParam(this, &quot;includeConfidence&quot;, &quot;Whether to include confidence scores in annotation metadata&quot;)
-</p><div class="fullcomment"><div class="comment cmt"><p>val includeConfidence = new BooleanParam(this, &quot;includeConfidence&quot;, &quot;Whether to include confidence scores in annotation metadata&quot;)
+      <p class="shortcomment cmt">Whether to include confidence scores in annotation metadata, by default False.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to include confidence scores in annotation metadata, by default False.</p><p>Setting this parameter to True will add the confidence score to the metadata
+of the NAMED_ENTITY annotation. In addition, if <a href="../../../nlp/annotators/ner/MedicalNerApproach.html#includeAllConfidenceScores:org.apache.spark.ml.param.BooleanParam" class="extmbr" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach#includeAllConfidenceScores">includeAllConfidenceScores</a>
+is set to true, then the confidence scores of all the tags will be added to
+the metadata, otherwise only for the predicted tag (the one with maximum score).
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../nlp/annotators/ner/MedicalNerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach">MedicalNerApproach</a></dd></dl></div>
     </li><li name="org.apache.spark.internal.Logging#initializeLogIfNecessary" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="initializeLogIfNecessary(isInterpreter:Boolean,silent:Boolean):Boolean"></a><a id="initializeLogIfNecessary(Boolean,Boolean):Boolean"></a>
@@ -2145,8 +2229,7 @@
         <span class="name">lr</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.FloatParam">FloatParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Learning Rate
-</p><div class="fullcomment"><div class="comment cmt"><p>Learning Rate
+      <p class="shortcomment cmt">Learning Rate, by default 0.001.</p><div class="fullcomment"><div class="comment cmt"><p>Learning Rate, by default 0.001.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../nlp/annotators/ner/MedicalNerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach">MedicalNerApproach</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerApproach#maxEpochs" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="maxEpochs:org.apache.spark.ml.param.IntParam"></a><a id="maxEpochs:IntParam"></a>
@@ -2412,7 +2495,9 @@
         <span class="name">po</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.FloatParam">FloatParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Learning rate decay coefficient.</p><div class="fullcomment"><div class="comment cmt"><p>Learning rate decay coefficient. Real Learning Rage = lr / (1 + po * epoch)
+      <p class="shortcomment cmt">Learning rate decay coefficient (time-based).</p><div class="fullcomment"><div class="comment cmt"><p>Learning rate decay coefficient (time-based).</p><p>This is used to calculate the decayed learning rate at each step
+as: lr = lr / (1 + po * epoch), meaning that the value of the
+learning rate is updated on each epoch. By default 0.005.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../nlp/annotators/ner/MedicalNerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach">MedicalNerApproach</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach#pretrainedModelPath" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="pretrainedModelPath:org.apache.spark.ml.param.Param[String]"></a><a id="pretrainedModelPath:Param[String]"></a>
@@ -2429,7 +2514,9 @@
         <span class="name">pretrainedModelPath</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Path to an already trained MedicalNerModel, which is used as a starting point for training the new model.</p><div class="fullcomment"><div class="comment cmt"><p>Path to an already trained MedicalNerModel, which is used as a starting point for training the new model.
+      <p class="shortcomment cmt">Path to an already trained MedicalNerModel.</p><div class="fullcomment"><div class="comment cmt"><p>Path to an already trained MedicalNerModel.</p><p>This pretrained model will be used as a starting point
+for training the new one. The path can be a local file path,
+a distributed file path (HDFS, DBFS), or a cloud storage (S3).
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../nlp/annotators/ner/MedicalNerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach">MedicalNerApproach</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.ner.NerApproach#randomSeed" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="randomSeed:org.apache.spark.ml.param.IntParam"></a><a id="randomSeed:IntParam"></a>
@@ -2447,6 +2534,23 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>NerApproach</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach#randomValidationSplitPerEpoch" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
+      <a id="randomValidationSplitPerEpoch:org.apache.spark.ml.param.BooleanParam"></a><a id="randomValidationSplitPerEpoch:BooleanParam"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/legal/token_classification/ner/LegalNerApproach.html#randomValidationSplitPerEpoch:org.apache.spark.ml.param.BooleanParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">randomValidationSplitPerEpoch</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Do a random validation split after each epoch rather than at the beginning of training only.</p><div class="fullcomment"><div class="comment cmt"><p>Do a random validation split after each epoch rather than at the beginning of training only.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../nlp/annotators/ner/MedicalNerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach">MedicalNerApproach</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.legal.token_classification.ner.LegalNerApproach#resumeTrainingFromModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="resumeTrainingFromModel(model:com.johnsnowlabs.legal.token_classification.ner.LegalNerApproach):LegalNerApproach.this.type"></a><a id="resumeTrainingFromModel(LegalNerApproach):LegalNerApproach.this.type"></a>
       <span class="permalink">
@@ -3166,6 +3270,23 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>NerApproach</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach#setRandomValidationSplitPerEpoch" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
+      <a id="setRandomValidationSplitPerEpoch(value:Boolean):MedicalNerApproach.this.type"></a><a id="setRandomValidationSplitPerEpoch(Boolean):LegalNerApproach.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/legal/token_classification/ner/LegalNerApproach.html#setRandomValidationSplitPerEpoch(value:Boolean):MedicalNerApproach.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setRandomValidationSplitPerEpoch</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.legal.token_classification.ner.LegalNerApproach">LegalNerApproach</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt"> Do a random validation split after each epoch rather than at the beginning of training only.</p><div class="fullcomment"><div class="comment cmt"><p> Do a random validation split after each epoch rather than at the beginning of training only.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../nlp/annotators/ner/MedicalNerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach">MedicalNerApproach</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach#setTagsMapping" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
       <a id="setTagsMapping(mapping:Map[String,String]):MedicalNerApproach.this.type"></a><a id="setTagsMapping(Map[String,String]):LegalNerApproach.this.type"></a>
       <span class="permalink">
@@ -3347,7 +3468,8 @@ It only works if setOverrideExistingTags is false.
         <span class="name">tagsMapping</span><span class="result">: <span class="extype" name="com.johnsnowlabs.nlp.serialization.MapFeature">MapFeature</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">A map specifying how old tags are mapped to new ones.</p><div class="fullcomment"><div class="comment cmt"><p>A map specifying how old tags are mapped to new ones. It only works if setOverrideExistingTags is false.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../nlp/annotators/ner/MedicalNerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach">MedicalNerApproach</a></dd></dl></div>
+      <p class="shortcomment cmt">A map specifying how old tags are mapped to new ones.</p><div class="fullcomment"><div class="comment cmt"><p>A map specifying how old tags are mapped to new ones.</p><p>It only works if <a href="../../../nlp/annotators/ner/MedicalNerApproach.html#overrideExistingTags:org.apache.spark.ml.param.BooleanParam" class="extmbr" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach#overrideExistingTags">overrideExistingTags</a> is set to false.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../nlp/annotators/ner/MedicalNerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach">MedicalNerApproach</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.param.EvaluationDLParams#testDataset" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="testDataset:com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam"></a><a id="testDataset:ExternalResourceParam"></a>
       <span class="permalink">
@@ -3462,8 +3584,8 @@ It only works if setOverrideExistingTags is false.
         <span class="name">useBestModel</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Whether to restore and use the model that has achieved the best performance at the end of the training.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to restore and use the model that has achieved the best performance at the end of the training.
-The metric that is being monitored is macro F1 for testDataset and if it's not set it will be validationSplit, and if it's not set finally looks for loss.
+      <p class="shortcomment cmt">Whether to restore and use the model from the epoch that has achieved the best performance at the end of the training.</p><div class="fullcomment"><div class="comment cmt"><p>Whether to restore and use the model from the epoch that has achieved the best performance at the end of the training.</p><p>By default false (keep the model from the last trained epoch).</p><p>The best model depends on the <a href="../../../nlp/annotators/ner/MedicalNerApproach.html#earlyStoppingCriterion:org.apache.spark.ml.param.FloatParam" class="extmbr" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach#earlyStoppingCriterion">earlyStoppingCriterion</a>, which can be F1-score
+on test/validation dataset or the value of loss.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../nlp/annotators/ner/MedicalNerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach">MedicalNerApproach</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach#useContrib" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="useContrib:org.apache.spark.ml.param.BooleanParam"></a><a id="useContrib:BooleanParam"></a>
@@ -3480,7 +3602,7 @@ The metric that is being monitored is macro F1 for testDataset and if it's not s
         <span class="name">useContrib</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">whether to use contrib LSTM Cells.</p><div class="fullcomment"><div class="comment cmt"><p>whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy.
+      <p class="shortcomment cmt">whether to use contrib LSTM Cells.</p><div class="fullcomment"><div class="comment cmt"><p>whether to use contrib LSTM Cells. Not compatible with Windows. Might slightly improve accuracy. By default true.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../nlp/annotators/ner/MedicalNerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach">MedicalNerApproach</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorApproach#validate" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="validate(schema:org.apache.spark.sql.types.StructType):Boolean"></a><a id="validate(StructType):Boolean"></a>
@@ -3691,20 +3813,20 @@ The metric that is being monitored is macro F1 for testDataset and if it's not s
         </div>
 
         <div id="groupedMembers">
-        <div class="group" name="anno">
-              <h3>anno</h3>
+        <div class="group" name="param">
+              <h3>Parameters</h3>
               
-            </div><div class="group" name="getParam">
-              <h3>getParam</h3>
-              
-            </div><div class="group" name="param">
-              <h3>param</h3>
+            </div><div class="group" name="anno">
+              <h3>Annotator types</h3>
+              <div class="comment cmt"><p>Required input and expected output annotator types</p></div>
+            </div><div class="group" name="Ungrouped">
+              <h3>Members</h3>
               
             </div><div class="group" name="setParam">
-              <h3>setParam</h3>
+              <h3>Parameter setters</h3>
               
-            </div><div class="group" name="Ungrouped">
-              <h3>Ungrouped</h3>
+            </div><div class="group" name="getParam">
+              <h3>Parameter getters</h3>
               
             </div>
         </div>

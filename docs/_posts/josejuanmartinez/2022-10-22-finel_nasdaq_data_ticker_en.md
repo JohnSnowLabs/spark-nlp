@@ -7,6 +7,7 @@ date: 2022-10-22
 tags: [en, finance, companies, nasdaq, ticker, licensed]
 task: Entity Resolution
 language: en
+nav_key: models
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -55,7 +56,7 @@ use_er_model = finance.SentenceEntityResolverModel.pretrained('finel_nasdaq_data
   .setInputCols("embeddings")\
   .setOutputCol('normalized')\
 
-prediction_Model = PipelineModel(stages=[documentAssembler, use, use_er_model])
+prediction_Model = nlp.Pipeline(stages=[documentAssembler, use, use_er_model])
 
 test_pred = prediction_Model.transform(testsdf).cache()
 ```

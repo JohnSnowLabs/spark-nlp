@@ -7,6 +7,7 @@ date: 2022-09-06
 tags: [en, finance, sentiment, analysis, classification, licensed]
 task: Sentiment Analysis
 language: en
+nav_key: models
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -49,7 +50,7 @@ sequenceClassifier = finance.BertForSequenceClassification.pretrained("finclf_be
   .setInputCols(["document",'token'])\
   .setOutputCol("class")
   
-pipeline = Pipeline(stages=[
+pipeline = nlp.Pipeline(stages=[
     document_assembler, 
     tokenizer,
     sequenceClassifier  

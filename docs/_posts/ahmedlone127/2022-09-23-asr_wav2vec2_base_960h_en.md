@@ -7,6 +7,7 @@ date: 2022-09-23
 tags: [wav2vec2, en, audio, open_source, asr]
 task: Automatic Speech Recognition
 language: en
+nav_key: models
 edition: Spark NLP 4.2.0
 spark_version: 3.0
 supported: true

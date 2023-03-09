@@ -8,6 +8,7 @@ tags: [open_source, english, onto_recognize_entities_bert_large, pipeline, en]
 supported: true
 task: [Named Entity Recognition, Lemmatization]
 language: en
+nav_key: models
 edition: Spark NLP 3.0.0
 spark_version: 3.0
 annotator: PipelineModel

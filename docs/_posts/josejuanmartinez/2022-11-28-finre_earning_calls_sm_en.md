@@ -7,6 +7,7 @@ date: 2022-11-28
 tags: [earning, calls, en, licensed]
 task: Relation Extraction
 language: en
+nav_key: models
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -96,7 +97,7 @@ reDL = finance.RelationExtractionDLModel.pretrained('finre_financial_small', 'en
     .setInputCols(["re_ner_chunk", "sentence"])\
     .setOutputCol("relations")
 
-pipeline = Pipeline(stages=[
+pipeline = nlp.Pipeline(stages=[
         documentAssembler,
         sentencizer,
         tokenizer,

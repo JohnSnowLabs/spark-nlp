@@ -6,6 +6,7 @@ name: assertion_ml_en
 date: 2020-01-30
 task: Assertion Status
 language: en
+nav_key: models
 edition: Healthcare NLP 2.4.0
 spark_version: 2.4
 tags: [clinical, licensed, ner, en]
@@ -73,8 +74,8 @@ val clinical_ner = NerDLModel.pretrained("ner_clinical", "en", "clinical/models"
 val ner_converter = NerConverter()
   .setInputCols(Array("sentence", "token", "ner"))
   .setOutputCol("ner_chunk")
-val clinical_assertion_ml = AssertionLogRegModel.pretrained("assertion_ml", "en", "clinical/models") \
-    .setInputCols(["sentence", "ner_chunk", "embeddings"]) \
+val clinical_assertion_ml = AssertionLogRegModel.pretrained("assertion_ml", "en", "clinical/models") 
+    .setInputCols("sentence", "ner_chunk", "embeddings") 
     .setOutputCol("assertion")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, word_embeddings, clinical_ner, ner_converter, clinical_assertion_ml))

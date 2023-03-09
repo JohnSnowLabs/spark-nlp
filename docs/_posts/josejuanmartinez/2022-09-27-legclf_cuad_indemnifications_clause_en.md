@@ -7,6 +7,7 @@ date: 2022-09-27
 tags: [cuad, indemnifications, en, licensed]
 task: Text Classification
 language: en
+nav_key: models
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -59,7 +60,7 @@ docClassifier = nlp.ClassifierDLModel.pretrained("legclf_cuad_indemnifications_c
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("category")
     
-nlpPipeline = Pipeline(stages=[
+nlpPipeline = nlp.Pipeline(stages=[
     documentAssembler, 
     embeddings,
     docClassifier])

@@ -6,6 +6,7 @@ name: re_temporal_events_clinical
 date: 2020-09-28
 task: Relation Extraction
 language: en
+nav_key: models
 edition: Healthcare NLP 2.6.0
 spark_version: 2.4
 tags: [re, en, clinical, licensed]

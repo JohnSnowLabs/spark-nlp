@@ -1,12 +1,13 @@
 ---
 layout: model
-title: English BERT Embedding Base Uncased model
+title: English Legal BERT Embedding Base Uncased model
 author: John Snow Labs
 name: bert_embeddings_legal_bert_base_uncased_finetuned_RRamicus
 date: 2023-01-12
 tags: [en, open_source, embeddings, bert]
 task: Embeddings
 language: en
+nav_key: models
 edition: Spark NLP 4.2.7
 spark_version: 3.0
 supported: true

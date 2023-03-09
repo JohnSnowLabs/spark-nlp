@@ -7,6 +7,7 @@ date: 2021-12-28
 tags: [timex, ner, roberta, en, open_source]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Spark NLP 3.3.4
 spark_version: 2.4
 supported: true
@@ -78,12 +79,12 @@ val tokenizer = Tokenizer()
 .setInputCols(Array("sentence"))
 .setOutputCol("token")
 
-val tokenClassifier = RoBertaForTokenClassification.pretrained("roberta_token_classifier_timex_semeval", "en"))\
-.setInputCols(Array("sentence","token"))\
+val tokenClassifier = RoBertaForTokenClassification.pretrained("roberta_token_classifier_timex_semeval", "en"))
+.setInputCols(Array("sentence","token"))
 .setOutputCol("ner")
 
-ner_converter = NerConverter()\
-.setInputCols(Array("sentence", "token", "ner"))\
+ner_converter = NerConverter()
+.setInputCols(Array("sentence", "token", "ner"))
 .setOutputCol("ner_chunk")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, tokenClassifier, ner_converter))

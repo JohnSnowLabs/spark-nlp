@@ -4,7 +4,7 @@ title: Clinical Deidentification (Spanish)
 author: John Snow Labs
 name: clinical_deidentification
 date: 2022-02-17
-tags: [deid, es, licensed]
+tags: [deid, es, licensed,clinical]
 task: De-identification
 language: es
 edition: Healthcare NLP 3.4.1

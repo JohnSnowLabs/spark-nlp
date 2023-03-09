@@ -7,6 +7,7 @@ date: 2022-12-16
 tags: [en, legal, notice, classification, licensed, tensorflow]
 task: Text Classification
 language: en
+nav_key: models
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -101,7 +102,7 @@ result = model.transform(df)
 
 ## References
 
-Legal documents, scrapped from the Internet, and classified in-house + SEC documents + Lawinsider categorization
+Legal documents, scrapped from the Internet, and classified in-house + SEC documents
 
 ## Benchmarking
 

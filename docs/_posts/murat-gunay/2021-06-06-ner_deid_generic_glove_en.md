@@ -7,6 +7,7 @@ date: 2021-06-06
 tags: [deid, clinical, glove, licensed, ner, en]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Healthcare NLP 3.0.4
 spark_version: 3.0
 supported: true
@@ -27,7 +28,7 @@ We sticked to official annotation guideline (AG) for 2014 i2b2 Deid challenge wh
 `DATE`, `NAME`, `LOCATION`, `PROFESSION`, `CONTACT`, `AGE`, `ID`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_DEMOGRAPHICS/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.Clinical_DeIdentification.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/deid_ner_generic_glove_en_3.0.4_3.0_1623015102478.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
 [Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/deid_ner_generic_glove_en_3.0.4_3.0_1623015102478.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
@@ -64,7 +65,13 @@ ner_converter = NerConverter()\
       .setInputCols(["sentence", "token", "ner"])\
       .setOutputCol("ner_chunk")
 
-nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, glove_embeddings, deid_ner, ner_converter])
+nlpPipeline = Pipeline(stages=[
+      document_assembler, 
+      sentence_detector, 
+      tokenizer, 
+      glove_embeddings, 
+      deid_ner, 
+      ner_converter])
 
 model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
@@ -95,7 +102,12 @@ val ner_converter = NerConverter()
       .setInputCols(Array("sentence", "token", "ner"))
       .setOutputCol("ner_chunk")
 
-val nlpPipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, glove_embeddings, deid_ner, ner_converter))
+val nlpPipeline = new Pipeline().setStages(Array(
+      document_assembler, 
+      sentence_detector, 
+      tokenizer, 
+      glove_embeddings, 
+      deid_ner, ner_converter))
 
 val result = nlpPipeline.fit(Seq.empty["A. Record date : 2093-01-13, David Hale, M.D., Name : Hendrickson, Ora MR. # 7194334 Date : 01/13/93 PCP : Oliveira, 25 -year-old, Record date : 1-11-2000. Cocke County Baptist Hospital. 0295 Keats Street. Phone +1 (302) 786-5227."].toDS.toDF("text")).transform(data)
 ```

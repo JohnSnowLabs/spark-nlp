@@ -7,6 +7,7 @@ date: 2022-12-12
 tags: [en, open_source, roberta_embeddings, robertaformaskedlm]
 task: Embeddings
 language: en
+nav_key: models
 edition: Spark NLP 4.2.4
 spark_version: 3.0
 supported: true

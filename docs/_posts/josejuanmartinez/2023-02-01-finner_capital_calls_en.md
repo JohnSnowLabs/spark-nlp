@@ -7,6 +7,7 @@ date: 2023-02-01
 tags: [capital, calls, en, licensed]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true

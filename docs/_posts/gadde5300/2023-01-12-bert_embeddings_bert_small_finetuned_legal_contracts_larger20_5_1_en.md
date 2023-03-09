@@ -1,12 +1,13 @@
 ---
 layout: model
-title: English BERT Embedding Small Cased model
+title: English Legal BERT Embedding Small Uncased model(Uncased, Contracts)
 author: John Snow Labs
 name: bert_embeddings_bert_small_finetuned_legal_contracts_larger20_5_1
 date: 2023-01-12
 tags: [en, open_source, embeddings, bert]
 task: Embeddings
 language: en
+nav_key: models
 edition: Spark NLP 4.2.7
 spark_version: 3.0
 supported: true
@@ -31,6 +32,7 @@ Pretrained BERT Embedding model, adapted from Hugging Face and curated to provid
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler() \
     .setInputCol("text") \

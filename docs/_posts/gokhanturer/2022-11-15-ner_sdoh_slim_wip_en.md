@@ -7,6 +7,7 @@ date: 2022-11-15
 tags: [en, licensed, sdoh, social_determinants, public_health, clinical]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Healthcare NLP 4.2.1
 spark_version: 3.0
 supported: true
@@ -89,12 +90,12 @@ val tokenizer = new Tokenizer()
     .setInputCols("sentence")
     .setOutputCol("token")
 
-val clinical_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")\
-    .setInputCols(["sentence", "token"])\
+val clinical_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
+    .setInputCols("sentence", "token")
     .setOutputCol("embeddings")
 
-val ner_model = MedicalNerModel.pretrained("ner_sdoh_slim_wip", "en", "clinical/models")\
-    .setInputCols(["sentence", "token", "embeddings"])\
+val ner_model = MedicalNerModel.pretrained("ner_sdoh_slim_wip", "en", "clinical/models")
+    .setInputCols("sentence", "token", "embeddings")
 
 val ner_converter = new NerConverter()
     .setInputCols(Array("sentence", "token", "ner"))

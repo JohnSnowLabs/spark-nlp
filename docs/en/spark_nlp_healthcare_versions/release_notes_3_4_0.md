@@ -460,7 +460,7 @@ results = abb_model.transform(spark.createDataFrame([[sample_text]]).toDF('text'
 ```bash
 ...
 umls_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_umls_drug_substance","en", "clinical/models")\
-  .setInputCols(["ner_chunk", "sbert_embeddings"])\
+  .setInputCols(["sbert_embeddings"])\
   .setOutputCol("resolution")\
   .setDistanceFunction("EUCLIDEAN")
 ...
@@ -491,7 +491,7 @@ results = model.fullAnnotate(['Dilaudid', 'Hydromorphone', 'Exalgo', 'Palladone'
 ```bash
 ...
 loinc_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_loinc_cased", "en", "clinical/models")\
-  .setInputCols(["ner_chunk", "sbert_embeddings"])\
+  .setInputCols(["sbert_embeddings"])\
   .setOutputCol("resolution")\
   .setDistanceFunction("EUCLIDEAN")
 ...
@@ -520,7 +520,7 @@ result = model.transform(spark.createDataFrame([[sample_text]], ["text"]))
 ```bash
 ...
 loinc_resolver = SentenceEntityResolverModel.pretrained("sbluebertresolve_loinc_uncased", "en", "clinical/models")\
-  .setInputCols(["jsl_ner_chunk", "sbert_embeddings"])\
+  .setInputCols(["sbert_embeddings"])\
   .setOutputCol("resolution")\
   .setDistanceFunction("EUCLIDEAN")
 ...
@@ -548,7 +548,7 @@ result = model.transform(spark.createDataFrame([[sample_text]], ["text"]))
 ```bash
 ...
 snomed_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_snomed_drug", "en", "clinical/models") \
-    .setInputCols(["ner_chunk", "sentence_embeddings"]) \
+    .setInputCols(["sentence_embeddings"]) \
     .setOutputCol("snomed_code")\
     .setDistanceFunction("EUCLIDEAN")
 ...

@@ -20,6 +20,8 @@ import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
+import scala.collection.immutable.Map
+
 /** Converts `DATE` type Annotations to `CHUNK` type.
   *
   * This can be useful if the following annotators after DateMatcher and MultiDateMatcher require
@@ -106,7 +108,12 @@ class Date2Chunk(override val uid: String)
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     annotations.map { date =>
-      Annotation(CHUNK, date.begin, date.end, date.result, date.metadata)
+      Annotation(
+        CHUNK,
+        date.begin,
+        date.end,
+        date.result,
+        date.metadata ++ Map("entity" -> "DATE", "chunk" -> "0"))
     }
   }
 

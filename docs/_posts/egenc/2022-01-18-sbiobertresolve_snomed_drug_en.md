@@ -7,6 +7,7 @@ date: 2022-01-18
 tags: [licensed, snomed, clinical, en]
 task: Entity Resolution
 language: en
+nav_key: models
 edition: Healthcare NLP 3.3.4
 spark_version: 2.4
 supported: true
@@ -72,7 +73,7 @@ sentence_chunk_embeddings = BertSentenceEmbeddings.pretrained("sbiobert_base_cas
 
 
 snomed_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_snomed_drug", "en", "clinical/models") \
-.setInputCols(["ner_chunk", "sentence_embeddings"]) \
+.setInputCols(["sentence_embeddings"]) \
 .setOutputCol("snomed_code")\
 .setDistanceFunction("EUCLIDEAN")\
 
@@ -116,7 +117,7 @@ val clinical_ner = MedicalNerModel.pretrained("ner_posology", "en", "clinical/mo
 
 val ner_converter = NerConverterInternal() 
 .setInputCols(Array("sentence", "token", "ner")) 
-.setOutputCol("ner_chunk")\
+.setOutputCol("ner_chunk")
 .setWhiteList(Array("DRUG"))
 
 val c2doc = Chunk2Doc()
@@ -129,7 +130,7 @@ val sentence_chunk_embeddings = BertSentenceEmbeddings.pretrained("sbiobert_base
 
 
 val snomed_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_snomed_drug", "en", "clinical/models") 
-.setInputCols(Array("ner_chunk", "sentence_embeddings")) 
+.setInputCols(Array("sentence_embeddings")) 
 .setOutputCol("snomed_code")
 .setDistanceFunction("EUCLIDEAN")
 

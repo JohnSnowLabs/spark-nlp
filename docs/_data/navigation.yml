@@ -12,6 +12,7 @@ header:
     key: models
   - title: Demo
     url: /demos
+    key: demo
   - title: '<span style="color: #FF8A00;"><i class = "fab fa-github fa-2x"></i></span>'
     url: https://github.com/JohnSnowLabs/spark-nlp
   - title: '<span style="color: #FF8A00;"><i class="fab fa-slack-hash fa-2x"></i></span>'

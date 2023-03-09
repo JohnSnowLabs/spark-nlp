@@ -5,6 +5,7 @@ author: John Snow Labs
 name: classifierdl_use_spam
 class: ClassifierDLModel
 language: en
+nav_key: models
 repository: public/models
 date: 03/07/2020
 task: Text Classification

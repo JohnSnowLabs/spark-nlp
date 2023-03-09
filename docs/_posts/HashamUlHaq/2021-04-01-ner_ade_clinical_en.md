@@ -7,6 +7,7 @@ date: 2021-04-01
 tags: [ner, clinical, licensed, en]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Healthcare NLP 3.0.0
 spark_version: 3.0
 supported: true
@@ -25,7 +26,7 @@ Detect adverse reactions of drugs in reviews, tweets, and medical text using pre
 `DRUG`, `ADE`
 
 {:.btn-box}
-[Live Demo](https://demo.johnsnowlabs.com/healthcare/PP_ADE/){:.button.button-orange}
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/ADE/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_ade_clinical_en_3.0.0_3.0_1617260622471.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
 [Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/ner_ade_clinical_en_3.0.0_3.0_1617260622471.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}

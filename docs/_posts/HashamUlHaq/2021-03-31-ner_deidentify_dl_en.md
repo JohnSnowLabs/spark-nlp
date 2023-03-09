@@ -7,6 +7,7 @@ date: 2021-03-31
 tags: [ner, clinical, licensed, en]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Healthcare NLP 3.0.0
 spark_version: 3.0
 supported: true
@@ -26,7 +27,7 @@ Named Entity Recognition annotator (NERDLModel) allows for a generic model to be
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_DEMOGRAPHICS/){:.button.button-orange}
-[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_DEMOGRAPHICS.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_deidentify_dl_en_3.0.0_3.0_1617209710705.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
 [Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/ner_deidentify_dl_en_3.0.0_3.0_1617209710705.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
@@ -60,7 +61,13 @@ ner_converter = NerConverter()\
  	.setInputCols(["sentence", "token", "ner"])\
  	.setOutputCol("ner_chunk")
 
-nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter])
+nlp_pipeline = Pipeline(stages=[
+    document_assembler, 
+    sentence_detector, 
+    tokenizer, 
+    word_embeddings, 
+    ner, 
+    ner_converter])
 
 model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
@@ -91,7 +98,13 @@ val ner_converter = new NerConverter()
  	.setInputCols(Array("sentence", "token", "ner"))
  	.setOutputCol("ner_chunk")
 
-val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, ner, ner_converter))
+val pipeline = new Pipeline().setStages(Array(
+    document_assembler, 
+    sentence_detector, 
+    tokenizer,
+     word_embeddings, 
+     ner, 
+     ner_converter))
 
 val data = Seq("""A . Record date : 2093-01-13 , David Hale , M.D . , Name : Hendrickson , Ora MR . # 7194334 Date : 01/13/93 PCP : Oliveira , 25 month years-old , Record date : 2079-11-09 . Cocke County Baptist Hospital . 0295 Keats Street""").toDS.toDF("text")
 

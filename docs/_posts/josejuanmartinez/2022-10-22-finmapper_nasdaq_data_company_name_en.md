@@ -7,6 +7,7 @@ date: 2022-10-22
 tags: [en, finance, companies, nasdaq, ticker, licensed]
 task: Chunk Mapping
 language: en
+nav_key: models
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -49,48 +50,68 @@ This is a Financial Chunk Mapper which will retrieve, given a ticker, extra info
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
-
 ```python
 
 document_assembler = nlp.DocumentAssembler()\
-    .setInputCol('text')\
-    .setOutputCol('document')
+      .setInputCol('text')\
+      .setOutputCol('document')
 
 tokenizer = nlp.Tokenizer()\
-    .setInputCols("document")\
-    .setOutputCol("token")
+      .setInputCols("document")\
+      .setOutputCol("token")
 
 embeddings = nlp.BertEmbeddings.pretrained("bert_embeddings_sec_bert_base","en") \
-    .setInputCols(["document", "token"]) \
-    .setOutputCol("embeddings")
+        .setInputCols(["document", "token"]) \
+        .setOutputCol("embeddings")
 
 ner_model = finance.NerModel.pretrained('finner_orgs_prods_alias', 'en', 'finance/models')\
-    .setInputCols(["document", "token", "embeddings"])\
-    .setOutputCol("ner")
-
+        .setInputCols(["document", "token", "embeddings"])\
+        .setOutputCol("ner")
+ 
 ner_converter = nlp.NerConverter()\
-    .setInputCols(["document", "token", "ner"])\
-    .setOutputCol("ner_chunk")
+      .setInputCols(["document", "token", "ner"])\
+      .setOutputCol("ner_chunk")
 
-CM = finance.ChunkMapperModel.pretrained('finmapper_nasdaq_data_company_name', 'en', 'finance/models')\
-    .setInputCols(["ner_chunk"])\
-    .setOutputCol("mappings")\
-    .setEnableFuzzyMatching(True)
+# Optional: To normalize the ORG name using NASDAQ data before the mapping
+##########################################################################
+chunkToDoc = nlp.Chunk2Doc()\
+        .setInputCols("ner_chunk")\
+        .setOutputCol("ner_chunk_doc")
+
+chunk_embeddings = nlp.UniversalSentenceEncoder.pretrained("tfhub_use_lg", "en")\
+    .setInputCols(["ner_chunk_doc"])\
+    .setOutputCol("chunk_embeddings")
+
+use_er_model = finance.SentenceEntityResolverModel.pretrained('finel_nasdaq_data_company_name', 'en', 'finance/models')\
+    .setInputCols("chunk_embeddings")\
+    .setOutputCol('normalized')\
+    .setDistanceFunction("EUCLIDEAN")  
+##########################################################################
+
+CM = finance.ChunkMapperModel()\
+      .pretrained('finmapper_nasdaq_data_company_name', 'en', 'finance/models')\
+      .setInputCols(["normalized"])\ 
+      .setOutputCol("mappings") #or ner_chunk without normalization
 
 pipeline = nlp.Pipeline().setStages([document_assembler,
                                  tokenizer, 
                                  embeddings,
                                  ner_model, 
-                                 ner_converter, 
+                                 ner_converter,
+                                 chunkToDoc, # Optional for normalization
+                                 chunk_embeddings, # Optional for normalization
+                                 use_er_model, # Optional for normalization
                                  CM])
                                  
-text = ["""GLEASON CORP is a company which ..."""]
+text = """GLEASON CORP is a company which ..."""
 
-test_data = spark.createDataFrame([text]).toDF("text")
+test_data = spark.createDataFrame([[text]]).toDF("text")
 
 model = pipeline.fit(test_data)
 
-result = model.transform(test_data)
+lp = nlp.LightPipeline(model)
+
+lp.fullAnnotate(text)
 ```
 
 </div>
@@ -98,25 +119,10 @@ result = model.transform(test_data)
 ## Results
 
 ```bash
-{
-    "ticker": "GLE1",
-    "name": "GLEASON CORP",
-    "exchange": "NYSE",
-    "category": "Domestic Common Stock",
-    "siccode": "3541",
-    "sicsector": "Manufacturing",
-    "sicindustry": "Machine Tools Metal Cutting Types",
-    "famaindustry": "Machinery",
-    "sector": "Industrials",
-    "industry": "Tools & Accessories",
-    "currency": "USD",
-    "location": "New York; U.S.A",
-    "first_name": "GLEASON",
-    "abbreviation": "CORP",
-    "abbreviations": "corp",
-    "abb_variation": "Gleason Corp,GLEASON CORP,GLEASON corp,GLEASON Corp ,GLEASON Corporation ,GLEASON",
-    "short_name": "GLEASON"
-}
+Row(annotatorType='labeled_dependency', begin=0, end=11, relation='ticker', result='GLE1'...)
+Row(annotatorType='labeled_dependency', begin=0, end=11, relation='name', result='GLEASON CORP'...)
+Row(annotatorType='labeled_dependency', begin=0, end=11, relation='exchange', result='NYSE'...)
+Row(annotatorType='labeled_dependency', begin=0, end=11, relation='category' result='Domestic Common Stock'...)
 ```
 
 {:.model-param}

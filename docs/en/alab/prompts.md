@@ -30,7 +30,7 @@ NER prompts, can be used to identify entities in natural language text documents
 
 ## Creating Relation Prompts
 
-Prompts can also be used to identify relations between entities for healthcare, finance, and legal domains. The domain-specific zero-shot model to use for detecting relation can be selected from the "Domain" dropdown. The relation prompts are defined by a pair of entities related by a predicate. The entities can be selected from the available dropdowns listing all entities available in the current NLP Lab (included in available NER models or rules) for the specified domain. 
+Prompts can also be used to identify relations between entities for healthcare, finance, and legal domains. The domain-specific zero-shot model to use for detecting relation can be selected from the "Domain" dropdown. The relation prompts are defined by a pair of entities related by a predicate. The entities can be selected from the available dropdowns listing all entities available in the current NLP Lab (included in available NER models, prompts or rules) for the specified domain. 
    
    ![relation_prompt](https://user-images.githubusercontent.com/26042994/211890317-362f193c-b80b-4caa-b242-69df6fa8a257.gif)
 

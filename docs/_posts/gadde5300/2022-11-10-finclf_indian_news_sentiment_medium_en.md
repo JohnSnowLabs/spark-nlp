@@ -7,6 +7,7 @@ date: 2022-11-10
 tags: [en, finance, licensed, classification, sentiment, indian]
 task: Text Classification
 language: en
+nav_key: models
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -51,7 +52,7 @@ classifierdl = finance.BertForSequenceClassification.pretrained("finclf_indian_n
     .setInputCols(["document", "token"])\
     .setOutputCol("label")
 
-bert_clf_pipeline = Pipeline(stages=[document_assembler,
+bert_clf_pipeline = nlp.Pipeline(stages=[document_assembler,
                                      tokenizer,
                                      classifierdl])
 

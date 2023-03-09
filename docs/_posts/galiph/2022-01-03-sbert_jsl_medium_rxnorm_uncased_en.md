@@ -7,6 +7,7 @@ date: 2022-01-03
 tags: [embeddings, clinical, licensed, en]
 task: Embeddings
 language: en
+nav_key: models
 edition: Healthcare NLP 3.3.4
 spark_version: 2.4
 supported: true

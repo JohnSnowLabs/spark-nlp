@@ -7,6 +7,7 @@ date: 2022-01-07
 tags: [bacteria, bertfortokenclassification, ner, en, licensed]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Healthcare NLP 3.3.4
 spark_version: 2.4
 supported: true
@@ -97,8 +98,8 @@ val ner_converter = new NerConverter()
 
 val pipeline =  new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier, ner_converter))
 
-val data = Seq("""Based on these genetic and phenotypic properties, we propose that strain SMSP (T) represents \
-a novel species of the genus Methanoregula, for which we propose the name Methanoregula formicica \
+val data = Seq("""Based on these genetic and phenotypic properties, we propose that strain SMSP (T) represents 
+a novel species of the genus Methanoregula, for which we propose the name Methanoregula formicica 
 sp. nov., with the type strain SMSP (T) (= NBRC 105244 (T) = DSM 22288 (T)).""").toDS.toDF("text")
 
 

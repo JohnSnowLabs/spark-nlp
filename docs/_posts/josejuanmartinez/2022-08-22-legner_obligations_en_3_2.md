@@ -7,6 +7,7 @@ date: 2022-08-22
 tags: [en, legal, ner, obligations, agreements, licensed]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -63,7 +64,7 @@ tokenClassifier = legal.BertForTokenClassification.pretrained("legner_obligation
   .setOutputCol("label")\
   .setCaseSensitive(True)
   
-pipeline =  Pipeline(stages=[
+pipeline =  nlp.Pipeline(stages=[
   documentAssembler,
   sparktokenizer,
   tokenClassifier

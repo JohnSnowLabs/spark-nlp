@@ -13,11 +13,10 @@ model
 {%- capture model_description -%}
 The model transforms a dataset with Input Annotation type SENTENCE_EMBEDDINGS, coming from e.g.
 [BertSentenceEmbeddings](/docs/en/transformers#bertsentenceembeddings)
-and returns the normalized entity for a particular trained ontology / curated dataset.
-(e.g. ICD-10, RxNorm, SNOMED etc.)
+and returns the normalized entity for a particular trained ontology / curated dataset (e.g. ICD-10, RxNorm, SNOMED etc.).
 
-To use pretrained models please see the
-[Models Hub](https://nlp.johnsnowlabs.com/models?task=Entity+Resolution) for available models.
+For a list of pretrained models, please see the
+[Models Hub](https://nlp.johnsnowlabs.com/models?task=Entity+Resolution).
 {%- endcapture -%}
 
 {%- capture model_input_anno -%}
@@ -61,7 +60,7 @@ sbert_embedder = nlp.BertSentenceEmbeddings \
 
 # Then the resolver is defined on the extracted entities and sentence embeddings
 cpt_resolver = medical.SentenceEntityResolverModel.pretrained("sbiobertresolve_cpt_procedures_augmented","en", "clinical/models") \
-    .setInputCols(["ner_chunk", "sbert_embeddings"]) \
+    .setInputCols(["sbert_embeddings"]) \
     .setOutputCol("cpt_code") \
     .setDistanceFunction("EUCLIDEAN")
 sbert_pipeline_cpt = Pipeline().setStages([
@@ -133,7 +132,7 @@ val sbert_embedder = nlp.BertSentenceEmbeddings
 
 // Then the resolver is defined on the extracted entities and sentence embeddings
 val cpt_resolver = medical.SentenceEntityResolverModel.pretrained("sbiobertresolve_cpt_procedures_augmented","en", "clinical/models")
-  .setInputCols(Array("ner_chunk", "sbert_embeddings"))
+  .setInputCols(Array("sbert_embeddings"))
   .setOutputCol("cpt_code")
   .setDistanceFunction("EUCLIDEAN")
 val sbert_pipeline_cpt = new Pipeline().setStages(Array(
@@ -428,14 +427,21 @@ val result = pipeline.fit(data).transform(data)
 {%- endcapture -%}
 
 {%- capture approach_description -%}
-Contains all the parameters and methods to train a SentenceEntityResolverModel.
-The model transforms a dataset with Input Annotation type SENTENCE_EMBEDDINGS, coming from e.g.
-[BertSentenceEmbeddings](/docs/en/transformers#bertsentenceembeddings)
-and returns the normalized entity for a particular trained ontology / curated dataset.
-(e.g. ICD-10, RxNorm, SNOMED etc.)
+Trains a SentenceEntityResolverModel that maps sentence embeddings to entities in a knowledge base.
 
-To use pretrained models please use SentenceEntityResolverModel
-and see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Entity+Resolution) for available models.
+To train a custom model, you need to provide a dataset with the following columns:
+- ``label``: Entity name
+- ``chunk``: Occurrence of the entity in the text, without standartization
+- ``sentence_embeddings``: Sentence embeddings from, e.g., the BertSentenceEmbeddings
+annotator.
+
+Optionally, you can also provide the following columns:
+- ``aux_label``: Auxiliary label which maps resolved entities to additional labels.
+If you have ground truth of the knowledge base entities, setting this column will help
+the model to learn better.
+
+You can find pretrained Sentence Embeddings (using BERT or other architecgture) in the
+`NLP Models Hub <https://nlp.johnsnowlabs.com/models?task=Embeddings>`_.
 {%- endcapture -%}
 
 {%- capture approach_input_anno -%}
@@ -447,7 +453,7 @@ ENTITY
 {%- endcapture -%}
 
 {%- capture approach_python_medical -%}
-from johnsnowlabs import * 
+from johnsnowlabs import nlp, medical 
 
 # Training a SNOMED resolution model using BERT sentence embeddings
 # Define pre-processing pipeline for training data. It needs consists of columns for the normalized training data and their labels.
@@ -487,9 +493,8 @@ snomedModel = bertExtractor.fit(snomedData)
 {%- endcapture -%}
 
 {%- capture approach_python_legal -%}
-from johnsnowlabs import * 
+from johnsnowlabs import nlp, legal
 
-# Training a SNOMED resolution model using BERT sentence embeddings
 # Define pre-processing pipeline for training data. It needs consists of columns for the normalized training data and their labels.
 documentAssembler = nlp.DocumentAssembler() \
   .setInputCol("normalized_text") \
@@ -499,17 +504,17 @@ sentenceDetector = nlp.SentenceDetector()\
   .setInputCols(["document"])\
   .setOutputCol("sentence")
 
-bertEmbeddings = nlp.BertSentenceEmbeddings.pretrained("sent_biobert_pubmed_base_cased") \
+bertEmbeddings = nlp.BertSentenceEmbeddings.pretrained("sent_bert_base_uncased_legal") \
   .setInputCols(["sentence"]) \
   .setOutputCol("bert_embeddings")
 
-snomedTrainingPipeline = Pipeline(stages=[
+preprocessing_pipeline = Pipeline(stages=[
   documentAssembler,
   sentenceDetector,
   bertEmbeddings
 ])
-snomedTrainingModel = snomedTrainingPipeline.fit(data)
-snomedData = snomedTrainingModel.transform(data).cache()
+data_preprocessing_model = preprocessing_pipeline.fit(data)
+processed_data = data_preprocessing_model.transform(data).cache()
 
 # Then the Resolver can be trained with
 bertExtractor = legal.SentenceEntityResolverApproach() \
@@ -522,14 +527,13 @@ bertExtractor = legal.SentenceEntityResolverApproach() \
   .setDistanceFunction("EUCLIDIAN") \
   .setCaseSensitive(False)
 
-snomedModel = bertExtractor.fit(snomedData)
+model = bertExtractor.fit(processed_data)
 
 {%- endcapture -%}
 
 {%- capture approach_python_finance -%}
-from johnsnowlabs import * 
+from johnsnowlabs import nlp, finance
 
-# Training a SNOMED resolution model using BERT sentence embeddings
 # Define pre-processing pipeline for training data. It needs consists of columns for the normalized training data and their labels.
 documentAssembler = nlp.DocumentAssembler() \
   .setInputCol("normalized_text") \
@@ -539,17 +543,17 @@ sentenceDetector = nlp.SentenceDetector()\
   .setInputCols(["document"])\
   .setOutputCol("sentence")
 
-bertEmbeddings = nlp.BertSentenceEmbeddings.pretrained("sent_biobert_pubmed_base_cased") \
+bertEmbeddings = nlp.BertSentenceEmbeddings.pretrained("sent_bert_large_cased") \
   .setInputCols(["sentence"]) \
   .setOutputCol("bert_embeddings")
 
-snomedTrainingPipeline = Pipeline(stages=[
+preprocessing_pipeline = Pipeline(stages=[
   documentAssembler,
   sentenceDetector,
   bertEmbeddings
 ])
-snomedTrainingModel = snomedTrainingPipeline.fit(data)
-snomedData = snomedTrainingModel.transform(data).cache()
+preprocessing_model = preprocessing_pipeline.fit(data)
+processed_data = preprocessing_model.transform(data).cache()
 
 # Then the Resolver can be trained with
 bertExtractor = finance.SentenceEntityResolverApproach() \
@@ -562,7 +566,7 @@ bertExtractor = finance.SentenceEntityResolverApproach() \
   .setDistanceFunction("EUCLIDIAN") \
   .setCaseSensitive(False)
 
-snomedModel = bertExtractor.fit(snomedData)
+model = bertExtractor.fit(processed_data)
 
 {%- endcapture -%}
 

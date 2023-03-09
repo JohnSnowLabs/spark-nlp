@@ -7,6 +7,7 @@ date: 2021-11-01
 tags: [bert, en, english, dbpedia, open_source, sequence_classification]
 task: Text Classification
 language: en
+nav_key: models
 edition: Spark NLP 3.3.2
 spark_version: 3.0
 supported: true

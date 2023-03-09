@@ -165,7 +165,7 @@ We are releasing two new UMLS Sentence Entity Resolver models trained on 2021AB 
 ```bash
 ...
 resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_umls_disease_syndrome","en", "clinical/models") \
-     .setInputCols(["ner_chunk", "sbert_embeddings"]) \
+     .setInputCols(["sbert_embeddings"]) \
      .setOutputCol("resolution")\
      .setDistanceFunction("EUCLIDEAN")
 ...
@@ -198,7 +198,7 @@ results = model.fit(data).transform(data)
 ```bash
 ...
 resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_umls_clinical_drugs","en", "clinical/models") \
-     .setInputCols(["ner_chunk", "sbert_embeddings"]) \
+     .setInputCols(["sbert_embeddings"]) \
      .setOutputCol("resolution")\
      .setDistanceFunction("EUCLIDEAN")
 ...

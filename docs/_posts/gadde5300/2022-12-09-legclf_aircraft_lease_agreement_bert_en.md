@@ -7,6 +7,7 @@ date: 2022-12-09
 tags: [en, legal, aircraft_lease_agreement, classification, licensed, agreement, tensorflow]
 task: Text Classification
 language: en
+nav_key: models
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -18,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-The `legclf_aircraft_lease_agreement_bert` model is a Bert Sentence Embeddings Document Classifier used to classify if the document belongs to the class `aircraft-lease-agreement` (check [Lawinsider](https://www.lawinsider.com/tags) for similar document type classification) or not (Binary Classification).
+The `legclf_aircraft_lease_agreement_bert` model is a Bert Sentence Embeddings Document Classifier used to classify if the document belongs to the class `aircraft-lease-agreement` or not (Binary Classification).
 
 Unlike the Longformer model, this model is lighter in terms of inference time.
 

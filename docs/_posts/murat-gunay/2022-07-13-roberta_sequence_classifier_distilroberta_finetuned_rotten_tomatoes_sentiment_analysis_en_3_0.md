@@ -7,6 +7,7 @@ date: 2022-07-13
 tags: [en, open_source, roberta, sequence_classification]
 task: Text Classification
 language: en
+nav_key: models
 edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true

@@ -7,6 +7,7 @@ date: 2022-08-04
 tags: [en, clinical, licensed, public_health, classifier, sequence_classification, treatment_changes, sentiment, treatment]
 task: Text Classification
 language: en
+nav_key: models
 edition: Healthcare NLP 4.0.2
 spark_version: 3.0
 supported: true

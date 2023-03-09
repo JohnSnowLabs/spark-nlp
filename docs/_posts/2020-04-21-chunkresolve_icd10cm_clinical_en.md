@@ -5,6 +5,7 @@ author: John Snow Labs
 name: chunkresolve_icd10cm_clinical
 class: ChunkEntityResolverModel
 language: en
+nav_key: models
 repository: clinical/models
 date: 2020-04-21
 task: Entity Resolution

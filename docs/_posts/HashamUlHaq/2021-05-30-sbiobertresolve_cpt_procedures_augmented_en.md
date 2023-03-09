@@ -7,6 +7,7 @@ date: 2021-05-30
 tags: [licensed, entity_resolution, en, clinical]
 task: Entity Resolution
 language: en
+nav_key: models
 edition: Healthcare NLP 3.0.4
 spark_version: 3.0
 supported: true
@@ -63,7 +64,7 @@ val sbert_embedder = BertSentenceEmbeddings
 .setInputCols(Array("ner_chunk_doc"))
 .setOutputCol("sbert_embeddings")
 
-val resolver = SentenceEntityResolverModel\
+val resolver = SentenceEntityResolverModel
 .pretrained("sbiobertresolve_hcc_augmented","en", "clinical/models")
 .setInputCols(Array("ner_chunk", "sbert_embeddings"))
 .setOutputCol("resolution")

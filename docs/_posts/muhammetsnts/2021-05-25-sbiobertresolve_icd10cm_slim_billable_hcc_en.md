@@ -7,6 +7,7 @@ date: 2021-05-25
 tags: [icd10cm, slim, licensed, en]
 task: Entity Resolution
 language: en
+nav_key: models
 edition: Healthcare NLP 3.0.3
 spark_version: 3.0
 supported: true

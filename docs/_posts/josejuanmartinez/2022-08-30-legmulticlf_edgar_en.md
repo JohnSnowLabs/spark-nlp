@@ -7,6 +7,7 @@ date: 2022-08-30
 tags: [en, legal, classification, clauses, edgar, ledgar, licensed]
 task: Text Classification
 language: en
+nav_key: models
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -67,7 +68,7 @@ multiClassifier = nlp.MultiClassifierDLModel.pretrained("legmulticlf_edgar", "en
   .setInputCols(["document", "sentence_embeddings"]) \
   .setOutputCol("class")
 
-ledgar_pipeline = Pipeline(
+ledgar_pipeline = nlp.Pipeline(
     stages=[document, 
             embeddings,
             multiClassifier])

@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.8 ScalaDoc  - com.johnsnowlabs.nlp.training.AnnotationToolJsonReader</title>
-          <meta name="description" content="Spark NLP 4.2.8 ScalaDoc - com.johnsnowlabs.nlp.training.AnnotationToolJsonReader" />
-          <meta name="keywords" content="Spark NLP 4.2.8 ScalaDoc com.johnsnowlabs.nlp.training.AnnotationToolJsonReader" />
+          <title>Spark NLP 4.3.1 ScalaDoc  - com.johnsnowlabs.nlp.training.AnnotationToolJsonReader</title>
+          <meta name="description" content="Spark NLP 4.3.1 ScalaDoc - com.johnsnowlabs.nlp.training.AnnotationToolJsonReader" />
+          <meta name="keywords" content="Spark NLP 4.3.1 ScalaDoc com.johnsnowlabs.nlp.training.AnnotationToolJsonReader" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.8 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.3.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -139,8 +139,8 @@
                         <a href="AnnotationDefinition.html" title="">AnnotationDefinition</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
-                        <a class="class" href="" title="The annotation tool json reader is a reader to parse Named Entity Recognition, Assertion and Relation Extraction Annotations from a JSON exported from the Annotation Tool."></a>
-                        <a href="" title="The annotation tool json reader is a reader to parse Named Entity Recognition, Assertion and Relation Extraction Annotations from a JSON exported from the Annotation Tool.">AnnotationToolJsonReader</a>
+                        <a class="class" href="" title="Reads and process the exported json file from NLP Lab."></a>
+                        <a href="" title="Reads and process the exported json file from NLP Lab.">AnnotationToolJsonReader</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="class" href="AnnotationValue.html" title=""></a>
@@ -241,8 +241,13 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>The annotation tool json reader is a reader to parse Named Entity Recognition, Assertion and Relation Extraction Annotations
-from a JSON exported from the Annotation Tool.
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Reads and process the exported json file from NLP Lab.</p><p>Reader class that parses relevant information exported from NLP Lab into different
+formats. The reader can be used to create a training dataset for training assertion
+status (using the <a href="#generateAssertionTrainSet(df:org.apache.spark.sql.DataFrame,sentenceCol:String,assertionCol:String):org.apache.spark.sql.DataFrame" class="extmbr" name="com.johnsnowlabs.nlp.training.AnnotationToolJsonReader#generateAssertionTrainSet"><code>generateAssertionTrainSet</code></a> method)
+or NER models (in the CoNLL format using the <a href="#generateConll(df:org.apache.spark.sql.DataFrame,path:String,taskColumn:String,tokenCol:String,nerLabel:String):Unit" class="extmbr" name="com.johnsnowlabs.nlp.training.AnnotationToolJsonReader#generateConll"><code>generateConll</code></a> method).</p><p>To generate the assertion data, the following attributes need to be specified when
+instantiating the class:
+- <code>assertion_labels</code>: The assertion labels to use.
+- <code>excluded_labels</code>: The assertions labels that are excluded for the training dataset creation (can be an empty list).
 </p></div><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
@@ -533,9 +538,9 @@ from a JSON exported from the Annotation Tool.
       
       
     </li><li name="com.johnsnowlabs.license.CheckLicense#checkValidEnvironment" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="checkValidEnvironment(spark:Option[org.apache.spark.sql.SparkSession]):Unit"></a><a id="checkValidEnvironment(Option[SparkSession]):Unit"></a>
+      <a id="checkValidEnvironment(spark:Option[org.apache.spark.sql.SparkSession],scopes:Option[Seq[String]]):Unit"></a><a id="checkValidEnvironment(Option[SparkSession],Option[Seq[String]]):Unit"></a>
       <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/nlp/training/AnnotationToolJsonReader.html#checkValidEnvironment(spark:Option[org.apache.spark.sql.SparkSession]):Unit" title="Permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/training/AnnotationToolJsonReader.html#checkValidEnvironment(spark:Option[org.apache.spark.sql.SparkSession],scopes:Option[Seq[String]]):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -544,7 +549,7 @@ from a JSON exported from the Annotation Tool.
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">checkValidEnvironment</span><span class="params">(<span name="spark">spark: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">checkValidEnvironment</span><span class="params">(<span name="spark">spark: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span>]</span>, <span name="scopes">scopes: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>CheckLicense</dd></dl></div>
@@ -721,12 +726,12 @@ from a JSON exported from the Annotation Tool.
         <span class="name">generateAssertionTrainSet</span><span class="params">(<span name="df">df: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>, <span name="sentenceCol">sentenceCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;sentence&quot;</span></span>, <span name="assertionCol">assertionCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;assertion_label&quot;</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
       </span>
       
-      <p class="shortcomment cmt">The generateAssertionTrainSet method uses the dataframe returned by the readDataset method (or any DataFrame with
-sentence and assertion annotations), and generates a DataFrame to train an AssertionDL Model using start and end columns
-for the asserted chunk tokens.</p><div class="fullcomment"><div class="comment cmt"><p>The generateAssertionTrainSet method uses the dataframe returned by the readDataset method (or any DataFrame with
-sentence and assertion annotations), and generates a DataFrame to train an AssertionDL Model using start and end columns
-for the asserted chunk tokens.
-</p></div><dl class="paramcmts block"><dt class="param">df</dt><dd class="cmt"><p>DataFrame with sentence and assertion annotations like the one returned by readDataset method</p></dd><dt class="param">sentenceCol</dt><dd class="cmt"><p>Name of the column having Sentence Annotations</p></dd><dt class="param">assertionCol</dt><dd class="cmt"><p>Name of the column having Assertion Annotations</p></dd><dt>returns</dt><dd class="cmt"><p>A dataframe to train an AssertionDL Model</p></dd></dl></div>
+      <p class="shortcomment cmt">Generates assertion training data at token level.</p><div class="fullcomment"><div class="comment cmt"><p>Generates assertion training data at token level.</p><p>Using information from the sentence and assertion labels, this method generates a
+training data set with the following columns:</p><ul><li>text: sentence text</li><li>target: the token text</li><li>label: the assertion label</li><li>start: start position of the token</li><li>end: end position of the token
+The tokens are identified internally with the constraints from the
+<span class="extype" name="min_chars_tol"><code>min_chars_tol</code></span> and <span class="extype" name="align_chars_tol"><code>align_chars_tol</code></span>
+parameters.
+</li></ul></div><dl class="paramcmts block"><dt class="param">df</dt><dd class="cmt"><p>DataFrame with sentence and assertion annotations like the one returned by readDataset method</p></dd><dt class="param">sentenceCol</dt><dd class="cmt"><p>Name of the column having Sentence Annotations</p></dd><dt class="param">assertionCol</dt><dd class="cmt"><p>Name of the column having Assertion Annotations</p></dd><dt>returns</dt><dd class="cmt"><p>A dataframe to train an AssertionDL Model</p></dd></dl></div>
     </li><li name="scala.AnyRef#getClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <span class="permalink">
@@ -1042,7 +1047,8 @@ provide a DataFrame with proper annotations to train SparkNLP and SparkNLP Enter
         <span class="name deprecated" title="Deprecated: ">generateConll</span><span class="params">(<span name="df">df: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>, <span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="taskColumn">taskColumn: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;task_id&quot;</span></span>, <span name="tokenCol">tokenCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;token&quot;</span></span>, <span name="nerLabel">nerLabel: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;ner_label&quot;</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Annotations</dt><dd>
+      <p class="shortcomment cmt">Saves a CoNLL file from the exported annotations.</p><div class="fullcomment"><div class="comment cmt"><p>Saves a CoNLL file from the exported annotations.
+</p></div><dl class="attributes block"> <dt>Annotations</dt><dd>
                 <span class="name">@deprecated</span>
               
         </dd><dt>Deprecated</dt><dd class="cmt"></dd></dl></div>
@@ -1061,7 +1067,15 @@ provide a DataFrame with proper annotations to train SparkNLP and SparkNLP Enter
         <span class="name deprecated" title="Deprecated: ">generatePlainAssertionTrainSet</span><span class="params">(<span name="df">df: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>, <span name="taskColumn">taskColumn: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;task_id&quot;</span></span>, <span name="tokenCol">tokenCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;token&quot;</span></span>, <span name="nerLabel">nerLabel: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;ner_label&quot;</span></span>, <span name="assertion_label">assertion_label: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;assertion_label&quot;</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Annotations</dt><dd>
+      <p class="shortcomment cmt">Generates assertion training data at chunk level.</p><div class="fullcomment"><div class="comment cmt"><p>Generates assertion training data at chunk level.</p><p>Using information from the sentence, task id (from NLP Lab), ner label, and
+assertion labels, this method generates a training data set with the
+following columns:
+- sentence: sentence text
+- begin: start position of the token
+- end: end position of the token
+- ner: the NER chunk
+- assertion: the assertion label</p><p>Internally uses the <span class="extype" name="NerConverterInternal">NerConverterInternal</span> to identify the NER chunks.
+</p></div><dl class="attributes block"> <dt>Annotations</dt><dd>
                 <span class="name">@deprecated</span>
               
         </dd><dt>Deprecated</dt><dd class="cmt"></dd></dl></div>

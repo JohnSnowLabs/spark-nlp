@@ -7,6 +7,7 @@ date: 2022-05-27
 tags: [licensed, rct, clinical, classifier, en]
 task: Text Classification
 language: en
+nav_key: models
 edition: Healthcare NLP 3.4.2
 spark_version: 3.0
 supported: true

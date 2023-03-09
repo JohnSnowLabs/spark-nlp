@@ -7,6 +7,7 @@ date: 2021-12-21
 tags: [embeddings, clinical, licensed, en]
 task: Embeddings
 language: en
+nav_key: models
 edition: Healthcare NLP 3.3.4
 spark_version: 2.4
 supported: true
@@ -42,8 +43,8 @@ sentence_embeddings = BertSentenceEmbeddings.pretrained("jsl_sbert_medium_rxnorm
         .setOutputCol("sbert_embeddings")
 ```
 ```scala
-val sentence_embeddings = BertSentenceEmbeddings.pretrained('jsl_sbert_medium_rxnorm', 'en','clinical/models')\
-      .setInputCols("sentence")\
+val sentence_embeddings = BertSentenceEmbeddings.pretrained('jsl_sbert_medium_rxnorm', 'en','clinical/models')
+      .setInputCols("sentence")
       .setOutputCol("sbert_embeddings")
 ```
 </div>

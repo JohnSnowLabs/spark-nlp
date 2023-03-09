@@ -25,7 +25,7 @@ class TextMatcher(AnnotatorApproach):
     :meth:`.setEntities`.
 
     For extended examples of usage, see the `Examples
-    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/text-matcher-pipeline/extractor.ipynb>`__.
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/text-matcher-pipeline/extractor.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -288,4 +288,3 @@ class TextMatcherModel(AnnotatorModel):
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(TextMatcherModel, name, lang, remote_loc)
-

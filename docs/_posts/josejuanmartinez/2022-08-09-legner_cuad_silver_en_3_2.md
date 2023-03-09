@@ -7,6 +7,7 @@ date: 2022-08-09
 tags: [en, legal, ner, cuad, licensed]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -77,7 +78,7 @@ jsl_ner_converter = nlp.NerConverter() \
 		.setInputCols(["sentences", "token", "jsl_ner"]) \
 		.setOutputCol("ner_chunk")
         
-jsl_ner_pipeline = Pipeline().setStages([
+jsl_ner_pipeline = nlp.Pipeline().setStages([
 				documentAssembler,
 				sentencizer,
 				tokenizer,

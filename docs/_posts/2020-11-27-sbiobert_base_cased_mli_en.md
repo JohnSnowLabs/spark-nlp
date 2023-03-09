@@ -6,6 +6,7 @@ name: sbiobert_base_cased_mli
 date: 2020-11-27
 task: Embeddings
 language: en
+nav_key: models
 edition: Healthcare NLP 2.6.4
 spark_version: 2.4
 tags: [embeddings, en, licensed]

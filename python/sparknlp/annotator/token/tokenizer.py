@@ -28,7 +28,7 @@ class Tokenizer(AnnotatorApproach):
     customizing it if defaults do not fit user needs.
 
     For extended examples of usage see the `Examples
-    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/annotation/text/english/document-normalizer/document_normalizer_notebook.ipynb>`__.
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/document-normalizer/document_normalizer_notebook.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -559,4 +559,3 @@ class TokenizerModel(AnnotatorModel):
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(TokenizerModel, name, lang, remote_loc)
-

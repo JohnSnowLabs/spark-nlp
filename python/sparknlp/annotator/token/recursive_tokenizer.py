@@ -29,7 +29,7 @@ class RecursiveTokenizer(AnnotatorApproach):
     - ``whitelist``: Whitelist of strings not to split
 
     For extended examples of usage, see the `Examples
-    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/example/python/training/italian/Training_Context_Spell_Checker_Italian.ipynb>`__.
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/italian/Training_Context_Spell_Checker_Italian.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -203,4 +203,3 @@ class RecursiveTokenizerModel(AnnotatorModel):
             classname=classname,
             java_model=java_model
         )
-
