@@ -13,7 +13,7 @@ supported: true
 engine: tensorflow
 annotator: FinanceBertForTokenClassification
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,6 +37,7 @@ This Financial NER model can extract up to 20 quantifiable entities, including K
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
