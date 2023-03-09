@@ -45,10 +45,6 @@ object OutputHelper {
   def parsePath(path: String): String = {
     val pathPrefix = path.split("://").head
     pathPrefix match {
-      case "file" => {
-        val pathParts = path.replace("file:", "").split("/")
-        pathParts.filter(f => !f.equals("")).mkString("/")
-      }
       case "s3" => path.replace("s3", "s3a")
       case _ => path
     }
