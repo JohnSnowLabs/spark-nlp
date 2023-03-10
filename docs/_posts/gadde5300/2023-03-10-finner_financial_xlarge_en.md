@@ -26,7 +26,7 @@ This financial model is an xlg (Xlarge) version, which has been trained with mor
 `CF`, `INCOME`, `KPI_INCREASE`, `CFO`, `PROFIT`, `PROFIT_INCREASE`, `AMOUNT`, `REVENUE`, `CFI`, `EXPENSE`, `FISCAL_YEAR`, `Expense`, `KPI`, `LIABILITY`, `TARGET_PRICE`, `CFO_decrease`, `STOCKHOLDERS_EQUITY`, `PROFIT_DECLINE`, `CMP`, `CFF`, `Expense_decrease`, `Revenue_decline`, `COUNT`, `Contra_LIABILITY`, `Expense_Increase`, `STOCK_EXCHANGE`, `LOSS`, `FCF`, `Revenue_increase`, `CFN`, `CFO_Increase`, `Income`, `PERCENTAGE`, `CURRENCY`, `ASSET`, `STOCKHOLDERS_DEFICIT`, `DATE`, `RATING`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/finance/FINNER_FINANCIAL_10K/){:.button.button-orange}
 <button class="button button-orange" disabled>Open in Colab</button>
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_financial_xlarge_en_1.0.0_3.0_1678464314140.zip){:.button.button-orange}
 [Copy S3 URI](s3://auxdata.johnsnowlabs.com/finance/models/finner_financial_xlarge_en_1.0.0_3.0_1678464314140.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
@@ -66,7 +66,7 @@ pipeline = nlp.Pipeline(stages=[
 ])
 
 # Generating example
-example = spark.createDataFrame([['''In the third quarter , record spend and strong acquisitions on our Amex co-brand cards resulted in $ 1.4 billion of Amex remuneration .''']]).toDF("text")
+example = spark.createDataFrame([['''We expect Revenue / PAT CAGR of ~ 19 %/~ 22 % over FY2022-FY2024E EPS . Hence , we retain our Buy recommendation on VGIL with an unchanged price target ( PT ) of . This includes $ 1 billion in cash and cash equivalents , $ 2 billion in property and equipment , and $ 2 billion in intangible assets .''']]).toDF("text")
 
 result = pipeline.fit(example).transform(example)
 
@@ -78,12 +78,25 @@ result = pipeline.fit(example).transform(example)
 
 ```bash
 
-+-----------+--------+
-|chunk      |entity  |
-+-----------+--------+
-|$          |CURRENCY|
-|1.4 billion|AMOUNT  |
-+-----------+--------+
++-------------------------+----------------+
+|chunk                    |entity          |
++-------------------------+----------------+
+|Revenue                  |Revenue_increase|
+|PAT                      |PROFIT_INCREASE |
+|19                       |PERCENTAGE      |
+|22                       |PERCENTAGE      |
+|Buy                      |RATING          |
+|price target             |TARGET_PRICE    |
+|$                        |CURRENCY        |
+|1 billion                |AMOUNT          |
+|cash and cash equivalents|CF              |
+|$                        |CURRENCY        |
+|2 billion                |AMOUNT          |
+|property and equipment   |ASSET           |
+|$                        |CURRENCY        |
+|2 billion                |AMOUNT          |
+|intangible assets        |ASSET           |
++-------------------------+----------------+
 
 ```
 
