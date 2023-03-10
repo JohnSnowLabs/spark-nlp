@@ -313,7 +313,7 @@ object BpeTokenizer {
       padWithSentenceTokens: Boolean = false,
       addPrefixSpace: Boolean = false,
       specialTokens: Option[SpecialTokens] = None): BpeTokenizer = {
-    val availableModels = Array("roberta", "xlm", "gpt2")
+    val availableModels = Array("roberta", "xlm", "gpt2", "bart")
     require(
       availableModels.contains(modelType),
       "Model type \"" + modelType + "\" not supported yet.")
@@ -335,6 +335,14 @@ object BpeTokenizer {
         new XlmTokenizer(merges, vocab, modelSpecialTokens, padWithSentenceTokens)
       case "gpt2" =>
         new Gpt2Tokenizer(
+          merges,
+          vocab,
+          modelSpecialTokens,
+          padWithSentenceTokens,
+          addPrefixSpace = addPrefixSpace)
+
+      case "bart" =>
+        new BartTokenizer(
           merges,
           vocab,
           modelSpecialTokens,
