@@ -13,7 +13,7 @@ supported: true
 engine: tensorflow
 annotator: FinanceBertForSequenceClassification
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,6 +37,7 @@ This is a Multiclass classification model which classifies financial tweets with
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler() \
     .setInputCols(["text"]) \
