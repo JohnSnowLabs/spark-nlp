@@ -188,5 +188,4 @@ B-STOCKHOLDERS_DEFICIT       0.89      0.75      0.81        32
              micro-avg       0.90      0.92      0.91     39733
              macro-avg       0.81      0.80      0.80     39733
           weighted-avg       0.90      0.92      0.91     39733
-
 ```
