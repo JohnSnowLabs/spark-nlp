@@ -90,6 +90,15 @@ private[nlp] object SpecialTokens {
             "<special7>",
             "<special8>",
             "<special9>"))
+      case "bart" =>
+        new SpecialTokens(
+          vocab,
+          startTokenString = "<s>",
+          endTokenString = "</s>",
+          unkTokenString = "<unk>",
+          maskTokenString = "<mask>",
+          padTokenString = "<pad>")
+
     }
 }
 
