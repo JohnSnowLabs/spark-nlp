@@ -55,9 +55,18 @@ val result = pipeline.fullAnnotate(text)
 ## Results
 
 ```bash
-|    | ber_chunks   |   begin |   end | ner_label   |   confidence |
-|---:|:-------------|--------:|------:|:------------|-------------:|
-|  0 | Se           |     173 |   174 | NEG         |       0.8579 |
++------------------------------------------------------+---------+
+|chunk                                                 |ner_label|
++------------------------------------------------------+---------+
+|probable de                                           |UNC      |
+|cirrosis hepática                                     |USCO     |
+|no                                                    |NEG      |
+|conocida previamente                                  |NSCO     |
+|no                                                    |NEG      |
+|se realizó paracentesis control por escasez de liquido|NSCO     |
+|susceptible de                                        |UNC      |
+|ca basocelular perlado                                |USCO     |
++------------------------------------------------------+---------+
 ```
 
 {:.model-param}

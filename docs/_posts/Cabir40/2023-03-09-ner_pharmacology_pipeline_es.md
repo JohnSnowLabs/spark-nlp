@@ -55,7 +55,7 @@ val result = pipeline.fullAnnotate(text)
 ## Results
 
 ```bash
-|    | ber_chunks      |   begin |   end | ner_label     |   confidence |
+|    | ner_chunks      |   begin |   end | ner_label     |   confidence |
 |---:|:----------------|--------:|------:|:--------------|-------------:|
 |  0 | creatinkinasa   |      31 |    43 | PROTEINAS     |      0.9994  |
 |  1 | LDH             |      53 |    55 | PROTEINAS     |      0.9996  |
