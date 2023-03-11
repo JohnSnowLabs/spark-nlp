@@ -18,7 +18,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-It's an Assertion Status model which allows you to detect if a mentioned amount or percentage is stated to be increased or decreased in context.
+This is an Assertion Status model which allows you to detect if a mentioned amount or percentage is stated to be increased or decreased in context.
 
 ## Predicted Entities
 
