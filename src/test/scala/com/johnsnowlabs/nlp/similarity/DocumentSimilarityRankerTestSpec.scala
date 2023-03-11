@@ -65,15 +65,10 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
       .setOutputCol(DOC_SIMILARITY_RANKINGS)
       .setSimilarityMethod("brp")
       .setNumberOfNeighbours(3)
+      .setVisibleDistances(true)
 
     val documentSimilarityFinisher = new DocumentSimilarityRankerFinisher()
       .setInputCols("doc_similarity_rankings")
-      .setOutputCols(
-        Array(
-          "finished_doc_similarity_rankings_id",
-          "finished_doc_similarity_rankings_neighbors"
-        )
-      )
 
     val pipeline = new Pipeline()
       .setStages(
@@ -90,10 +85,13 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
 
     val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
 
-    pipelineDF.select(
-      "finished_doc_similarity_rankings_id",
+    val fitted = pipelineDF.select(
       "text",
+      "finished_doc_similarity_rankings_id",
       "finished_doc_similarity_rankings_neighbors"
-    ).show(false)
+    )
+
+    fitted.show(false)
+    fitted.printSchema
   }
 }

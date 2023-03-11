@@ -4,16 +4,27 @@ import com.johnsnowlabs.nlp.AnnotatorType.{DOC_SIMILARITY_RANKINGS, SENTENCE_EMB
 import com.johnsnowlabs.nlp.{AnnotatorApproach, HasEnableCachingProperties}
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.feature.{BucketedRandomProjectionLSH, BucketedRandomProjectionLSHModel, VectorAssembler}
+import org.apache.spark.ml.feature.{BucketedRandomProjectionLSH, BucketedRandomProjectionLSHModel}
 import org.apache.spark.ml.functions.array_to_vector
-import org.apache.spark.ml.linalg.{DenseVector, Vectors}
-import org.apache.spark.ml.param.Param
+import org.apache.spark.ml.linalg.DenseVector
+import org.apache.spark.ml.param.{BooleanParam, Param}
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.expressions.Window
-import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
-import org.apache.spark.sql.functions.{col, expr, flatten, hash, monotonically_increasing_id, row_number, udf}
+import org.apache.spark.sql.functions.{col, flatten, udf}
+import org.apache.spark.sql.{DataFrame, Dataset}
 
 import scala.util.hashing.MurmurHash3
+
+
+sealed trait NeighborAnnotation {
+  def neighbors: Array[_]
+}
+
+case class IndexedNeighbors(neighbors: Array[Int]) extends NeighborAnnotation
+
+case class IndexedNeighborsWithDistance(neighbors: Array[(Int, Double)]) extends NeighborAnnotation
+
+case class NeighborsResultSet(result: (Int, NeighborAnnotation))
+
 
 class DocumentSimilarityRankerApproach(override val uid: String)
   extends AnnotatorApproach[DocumentSimilarityRankerModel]
@@ -36,6 +47,8 @@ class DocumentSimilarityRankerApproach(override val uid: String)
   val LSH_OUTPUT_COL_NAME = "hashes"
 
   val INDEX_COL_NAME = "index"
+
+  val DISTANCE = "distCol"
 
   val INPUT_EMBEDDINGS = "sentence_embeddings.embeddings"
 
@@ -91,7 +104,14 @@ class DocumentSimilarityRankerApproach(override val uid: String)
 
   def setNumHashTables(value: Int): this.type = set(numHashTables, value)
 
-  def getNumHashTables: Int = $(numHashTables)
+  val visibleDistances = new BooleanParam(
+    this,
+    "setVisibleDistances",
+    "Whether to set visibleDistances in LSH output (Default: `false`)")
+
+  def setVisibleDistances(value: Boolean): this.type = set(visibleDistances, value)
+
+  def getVisibleDistances: Boolean = $(visibleDistances)
 
   setDefault(
     inputCols -> Array(SENTENCE_EMBEDDINGS),
@@ -99,21 +119,32 @@ class DocumentSimilarityRankerApproach(override val uid: String)
     similarityMethod -> "brp",
     numberOfNeighbours -> 10,
     bucketLength -> 2.0,
-    numHashTables -> 3
+    numHashTables -> 3,
+    visibleDistances -> false
   )
 
-  def getNeighboursRankedDocIndexes(model: BucketedRandomProjectionLSHModel,
-                                    query: (Int, DenseVector),
-                                    similarityDataset: DataFrame) = {
+  def getNeighborsResultSet(model: BucketedRandomProjectionLSHModel,
+                            query: (Int, DenseVector),
+                            similarityDataset: DataFrame): NeighborsResultSet = {
     query match {
       case (index, queryVector) =>
         val similarRankedDocs = model.approxNearestNeighbors(similarityDataset, queryVector, getNumberOfNeighbours)
-        val neighboursRankedDocIndexes: Array[Int] = similarRankedDocs
-          .select(INDEX_COL_NAME)
-          .collect()
-          .map(_.getInt(0))
 
-        (index, neighboursRankedDocIndexes)
+        if(getVisibleDistances) {
+          val rankedNeighboursWithDistances = similarRankedDocs
+            .select(INDEX_COL_NAME, DISTANCE)
+            .collect()
+            .map(row => (row.getInt(0), row.getDouble(1)))
+
+          NeighborsResultSet((index, IndexedNeighborsWithDistance(rankedNeighboursWithDistances)))
+        } else {
+          val rankedNeighbours = similarRankedDocs
+            .select(INDEX_COL_NAME)
+            .collect()
+            .map(_.getInt(0))
+
+          NeighborsResultSet(index, IndexedNeighbors(rankedNeighbours))
+        }
     }
   }
 
@@ -148,9 +179,9 @@ class DocumentSimilarityRankerApproach(override val uid: String)
       .map(x => (x.getAs[Int](INDEX_COL_NAME), x.getAs[DenseVector](LSH_INPUT_COL_NAME)))
       .collect()
 
-    val similarityMappings: Map[Int, Array[Int]] = indexedVectorTuples
-      .map(query => getNeighboursRankedDocIndexes(model, query, similarityDatasetWithIndex))
-      .toMap
+    val similarityMappings: Map[Int, NeighborAnnotation] = indexedVectorTuples
+      .map(query => getNeighborsResultSet(model, query, similarityDatasetWithIndex))
+      .map(_.result).toMap
 
     new DocumentSimilarityRankerModel()
       .setSimilarityMappings(

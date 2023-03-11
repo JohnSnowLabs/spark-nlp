@@ -27,12 +27,12 @@ class DocumentSimilarityRankerModel(override val uid: String)
    *
    * @group param
    */
-  val similarityMappings: MapFeature[String, Map[Int, Array[Int]]] = new MapFeature(this, "similarityMappings")
+  val similarityMappings: MapFeature[String, Map[Int, NeighborAnnotation]] = new MapFeature(this, "similarityMappings")
 
   /** @group setParam */
-  def setSimilarityMappings(value: Map[String, Map[Int, Array[Int]]]): this.type = set(similarityMappings, value)
+  def setSimilarityMappings(value: Map[String, Map[Int, NeighborAnnotation]]): this.type = set(similarityMappings, value)
 
-  def getSimilarityMappings: Map[Int, Array[Int]] = $$(similarityMappings).getOrElse("similarityMappings", Map.empty)
+  def getSimilarityMappings: Map[Int, NeighborAnnotation] = $$(similarityMappings).getOrElse("similarityMappings", Map.empty)
 
   setDefault(
     inputCols -> Array(SENTENCE_EMBEDDINGS),
@@ -54,7 +54,7 @@ class DocumentSimilarityRankerModel(override val uid: String)
       annotation => {
         val inputResult = annotation.result
         val targetIndex = MurmurHash3.stringHash(inputResult, MurmurHash3.stringSeed)
-        val neighbors: Array[Int] = getSimilarityMappings.getOrElse(targetIndex, Array(-1)) // index NA
+        val neighborsAnnotation: NeighborAnnotation = getSimilarityMappings.getOrElse(targetIndex, IndexedNeighbors(Array.empty)) // index NA
 
         Annotation(
           annotatorType = outputAnnotatorType,
@@ -63,7 +63,7 @@ class DocumentSimilarityRankerModel(override val uid: String)
           result = annotation.result,
           metadata = annotation.metadata
             + ("lshId"-> targetIndex.toString)
-            + ("lshNeighbors" -> neighbors.mkString("[", ",", "]")) ,
+            + ("lshNeighbors" -> neighborsAnnotation.neighbors.mkString("[", ",", "]")) ,
           embeddings = annotation.embeddings)
       }
     )
