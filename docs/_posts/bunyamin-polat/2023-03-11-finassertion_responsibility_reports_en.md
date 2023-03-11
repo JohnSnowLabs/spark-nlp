@@ -36,6 +36,7 @@ This model is aimed to detect if any `AMOUNT` or  `PERCENTAGE`  entity, extracte
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
