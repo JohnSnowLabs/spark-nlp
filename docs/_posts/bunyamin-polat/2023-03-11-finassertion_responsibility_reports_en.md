@@ -2,7 +2,7 @@
 layout: model
 title: Financial Assertion Status (Responsibility Reports)
 author: John Snow Labs
-name: finassertion_responsibility_reports
+name: finassertion_increase_decrease_amounts
 date: 2023-03-11
 tags: [en, licensed, finance, assertion, responsibility]
 task: Assertion Status
@@ -66,7 +66,7 @@ ner_converter = nlp.NerConverter()\
     .setOutputCol("ner_chunk")\
     .setWhiteList(["AMOUNT", "PERCENTAGE"])
 
-fin_assertion = finance.AssertionDLModel.pretrained("finassertion_responsibility_reports", "en", "finance/models")\
+fin_assertion = finance.AssertionDLModel.pretrained("finassertion_increase_decrease_amounts", "en", "finance/models")\
     .setInputCols(["sentence", "ner_chunk", "embeddings"])\
     .setOutputCol("assertion")\
 
