@@ -1,106 +1,81 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-03-11T10:26:24+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
-</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">10K Item Section Classifier</title><link href="/2023/03/10/finclf_10k_items_en.html" rel="alternate" type="text/html" title="10K Item Section Classifier" /><published>2023-03-10T00:00:00+00:00</published><updated>2023-03-10T00:00:00+00:00</updated><id>/2023/03/10/finclf_10k_items_en</id><content type="html" xml:base="/2023/03/10/finclf_10k_items_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-03-11T10:36:10+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">10K Item Section Classifier</title><link href="/2023/03/10/finclf_10k_items_en.html" rel="alternate" type="text/html" title="10K Item Section Classifier" /><published>2023-03-10T00:00:00+00:00</published><updated>2023-03-10T00:00:00+00:00</updated><id>/2023/03/10/finclf_10k_items_en</id><content type="html" xml:base="/2023/03/10/finclf_10k_items_en.html">## Description
 
-&lt;p&gt;This is a Multiclass classification model which identifies the item (section) number in a 10K filing.&lt;/p&gt;
+This is a Multiclass classification model which identifies the item (section) number in a 10K filing.
 
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+## Predicted Entities
 
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;section_1&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;section_2&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;section_3&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;section_7&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;section_8&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;section_10&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;section_12&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;section_13&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;section_14&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;section_15&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;section_1A&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;section_1B&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;section_7A&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;section_9A&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;section_9B&lt;/code&gt;&lt;/p&gt;
+`section_1`, `section_2`, `section_3`, `section_7`, `section_8`, `section_10`, `section_12`, `section_13`, `section_14`, `section_15`, `section_1A`, `section_1B`, `section_7A`, `section_9A`, `section_9B`
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_10k_items_en_1.0.0_3.0_1678450523713.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/finance/models/finclf_10k_items_en_1.0.0_3.0_1678450523713.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_10k_items_en_1.0.0_3.0_1678450523713.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/finance/models/finclf_10k_items_en_1.0.0_3.0_1678450523713.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
 
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
-&lt;span class=&quot;n&quot;&gt;seq_classifier&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;finance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BertForSequenceClassification&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;finclf_10k_items&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;finance/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;class&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+```python
+documentAssembler = nlp.DocumentAssembler() \
+    .setInputCols([&quot;text&quot;]) \
+    .setOutputCols(&quot;document&quot;)
+
+tokenizer = nlp.Tokenizer() \
+    .setInputCols(&quot;document&quot;) \
+    .setOutputCol(&quot;token&quot;)
+
+seq_classifier = finance.BertForSequenceClassification.pretrained(&quot;finclf_10k_items&quot;, &quot;en&quot;, &quot;finance/models&quot;) \
+    .setInputCols([&quot;document&quot;, &quot;token&quot;]) \
+    .setOutputCol(&quot;class&quot;)
     
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;seq_classifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+pipeline = nlp.Pipeline(stages=[documentAssembler, tokenizer, seq_classifier])
 
-&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;These issues could negatively affect the timely collection of our U.S. government invoices.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+data = spark.createDataFrame([[&quot;These issues could negatively affect the timely collection of our U.S. government invoices.&quot;]]).toDF(&quot;text&quot;)
 
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+result = pipeline.fit(data).transform(data)
+```
 
 &lt;/div&gt;
 
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+## Results
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+------------+
+```bash
++------------+
 |      result|
 +------------+
 |[section_10]|
 +------------+
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+```
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;finclf_10k_items&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Finance NLP 1.0.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Licensed&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[document, token]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[class]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;412.2 MB&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Case sensitive:&lt;/td&gt;
-      &lt;td&gt;true&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Max sentence length:&lt;/td&gt;
-      &lt;td&gt;512&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|finclf_10k_items|
+|Compatibility:|Finance NLP 1.0.0+|
+|License:|Licensed|
+|Edition:|Official|
+|Input Labels:|[document, token]|
+|Output Labels:|[class]|
+|Language:|en|
+|Size:|412.2 MB|
+|Case sensitive:|true|
+|Max sentence length:|512|
 
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+## References
 
-&lt;p&gt;Train dataset available &lt;a href=&quot;https://huggingface.co/datasets/JanosAudran/financial-reports-sec&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
+Train dataset available [here](https://huggingface.co/datasets/JanosAudran/financial-reports-sec)
 
-&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
+## Benchmarking
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;label         precision  recall  f1-score  support 
+```bash
+label         precision  recall  f1-score  support 
 section_1     0.59       0.66    0.62      112     
 section_10    0.73       0.72    0.72      137     
 section_12    0.95       1.00    0.97      124     
@@ -119,18 +94,116 @@ section_9B    0.77       0.63    0.69      147
 accuracy      -          -       0.81      2174    
 macro-avg     0.83       0.83    0.83      2174    
 weighted-avg  0.82       0.81    0.81      2174  
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="licensed" /><category term="classifier" /><category term="10k_items" /><category term="finance" /><category term="tensorflow" /><summary type="html">Description This is a Multiclass classification model which identifies the item (section) number in a 10K filing. Predicted Entities section_1, section_2, section_3, section_7, section_8, section_10, section_12, section_13, section_14, section_15, section_1A, section_1B, section_7A, section_9A, section_9B Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = nlp.DocumentAssembler() \ .setInputCols([&quot;text&quot;]) \ .setOutputCols(&quot;document&quot;) tokenizer = nlp.Tokenizer() \ .setInputCols(&quot;document&quot;) \ .setOutputCol(&quot;token&quot;) seq_classifier = finance.BertForSequenceClassification.pretrained(&quot;finclf_10k_items&quot;, &quot;en&quot;, &quot;finance/models&quot;) \ .setInputCols([&quot;document&quot;, &quot;token&quot;]) \ .setOutputCol(&quot;class&quot;) pipeline = nlp.Pipeline(stages=[documentAssembler, tokenizer, seq_classifier]) data = spark.createDataFrame([[&quot;These issues could negatively affect the timely collection of our U.S. government invoices.&quot;]]).toDF(&quot;text&quot;) result = pipeline.fit(data).transform(data) Results +------------+ | result| +------------+ |[section_10]| +------------+ Model Information Model Name: finclf_10k_items Compatibility: Finance NLP 1.0.0+ License: Licensed Edition: Official Input Labels: [document, token] Output Labels: [class] Language: en Size: 412.2 MB Case sensitive: true Max sentence length: 512 References Train dataset available here Benchmarking label precision recall f1-score support section_1 0.59 0.66 0.62 112 section_10 0.73 0.72 0.72 137 section_12 0.95 1.00 0.97 124 section_13 0.93 0.94 0.94 212 section_14 0.99 0.97 0.98 172 section_15 0.91 0.84 0.87 139 section_1A 0.85 0.86 0.85 92 section_1B 0.70 0.64 0.67 233 section_2 0.85 0.78 0.81 172 section_3 0.60 0.69 0.64 224 section_7 0.92 0.93 0.92 164 section_7A 0.89 0.90 0.89 99 section_8 0.80 0.97 0.88 72 section_9A 0.91 0.93 0.92 75 section_9B 0.77 0.63 0.69 147 accuracy - - 0.81 2174 macro-avg 0.83 0.83 0.83 2174 weighted-avg 0.82 0.81 0.81 2174</summary></entry><entry><title type="html">Finance-related Tweets Classifier</title><link href="/2023/03/10/finclf_twitter_news_en.html" rel="alternate" type="text/html" title="Finance-related Tweets Classifier" /><published>2023-03-10T00:00:00+00:00</published><updated>2023-03-10T00:00:00+00:00</updated><id>/2023/03/10/finclf_twitter_news_en</id><content type="html" xml:base="/2023/03/10/finclf_twitter_news_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+```</content><author><name>John Snow Labs</name></author><category term="en" /><category term="licensed" /><category term="classifier" /><category term="10k_items" /><category term="finance" /><category term="tensorflow" /><summary type="html">Description This is a Multiclass classification model which identifies the item (section) number in a 10K filing. Predicted Entities section_1, section_2, section_3, section_7, section_8, section_10, section_12, section_13, section_14, section_15, section_1A, section_1B, section_7A, section_9A, section_9B Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = nlp.DocumentAssembler() \ .setInputCols([&quot;text&quot;]) \ .setOutputCols(&quot;document&quot;) tokenizer = nlp.Tokenizer() \ .setInputCols(&quot;document&quot;) \ .setOutputCol(&quot;token&quot;) seq_classifier = finance.BertForSequenceClassification.pretrained(&quot;finclf_10k_items&quot;, &quot;en&quot;, &quot;finance/models&quot;) \ .setInputCols([&quot;document&quot;, &quot;token&quot;]) \ .setOutputCol(&quot;class&quot;) pipeline = nlp.Pipeline(stages=[documentAssembler, tokenizer, seq_classifier]) data = spark.createDataFrame([[&quot;These issues could negatively affect the timely collection of our U.S. government invoices.&quot;]]).toDF(&quot;text&quot;) result = pipeline.fit(data).transform(data) Results +------------+ | result| +------------+ |[section_10]| +------------+ Model Information Model Name: finclf_10k_items Compatibility: Finance NLP 1.0.0+ License: Licensed Edition: Official Input Labels: [document, token] Output Labels: [class] Language: en Size: 412.2 MB Case sensitive: true Max sentence length: 512 References Train dataset available here Benchmarking label precision recall f1-score support section_1 0.59 0.66 0.62 112 section_10 0.73 0.72 0.72 137 section_12 0.95 1.00 0.97 124 section_13 0.93 0.94 0.94 212 section_14 0.99 0.97 0.98 172 section_15 0.91 0.84 0.87 139 section_1A 0.85 0.86 0.85 92 section_1B 0.70 0.64 0.67 233 section_2 0.85 0.78 0.81 172 section_3 0.60 0.69 0.64 224 section_7 0.92 0.93 0.92 164 section_7A 0.89 0.90 0.89 99 section_8 0.80 0.97 0.88 72 section_9A 0.91 0.93 0.92 75 section_9B 0.77 0.63 0.69 147 accuracy - - 0.81 2174 macro-avg 0.83 0.83 0.83 2174 weighted-avg 0.82 0.81 0.81 2174</summary></entry><entry><title type="html">Finance-related Tweets Classifier</title><link href="/2023/03/10/finclf_twitter_news_en.html" rel="alternate" type="text/html" title="Finance-related Tweets Classifier" /><published>2023-03-10T00:00:00+00:00</published><updated>2023-03-10T00:00:00+00:00</updated><id>/2023/03/10/finclf_twitter_news_en</id><content type="html" xml:base="/2023/03/10/finclf_twitter_news_en.html">## Description
 
-&lt;p&gt;This is a Multiclass classification model which classifies financial tweets with one of the following topics: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Company_or_Product_News&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Stock_Movement&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;General_News_or_Opinion&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Earnings&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Macro&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Fed_or_Central_Banks&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Politics&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Stock_Commentary&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Financials&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;M&amp;amp;A_or_Investments&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Legal_or_Regulation&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Personnel_Change&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Markets&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Energy_or_Oil&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Dividend&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Analyst_Update&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Treasuries_or_Corporate_Debt&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Currencies&lt;/code&gt;.&lt;/p&gt;
+This is a Multiclass classification model which classifies financial tweets with one of the following topics: `Company_or_Product_News`, `Stock_Movement`, `General_News_or_Opinion`, `Earnings`, `Macro`, `Fed_or_Central_Banks`, `Politics`, `Stock_Commentary`, `Financials`, `M&amp;A_or_Investments`, `Legal_or_Regulation`, `Personnel_Change`, `Markets`, `Energy_or_Oil`, `Dividend`, `Analyst_Update`, `Treasuries_or_Corporate_Debt`, `Currencies`.
+
+## Predicted Entities
+
+`Company_or_Product_News`, `Stock_Movement`, `General_News_or_Opinion`, `Earnings`, `Macro`, `Fed_or_Central_Banks`, `Politics`, `Stock_Commentary`, `Financials`, `M&amp;A_or_Investments`, `Legal_or_Regulation`, `Personnel_Change`, `Markets`, `Energy_or_Oil`, `Dividend`, `Analyst_Update`, `Treasuries_or_Corporate_Debt`, `Currencies`
+
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_twitter_news_en_1.0.0_3.0_1678444505428.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/finance/models/finclf_twitter_news_en_1.0.0_3.0_1678444505428.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+
+## How to use
+
+
+
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+
+```python
+documentAssembler = nlp.DocumentAssembler() \
+    .setInputCols([&quot;text&quot;]) \
+    .setOutputCols(&quot;document&quot;)
+
+tokenizer = nlp.Tokenizer() \
+    .setInputCols(&quot;document&quot;) \
+    .setOutputCol(&quot;token&quot;)
+
+seq_classifier = finance.BertForSequenceClassification.pretrained(&quot;finclf_twitter_news&quot;, &quot;en&quot;, &quot;finance/models&quot;) \
+    .setInputCols([&quot;document&quot;, &quot;token&quot;]) \
+    .setOutputCol(&quot;class&quot;)
+    
+pipeline = nlp.Pipeline(stages=[documentAssembler, tokenizer, seq_classifier])
+
+data = spark.createDataFrame([[&quot;Barclays believes earnings for these underperforming stocks may surprise Wall Street&quot;]]).toDF(&quot;text&quot;)
+
+result = pipeline.fit(data).transform(data)
+```
+
+&lt;/div&gt;
+
+## Results
+
+```bash
++----------------+
+|          result|
++----------------+
+|[Analyst_Update]|
++----------------+
+```
+
+{:.model-param}
+## Model Information
+
+{:.table-model}
+|---|---|
+|Model Name:|finclf_twitter_news|
+|Compatibility:|Finance NLP 1.0.0+|
+|License:|Licensed|
+|Edition:|Official|
+|Input Labels:|[document, token]|
+|Output Labels:|[class]|
+|Language:|en|
+|Size:|408.7 MB|
+|Case sensitive:|true|
+|Max sentence length:|512|
+
+## References
+
+Train dataset available [here](https://huggingface.co/datasets/zeroshot/twitter-financial-news-topic)
+
+## Benchmarking
+
+```bash
+label                         precision  recall  f1-score  support 
+Analyst_Update                0.79       0.79    0.79      38      
+Company_or_Product_News       0.71       0.78    0.74      112     
+Currencies                    0.80       1.00    0.89      12      
+Dividend                      1.00       0.94    0.97      31      
+Earnings                      0.95       0.97    0.96      100     
+Energy_or_Oil                 0.78       0.89    0.83      55      
+Fed_or_Central_Banks          0.82       0.78    0.80      95      
+Financials                    0.90       0.93    0.92      60      
+General_News_or_Opinion       0.71       0.74    0.72      80      
+Legal_or_Regulation           0.85       0.75    0.80      52      
+M&amp;A_or_Investments            0.85       0.90    0.87      49      
+Macro                         0.81       0.70    0.75      84      
+Markets                       0.91       0.84    0.87      49      
+Personnel_Change              0.96       0.94    0.95      50      
+Politics                      0.83       0.82    0.82      83      
+Stock_Commentary              0.87       0.94    0.90      63      
+Stock_Movement                0.94       0.90    0.92      89      
+Treasuries_or_Corporate_Debt  0.80       0.73    0.76      33      
+accuracy                      -          -       0.84      1135    
+macro-avg                     0.85       0.85    0.85      1135    
+weighted-avg                  0.84       0.84    0.84      1135    
+```</content><author><name>John Snow Labs</name></author><category term="en" /><category term="licensed" /><category term="classifier" /><category term="twitter" /><category term="finance" /><category term="tensorflow" /><summary type="html">Description This is a Multiclass classification model which classifies financial tweets with one of the following topics: Company_or_Product_News, Stock_Movement, General_News_or_Opinion, Earnings, Macro, Fed_or_Central_Banks, Politics, Stock_Commentary, Financials, M&amp;amp;A_or_Investments, Legal_or_Regulation, Personnel_Change, Markets, Energy_or_Oil, Dividend, Analyst_Update, Treasuries_or_Corporate_Debt, Currencies. Predicted Entities Company_or_Product_News, Stock_Movement, General_News_or_Opinion, Earnings, Macro, Fed_or_Central_Banks, Politics, Stock_Commentary, Financials, M&amp;amp;A_or_Investments, Legal_or_Regulation, Personnel_Change, Markets, Energy_or_Oil, Dividend, Analyst_Update, Treasuries_or_Corporate_Debt, Currencies Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = nlp.DocumentAssembler() \ .setInputCols([&quot;text&quot;]) \ .setOutputCols(&quot;document&quot;) tokenizer = nlp.Tokenizer() \ .setInputCols(&quot;document&quot;) \ .setOutputCol(&quot;token&quot;) seq_classifier = finance.BertForSequenceClassification.pretrained(&quot;finclf_twitter_news&quot;, &quot;en&quot;, &quot;finance/models&quot;) \ .setInputCols([&quot;document&quot;, &quot;token&quot;]) \ .setOutputCol(&quot;class&quot;) pipeline = nlp.Pipeline(stages=[documentAssembler, tokenizer, seq_classifier]) data = spark.createDataFrame([[&quot;Barclays believes earnings for these underperforming stocks may surprise Wall Street&quot;]]).toDF(&quot;text&quot;) result = pipeline.fit(data).transform(data) Results +----------------+ | result| +----------------+ |[Analyst_Update]| +----------------+ Model Information Model Name: finclf_twitter_news Compatibility: Finance NLP 1.0.0+ License: Licensed Edition: Official Input Labels: [document, token] Output Labels: [class] Language: en Size: 408.7 MB Case sensitive: true Max sentence length: 512 References Train dataset available here Benchmarking label precision recall f1-score support Analyst_Update 0.79 0.79 0.79 38 Company_or_Product_News 0.71 0.78 0.74 112 Currencies 0.80 1.00 0.89 12 Dividend 1.00 0.94 0.97 31 Earnings 0.95 0.97 0.96 100 Energy_or_Oil 0.78 0.89 0.83 55 Fed_or_Central_Banks 0.82 0.78 0.80 95 Financials 0.90 0.93 0.92 60 General_News_or_Opinion 0.71 0.74 0.72 80 Legal_or_Regulation 0.85 0.75 0.80 52 M&amp;amp;A_or_Investments 0.85 0.90 0.87 49 Macro 0.81 0.70 0.75 84 Markets 0.91 0.84 0.87 49 Personnel_Change 0.96 0.94 0.95 50 Politics 0.83 0.82 0.82 83 Stock_Commentary 0.87 0.94 0.90 63 Stock_Movement 0.94 0.90 0.92 89 Treasuries_or_Corporate_Debt 0.80 0.73 0.76 33 accuracy - - 0.84 1135 macro-avg 0.85 0.85 0.85 1135 weighted-avg 0.84 0.84 0.84 1135</summary></entry><entry><title type="html">Legal Advice Class Identifier</title><link href="/2023/03/10/legclf_reddit_advice_en.html" rel="alternate" type="text/html" title="Legal Advice Class Identifier" /><published>2023-03-10T00:00:00+00:00</published><updated>2023-03-10T00:00:00+00:00</updated><id>/2023/03/10/legclf_reddit_advice_en</id><content type="html" xml:base="/2023/03/10/legclf_reddit_advice_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;This is a Multiclass classification model which retrieves the topic/class of an informal message from a legal forum, including the following classes: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;digital&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;business&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;insurance&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;contract&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;driving&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;school&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;family&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;wills&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;employment&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;housing&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;criminal&lt;/code&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
 
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Company_or_Product_News&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Stock_Movement&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;General_News_or_Opinion&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Earnings&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Macro&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Fed_or_Central_Banks&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Politics&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Stock_Commentary&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Financials&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;M&amp;amp;A_or_Investments&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Legal_or_Regulation&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Personnel_Change&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Markets&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Energy_or_Oil&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Dividend&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Analyst_Update&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Treasuries_or_Corporate_Debt&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Currencies&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;digital&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;business&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;insurance&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;contract&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;driving&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;school&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;family&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;wills&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;employment&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;housing&lt;/code&gt;&lt;/p&gt;
 
 &lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
 &lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finclf_twitter_news_en_1.0.0_3.0_1678444505428.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/finance/models/finclf_twitter_news_en_1.0.0_3.0_1678444505428.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_reddit_advice_en_1.0.0_3.0_1678448985639.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/legal/models/legclf_reddit_advice_en_1.0.0_3.0_1678448985639.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
@@ -145,13 +218,13 @@ weighted-avg  0.82       0.81    0.81      2174
     &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
     &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;seq_classifier&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;finance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BertForSequenceClassification&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;finclf_twitter_news&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;finance/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+&lt;span class=&quot;n&quot;&gt;seq_classifier&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;legal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BertForSequenceClassification&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;legclf_reddit_advice&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;legal/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
     &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
     &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;class&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
     
 &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;seq_classifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Barclays believes earnings for these underperforming stocks may surprise Wall Street&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Mother of my child took my daughter and moved (without notice), won't let me see her or tell me where she is.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
 &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
@@ -160,11 +233,11 @@ weighted-avg  0.82       0.81    0.81      2174
 
 &lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+----------------+
-|          result|
-+----------------+
-|[Analyst_Update]|
-+----------------+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+--------+
+|  result|
++--------+
+|[family]|
++--------+
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
@@ -173,11 +246,11 @@ weighted-avg  0.82       0.81    0.81      2174
   &lt;tbody&gt;
     &lt;tr&gt;
       &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;finclf_twitter_news&lt;/td&gt;
+      &lt;td&gt;legclf_reddit_advice&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
       &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Finance NLP 1.0.0+&lt;/td&gt;
+      &lt;td&gt;Legal NLP 1.0.0+&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
       &lt;td&gt;License:&lt;/td&gt;
@@ -201,7 +274,7 @@ weighted-avg  0.82       0.81    0.81      2174
     &lt;/tr&gt;
     &lt;tr&gt;
       &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;408.7 MB&lt;/td&gt;
+      &lt;td&gt;406.4 MB&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
       &lt;td&gt;Case sensitive:&lt;/td&gt;
@@ -216,88 +289,86 @@ weighted-avg  0.82       0.81    0.81      2174
 
 &lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
 
-&lt;p&gt;Train dataset available &lt;a href=&quot;https://huggingface.co/datasets/zeroshot/twitter-financial-news-topic&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Train dataset available &lt;a href=&quot;https://huggingface.co/datasets/jonathanli/legal-advice-reddit&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;label                         precision  recall  f1-score  support 
-Analyst_Update                0.79       0.79    0.79      38      
-Company_or_Product_News       0.71       0.78    0.74      112     
-Currencies                    0.80       1.00    0.89      12      
-Dividend                      1.00       0.94    0.97      31      
-Earnings                      0.95       0.97    0.96      100     
-Energy_or_Oil                 0.78       0.89    0.83      55      
-Fed_or_Central_Banks          0.82       0.78    0.80      95      
-Financials                    0.90       0.93    0.92      60      
-General_News_or_Opinion       0.71       0.74    0.72      80      
-Legal_or_Regulation           0.85       0.75    0.80      52      
-M&amp;amp;A_or_Investments            0.85       0.90    0.87      49      
-Macro                         0.81       0.70    0.75      84      
-Markets                       0.91       0.84    0.87      49      
-Personnel_Change              0.96       0.94    0.95      50      
-Politics                      0.83       0.82    0.82      83      
-Stock_Commentary              0.87       0.94    0.90      63      
-Stock_Movement                0.94       0.90    0.92      89      
-Treasuries_or_Corporate_Debt  0.80       0.73    0.76      33      
-accuracy                      -          -       0.84      1135    
-macro-avg                     0.85       0.85    0.85      1135    
-weighted-avg                  0.84       0.84    0.84      1135    
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="licensed" /><category term="classifier" /><category term="twitter" /><category term="finance" /><category term="tensorflow" /><summary type="html">Description This is a Multiclass classification model which classifies financial tweets with one of the following topics: Company_or_Product_News, Stock_Movement, General_News_or_Opinion, Earnings, Macro, Fed_or_Central_Banks, Politics, Stock_Commentary, Financials, M&amp;amp;A_or_Investments, Legal_or_Regulation, Personnel_Change, Markets, Energy_or_Oil, Dividend, Analyst_Update, Treasuries_or_Corporate_Debt, Currencies. Predicted Entities Company_or_Product_News, Stock_Movement, General_News_or_Opinion, Earnings, Macro, Fed_or_Central_Banks, Politics, Stock_Commentary, Financials, M&amp;amp;A_or_Investments, Legal_or_Regulation, Personnel_Change, Markets, Energy_or_Oil, Dividend, Analyst_Update, Treasuries_or_Corporate_Debt, Currencies Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = nlp.DocumentAssembler() \ .setInputCols([&quot;text&quot;]) \ .setOutputCols(&quot;document&quot;) tokenizer = nlp.Tokenizer() \ .setInputCols(&quot;document&quot;) \ .setOutputCol(&quot;token&quot;) seq_classifier = finance.BertForSequenceClassification.pretrained(&quot;finclf_twitter_news&quot;, &quot;en&quot;, &quot;finance/models&quot;) \ .setInputCols([&quot;document&quot;, &quot;token&quot;]) \ .setOutputCol(&quot;class&quot;) pipeline = nlp.Pipeline(stages=[documentAssembler, tokenizer, seq_classifier]) data = spark.createDataFrame([[&quot;Barclays believes earnings for these underperforming stocks may surprise Wall Street&quot;]]).toDF(&quot;text&quot;) result = pipeline.fit(data).transform(data) Results +----------------+ | result| +----------------+ |[Analyst_Update]| +----------------+ Model Information Model Name: finclf_twitter_news Compatibility: Finance NLP 1.0.0+ License: Licensed Edition: Official Input Labels: [document, token] Output Labels: [class] Language: en Size: 408.7 MB Case sensitive: true Max sentence length: 512 References Train dataset available here Benchmarking label precision recall f1-score support Analyst_Update 0.79 0.79 0.79 38 Company_or_Product_News 0.71 0.78 0.74 112 Currencies 0.80 1.00 0.89 12 Dividend 1.00 0.94 0.97 31 Earnings 0.95 0.97 0.96 100 Energy_or_Oil 0.78 0.89 0.83 55 Fed_or_Central_Banks 0.82 0.78 0.80 95 Financials 0.90 0.93 0.92 60 General_News_or_Opinion 0.71 0.74 0.72 80 Legal_or_Regulation 0.85 0.75 0.80 52 M&amp;amp;A_or_Investments 0.85 0.90 0.87 49 Macro 0.81 0.70 0.75 84 Markets 0.91 0.84 0.87 49 Personnel_Change 0.96 0.94 0.95 50 Politics 0.83 0.82 0.82 83 Stock_Commentary 0.87 0.94 0.90 63 Stock_Movement 0.94 0.90 0.92 89 Treasuries_or_Corporate_Debt 0.80 0.73 0.76 33 accuracy - - 0.84 1135 macro-avg 0.85 0.85 0.85 1135 weighted-avg 0.84 0.84 0.84 1135</summary></entry><entry><title type="html">Financial NER (xlg, XLarge)</title><link href="/2023/03/10/finner_financial_xlarge_en.html" rel="alternate" type="text/html" title="Financial NER (xlg, XLarge)" /><published>2023-03-10T00:00:00+00:00</published><updated>2023-03-10T00:00:00+00:00</updated><id>/2023/03/10/finner_financial_xlarge_en</id><content type="html" xml:base="/2023/03/10/finner_financial_xlarge_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;label         precision  recall  f1-score  support 
+business      0.76       0.67    0.72      239     
+contract      0.80       0.68    0.73      207     
+criminal      0.82       0.77    0.80      209     
+digital       0.76       0.74    0.75      223     
+driving       0.86       0.85    0.86      223     
+employment    0.76       0.92    0.83      222     
+family        0.88       0.95    0.92      216     
+housing       0.89       0.95    0.92      221     
+insurance     0.83       0.80    0.81      221     
+school        0.87       0.91    0.89      207     
+wills         0.95       0.96    0.96      199     
+accuracy      -          -       0.83      2387    
+macro-avg     0.84       0.84    0.83      2387    
+weighted-avg  0.83       0.83    0.83      2387
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="licensed" /><category term="legal" /><category term="classifier" /><category term="reddit" /><category term="tensorflow" /><summary type="html">Description This is a Multiclass classification model which retrieves the topic/class of an informal message from a legal forum, including the following classes: digital, business, insurance, contract, driving, school, family, wills, employment, housing, criminal. Predicted Entities digital, business, insurance, contract, driving, school, family, wills, employment, housing Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = nlp.DocumentAssembler() \ .setInputCols([&quot;text&quot;]) \ .setOutputCols(&quot;document&quot;) tokenizer = nlp.Tokenizer() \ .setInputCols(&quot;document&quot;) \ .setOutputCol(&quot;token&quot;) seq_classifier = legal.BertForSequenceClassification.pretrained(&quot;legclf_reddit_advice&quot;, &quot;en&quot;, &quot;legal/models&quot;) \ .setInputCols([&quot;document&quot;, &quot;token&quot;]) \ .setOutputCol(&quot;class&quot;) pipeline = nlp.Pipeline(stages=[documentAssembler, tokenizer, seq_classifier]) data = spark.createDataFrame([[&quot;Mother of my child took my daughter and moved (without notice), won't let me see her or tell me where she is.&quot;]]).toDF(&quot;text&quot;) result = pipeline.fit(data).transform(data) Results +--------+ | result| +--------+ |[family]| +--------+ Model Information Model Name: legclf_reddit_advice Compatibility: Legal NLP 1.0.0+ License: Licensed Edition: Official Input Labels: [document, token] Output Labels: [class] Language: en Size: 406.4 MB Case sensitive: true Max sentence length: 512 References Train dataset available here Benchmarking label precision recall f1-score support business 0.76 0.67 0.72 239 contract 0.80 0.68 0.73 207 criminal 0.82 0.77 0.80 209 digital 0.76 0.74 0.75 223 driving 0.86 0.85 0.86 223 employment 0.76 0.92 0.83 222 family 0.88 0.95 0.92 216 housing 0.89 0.95 0.92 221 insurance 0.83 0.80 0.81 221 school 0.87 0.91 0.89 207 wills 0.95 0.96 0.96 199 accuracy - - 0.83 2387 macro-avg 0.84 0.84 0.83 2387 weighted-avg 0.83 0.83 0.83 2387</summary></entry><entry><title type="html">Financial NER (xlg, XLarge)</title><link href="/2023/03/10/finner_financial_xlarge_en.html" rel="alternate" type="text/html" title="Financial NER (xlg, XLarge)" /><published>2023-03-10T00:00:00+00:00</published><updated>2023-03-10T00:00:00+00:00</updated><id>/2023/03/10/finner_financial_xlarge_en</id><content type="html" xml:base="/2023/03/10/finner_financial_xlarge_en.html">## Description
 
-&lt;p&gt;This financial model is an xlg (Xlarge) version, which has been trained with more general labels than other versions such (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;md&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;lg&lt;/code&gt;, …) that are available in the Models Hub. The training corpus used for this model is a combination of Broker Reports, Earning Calls, and 10K filings.&lt;/p&gt;
+This financial model is an xlg (Xlarge) version, which has been trained with more general labels than other versions such (`md`, `lg`, ...) that are available in the Models Hub. The training corpus used for this model is a combination of Broker Reports, Earning Calls, and 10K filings.
 
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+## Predicted Entities
 
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CF&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;INCOME&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;KPI_INCREASE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CFO&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PROFIT&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PROFIT_INCREASE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AMOUNT&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;REVENUE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CFI&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;EXPENSE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FISCAL_YEAR&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Expense&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;KPI&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LIABILITY&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TARGET_PRICE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CFO_decrease&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;STOCKHOLDERS_EQUITY&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PROFIT_DECLINE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CMP&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CFF&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Expense_decrease&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Revenue_decline&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;COUNT&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Contra_LIABILITY&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Expense_Increase&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;STOCK_EXCHANGE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LOSS&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FCF&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Revenue_increase&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CFN&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CFO_Increase&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Income&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PERCENTAGE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CURRENCY&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ASSET&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;STOCKHOLDERS_DEFICIT&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DATE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RATING&lt;/code&gt;&lt;/p&gt;
+`CF`, `INCOME`, `KPI_INCREASE`, `CFO`, `PROFIT`, `PROFIT_INCREASE`, `AMOUNT`, `REVENUE`, `CFI`, `EXPENSE`, `FISCAL_YEAR`, `Expense`, `KPI`, `LIABILITY`, `TARGET_PRICE`, `CFO_decrease`, `STOCKHOLDERS_EQUITY`, `PROFIT_DECLINE`, `CMP`, `CFF`, `Expense_decrease`, `Revenue_decline`, `COUNT`, `Contra_LIABILITY`, `Expense_Increase`, `STOCK_EXCHANGE`, `LOSS`, `FCF`, `Revenue_increase`, `CFN`, `CFO_Increase`, `Income`, `PERCENTAGE`, `CURRENCY`, `ASSET`, `STOCKHOLDERS_DEFICIT`, `DATE`, `RATING`
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;a href=&quot;https://demo.johnsnowlabs.com/finance/FINNER_FINANCIAL_10K/&quot; class=&quot;button button-orange&quot;&gt;Live Demo&lt;/a&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_financial_xlarge_en_1.0.0_3.0_1678464314140.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/finance/models/finner_financial_xlarge_en_1.0.0_3.0_1678464314140.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+[Live Demo](https://demo.johnsnowlabs.com/finance/FINNER_FINANCIAL_10K/){:.button.button-orange}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finner_financial_xlarge_en_1.0.0_3.0_1678464314140.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/finance/models/finner_financial_xlarge_en_1.0.0_3.0_1678464314140.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; 
-&lt;span class=&quot;c1&quot;&gt;# Test classifier in Spark NLP pipeline
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'text'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'document'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'document'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'token'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;c1&quot;&gt;# Load newly trained classifier
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;token_classifier&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;finance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BertForTokenClassification&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;finner_financial_xlarge&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;finance/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'token'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;label&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setCaseSensitive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+ 
+# Test classifier in Spark NLP pipeline
+document_assembler = nlp.DocumentAssembler() \
+    .setInputCol('text') \
+    .setOutputCol('document')
 
-&lt;span class=&quot;n&quot;&gt;converter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;finance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NerConverterInternal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;label&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_span&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+tokenizer = nlp.Tokenizer() \
+    .setInputCols(['document']) \
+    .setOutputCol('token')
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-    &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;token_classifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;converter&lt;/span&gt;    
-&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+# Load newly trained classifier
+token_classifier = finance.BertForTokenClassification.pretrained(&quot;finner_financial_xlarge&quot;, &quot;en&quot;, &quot;finance/models&quot;)\
+  .setInputCols([&quot;document&quot;,'token'])\
+  .setOutputCol(&quot;label&quot;)\
+  .setCaseSensitive(True)
 
-&lt;span class=&quot;c1&quot;&gt;# Generating example
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;example&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'''We expect Revenue / PAT CAGR of ~ 19 %/~ 22 % over FY2022-FY2024E EPS . Hence , we retain our Buy recommendation on VGIL with an unchanged price target ( PT ) of . This includes $ 1 billion in cash and cash equivalents , $ 2 billion in property and equipment , and $ 2 billion in intangible assets .'''&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+converter = finance.NerConverterInternal()\
+    .setInputCols([&quot;document&quot;, &quot;token&quot;, &quot;label&quot;])\
+    .setOutputCol(&quot;ner_span&quot;)
 
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;example&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;example&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+pipeline = nlp.Pipeline(stages=[
+    document_assembler, 
+    tokenizer,
+    token_classifier,
+    converter    
+])
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+# Generating example
+example = spark.createDataFrame([['''We expect Revenue / PAT CAGR of ~ 19 %/~ 22 % over FY2022-FY2024E EPS . Hence , we retain our Buy recommendation on VGIL with an unchanged price target ( PT ) of . This includes $ 1 billion in cash and cash equivalents , $ 2 billion in property and equipment , and $ 2 billion in intangible assets .''']]).toDF(&quot;text&quot;)
+
+result = pipeline.fit(example).transform(example)
+
+```
 
 &lt;/div&gt;
 
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+## Results
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+```bash
+
 +-------------------------+----------------+
 |chunk                    |entity          |
 +-------------------------+----------------+
@@ -307,73 +378,43 @@ weighted-avg                  0.84       0.84    0.84      1135
 |22                       |PERCENTAGE      |
 |Buy                      |RATING          |
 |price target             |TARGET_PRICE    |
-|&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;                       |CURRENCY        |
+|$                        |CURRENCY        |
 |1 billion                |AMOUNT          |
 |cash and cash equivalents|CF              |
-|&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;                       |CURRENCY        |
+|$                        |CURRENCY        |
 |2 billion                |AMOUNT          |
 |property and equipment   |ASSET           |
-|&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;                       |CURRENCY        |
+|$                        |CURRENCY        |
 |2 billion                |AMOUNT          |
 |intangible assets        |ASSET           |
 +-------------------------+----------------+
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+```
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;finner_financial_xlarge&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Finance NLP 1.0.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Licensed&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[sentence, token]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[ner]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;401.0 MB&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Case sensitive:&lt;/td&gt;
-      &lt;td&gt;true&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Max sentence length:&lt;/td&gt;
-      &lt;td&gt;128&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|finner_financial_xlarge|
+|Compatibility:|Finance NLP 1.0.0+|
+|License:|Licensed|
+|Edition:|Official|
+|Input Labels:|[sentence, token]|
+|Output Labels:|[ner]|
+|Language:|en|
+|Size:|401.0 MB|
+|Case sensitive:|true|
+|Max sentence length:|128|
 
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+## References
 
-&lt;p&gt;In-house dataset&lt;/p&gt;
+In-house dataset
 
-&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
+## Benchmarking
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;label                      precision    recall  f1-score   support
+```bash
+label                      precision    recall  f1-score   support
         I-CFO_Increase       0.87      0.94      0.90       349
                  I-CFF       0.75      0.85      0.80       486
                 B-LOSS       0.84      0.89      0.87       122
@@ -451,7 +492,7 @@ B-STOCKHOLDERS_DEFICIT       0.89      0.75      0.81        32
              micro-avg       0.90      0.92      0.91     39733
              macro-avg       0.81      0.80      0.80     39733
           weighted-avg       0.90      0.92      0.91     39733
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="finance" /><category term="ner" /><category term="licensed" /><category term="broker_reports" /><category term="earning_calls" /><category term="sec10k" /><category term="tensorflow" /><summary type="html">Description This financial model is an xlg (Xlarge) version, which has been trained with more general labels than other versions such (md, lg, …) that are available in the Models Hub. The training corpus used for this model is a combination of Broker Reports, Earning Calls, and 10K filings. Predicted Entities CF, INCOME, KPI_INCREASE, CFO, PROFIT, PROFIT_INCREASE, AMOUNT, REVENUE, CFI, EXPENSE, FISCAL_YEAR, Expense, KPI, LIABILITY, TARGET_PRICE, CFO_decrease, STOCKHOLDERS_EQUITY, PROFIT_DECLINE, CMP, CFF, Expense_decrease, Revenue_decline, COUNT, Contra_LIABILITY, Expense_Increase, STOCK_EXCHANGE, LOSS, FCF, Revenue_increase, CFN, CFO_Increase, Income, PERCENTAGE, CURRENCY, ASSET, STOCKHOLDERS_DEFICIT, DATE, RATING Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU # Test classifier in Spark NLP pipeline document_assembler = nlp.DocumentAssembler() \ .setInputCol('text') \ .setOutputCol('document') tokenizer = nlp.Tokenizer() \ .setInputCols(['document']) \ .setOutputCol('token') # Load newly trained classifier token_classifier = finance.BertForTokenClassification.pretrained(&quot;finner_financial_xlarge&quot;, &quot;en&quot;, &quot;finance/models&quot;)\ .setInputCols([&quot;document&quot;,'token'])\ .setOutputCol(&quot;label&quot;)\ .setCaseSensitive(True) converter = finance.NerConverterInternal()\ .setInputCols([&quot;document&quot;, &quot;token&quot;, &quot;label&quot;])\ .setOutputCol(&quot;ner_span&quot;) pipeline = nlp.Pipeline(stages=[ document_assembler, tokenizer, token_classifier, converter ]) # Generating example example = spark.createDataFrame([['''We expect Revenue / PAT CAGR of ~ 19 %/~ 22 % over FY2022-FY2024E EPS . Hence , we retain our Buy recommendation on VGIL with an unchanged price target ( PT ) of . This includes $ 1 billion in cash and cash equivalents , $ 2 billion in property and equipment , and $ 2 billion in intangible assets .''']]).toDF(&quot;text&quot;) result = pipeline.fit(example).transform(example) Results +-------------------------+----------------+ |chunk |entity | +-------------------------+----------------+ |Revenue |Revenue_increase| |PAT |PROFIT_INCREASE | |19 |PERCENTAGE | |22 |PERCENTAGE | |Buy |RATING | |price target |TARGET_PRICE | |$ |CURRENCY | |1 billion |AMOUNT | |cash and cash equivalents|CF | |$ |CURRENCY | |2 billion |AMOUNT | |property and equipment |ASSET | |$ |CURRENCY | |2 billion |AMOUNT | |intangible assets |ASSET | +-------------------------+----------------+ Model Information Model Name: finner_financial_xlarge Compatibility: Finance NLP 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence, token] Output Labels: [ner] Language: en Size: 401.0 MB Case sensitive: true Max sentence length: 128 References In-house dataset Benchmarking label precision recall f1-score support I-CFO_Increase 0.87 0.94 0.90 349 I-CFF 0.75 0.85 0.80 486 B-LOSS 0.84 0.89 0.87 122 B-CFO_Increase 0.92 0.95 0.93 233 B-Revenue_decline 0.61 0.77 0.68 93 B-CFO 0.81 0.89 0.85 298 B-KPI_INCREASE 0.71 0.29 0.41 42 I-CURRENCY 1.00 0.96 0.98 70 I-CFI 0.88 0.85 0.87 489 I-PROFIT_DECLINE 0.92 0.78 0.84 45 I-COUNT 0.80 0.90 0.85 31 B-CFN 0.99 1.00 1.00 327 I-KPI_INCREASE 0.55 0.40 0.46 30 I-Revenue_decline 0.66 0.88 0.75 94 B-ASSET 0.62 0.57 0.60 282 I-Contra_LIABILITY 0.84 0.84 0.84 92 B-KPI 0.48 0.36 0.41 58 I-STOCKHOLDERS_EQUITY 0.90 0.67 0.77 164 B-STOCK_EXCHANGE 1.00 0.94 0.97 52 I-FISCAL_YEAR 0.94 0.97 0.96 1999 I-Income 0.77 0.76 0.76 168 B-PROFIT_DECLINE 0.72 0.76 0.74 50 I-Expense 0.69 0.67 0.68 450 B-FISCAL_YEAR 0.93 0.96 0.94 621 I-CFO 0.81 0.83 0.82 581 B-LIABILITY 0.67 0.83 0.74 305 B-Expense 0.71 0.64 0.67 318 B-INCOME 0.62 0.33 0.43 39 B-STOCKHOLDERS_EQUITY 0.77 0.71 0.74 83 I-ASSET 0.61 0.68 0.65 377 I-DATE 0.90 0.93 0.91 1146 B-CF 0.83 0.81 0.82 135 I-Expense_Increase 0.90 0.89 0.90 353 B-PROFIT 0.86 0.87 0.86 970 I-STOCKHOLDERS_DEFICIT 0.96 0.82 0.88 28 B-STOCKHOLDERS_DEFICIT 0.89 0.75 0.81 32 B-Expense_Increase 0.85 0.87 0.86 267 I-AMOUNT 0.96 0.97 0.97 3009 I-CF 0.85 0.94 0.89 291 I-STOCK_EXCHANGE 0.98 1.00 0.99 170 I-PROFIT 0.87 0.92 0.90 794 I-Expense_decrease 0.76 0.84 0.80 198 B-REVENUE 0.75 0.75 0.75 410 B-Revenue_increase 0.72 0.82 0.76 498 I-EXPENSE 0.53 0.66 0.59 169 I-PROFIT_INCREASE 0.83 0.92 0.87 160 B-Contra_LIABILITY 0.64 0.66 0.65 95 I-INCOME 0.75 0.43 0.55 35 I-REVENUE 0.73 0.67 0.70 226 B-AMOUNT 0.96 0.97 0.97 10381 I-CMP 1.00 1.00 1.00 33 B-COUNT 0.85 0.99 0.91 294 I-TARGET_PRICE 0.97 0.99 0.98 113 B-CFI 0.75 0.79 0.77 154 I-Revenue_increase 0.64 0.78 0.71 329 B-DATE 0.91 0.97 0.94 2112 I-CFO_decrease 0.78 0.63 0.70 101 I-FCF 0.74 0.95 0.83 66 I-KPI 0.46 0.46 0.46 50 B-Expense_decrease 0.80 0.86 0.83 140 B-PROFIT_INCREASE 0.77 0.85 0.81 239 B-Income 0.77 0.75 0.76 79 B-PERCENTAGE 0.96 0.98 0.97 2885 B-CURRENCY 0.98 0.99 0.99 3631 B-CFO_decrease 0.89 0.70 0.78 57 I-LOSS 0.87 0.80 0.84 155 B-RATING 0.94 0.98 0.96 536 I-PERCENTAGE 0.83 0.50 0.62 30 B-CMP 0.98 1.00 0.99 41 B-CFF 0.69 0.63 0.66 184 B-TARGET_PRICE 0.98 0.97 0.98 153 B-EXPENSE 0.68 0.74 0.71 230 I-LIABILITY 0.79 0.84 0.82 371 B-FCF 0.77 0.86 0.81 35 micro-avg 0.90 0.92 0.91 39733 macro-avg 0.81 0.80 0.80 39733 weighted-avg 0.90 0.92 0.91 39733</summary></entry><entry><title type="html">Medical Question Answering (biogpt)</title><link href="/2023/03/09/medical_qa_biogpt_en.html" rel="alternate" type="text/html" title="Medical Question Answering (biogpt)" /><published>2023-03-09T00:00:00+00:00</published><updated>2023-03-09T00:00:00+00:00</updated><id>/2023/03/09/medical_qa_biogpt_en</id><content type="html" xml:base="/2023/03/09/medical_qa_biogpt_en.html">## Description
+```</content><author><name>John Snow Labs</name></author><category term="en" /><category term="finance" /><category term="ner" /><category term="licensed" /><category term="broker_reports" /><category term="earning_calls" /><category term="sec10k" /><category term="tensorflow" /><summary type="html">Description This financial model is an xlg (Xlarge) version, which has been trained with more general labels than other versions such (md, lg, …) that are available in the Models Hub. The training corpus used for this model is a combination of Broker Reports, Earning Calls, and 10K filings. Predicted Entities CF, INCOME, KPI_INCREASE, CFO, PROFIT, PROFIT_INCREASE, AMOUNT, REVENUE, CFI, EXPENSE, FISCAL_YEAR, Expense, KPI, LIABILITY, TARGET_PRICE, CFO_decrease, STOCKHOLDERS_EQUITY, PROFIT_DECLINE, CMP, CFF, Expense_decrease, Revenue_decline, COUNT, Contra_LIABILITY, Expense_Increase, STOCK_EXCHANGE, LOSS, FCF, Revenue_increase, CFN, CFO_Increase, Income, PERCENTAGE, CURRENCY, ASSET, STOCKHOLDERS_DEFICIT, DATE, RATING Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU # Test classifier in Spark NLP pipeline document_assembler = nlp.DocumentAssembler() \ .setInputCol('text') \ .setOutputCol('document') tokenizer = nlp.Tokenizer() \ .setInputCols(['document']) \ .setOutputCol('token') # Load newly trained classifier token_classifier = finance.BertForTokenClassification.pretrained(&quot;finner_financial_xlarge&quot;, &quot;en&quot;, &quot;finance/models&quot;)\ .setInputCols([&quot;document&quot;,'token'])\ .setOutputCol(&quot;label&quot;)\ .setCaseSensitive(True) converter = finance.NerConverterInternal()\ .setInputCols([&quot;document&quot;, &quot;token&quot;, &quot;label&quot;])\ .setOutputCol(&quot;ner_span&quot;) pipeline = nlp.Pipeline(stages=[ document_assembler, tokenizer, token_classifier, converter ]) # Generating example example = spark.createDataFrame([['''We expect Revenue / PAT CAGR of ~ 19 %/~ 22 % over FY2022-FY2024E EPS . Hence , we retain our Buy recommendation on VGIL with an unchanged price target ( PT ) of . This includes $ 1 billion in cash and cash equivalents , $ 2 billion in property and equipment , and $ 2 billion in intangible assets .''']]).toDF(&quot;text&quot;) result = pipeline.fit(example).transform(example) Results +-------------------------+----------------+ |chunk |entity | +-------------------------+----------------+ |Revenue |Revenue_increase| |PAT |PROFIT_INCREASE | |19 |PERCENTAGE | |22 |PERCENTAGE | |Buy |RATING | |price target |TARGET_PRICE | |$ |CURRENCY | |1 billion |AMOUNT | |cash and cash equivalents|CF | |$ |CURRENCY | |2 billion |AMOUNT | |property and equipment |ASSET | |$ |CURRENCY | |2 billion |AMOUNT | |intangible assets |ASSET | +-------------------------+----------------+ Model Information Model Name: finner_financial_xlarge Compatibility: Finance NLP 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence, token] Output Labels: [ner] Language: en Size: 401.0 MB Case sensitive: true Max sentence length: 128 References In-house dataset Benchmarking label precision recall f1-score support I-CFO_Increase 0.87 0.94 0.90 349 I-CFF 0.75 0.85 0.80 486 B-LOSS 0.84 0.89 0.87 122 B-CFO_Increase 0.92 0.95 0.93 233 B-Revenue_decline 0.61 0.77 0.68 93 B-CFO 0.81 0.89 0.85 298 B-KPI_INCREASE 0.71 0.29 0.41 42 I-CURRENCY 1.00 0.96 0.98 70 I-CFI 0.88 0.85 0.87 489 I-PROFIT_DECLINE 0.92 0.78 0.84 45 I-COUNT 0.80 0.90 0.85 31 B-CFN 0.99 1.00 1.00 327 I-KPI_INCREASE 0.55 0.40 0.46 30 I-Revenue_decline 0.66 0.88 0.75 94 B-ASSET 0.62 0.57 0.60 282 I-Contra_LIABILITY 0.84 0.84 0.84 92 B-KPI 0.48 0.36 0.41 58 I-STOCKHOLDERS_EQUITY 0.90 0.67 0.77 164 B-STOCK_EXCHANGE 1.00 0.94 0.97 52 I-FISCAL_YEAR 0.94 0.97 0.96 1999 I-Income 0.77 0.76 0.76 168 B-PROFIT_DECLINE 0.72 0.76 0.74 50 I-Expense 0.69 0.67 0.68 450 B-FISCAL_YEAR 0.93 0.96 0.94 621 I-CFO 0.81 0.83 0.82 581 B-LIABILITY 0.67 0.83 0.74 305 B-Expense 0.71 0.64 0.67 318 B-INCOME 0.62 0.33 0.43 39 B-STOCKHOLDERS_EQUITY 0.77 0.71 0.74 83 I-ASSET 0.61 0.68 0.65 377 I-DATE 0.90 0.93 0.91 1146 B-CF 0.83 0.81 0.82 135 I-Expense_Increase 0.90 0.89 0.90 353 B-PROFIT 0.86 0.87 0.86 970 I-STOCKHOLDERS_DEFICIT 0.96 0.82 0.88 28 B-STOCKHOLDERS_DEFICIT 0.89 0.75 0.81 32 B-Expense_Increase 0.85 0.87 0.86 267 I-AMOUNT 0.96 0.97 0.97 3009 I-CF 0.85 0.94 0.89 291 I-STOCK_EXCHANGE 0.98 1.00 0.99 170 I-PROFIT 0.87 0.92 0.90 794 I-Expense_decrease 0.76 0.84 0.80 198 B-REVENUE 0.75 0.75 0.75 410 B-Revenue_increase 0.72 0.82 0.76 498 I-EXPENSE 0.53 0.66 0.59 169 I-PROFIT_INCREASE 0.83 0.92 0.87 160 B-Contra_LIABILITY 0.64 0.66 0.65 95 I-INCOME 0.75 0.43 0.55 35 I-REVENUE 0.73 0.67 0.70 226 B-AMOUNT 0.96 0.97 0.97 10381 I-CMP 1.00 1.00 1.00 33 B-COUNT 0.85 0.99 0.91 294 I-TARGET_PRICE 0.97 0.99 0.98 113 B-CFI 0.75 0.79 0.77 154 I-Revenue_increase 0.64 0.78 0.71 329 B-DATE 0.91 0.97 0.94 2112 I-CFO_decrease 0.78 0.63 0.70 101 I-FCF 0.74 0.95 0.83 66 I-KPI 0.46 0.46 0.46 50 B-Expense_decrease 0.80 0.86 0.83 140 B-PROFIT_INCREASE 0.77 0.85 0.81 239 B-Income 0.77 0.75 0.76 79 B-PERCENTAGE 0.96 0.98 0.97 2885 B-CURRENCY 0.98 0.99 0.99 3631 B-CFO_decrease 0.89 0.70 0.78 57 I-LOSS 0.87 0.80 0.84 155 B-RATING 0.94 0.98 0.96 536 I-PERCENTAGE 0.83 0.50 0.62 30 B-CMP 0.98 1.00 0.99 41 B-CFF 0.69 0.63 0.66 184 B-TARGET_PRICE 0.98 0.97 0.98 153 B-EXPENSE 0.68 0.74 0.71 230 I-LIABILITY 0.79 0.84 0.82 371 B-FCF 0.77 0.86 0.81 35 micro-avg 0.90 0.92 0.91 39733 macro-avg 0.81 0.80 0.80 39733 weighted-avg 0.90 0.92 0.91 39733</summary></entry><entry><title type="html">Medical Question Answering (biogpt)</title><link href="/2023/03/09/medical_qa_biogpt_en.html" rel="alternate" type="text/html" title="Medical Question Answering (biogpt)" /><published>2023-03-09T00:00:00+00:00</published><updated>2023-03-09T00:00:00+00:00</updated><id>/2023/03/09/medical_qa_biogpt_en</id><content type="html" xml:base="/2023/03/09/medical_qa_biogpt_en.html">## Description
 
 This model has been trained with medical documents and can generate two types of answers, short and long.
 Types of questions are supported: `&quot;short&quot;` (producing yes/no/maybe) answers and `&quot;full&quot;` (long answers).
@@ -995,70 +1036,4 @@ val result = pipeline.fullAnnotate(text)
 - TokenizerModel
 - WordEmbeddingsModel
 - MedicalNerModel
-- NerConverterInternalModel</content><author><name>John Snow Labs</name></author><category term="licensed" /><category term="clinical" /><category term="en" /><category term="ner" /><category term="oncology" /><category term="biomarker" /><summary type="html">Description This pretrained pipeline is built on the top of ner_oncology_biomarker model. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.pretrained import PretrainedPipeline pipeline = PretrainedPipeline(&quot;ner_oncology_biomarker_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) text = '''The results of immunohistochemical examination showed that she tested negative for CK7, synaptophysin (Syn), chromogranin A (CgA), Muc5AC, human epidermal growth factor receptor-2 (HER2), and Muc6; positive for CK20, Muc1, Muc2, E-cadherin, and p53; the Ki-67 index was about 87%.''' result = pipeline.fullAnnotate(text) import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline val pipeline = new PretrainedPipeline(&quot;ner_oncology_biomarker_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) val text = &quot;The results of immunohistochemical examination showed that she tested negative for CK7, synaptophysin (Syn), chromogranin A (CgA), Muc5AC, human epidermal growth factor receptor-2 (HER2), and Muc6; positive for CK20, Muc1, Muc2, E-cadherin, and p53; the Ki-67 index was about 87%.&quot; val result = pipeline.fullAnnotate(text) Results | | ber_chunks | begin | end | ner_label | confidence | |---:|:-----------------------------------------|--------:|------:|:-----------------|-------------:| | 0 | negative | 70 | 77 | Biomarker_Result | 0.9984 | | 1 | CK7 | 83 | 85 | Biomarker | 1 | | 2 | synaptophysin | 88 | 100 | Biomarker | 0.9995 | | 3 | Syn | 103 | 105 | Biomarker | 0.9979 | | 4 | chromogranin A | 109 | 122 | Biomarker | 0.9692 | | 5 | CgA | 125 | 127 | Biomarker | 0.9994 | | 6 | Muc5AC | 131 | 136 | Biomarker | 0.9987 | | 7 | human epidermal growth factor receptor-2 | 139 | 178 | Biomarker | 0.99876 | | 8 | HER2 | 181 | 184 | Biomarker | 1 | | 9 | Muc6 | 192 | 195 | Biomarker | 0.9999 | | 10 | positive | 198 | 205 | Biomarker_Result | 0.9987 | | 11 | CK20 | 211 | 214 | Biomarker | 1 | | 12 | Muc1 | 217 | 220 | Biomarker | 0.9999 | | 13 | Muc2 | 223 | 226 | Biomarker | 0.9999 | | 14 | E-cadherin | 229 | 238 | Biomarker | 0.9999 | | 15 | p53 | 245 | 247 | Biomarker | 1 | | 16 | Ki-67 index | 254 | 264 | Biomarker | 0.99465 | | 17 | 87% | 276 | 278 | Biomarker_Result | 0.9814 | Model Information Model Name: ner_oncology_biomarker_pipeline Type: pipeline Compatibility: Healthcare NLP 4.3.0+ License: Licensed Edition: Official Language: en Size: 1.7 GB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel WordEmbeddingsModel MedicalNerModel NerConverterInternalModel</summary></entry><entry><title type="html">Pipeline to Extract Demographic Entities from Oncology Texts</title><link href="/2023/03/09/ner_oncology_demographics_pipeline_en.html" rel="alternate" type="text/html" title="Pipeline to Extract Demographic Entities from Oncology Texts" /><published>2023-03-09T00:00:00+00:00</published><updated>2023-03-09T00:00:00+00:00</updated><id>/2023/03/09/ner_oncology_demographics_pipeline_en</id><content type="html" xml:base="/2023/03/09/ner_oncology_demographics_pipeline_en.html">## Description
-
-This pretrained pipeline is built on the top of [ner_oncology_demographics](https://nlp.johnsnowlabs.com/2022/11/24/ner_oncology_demographics_en.html) model.
-
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_demographics_pipeline_en_4.3.0_3.2_1678345339056.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/ner_oncology_demographics_pipeline_en_4.3.0_3.2_1678345339056.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
-
-## How to use
-
-
-
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-from sparknlp.pretrained import PretrainedPipeline
-
-pipeline = PretrainedPipeline(&quot;ner_oncology_demographics_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;)
-
-text = '''The patient is a 40-year-old man with history of heavy smoking.'''
-
-result = pipeline.fullAnnotate(text)
-```
-```scala
-import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
-
-val pipeline = new PretrainedPipeline(&quot;ner_oncology_demographics_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;)
-
-val text = &quot;The patient is a 40-year-old man with history of heavy smoking.&quot;
-
-val result = pipeline.fullAnnotate(text)
-```
-&lt;/div&gt;
-
-## Results
-
-```bash
-|    | ber_chunks    |   begin |   end | ner_label      |   confidence |
-|---:|:--------------|--------:|------:|:---------------|-------------:|
-|  0 | 40-year-old   |      17 |    27 | Age            |       0.6743 |
-|  1 | man           |      29 |    31 | Gender         |       0.9365 |
-|  2 | heavy smoking |      49 |    61 | Smoking_Status |       0.7294 |
-```
-
-{:.model-param}
-## Model Information
-
-{:.table-model}
-|---|---|
-|Model Name:|ner_oncology_demographics_pipeline|
-|Type:|pipeline|
-|Compatibility:|Healthcare NLP 4.3.0+|
-|License:|Licensed|
-|Edition:|Official|
-|Language:|en|
-|Size:|1.7 GB|
-
-## Included Models
-
-- DocumentAssembler
-- SentenceDetectorDLModel
-- TokenizerModel
-- WordEmbeddingsModel
-- MedicalNerModel
-- NerConverterInternalModel</content><author><name>John Snow Labs</name></author><category term="licensed" /><category term="clinical" /><category term="en" /><category term="ner" /><category term="oncology" /><category term="demographics" /><summary type="html">Description This pretrained pipeline is built on the top of ner_oncology_demographics model. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.pretrained import PretrainedPipeline pipeline = PretrainedPipeline(&quot;ner_oncology_demographics_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) text = '''The patient is a 40-year-old man with history of heavy smoking.''' result = pipeline.fullAnnotate(text) import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline val pipeline = new PretrainedPipeline(&quot;ner_oncology_demographics_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) val text = &quot;The patient is a 40-year-old man with history of heavy smoking.&quot; val result = pipeline.fullAnnotate(text) Results | | ber_chunks | begin | end | ner_label | confidence | |---:|:--------------|--------:|------:|:---------------|-------------:| | 0 | 40-year-old | 17 | 27 | Age | 0.6743 | | 1 | man | 29 | 31 | Gender | 0.9365 | | 2 | heavy smoking | 49 | 61 | Smoking_Status | 0.7294 | Model Information Model Name: ner_oncology_demographics_pipeline Type: pipeline Compatibility: Healthcare NLP 4.3.0+ License: Licensed Edition: Official Language: en Size: 1.7 GB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel WordEmbeddingsModel MedicalNerModel NerConverterInternalModel</summary></entry></feed>
+- NerConverterInternalModel</content><author><name>John Snow Labs</name></author><category term="licensed" /><category term="clinical" /><category term="en" /><category term="ner" /><category term="oncology" /><category term="biomarker" /><summary type="html">Description This pretrained pipeline is built on the top of ner_oncology_biomarker model. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.pretrained import PretrainedPipeline pipeline = PretrainedPipeline(&quot;ner_oncology_biomarker_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) text = '''The results of immunohistochemical examination showed that she tested negative for CK7, synaptophysin (Syn), chromogranin A (CgA), Muc5AC, human epidermal growth factor receptor-2 (HER2), and Muc6; positive for CK20, Muc1, Muc2, E-cadherin, and p53; the Ki-67 index was about 87%.''' result = pipeline.fullAnnotate(text) import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline val pipeline = new PretrainedPipeline(&quot;ner_oncology_biomarker_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) val text = &quot;The results of immunohistochemical examination showed that she tested negative for CK7, synaptophysin (Syn), chromogranin A (CgA), Muc5AC, human epidermal growth factor receptor-2 (HER2), and Muc6; positive for CK20, Muc1, Muc2, E-cadherin, and p53; the Ki-67 index was about 87%.&quot; val result = pipeline.fullAnnotate(text) Results | | ber_chunks | begin | end | ner_label | confidence | |---:|:-----------------------------------------|--------:|------:|:-----------------|-------------:| | 0 | negative | 70 | 77 | Biomarker_Result | 0.9984 | | 1 | CK7 | 83 | 85 | Biomarker | 1 | | 2 | synaptophysin | 88 | 100 | Biomarker | 0.9995 | | 3 | Syn | 103 | 105 | Biomarker | 0.9979 | | 4 | chromogranin A | 109 | 122 | Biomarker | 0.9692 | | 5 | CgA | 125 | 127 | Biomarker | 0.9994 | | 6 | Muc5AC | 131 | 136 | Biomarker | 0.9987 | | 7 | human epidermal growth factor receptor-2 | 139 | 178 | Biomarker | 0.99876 | | 8 | HER2 | 181 | 184 | Biomarker | 1 | | 9 | Muc6 | 192 | 195 | Biomarker | 0.9999 | | 10 | positive | 198 | 205 | Biomarker_Result | 0.9987 | | 11 | CK20 | 211 | 214 | Biomarker | 1 | | 12 | Muc1 | 217 | 220 | Biomarker | 0.9999 | | 13 | Muc2 | 223 | 226 | Biomarker | 0.9999 | | 14 | E-cadherin | 229 | 238 | Biomarker | 0.9999 | | 15 | p53 | 245 | 247 | Biomarker | 1 | | 16 | Ki-67 index | 254 | 264 | Biomarker | 0.99465 | | 17 | 87% | 276 | 278 | Biomarker_Result | 0.9814 | Model Information Model Name: ner_oncology_biomarker_pipeline Type: pipeline Compatibility: Healthcare NLP 4.3.0+ License: Licensed Edition: Official Language: en Size: 1.7 GB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel WordEmbeddingsModel MedicalNerModel NerConverterInternalModel</summary></entry></feed>
