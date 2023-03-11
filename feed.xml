@@ -1,5 +1,145 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-03-11T10:36:10+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
-</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">10K Item Section Classifier</title><link href="/2023/03/10/finclf_10k_items_en.html" rel="alternate" type="text/html" title="10K Item Section Classifier" /><published>2023-03-10T00:00:00+00:00</published><updated>2023-03-10T00:00:00+00:00</updated><id>/2023/03/10/finclf_10k_items_en</id><content type="html" xml:base="/2023/03/10/finclf_10k_items_en.html">## Description
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-03-11T11:37:25+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">Understand Increased or Decreased Amounts and Percentages in Context</title><link href="/2023/03/11/finassertion_increase_decrease_amounts_en.html" rel="alternate" type="text/html" title="Understand Increased or Decreased Amounts and Percentages in Context" /><published>2023-03-11T00:00:00+00:00</published><updated>2023-03-11T00:00:00+00:00</updated><id>/2023/03/11/finassertion_increase_decrease_amounts_en</id><content type="html" xml:base="/2023/03/11/finassertion_increase_decrease_amounts_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;This is an Assertion Status model which allows you to detect if a mentioned amount or percentage is stated to be increased or decreased in context.&lt;/p&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;INCREASE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DECREASE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NOT_STATED&lt;/code&gt;&lt;/p&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finassertion_increase_decrease_amounts_en_1.0.0_3.0_1678533483377.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/finance/models/finassertion_increase_decrease_amounts_en_1.0.0_3.0_1678533483377.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;sentence_detector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SentenceDetector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setContextChars&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'.'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;','&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;';'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;':'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'!'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'?'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'*'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'-'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'('&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;')'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'&quot;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;'&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'%'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'&amp;amp;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BertEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_embeddings_sec_bert_base&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;ner_model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;finance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BertForTokenClassification&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;finner_responsibility_reports&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;finance/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setCaseSensitive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setMaxSentenceLength&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;512&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NerConverter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_chunk&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setWhiteList&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;AMOUNT&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;PERCENTAGE&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;fin_assertion&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;finance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AssertionDLModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;finassertion_increase_decrease_amounts&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;finance/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;ner_chunk&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;assertion&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+
+&lt;span class=&quot;n&quot;&gt;nlpPipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;sentence_detector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;ner_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;fin_assertion&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;empty_data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlpPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;empty_data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;text_list&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;This reduction in GHG emissions from the previous year can be attributed to a decrease in Scope 2 emissions from indirect energy use, which decreased from 13,907 metric tons CO2e in 2020 to 12,297 metric tons CO2e in 2021.&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+             &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Cal Water's year-over-year total energy consumption increased slightly from 584,719 GJ in 2020 to 587,923 GJ in 2021.&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+             &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;In 2020, 89 % of our employees received a year-end performance review while in 2021, this increased to 93 %.&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+             &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;With over 80,000 consultants and professionals in 400 locations globally, CGI has a strong presence in the technology sector, offering end-to-end services to over 5,500 clients .&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;text_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}))&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+-------+----------+----------+
+|chunk  |ner_label |assertion |
++-------+----------+----------+
+|13,907 |AMOUNT    |DECREASE  |
+|12,297 |AMOUNT    |DECREASE  |
+|584,719|AMOUNT    |INCREASE  |
+|587,923|AMOUNT    |INCREASE  |
+|89 %   |PERCENTAGE|INCREASE  |
+|93 %   |PERCENTAGE|INCREASE  |
+|80,000 |AMOUNT    |NOT_STATED|
+|400    |AMOUNT    |NOT_STATED|
+|5,500  |AMOUNT    |NOT_STATED|
++-------+----------+----------+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;finassertion_increase_decrease_amounts&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Finance NLP 1.0.0+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Licensed&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[document, ner_chunk, embeddings]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[assertion]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;2.2 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+
+&lt;p&gt;In-house annotations on Responsibility and ESG Reports&lt;/p&gt;
+
+&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;label         precision  recall  f1-score  support 
+DECREASE      0.88       0.91    0.89      97      
+INCREASE      0.84       0.77    0.80      56      
+NOT_STATED    0.89       0.90    0.89      94      
+accuracy      -          -       0.87      247     
+macro-avg     0.87       0.86    0.86      247     
+weighted-avg  0.87       0.87    0.87      247 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="licensed" /><category term="finance" /><category term="assertion" /><category term="responsibility" /><summary type="html">Description This is an Assertion Status model which allows you to detect if a mentioned amount or percentage is stated to be increased or decreased in context. Predicted Entities INCREASE, DECREASE, NOT_STATED Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU document_assembler = nlp.DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) sentence_detector = nlp.SentenceDetector()\ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;sentence&quot;) tokenizer = nlp.Tokenizer() \ .setInputCols([&quot;sentence&quot;]) \ .setOutputCol(&quot;token&quot;)\ .setContextChars(['.', ',', ';', ':', '!', '?', '*', '-', '(', ')', '&quot;', &quot;'&quot;, '%', '&amp;amp;']) embeddings = nlp.BertEmbeddings.pretrained(&quot;bert_embeddings_sec_bert_base&quot;,&quot;en&quot;) \ .setInputCols([&quot;sentence&quot;, &quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) ner_model = finance.BertForTokenClassification.pretrained(&quot;finner_responsibility_reports&quot;, &quot;en&quot;, &quot;finance/models&quot;)\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;])\ .setOutputCol(&quot;ner&quot;)\ .setCaseSensitive(True)\ .setMaxSentenceLength(512) ner_converter = nlp.NerConverter()\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;ner&quot;])\ .setOutputCol(&quot;ner_chunk&quot;)\ .setWhiteList([&quot;AMOUNT&quot;, &quot;PERCENTAGE&quot;]) fin_assertion = finance.AssertionDLModel.pretrained(&quot;finassertion_increase_decrease_amounts&quot;, &quot;en&quot;, &quot;finance/models&quot;)\ .setInputCols([&quot;sentence&quot;, &quot;ner_chunk&quot;, &quot;embeddings&quot;])\ .setOutputCol(&quot;assertion&quot;)\ nlpPipeline = nlp.Pipeline(stages=[ document_assembler, sentence_detector, tokenizer, embeddings, ner_model, ner_converter, fin_assertion ]) empty_data = spark.createDataFrame([[&quot;&quot;]]).toDF(&quot;text&quot;) model = nlpPipeline.fit(empty_data) text_list = [&quot;&quot;&quot;This reduction in GHG emissions from the previous year can be attributed to a decrease in Scope 2 emissions from indirect energy use, which decreased from 13,907 metric tons CO2e in 2020 to 12,297 metric tons CO2e in 2021.&quot;&quot;&quot;, &quot;&quot;&quot;Cal Water's year-over-year total energy consumption increased slightly from 584,719 GJ in 2020 to 587,923 GJ in 2021.&quot;&quot;&quot;, &quot;&quot;&quot;In 2020, 89 % of our employees received a year-end performance review while in 2021, this increased to 93 %.&quot;&quot;&quot;, &quot;&quot;&quot;With over 80,000 consultants and professionals in 400 locations globally, CGI has a strong presence in the technology sector, offering end-to-end services to over 5,500 clients .&quot;&quot;&quot;] df = spark.createDataFrame(pd.DataFrame({&quot;text&quot; : text_list})) result = model.transform(df) Results +-------+----------+----------+ |chunk |ner_label |assertion | +-------+----------+----------+ |13,907 |AMOUNT |DECREASE | |12,297 |AMOUNT |DECREASE | |584,719|AMOUNT |INCREASE | |587,923|AMOUNT |INCREASE | |89 % |PERCENTAGE|INCREASE | |93 % |PERCENTAGE|INCREASE | |80,000 |AMOUNT |NOT_STATED| |400 |AMOUNT |NOT_STATED| |5,500 |AMOUNT |NOT_STATED| +-------+----------+----------+ Model Information Model Name: finassertion_increase_decrease_amounts Compatibility: Finance NLP 1.0.0+ License: Licensed Edition: Official Input Labels: [document, ner_chunk, embeddings] Output Labels: [assertion] Language: en Size: 2.2 MB References In-house annotations on Responsibility and ESG Reports Benchmarking label precision recall f1-score support DECREASE 0.88 0.91 0.89 97 INCREASE 0.84 0.77 0.80 56 NOT_STATED 0.89 0.90 0.89 94 accuracy - - 0.87 247 macro-avg 0.87 0.86 0.86 247 weighted-avg 0.87 0.87 0.87 247</summary></entry><entry><title type="html">10K Item Section Classifier</title><link href="/2023/03/10/finclf_10k_items_en.html" rel="alternate" type="text/html" title="10K Item Section Classifier" /><published>2023-03-10T00:00:00+00:00</published><updated>2023-03-10T00:00:00+00:00</updated><id>/2023/03/10/finclf_10k_items_en</id><content type="html" xml:base="/2023/03/10/finclf_10k_items_en.html">## Description
 
 This is a Multiclass classification model which identifies the item (section) number in a 10K filing.
 
@@ -192,108 +332,83 @@ Treasuries_or_Corporate_Debt  0.80       0.73    0.76      33
 accuracy                      -          -       0.84      1135    
 macro-avg                     0.85       0.85    0.85      1135    
 weighted-avg                  0.84       0.84    0.84      1135    
-```</content><author><name>John Snow Labs</name></author><category term="en" /><category term="licensed" /><category term="classifier" /><category term="twitter" /><category term="finance" /><category term="tensorflow" /><summary type="html">Description This is a Multiclass classification model which classifies financial tweets with one of the following topics: Company_or_Product_News, Stock_Movement, General_News_or_Opinion, Earnings, Macro, Fed_or_Central_Banks, Politics, Stock_Commentary, Financials, M&amp;amp;A_or_Investments, Legal_or_Regulation, Personnel_Change, Markets, Energy_or_Oil, Dividend, Analyst_Update, Treasuries_or_Corporate_Debt, Currencies. Predicted Entities Company_or_Product_News, Stock_Movement, General_News_or_Opinion, Earnings, Macro, Fed_or_Central_Banks, Politics, Stock_Commentary, Financials, M&amp;amp;A_or_Investments, Legal_or_Regulation, Personnel_Change, Markets, Energy_or_Oil, Dividend, Analyst_Update, Treasuries_or_Corporate_Debt, Currencies Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = nlp.DocumentAssembler() \ .setInputCols([&quot;text&quot;]) \ .setOutputCols(&quot;document&quot;) tokenizer = nlp.Tokenizer() \ .setInputCols(&quot;document&quot;) \ .setOutputCol(&quot;token&quot;) seq_classifier = finance.BertForSequenceClassification.pretrained(&quot;finclf_twitter_news&quot;, &quot;en&quot;, &quot;finance/models&quot;) \ .setInputCols([&quot;document&quot;, &quot;token&quot;]) \ .setOutputCol(&quot;class&quot;) pipeline = nlp.Pipeline(stages=[documentAssembler, tokenizer, seq_classifier]) data = spark.createDataFrame([[&quot;Barclays believes earnings for these underperforming stocks may surprise Wall Street&quot;]]).toDF(&quot;text&quot;) result = pipeline.fit(data).transform(data) Results +----------------+ | result| +----------------+ |[Analyst_Update]| +----------------+ Model Information Model Name: finclf_twitter_news Compatibility: Finance NLP 1.0.0+ License: Licensed Edition: Official Input Labels: [document, token] Output Labels: [class] Language: en Size: 408.7 MB Case sensitive: true Max sentence length: 512 References Train dataset available here Benchmarking label precision recall f1-score support Analyst_Update 0.79 0.79 0.79 38 Company_or_Product_News 0.71 0.78 0.74 112 Currencies 0.80 1.00 0.89 12 Dividend 1.00 0.94 0.97 31 Earnings 0.95 0.97 0.96 100 Energy_or_Oil 0.78 0.89 0.83 55 Fed_or_Central_Banks 0.82 0.78 0.80 95 Financials 0.90 0.93 0.92 60 General_News_or_Opinion 0.71 0.74 0.72 80 Legal_or_Regulation 0.85 0.75 0.80 52 M&amp;amp;A_or_Investments 0.85 0.90 0.87 49 Macro 0.81 0.70 0.75 84 Markets 0.91 0.84 0.87 49 Personnel_Change 0.96 0.94 0.95 50 Politics 0.83 0.82 0.82 83 Stock_Commentary 0.87 0.94 0.90 63 Stock_Movement 0.94 0.90 0.92 89 Treasuries_or_Corporate_Debt 0.80 0.73 0.76 33 accuracy - - 0.84 1135 macro-avg 0.85 0.85 0.85 1135 weighted-avg 0.84 0.84 0.84 1135</summary></entry><entry><title type="html">Legal Advice Class Identifier</title><link href="/2023/03/10/legclf_reddit_advice_en.html" rel="alternate" type="text/html" title="Legal Advice Class Identifier" /><published>2023-03-10T00:00:00+00:00</published><updated>2023-03-10T00:00:00+00:00</updated><id>/2023/03/10/legclf_reddit_advice_en</id><content type="html" xml:base="/2023/03/10/legclf_reddit_advice_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+```</content><author><name>John Snow Labs</name></author><category term="en" /><category term="licensed" /><category term="classifier" /><category term="twitter" /><category term="finance" /><category term="tensorflow" /><summary type="html">Description This is a Multiclass classification model which classifies financial tweets with one of the following topics: Company_or_Product_News, Stock_Movement, General_News_or_Opinion, Earnings, Macro, Fed_or_Central_Banks, Politics, Stock_Commentary, Financials, M&amp;amp;A_or_Investments, Legal_or_Regulation, Personnel_Change, Markets, Energy_or_Oil, Dividend, Analyst_Update, Treasuries_or_Corporate_Debt, Currencies. Predicted Entities Company_or_Product_News, Stock_Movement, General_News_or_Opinion, Earnings, Macro, Fed_or_Central_Banks, Politics, Stock_Commentary, Financials, M&amp;amp;A_or_Investments, Legal_or_Regulation, Personnel_Change, Markets, Energy_or_Oil, Dividend, Analyst_Update, Treasuries_or_Corporate_Debt, Currencies Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = nlp.DocumentAssembler() \ .setInputCols([&quot;text&quot;]) \ .setOutputCols(&quot;document&quot;) tokenizer = nlp.Tokenizer() \ .setInputCols(&quot;document&quot;) \ .setOutputCol(&quot;token&quot;) seq_classifier = finance.BertForSequenceClassification.pretrained(&quot;finclf_twitter_news&quot;, &quot;en&quot;, &quot;finance/models&quot;) \ .setInputCols([&quot;document&quot;, &quot;token&quot;]) \ .setOutputCol(&quot;class&quot;) pipeline = nlp.Pipeline(stages=[documentAssembler, tokenizer, seq_classifier]) data = spark.createDataFrame([[&quot;Barclays believes earnings for these underperforming stocks may surprise Wall Street&quot;]]).toDF(&quot;text&quot;) result = pipeline.fit(data).transform(data) Results +----------------+ | result| +----------------+ |[Analyst_Update]| +----------------+ Model Information Model Name: finclf_twitter_news Compatibility: Finance NLP 1.0.0+ License: Licensed Edition: Official Input Labels: [document, token] Output Labels: [class] Language: en Size: 408.7 MB Case sensitive: true Max sentence length: 512 References Train dataset available here Benchmarking label precision recall f1-score support Analyst_Update 0.79 0.79 0.79 38 Company_or_Product_News 0.71 0.78 0.74 112 Currencies 0.80 1.00 0.89 12 Dividend 1.00 0.94 0.97 31 Earnings 0.95 0.97 0.96 100 Energy_or_Oil 0.78 0.89 0.83 55 Fed_or_Central_Banks 0.82 0.78 0.80 95 Financials 0.90 0.93 0.92 60 General_News_or_Opinion 0.71 0.74 0.72 80 Legal_or_Regulation 0.85 0.75 0.80 52 M&amp;amp;A_or_Investments 0.85 0.90 0.87 49 Macro 0.81 0.70 0.75 84 Markets 0.91 0.84 0.87 49 Personnel_Change 0.96 0.94 0.95 50 Politics 0.83 0.82 0.82 83 Stock_Commentary 0.87 0.94 0.90 63 Stock_Movement 0.94 0.90 0.92 89 Treasuries_or_Corporate_Debt 0.80 0.73 0.76 33 accuracy - - 0.84 1135 macro-avg 0.85 0.85 0.85 1135 weighted-avg 0.84 0.84 0.84 1135</summary></entry><entry><title type="html">Legal Advice Class Identifier</title><link href="/2023/03/10/legclf_reddit_advice_en.html" rel="alternate" type="text/html" title="Legal Advice Class Identifier" /><published>2023-03-10T00:00:00+00:00</published><updated>2023-03-10T00:00:00+00:00</updated><id>/2023/03/10/legclf_reddit_advice_en</id><content type="html" xml:base="/2023/03/10/legclf_reddit_advice_en.html">## Description
 
-&lt;p&gt;This is a Multiclass classification model which retrieves the topic/class of an informal message from a legal forum, including the following classes: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;digital&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;business&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;insurance&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;contract&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;driving&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;school&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;family&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;wills&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;employment&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;housing&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;criminal&lt;/code&gt;.&lt;/p&gt;
+This is a Multiclass classification model which retrieves the topic/class of an informal message from a legal forum, including the following classes: `digital`, `business`, `insurance`, `contract`, `driving`, `school`, `family`, `wills`, `employment`, `housing`, `criminal`.
 
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+## Predicted Entities
 
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;digital&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;business&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;insurance&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;contract&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;driving&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;school&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;family&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;wills&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;employment&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;housing&lt;/code&gt;&lt;/p&gt;
+`digital`, `business`, `insurance`, `contract`, `driving`, `school`, `family`, `wills`, `employment`, `housing`
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_reddit_advice_en_1.0.0_3.0_1678448985639.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/legal/models/legclf_reddit_advice_en_1.0.0_3.0_1678448985639.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_reddit_advice_en_1.0.0_3.0_1678448985639.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_reddit_advice_en_1.0.0_3.0_1678448985639.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
 
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
-&lt;span class=&quot;n&quot;&gt;seq_classifier&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;legal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BertForSequenceClassification&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;legclf_reddit_advice&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;legal/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;class&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+```python
+documentAssembler = nlp.DocumentAssembler() \
+    .setInputCols([&quot;text&quot;]) \
+    .setOutputCols(&quot;document&quot;)
+
+tokenizer = nlp.Tokenizer() \
+    .setInputCols(&quot;document&quot;) \
+    .setOutputCol(&quot;token&quot;)
+
+seq_classifier = legal.BertForSequenceClassification.pretrained(&quot;legclf_reddit_advice&quot;, &quot;en&quot;, &quot;legal/models&quot;) \
+    .setInputCols([&quot;document&quot;, &quot;token&quot;]) \
+    .setOutputCol(&quot;class&quot;)
     
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;seq_classifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+pipeline = nlp.Pipeline(stages=[documentAssembler, tokenizer, seq_classifier])
 
-&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Mother of my child took my daughter and moved (without notice), won't let me see her or tell me where she is.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+data = spark.createDataFrame([[&quot;Mother of my child took my daughter and moved (without notice), won't let me see her or tell me where she is.&quot;]]).toDF(&quot;text&quot;)
 
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+result = pipeline.fit(data).transform(data)
+```
 
 &lt;/div&gt;
 
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+## Results
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+--------+
+```bash
++--------+
 |  result|
 +--------+
 |[family]|
 +--------+
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+```
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;legclf_reddit_advice&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Legal NLP 1.0.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Licensed&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[document, token]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[class]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;406.4 MB&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Case sensitive:&lt;/td&gt;
-      &lt;td&gt;true&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Max sentence length:&lt;/td&gt;
-      &lt;td&gt;512&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|legclf_reddit_advice|
+|Compatibility:|Legal NLP 1.0.0+|
+|License:|Licensed|
+|Edition:|Official|
+|Input Labels:|[document, token]|
+|Output Labels:|[class]|
+|Language:|en|
+|Size:|406.4 MB|
+|Case sensitive:|true|
+|Max sentence length:|512|
 
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+## References
 
-&lt;p&gt;Train dataset available &lt;a href=&quot;https://huggingface.co/datasets/jonathanli/legal-advice-reddit&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
+Train dataset available [here](https://huggingface.co/datasets/jonathanli/legal-advice-reddit)
 
-&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
+## Benchmarking
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;label         precision  recall  f1-score  support 
+```bash
+label         precision  recall  f1-score  support 
 business      0.76       0.67    0.72      239     
 contract      0.80       0.68    0.73      207     
 criminal      0.82       0.77    0.80      209     
@@ -308,7 +423,7 @@ wills         0.95       0.96    0.96      199
 accuracy      -          -       0.83      2387    
 macro-avg     0.84       0.84    0.83      2387    
 weighted-avg  0.83       0.83    0.83      2387
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="licensed" /><category term="legal" /><category term="classifier" /><category term="reddit" /><category term="tensorflow" /><summary type="html">Description This is a Multiclass classification model which retrieves the topic/class of an informal message from a legal forum, including the following classes: digital, business, insurance, contract, driving, school, family, wills, employment, housing, criminal. Predicted Entities digital, business, insurance, contract, driving, school, family, wills, employment, housing Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = nlp.DocumentAssembler() \ .setInputCols([&quot;text&quot;]) \ .setOutputCols(&quot;document&quot;) tokenizer = nlp.Tokenizer() \ .setInputCols(&quot;document&quot;) \ .setOutputCol(&quot;token&quot;) seq_classifier = legal.BertForSequenceClassification.pretrained(&quot;legclf_reddit_advice&quot;, &quot;en&quot;, &quot;legal/models&quot;) \ .setInputCols([&quot;document&quot;, &quot;token&quot;]) \ .setOutputCol(&quot;class&quot;) pipeline = nlp.Pipeline(stages=[documentAssembler, tokenizer, seq_classifier]) data = spark.createDataFrame([[&quot;Mother of my child took my daughter and moved (without notice), won't let me see her or tell me where she is.&quot;]]).toDF(&quot;text&quot;) result = pipeline.fit(data).transform(data) Results +--------+ | result| +--------+ |[family]| +--------+ Model Information Model Name: legclf_reddit_advice Compatibility: Legal NLP 1.0.0+ License: Licensed Edition: Official Input Labels: [document, token] Output Labels: [class] Language: en Size: 406.4 MB Case sensitive: true Max sentence length: 512 References Train dataset available here Benchmarking label precision recall f1-score support business 0.76 0.67 0.72 239 contract 0.80 0.68 0.73 207 criminal 0.82 0.77 0.80 209 digital 0.76 0.74 0.75 223 driving 0.86 0.85 0.86 223 employment 0.76 0.92 0.83 222 family 0.88 0.95 0.92 216 housing 0.89 0.95 0.92 221 insurance 0.83 0.80 0.81 221 school 0.87 0.91 0.89 207 wills 0.95 0.96 0.96 199 accuracy - - 0.83 2387 macro-avg 0.84 0.84 0.83 2387 weighted-avg 0.83 0.83 0.83 2387</summary></entry><entry><title type="html">Financial NER (xlg, XLarge)</title><link href="/2023/03/10/finner_financial_xlarge_en.html" rel="alternate" type="text/html" title="Financial NER (xlg, XLarge)" /><published>2023-03-10T00:00:00+00:00</published><updated>2023-03-10T00:00:00+00:00</updated><id>/2023/03/10/finner_financial_xlarge_en</id><content type="html" xml:base="/2023/03/10/finner_financial_xlarge_en.html">## Description
+```</content><author><name>John Snow Labs</name></author><category term="en" /><category term="licensed" /><category term="legal" /><category term="classifier" /><category term="reddit" /><category term="tensorflow" /><summary type="html">Description This is a Multiclass classification model which retrieves the topic/class of an informal message from a legal forum, including the following classes: digital, business, insurance, contract, driving, school, family, wills, employment, housing, criminal. Predicted Entities digital, business, insurance, contract, driving, school, family, wills, employment, housing Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = nlp.DocumentAssembler() \ .setInputCols([&quot;text&quot;]) \ .setOutputCols(&quot;document&quot;) tokenizer = nlp.Tokenizer() \ .setInputCols(&quot;document&quot;) \ .setOutputCol(&quot;token&quot;) seq_classifier = legal.BertForSequenceClassification.pretrained(&quot;legclf_reddit_advice&quot;, &quot;en&quot;, &quot;legal/models&quot;) \ .setInputCols([&quot;document&quot;, &quot;token&quot;]) \ .setOutputCol(&quot;class&quot;) pipeline = nlp.Pipeline(stages=[documentAssembler, tokenizer, seq_classifier]) data = spark.createDataFrame([[&quot;Mother of my child took my daughter and moved (without notice), won't let me see her or tell me where she is.&quot;]]).toDF(&quot;text&quot;) result = pipeline.fit(data).transform(data) Results +--------+ | result| +--------+ |[family]| +--------+ Model Information Model Name: legclf_reddit_advice Compatibility: Legal NLP 1.0.0+ License: Licensed Edition: Official Input Labels: [document, token] Output Labels: [class] Language: en Size: 406.4 MB Case sensitive: true Max sentence length: 512 References Train dataset available here Benchmarking label precision recall f1-score support business 0.76 0.67 0.72 239 contract 0.80 0.68 0.73 207 criminal 0.82 0.77 0.80 209 digital 0.76 0.74 0.75 223 driving 0.86 0.85 0.86 223 employment 0.76 0.92 0.83 222 family 0.88 0.95 0.92 216 housing 0.89 0.95 0.92 221 insurance 0.83 0.80 0.81 221 school 0.87 0.91 0.89 207 wills 0.95 0.96 0.96 199 accuracy - - 0.83 2387 macro-avg 0.84 0.84 0.83 2387 weighted-avg 0.83 0.83 0.83 2387</summary></entry><entry><title type="html">Financial NER (xlg, XLarge)</title><link href="/2023/03/10/finner_financial_xlarge_en.html" rel="alternate" type="text/html" title="Financial NER (xlg, XLarge)" /><published>2023-03-10T00:00:00+00:00</published><updated>2023-03-10T00:00:00+00:00</updated><id>/2023/03/10/finner_financial_xlarge_en</id><content type="html" xml:base="/2023/03/10/finner_financial_xlarge_en.html">## Description
 
 This financial model is an xlg (Xlarge) version, which has been trained with more general labels than other versions such (`md`, `lg`, ...) that are available in the Models Hub. The training corpus used for this model is a combination of Broker Reports, Earning Calls, and 10K filings.
 
@@ -955,85 +1070,4 @@ val result = pipeline.fullAnnotate(text)
 - TokenizerModel
 - WordEmbeddingsModel
 - MedicalNerModel
-- NerConverterInternalModel</content><author><name>John Snow Labs</name></author><category term="ner" /><category term="licensed" /><category term="en" /><category term="clinical" /><summary type="html">Description This pretrained pipeline is built on the top of ner_jsl model. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.pretrained import PretrainedPipeline pipeline = PretrainedPipeline(&quot;ner_jsl_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) text = '''The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). Additionally, there is no side effect observed after Influenza vaccine. One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature.''' result = pipeline.fullAnnotate(text) import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline val pipeline = new PretrainedPipeline(&quot;ner_jsl_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) val text = &quot;The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). Additionally, there is no side effect observed after Influenza vaccine. One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature.&quot; val result = pipeline.fullAnnotate(text) Results | | ber_chunks | begin | end | ner_label | confidence | |---:|:------------------------------------------|--------:|------:|:-----------------------------|-------------:| | 0 | 21-day-old | 17 | 26 | Age | 0.997 | | 1 | Caucasian | 28 | 36 | Race_Ethnicity | 0.9995 | | 2 | male | 38 | 41 | Gender | 0.9998 | | 3 | 2 days | 52 | 57 | Duration | 0.805 | | 4 | congestion | 62 | 71 | Symptom | 0.9049 | | 5 | mom | 75 | 77 | Gender | 0.9907 | | 6 | suctioning yellow discharge | 88 | 114 | Symptom | 0.268133 | | 7 | nares | 135 | 139 | External_body_part_or_region | 0.7284 | | 8 | she | 147 | 149 | Gender | 0.9978 | | 9 | mild | 168 | 171 | Modifier | 0.7517 | | 10 | problems with his breathing while feeding | 173 | 213 | Symptom | 0.664583 | | 11 | perioral cyanosis | 237 | 253 | Symptom | 0.6869 | | 12 | retractions | 258 | 268 | Symptom | 0.9912 | | 13 | Influenza vaccine | 325 | 341 | Vaccine_Name | 0.833 | | 14 | One day ago | 344 | 354 | RelativeDate | 0.8667 | | 15 | mom | 357 | 359 | Gender | 0.9991 | | 16 | tactile temperature | 376 | 394 | Symptom | 0.3339 | | 17 | Tylenol | 417 | 423 | Drug_BrandName | 0.9988 | | 18 | Baby | 426 | 429 | Age | 0.9634 | | 19 | decreased p.o | 449 | 461 | Symptom | 0.75925 | | 20 | His | 472 | 474 | Gender | 0.9998 | | 21 | 20 minutes | 511 | 520 | Duration | 0.48575 | | 22 | 5 to 10 minutes | 531 | 545 | Duration | 0.526575 | | 23 | his | 560 | 562 | Gender | 0.988 | | 24 | respiratory congestion | 564 | 585 | Symptom | 0.6168 | | 25 | He | 588 | 589 | Gender | 0.9992 | | 26 | tired | 622 | 626 | Symptom | 0.8745 | | 27 | fussy | 641 | 645 | Symptom | 0.8509 | | 28 | over the past 2 days | 647 | 666 | RelativeDate | 0.60494 | | 29 | albuterol | 709 | 717 | Drug_Ingredient | 0.9876 | | 30 | ER | 743 | 744 | Clinical_Dept | 0.9974 | | 31 | His | 747 | 749 | Gender | 0.9996 | | 32 | urine output has also decreased | 751 | 781 | Symptom | 0.39878 | | 33 | he | 793 | 794 | Gender | 0.997 | | 34 | per 24 hours | 832 | 843 | Frequency | 0.462333 | | 35 | he | 850 | 851 | Gender | 0.9983 | | 36 | per 24 hours | 879 | 890 | Frequency | 0.562167 | | 37 | Mom | 893 | 895 | Gender | 0.9997 | | 38 | diarrhea | 908 | 915 | Symptom | 0.9956 | | 39 | His | 918 | 920 | Gender | 0.9997 | | 40 | bowel | 922 | 926 | Internal_organ_or_component | 0.9218 | Model Information Model Name: ner_jsl_pipeline Type: pipeline Compatibility: Healthcare NLP 4.3.0+ License: Licensed Edition: Official Language: en Size: 1.7 GB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel WordEmbeddingsModel MedicalNerModel NerConverterInternalModel</summary></entry><entry><title type="html">Pipeline to Extract Biomarkers and their Results</title><link href="/2023/03/09/ner_oncology_biomarker_pipeline_en.html" rel="alternate" type="text/html" title="Pipeline to Extract Biomarkers and their Results" /><published>2023-03-09T00:00:00+00:00</published><updated>2023-03-09T00:00:00+00:00</updated><id>/2023/03/09/ner_oncology_biomarker_pipeline_en</id><content type="html" xml:base="/2023/03/09/ner_oncology_biomarker_pipeline_en.html">## Description
-
-This pretrained pipeline is built on the top of [ner_oncology_biomarker](https://nlp.johnsnowlabs.com/2022/11/24/ner_oncology_biomarker_en.html) model.
-
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_oncology_biomarker_pipeline_en_4.3.0_3.2_1678345026649.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/ner_oncology_biomarker_pipeline_en_4.3.0_3.2_1678345026649.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
-
-## How to use
-
-
-
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-from sparknlp.pretrained import PretrainedPipeline
-
-pipeline = PretrainedPipeline(&quot;ner_oncology_biomarker_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;)
-
-text = '''The results of immunohistochemical examination showed that she tested negative for CK7, synaptophysin (Syn), chromogranin A (CgA), Muc5AC, human epidermal growth factor receptor-2 (HER2), and Muc6; positive for CK20, Muc1, Muc2, E-cadherin, and p53; the Ki-67 index was about 87%.'''
-
-result = pipeline.fullAnnotate(text)
-```
-```scala
-import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
-
-val pipeline = new PretrainedPipeline(&quot;ner_oncology_biomarker_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;)
-
-val text = &quot;The results of immunohistochemical examination showed that she tested negative for CK7, synaptophysin (Syn), chromogranin A (CgA), Muc5AC, human epidermal growth factor receptor-2 (HER2), and Muc6; positive for CK20, Muc1, Muc2, E-cadherin, and p53; the Ki-67 index was about 87%.&quot;
-
-val result = pipeline.fullAnnotate(text)
-```
-&lt;/div&gt;
-
-## Results
-
-```bash
-|    | ber_chunks                               |   begin |   end | ner_label        |   confidence |
-|---:|:-----------------------------------------|--------:|------:|:-----------------|-------------:|
-|  0 | negative                                 |      70 |    77 | Biomarker_Result |      0.9984  |
-|  1 | CK7                                      |      83 |    85 | Biomarker        |      1       |
-|  2 | synaptophysin                            |      88 |   100 | Biomarker        |      0.9995  |
-|  3 | Syn                                      |     103 |   105 | Biomarker        |      0.9979  |
-|  4 | chromogranin A                           |     109 |   122 | Biomarker        |      0.9692  |
-|  5 | CgA                                      |     125 |   127 | Biomarker        |      0.9994  |
-|  6 | Muc5AC                                   |     131 |   136 | Biomarker        |      0.9987  |
-|  7 | human epidermal growth factor receptor-2 |     139 |   178 | Biomarker        |      0.99876 |
-|  8 | HER2                                     |     181 |   184 | Biomarker        |      1       |
-|  9 | Muc6                                     |     192 |   195 | Biomarker        |      0.9999  |
-| 10 | positive                                 |     198 |   205 | Biomarker_Result |      0.9987  |
-| 11 | CK20                                     |     211 |   214 | Biomarker        |      1       |
-| 12 | Muc1                                     |     217 |   220 | Biomarker        |      0.9999  |
-| 13 | Muc2                                     |     223 |   226 | Biomarker        |      0.9999  |
-| 14 | E-cadherin                               |     229 |   238 | Biomarker        |      0.9999  |
-| 15 | p53                                      |     245 |   247 | Biomarker        |      1       |
-| 16 | Ki-67 index                              |     254 |   264 | Biomarker        |      0.99465 |
-| 17 | 87%                                      |     276 |   278 | Biomarker_Result |      0.9814  |
-```
-
-{:.model-param}
-## Model Information
-
-{:.table-model}
-|---|---|
-|Model Name:|ner_oncology_biomarker_pipeline|
-|Type:|pipeline|
-|Compatibility:|Healthcare NLP 4.3.0+|
-|License:|Licensed|
-|Edition:|Official|
-|Language:|en|
-|Size:|1.7 GB|
-
-## Included Models
-
-- DocumentAssembler
-- SentenceDetectorDLModel
-- TokenizerModel
-- WordEmbeddingsModel
-- MedicalNerModel
-- NerConverterInternalModel</content><author><name>John Snow Labs</name></author><category term="licensed" /><category term="clinical" /><category term="en" /><category term="ner" /><category term="oncology" /><category term="biomarker" /><summary type="html">Description This pretrained pipeline is built on the top of ner_oncology_biomarker model. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.pretrained import PretrainedPipeline pipeline = PretrainedPipeline(&quot;ner_oncology_biomarker_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) text = '''The results of immunohistochemical examination showed that she tested negative for CK7, synaptophysin (Syn), chromogranin A (CgA), Muc5AC, human epidermal growth factor receptor-2 (HER2), and Muc6; positive for CK20, Muc1, Muc2, E-cadherin, and p53; the Ki-67 index was about 87%.''' result = pipeline.fullAnnotate(text) import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline val pipeline = new PretrainedPipeline(&quot;ner_oncology_biomarker_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) val text = &quot;The results of immunohistochemical examination showed that she tested negative for CK7, synaptophysin (Syn), chromogranin A (CgA), Muc5AC, human epidermal growth factor receptor-2 (HER2), and Muc6; positive for CK20, Muc1, Muc2, E-cadherin, and p53; the Ki-67 index was about 87%.&quot; val result = pipeline.fullAnnotate(text) Results | | ber_chunks | begin | end | ner_label | confidence | |---:|:-----------------------------------------|--------:|------:|:-----------------|-------------:| | 0 | negative | 70 | 77 | Biomarker_Result | 0.9984 | | 1 | CK7 | 83 | 85 | Biomarker | 1 | | 2 | synaptophysin | 88 | 100 | Biomarker | 0.9995 | | 3 | Syn | 103 | 105 | Biomarker | 0.9979 | | 4 | chromogranin A | 109 | 122 | Biomarker | 0.9692 | | 5 | CgA | 125 | 127 | Biomarker | 0.9994 | | 6 | Muc5AC | 131 | 136 | Biomarker | 0.9987 | | 7 | human epidermal growth factor receptor-2 | 139 | 178 | Biomarker | 0.99876 | | 8 | HER2 | 181 | 184 | Biomarker | 1 | | 9 | Muc6 | 192 | 195 | Biomarker | 0.9999 | | 10 | positive | 198 | 205 | Biomarker_Result | 0.9987 | | 11 | CK20 | 211 | 214 | Biomarker | 1 | | 12 | Muc1 | 217 | 220 | Biomarker | 0.9999 | | 13 | Muc2 | 223 | 226 | Biomarker | 0.9999 | | 14 | E-cadherin | 229 | 238 | Biomarker | 0.9999 | | 15 | p53 | 245 | 247 | Biomarker | 1 | | 16 | Ki-67 index | 254 | 264 | Biomarker | 0.99465 | | 17 | 87% | 276 | 278 | Biomarker_Result | 0.9814 | Model Information Model Name: ner_oncology_biomarker_pipeline Type: pipeline Compatibility: Healthcare NLP 4.3.0+ License: Licensed Edition: Official Language: en Size: 1.7 GB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel WordEmbeddingsModel MedicalNerModel NerConverterInternalModel</summary></entry></feed>
+- NerConverterInternalModel</content><author><name>John Snow Labs</name></author><category term="ner" /><category term="licensed" /><category term="en" /><category term="clinical" /><summary type="html">Description This pretrained pipeline is built on the top of ner_jsl model. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.pretrained import PretrainedPipeline pipeline = PretrainedPipeline(&quot;ner_jsl_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) text = '''The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). Additionally, there is no side effect observed after Influenza vaccine. One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature.''' result = pipeline.fullAnnotate(text) import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline val pipeline = new PretrainedPipeline(&quot;ner_jsl_pipeline&quot;, &quot;en&quot;, &quot;clinical/models&quot;) val text = &quot;The patient is a 21-day-old Caucasian male here for 2 days of congestion - mom has been suctioning yellow discharge from the patient's nares, plus she has noticed some mild problems with his breathing while feeding (but negative for any perioral cyanosis or retractions). Additionally, there is no side effect observed after Influenza vaccine. One day ago, mom also noticed a tactile temperature and gave the patient Tylenol. Baby also has had some decreased p.o. intake. His normal breast-feeding is down from 20 minutes q.2h. to 5 to 10 minutes secondary to his respiratory congestion. He sleeps well, but has been more tired and has been fussy over the past 2 days. The parents noticed no improvement with albuterol treatments given in the ER. His urine output has also decreased; normally he has 8 to 10 wet and 5 dirty diapers per 24 hours, now he has down to 4 wet diapers per 24 hours. Mom denies any diarrhea. His bowel movements are yellow colored and soft in nature.&quot; val result = pipeline.fullAnnotate(text) Results | | ber_chunks | begin | end | ner_label | confidence | |---:|:------------------------------------------|--------:|------:|:-----------------------------|-------------:| | 0 | 21-day-old | 17 | 26 | Age | 0.997 | | 1 | Caucasian | 28 | 36 | Race_Ethnicity | 0.9995 | | 2 | male | 38 | 41 | Gender | 0.9998 | | 3 | 2 days | 52 | 57 | Duration | 0.805 | | 4 | congestion | 62 | 71 | Symptom | 0.9049 | | 5 | mom | 75 | 77 | Gender | 0.9907 | | 6 | suctioning yellow discharge | 88 | 114 | Symptom | 0.268133 | | 7 | nares | 135 | 139 | External_body_part_or_region | 0.7284 | | 8 | she | 147 | 149 | Gender | 0.9978 | | 9 | mild | 168 | 171 | Modifier | 0.7517 | | 10 | problems with his breathing while feeding | 173 | 213 | Symptom | 0.664583 | | 11 | perioral cyanosis | 237 | 253 | Symptom | 0.6869 | | 12 | retractions | 258 | 268 | Symptom | 0.9912 | | 13 | Influenza vaccine | 325 | 341 | Vaccine_Name | 0.833 | | 14 | One day ago | 344 | 354 | RelativeDate | 0.8667 | | 15 | mom | 357 | 359 | Gender | 0.9991 | | 16 | tactile temperature | 376 | 394 | Symptom | 0.3339 | | 17 | Tylenol | 417 | 423 | Drug_BrandName | 0.9988 | | 18 | Baby | 426 | 429 | Age | 0.9634 | | 19 | decreased p.o | 449 | 461 | Symptom | 0.75925 | | 20 | His | 472 | 474 | Gender | 0.9998 | | 21 | 20 minutes | 511 | 520 | Duration | 0.48575 | | 22 | 5 to 10 minutes | 531 | 545 | Duration | 0.526575 | | 23 | his | 560 | 562 | Gender | 0.988 | | 24 | respiratory congestion | 564 | 585 | Symptom | 0.6168 | | 25 | He | 588 | 589 | Gender | 0.9992 | | 26 | tired | 622 | 626 | Symptom | 0.8745 | | 27 | fussy | 641 | 645 | Symptom | 0.8509 | | 28 | over the past 2 days | 647 | 666 | RelativeDate | 0.60494 | | 29 | albuterol | 709 | 717 | Drug_Ingredient | 0.9876 | | 30 | ER | 743 | 744 | Clinical_Dept | 0.9974 | | 31 | His | 747 | 749 | Gender | 0.9996 | | 32 | urine output has also decreased | 751 | 781 | Symptom | 0.39878 | | 33 | he | 793 | 794 | Gender | 0.997 | | 34 | per 24 hours | 832 | 843 | Frequency | 0.462333 | | 35 | he | 850 | 851 | Gender | 0.9983 | | 36 | per 24 hours | 879 | 890 | Frequency | 0.562167 | | 37 | Mom | 893 | 895 | Gender | 0.9997 | | 38 | diarrhea | 908 | 915 | Symptom | 0.9956 | | 39 | His | 918 | 920 | Gender | 0.9997 | | 40 | bowel | 922 | 926 | Internal_organ_or_component | 0.9218 | Model Information Model Name: ner_jsl_pipeline Type: pipeline Compatibility: Healthcare NLP 4.3.0+ License: Licensed Edition: Official Language: en Size: 1.7 GB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel WordEmbeddingsModel MedicalNerModel NerConverterInternalModel</summary></entry></feed>
