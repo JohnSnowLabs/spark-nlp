@@ -48,27 +48,27 @@ private[johnsnowlabs] class Bart(
 
   private val _tfT5Signatures: Map[String, String] =
     signatures.getOrElse(ModelSignatureManager.apply())
-  private val paddingTokenId = 0
-  private val eosTokenId = 1
+  private val paddingTokenId = 1
+  private val eosTokenId = 2
 //  private val pieceSize = spp.getSppModel.getPieceSize
-
-  private def sessionWarmup(): Unit = {
-    val dummyInput = Array.fill(1)(0) ++ Array(eosTokenId)
-    tag(
-      Seq(dummyInput),
-      minOutputLength = 0,
-      maxOutputLength = 1,
-      doSample = false,
-      temperature = 0f,
-      topK = 0,
-      topP = 0f,
-      repetitionPenalty = 0f,
-      noRepeatNgramSize = 0,
-      randomSeed = Option(0L),
-      ignoreTokenIds = Array(0))
-  }
-
-  sessionWarmup()
+//
+//  private def sessionWarmup(): Unit = {
+//    val dummyInput = Array.fill(1)(0) ++ Array(eosTokenId)
+//    tag(
+//      Seq(dummyInput),
+//      minOutputLength = 0,
+//      maxOutputLength = 1,
+//      doSample = false,
+//      temperature = 0f,
+//      topK = 0,
+//      topP = 0f,
+//      repetitionPenalty = 0f,
+//      noRepeatNgramSize = 0,
+//      randomSeed = Option(0L),
+//      ignoreTokenIds = Array(0))
+//  }
+//
+//  sessionWarmup()
 
   def tag(
       batch: Seq[Array[Int]],
@@ -83,36 +83,76 @@ private[johnsnowlabs] class Bart(
       randomSeed: Option[Long],
       ignoreTokenIds: Array[Int] = Array()): Array[Array[Int]] = {
 
+//    runner
+//      .feed("serving_default_input_ids:0", encoderInputTensors)
+//      .feed("serving_default_attention_mask:0", encoderAttentionMaskTensors)
+//      .fetch("StatefulPartitionedCall_1:0")
+
+    val modelOutputs = generateNoBeamSearch(
+      batch,
+      maxOutputLength,
+      minOutputLength,
+      doSample,
+      temperature,
+      topK,
+      topP,
+      repetitionPenalty,
+      noRepeatNgramSize,
+      randomSeed,
+      ignoreTokenIds)
+
+//    tensorEncoder.clearTensors()
+    modelOutputs
+
+  }
+
+  def generateNoBeamSearch(
+      inputIds: Seq[Array[Int]],
+      maxOutputLength: Int,
+      minOutputLength: Int,
+      doSample: Boolean,
+      temperature: Double,
+      topK: Int,
+      topP: Double,
+      repetitionPenalty: Double,
+      noRepeatNgramSize: Int,
+      randomSeed: Option[Long],
+      ignoreTokenIds: Array[Int] = Array()): Array[Array[Int]] = {
+
+    /** Generate sequences for each example without beam search (numBeams == 1). All returned
+      * sequence are generated independently.
+      */
+
     /* Actual size of each sentence to skip padding in the TF model */
-    val sequencesLength = batch.map(x => x.length).toArray
+    val sequencesLength = inputIds.map(x => x.length).toArray
     val maxSentenceLength = sequencesLength.max // - curLen
 
     val numReturn_sequences = 1
     // from config
-    val vocab_size = 32128
+    val vocab_size = 50264
 
     var effectiveBatch_size = 1
     var effectiveBatch_mult = 1
 
     // set effective batch size and effective batch multiplier according to do_sample
     if (doSample) {
-      effectiveBatch_size = batch.length * numReturn_sequences
+      effectiveBatch_size = inputIds.length * numReturn_sequences
       effectiveBatch_mult = numReturn_sequences
     } else {
-      effectiveBatch_size = batch.length
+      effectiveBatch_size = inputIds.length
       effectiveBatch_mult = 1
     }
 
     // Run encoder
     val tensorEncoder = new TensorResources()
-    val inputDim = batch.length * maxSentenceLength
+    val inputDim = inputIds.length * maxSentenceLength
 
     val encoderInputBuffers = tensorEncoder.createIntBuffer(inputDim)
     val encoderAttentionMaskBuffers = tensorEncoder.createIntBuffer(inputDim)
 
-    val shape = Array(batch.length.toLong, maxSentenceLength)
+    val shape = Array(inputIds.length.toLong, maxSentenceLength)
 
-    batch.zipWithIndex.foreach { case (tokenIds, idx) =>
+    inputIds.zipWithIndex.foreach { case (tokenIds, idx) =>
       val offset = idx * maxSentenceLength
       val diff = maxSentenceLength - tokenIds.length
 
@@ -130,84 +170,10 @@ private[johnsnowlabs] class Bart(
       configProtoBytes = configProtoBytes,
       initAllTables = false,
       savedSignatures = signatures)
-    val runner = session.runner
 
-    runner
-      .feed("serving_default_input_ids:0", encoderInputTensors)
-      .feed("serving_default_attention_mask:0", encoderAttentionMaskTensors)
-      .fetch("StatefulPartitionedCall_1:0")
+    var decoderInputs = inputIds.map(_ => Array(this.eosTokenId)).toArray
 
-    val encoderOuts = runner.run().asScala
-    val encoderOutsFloats = TensorResources.extractFloats(encoderOuts.head)
-    val dim = encoderOutsFloats.length / inputDim
-    val encoderOutsBatch =
-      encoderOutsFloats.grouped(dim).toArray.grouped(maxSentenceLength).toArray
-
-    encoderOuts.foreach(_.close())
-
-    // Run decoder
-    val decoderEncoderStateTensorResources = new TensorResources()
-    val decoderEncoderStateBuffers =
-      decoderEncoderStateTensorResources.createFloatBuffer(batch.length * maxSentenceLength * dim)
-    batch.zipWithIndex.foreach { case (_, index) =>
-      var offset = index * maxSentenceLength * dim
-      encoderOutsBatch(index).foreach(encoderOutput => {
-        decoderEncoderStateBuffers.offset(offset).write(encoderOutput)
-        offset += dim
-      })
-    }
-
-    val decoderEncoderStateTensors = tensorEncoder.createFloatBufferTensor(
-      Array(batch.length.toLong, maxSentenceLength, dim),
-      decoderEncoderStateBuffers)
-
-    val modelOutputs = generateNoBeamSearch(
-      batch,
-      decoderEncoderStateTensors,
-      encoderAttentionMaskTensors,
-      maxOutputLength,
-      minOutputLength,
-      doSample,
-      temperature,
-      topK,
-      topP,
-      repetitionPenalty,
-      noRepeatNgramSize,
-      effectiveBatch_size,
-      vocab_size,
-      randomSeed,
-      session,
-      ignoreTokenIds)
-
-    tensorEncoder.clearTensors()
-    tensorEncoder.clearSession(encoderOuts)
-    modelOutputs
-
-  }
-
-  def generateNoBeamSearch(
-      inputIds: Seq[Array[Int]],
-      decoderEncoderStateTensors: Tensor,
-      encoderAttentionMaskTensors: Tensor,
-      maxOutputLength: Int,
-      minOutputLength: Int,
-      doSample: Boolean,
-      temperature: Double,
-      topK: Int,
-      topP: Double,
-      repetitionPenalty: Double,
-      noRepeatNgramSize: Int,
-      batch_size: Int,
-      vocab_size: Int,
-      randomSeed: Option[Long],
-      session: Session,
-      ignoreTokenIds: Array[Int] = Array()): Array[Array[Int]] = {
-
-    /** Generate sequences for each example without beam search (numBeams == 1). All returned
-      * sequence are generated independently.
-      */
-    var decoderInputs = inputIds.map(_ => Array(this.paddingTokenId)).toArray
-
+    val batch_size = effectiveBatch_size
     var curLen = decoderInputs(0).length
 
     var stopDecoder = false
@@ -221,30 +187,32 @@ private[johnsnowlabs] class Bart(
       val tensorDecoder = new TensorResources()
 
       val decoderInputBuffers =
-        tensorDecoder.createIntBuffer(decoderInputs.length * decoderInputLength)
+        tensorDecoder.createIntBuffer(inputDim)
       val decoderAttentionBuffers =
-        tensorDecoder.createIntBuffer(decoderInputs.length * decoderInputLength)
+        tensorDecoder.createIntBuffer(inputDim)
 
       decoderInputs.zipWithIndex.foreach { case (pieceIds, idx) =>
-        val offset = idx * decoderInputLength
-        decoderInputBuffers.offset(offset).write(pieceIds)
-        val paddingMasks = pieceIds.map(_ => 1)
+        val offset = idx * maxSentenceLength
+        val diff = maxSentenceLength - pieceIds.length
+
+        val s = pieceIds.take(maxSentenceLength) ++ Array.fill[Int](diff)(this.paddingTokenId)
+        decoderInputBuffers.offset(offset).write(s)
+
+        val paddingMasks = s.map(x => if (x != this.paddingTokenId) 1 else 0)
         decoderAttentionBuffers.offset(offset).write(paddingMasks)
       }
-
-      val decoderInputTensors = tensorDecoder.createIntBufferTensor(
-        Array(decoderInputs.length.toLong, decoderInputLength),
-        decoderInputBuffers)
-      val decoderAttentionMaskTensors = tensorDecoder.createIntBufferTensor(
-        Array(decoderInputs.length.toLong, decoderInputLength),
-        decoderAttentionBuffers)
+      val decoderInputTensors = tensorDecoder.createIntBufferTensor(shape, decoderInputBuffers)
+      val decoderAttentionMaskTensors =
+        tensorDecoder.createIntBufferTensor(shape, decoderAttentionBuffers)
       val runner = session.runner
 
       // TODO add past to the model and use cache
       runner
+        .feed("serving_default_input_ids:0", encoderInputTensors)
+        .feed("serving_default_attention_mask:0", encoderAttentionMaskTensors)
         .feed("serving_default_decoder_input_ids:0", decoderInputTensors)
-        .feed("serving_default_decoder_attention_mask:0", encoderAttentionMaskTensors)
-        .feed("serving_default_decoder_encoder_state:0", decoderEncoderStateTensors)
+        .feed("serving_default_decoder_attention_mask:0", decoderAttentionMaskTensors)
+//        .feed("serving_default_decoder_encoder_state:0", decoderEncoderStateTensors)
 //        .feed(
 //          "serving_default_decoder_decoder_encoder_attention_mask:0:0",
 //          encoderAttentionMaskTensors)
@@ -349,7 +317,9 @@ private[johnsnowlabs] class Bart(
       curLen += 1
 
       if (!eosTokenId.isNaN) {
-        val eosInSents = tokensToAdd.map(x => if (x == eosTokenId) 1 else 0)
+        val eosInSents = tokensToAdd.zipWithIndex.map { case (x, ind) =>
+          if (x == eosTokenId && ind != 0) 1 else 0
+        }
         // if sentence is unfinished and the token to add is eos, sent_lengths is filled with current length
         val isSentsUnfinishedAndTokenToAddIsEos =
           unfinishedSents.zip(eosInSents).map(x => x._1 * x._2)
@@ -369,7 +339,7 @@ private[johnsnowlabs] class Bart(
 
       // stop when there is a eos in each sentence, or if we exceed the maximum length
       //      stopDecoder = curLen < maxOutputLength || unfinishedSents.max == 0
-      stopDecoder = (!decoderInputs.exists(o => !o.contains(this.eosTokenId))
+      stopDecoder = (!decoderInputs.exists(o => !(o.count(_ == this.eosTokenId) == 2))
         || (decoderInputs.head.length > maxOutputLength))
 
     }

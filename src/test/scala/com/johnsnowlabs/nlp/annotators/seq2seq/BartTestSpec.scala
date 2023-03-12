@@ -53,7 +53,7 @@ class BartTestSpec extends AnyFlatSpec {
 
     val gpt2 = BartTransformer
       .loadSavedModel(
-        "/research/Phd/SparkNLP/BART/facebook/bart-large-cnn/saved_model/1",
+        "/home/prabod/Projects/ModelZoo/BART/facebook/bart-large-cnn/saved_model/1",
         ResourceHelper.spark)
       .setTask("summarize:")
       .setInputCols(Array("documents"))
