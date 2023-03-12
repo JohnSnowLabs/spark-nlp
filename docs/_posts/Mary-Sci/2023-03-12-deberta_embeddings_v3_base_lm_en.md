@@ -43,7 +43,7 @@ tokenizer = Tokenizer() \
     .setInputCols("document") \
     .setOutputCol("token")
 
-embeddings = DeBertaEmbeddings.pretrained("deberta_embeddings_v3_base_lm","vie") \
+embeddings = DeBertaEmbeddings.pretrained("deberta_embeddings_v3_base_lm","en") \
     .setInputCols(["document", "token"]) \
     .setOutputCol("embeddings") \
     .setCaseSensitive(True)
@@ -63,7 +63,7 @@ val tokenizer = new Tokenizer()
     .setInputCols("document")
     .setOutputCol("token")
  
-val embeddings = DeBertaEmbeddings.pretrained("deberta_embeddings_v3_base_lm","vie") 
+val embeddings = DeBertaEmbeddings.pretrained("deberta_embeddings_v3_base_lm","en") 
     .setInputCols(Array("document", "token"))
     .setOutputCol("embeddings")
     .setCaseSensitive(true)    
