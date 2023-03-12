@@ -130,7 +130,6 @@ private[johnsnowlabs] class Bart(
     val numReturn_sequences = 1
     // from config
     val vocab_size = 50264
-
     var effectiveBatch_size = 1
     var effectiveBatch_mult = 1
 
