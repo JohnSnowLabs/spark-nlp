@@ -6,7 +6,7 @@ name: deberta_embeddings_cowese_base
 date: 2023-03-12
 tags: [deberta, open_source, deberta_embeddings, debertav2formaskedlm, en, tensorflow]
 task: Embeddings
-language: en
+language: es
 edition: Spark NLP 4.3.1
 spark_version: 3.0
 supported: true
@@ -87,7 +87,7 @@ val result = pipeline.fit(data).transform(data)
 |Edition:|Official|
 |Input Labels:|[sentence, token]|
 |Output Labels:|[embeddings]|
-|Language:|en|
+|Language:|es|
 |Size:|1.0 GB|
 |Case sensitive:|false|
 
