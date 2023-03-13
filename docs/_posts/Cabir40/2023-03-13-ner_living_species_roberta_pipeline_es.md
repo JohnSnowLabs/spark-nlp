@@ -23,8 +23,8 @@ This pretrained pipeline is built on the top of [ner_living_species_roberta](htt
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_living_species_roberta_pipeline_es_4.3.0_3.2_1678731473474.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/ner_living_species_roberta_pipeline_es_4.3.0_3.2_1678731473474.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_living_species_roberta_pipeline_es_4.3.0_3.2_1678731883580.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/ner_living_species_roberta_pipeline_es_4.3.0_3.2_1678731883580.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -37,7 +37,7 @@ from sparknlp.pretrained import PretrainedPipeline
 
 pipeline = PretrainedPipeline("ner_living_species_roberta_pipeline", "es", "clinical/models")
 
-text = '''Mulher de 23 anos, de Capinota, Cochabamba, Bolívia. Ela está no nosso país há quatro anos. Frequentou o departamento de emergência obstétrica onde foi encontrada grávida de 37 semanas, com um colo dilatado de 5 cm e membranas rompidas. O obstetra de emergência realizou um teste de estreptococos negativo e solicitou um hemograma, glucose, bioquímica básica, HBV, HCV e serologia da sífilis.'''
+text = '''Lactante varón de dos años. Antecedentes familiares sin interés. Antecedentes personales: Embarazo, parto y periodo neonatal normal. En seguimiento por alergia a legumbres, diagnosticado con diez meses por reacción urticarial generalizada con lentejas y garbanzos, con dieta de exclusión a legumbres desde entonces. En ésta visita la madre describe episodios de eritema en zona maxilar derecha con afectación ocular ipsilateral que se resuelve en horas tras la administración de corticoides. Le ha ocurrido en 5-6 ocasiones, en relación con la ingesta de alimentos previamente tolerados. Exploración complementaria: Cacahuete, ac(ige)19.2 Ku.arb/l. Resultados: Ante la sospecha clínica de Síndrome de Frey, se tranquiliza a los padres, explicándoles la naturaleza del cuadro y se cita para revisión anual.'''
 
 result = pipeline.fullAnnotate(text)
 ```
@@ -46,7 +46,7 @@ import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 
 val pipeline = new PretrainedPipeline("ner_living_species_roberta_pipeline", "es", "clinical/models")
 
-val text = "Mulher de 23 anos, de Capinota, Cochabamba, Bolívia. Ela está no nosso país há quatro anos. Frequentou o departamento de emergência obstétrica onde foi encontrada grávida de 37 semanas, com um colo dilatado de 5 cm e membranas rompidas. O obstetra de emergência realizou um teste de estreptococos negativo e solicitou um hemograma, glucose, bioquímica básica, HBV, HCV e serologia da sífilis."
+val text = "Lactante varón de dos años. Antecedentes familiares sin interés. Antecedentes personales: Embarazo, parto y periodo neonatal normal. En seguimiento por alergia a legumbres, diagnosticado con diez meses por reacción urticarial generalizada con lentejas y garbanzos, con dieta de exclusión a legumbres desde entonces. En ésta visita la madre describe episodios de eritema en zona maxilar derecha con afectación ocular ipsilateral que se resuelve en horas tras la administración de corticoides. Le ha ocurrido en 5-6 ocasiones, en relación con la ingesta de alimentos previamente tolerados. Exploración complementaria: Cacahuete, ac(ige)19.2 Ku.arb/l. Resultados: Ante la sospecha clínica de Síndrome de Frey, se tranquiliza a los padres, explicándoles la naturaleza del cuadro y se cita para revisión anual."
 
 val result = pipeline.fullAnnotate(text)
 ```
@@ -55,15 +55,19 @@ val result = pipeline.fullAnnotate(text)
 ## Results
 
 ```bash
-|    | ner_chunks    |   begin |   end | ner_label   |   confidence |
-|---:|:--------------|--------:|------:|:------------|-------------:|
-|  0 | Mulher        |       0 |     5 | HUMAN       |       0.9975 |
-|  1 | país          |      71 |    74 | HUMAN       |       0.8869 |
-|  2 | grávida       |     163 |   169 | HUMAN       |       0.9702 |
-|  3 | estreptococos |     283 |   295 | SPECIES     |       0.9211 |
-|  4 | HBV           |     360 |   362 | SPECIES     |       0.9911 |
-|  5 | HCV           |     365 |   367 | SPECIES     |       0.9858 |
-|  6 | sífilis       |     384 |   390 | SPECIES     |       0.8898 |
+|    | ner_chunks     |   begin |   end | ner_label   |   confidence |
+|---:|:---------------|--------:|------:|:------------|-------------:|
+|  0 | Lactante varón |       0 |    13 | HUMAN       |      0.93805 |
+|  1 | familiares     |      41 |    50 | HUMAN       |      1       |
+|  2 | personales     |      78 |    87 | HUMAN       |      1       |
+|  3 | neonatal       |     116 |   123 | HUMAN       |      0.9997  |
+|  4 | legumbres      |     162 |   170 | SPECIES     |      0.9963  |
+|  5 | lentejas       |     243 |   250 | SPECIES     |      0.9988  |
+|  6 | garbanzos      |     254 |   262 | SPECIES     |      0.9905  |
+|  7 | legumbres      |     290 |   298 | SPECIES     |      0.9979  |
+|  8 | madre          |     334 |   338 | HUMAN       |      1       |
+|  9 | Cacahuete      |     616 |   624 | SPECIES     |      0.9985  |
+| 10 | padres         |     728 |   733 | HUMAN       |      1       |
 ```
 
 {:.model-param}
@@ -77,7 +81,7 @@ val result = pipeline.fullAnnotate(text)
 |License:|Licensed|
 |Edition:|Official|
 |Language:|es|
-|Size:|654.0 MB|
+|Size:|318.8 MB|
 
 ## Included Models
 
