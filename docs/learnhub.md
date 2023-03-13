@@ -23,7 +23,7 @@ modify_date: "2019-05-16"
                 <ul class="learn-hub-list">
                     <li><a target="_blank" href="https://www.johnsnowlabs.com/spark-nlp-blog/">Spark NLP</a></li>
                     <li><a target="_blank" href="https://www.johnsnowlabs.com/healthcare-nlp-blog/">Healthcare NLP</a></li>
-                    <li><a target="_blank" href="https://www.johnsnowlabs.com/spark-ocr-blog/">Spark OCR</a></li>
+                    <li><a target="_blank" href="https://www.johnsnowlabs.com/visual-nlp-blog/">Spark OCR</a></li>
                     <li><a target="_blank" href="https://www.johnsnowlabs.com/annotation-lab-blog/">Annotation Lab</a></li>
                     <li><a target="_blank" href="https://www.johnsnowlabs.com/auto-nlp-blog/">Auto NLP</a></li>
                     <li><a target="_blank" href="https://www.johnsnowlabs.com/multimodal-ai-blog/">Multimodal AI</a></li>
