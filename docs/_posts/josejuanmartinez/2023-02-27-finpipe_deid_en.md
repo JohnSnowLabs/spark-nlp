@@ -21,14 +21,7 @@ use_language_switcher: "Python-Scala-Java"
 This is a Pretrained Pipeline aimed to deidentify legal and financial documents to be compliant with data privacy regulations as GDPR and CCPA. Since the models used in this pipeline are statistical, make sure you use this model in a human-in-the-loop process to guarantee a 100% accuracy.
 
 You can carry out both masking and obfuscation with this pipeline, on the following entities:
-- Company names
-- People's names
-- Poeple's titles
-- Addresses
-- Contact information (email, phone numbers...)
-- Dates
-- Document types
-- etc
+`ALIAS`, `EMAIL`, `PHONE`, `PROFESSION`, `ORG`, `DATE`, `PERSON`, `ADDRESS`, `STREET`, `CITY`, `STATE`, `ZIP`, `COUNTRY`, `TITLE_CLASS`, `TICKER`, `STOCK_EXCHANGE`, `CFN`, `IRS`
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/finance/DEID_FIN/){:.button.button-orange}
