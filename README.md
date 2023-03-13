@@ -1,4 +1,4 @@
-ks# Spark NLP: State-of-the-Art Natural Language Processing
+# Spark NLP: State-of-the-Art Natural Language Processing
 
 <p align="center">
     <a href="https://github.com/JohnSnowLabs/spark-nlp/actions" alt="build">
