@@ -7,6 +7,14 @@ class BeamHypotheses(
   private var beams: Seq[(Double, Array[Int], Array[Int])] = Seq()
   private var worstScore: Double = 1e9
 
+  def length():Int = {
+    beams.length
+  }
+
+  def getBeams():Seq[(Double, Array[Int], Array[Int])] ={
+    this.beams
+  }
+
   /** Add a new hypotheses to the list
     * @param hypotheses
     *   Hypothesis

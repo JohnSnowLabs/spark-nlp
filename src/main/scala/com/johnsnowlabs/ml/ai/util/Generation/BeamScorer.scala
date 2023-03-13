@@ -4,14 +4,20 @@ abstract class BeamScorer() {
 
   protected def process(
       inputIds: Seq[Array[Int]],
-      nextScores: Seq[Array[Float]],
+      nextScores: Seq[Array[Double]],
       nextTokens: Seq[Array[Int]],
-      nextIndices: Seq[Array[Int]]): Seq[Array[Int]]
+      nextIndices: Seq[Array[Int]],
+      padTokenId: Int,
+      eosTokenId: Int,
+      beamIndices: Seq[Array[Int]]): (Array[Array[Double]], Array[Array[Int]], Array[Array[Int]])
 
   protected def finalize(
       inputIds: Seq[Array[Int]],
-      nextScores: Seq[Array[Float]],
-      nextTokens: Seq[Array[Int]],
-      nextIndices: Seq[Array[Int]],
-      maxLength: Int): Array[Float]
+      finalBeamScores: Array[Double],
+      finalBeamTokens: Array[Int],
+      finalBeamIndices: Array[Int],
+      maxLength: Int,
+      padTokenId: Int,
+      eosTokenId: Int,
+      beamIndices: Seq[Array[Int]]):(Array[Array[Int]], Array[Double], Array[Array[Int]])
 }
