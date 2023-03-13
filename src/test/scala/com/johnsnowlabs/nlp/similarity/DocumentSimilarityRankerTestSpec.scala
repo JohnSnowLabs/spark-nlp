@@ -12,6 +12,7 @@ import com.johnsnowlabs.nlp.{AnnotatorBuilder, EmbeddingsFinisher}
 import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.functions.col
 import org.scalatest.flatspec.AnyFlatSpec
 
 class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
@@ -66,9 +67,14 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
       .setSimilarityMethod("brp")
       .setNumberOfNeighbours(3)
       .setVisibleDistances(true)
+    // .setIncludeQueryInResult(true) // TODO useful for debug
 
     val documentSimilarityFinisher = new DocumentSimilarityRankerFinisher()
       .setInputCols("doc_similarity_rankings")
+      .setOutputCols(
+        "finished_doc_similarity_rankings_id",
+        "finished_doc_similarity_rankings_neighbors")
+      .setExtractNearestNeighbor(true)
 
     val pipeline = new Pipeline()
       .setStages(
@@ -83,15 +89,14 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
           documentSimilarityFinisher
         ))
 
-    val pipelineDF = pipeline.fit(smallCorpus).transform(smallCorpus)
+    val transformed = pipeline.fit(smallCorpus).transform(smallCorpus)
 
-    val fitted = pipelineDF.select(
-      "text",
-      "finished_doc_similarity_rankings_id",
-      "finished_doc_similarity_rankings_neighbors"
-    )
+    transformed.printSchema
+    transformed
+      .select("text", "finished_doc_similarity_rankings_id", "nearest_neighbor_id", "nearest_neighbor_distance")
+      .show(false)
 
-    fitted.show(false)
-    fitted.printSchema
+    // correct if not empty as inclusive query points are at distance 0.0 from themselves
+    assert(!transformed.where(col("nearest_neighbor_distance") === 0.0).rdd.isEmpty() == true)
   }
 }
