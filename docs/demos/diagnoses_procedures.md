@@ -22,19 +22,7 @@ data:
         - subtitle: Diagnoses & Procedures - Live Demos & Notebooks
           activemenu: diagnoses_procedures
       source: yes
-      source:           
-        - title: Identify diagnosis and symptoms assertion status
-          id: identify_diagnosis_and_symptoms_assertion_status
-          image: 
-              src: /assets/images/Identify_diagnosis_and_symptoms_assertion_status.svg
-          excerpt: Automatically detect if a diagnosis or a symptom is present, absent, uncertain or associated to other persons (e.g. family members).
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/ASSERTION/
-          - text: Colab
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ASSERTION.ipynb        
+      source:    
         - title: Detect clinical entities in text
           id: detect_clinical_entities_in_text
           image: 
@@ -46,7 +34,19 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_CLINICAL/
           - text: Colab
             type: blue_btn
-            url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
+            url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb       
+        - title: Identify diagnosis and symptoms assertion status
+          id: identify_diagnosis_and_symptoms_assertion_status
+          image: 
+              src: /assets/images/Identify_diagnosis_and_symptoms_assertion_status.svg
+          excerpt: Automatically detect if a diagnosis or a symptom is present, absent, uncertain or associated to other persons (e.g. family members).
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/ASSERTION/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ASSERTION.ipynb
         - title: Detect diagnosis and procedures
           id: detect_diagnosis_and_procedures
           image: 
