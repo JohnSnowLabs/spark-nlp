@@ -1,78 +1,83 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-03-11T11:37:25+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
-</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">Understand Increased or Decreased Amounts and Percentages in Context</title><link href="/2023/03/11/finassertion_increase_decrease_amounts_en.html" rel="alternate" type="text/html" title="Understand Increased or Decreased Amounts and Percentages in Context" /><published>2023-03-11T00:00:00+00:00</published><updated>2023-03-11T00:00:00+00:00</updated><id>/2023/03/11/finassertion_increase_decrease_amounts_en</id><content type="html" xml:base="/2023/03/11/finassertion_increase_decrease_amounts_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-03-13T10:48:02+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">Understand Increased or Decreased Amounts and Percentages in Context</title><link href="/2023/03/11/finassertion_increase_decrease_amounts_en.html" rel="alternate" type="text/html" title="Understand Increased or Decreased Amounts and Percentages in Context" /><published>2023-03-11T00:00:00+00:00</published><updated>2023-03-11T00:00:00+00:00</updated><id>/2023/03/11/finassertion_increase_decrease_amounts_en</id><content type="html" xml:base="/2023/03/11/finassertion_increase_decrease_amounts_en.html">## Description
 
-&lt;p&gt;This is an Assertion Status model which allows you to detect if a mentioned amount or percentage is stated to be increased or decreased in context.&lt;/p&gt;
+This is an Assertion Status model which allows you to detect if a mentioned amount or percentage is stated to be increased or decreased in context.
 
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+## Predicted Entities
 
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;INCREASE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DECREASE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NOT_STATED&lt;/code&gt;&lt;/p&gt;
+`INCREASE`, `DECREASE`, `NOT_STATED`
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finassertion_increase_decrease_amounts_en_1.0.0_3.0_1678533483377.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/finance/models/finassertion_increase_decrease_amounts_en_1.0.0_3.0_1678533483377.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/finance/models/finassertion_increase_decrease_amounts_en_1.0.0_3.0_1678533483377.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/finance/models/finassertion_increase_decrease_amounts_en_1.0.0_3.0_1678533483377.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
 
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;sentence_detector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SentenceDetector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
-&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setContextChars&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'.'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;','&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;';'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;':'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'!'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'?'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'*'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'-'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'('&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;')'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'&quot;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;'&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'%'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'&amp;amp;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+```python
+document_assembler = nlp.DocumentAssembler()\
+    .setInputCol(&quot;text&quot;)\
+    .setOutputCol(&quot;document&quot;)
 
-&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BertEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_embeddings_sec_bert_base&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+sentence_detector = nlp.SentenceDetector()\
+    .setInputCols([&quot;document&quot;])\
+    .setOutputCol(&quot;sentence&quot;)
 
-&lt;span class=&quot;n&quot;&gt;ner_model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;finance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BertForTokenClassification&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;finner_responsibility_reports&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;finance/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setCaseSensitive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setMaxSentenceLength&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;512&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+tokenizer = nlp.Tokenizer() \
+    .setInputCols([&quot;sentence&quot;]) \
+    .setOutputCol(&quot;token&quot;)\
+    .setContextChars(['.', ',', ';', ':', '!', '?', '*', '-', '(', ')', '&quot;', &quot;'&quot;, '%', '&amp;'])
 
-&lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NerConverter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;ner&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ner_chunk&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setWhiteList&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;AMOUNT&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;PERCENTAGE&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+embeddings = nlp.BertEmbeddings.pretrained(&quot;bert_embeddings_sec_bert_base&quot;,&quot;en&quot;) \
+    .setInputCols([&quot;sentence&quot;, &quot;token&quot;]) \
+    .setOutputCol(&quot;embeddings&quot;)
 
-&lt;span class=&quot;n&quot;&gt;fin_assertion&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;finance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AssertionDLModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;finassertion_increase_decrease_amounts&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;finance/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;ner_chunk&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;assertion&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+ner_model = finance.BertForTokenClassification.pretrained(&quot;finner_responsibility_reports&quot;, &quot;en&quot;, &quot;finance/models&quot;)\
+    .setInputCols([&quot;sentence&quot;, &quot;token&quot;])\
+    .setOutputCol(&quot;ner&quot;)\
+    .setCaseSensitive(True)\
+    .setMaxSentenceLength(512)
 
-&lt;span class=&quot;n&quot;&gt;nlpPipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;sentence_detector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;ner_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;ner_converter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;fin_assertion&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;empty_data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlpPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;empty_data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;text_list&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;This reduction in GHG emissions from the previous year can be attributed to a decrease in Scope 2 emissions from indirect energy use, which decreased from 13,907 metric tons CO2e in 2020 to 12,297 metric tons CO2e in 2021.&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-             &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Cal Water's year-over-year total energy consumption increased slightly from 584,719 GJ in 2020 to 587,923 GJ in 2021.&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-             &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;In 2020, 89 % of our employees received a year-end performance review while in 2021, this increased to 93 %.&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-             &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;With over 80,000 consultants and professionals in 400 locations globally, CGI has a strong presence in the technology sector, offering end-to-end services to over 5,500 clients .&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;text_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}))&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+ner_converter = nlp.NerConverter()\
+    .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;ner&quot;])\
+    .setOutputCol(&quot;ner_chunk&quot;)\
+    .setWhiteList([&quot;AMOUNT&quot;, &quot;PERCENTAGE&quot;])
+
+fin_assertion = finance.AssertionDLModel.pretrained(&quot;finassertion_increase_decrease_amounts&quot;, &quot;en&quot;, &quot;finance/models&quot;)\
+    .setInputCols([&quot;sentence&quot;, &quot;ner_chunk&quot;, &quot;embeddings&quot;])\
+    .setOutputCol(&quot;assertion&quot;)\
+
+nlpPipeline = nlp.Pipeline(stages=[
+        document_assembler,
+        sentence_detector,
+        tokenizer,
+        embeddings,
+        ner_model,
+        ner_converter,
+        fin_assertion
+])
+empty_data = spark.createDataFrame([[&quot;&quot;]]).toDF(&quot;text&quot;)
+model = nlpPipeline.fit(empty_data)
+text_list = [&quot;&quot;&quot;This reduction in GHG emissions from the previous year can be attributed to a decrease in Scope 2 emissions from indirect energy use, which decreased from 13,907 metric tons CO2e in 2020 to 12,297 metric tons CO2e in 2021.&quot;&quot;&quot;,
+             &quot;&quot;&quot;Cal Water's year-over-year total energy consumption increased slightly from 584,719 GJ in 2020 to 587,923 GJ in 2021.&quot;&quot;&quot;,
+             &quot;&quot;&quot;In 2020, 89 % of our employees received a year-end performance review while in 2021, this increased to 93 %.&quot;&quot;&quot;,
+             &quot;&quot;&quot;With over 80,000 consultants and professionals in 400 locations globally, CGI has a strong presence in the technology sector, offering end-to-end services to over 5,500 clients .&quot;&quot;&quot;]
+df = spark.createDataFrame(pd.DataFrame({&quot;text&quot; : text_list}))
+result = model.transform(df)
+```
 
 &lt;/div&gt;
 
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+## Results
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+-------+----------+----------+
+```bash
++-------+----------+----------+
 |chunk  |ner_label |assertion |
 +-------+----------+----------+
 |13,907 |AMOUNT    |DECREASE  |
@@ -85,61 +90,37 @@
 |400    |AMOUNT    |NOT_STATED|
 |5,500  |AMOUNT    |NOT_STATED|
 +-------+----------+----------+
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+```
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;finassertion_increase_decrease_amounts&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Finance NLP 1.0.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Licensed&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[document, ner_chunk, embeddings]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[assertion]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;2.2 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|finassertion_increase_decrease_amounts|
+|Compatibility:|Finance NLP 1.0.0+|
+|License:|Licensed|
+|Edition:|Official|
+|Input Labels:|[document, ner_chunk, embeddings]|
+|Output Labels:|[assertion]|
+|Language:|en|
+|Size:|2.2 MB|
 
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+## References
 
-&lt;p&gt;In-house annotations on Responsibility and ESG Reports&lt;/p&gt;
+In-house annotations on Responsibility and ESG Reports
 
-&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
+## Benchmarking
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;label         precision  recall  f1-score  support 
+```bash
+label         precision  recall  f1-score  support 
 DECREASE      0.88       0.91    0.89      97      
 INCREASE      0.84       0.77    0.80      56      
 NOT_STATED    0.89       0.90    0.89      94      
 accuracy      -          -       0.87      247     
 macro-avg     0.87       0.86    0.86      247     
 weighted-avg  0.87       0.87    0.87      247 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="licensed" /><category term="finance" /><category term="assertion" /><category term="responsibility" /><summary type="html">Description This is an Assertion Status model which allows you to detect if a mentioned amount or percentage is stated to be increased or decreased in context. Predicted Entities INCREASE, DECREASE, NOT_STATED Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU document_assembler = nlp.DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) sentence_detector = nlp.SentenceDetector()\ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;sentence&quot;) tokenizer = nlp.Tokenizer() \ .setInputCols([&quot;sentence&quot;]) \ .setOutputCol(&quot;token&quot;)\ .setContextChars(['.', ',', ';', ':', '!', '?', '*', '-', '(', ')', '&quot;', &quot;'&quot;, '%', '&amp;amp;']) embeddings = nlp.BertEmbeddings.pretrained(&quot;bert_embeddings_sec_bert_base&quot;,&quot;en&quot;) \ .setInputCols([&quot;sentence&quot;, &quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) ner_model = finance.BertForTokenClassification.pretrained(&quot;finner_responsibility_reports&quot;, &quot;en&quot;, &quot;finance/models&quot;)\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;])\ .setOutputCol(&quot;ner&quot;)\ .setCaseSensitive(True)\ .setMaxSentenceLength(512) ner_converter = nlp.NerConverter()\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;ner&quot;])\ .setOutputCol(&quot;ner_chunk&quot;)\ .setWhiteList([&quot;AMOUNT&quot;, &quot;PERCENTAGE&quot;]) fin_assertion = finance.AssertionDLModel.pretrained(&quot;finassertion_increase_decrease_amounts&quot;, &quot;en&quot;, &quot;finance/models&quot;)\ .setInputCols([&quot;sentence&quot;, &quot;ner_chunk&quot;, &quot;embeddings&quot;])\ .setOutputCol(&quot;assertion&quot;)\ nlpPipeline = nlp.Pipeline(stages=[ document_assembler, sentence_detector, tokenizer, embeddings, ner_model, ner_converter, fin_assertion ]) empty_data = spark.createDataFrame([[&quot;&quot;]]).toDF(&quot;text&quot;) model = nlpPipeline.fit(empty_data) text_list = [&quot;&quot;&quot;This reduction in GHG emissions from the previous year can be attributed to a decrease in Scope 2 emissions from indirect energy use, which decreased from 13,907 metric tons CO2e in 2020 to 12,297 metric tons CO2e in 2021.&quot;&quot;&quot;, &quot;&quot;&quot;Cal Water's year-over-year total energy consumption increased slightly from 584,719 GJ in 2020 to 587,923 GJ in 2021.&quot;&quot;&quot;, &quot;&quot;&quot;In 2020, 89 % of our employees received a year-end performance review while in 2021, this increased to 93 %.&quot;&quot;&quot;, &quot;&quot;&quot;With over 80,000 consultants and professionals in 400 locations globally, CGI has a strong presence in the technology sector, offering end-to-end services to over 5,500 clients .&quot;&quot;&quot;] df = spark.createDataFrame(pd.DataFrame({&quot;text&quot; : text_list})) result = model.transform(df) Results +-------+----------+----------+ |chunk |ner_label |assertion | +-------+----------+----------+ |13,907 |AMOUNT |DECREASE | |12,297 |AMOUNT |DECREASE | |584,719|AMOUNT |INCREASE | |587,923|AMOUNT |INCREASE | |89 % |PERCENTAGE|INCREASE | |93 % |PERCENTAGE|INCREASE | |80,000 |AMOUNT |NOT_STATED| |400 |AMOUNT |NOT_STATED| |5,500 |AMOUNT |NOT_STATED| +-------+----------+----------+ Model Information Model Name: finassertion_increase_decrease_amounts Compatibility: Finance NLP 1.0.0+ License: Licensed Edition: Official Input Labels: [document, ner_chunk, embeddings] Output Labels: [assertion] Language: en Size: 2.2 MB References In-house annotations on Responsibility and ESG Reports Benchmarking label precision recall f1-score support DECREASE 0.88 0.91 0.89 97 INCREASE 0.84 0.77 0.80 56 NOT_STATED 0.89 0.90 0.89 94 accuracy - - 0.87 247 macro-avg 0.87 0.86 0.86 247 weighted-avg 0.87 0.87 0.87 247</summary></entry><entry><title type="html">10K Item Section Classifier</title><link href="/2023/03/10/finclf_10k_items_en.html" rel="alternate" type="text/html" title="10K Item Section Classifier" /><published>2023-03-10T00:00:00+00:00</published><updated>2023-03-10T00:00:00+00:00</updated><id>/2023/03/10/finclf_10k_items_en</id><content type="html" xml:base="/2023/03/10/finclf_10k_items_en.html">## Description
+```</content><author><name>John Snow Labs</name></author><category term="en" /><category term="licensed" /><category term="finance" /><category term="assertion" /><category term="responsibility" /><summary type="html">Description This is an Assertion Status model which allows you to detect if a mentioned amount or percentage is stated to be increased or decreased in context. Predicted Entities INCREASE, DECREASE, NOT_STATED Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU document_assembler = nlp.DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) sentence_detector = nlp.SentenceDetector()\ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;sentence&quot;) tokenizer = nlp.Tokenizer() \ .setInputCols([&quot;sentence&quot;]) \ .setOutputCol(&quot;token&quot;)\ .setContextChars(['.', ',', ';', ':', '!', '?', '*', '-', '(', ')', '&quot;', &quot;'&quot;, '%', '&amp;amp;']) embeddings = nlp.BertEmbeddings.pretrained(&quot;bert_embeddings_sec_bert_base&quot;,&quot;en&quot;) \ .setInputCols([&quot;sentence&quot;, &quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) ner_model = finance.BertForTokenClassification.pretrained(&quot;finner_responsibility_reports&quot;, &quot;en&quot;, &quot;finance/models&quot;)\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;])\ .setOutputCol(&quot;ner&quot;)\ .setCaseSensitive(True)\ .setMaxSentenceLength(512) ner_converter = nlp.NerConverter()\ .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;ner&quot;])\ .setOutputCol(&quot;ner_chunk&quot;)\ .setWhiteList([&quot;AMOUNT&quot;, &quot;PERCENTAGE&quot;]) fin_assertion = finance.AssertionDLModel.pretrained(&quot;finassertion_increase_decrease_amounts&quot;, &quot;en&quot;, &quot;finance/models&quot;)\ .setInputCols([&quot;sentence&quot;, &quot;ner_chunk&quot;, &quot;embeddings&quot;])\ .setOutputCol(&quot;assertion&quot;)\ nlpPipeline = nlp.Pipeline(stages=[ document_assembler, sentence_detector, tokenizer, embeddings, ner_model, ner_converter, fin_assertion ]) empty_data = spark.createDataFrame([[&quot;&quot;]]).toDF(&quot;text&quot;) model = nlpPipeline.fit(empty_data) text_list = [&quot;&quot;&quot;This reduction in GHG emissions from the previous year can be attributed to a decrease in Scope 2 emissions from indirect energy use, which decreased from 13,907 metric tons CO2e in 2020 to 12,297 metric tons CO2e in 2021.&quot;&quot;&quot;, &quot;&quot;&quot;Cal Water's year-over-year total energy consumption increased slightly from 584,719 GJ in 2020 to 587,923 GJ in 2021.&quot;&quot;&quot;, &quot;&quot;&quot;In 2020, 89 % of our employees received a year-end performance review while in 2021, this increased to 93 %.&quot;&quot;&quot;, &quot;&quot;&quot;With over 80,000 consultants and professionals in 400 locations globally, CGI has a strong presence in the technology sector, offering end-to-end services to over 5,500 clients .&quot;&quot;&quot;] df = spark.createDataFrame(pd.DataFrame({&quot;text&quot; : text_list})) result = model.transform(df) Results +-------+----------+----------+ |chunk |ner_label |assertion | +-------+----------+----------+ |13,907 |AMOUNT |DECREASE | |12,297 |AMOUNT |DECREASE | |584,719|AMOUNT |INCREASE | |587,923|AMOUNT |INCREASE | |89 % |PERCENTAGE|INCREASE | |93 % |PERCENTAGE|INCREASE | |80,000 |AMOUNT |NOT_STATED| |400 |AMOUNT |NOT_STATED| |5,500 |AMOUNT |NOT_STATED| +-------+----------+----------+ Model Information Model Name: finassertion_increase_decrease_amounts Compatibility: Finance NLP 1.0.0+ License: Licensed Edition: Official Input Labels: [document, ner_chunk, embeddings] Output Labels: [assertion] Language: en Size: 2.2 MB References In-house annotations on Responsibility and ESG Reports Benchmarking label precision recall f1-score support DECREASE 0.88 0.91 0.89 97 INCREASE 0.84 0.77 0.80 56 NOT_STATED 0.89 0.90 0.89 94 accuracy - - 0.87 247 macro-avg 0.87 0.86 0.86 247 weighted-avg 0.87 0.87 0.87 247</summary></entry><entry><title type="html">10K Item Section Classifier</title><link href="/2023/03/10/finclf_10k_items_en.html" rel="alternate" type="text/html" title="10K Item Section Classifier" /><published>2023-03-10T00:00:00+00:00</published><updated>2023-03-10T00:00:00+00:00</updated><id>/2023/03/10/finclf_10k_items_en</id><content type="html" xml:base="/2023/03/10/finclf_10k_items_en.html">## Description
 
 This is a Multiclass classification model which identifies the item (section) number in a 10K filing.
 
