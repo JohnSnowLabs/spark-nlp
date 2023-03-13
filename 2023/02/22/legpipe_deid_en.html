@@ -438,14 +438,8 @@
 
 <p>This is a Pretrained Pipeline aimed to deidentify legal and financial documents to be compliant with data privacy regulations as GDPR and CCPA. Since the models used in this pipeline are statistical, make sure you use this model in a human-in-the-loop process to guarantee a 100% accuracy.</p>
 
-<p>You can carry out both masking and obfuscation with this pipeline, on the following entities:</p>
-<ul>
-  <li>Company names</li>
-  <li>People’s names and titles</li>
-  <li>Contact information (address, email, phone numbers…)</li>
-  <li>Dates</li>
-  <li>etc</li>
-</ul>
+<p>You can carry out both masking and obfuscation with this pipeline, on the following entities: 
+<code class="language-plaintext highlighter-rouge">ALIAS</code>, <code class="language-plaintext highlighter-rouge">EMAIL</code>, <code class="language-plaintext highlighter-rouge">PHONE</code>, <code class="language-plaintext highlighter-rouge">PROFESSION</code>, <code class="language-plaintext highlighter-rouge">ORG</code>, <code class="language-plaintext highlighter-rouge">DATE</code>, <code class="language-plaintext highlighter-rouge">PERSON</code>, <code class="language-plaintext highlighter-rouge">ADDRESS</code>, <code class="language-plaintext highlighter-rouge">STREET</code>, <code class="language-plaintext highlighter-rouge">CITY</code>, <code class="language-plaintext highlighter-rouge">STATE</code>, <code class="language-plaintext highlighter-rouge">ZIP</code>, <code class="language-plaintext highlighter-rouge">COUNTRY</code></p>
 
 <p class="btn-box"><a href="https://demo.johnsnowlabs.com/legal/DEID_LEGAL/" class="button button-orange">Live Demo</a>
 <button class="button button-orange" disabled="">Open in Colab</button>
@@ -498,20 +492,20 @@ Source: PF HOSPITALITY GROUP INC., 9/23/2015
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Masked with entity labels
 <span class="nt">------------------------------</span>
 &lt;PARTY&gt;. &lt;DOC&gt; This &lt;DOC&gt; <span class="o">(</span>the &lt;ALIAS&gt;<span class="o">)</span> is entered into as of the Agreement Date shown on the cover page between &lt;PARTY&gt; a Florida corporation, and the individual or legal entity identified on the cover page.
-Source: &lt;PARTY&gt;., &lt;EFFDATE&gt;
+Source: &lt;PARTY&gt;., &lt;DATE&gt;
 
 
 1.
 &lt;PARTY&gt; 1.1.
 &lt;PARTY&gt;.
 1.1.1 We grant you the right, and you accept the obligation, to use the &lt;PARTY&gt; and the System to operate one Restaurant <span class="o">(</span>the &lt;ALIAS&gt;<span class="o">)</span> at the Premises, <span class="k">in </span>accordance with the terms of this Agreement.
-Source: &lt;PARTY&gt;., &lt;EFFDATE&gt;
+Source: &lt;PARTY&gt;., &lt;DATE&gt;
 
 
 1.3.
 Our &lt;PARTY&gt; and &lt;PARTY&gt;.
 The rights granted to you under this Agreement are not exclusive.sed Business.
-Source: &lt;PARTY&gt;., &lt;EFFDATE&gt;
+Source: &lt;PARTY&gt;., &lt;DATE&gt;
 
 Masked with chars
 <span class="nt">------------------------------</span>
