@@ -27,7 +27,6 @@ import org.scalatest.flatspec.AnyFlatSpec
 class ClassifierDLTestSpec extends AnyFlatSpec {
   import ResourceHelper.spark.implicits._
 
-
   "ClassifierDL" should "correctly train IMDB train dataset" taggedAs SlowTest in {
 
     val smallCorpus = ResourceHelper.spark.read
@@ -129,21 +128,15 @@ class ClassifierDLTestSpec extends AnyFlatSpec {
       .setDropout(0.5f)
       .setValidationSplit(0.1f)
 
-
     val pipeline = new Pipeline()
       .setStages(Array(documentAssembler, sentenceEmbeddings, docClassifier))
 
-    val data = Seq(
-      ("This is good.", "good"),
-      ("This is bad.", "bad"),
-      ("This has no labels", "")
-    ).toDF("text", "label")
-
+    val data = Seq(("This is good.", "good"), ("This is bad.", "bad"), ("This has no labels", ""))
+      .toDF("text", "label")
 
     val pipelineModel = pipeline.fit(data)
 
     pipelineModel.transform(data).select("document").show(1, truncate = false)
   }
-
 
 }

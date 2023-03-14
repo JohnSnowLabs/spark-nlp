@@ -103,8 +103,7 @@ class MultiClassifierDLTestSpec extends AnyFlatSpec {
     val data = Seq(
       ("This is good.", Array("good")),
       ("This is bad.", Array("bad")),
-      ("This has no labels", Array.empty[String])
-    ).toDF("text", "labels")
+      ("This has no labels", Array.empty[String])).toDF("text", "labels")
 
     val pipelineModel = pipeline.fit(data)
     pipelineModel.transform(data).show(1)
