@@ -28,6 +28,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 class MultiClassifierDLTestSpec extends AnyFlatSpec {
 
   val spark: SparkSession = ResourceHelper.getActiveSparkSession
+  import spark.implicits._
 
   "MultiClassifierDL" should "correctly train E2E Challenge" taggedAs SlowTest in {
     def splitAndTrim = udf { labels: String =>
@@ -35,8 +36,8 @@ class MultiClassifierDLTestSpec extends AnyFlatSpec {
     }
 
     val smallCorpus = spark.read
-      .option("header", true)
-      .option("inferSchema", true)
+      .option("header", value = true)
+      .option("inferSchema", value = true)
       .option("mode", "DROPMALFORMED")
       .csv("src/test/resources/classifier/e2e.csv")
       .withColumn("labels", splitAndTrim(col("mr")))
@@ -72,6 +73,41 @@ class MultiClassifierDLTestSpec extends AnyFlatSpec {
     val pipelineModel = pipeline.fit(smallCorpus)
     pipelineModel.transform(smallCorpus).show(1)
 
+  }
+
+  "MultiClassifierDLApproach" should "not fail on empty validation sets" taggedAs SlowTest in {
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentenceEmbeddings = BertSentenceEmbeddings
+      .pretrained("sent_small_bert_L2_128")
+      .setInputCols("document")
+      .setOutputCol("embeddings")
+
+    val docClassifier = new MultiClassifierDLApproach()
+      .setInputCols("embeddings")
+      .setOutputCol("category")
+      .setLabelColumn("labels")
+      .setBatchSize(8)
+      .setMaxEpochs(1)
+      .setLr(1e-3f)
+      .setThreshold(0.5f)
+      .setEnableOutputLogs(true)
+      .setRandomSeed(44)
+      .setValidationSplit(0.1f)
+
+    val pipeline = new Pipeline()
+      .setStages(Array(documentAssembler, sentenceEmbeddings, docClassifier))
+
+    val data = Seq(
+      ("This is good.", Array("good")),
+      ("This is bad.", Array("bad")),
+      ("This has no labels", Array.empty[String])
+    ).toDF("text", "labels")
+
+    val pipelineModel = pipeline.fit(data)
+    pipelineModel.transform(data).show(1)
   }
 
 }
