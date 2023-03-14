@@ -1,4 +1,23 @@
 ========
+4.3.2
+========
+----------------
+New Features & Enhancements
+----------------
+* Add S3 support for CoNLL(), POS(), CoNLLU() training classes https://github.com/JohnSnowLabs/spark-nlp/pull/13596
+* Add support for non-schema NER (`I-` or `B-`) tags in NerConverter annotator https://github.com/JohnSnowLabs/spark-nlp/pull/13642
+* Improve self-hosted examples with better documentation, Docker examples, no broken links, and more https://github.com/JohnSnowLabs/spark-nlp/pull/13575
+* Improve error handling for validation evaluation in ClassifierDL and MultiClassifierDL trainable annotators https://github.com/JohnSnowLabs/spark-nlp/pull/13615
+
+----------------
+Bug Fixes
+----------------
+* Fix `Date2Chunk` and `Chunk2Doc` annotators compatibility with PipelineModel https://github.com/JohnSnowLabs/spark-nlp/pull/13609
+* Fix `DependencyParserModel` predicting all Chunks as `<no-type>` https://github.com/JohnSnowLabs/spark-nlp/pull/13620
+* Removed `calculationsCol` parameter from MultiDocumentAssembler in Python that doesn't actually exist https://github.com/JohnSnowLabs/spark-nlp/pull/13594
+
+
+========
 4.3.1
 ========
 ----------------
@@ -12,6 +31,7 @@ Bug Fixes & Enhancements
 ----------------
 * Add `entity` field to the metadata in Date2Chunk
 * Fix ViT models & pipelines examples in Models Hub
+
 
 ========
 4.3.0
@@ -39,6 +59,7 @@ Bug Fixes & Enhancements
 * Spark NLP supports M2 in addition to M1. Therefore, we are renaming `spark-nlp-m1` to `spark-nlp-silicon` on Maven
 * Fix calculating delimiter id in CamemBERT
 * Fix loadSavedModel for private buckets
+
 
 ========
 4.2.8
@@ -1031,7 +1052,7 @@ Bugfixes
 ----------------
 Enhancements
 ----------------
-* Improve handeling exceptions in DocumentAssmbler when user uses a corrupted DataFrame
+* Improve handling exceptions in DocumentAssmbler when user uses a corrupted DataFrame
 
 ========
 2.6.4
