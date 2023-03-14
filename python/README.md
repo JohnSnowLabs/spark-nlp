@@ -21,17 +21,10 @@ Spark NLP is a state-of-the-art Natural Language Processing library built on top
 **, **performant** & **accurate** NLP annotations for machine learning pipelines that **scale** easily in a distributed
 environment.
 Spark NLP comes with **11000+** pretrained **pipelines** and **models** in more than **200+** languages.
-It also offers tasks such as **Tokenization**, **Word Segmentation**, **Part-of-Speech Tagging**, Word and Sentence *
-*Embeddings**, **Named Entity Recognition**, **Dependency Parsing**, **Spell Checking**, **Text Classification**, *
-*Sentiment Analysis**, **Token Classification**, **Machine Translation** (+180 languages), **Summarization**, **Question
-Answering**, **Table Question Answering**, **Text Generation**, **Image Classification**, **Automatic Speech Recognition
+It also offers tasks such as **Tokenization**, **Word Segmentation**, **Part-of-Speech Tagging**, Word and Sentence **Embeddings**, **Named Entity Recognition**, **Dependency Parsing**, **Spell Checking**, **Text Classification**, **Sentiment Analysis**, **Token Classification**, **Machine Translation** (+180 languages), **Summarization**, **Question Answering**, **Table Question Answering**, **Text Generation**, **Image Classification**, **Automatic Speech Recognition
 **, and many more [NLP tasks](#features).
 
-**Spark NLP** is the only open-source NLP library in **production** that offers state-of-the-art transformers such as *
-*BERT**, **CamemBERT**, **ALBERT**, **ELECTRA**, **XLNet**, **DistilBERT**, **RoBERTa**, **DeBERTa**, **XLM-RoBERTa**, *
-*Longformer**, **ELMO**, **Universal Sentence Encoder**, **Google T5**, **MarianMT**, **GPT2**, and **Vision
-Transformers (ViT)** not only to **Python** and **R**, but also to **JVM** ecosystem (**Java**, **Scala**, and **Kotlin
-**) at **scale** by extending **Apache Spark** natively.
+**Spark NLP** is the only open-source NLP library in **production** that offers state-of-the-art transformers such as **BERT**, **CamemBERT**, **ALBERT**, **ELECTRA**, **XLNet**, **DistilBERT**, **RoBERTa**, **DeBERTa**, **XLM-RoBERTa**, **Longformer**, **ELMO**, **Universal Sentence Encoder**, **Google T5**, **MarianMT**, **GPT2**, and **Vision Transformers (ViT)** not only to **Python** and **R**, but also to **JVM** ecosystem (**Java**, **Scala**, and **Kotlin**) at **scale** by extending **Apache Spark** natively.
 
 ## Project's website
 
@@ -57,25 +50,25 @@ documentation and examples
 - [Databricks Support](#databricks-support)
 - [EMR Support](#emr-support)
 - [Using Spark NLP](#usage)
-  - [Packages Cheatsheet](#packages-cheatsheet)
-  - [Spark Packages](#spark-packages)
-  - [Scala](#scala)
-    - [Maven](#maven)
-    - [SBT](#sbt)
-  - [Python](#python)
-    - [Pip/Conda](#pipconda)
-  - [Compiled JARs](#compiled-jars)
-  - [Apache Zeppelin](#apache-zeppelin)
-  - [Jupyter Notebook](#jupyter-notebook-python)
-  - [Google Colab Notebook](#google-colab-notebook)
-  - [Kaggle Kernel](#kaggle-kernel)
-  - [Databricks Cluster](#databricks-cluster)
-  - [EMR Cluster](#emr-cluster)
-  - [GCP Dataproc](#gcp-dataproc)
-  - [Spark NLP Configuration](#spark-nlp-configuration)
+    - [Packages Cheatsheet](#packages-cheatsheet)
+    - [Spark Packages](#spark-packages)
+    - [Scala](#scala)
+        - [Maven](#maven)
+        - [SBT](#sbt)
+    - [Python](#python)
+        - [Pip/Conda](#pipconda)
+    - [Compiled JARs](#compiled-jars)
+    - [Apache Zeppelin](#apache-zeppelin)
+    - [Jupyter Notebook](#jupyter-notebook-python)
+    - [Google Colab Notebook](#google-colab-notebook)
+    - [Kaggle Kernel](#kaggle-kernel)
+    - [Databricks Cluster](#databricks-cluster)
+    - [EMR Cluster](#emr-cluster)
+    - [GCP Dataproc](#gcp-dataproc)
+    - [Spark NLP Configuration](#spark-nlp-configuration)
 - [Pipelines & Models](#pipelines-and-models)
-  - [Pipelines](#pipelines)
-  - [Models](#models)
+    - [Pipelines](#pipelines)
+    - [Models](#models)
 - [Offline](#offline)
 - [Examples](#examples)
 - [FAQ](#faq)
