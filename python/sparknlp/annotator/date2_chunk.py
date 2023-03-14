@@ -67,5 +67,6 @@ documentAssembler = DocumentAssembler() \\
 
     outputAnnotatorType = AnnotatorType.CHUNK
 
+    @keyword_only
     def __init__(self):
         super(Date2Chunk, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Date2Chunk")

@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp.training
 
+import com.johnsnowlabs.nlp.util.io.OutputHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions.{col, concat_ws, udf}
@@ -166,7 +167,7 @@ case class POS() {
     require(delimiter.length == 1, s"Delimiter must be one character long. Received $delimiter")
 
     val dataset = sparkSession.read
-      .textFile(path)
+      .textFile(OutputHelper.parsePath(path))
       .filter(_.nonEmpty)
       .map(line => lineToTaggedDocument(line, delimiter))
       .map { case TaggedDocument(sentence, taggedTokens) =>

@@ -17,14 +17,14 @@
 package com.johnsnowlabs.nlp.annotators.parser.typdep;
 
 public class DependencyArcList {
-    private int n;
+    private int headsSize;
     private int[] st;
     private int[] edges;
 
     DependencyArcList(int[] heads) {
-        n = heads.length;
-        st = new int[n];
-        edges = new int[n];
+        headsSize = heads.length;
+        st = new int[headsSize];
+        edges = new int[headsSize];
         constructDepTreeArcList(heads);
     }
 
@@ -33,7 +33,7 @@ public class DependencyArcList {
     }
 
     int endIndex(int i) {
-        return (i >= n - 1) ? n - 1 : st[i + 1];
+        return (i >= headsSize - 1) ? headsSize - 1 : st[i + 1];
     }
 
     public int get(int i) {
@@ -42,21 +42,22 @@ public class DependencyArcList {
 
     private void constructDepTreeArcList(int[] heads) {
 
-        for (int i = 0; i < n; ++i)
+        for (int i = 0; i < headsSize; ++i)
             st[i] = 0;
 
-        for (int i = 1; i < n; ++i) {
+        for (int i = 1; i < headsSize; ++i) {
             int j = heads[i];
             ++st[j];
         }
 
-        for (int i = 1; i < n; ++i)
+        for (int i = 1; i < headsSize; ++i)
             st[i] += st[i - 1];
 
-        for (int i = n - 1; i > 0; --i) {
+        for (int i = headsSize - 1; i > 0; --i) {
             int j = heads[i];
             --st[j];
             edges[st[j]] = i;
         }
     }
+
 }

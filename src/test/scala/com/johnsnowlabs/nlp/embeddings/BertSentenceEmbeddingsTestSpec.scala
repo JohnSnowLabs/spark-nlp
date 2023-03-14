@@ -16,10 +16,8 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
-import com.johnsnowlabs.nlp.annotator.{SentenceDetectorDLModel, Tokenizer}
-import com.johnsnowlabs.nlp.annotators.RegexMatcher
-import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
-import com.johnsnowlabs.nlp.base.{Chunk2Doc, DocumentAssembler}
+import com.johnsnowlabs.nlp.annotator._
+import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
