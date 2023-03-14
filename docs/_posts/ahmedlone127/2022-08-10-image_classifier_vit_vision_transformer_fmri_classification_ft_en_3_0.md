@@ -162,22 +162,13 @@ val pipelineDF = pipelineModel.transform(imageDF)
 
 
 {:.table-model}
-
 |---|---|
-
 |Model Name:|image_classifier_vit_vision_transformer_fmri_classification_ft|
-
 |Compatibility:|Spark NLP 4.1.0+|
-
 |License:|Open Source|
-
 |Edition:|Official|
-
 |Input Labels:|[image_assembler]|
-
 |Output Labels:|[class]|
-
 |Language:|en|
-
 |Size:|321.9 MB|
 
