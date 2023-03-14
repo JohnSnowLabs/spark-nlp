@@ -19,13 +19,13 @@ from pyspark.sql import SparkSession
 from sparknlp import annotator
 # Must be declared here one by one or else PretrainedPipeline will fail with AttributeError
 from sparknlp.base import DocumentAssembler, MultiDocumentAssembler, Finisher, EmbeddingsFinisher, TokenAssembler, \
-    Chunk2Doc, Doc2Chunk, AudioAssembler, GraphFinisher, ImageAssembler, TableAssembler
+    Doc2Chunk, AudioAssembler, GraphFinisher, ImageAssembler, TableAssembler
 from pyspark.conf import SparkConf
 from pyspark.context import SparkContext
 from pyspark.java_gateway import launch_gateway
 
 sys.modules['com.johnsnowlabs.nlp.annotators'] = annotator
-sys.modules['com.johnsnowlabs.nlp.annotators.tokenizer'] = annotator
+sys.modules['com.johnsnsowlabs.nlp.annotators.tokenizer'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.ner'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.ner.regex'] = annotator
