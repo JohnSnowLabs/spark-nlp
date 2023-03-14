@@ -16,9 +16,9 @@
 
 package com.johnsnowlabs.nlp.annotators.cv
 
+import com.johnsnowlabs.ml.ai.ViTClassifier
 import com.johnsnowlabs.ml.tensorflow.{
   ReadTensorflowModel,
-  TensorflowViTClassifier,
   TensorflowWrapper,
   WriteTensorflowModel
 }
@@ -57,8 +57,8 @@ import java.io.File
   * For available pretrained models please see the
   * [[https://nlp.johnsnowlabs.com/models?task=Image+Classification Models Hub]].
   *
-  * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The
-  * Spark NLP Workshop example shows how to import them
+  * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To
+  * see which models are compatible and how to import them see
   * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]] and to see more extended
   * examples, see
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/cv/ViTImageClassificationTestSpec.scala ViTImageClassificationTestSpec]].
@@ -102,6 +102,24 @@ import java.io.File
   *
   * val pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier))
   * val pipelineDF = pipeline.fit(imageDF).transform(imageDF)
+  *
+  * pipelineDF
+  *   .selectExpr("reverse(split(image.origin, '/'))[0] as image_name", "class.result")
+  *   .show(truncate = false)
+  * +-----------------+----------------------------------------------------------+
+  * |image_name       |result                                                    |
+  * +-----------------+----------------------------------------------------------+
+  * |palace.JPEG      |[palace]                                                  |
+  * |egyptian_cat.jpeg|[Egyptian cat]                                            |
+  * |hippopotamus.JPEG|[hippopotamus, hippo, river horse, Hippopotamus amphibius]|
+  * |hen.JPEG         |[hen]                                                     |
+  * |ostrich.JPEG     |[ostrich, Struthio camelus]                               |
+  * |junco.JPEG       |[junco, snowbird]                                         |
+  * |bluetick.jpg     |[bluetick]                                                |
+  * |chihuahua.jpg    |[Chihuahua]                                               |
+  * |tractor.JPEG     |[tractor]                                                 |
+  * |ox.JPEG          |[ox]                                                      |
+  * +-----------------+----------------------------------------------------------+
   * }}}
   *
   * @param uid
@@ -203,10 +221,10 @@ class ViTForImageClassification(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowViTClassifier]] = None
+  private var _model: Option[Broadcast[ViTClassifier]] = None
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowViTClassifier = _model.get.value
+  def getModelIfNotSet: ViTClassifier = _model.get.value
 
   /** @group setParam */
   def setModelIfNotSet(
@@ -220,7 +238,7 @@ class ViTForImageClassification(override val uid: String)
 
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowViTClassifier(
+          new ViTClassifier(
             tensorflow,
             configProtoBytes = getConfigProtoBytes,
             tags = $$(labels),
@@ -320,15 +338,12 @@ trait ReadablePretrainedViTForImageModel
       remoteLoc: String): ViTForImageClassification = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadViTForImageTensorflowModel extends ReadTensorflowModel {
+trait ReadViTForImageDLModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[ViTForImageClassification] =>
 
   override val tfFile: String = "image_classification_tensorflow"
 
-  def readTensorflow(
-      instance: ViTForImageClassification,
-      path: String,
-      spark: SparkSession): Unit = {
+  def readModel(instance: ViTForImageClassification, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_image_classification_tf", initAllTables = false)
     instance.setModelIfNotSet(
@@ -340,7 +355,7 @@ trait ReadViTForImageTensorflowModel extends ReadTensorflowModel {
       instance.getSize)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): ViTForImageClassification = {
 
@@ -406,4 +421,4 @@ trait ReadViTForImageTensorflowModel extends ReadTensorflowModel {
   */
 object ViTForImageClassification
     extends ReadablePretrainedViTForImageModel
-    with ReadViTForImageTensorflowModel
+    with ReadViTForImageDLModel

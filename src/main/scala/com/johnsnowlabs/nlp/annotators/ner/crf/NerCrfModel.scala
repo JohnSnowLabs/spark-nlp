@@ -52,7 +52,7 @@ import scala.collection.Map
   * [[https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition Models Hub]].
   *
   * For extended examples of usage, see the
-  * [[https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/english/model-downloader/Running_Pretrained_pipelines.ipynb Spark NLP Workshop]].
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/crf-ner/ner_dl_crf.ipynb Examples]].
   *
   * ==Example==
   * {{{

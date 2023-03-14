@@ -26,7 +26,7 @@ POS().readDataset(spark, datasetPath).selectExpr("explode(tags) as tags").show(f
                       ...
 ```
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/french/Train-Perceptron-French.ipynb)
+For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/french/Train-Perceptron-French.ipynb)
 and [PerceptronApproach tests](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/pos/perceptron).
 {%- endcapture -%}
 
@@ -158,4 +158,3 @@ python_api_link=python_api_link
 api_link=api_link
 source_link=source_link
 %}
-

@@ -24,8 +24,8 @@ class TextMatcher(AnnotatorApproach):
     A text file of predefined phrases must be provided with
     :meth:`.setEntities`.
 
-    For extended examples of usage, see the `Spark NLP Workshop
-    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
+    For extended examples of usage, see the `Examples
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/text-matcher-pipeline/extractor.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -288,4 +288,3 @@ class TextMatcherModel(AnnotatorModel):
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(TextMatcherModel, name, lang, remote_loc)
-

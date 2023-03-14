@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.8 ScalaDoc  - com.johnsnowlabs.nlp.training.CoNLLDocument</title>
-          <meta name="description" content="Spark NLP 4.2.8 ScalaDoc - com.johnsnowlabs.nlp.training.CoNLLDocument" />
-          <meta name="keywords" content="Spark NLP 4.2.8 ScalaDoc com.johnsnowlabs.nlp.training.CoNLLDocument" />
+          <title>Spark NLP 4.3.1 ScalaDoc  - com.johnsnowlabs.nlp.training.CoNLLDocument</title>
+          <meta name="description" content="Spark NLP 4.3.1 ScalaDoc - com.johnsnowlabs.nlp.training.CoNLLDocument" />
+          <meta name="keywords" content="Spark NLP 4.3.1 ScalaDoc com.johnsnowlabs.nlp.training.CoNLLDocument" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.8 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.3.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -169,6 +169,10 @@
                         <span class="separator"></span>
                         <a class="class" href="PubTator.html" title="The PubTator format includes medical papers’ titles, abstracts, and tagged chunks."></a>
                         <a href="PubTator.html" title="The PubTator format includes medical papers’ titles, abstracts, and tagged chunks.">PubTator</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="class" href="SpacyToAnnotation.html" title=""></a>
+                        <a href="SpacyToAnnotation.html" title="">SpacyToAnnotation</a>
                       </li>
               </ul>
             </div>
@@ -192,7 +196,7 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">CoNLLDocument</span><span class="params">(<span name="text">text: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="nerTagged">nerTagged: <span class="extype" name="scala.Seq">Seq</span>[<a href="../annotators/common/Annotated$.html#NerTaggedSentence=com.johnsnowlabs.nlp.annotators.common.TaggedSentence" class="extmbr" name="com.johnsnowlabs.nlp.annotators.common.Annotated.NerTaggedSentence">NerTaggedSentence</a>]</span>, <span name="posTagged">posTagged: <span class="extype" name="scala.Seq">Seq</span>[<a href="../annotators/common/Annotated$.html#PosTaggedSentence=com.johnsnowlabs.nlp.annotators.common.TaggedSentence" class="extmbr" name="com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence">PosTaggedSentence</a>]</span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <span class="name">CoNLLDocument</span><span class="params">(<span name="text">text: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="nerTagged">nerTagged: <span class="extype" name="scala.Seq">Seq</span>[<a href="../annotators/common/Annotated$.html#NerTaggedSentence=com.johnsnowlabs.nlp.annotators.common.TaggedSentence" class="extmbr" name="com.johnsnowlabs.nlp.annotators.common.Annotated.NerTaggedSentence">NerTaggedSentence</a>]</span>, <span name="posTagged">posTagged: <span class="extype" name="scala.Seq">Seq</span>[<a href="../annotators/common/Annotated$.html#PosTaggedSentence=com.johnsnowlabs.nlp.annotators.common.TaggedSentence" class="extmbr" name="com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence">PosTaggedSentence</a>]</span>, <span name="docId">docId: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
 
@@ -248,9 +252,9 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="com.johnsnowlabs.nlp.training.CoNLLDocument#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(text:String,nerTagged:Seq[com.johnsnowlabs.nlp.annotators.common.Annotated.NerTaggedSentence],posTagged:Seq[com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence]):com.johnsnowlabs.nlp.training.CoNLLDocument"></a><a id="&lt;init&gt;:CoNLLDocument"></a>
+      <a id="&lt;init&gt;(text:String,nerTagged:Seq[com.johnsnowlabs.nlp.annotators.common.Annotated.NerTaggedSentence],posTagged:Seq[com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence],docId:Option[String]):com.johnsnowlabs.nlp.training.CoNLLDocument"></a><a id="&lt;init&gt;:CoNLLDocument"></a>
       <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/nlp/training/CoNLLDocument.html#&lt;init&gt;(text:String,nerTagged:Seq[com.johnsnowlabs.nlp.annotators.common.Annotated.NerTaggedSentence],posTagged:Seq[com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence]):com.johnsnowlabs.nlp.training.CoNLLDocument" title="Permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/training/CoNLLDocument.html#&lt;init&gt;(text:String,nerTagged:Seq[com.johnsnowlabs.nlp.annotators.common.Annotated.NerTaggedSentence],posTagged:Seq[com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence],docId:Option[String]):com.johnsnowlabs.nlp.training.CoNLLDocument" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -259,7 +263,7 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">CoNLLDocument</span><span class="params">(<span name="text">text: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="nerTagged">nerTagged: <span class="extype" name="scala.Seq">Seq</span>[<a href="../annotators/common/Annotated$.html#NerTaggedSentence=com.johnsnowlabs.nlp.annotators.common.TaggedSentence" class="extmbr" name="com.johnsnowlabs.nlp.annotators.common.Annotated.NerTaggedSentence">NerTaggedSentence</a>]</span>, <span name="posTagged">posTagged: <span class="extype" name="scala.Seq">Seq</span>[<a href="../annotators/common/Annotated$.html#PosTaggedSentence=com.johnsnowlabs.nlp.annotators.common.TaggedSentence" class="extmbr" name="com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence">PosTaggedSentence</a>]</span>)</span>
+        <span class="name">CoNLLDocument</span><span class="params">(<span name="text">text: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="nerTagged">nerTagged: <span class="extype" name="scala.Seq">Seq</span>[<a href="../annotators/common/Annotated$.html#NerTaggedSentence=com.johnsnowlabs.nlp.annotators.common.TaggedSentence" class="extmbr" name="com.johnsnowlabs.nlp.annotators.common.Annotated.NerTaggedSentence">NerTaggedSentence</a>]</span>, <span name="posTagged">posTagged: <span class="extype" name="scala.Seq">Seq</span>[<a href="../annotators/common/Annotated$.html#PosTaggedSentence=com.johnsnowlabs.nlp.annotators.common.TaggedSentence" class="extmbr" name="com.johnsnowlabs.nlp.annotators.common.Annotated.PosTaggedSentence">PosTaggedSentence</a>]</span>, <span name="docId">docId: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span>
       </span>
       
       
@@ -361,6 +365,22 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.training.CoNLLDocument#docId" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="docId:Option[String]"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/training/CoNLLDocument.html#docId:Option[String]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">docId</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      
+      
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
       <span class="permalink">

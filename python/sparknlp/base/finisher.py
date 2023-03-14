@@ -25,7 +25,8 @@ class Finisher(AnnotatorTransformer):
     outputs annotation(s) values into ``String``.
 
     For more extended examples on document pre-processing see the
-    `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
+    `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/model-downloader/Create%20custom%20pipeline%20-%20NerDL.ipynb
+>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type

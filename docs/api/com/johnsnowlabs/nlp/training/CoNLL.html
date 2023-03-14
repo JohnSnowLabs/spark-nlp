@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.8 ScalaDoc  - com.johnsnowlabs.nlp.training.CoNLL</title>
-          <meta name="description" content="Spark NLP 4.2.8 ScalaDoc - com.johnsnowlabs.nlp.training.CoNLL" />
-          <meta name="keywords" content="Spark NLP 4.2.8 ScalaDoc com.johnsnowlabs.nlp.training.CoNLL" />
+          <title>Spark NLP 4.3.1 ScalaDoc  - com.johnsnowlabs.nlp.training.CoNLL</title>
+          <meta name="description" content="Spark NLP 4.3.1 ScalaDoc - com.johnsnowlabs.nlp.training.CoNLL" />
+          <meta name="keywords" content="Spark NLP 4.3.1 ScalaDoc com.johnsnowlabs.nlp.training.CoNLL" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.8 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.3.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -169,6 +169,10 @@
                         <span class="separator"></span>
                         <a class="class" href="PubTator.html" title="The PubTator format includes medical papers’ titles, abstracts, and tagged chunks."></a>
                         <a href="PubTator.html" title="The PubTator format includes medical papers’ titles, abstracts, and tagged chunks.">PubTator</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="class" href="SpacyToAnnotation.html" title=""></a>
+                        <a href="SpacyToAnnotation.html" title="">SpacyToAnnotation</a>
                       </li>
               </ul>
             </div>
@@ -192,7 +196,7 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">CoNLL</span><span class="params">(<span name="documentCol">documentCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;document&quot;</span></span>, <span name="sentenceCol">sentenceCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;sentence&quot;</span></span>, <span name="tokenCol">tokenCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;token&quot;</span></span>, <span name="posCol">posCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;pos&quot;</span></span>, <span name="conllLabelIndex">conllLabelIndex: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">3</span></span>, <span name="conllPosIndex">conllPosIndex: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">1</span></span>, <span name="conllTextCol">conllTextCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;text&quot;</span></span>, <span name="labelCol">labelCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;label&quot;</span></span>, <span name="explodeSentences">explodeSentences: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">true</span></span>, <span name="delimiter">delimiter: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot; &quot;</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <span class="name">CoNLL</span><span class="params">(<span name="documentCol">documentCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;document&quot;</span></span>, <span name="sentenceCol">sentenceCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;sentence&quot;</span></span>, <span name="tokenCol">tokenCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;token&quot;</span></span>, <span name="posCol">posCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;pos&quot;</span></span>, <span name="conllLabelIndex">conllLabelIndex: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">3</span></span>, <span name="conllPosIndex">conllPosIndex: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">1</span></span>, <span name="conllDocIdCol">conllDocIdCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;doc_id&quot;</span></span>, <span name="conllTextCol">conllTextCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;text&quot;</span></span>, <span name="labelCol">labelCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;label&quot;</span></span>, <span name="explodeSentences">explodeSentences: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">true</span></span>, <span name="delimiter">delimiter: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot; &quot;</span></span>, <span name="includeDocId">includeDocId: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
 
@@ -276,11 +280,14 @@ root
   Name of the <code>TOKEN</code> Annotator type column</p></dd><dt class="param">posCol</dt><dd class="cmt"><p>
   Name of the <code>POS</code> Annotator type column</p></dd><dt class="param">conllLabelIndex</dt><dd class="cmt"><p>
   Index of the column for NER Label in the dataset</p></dd><dt class="param">conllPosIndex</dt><dd class="cmt"><p>
-  Index of the column for the POS tags in the dataset</p></dd><dt class="param">conllTextCol</dt><dd class="cmt"><p>
-  Index of the column for the text in the dataset</p></dd><dt class="param">labelCol</dt><dd class="cmt"><p>
+  Index of the column for the POS tags in the dataset</p></dd><dt class="param">conllDocIdCol</dt><dd class="cmt"><p>
+  Name of the column for the text in the dataset</p></dd><dt class="param">conllTextCol</dt><dd class="cmt"><p>
+  Name of the column for the text in the dataset</p></dd><dt class="param">labelCol</dt><dd class="cmt"><p>
   Name of the <code>NAMED_ENTITY</code> Annotator type column</p></dd><dt class="param">explodeSentences</dt><dd class="cmt"><p>
   Whether to explode each sentence to a separate row</p></dd><dt class="param">delimiter</dt><dd class="cmt"><p>
-  Delimiter used to separate columns inside CoNLL file</p></dd></dl><div class="toggleContainer block">
+  Delimiter used to separate columns inside CoNLL file</p></dd><dt class="param">includeDocId</dt><dd class="cmt"><p>
+  Whether to try and parse the document id from the third item in the -DOCSTART- line (X if
+  not found)</p></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -331,9 +338,9 @@ root
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="com.johnsnowlabs.nlp.training.CoNLL#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="&lt;init&gt;(documentCol:String,sentenceCol:String,tokenCol:String,posCol:String,conllLabelIndex:Int,conllPosIndex:Int,conllTextCol:String,labelCol:String,explodeSentences:Boolean,delimiter:String):com.johnsnowlabs.nlp.training.CoNLL"></a><a id="&lt;init&gt;:CoNLL"></a>
+      <a id="&lt;init&gt;(documentCol:String,sentenceCol:String,tokenCol:String,posCol:String,conllLabelIndex:Int,conllPosIndex:Int,conllDocIdCol:String,conllTextCol:String,labelCol:String,explodeSentences:Boolean,delimiter:String,includeDocId:Boolean):com.johnsnowlabs.nlp.training.CoNLL"></a><a id="&lt;init&gt;:CoNLL"></a>
       <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/nlp/training/CoNLL.html#&lt;init&gt;(documentCol:String,sentenceCol:String,tokenCol:String,posCol:String,conllLabelIndex:Int,conllPosIndex:Int,conllTextCol:String,labelCol:String,explodeSentences:Boolean,delimiter:String):com.johnsnowlabs.nlp.training.CoNLL" title="Permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/training/CoNLL.html#&lt;init&gt;(documentCol:String,sentenceCol:String,tokenCol:String,posCol:String,conllLabelIndex:Int,conllPosIndex:Int,conllDocIdCol:String,conllTextCol:String,labelCol:String,explodeSentences:Boolean,delimiter:String,includeDocId:Boolean):com.johnsnowlabs.nlp.training.CoNLL" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -342,7 +349,7 @@ root
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">CoNLL</span><span class="params">(<span name="documentCol">documentCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;document&quot;</span></span>, <span name="sentenceCol">sentenceCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;sentence&quot;</span></span>, <span name="tokenCol">tokenCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;token&quot;</span></span>, <span name="posCol">posCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;pos&quot;</span></span>, <span name="conllLabelIndex">conllLabelIndex: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">3</span></span>, <span name="conllPosIndex">conllPosIndex: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">1</span></span>, <span name="conllTextCol">conllTextCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;text&quot;</span></span>, <span name="labelCol">labelCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;label&quot;</span></span>, <span name="explodeSentences">explodeSentences: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">true</span></span>, <span name="delimiter">delimiter: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot; &quot;</span></span>)</span>
+        <span class="name">CoNLL</span><span class="params">(<span name="documentCol">documentCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;document&quot;</span></span>, <span name="sentenceCol">sentenceCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;sentence&quot;</span></span>, <span name="tokenCol">tokenCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;token&quot;</span></span>, <span name="posCol">posCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;pos&quot;</span></span>, <span name="conllLabelIndex">conllLabelIndex: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">3</span></span>, <span name="conllPosIndex">conllPosIndex: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">1</span></span>, <span name="conllDocIdCol">conllDocIdCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;doc_id&quot;</span></span>, <span name="conllTextCol">conllTextCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;text&quot;</span></span>, <span name="labelCol">labelCol: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;label&quot;</span></span>, <span name="explodeSentences">explodeSentences: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">true</span></span>, <span name="delimiter">delimiter: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot; &quot;</span></span>, <span name="includeDocId">includeDocId: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>)</span>
       </span>
       
       <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">documentCol</dt><dd class="cmt"><p>
@@ -351,11 +358,14 @@ root
   Name of the <code>TOKEN</code> Annotator type column</p></dd><dt class="param">posCol</dt><dd class="cmt"><p>
   Name of the <code>POS</code> Annotator type column</p></dd><dt class="param">conllLabelIndex</dt><dd class="cmt"><p>
   Index of the column for NER Label in the dataset</p></dd><dt class="param">conllPosIndex</dt><dd class="cmt"><p>
-  Index of the column for the POS tags in the dataset</p></dd><dt class="param">conllTextCol</dt><dd class="cmt"><p>
-  Index of the column for the text in the dataset</p></dd><dt class="param">labelCol</dt><dd class="cmt"><p>
+  Index of the column for the POS tags in the dataset</p></dd><dt class="param">conllDocIdCol</dt><dd class="cmt"><p>
+  Name of the column for the text in the dataset</p></dd><dt class="param">conllTextCol</dt><dd class="cmt"><p>
+  Name of the column for the text in the dataset</p></dd><dt class="param">labelCol</dt><dd class="cmt"><p>
   Name of the <code>NAMED_ENTITY</code> Annotator type column</p></dd><dt class="param">explodeSentences</dt><dd class="cmt"><p>
   Whether to explode each sentence to a separate row</p></dd><dt class="param">delimiter</dt><dd class="cmt"><p>
-  Delimiter used to separate columns inside CoNLL file</p></dd></dl></div>
+  Delimiter used to separate columns inside CoNLL file</p></dd><dt class="param">includeDocId</dt><dd class="cmt"><p>
+  Whether to try and parse the document id from the third item in the -DOCSTART- line (X if
+  not found)</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -486,6 +496,22 @@ root
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.training.CoNLL#conllDocIdCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="conllDocIdCol:String"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/training/CoNLL.html#conllDocIdCol:String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">conllDocIdCol</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.training.CoNLL#conllLabelIndex" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="conllLabelIndex:Int"></a>
       <span class="permalink">
@@ -655,6 +681,22 @@ root
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.training.CoNLL#includeDocId" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="includeDocId:Boolean"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/training/CoNLL.html#includeDocId:Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">includeDocId</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      
     </li><li name="scala.Any#isInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <span class="permalink">
@@ -914,6 +956,22 @@ root
       </span>
       <span class="symbol">
         <span class="name">readLines</span><span class="params">(<span name="lines">lines: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<a href="CoNLLDocument.html" class="extype" name="com.johnsnowlabs.nlp.training.CoNLLDocument">CoNLLDocument</a>]</span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.training.CoNLL#removeSurroundingHyphens" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="removeSurroundingHyphens(text:String):String"></a><a id="removeSurroundingHyphens(String):String"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/training/CoNLL.html#removeSurroundingHyphens(text:String):String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">removeSurroundingHyphens</span><span class="params">(<span name="text">text: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       
       

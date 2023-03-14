@@ -24,9 +24,65 @@ from sparknlp.pretrained.utils import printProgress
 
 
 class ResourceDownloader(object):
+    """Downloads and manages resources, pretrained models/pipelines.
+
+    Usually you will not need to use this class directly. It is called by the
+    `pretrained()` function of annotators.
+
+    However, you can use this class to list the available pretrained resources.
+
+    Examples
+    --------
+    If you want to list all NerDLModels for the english language you can run:
+
+    >>> ResourceDownloader.showPublicModels("NerDLModel", "en")
+    +-------------+------+---------+
+    | Model       | lang | version |
+    +-------------+------+---------+
+    | onto_100    | en   | 2.1.0   |
+    | onto_300    | en   | 2.1.0   |
+    | ner_dl_bert | en   | 2.2.0   |
+    |  ...        | ...  | ...     |
+
+
+    Similarly for Pipelines:
+
+    >>> ResourceDownloader.showPublicPipelines("en")
+    +------------------+------+---------+
+    | Pipeline         | lang | version |
+    +------------------+------+---------+
+    | dependency_parse | en   | 2.0.2   |
+    | check_spelling   | en   | 2.1.0   |
+    | match_datetime   | en   | 2.1.0   |
+    |  ...             | ...  | ...     |
+
+    """
+
 
     @staticmethod
     def downloadModel(reader, name, language, remote_loc=None, j_dwn='PythonResourceDownloader'):
+        """Downloads and loads a model with the default downloader. Usually this method
+        does not need to be called directly, as it is called by the `pretrained()`
+        method of the annotator.
+
+        Parameters
+        ----------
+        reader : str
+            Name of the class to read the model for
+        name : str
+            Name of the pretrained model
+        language : str
+            Language of the model
+        remote_loc : str, optional
+            Directory of the Spark NLP Folder, by default None
+        j_dwn : str, optional
+            Which java downloader to use, by default 'PythonResourceDownloader'
+
+        Returns
+        -------
+        AnnotatorModel
+            Loaded pretrained annotator/pipeline
+        """
         print(name + " download started this may take some time.")
         file_size = _internal._GetResourceSize(name, language, remote_loc).apply()
         if file_size == "-1":
@@ -46,12 +102,38 @@ class ResourceDownloader(object):
                 t1.join()
 
             return reader(classname=None, java_model=j_obj)
+
     @staticmethod
     def downloadModelDirectly(name, remote_loc="public/models"):
+        """Downloads a model directly to the cache folder.
+
+        Parameters
+        ----------
+        name : str
+            Name of the model
+        remote_loc : str, optional
+            Directory of the remote Spark NLP Folder, by default "public/models"
+        """
         _internal._DownloadModelDirectly(name, remote_loc).apply()
 
     @staticmethod
     def downloadPipeline(name, language, remote_loc=None):
+        """Downloads and loads a pipeline with the default downloader.
+
+        Parameters
+        ----------
+        name : str
+            Name of the pipeline
+        language : str
+            Language of the pipeline
+        remote_loc : str, optional
+            Directory of the remote Spark NLP Folder, by default None
+
+        Returns
+        -------
+        PipelineModel
+            The loaded pipeline
+        """
         print(name + " download started this may take some time.")
         file_size = _internal._GetResourceSize(name, language, remote_loc).apply()
         if file_size == "-1":
@@ -72,21 +154,60 @@ class ResourceDownloader(object):
 
     @staticmethod
     def clearCache(name, language, remote_loc=None):
+        """Clears the cache entry of a model.
+
+        Parameters
+        ----------
+        name : str
+            Name of the model
+        language : en
+            Language of the model
+        remote_loc : str, optional
+            Directory of the remote Spark NLP Folder, by default None
+        """
         _internal._ClearCache(name, language, remote_loc).apply()
 
     @staticmethod
     def showPublicModels(annotator=None, lang=None, version=None):
+        """Prints all pretrained models for a particular annotator model, that are
+        compatible with a version of Spark NLP. If any of the optional arguments are not
+        set, the filter is not considered.
+
+        Parameters
+        ----------
+        annotator : str, optional
+            Name of the annotator to filer, by default None
+        lang : str, optional
+            Language of the models to filter, by default None
+        version : str, optional
+            Version of Spark NLP to filter, by default None
+        """
         print(_internal._ShowPublicModels(annotator, lang, version).apply())
 
     @staticmethod
     def showPublicPipelines(lang=None, version=None):
+        """Prints all pretrained models for a particular annotator model, that are
+        compatible with a version of Spark NLP. If any of the optional arguments are not
+        set, the filter is not considered.
+
+        Parameters
+        ----------
+        lang : str, optional
+            Language of the models to filter, by default None
+        version : str, optional
+            Version of Spark NLP to filter, by default None
+        """
         print(_internal._ShowPublicPipelines(lang, version).apply())
 
     @staticmethod
     def showUnCategorizedResources():
+        """Shows models or pipelines in the metadata which has not been categorized yet.
+        """
         print(_internal._ShowUnCategorizedResources().apply())
 
     @staticmethod
     def showAvailableAnnotators():
+        """Shows all available annotators in Spark NLP.
+        """
         print(_internal._ShowAvailableAnnotators().apply())
 

@@ -54,8 +54,8 @@ class ClassifierDLApproach(AnnotatorApproach, EvaluationDLParams, ClassifierEnco
     ...     .setLabelColumn("label") \\
     ...     .setTestDataset("test_data")
 
-    For extended examples of usage, see the Spark NLP Workshop
-    `Spark NLP Workshop  <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.Text_Classification_with_ClassifierDL.ipynb>`__.
+    For extended examples of usage, see the Examples
+    `Examples  <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/ClassifierDL_Train_multi_class_news_category_classifier.ipynb>`__.
 
     ======================= ======================
     Input Annotation types  Output Annotation type
@@ -206,7 +206,7 @@ class ClassifierDLModel(AnnotatorModel, HasStorageRef, HasEngine):
     `Models Hub <https://nlp.johnsnowlabs.com/models?task=Text+Classification>`__.
 
     For extended examples of usage, see the
-    `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.Text_Classification_with_ClassifierDL.ipynb>`__.
+    `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/ClassifierDL_Train_multi_class_news_category_classifier.ipynb>`__.
 
     ======================= ======================
     Input Annotation types  Output Annotation type

@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.pretrained.resource_downloader &#8212; Spark NLP 4.2.8 documentation</title>
+    <title>sparknlp.pretrained.resource_downloader &#8212; Spark NLP 4.3.1 documentation</title>
   
   
   
@@ -315,6 +315,189 @@
   <section id="module-sparknlp.pretrained.resource_downloader">
 <span id="sparknlp-pretrained-resource-downloader"></span><h1><a class="reference internal" href="#module-sparknlp.pretrained.resource_downloader" title="sparknlp.pretrained.resource_downloader"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.pretrained.resource_downloader</span></code></a><a class="headerlink" href="#module-sparknlp.pretrained.resource_downloader" title="Permalink to this heading">#</a></h1>
 <p>Contains classes for the ResourceDownloader.</p>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">#</a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">#</a></h3>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader" title="sparknlp.pretrained.resource_downloader.ResourceDownloader"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ResourceDownloader</span></code></a></p></td>
+<td><p>Downloads and manages resources, pretrained models/pipelines.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="sparknlp.pretrained.resource_downloader.ResourceDownloader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ResourceDownloader</span></span><a class="reference internal" href="../../../../../modules/sparknlp/pretrained/resource_downloader.html#ResourceDownloader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader" title="Permalink to this definition">#</a></dt>
+<dd><p>Downloads and manages resources, pretrained models/pipelines.</p>
+<p>Usually you will not need to use this class directly. It is called by the
+<cite>pretrained()</cite> function of annotators.</p>
+<p>However, you can use this class to list the available pretrained resources.</p>
+<p class="rubric">Examples</p>
+<p>If you want to list all NerDLModels for the english language you can run:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">showPublicModels</span><span class="p">(</span><span class="s2">&quot;NerDLModel&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">)</span>
+<span class="go">+-------------+------+---------+</span>
+<span class="go">| Model       | lang | version |</span>
+<span class="go">+-------------+------+---------+</span>
+<span class="go">| onto_100    | en   | 2.1.0   |</span>
+<span class="go">| onto_300    | en   | 2.1.0   |</span>
+<span class="go">| ner_dl_bert | en   | 2.2.0   |</span>
+<span class="go">|  ...        | ...  | ...     |</span>
+</pre></div>
+</div>
+<p>Similarly for Pipelines:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">showPublicPipelines</span><span class="p">(</span><span class="s2">&quot;en&quot;</span><span class="p">)</span>
+<span class="go">+------------------+------+---------+</span>
+<span class="go">| Pipeline         | lang | version |</span>
+<span class="go">+------------------+------+---------+</span>
+<span class="go">| dependency_parse | en   | 2.0.2   |</span>
+<span class="go">| check_spelling   | en   | 2.1.0   |</span>
+<span class="go">| match_datetime   | en   | 2.1.0   |</span>
+<span class="go">|  ...             | ...  | ...     |</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.pretrained.resource_downloader.ResourceDownloader.downloadModel">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">downloadModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">language</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j_dwn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'PythonResourceDownloader'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/pretrained/resource_downloader.html#ResourceDownloader.downloadModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.downloadModel" title="Permalink to this definition">#</a></dt>
+<dd><p>Downloads and loads a model with the default downloader. Usually this method
+does not need to be called directly, as it is called by the <cite>pretrained()</cite>
+method of the annotator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>reader</strong><span class="classifier">str</span></dt><dd><p>Name of the class to read the model for</p>
+</dd>
+<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>Name of the pretrained model</p>
+</dd>
+<dt><strong>language</strong><span class="classifier">str</span></dt><dd><p>Language of the model</p>
+</dd>
+<dt><strong>remote_loc</strong><span class="classifier">str, optional</span></dt><dd><p>Directory of the Spark NLP Folder, by default None</p>
+</dd>
+<dt><strong>j_dwn</strong><span class="classifier">str, optional</span></dt><dd><p>Which java downloader to use, by default ‘PythonResourceDownloader’</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>AnnotatorModel</dt><dd><p>Loaded pretrained annotator/pipeline</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.pretrained.resource_downloader.ResourceDownloader.downloadModelDirectly">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">downloadModelDirectly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'public/models'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/pretrained/resource_downloader.html#ResourceDownloader.downloadModelDirectly"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.downloadModelDirectly" title="Permalink to this definition">#</a></dt>
+<dd><p>Downloads a model directly to the cache folder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>Name of the model</p>
+</dd>
+<dt><strong>remote_loc</strong><span class="classifier">str, optional</span></dt><dd><p>Directory of the remote Spark NLP Folder, by default “public/models”</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.pretrained.resource_downloader.ResourceDownloader.downloadPipeline">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">downloadPipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">language</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/pretrained/resource_downloader.html#ResourceDownloader.downloadPipeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.downloadPipeline" title="Permalink to this definition">#</a></dt>
+<dd><p>Downloads and loads a pipeline with the default downloader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>Name of the pipeline</p>
+</dd>
+<dt><strong>language</strong><span class="classifier">str</span></dt><dd><p>Language of the pipeline</p>
+</dd>
+<dt><strong>remote_loc</strong><span class="classifier">str, optional</span></dt><dd><p>Directory of the remote Spark NLP Folder, by default None</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>PipelineModel</dt><dd><p>The loaded pipeline</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.pretrained.resource_downloader.ResourceDownloader.clearCache">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">clearCache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">language</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/pretrained/resource_downloader.html#ResourceDownloader.clearCache"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.clearCache" title="Permalink to this definition">#</a></dt>
+<dd><p>Clears the cache entry of a model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>Name of the model</p>
+</dd>
+<dt><strong>language</strong><span class="classifier">en</span></dt><dd><p>Language of the model</p>
+</dd>
+<dt><strong>remote_loc</strong><span class="classifier">str, optional</span></dt><dd><p>Directory of the remote Spark NLP Folder, by default None</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.pretrained.resource_downloader.ResourceDownloader.showPublicModels">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">showPublicModels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">annotator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/pretrained/resource_downloader.html#ResourceDownloader.showPublicModels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.showPublicModels" title="Permalink to this definition">#</a></dt>
+<dd><p>Prints all pretrained models for a particular annotator model, that are
+compatible with a version of Spark NLP. If any of the optional arguments are not
+set, the filter is not considered.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>annotator</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the annotator to filer, by default None</p>
+</dd>
+<dt><strong>lang</strong><span class="classifier">str, optional</span></dt><dd><p>Language of the models to filter, by default None</p>
+</dd>
+<dt><strong>version</strong><span class="classifier">str, optional</span></dt><dd><p>Version of Spark NLP to filter, by default None</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.pretrained.resource_downloader.ResourceDownloader.showPublicPipelines">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">showPublicPipelines</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/pretrained/resource_downloader.html#ResourceDownloader.showPublicPipelines"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.showPublicPipelines" title="Permalink to this definition">#</a></dt>
+<dd><p>Prints all pretrained models for a particular annotator model, that are
+compatible with a version of Spark NLP. If any of the optional arguments are not
+set, the filter is not considered.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>lang</strong><span class="classifier">str, optional</span></dt><dd><p>Language of the models to filter, by default None</p>
+</dd>
+<dt><strong>version</strong><span class="classifier">str, optional</span></dt><dd><p>Version of Spark NLP to filter, by default None</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.pretrained.resource_downloader.ResourceDownloader.showUnCategorizedResources">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">showUnCategorizedResources</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/pretrained/resource_downloader.html#ResourceDownloader.showUnCategorizedResources"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.showUnCategorizedResources" title="Permalink to this definition">#</a></dt>
+<dd><p>Shows models or pipelines in the metadata which has not been categorized yet.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.pretrained.resource_downloader.ResourceDownloader.showAvailableAnnotators">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">showAvailableAnnotators</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/pretrained/resource_downloader.html#ResourceDownloader.showAvailableAnnotators"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.showAvailableAnnotators" title="Permalink to this definition">#</a></dt>
+<dd><p>Shows all available annotators in Spark NLP.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
 </section>
 
 
@@ -334,6 +517,162 @@
           
             <div class="bd-sidebar-secondary bd-toc">
               
+<div class="toc-item">
+  
+<div class="tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-contents">
+   Module Contents
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#classes">
+     Classes
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader">
+       <code class="docutils literal notranslate">
+        <span class="pre">
+         ResourceDownloader
+        </span>
+       </code>
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.downloadModel">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ResourceDownloader.downloadModel()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.downloadModelDirectly">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ResourceDownloader.downloadModelDirectly()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.downloadPipeline">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ResourceDownloader.downloadPipeline()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.clearCache">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ResourceDownloader.clearCache()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.showPublicModels">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ResourceDownloader.showPublicModels()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.showPublicPipelines">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ResourceDownloader.showPublicPipelines()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.showUnCategorizedResources">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ResourceDownloader.showUnCategorizedResources()
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.showAvailableAnnotators">
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           ResourceDownloader.showAvailableAnnotators()
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader">
+       ResourceDownloader
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.downloadModel">
+         downloadModel
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.downloadModelDirectly">
+         downloadModelDirectly
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.downloadPipeline">
+         downloadPipeline
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.clearCache">
+         clearCache
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.showPublicModels">
+         showPublicModels
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.showPublicPipelines">
+         showPublicPipelines
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.showUnCategorizedResources">
+         showUnCategorizedResources
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.showAvailableAnnotators">
+         showAvailableAnnotators
+        </a>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+</div>
+
 <div class="toc-item">
   
 <div id="searchbox"></div>

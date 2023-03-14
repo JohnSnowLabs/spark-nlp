@@ -2,20 +2,21 @@
 Light Pipelines
 ***************
 
-LightPipeline is a Spark NLP specific Pipeline class equivalent to the Spark ML Pipeline.
-The difference is that it’s execution does not hold to Spark principles, instead it computes
-everything locally (but in parallel) in order to achieve fast results when dealing with
-small amounts of data.
+LightPipeline is a Spark NLP specific Pipeline class equivalent to the Spark ML
+Pipeline. The difference is that it's execution does not hold to Spark principles,
+instead it computes everything locally (but in parallel) in order to achieve fast
+results when dealing with small amounts of data.
 
-This means, we do not input a Spark Dataframe, but a string or an
-Array of strings instead, to be annotated. To create Light Pipelines, you need to input an
-already trained (fit) Spark ML Pipeline. It’s ``transform()`` stage is converted into ``annotate()``
-instead.
+This means, we do not input a Spark Dataframe, but a string or an Array of strings
+instead, to be annotated. To create Light Pipelines, you need to input an already
+trained (fit) Spark ML Pipeline. It's ``transform()`` stage is converted into
+``annotate()`` instead.
 
 Converting PipelineModels
 -------------------------
 
-For example, the pipeline defined in the last section :ref:`Setting up your own pipeline` can be converted into a LightPipeline:
+For example, the pipeline defined in the last section :doc:`custom_pipelines` can be
+converted into a LightPipeline:
 
 >>> from sparknlp.base import LightPipeline
 >>> light = LightPipeline(pipeline.fit(data))

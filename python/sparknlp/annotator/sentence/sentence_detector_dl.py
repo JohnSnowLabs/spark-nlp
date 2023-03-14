@@ -222,8 +222,8 @@ class SentenceDetectorDLModel(AnnotatorModel, HasEngine):
     Each extracted sentence can be returned in an Array or exploded to separate
     rows, if ``explodeSentences`` is set to ``true``.
 
-    For extended examples of usage, see the `Spark NLP Workshop
-    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb>`__.
+    For extended examples of usage, see the `Examples
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/multilingual/SentenceDetectorDL.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type

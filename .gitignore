@@ -293,6 +293,9 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+# VS Code
+**/.vscode
+
 ### SBT ###
 # Simple Build Tool
 # http://www.scala-sbt.org/release/docs/Getting-Started/Directories.html#configuring-version-control
@@ -324,6 +327,7 @@ python/tensorflow/bert/models/**
 **/tmp_*
 docs/_site/**
 docs/.sass-cache/**
+docs/*.json
 tst_shortcut_sd/
 src/*/resources/*.classes
 /word_segmenter_metrics/
@@ -331,3 +335,6 @@ src/*/resources/*.classes
 .bsp/sbt.json
 python/docs/_build/**
 python/docs/reference/_autosummary/**
+
+# MS Visio Code
+**/.vscode/
