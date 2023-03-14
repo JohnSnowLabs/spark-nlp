@@ -87,9 +87,9 @@ object NerTagsEncoding {
 
     }
 
-    def getTag(tag: String): Option[String] = {
+    def getTag(tag: String, startsWithSchema: Boolean = true): Option[String] = {
       try {
-        lastTag = Some(tag.substring(2))
+        lastTag = Some(if (startsWithSchema) tag.substring(2) else tag)
       } catch {
         case e: StringIndexOutOfBoundsException =>
           require(
@@ -101,16 +101,17 @@ object NerTagsEncoding {
 
     for (i <- 0 until words) {
       val tag = sentence.tags(i)
-      if (lastTag.isDefined && (tag.startsWith(beginningTagChunk) || tag == noChunk)) {
+      val hasSchema = tag.startsWith(beginningTagChunk)
+      if (lastTag.isDefined && (hasSchema || tag == noChunk)) {
         flushEntity(lastTagStart, i - 1)
       }
 
       if (includeNoneEntities && lastTag.isEmpty) {
-        lastTag = if (tag == noChunk) Some(tag) else getTag(tag)
+        lastTag = if (tag == noChunk) Some(tag) else getTag(tag, hasSchema)
         lastTagStart = i
       } else {
         if (lastTag.isEmpty && tag != noChunk) {
-          lastTag = getTag(tag)
+          lastTag = getTag(tag, hasSchema)
           lastTagStart = i
         }
       }
