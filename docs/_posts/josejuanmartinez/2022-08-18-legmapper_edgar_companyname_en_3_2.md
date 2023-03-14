@@ -7,6 +7,7 @@ date: 2022-08-18
 tags: [en, legal, companies, edgar, data, augmentation, licensed]
 task: Chunk Mapping
 language: en
+nav_key: models
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -84,8 +85,8 @@ use_er_model = legal.SentenceEntityResolverModel.pretrained("legel_edgar_company
 
 cm = legal.ChunkMapperModel()\
       .pretrained("legmapper_edgar_companyname", "en", "legal/models")\
-      .setInputCols(["normalized"])\ # or ner_chunk for non normalized versions
-      .setOutputCol("mappings")
+      .setInputCols(["normalized"])\
+      .setOutputCol("mappings")  # or ner_chunk for non normalized versions
 
 nlpPipeline = nlp.Pipeline(stages=[
         documentAssembler,

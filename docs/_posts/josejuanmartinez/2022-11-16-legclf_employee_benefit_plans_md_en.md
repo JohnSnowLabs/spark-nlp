@@ -7,6 +7,7 @@ date: 2022-11-16
 tags: [en, legal, classification, document, agreement, contract, licensed]
 task: Text Classification
 language: en
+nav_key: models
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -57,7 +58,7 @@ docClassifier = legal.ClassifierDLModel.pretrained("legclf_employee_benefit_plan
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("category")
     
-nlpPipeline = Pipeline(stages=[
+nlpPipeline = nlp.Pipeline(stages=[
     documentAssembler, 
     embeddings,
     docClassifier])
@@ -98,7 +99,7 @@ result = model.transform(df)
 
 ## References
 
-Legal documents, scrapped from the Internet, and classified in-house + SEC documents + Lawinsider categorization
+Legal documents, scrapped from the Internet, and classified in-house + SEC documents 
 
 ## Benchmarking
 

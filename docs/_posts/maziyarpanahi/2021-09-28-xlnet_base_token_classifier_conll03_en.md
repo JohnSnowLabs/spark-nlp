@@ -7,6 +7,7 @@ date: 2021-09-28
 tags: [ner, en, english, open_source, xlnet, base, token_classification]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Spark NLP 3.3.0
 spark_version: 3.0
 supported: true

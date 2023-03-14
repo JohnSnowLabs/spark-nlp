@@ -17,15 +17,9 @@ Legal NLP runs on top of `johnsnowlabs` library (former *nlu*).
 
 Please find technical documentation about how to install it [here](https://nlu.johnsnowlabs.com/docs/en/install).
 
-| Finance NLP	 | johnsnowlabs |
-|--------------|--------------|
-| 1.0.0        | 4.2.0        |
-| 1.1.0        | 4.2.1        |
-| 1.2.0        | 4.2.1        |
-| 1.3.0        | 4.2.2        |
-| 1.4.0        | 4.2.3        |
-| 1.5.0        | 4.2.4        |
-| 1.6.0        | 4.2.5        |
+| Finance NLP	 | johnsnowlabs  |
+|--------------|---------------|
+| 1.X.X       | 4.X.X |
 
 Check which version of Spark NLP, Visual NLP or even Clinical NLP are included in `johnsnowlabs` versions [here](https://nlu.johnsnowlabs.com/docs/en/jsl-release-notes)
 

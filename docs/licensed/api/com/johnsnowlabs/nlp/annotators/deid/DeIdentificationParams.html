@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.8 ScalaDoc  - com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams</title>
-          <meta name="description" content="Spark NLP 4.2.8 ScalaDoc - com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams" />
-          <meta name="keywords" content="Spark NLP 4.2.8 ScalaDoc com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams" />
+          <title>Spark NLP 4.3.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams</title>
+          <meta name="description" content="Spark NLP 4.3.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams" />
+          <meta name="keywords" content="Spark NLP 4.3.1 ScalaDoc com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.8 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.3.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -235,8 +235,8 @@
                         <a href="ReadsFeatures.html" title="">ReadsFeatures</a>
                       </li><li class="current-entities indented5">
                         <a class="object" href="Replacer$.html" title=""></a>
-                        <a class="class" href="Replacer.html" title=""></a>
-                        <a href="Replacer.html" title="">Replacer</a>
+                        <a class="class" href="Replacer.html" title="Replaces entities in the original text with new ones."></a>
+                        <a href="Replacer.html" title="Replaces entities in the original text with new ones.">Replacer</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="class" href="SentenceMaxException.html" title=""></a>
@@ -865,6 +865,22 @@ policy is selected.</p>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#getSameLengthFormattedEntities" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="getSameLengthFormattedEntities():Array[String]"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/DeIdentificationParams.html#getSameLengthFormattedEntities():Array[String]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getSameLengthFormattedEntities</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      
+      
     </li><li name="org.apache.spark.ml.param.Params#hasDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hasDefault[T](param:org.apache.spark.ml.param.Param[T]):Boolean"></a><a id="hasDefault[T](Param[T]):Boolean"></a>
       <span class="permalink">
@@ -1287,6 +1303,24 @@ The default value is false.
       
       <p class="shortcomment cmt">Similarity threshold [0.0-1.0] to consider two appearances of an entity as <code>the same</code> (default: 0.9)
 For date entities this method doesn't apply.</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#sameLengthFormattedEntities" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="sameLengthFormattedEntities:org.apache.spark.ml.param.StringArrayParam"></a><a id="sameLengthFormattedEntities:StringArrayParam"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/DeIdentificationParams.html#sameLengthFormattedEntities:org.apache.spark.ml.param.StringArrayParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">sameLengthFormattedEntities</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.StringArrayParam">StringArrayParam</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">List of formatted entities to generate the same length outputs as original ones during obfuscation.</p><div class="fullcomment"><div class="comment cmt"><p>List of formatted entities to generate the same length outputs as original ones during obfuscation.
+The default  values are &quot;phone&quot;, &quot;fax&quot;, &quot;id&quot;, &quot;idnum&quot;, &quot;bioid&quot;, &quot;medicalrecord&quot;, &quot;zip&quot;, &quot;vin&quot;, &quot;ssn&quot;, &quot;dln&quot;, &quot;plate&quot;, &quot;license&quot;.
+It can be also used &quot;ALL&quot; and &quot;NONE&quot; as a parameter.</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#seed" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="seed:org.apache.spark.ml.param.IntParam"></a><a id="seed:IntParam"></a>
       <span class="permalink">
@@ -1772,6 +1806,24 @@ The default value is false.
       
       <p class="shortcomment cmt">Similarity threshold [0.0-1.0] to consider two appearances of an entity as <code>the same</code> (default: 0.9)
 For date entities this method doesn't apply.</p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#setSameLengthFormattedEntities" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setSameLengthFormattedEntities(entities:Array[String]):DeIdentificationParams.this.type"></a><a id="setSameLengthFormattedEntities(Array[String]):DeIdentificationParams.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/DeIdentificationParams.html#setSameLengthFormattedEntities(entities:Array[String]):DeIdentificationParams.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setSameLengthFormattedEntities</span><span class="params">(<span name="entities">entities: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams">DeIdentificationParams</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt">List of formatted entities to generate the same length outputs as original ones during obfuscation.</p><div class="fullcomment"><div class="comment cmt"><p>List of formatted entities to generate the same length outputs as original ones during obfuscation.
+Formatted entities: PHONE, FAX, ID, IDNUM, BIOID, MEDICALRECORD, ZIP, VIN, SSN, DLN, LICENSE, PLATE.
+It can be also used &quot;ALL&quot; and &quot;NONE&quot; as a parameter.</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#setSeed" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setSeed(s:Int):DeIdentificationParams.this.type"></a><a id="setSeed(Int):DeIdentificationParams.this.type"></a>
       <span class="permalink">
@@ -1838,6 +1890,22 @@ with the same ouptut.</p>
       </span>
       
       
+    </li><li name="com.johnsnowlabs.nlp.annotators.deid.DeIdentificationParams#supportedFormattedEntities" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="supportedFormattedEntities:Array[String]"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/deid/DeIdentificationParams.html#supportedFormattedEntities:Array[String]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">supportedFormattedEntities</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">

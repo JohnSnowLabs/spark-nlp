@@ -46,7 +46,7 @@ sbert_embedder = BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "de")
 .setOutputCol("sbert_embeddings")
 
 icd10gm_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_icd10gm", "de", "clinical/models") \
-.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setInputCols(["sbert_embeddings"]) \
 .setOutputCol("icd10gm_code")
 
 icd10gm_pipelineModel = PipelineModel(
@@ -58,16 +58,16 @@ icd10gm_resolver])
 icd_lp = LightPipeline(icd10gm_pipelineModel)
 ```
 ```scala
-val documentAssembler = DocumentAssembler()\
-.setInputCol("text")\
+val documentAssembler = DocumentAssembler()
+.setInputCol("text")
 .setOutputCol("ner_chunk")
 
-val sbert_embedder = BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "de")\
-.setInputCols(["ner_chunk"])\
+val sbert_embedder = BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "de")
+.setInputCols("ner_chunk")
 .setOutputCol("sbert_embeddings")
 
 val icd10gm_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_icd10gm", "de", "clinical/models") \
-.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setInputCols(["sbert_embeddings"]) \
 .setOutputCol("icd10gm_code")
 
 val icd10gm_pipelineModel = new PipelineModel().setStages(Array(documentAssembler,sbert_embedder,icd10gm_resolver))

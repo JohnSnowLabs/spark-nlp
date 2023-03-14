@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.8 ScalaDoc  - com.johnsnowlabs.legal.token_classification.ner</title>
-          <meta name="description" content="Spark NLP 4.2.8 ScalaDoc - com.johnsnowlabs.legal.token classification.ner" />
-          <meta name="keywords" content="Spark NLP 4.2.8 ScalaDoc com.johnsnowlabs.legal.token classification.ner" />
+          <title>Spark NLP 4.3.1 ScalaDoc  - com.johnsnowlabs.legal.token_classification.ner</title>
+          <meta name="description" content="Spark NLP 4.3.1 ScalaDoc - com.johnsnowlabs.legal.token classification.ner" />
+          <meta name="keywords" content="Spark NLP 4.3.1 ScalaDoc com.johnsnowlabs.legal.token classification.ner" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.8 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.3.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -155,8 +155,8 @@
                         <a href="LegalBertForTokenClassification.html" title="">LegalBertForTokenClassification</a>
                       </li><li class="current-entities indented5">
                         <a class="object" href="LegalNerApproach$.html" title=""></a>
-                        <a class="class" href="LegalNerApproach.html" title=""></a>
-                        <a href="LegalNerApproach.html" title="">LegalNerApproach</a>
+                        <a class="class" href="LegalNerApproach.html" title="Trains generic NER models based on Neural Networks."></a>
+                        <a href="LegalNerApproach.html" title="Trains generic NER models based on Neural Networks.">LegalNerApproach</a>
                       </li><li class="current-entities indented5">
                         <a class="object" href="LegalNerModel$.html" title=""></a>
                         <a class="class" href="LegalNerModel.html" title=""></a>
@@ -260,7 +260,7 @@
       </span>
       
       
-    </li><li name="com.johnsnowlabs.legal.token_classification.ner.LegalNerApproach" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.legal.token_classification.ner.LegalNerApproach" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="LegalNerApproachextendsMedicalNerApproach"></a><a id="LegalNerApproach:LegalNerApproach"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/legal/token_classification/ner/LegalNerApproach.html" title="Permalink">
@@ -272,10 +272,47 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="" href="LegalNerApproach.html"><span class="name">LegalNerApproach</span></a><span class="result"> extends <a href="../../../nlp/annotators/ner/MedicalNerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach">MedicalNerApproach</a></span>
+        <a title="Trains generic NER models based on Neural Networks." href="LegalNerApproach.html"><span class="name">LegalNerApproach</span></a><span class="result"> extends <a href="../../../nlp/annotators/ner/MedicalNerApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.MedicalNerApproach">MedicalNerApproach</a></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Trains generic NER models based on Neural Networks.</p><div class="fullcomment"><div class="comment cmt"><p>Trains generic NER models based on Neural Networks.</p><p>The architecture of the neural network is a Char CNNs - BiLSTM - CRF that
+achieves state-of-the-art in most datasets.</p><p>For instantiated/pretrained models, see <a href="LegalNerModel.html" class="extype" name="com.johnsnowlabs.legal.token_classification.ner.LegalNerModel">LegalNerModel</a></p><p>The training data should be a labeled Spark Dataset, in the <span class="extype" name="CoNLL">CoNLL</span> 2003
+IOB format with <code>Annotation</code> type columns. The data should have columns
+of type <code><code>DOCUMENT, TOKEN, WORD_EMBEDDINGS</code></code> and an additional
+label column of annotator type <code><code>NAMED_ENTITY</code></code>.</p><p>Excluding the label, this can be done with, for example, the annotators
+<span class="extype" name="SentenceDetector">SentenceDetector</span>, <span class="extype" name="Tokenizer">Tokenizer</span>, and
+<span class="extype" name="WordEmbeddingsModel">WordEmbeddingsModel</span> (any embeddings can be chosen, e.g. <span class="extype" name="BertEmbeddings">BertEmbeddings</span>
+for BERT based embeddings).</p><p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/training/english/dl-ner" target="_blank">Spark NLP Workshop</a>.</p><h4>Notes</h4><p>Both DocumentAssembler and SentenceDetector annotators are
+annotators that output the <code><code>DOCUMENT</code></code> annotation type.
+Thus, any of them can be used as the first annotators in a pipeline.</p><h4>Example</h4><p>First extract the prerequisites for the LegalNerApproach</p><pre><span class="kw">val</span> document = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+<span class="kw">val</span> sentenceDetector = <span class="kw">new</span> SentenceDetector()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"sentence"</span>)
+<span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer()
+  .setInputCols(<span class="lit">"sentence"</span>)
+  .setOutputCol(<span class="lit">"token"</span>)
+<span class="kw">val</span> embeddings = BertEmbeddings.pretrained()
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>)
+  .setOutputCol(<span class="lit">"embeddings"</span>)</pre><p>Then define the NER annotator</p><pre><span class="kw">val</span> nerTagger = <span class="kw">new</span> LegalNerApproach()
+  .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>, <span class="lit">"embeddings"</span>)
+  .setLabelColumn(<span class="lit">"label"</span>)
+  .setOutputCol(<span class="lit">"ner"</span>)
+  .setMaxEpochs(<span class="num">10</span>)
+  .setLr(<span class="num">0.005</span>f)
+  .setPo(<span class="num">0.005</span>f)
+  .setBatchSize(<span class="num">32</span>)
+  .setValidationSplit(<span class="num">0.1</span>f)</pre><p>Then the training can start</p><pre><span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  document,
+  sentenceDetector,
+  tokenizer,
+  embeddings,
+  nerTagger
+))
+
+trainingData = conll.readDataset(spark, <span class="lit">"path/to/train_data.conll"</span>)
+pipelineModel = pipeline.fit(trainingData)</pre></div></div>
     </li><li name="com.johnsnowlabs.legal.token_classification.ner.LegalNerModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="LegalNerModelextendsMedicalNerModel"></a><a id="LegalNerModel:LegalNerModel"></a>
       <span class="permalink">

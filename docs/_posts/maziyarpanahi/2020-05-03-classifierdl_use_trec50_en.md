@@ -5,6 +5,7 @@ author: John Snow Labs
 name: classifierdl_use_trec50
 class: ClassifierDLModel
 language: en
+nav_key: models
 repository: public/models
 date: 03/05/2020
 task: Text Classification

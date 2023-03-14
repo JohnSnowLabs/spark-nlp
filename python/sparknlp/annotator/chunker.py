@@ -41,7 +41,7 @@ class Chunker(AnnotatorModel):
     treated as groups, so here specifically ``"<NNP>+"`` means 1 or more nouns
     in succession.
 
-    For more extended examples see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb>`__.
+    For more extended examples see the `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/chunking/Chunk_Extraction_with_Chunker.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -135,4 +135,3 @@ class Chunker(AnnotatorModel):
         ...     .setRegexParsers(["<NNP>+", "<NNS>+"])
         """
         return self._set(regexParsers=value)
-

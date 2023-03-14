@@ -6,6 +6,7 @@ subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /financial_company_normalization
 key: demo
+nav_key: demo
 article_header:
   type: demo
 license: false
@@ -19,19 +20,7 @@ data:
         - subtitle: Normalization & Data Augmentation - Live Demos & Notebooks
           activemenu: financial_company_normalization
       source: yes
-      source: 
-        - title: Company names Normalization 
-          id: company_normalization_edgar_crunchbase_databases 
-          image: 
-              src: /assets/images/Company_Normalization.svg
-          excerpt: These models normalize versions of Company Names using Edgar and Crunchbase databases conventions.
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/finance/ER_EDGAR_CRUNCHBASE/
-          - text: Colab
-            type: blue_btn
-            url:    
+      source:            
         - title: Augment Company Names with Public Information  
           id: augment_company_names_public_information   
           image: 
@@ -55,5 +44,17 @@ data:
             url: https://demo.johnsnowlabs.com/finance/NEO4J/
           - text: Colab
             type: blue_btn
-            url:        
+            url:     
+        - title: Normalize & Augment Company Information with Wikidata
+          id: normalize_augment_company_information_wikidata    
+          image: 
+              src: /assets/images/Normalize_Augment_Company_Information_with_Wikidata.svg
+          excerpt: This demo shows how to apply NER or Assertion Status to texts from Wikipedia. In addition, shows how you can create data dumps from Wikidata to include them in Spark NLP and use them online for data augmentation purposes, using Chunk Mappers and Entity Resolution.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/finance/FINANCE_NLP_WITH_WIKIDATA/
+          - text: Colab
+            type: blue_btn
+            url:    
 ---

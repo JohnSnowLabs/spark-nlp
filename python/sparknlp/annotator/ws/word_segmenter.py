@@ -20,11 +20,27 @@ class WordSegmenterApproach(AnnotatorApproach):
     """Trains a WordSegmenter which tokenizes non-english or non-whitespace
     separated texts.
 
-    Many languages are not whitespace separated and their sentences are a
-    concatenation of many symbols, like Korean, Japanese or Chinese. Without
-    understanding the language, splitting the words into their corresponding
-    tokens is impossible. The WordSegmenter is trained to understand these
-    languages and split them into semantically correct parts.
+    Many languages are not whitespace separated and their sentences are a concatenation
+    of many symbols, like Korean, Japanese or Chinese. Without understanding the
+    language, splitting the words into their corresponding tokens is impossible. The
+    WordSegmenter is trained to understand these languages and split them into
+    semantically correct parts.
+
+    This annotator is based on the paper Chinese Word Segmentation as Character Tagging
+    [1]. Word segmentation is treated as a tagging problem. Each character is be tagged
+    as on of four different labels: LL (left boundary), RR (right boundary), MM (middle)
+    and LR (word by itself). The label depends on the position of the word in the
+    sentence. LL tagged words will combine with the word on the right. Likewise, RR
+    tagged words combine with words on the left. MM tagged words are treated as the
+    middle of the word and combine with either side. LR tagged words are words by
+    themselves.
+
+    Example (from [1], Example 3(a) (raw), 3(b) (tagged), 3(c) (translation)):
+        - 上海 计划 到 本 世纪 末 实现 人均 国内 生产 总值 五千 美元
+        - 上/LL 海/RR 计/LL 划/RR 到/LR 本/LR 世/LL 纪/RR 末/LR 实/LL 现/RR 人/LL 均/RR
+          国/LL 内/RR 生/LL 产/RR 总/LL值/RR 五/LL 千/RR 美/LL 元/RR
+        - Shanghai plans to reach the goal of 5,000 dollars in per capita GDP by the end
+          of the century.
 
     For instantiated/pretrained models, see :class:`.WordSegmenterModel`.
 
@@ -37,8 +53,17 @@ class WordSegmenterApproach(AnnotatorApproach):
     The helper class :class:`.POS` might be useful to read training data into
     data frames.
 
-    For extended examples of usage, see the `Spark NLP Workshop
-    <https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/annotation/chinese/word_segmentation>`__.
+    For extended examples of usage, see the `Examples
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/chinese/word_segmentation>`__.
+
+    References
+    ----------
+
+    `[1] <https://aclanthology.org/O03-4002.pdf>`__ Xue, Nianwen. “Chinese Word
+    Segmentation as Character Tagging.” International Journal of Computational
+    Linguistics & Chinese Language Processing, Volume 8, Number 1, February 2003:
+    Special Issue on Word Formation and Chinese Language Processing, 2003, pp. 29-48.
+    ACLWeb, https://aclanthology.org/O03-4002.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -284,8 +309,8 @@ class WordSegmenterModel(AnnotatorModel):
     values are provided. For available pretrained models please see the `Models
     Hub <https://nlp.johnsnowlabs.com/models?task=Word+Segmentation>`__.
 
-    For extended examples of usage, see the `Spark NLP Workshop
-    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/annotation/chinese/word_segmentation/words_segmenter_demo.ipynb>`__.
+    For extended examples of usage, see the `Examples
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/jupyter/annotation/chinese/word_segmentation/words_segmenter_demo.ipynb>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type

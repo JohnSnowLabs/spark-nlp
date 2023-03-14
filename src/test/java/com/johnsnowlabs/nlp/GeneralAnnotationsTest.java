@@ -27,6 +27,7 @@ import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Encoders;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
+import scala.collection.immutable.HashMap;
 
 import java.util.LinkedList;
 
@@ -46,14 +47,13 @@ public class GeneralAnnotationsTest {
         Pipeline pipeline = new Pipeline();
         pipeline.setStages(new PipelineStage[]{document, tokenizer});
 
-        SparkSession spark = com.johnsnowlabs.nlp.SparkNLP.start(
-                false,
+        SparkSession spark = com.johnsnowlabs.nlp.SparkNLP.start(false,
                 false,
                 false,
                 "16G",
                 "",
                 "",
-                "");
+                "", new HashMap<>());
 
         LinkedList<String> text = new java.util.LinkedList<>();
 

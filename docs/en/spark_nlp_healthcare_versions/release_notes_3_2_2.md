@@ -74,7 +74,7 @@ sbert_embedder = BertSentenceEmbeddings.pretrained('sbert_jsl_medium_uncased', '
       .setOutputCol("sbert_embeddings")
 
 rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_rxnorm_disposition", "en", "clinical/models") \
-      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
+      .setInputCols(["sbert_embeddings"]) \
       .setOutputCol("rxnorm_code")\
       .setDistanceFunction("EUCLIDEAN")
 
@@ -109,7 +109,7 @@ sbert_embedder = BertSentenceEmbeddings.pretrained('sbert_jsl_medium_uncased', '
       .setOutputCol("sbert_embeddings")
 
 snomed_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_snomed_conditions", "en", "clinical/models") \
-      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
+      .setInputCols(["sbert_embeddings"]) \
       .setOutputCol("snomed_code")\
       .setDistanceFunction("EUCLIDEAN")
 
@@ -190,14 +190,14 @@ router_sentence_rxnorm = Router() \
 
 # use problem_embeddings only
 icd_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_icd10cm_slim_billable_hcc","en", "clinical/models") \
-        .setInputCols(["clinical_ner_chunk", "problem_embeddings"]) \
+        .setInputCols(["problem_embeddings"]) \
         .setOutputCol("icd10cm_code")\
         .setDistanceFunction("EUCLIDEAN")
 
 
 # use drug_embeddings only
 rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_rxnorm","en", "clinical/models") \
-        .setInputCols(["posology_ner_chunk", "drug_embeddings"]) \
+        .setInputCols(["drug_embeddings"]) \
         .setOutputCol("rxnorm_code")\
         .setDistanceFunction("EUCLIDEAN")
 

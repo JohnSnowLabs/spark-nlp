@@ -7,6 +7,7 @@ date: 2022-10-28
 tags: [entity_resolution, clinical, en, licensed]
 task: Entity Resolution
 language: en
+nav_key: models
 edition: Spark NLP for Healthcare 4.2.1
 spark_version: 3.0
 supported: true
@@ -95,7 +96,7 @@ val document_assembler = DocumentAssembler()
 .setOutputCol("document")
 
 
-val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")\
+val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
 .setInputCols(Array("document"))
 .setOutputCol("sentence")
 

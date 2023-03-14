@@ -7,6 +7,7 @@ date: 2021-08-11
 tags: [licensed, clinical, en, sentence_detection]
 task: Sentence Detection
 language: en
+nav_key: models
 edition: Healthcare NLP 3.2.0
 spark_version: 3.0
 supported: true

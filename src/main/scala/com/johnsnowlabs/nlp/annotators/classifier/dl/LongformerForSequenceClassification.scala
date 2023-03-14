@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
+import com.johnsnowlabs.ml.ai.RoBertaClassification
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadTextAsset,
@@ -256,7 +257,7 @@ class LongformerForSequenceClassification(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowRoBertaClassification]] = None
+  private var _model: Option[Broadcast[RoBertaClassification]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
@@ -265,7 +266,7 @@ class LongformerForSequenceClassification(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowRoBertaClassification(
+          new RoBertaClassification(
             tensorflowWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
@@ -281,7 +282,7 @@ class LongformerForSequenceClassification(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowRoBertaClassification = _model.get.value
+  def getModelIfNotSet: RoBertaClassification = _model.get.value
 
   /** Whether to lowercase tokens or not (Default: `true`).
     *
@@ -363,12 +364,12 @@ trait ReadablePretrainedLongformerForSequenceModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadLongformerForSequenceTensorflowModel extends ReadTensorflowModel {
+trait ReadLongformerForSequenceDLModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[LongformerForSequenceClassification] =>
 
   override val tfFile: String = "longformer_classification_tensorflow"
 
-  def readTensorflow(
+  def readModel(
       instance: LongformerForSequenceClassification,
       path: String,
       spark: SparkSession): Unit = {
@@ -378,7 +379,7 @@ trait ReadLongformerForSequenceTensorflowModel extends ReadTensorflowModel {
     instance.setModelIfNotSet(spark, tf)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(
       modelPath: String,
@@ -432,4 +433,4 @@ trait ReadLongformerForSequenceTensorflowModel extends ReadTensorflowModel {
   */
 object LongformerForSequenceClassification
     extends ReadablePretrainedLongformerForSequenceModel
-    with ReadLongformerForSequenceTensorflowModel
+    with ReadLongformerForSequenceDLModel

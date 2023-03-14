@@ -7,6 +7,7 @@ date: 2023-01-10
 tags: [en, licensed]
 task: OCR Table Detection
 language: en
+nav_key: models
 edition: Visual NLP 4.1.0
 spark_version: 3.2.1
 supported: true
@@ -69,7 +70,7 @@ val binary_to_image = new BinaryToImage()
     .setOutputCol("image") 
     .setImageType(ImageType.TYPE_3BYTE_BGR)
 
-val table_detector = ImageTableDetector.pretrained("general_model_table_detection_v2", "en", "clinical/ocr") \
+val table_detector = ImageTableDetector.pretrained("general_model_table_detection_v2", "en", "clinical/ocr") 
     .setInputCol("image") 
     .setOutputCol("table_regions")
 

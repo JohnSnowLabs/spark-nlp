@@ -6,6 +6,7 @@ name: ner_drugs_greedy
 date: 2020-12-14
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Healthcare NLP 2.6.5
 spark_version: 2.4
 tags: [ner, licensed, en, clinical]

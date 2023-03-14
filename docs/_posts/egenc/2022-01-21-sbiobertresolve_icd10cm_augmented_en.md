@@ -7,6 +7,7 @@ date: 2022-01-21
 tags: [icd10cm, entity_resolution, clinical, en, licensed]
 task: Entity Resolution
 language: en
+nav_key: models
 edition: Healthcare NLP 3.3.1
 spark_version: 3.0
 supported: true
@@ -74,7 +75,7 @@ sbert_embedder = BertSentenceEmbeddings\
 
 icd10_resolver = SentenceEntityResolverModel\
 .pretrained("sbiobertresolve_icd10cm_augmented","en", "clinical/models") \
-.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setInputCols(["sbert_embeddings"]) \
 .setOutputCol("resolution")\
 .setDistanceFunction("EUCLIDEAN")
 
@@ -90,7 +91,7 @@ val document_assembler = DocumentAssembler()
 .setOutputCol("document")
 
 
-val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")\
+val sentence_detector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
 .setInputCols(Array("document"))
 .setOutputCol("sentence")
 
@@ -123,7 +124,7 @@ val sbert_embedder = BertSentenceEmbeddings
 
 val icd10_resolver = SentenceEntityResolverModel
 .pretrained("sbiobertresolve_icd10cm_augmented","en", "clinical/models")
-.setInputCols(Array("ner_chunk", "sbert_embeddings"))
+.setInputCols(Array("sbert_embeddings"))
 .setOutputCol("resolution")
 .setDistanceFunction("EUCLIDEAN")
 

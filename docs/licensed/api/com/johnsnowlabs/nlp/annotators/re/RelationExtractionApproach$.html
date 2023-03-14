@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.8 ScalaDoc  - com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach</title>
-          <meta name="description" content="Spark NLP 4.2.8 ScalaDoc - com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach" />
-          <meta name="keywords" content="Spark NLP 4.2.8 ScalaDoc com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach" />
+          <title>Spark NLP 4.3.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach</title>
+          <meta name="description" content="Spark NLP 4.3.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach" />
+          <meta name="keywords" content="Spark NLP 4.3.1 ScalaDoc com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.8 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.3.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -175,8 +175,8 @@
                         <a href="REFeatureGenerator$.html" title="">REFeatureGenerator</a>
                       </li><li class="current-entities indented5">
                         <a class="object" href="RENerChunksFilter$.html" title=""></a>
-                        <a class="class" href="RENerChunksFilter.html" title="Filters and outputs combinations of relations between extracted entities, for further processing."></a>
-                        <a href="RENerChunksFilter.html" title="Filters and outputs combinations of relations between extracted entities, for further processing.">RENerChunksFilter</a>
+                        <a class="class" href="RENerChunksFilter.html" title="Filters entities' dependency relations."></a>
+                        <a href="RENerChunksFilter.html" title="Filters entities' dependency relations.">RENerChunksFilter</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="trait" href="ReadRelationExtractionDLModelTensorflowModel.html" title=""></a>
@@ -474,9 +474,9 @@
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>HasInputAnnotationCols</dd></dl></div>
     </li><li name="com.johnsnowlabs.license.CheckLicense#checkValidEnvironment" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="checkValidEnvironment(spark:Option[org.apache.spark.sql.SparkSession]):Unit"></a><a id="checkValidEnvironment(Option[SparkSession]):Unit"></a>
+      <a id="checkValidEnvironment(spark:Option[org.apache.spark.sql.SparkSession],scopes:Option[Seq[String]]):Unit"></a><a id="checkValidEnvironment(Option[SparkSession],Option[Seq[String]]):Unit"></a>
       <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/RelationExtractionApproach$.html#checkValidEnvironment(spark:Option[org.apache.spark.sql.SparkSession]):Unit" title="Permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/RelationExtractionApproach$.html#checkValidEnvironment(spark:Option[org.apache.spark.sql.SparkSession],scopes:Option[Seq[String]]):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -485,7 +485,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">checkValidEnvironment</span><span class="params">(<span name="spark">spark: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">checkValidEnvironment</span><span class="params">(<span name="spark">spark: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span>]</span>, <span name="scopes">scopes: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>CheckLicense</dd></dl></div>
@@ -1335,6 +1335,24 @@
       <p class="shortcomment cmt">Model file name
 </p><div class="fullcomment"><div class="comment cmt"><p>Model file name
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../generic_classifier/GenericClassifierApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierApproach">GenericClassifierApproach</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierApproach#getMultiClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="getParam">
+      <a id="getMultiClass:Boolean"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/RelationExtractionApproach$.html#getMultiClass:Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getMultiClass</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Gets the model multi class prediction mode
+</p><div class="fullcomment"><div class="comment cmt"><p>Gets the model multi class prediction mode
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../generic_classifier/GenericClassifierApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierApproach">GenericClassifierApproach</a></dd></dl></div>
     </li><li name="org.apache.spark.ml.param.Params#getOrDefault" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getOrDefault[T](param:org.apache.spark.ml.param.Param[T]):T"></a><a id="getOrDefault[T](Param[T]):T"></a>
       <span class="permalink">
@@ -2000,6 +2018,22 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>HasInputAnnotationCols</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierApproach#multiClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
+      <a id="multiClass:org.apache.spark.ml.param.BooleanParam"></a><a id="multiClass:BooleanParam"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/RelationExtractionApproach$.html#multiClass:org.apache.spark.ml.param.BooleanParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">multiClass</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">If multiClass is set, the model will return all the labels with corresponding scores.</p><div class="fullcomment"><div class="comment cmt"><p>If multiClass is set, the model will return all the labels with corresponding scores. By default, multiClass is false.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../generic_classifier/GenericClassifierApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierApproach">GenericClassifierApproach</a></dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
       <span class="permalink">
@@ -2135,7 +2169,9 @@
         <span class="name">outputLogsPath</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Path to folder to output logs.</p><div class="fullcomment"><div class="comment cmt"><p>Path to folder to output logs. If no path is specified, no logs are generated
+      <p class="shortcomment cmt">Folder path to save training logs.</p><div class="fullcomment"><div class="comment cmt"><p>Folder path to save training logs.
+If no path is specified, the logs won't be stored in disk.
+The path can be a local file path, a distributed file path (HDFS, DBFS), or a cloud storage (S3).
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../generic_classifier/GenericClassifierApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierApproach">GenericClassifierApproach</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach#overrideExistingLabels" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="overrideExistingLabels:org.apache.spark.ml.param.BooleanParam"></a><a id="overrideExistingLabels:BooleanParam"></a>
@@ -2185,7 +2221,9 @@
         <span class="name">pretrainedModelPath</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Path to an already trained RelationExtractionModel, which is used as a starting point for training the new model.</p><div class="fullcomment"><div class="comment cmt"><p>Path to an already trained RelationExtractionModel, which is used as a starting point for training the new model.
+      <p class="shortcomment cmt">Path to an already trained RelationExtractionModel.</p><div class="fullcomment"><div class="comment cmt"><p>Path to an already trained RelationExtractionModel.</p><p>This pretrained model will be used as a starting point
+for training the new one. The path can be a local file path,
+a distributed file path (HDFS, DBFS), or a cloud storage (S3).
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="RelationExtractionApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach">RelationExtractionApproach</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach#relationDirectionCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="relationDirectionCol:org.apache.spark.ml.param.Param[String]"></a><a id="relationDirectionCol:Param[String]"></a>
@@ -2202,8 +2240,7 @@
         <span class="name">relationDirectionCol</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Relation direction column (possible values are: &quot;none&quot;, &quot;left&quot; or &quot;right&quot;)
-</p><div class="fullcomment"><div class="comment cmt"><p>Relation direction column (possible values are: &quot;none&quot;, &quot;left&quot; or &quot;right&quot;)
+      <p class="shortcomment cmt">Relation direction column (possible values are: &quot;none&quot;, &quot;left&quot; or &quot;right&quot;).</p><div class="fullcomment"><div class="comment cmt"><p>Relation direction column (possible values are: &quot;none&quot;, &quot;left&quot; or &quot;right&quot;).</p><p>If this parameter is not set, the model will not have direction between the relation of the entities.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="RelationExtractionApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach">RelationExtractionApproach</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach#resumeTraining" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="resumeTraining:Boolean"></a>
@@ -2571,6 +2608,24 @@
       <p class="shortcomment cmt">Set the model file name
 </p><div class="fullcomment"><div class="comment cmt"><p>Set the model file name
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../generic_classifier/GenericClassifierApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierApproach">GenericClassifierApproach</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierApproach#setMultiClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
+      <a id="setMultiClass(value:Boolean):GenericClassifierApproach.this.type"></a><a id="setMultiClass(Boolean):RelationExtractionApproach.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/re/RelationExtractionApproach$.html#setMultiClass(value:Boolean):GenericClassifierApproach.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setMultiClass</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach">RelationExtractionApproach</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt">Sets the model in multi class prediction mode
+</p><div class="fullcomment"><div class="comment cmt"><p>Sets the model in multi class prediction mode
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../generic_classifier/GenericClassifierApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierApproach">GenericClassifierApproach</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#setOutputCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setOutputCol(value:String):HasOutputAnnotationCol.this.type"></a><a id="setOutputCol(String):RelationExtractionApproach.this.type"></a>
       <span class="permalink">
@@ -2894,7 +2949,8 @@
         <span class="name">validationSplit</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.FloatParam">FloatParam</span></span>
       </span>
       
-      <p class="shortcomment cmt">Choose the proportion of training dataset to be validated against the model on each Epoch.</p><div class="fullcomment"><div class="comment cmt"><p>Choose the proportion of training dataset to be validated against the model on each Epoch. The value should be between 0.0 and 1.0 and by default it is 0.0 and off.
+      <p class="shortcomment cmt">The proportion of training dataset to be used as validation set.</p><div class="fullcomment"><div class="comment cmt"><p>The proportion of training dataset to be used as validation set.</p><p>The model will be validated against this dataset on each Epoch and will not
+be used for training. The value should be between 0.0 and 1.0.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../generic_classifier/GenericClassifierApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierApproach">GenericClassifierApproach</a></dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>

@@ -7,6 +7,7 @@ date: 2022-11-25
 tags: [en, legal, ofac, classification, clauses, licensed]
 task: Text Classification
 language: en
+nav_key: models
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -47,7 +48,7 @@ This model is a Binary Classifier (True, False) for the `ofac` clause type. To u
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
- documentAssembler = nlp.DocumentAssembler() \
+documentAssembler = nlp.DocumentAssembler() \
          .setInputCol("clause_text") \
          .setOutputCol("document")
 

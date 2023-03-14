@@ -7,6 +7,7 @@ date: 2021-08-04
 tags: [en, english, ner, longformer, open_source, conll]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Spark NLP 3.2.0
 spark_version: 2.4
 supported: true

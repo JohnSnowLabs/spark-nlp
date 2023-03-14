@@ -7,6 +7,7 @@ date: 2022-10-12
 tags: [en, licensed, clinical, resolver, chunk_mapping, cvx, pipeline]
 task: Pipeline Healthcare
 language: en
+nav_key: models
 edition: Healthcare NLP 4.2.1
 spark_version: 3.0
 supported: true

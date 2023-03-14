@@ -7,6 +7,7 @@ date: 2022-02-08
 tags: [longformer, clinical, en, open_source]
 task: Embeddings
 language: en
+nav_key: models
 edition: Spark NLP 3.4.0
 spark_version: 3.0
 supported: true
@@ -49,7 +50,7 @@ embeddings = LongformerEmbeddings.pretrained("clinical_longformer", "en")\
 val embeddings = LongformerEmbeddings.pretrained("clinical_longformer", "en")
 .setInputCols(Array("sentence", "token"))
 .setOutputCol("embeddings")
-.setCaseSensitive(True)\
+.setCaseSensitive(True)
 .setMaxSentenceLength(4096)
 ```
 

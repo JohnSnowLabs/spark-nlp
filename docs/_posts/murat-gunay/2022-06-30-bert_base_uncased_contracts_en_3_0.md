@@ -1,12 +1,13 @@
 ---
 layout: model
-title: English Contracts BertEmbeddings model (Base, Uncased)
+title: English Legal Contracts BertEmbeddings model (Base, Uncased)
 author: John Snow Labs
 name: bert_base_uncased_contracts
 date: 2022-06-30
 tags: [open_source, bert, embeddings, finance, contracts, en]
 task: Embeddings
 language: en
+nav_key: models
 edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true

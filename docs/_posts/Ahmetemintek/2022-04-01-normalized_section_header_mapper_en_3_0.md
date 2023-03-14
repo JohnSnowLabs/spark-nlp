@@ -7,6 +7,7 @@ date: 2022-04-01
 tags: [en, chunkmapper, chunkmapping, normalizer, sectionheader, licensed, clinical]
 task: Chunk Mapping
 language: en
+nav_key: models
 edition: Healthcare NLP 3.5.0
 spark_version: 3.0
 supported: true

@@ -6,6 +6,7 @@ name: classifierdl_ade_conversational_biobert
 date: 2021-01-21
 task: Text Classification
 language: en
+nav_key: models
 edition: Healthcare NLP 2.7.1
 spark_version: 2.4
 tags: [en, licensed, classifier, clinical]
@@ -29,7 +30,7 @@ Classify sentence in two categories:
 `True`, `False`
 
 {:.btn-box}
-[Live Demo](https://demo.johnsnowlabs.com/healthcare/PP_ADE/){:.button.button-orange}
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/ADE/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/16.Adverse_Drug_Event_ADE_NER_and_Classifier.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/classifierdl_ade_conversational_biobert_en_2.7.1_2.4_1611246389884.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
 [Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/classifierdl_ade_conversational_biobert_en_2.7.1_2.4_1611246389884.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}

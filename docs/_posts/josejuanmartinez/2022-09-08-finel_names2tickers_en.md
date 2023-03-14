@@ -7,6 +7,7 @@ date: 2022-09-08
 tags: [en, finance, companies, tickers, nasdaq, licensed]
 task: Entity Resolution
 language: en
+nav_key: models
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -51,7 +52,7 @@ resolver = finance.SentenceEntityResolverModel.pretrained("finel_names2tickers",
       .setOutputCol("name")\
       .setDistanceFunction("EUCLIDEAN")
 
-pipelineModel = PipelineModel(
+pipelineModel = nlp.Pipeline(
       stages = [
           documentAssembler,
           embeddings,

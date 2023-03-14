@@ -16,8 +16,13 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
+import com.johnsnowlabs.ml.ai.DeBerta
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.tensorflow.sentencepiece._
+import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
+  ReadSentencePieceModel,
+  SentencePieceWrapper,
+  WriteSentencePieceModel
+}
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadSentencePieceAsset,
   modelSanityCheck,
@@ -239,7 +244,7 @@ class DeBertaEmbeddings(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowDeBerta]] = None
+  private var _model: Option[Broadcast[DeBerta]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
@@ -250,7 +255,7 @@ class DeBertaEmbeddings(override val uid: String)
 
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowDeBerta(
+          new DeBerta(
             tensorflowWrapper,
             spp,
             batchSize = $(batchSize),
@@ -261,7 +266,7 @@ class DeBertaEmbeddings(override val uid: String)
     this
   }
 
-  def getModelIfNotSet: TensorflowDeBerta = _model.get.value
+  def getModelIfNotSet: DeBerta = _model.get.value
 
   setDefault(batchSize -> 8, dimension -> 768, maxSentenceLength -> 128, caseSensitive -> true)
 
@@ -310,7 +315,7 @@ class DeBertaEmbeddings(override val uid: String)
     writeTensorflowModelV2(
       path,
       spark,
-      getModelIfNotSet.tensorflow,
+      getModelIfNotSet.tensorflowWrapper,
       "_deberta",
       DeBertaEmbeddings.tfFile,
       configProtoBytes = getConfigProtoBytes)
@@ -354,13 +359,13 @@ trait ReadDeBertaDLModel extends ReadTensorflowModel with ReadSentencePieceModel
   override val tfFile: String = "deberta_tensorflow"
   override val sppFile: String = "deberta_spp"
 
-  def readTensorflow(instance: DeBertaEmbeddings, path: String, spark: SparkSession): Unit = {
+  def readModel(instance: DeBertaEmbeddings, path: String, spark: SparkSession): Unit = {
     val tf = readTensorflowModel(path, spark, "_deberta_tf", initAllTables = false)
     val spp = readSentencePieceModel(path, spark, "_deberta_spp", sppFile)
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): DeBertaEmbeddings = {
 

@@ -5,6 +5,7 @@ author: John Snow Labs
 name: ner_posology_small
 class: NerDLModel
 language: en
+nav_key: models
 repository: clinical/models
 date: 2020-04-21
 task: Named Entity Recognition

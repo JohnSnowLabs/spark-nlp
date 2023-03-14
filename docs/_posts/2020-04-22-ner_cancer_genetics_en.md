@@ -5,6 +5,7 @@ author: John Snow Labs
 name: ner_cancer_genetics
 class: NerDLModel
 language: en
+nav_key: models
 repository: clinical/models
 date: 2020-04-22
 task: Named Entity Recognition

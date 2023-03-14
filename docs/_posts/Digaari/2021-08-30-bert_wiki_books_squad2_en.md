@@ -7,6 +7,7 @@ date: 2021-08-30
 tags: [en, open_source, bert_embeddings, squad_2_dataset, wikipedia_dataset, books_corpus_dataset]
 task: Embeddings
 language: en
+nav_key: models
 edition: Spark NLP 3.2.0
 spark_version: 3.0
 supported: true

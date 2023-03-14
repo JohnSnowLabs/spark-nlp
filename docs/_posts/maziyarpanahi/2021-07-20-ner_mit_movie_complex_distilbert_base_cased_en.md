@@ -7,6 +7,7 @@ date: 2021-07-20
 tags: [open_source, distilbert, en, english, ner, movie]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Spark NLP 3.1.3
 spark_version: 2.4
 supported: true

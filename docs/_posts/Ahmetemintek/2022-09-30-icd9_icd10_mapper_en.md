@@ -7,6 +7,7 @@ date: 2022-09-30
 tags: [en, clinical, chunk_mapping, icd9, icd10, licensed]
 task: Chunk Mapping
 language: en
+nav_key: models
 edition: Healthcare NLP 4.1.0
 spark_version: 3.0
 supported: true

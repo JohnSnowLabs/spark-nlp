@@ -12,10 +12,11 @@ header:
     key: models
   - title: Demo
     url: /demos
+    key: demo
   - title: '<span style="color: #FF8A00;"><i class = "fab fa-github fa-2x"></i></span>'
     url: https://github.com/JohnSnowLabs/spark-nlp
   - title: '<span style="color: #FF8A00;"><i class="fab fa-slack-hash fa-2x"></i></span>'
-    url: https://www.johnsnowlabs.com/slack-redirect/
+    url: https://join.slack.com/t/spark-nlp/shared_invite/zt-198dipu77-L3UWNe_AJ8xqDk0ivmih5Q
 
 extras:
   - title: Extras
@@ -82,6 +83,10 @@ annotation-lab:
             url: /docs/en/alab/embeddings
           - title: Rules
             url: /docs/en/alab/rules
+          - title: Prompts
+            url: /docs/en/alab/prompts   
+          - title: Playground
+            url: /docs/en/alab/playground                        
       - subtitle: Project
         children:
           - title: Dashboard

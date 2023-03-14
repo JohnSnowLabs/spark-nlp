@@ -7,6 +7,7 @@ date: 2022-08-30
 tags: [en, legal, companies, edgar, licensed]
 task: Entity Resolution
 language: en
+nav_key: models
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -51,7 +52,7 @@ resolver = legal.SentenceEntityResolverModel.pretrained("legel_edgar_company_nam
       .setOutputCol("irs_code")\
       .setDistanceFunction("EUCLIDEAN")
 
-pipelineModel = PipelineModel(
+pipelineModel = nlp..Pipeline(
       stages = [
           documentAssembler,
           embeddings,

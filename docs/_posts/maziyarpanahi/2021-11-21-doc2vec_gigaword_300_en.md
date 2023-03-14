@@ -7,6 +7,7 @@ date: 2021-11-21
 tags: [gigaword, doc2vec, sentence_embeddings, en, english, open_source]
 task: Embeddings
 language: en
+nav_key: models
 edition: Spark NLP 3.3.3
 spark_version: 3.0
 supported: true
@@ -77,7 +78,7 @@ val stops = StopWordsCleaner.pretrained()
 .setOutputCol("cleanedToken")
 
 val doc2Vec = Doc2VecModel.pretrained("doc2vec_gigaword_300", "en")
-.setInputCols("cleanedToken")\
+.setInputCols("cleanedToken")
 .setOutputCol("sentence_embeddings")
 ```
 

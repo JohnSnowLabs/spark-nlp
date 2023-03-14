@@ -7,6 +7,7 @@ date: 2021-09-23
 tags: [ner, ner_profiling, clinical, licensed, en]
 task: Pipeline Healthcare
 language: en
+nav_key: models
 edition: Healthcare NLP 3.2.3
 spark_version: 2.4
 supported: true

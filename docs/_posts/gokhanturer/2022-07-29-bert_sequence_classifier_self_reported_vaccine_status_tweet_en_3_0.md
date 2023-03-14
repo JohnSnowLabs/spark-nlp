@@ -7,6 +7,7 @@ date: 2022-07-29
 tags: [bert, licensed, en, clinical, classifier, sequence_classification, public_health, vaccine, tweet]
 task: Text Classification
 language: en
+nav_key: models
 edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true

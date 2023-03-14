@@ -79,12 +79,12 @@ val tokenizer = Tokenizer()
 .setInputCols(Array("sentence"))
 .setOutputCol("token")
 
-val tokenClassifier = XlmRoBertaForTokenClassification.pretrained("xlm_roberta_large_token_classifier_hrl", "xx"))\
-.setInputCols(Array("sentence","token"))\
+val tokenClassifier = XlmRoBertaForTokenClassification.pretrained("xlm_roberta_large_token_classifier_hrl", "xx"))
+.setInputCols(Array("sentence","token"))
 .setOutputCol("ner")
 
-ner_converter = NerConverter()\
-.setInputCols(Array("sentence", "token", "ner"))\
+ner_converter = NerConverter()
+.setInputCols(Array("sentence", "token", "ner"))
 .setOutputCol("ner_chunk")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, tokenClassifier, ner_converter))

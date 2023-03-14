@@ -7,6 +7,7 @@ date: 2021-07-01
 tags: [rxnorm, mesh, en, licensed, pipeline]
 task: Pipeline Healthcare
 language: en
+nav_key: models
 edition: Healthcare NLP 3.1.0
 spark_version: 2.4
 supported: true

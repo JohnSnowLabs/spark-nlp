@@ -7,6 +7,7 @@ date: 2022-11-24
 tags: [licensed, clinical, en, oncology, biomarker, treatment]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Healthcare NLP 4.2.2
 spark_version: 3.0
 supported: true

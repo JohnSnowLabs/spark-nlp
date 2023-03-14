@@ -7,6 +7,7 @@ date: 2022-08-10
 tags: [en, legal, classification, clauses, licensed]
 task: Text Classification
 language: en
+nav_key: models
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -58,7 +59,7 @@ docClassifier = nlp.ClassifierDLModel.pretrained("legclf_conflict_of_interest_cl
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("category")
     
-nlpPipeline = Pipeline(stages=[
+nlpPipeline = nlp.Pipeline(stages=[
     documentAssembler, 
     embeddings,
     docClassifier])

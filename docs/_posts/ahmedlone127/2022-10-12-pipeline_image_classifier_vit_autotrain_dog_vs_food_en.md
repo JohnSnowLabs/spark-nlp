@@ -15,6 +15,7 @@ tags: [vit, en, images, open_source, pipeline]
 task: Image Classification
 
 language: en
+nav_key: models
 
 edition: Spark NLP 4.2.1
 

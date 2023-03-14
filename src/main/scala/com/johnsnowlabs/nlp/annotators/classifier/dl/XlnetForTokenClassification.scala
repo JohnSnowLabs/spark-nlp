@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
+import com.johnsnowlabs.ml.ai.XlnetClassification
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
   ReadSentencePieceModel,
@@ -211,7 +212,7 @@ class XlnetForTokenClassification(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowXlnetClassification]] = None
+  private var _model: Option[Broadcast[XlnetClassification]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
@@ -221,7 +222,7 @@ class XlnetForTokenClassification(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowXlnetClassification(
+          new XlnetClassification(
             tensorflowWrapper,
             spp,
             configProtoBytes = getConfigProtoBytes,
@@ -233,7 +234,7 @@ class XlnetForTokenClassification(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowXlnetClassification = _model.get.value
+  def getModelIfNotSet: XlnetClassification = _model.get.value
 
   /** Whether to lowercase tokens or not
     *
@@ -313,13 +314,13 @@ trait ReadablePretrainedXlnetForTokenModel
       remoteLoc: String): XlnetForTokenClassification = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadXlnetForTokenTensorflowModel extends ReadTensorflowModel with ReadSentencePieceModel {
+trait ReadXlnetForTokenDLModel extends ReadTensorflowModel with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[XlnetForTokenClassification] =>
 
   override val tfFile: String = "xlnet_classification_tensorflow"
   override val sppFile: String = "xlnet_spp"
 
-  def readTensorflow(
+  def readModel(
       instance: XlnetForTokenClassification,
       path: String,
       spark: SparkSession): Unit = {
@@ -329,7 +330,7 @@ trait ReadXlnetForTokenTensorflowModel extends ReadTensorflowModel with ReadSent
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): XlnetForTokenClassification = {
 
@@ -373,4 +374,4 @@ trait ReadXlnetForTokenTensorflowModel extends ReadTensorflowModel with ReadSent
   */
 object XlnetForTokenClassification
     extends ReadablePretrainedXlnetForTokenModel
-    with ReadXlnetForTokenTensorflowModel
+    with ReadXlnetForTokenDLModel

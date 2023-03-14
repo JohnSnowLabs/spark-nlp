@@ -26,7 +26,6 @@ This dictionary is then set to be the basis of the spell checker.
 
 Inspired by Norvig model and [SymSpell](https://github.com/wolfgarbe/SymSpell).
 
-For extended examples of usage, see the [Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/jupyter/training/english/vivekn-sentiment/VivekNarayanSentimentApproach.ipynb).
 {%- endcapture -%}
 
 {%- capture input_anno -%}

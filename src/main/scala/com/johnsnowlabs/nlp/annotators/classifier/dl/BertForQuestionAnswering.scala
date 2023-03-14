@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
+import com.johnsnowlabs.ml.ai.{BertClassification, MergeTokenStrategy}
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadTextAsset,
@@ -45,8 +46,8 @@ import org.apache.spark.sql.SparkSession
   * For available pretrained models please see the
   * [[https://nlp.johnsnowlabs.com/models?task=Question+Answering Models Hub]].
   *
-  * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. The
-  * Spark NLP Workshop example shows how to import them
+  * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To
+  * see which models are compatible and how to import them see
   * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]] and to see more extended
   * examples, see
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/BertForQuestionAnsweringTestSpec.scala BertForQuestionAnsweringTestSpec]].
@@ -204,7 +205,7 @@ class BertForQuestionAnswering(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowBertClassification]] = None
+  private var _model: Option[Broadcast[BertClassification]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
@@ -213,7 +214,7 @@ class BertForQuestionAnswering(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowBertClassification(
+          new BertClassification(
             tensorflowWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
@@ -227,7 +228,7 @@ class BertForQuestionAnswering(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowBertClassification = _model.get.value
+  def getModelIfNotSet: BertClassification = _model.get.value
 
   /** Whether to lowercase tokens or not (Default: `true`).
     *
@@ -298,21 +299,18 @@ trait ReadablePretrainedBertForQAModel
       remoteLoc: String): BertForQuestionAnswering = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadBertForQATensorflowModel extends ReadTensorflowModel {
+trait ReadBertForQuestionAnsweringDLModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[BertForQuestionAnswering] =>
 
   override val tfFile: String = "bert_classification_tensorflow"
 
-  def readTensorflow(
-      instance: BertForQuestionAnswering,
-      path: String,
-      spark: SparkSession): Unit = {
+  def readModel(instance: BertForQuestionAnswering, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_bert_classification_tf", initAllTables = false)
     instance.setModelIfNotSet(spark, tf)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): BertForQuestionAnswering = {
 
@@ -356,4 +354,4 @@ trait ReadBertForQATensorflowModel extends ReadTensorflowModel {
   */
 object BertForQuestionAnswering
     extends ReadablePretrainedBertForQAModel
-    with ReadBertForQATensorflowModel
+    with ReadBertForQuestionAnsweringDLModel

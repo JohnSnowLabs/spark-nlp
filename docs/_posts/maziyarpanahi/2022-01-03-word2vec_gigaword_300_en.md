@@ -7,6 +7,7 @@ date: 2022-01-03
 tags: [word_embeddings, embeddings, en, english, open_source, gigaword, word2vec]
 task: Embeddings
 language: en
+nav_key: models
 edition: Spark NLP 3.4.0
 spark_version: 3.0
 supported: true
@@ -77,7 +78,7 @@ val stops = StopWordsCleaner.pretrained()
 .setOutputCol("cleanedToken")
 
 val doc2Vec = Word2VecModel.pretrained("word2vec_gigaword_300", "en")
-.setInputCols("cleanedToken")\
+.setInputCols("cleanedToken")
 .setOutputCol("sentence_embeddings")
 ```
 

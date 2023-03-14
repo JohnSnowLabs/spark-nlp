@@ -191,8 +191,8 @@ class CamemBertForSequenceClassification(AnnotatorModel,
         CamemBertForSequenceClassification
             The restored model
         """
-        from sparknlp.internal import _CamemBertForSequenceClassification
-        jModel = _CamemBertForSequenceClassification(folder, spark_session._jsparkSession)._java_obj
+        from sparknlp.internal import _CamemBertForSequenceClassificationLoader
+        jModel = _CamemBertForSequenceClassificationLoader(folder, spark_session._jsparkSession)._java_obj
         return CamemBertForSequenceClassification(java_model=jModel)
 
     @staticmethod

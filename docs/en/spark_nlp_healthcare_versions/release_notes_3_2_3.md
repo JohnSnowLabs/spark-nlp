@@ -92,7 +92,7 @@ sbert_embedder = BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "de")
     .setOutputCol("sbert_embeddings")
 
 icd10gm_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_icd10gm", "de", "clinical/models")\
-    .setInputCols(["ner_chunk", "sbert_embeddings"])\
+    .setInputCols(["sbert_embeddings"])\
     .setOutputCol("icd10gm_code")
 
 icd10gm_pipelineModel = PipelineModel( stages = [documentAssembler, sbert_embedder, icd10gm_resolver])
@@ -121,7 +121,7 @@ sbert_embedder = BertSentenceEmbeddings.pretrained("sent_bert_base_cased", "de")
     .setOutputCol("sbert_embeddings")
 
 snomed_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_snomed", "de", "clinical/models")\
-    .setInputCols(["ner_chunk", "sbert_embeddings"])\
+    .setInputCols(["sbert_embeddings"])\
     .setOutputCol("snomed_code")
 
 snomed_pipelineModel = PipelineModel( stages = [ documentAssembler, sbert_embedder, snomed_resolver])

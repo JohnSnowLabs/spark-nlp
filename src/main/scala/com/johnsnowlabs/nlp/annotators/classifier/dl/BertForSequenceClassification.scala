@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
+import com.johnsnowlabs.ml.ai.BertClassification
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadSentencePieceAsset,
@@ -249,7 +250,7 @@ class BertForSequenceClassification(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowBertClassification]] = None
+  private var _model: Option[Broadcast[BertClassification]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
@@ -258,7 +259,7 @@ class BertForSequenceClassification(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowBertClassification(
+          new BertClassification(
             tensorflowWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
@@ -272,7 +273,7 @@ class BertForSequenceClassification(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowBertClassification = _model.get.value
+  def getModelIfNotSet: BertClassification = _model.get.value
 
   /** Whether to lowercase tokens or not (Default: `true`).
     *
@@ -353,12 +354,12 @@ trait ReadablePretrainedBertForSequenceModel
       remoteLoc: String): BertForSequenceClassification = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadBertForSequenceTensorflowModel extends ReadTensorflowModel {
+trait ReadBertForSequenceDLModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[BertForSequenceClassification] =>
 
   override val tfFile: String = "bert_classification_tensorflow"
 
-  def readTensorflow(
+  def readModel(
       instance: BertForSequenceClassification,
       path: String,
       spark: SparkSession): Unit = {
@@ -367,7 +368,7 @@ trait ReadBertForSequenceTensorflowModel extends ReadTensorflowModel {
     instance.setModelIfNotSet(spark, tf)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): BertForSequenceClassification = {
 
@@ -412,4 +413,4 @@ trait ReadBertForSequenceTensorflowModel extends ReadTensorflowModel {
   */
 object BertForSequenceClassification
     extends ReadablePretrainedBertForSequenceModel
-    with ReadBertForSequenceTensorflowModel
+    with ReadBertForSequenceDLModel

@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
+import com.johnsnowlabs.ml.ai.{AlbertClassification, MergeTokenStrategy}
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
   ReadSentencePieceModel,
@@ -190,7 +191,7 @@ class AlbertForQuestionAnswering(override val uid: String)
   /** @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
-  private var _model: Option[Broadcast[TensorflowAlbertClassification]] = None
+  private var _model: Option[Broadcast[AlbertClassification]] = None
 
   /** @group setParam */
   def setModelIfNotSet(
@@ -200,7 +201,7 @@ class AlbertForQuestionAnswering(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-          new TensorflowAlbertClassification(
+          new AlbertClassification(
             tensorflowWrapper,
             spp,
             configProtoBytes = getConfigProtoBytes,
@@ -212,7 +213,7 @@ class AlbertForQuestionAnswering(override val uid: String)
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowAlbertClassification = _model.get.value
+  def getModelIfNotSet: AlbertClassification = _model.get.value
 
   /** Whether to lowercase tokens or not (Default: `false`).
     *
@@ -288,23 +289,22 @@ trait ReadablePretrainedAlbertForQAModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadAlbertForQATensorflowModel extends ReadTensorflowModel with ReadSentencePieceModel {
+trait ReadAlbertForQuestionAnsweringDLModel
+    extends ReadTensorflowModel
+    with ReadSentencePieceModel {
   this: ParamsAndFeaturesReadable[AlbertForQuestionAnswering] =>
 
   override val tfFile: String = "albert_classification_tensorflow"
   override val sppFile: String = "albert_spp"
 
-  def readTensorflow(
-      instance: AlbertForQuestionAnswering,
-      path: String,
-      spark: SparkSession): Unit = {
+  def readModel(instance: AlbertForQuestionAnswering, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_albert_classification_tf", initAllTables = false)
     val spp = readSentencePieceModel(path, spark, "_albert_spp", sppFile)
     instance.setModelIfNotSet(spark, tf, spp)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): AlbertForQuestionAnswering = {
     val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
@@ -346,4 +346,4 @@ trait ReadAlbertForQATensorflowModel extends ReadTensorflowModel with ReadSenten
   */
 object AlbertForQuestionAnswering
     extends ReadablePretrainedAlbertForQAModel
-    with ReadAlbertForQATensorflowModel
+    with ReadAlbertForQuestionAnsweringDLModel

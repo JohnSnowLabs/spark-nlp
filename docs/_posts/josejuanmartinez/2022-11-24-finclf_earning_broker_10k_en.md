@@ -7,6 +7,7 @@ date: 2022-11-24
 tags: [10k, earning, calls, broker, reports, en, licensed]
 task: Text Classification
 language: en
+nav_key: models
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -49,7 +50,7 @@ docClassifier = finance.ClassifierDLModel.pretrained("finclf_earning_broker_10k"
     .setInputCols(["sentence_embeddings"])\
     .setOutputCol("label") \
 
-nlpPipeline = Pipeline(stages=[
+nlpPipeline = nlp.Pipeline(stages=[
     documentAssembler, 
     embeddings,
     docClassifier])

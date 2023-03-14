@@ -7,6 +7,7 @@ date: 2022-05-08
 tags: [en, chunk_mapper, rxnorm, action, treatment, licensed, clinical]
 task: Chunk Mapping
 language: en
+nav_key: models
 edition: Healthcare NLP 3.5.1
 spark_version: 3.0
 supported: true
@@ -54,7 +55,7 @@ sbert_embedder = BertSentenceEmbeddings.pretrained('sbiobert_base_cased_mli', 'e
 .setCaseSensitive(False)
 
 rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_rxnorm_augmented","en", "clinical/models") \
-.setInputCols(["ner_chunk", "sentence_embeddings"]) \
+.setInputCols(["sentence_embeddings"]) \
 .setOutputCol("rxnorm_code")\
 .setDistanceFunction("EUCLIDEAN")
 
@@ -97,7 +98,7 @@ val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli"
 .setCaseSensitive(False)
 
 val rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_rxnorm_augmented","en", "clinical/models")
-.setInputCols(Array("ner_chunk", "sentence_embeddings"))
+.setInputCols(Array("sentence_embeddings"))
 .setOutputCol("rxnorm_code")
 .setDistanceFunction("EUCLIDEAN")
 

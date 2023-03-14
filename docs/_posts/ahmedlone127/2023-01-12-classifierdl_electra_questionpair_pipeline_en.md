@@ -7,6 +7,7 @@ date: 2023-01-12
 tags: [quora, question_pair, public, en, open_source, pipeline]
 task: Text Classification
 language: en
+nav_key: models
 edition: Spark NLP 4.3.0
 spark_version: 3.0
 supported: true

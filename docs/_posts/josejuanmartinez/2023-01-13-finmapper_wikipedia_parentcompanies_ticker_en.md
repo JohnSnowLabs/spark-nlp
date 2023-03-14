@@ -7,6 +7,7 @@ date: 2023-01-13
 tags: [subsidiaries, companies, acquisitions, en, licensed]
 task: Chunk Mapping
 language: en
+nav_key: models
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true

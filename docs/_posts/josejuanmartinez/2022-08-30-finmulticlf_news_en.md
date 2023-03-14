@@ -7,6 +7,7 @@ date: 2022-08-30
 tags: [en, finance, classification, news, licensed]
 task: Text Classification
 language: en
+nav_key: models
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -62,7 +63,7 @@ docClassifier = nlp.MultiClassifierDLModel.pretrained("finmulticlf_news", "en","
     .setInputCols("embeddings") \
     .setOutputCol("category")
 
-pipeline = Pipeline() \
+pipeline = nlp.Pipeline() \
     .setStages(
       [
         documentAssembler,

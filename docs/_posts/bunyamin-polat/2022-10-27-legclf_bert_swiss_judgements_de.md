@@ -52,7 +52,7 @@ clf_model = legal.BertForSequenceClassification.pretrained("legclf_bert_swiss_ju
     .setCaseSensitive(True)\
     .setMaxSentenceLength(512)
 
-clf_pipeline = Pipeline(stages=[
+clf_pipeline = nlp.Pipeline(stages=[
     document_assembler, 
     tokenizer,
     clf_model   

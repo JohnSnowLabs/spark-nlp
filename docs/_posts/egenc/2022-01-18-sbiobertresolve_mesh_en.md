@@ -7,6 +7,7 @@ date: 2022-01-18
 tags: [mesh, entity_resolution, clinical, en, licensed]
 task: Entity Resolution
 language: en
+nav_key: models
 edition: Healthcare NLP 3.3.2
 spark_version: 2.4
 supported: true
@@ -48,7 +49,7 @@ sbert_embedder = BertSentenceEmbeddings\
 .setCaseSensitive(False)
 
 mesh_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_mesh","en", "clinical/models") \
-.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setInputCols(["sbert_embeddings"]) \
 .setOutputCol("mesh_code")\
 .setDistanceFunction("EUCLIDEAN")
 
@@ -74,7 +75,7 @@ val sbert_embedder = BertSentenceEmbeddings
 .setCaseSensitive(False)
 
 val mesh_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_mesh","en", "clinical/models")
-.setInputCols(Array("ner_chunk", "sbert_embeddings"))
+.setInputCols(Array("sbert_embeddings"))
 .setOutputCol("mesh_code")
 .setDistanceFunction("EUCLIDEAN")
 

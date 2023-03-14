@@ -7,6 +7,7 @@ date: 2022-01-14
 tags: [bert_for_sequence, en, emotion, open_source]
 task: Text Classification
 language: en
+nav_key: models
 edition: Spark NLP 3.3.4
 spark_version: 3.0
 supported: true

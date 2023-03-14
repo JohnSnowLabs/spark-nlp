@@ -7,6 +7,7 @@ date: 2023-01-13
 tags: [parent, companies, subsidiaries, en, licensed]
 task: Chunk Mapping
 language: en
+nav_key: models
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -80,8 +81,8 @@ use_er_model = finance.SentenceEntityResolverModel.pretrained("finel_wikipedia_p
 
 cm = finance.ChunkMapperModel()\
       .pretrained("finmapper_wikipedia_parentcompanies", "en", "finance/models")\
-      .setInputCols(["normalized"])\ # or ner_chunk for non normalized versions
-      .setOutputCol("mappings")
+      .setInputCols(["normalized"])\ 
+      .setOutputCol("mappings") # or ner_chunk for non normalized versions
 
 nlpPipeline = nlp.Pipeline(stages=[
         documentAssembler,

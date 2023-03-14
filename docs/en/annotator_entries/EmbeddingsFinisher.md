@@ -16,7 +16,7 @@ compatible with Spark ML functions such as LDA, K-mean, Random Forest classifier
 `featureCol`.
 
 For more extended examples see the
-[Spark NLP Workshop](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/5.1_Text_classification_examples_in_SparkML_SparkNLP.ipynb).
+[Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/text-similarity/Spark_NLP_Spark_ML_Text_Similarity.ipynb).
 {%- endcapture -%}
 
 {%- capture input_anno -%}

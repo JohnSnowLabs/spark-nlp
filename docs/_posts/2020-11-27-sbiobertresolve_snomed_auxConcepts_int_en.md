@@ -4,6 +4,7 @@ title: Sentence Entity Resolver for Snomed Aux Concepts, INT version (``sbiobert
 author: John Snow Labs
 name: sbiobertresolve_snomed_auxConcepts_int
 language: en
+nav_key: models
 repository: clinical/models
 date: 2020-11-27
 task: Entity Resolution
@@ -48,7 +49,7 @@ sbert_embedder = BertSentenceEmbeddings\
 .setOutputCol("sbert_embeddings")
 
 snomed_aux_int_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_snomed_auxConcepts_int","en", "clinical/models") \
-.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setInputCols(["sbert_embeddings"]) \
 .setOutputCol("resolution")\
 .setDistanceFunction("EUCLIDEAN")
 

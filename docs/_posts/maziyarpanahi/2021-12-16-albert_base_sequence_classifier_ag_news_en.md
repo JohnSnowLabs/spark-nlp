@@ -7,6 +7,7 @@ date: 2021-12-16
 tags: [albert, open_source, en, english, ag_news, sequence_classification]
 task: Text Classification
 language: en
+nav_key: models
 edition: Spark NLP 3.4.0
 spark_version: 3.0
 supported: true

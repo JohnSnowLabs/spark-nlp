@@ -7,6 +7,7 @@ date: 2021-07-07
 tags: [open_source, embeddings, en, english, xlnet]
 task: Embeddings
 language: en
+nav_key: models
 edition: Spark NLP 3.1.2
 spark_version: 2.4
 supported: true

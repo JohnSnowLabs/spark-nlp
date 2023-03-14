@@ -16,9 +16,9 @@
 
 package com.johnsnowlabs.nlp.annotators.seq2seq
 
+import com.johnsnowlabs.ml.ai.GPT2
 import com.johnsnowlabs.ml.tensorflow.{
   ReadTensorflowModel,
-  TensorflowGPT2,
   TensorflowWrapper,
   WriteTensorflowModel
 }
@@ -374,7 +374,7 @@ class GPT2Transformer(override val uid: String)
   /** @group getParam */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
-  private var _tfModel: Option[Broadcast[TensorflowGPT2]] = None
+  private var _tfModel: Option[Broadcast[GPT2]] = None
 
   /** Vocabulary used to encode the words to ids with bpeTokenizer.encode
     *
@@ -408,13 +408,13 @@ class GPT2Transformer(override val uid: String)
 
       _tfModel = Some(
         spark.sparkContext.broadcast(
-          new TensorflowGPT2(tfWrapper, bpeTokenizer, configProtoBytes = getConfigProtoBytes)))
+          new GPT2(tfWrapper, bpeTokenizer, configProtoBytes = getConfigProtoBytes)))
     }
     this
   }
 
   /** @group getParam */
-  def getModelIfNotSet: TensorflowGPT2 = _tfModel.get.value
+  def getModelIfNotSet: GPT2 = _tfModel.get.value
 
   setDefault(
     task -> "",
@@ -511,17 +511,17 @@ trait ReadablePretrainedGPT2TransformerModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadGPT2TransformerTensorflowModel extends ReadTensorflowModel {
+trait ReadGPT2TransformerDLModel extends ReadTensorflowModel {
   this: ParamsAndFeaturesReadable[GPT2Transformer] =>
 
   override val tfFile: String = "gpt2_tensorflow"
 
-  def readTensorflow(instance: GPT2Transformer, path: String, spark: SparkSession): Unit = {
+  def readModel(instance: GPT2Transformer, path: String, spark: SparkSession): Unit = {
     val tf = readTensorflowModel(path, spark, "_gpt2_tf")
     instance.setModelIfNotSet(spark, tf)
   }
 
-  addReader(readTensorflow)
+  addReader(readModel)
 
   def loadSavedModel(modelPath: String, spark: SparkSession): GPT2Transformer = {
 
@@ -569,4 +569,4 @@ trait ReadGPT2TransformerTensorflowModel extends ReadTensorflowModel {
 
 object GPT2Transformer
     extends ReadablePretrainedGPT2TransformerModel
-    with ReadGPT2TransformerTensorflowModel
+    with ReadGPT2TransformerDLModel

@@ -1,15 +1,17 @@
 ---
 layout: model
-title: English Legal RoBERTa Embeddings (Base, Cased)
+title: English Legal RoBERTa Embeddings (CaseLaw, Base, Cased)
 author: John Snow Labs
 name: roberta_embeddings_legal_roberta_base
 date: 2022-04-14
 tags: [roberta, embeddings, en, open_source]
 task: Embeddings
 language: en
+nav_key: models
 edition: Spark NLP 3.4.2
 spark_version: 3.0
 supported: true
+recommended: true
 annotator: RoBertaEmbeddings
 article_header:
 type: cover

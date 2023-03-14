@@ -7,6 +7,7 @@ date: 2022-11-30
 tags: [en, financial, ner, earning, calls, licensed]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -71,6 +72,7 @@ You can also check for the Relation Extraction model which connects these entiti
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 document_assembler = nlp.DocumentAssembler()\
     .setInputCol("text")\

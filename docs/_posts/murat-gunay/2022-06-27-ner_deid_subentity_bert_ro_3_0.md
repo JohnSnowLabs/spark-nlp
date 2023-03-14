@@ -66,7 +66,13 @@ ner_converter = NerConverter()\
 	.setInputCols(["sentence", "token", "ner"])\
 	.setOutputCol("ner_chunk")
 
-nlpPipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_ner, ner_converter])
+nlpPipeline = Pipeline(stages=[
+	documentAssembler, 
+	sentenceDetector, 
+	tokenizer, 
+	embeddings, 
+	clinical_ner, 
+	ner_converter])
 
 text = """
 Spitalul Pentru Ochi de Deal, Drumul Oprea Nr. 972 Vaslui, 737405 România
@@ -105,7 +111,13 @@ val ner_converter = new NerConverter()
 	.setInputCols(Array("sentence", "token", "ner"))
 	.setOutputCol("ner_chunk")
 	
-val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_ner, ner_converter))
+val pipeline = new Pipeline().setStages(Array(
+	documentAssembler, 
+	sentenceDetector, 
+	tokenizer, 
+	embeddings, 
+	clinical_ner, 
+	ner_converter))
 
 val text = """Spitalul Pentru Ochi de Deal, Drumul Oprea Nr. 972 Vaslui, 737405 România
 Tel: +40(235)413773

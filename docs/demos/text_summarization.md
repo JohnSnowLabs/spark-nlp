@@ -5,6 +5,7 @@ seotitle: 'Finance NLP: Text Summarization - John Snow Labs'
 full_width: true
 permalink: /text_summarization
 key: demo
+nav_key: demo
 article_header:
   type: demo
 license: false

@@ -7,6 +7,7 @@ date: 2022-11-09
 tags: [en, legal, licensed, confidentiality, re]
 task: Relation Extraction
 language: en
+nav_key: models
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -39,6 +40,7 @@ This is a Legal Relation Extraction Model to identify the Subject (who), Action 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 documentAssembler = nlp.DocumentAssembler()\
@@ -87,7 +89,7 @@ reDL = legal.RelationExtractionDLModel.pretrained("legre_confidentiality_md", "e
     .setInputCols(["re_ner_chunks", "sentence"]) \
     .setOutputCol("relations")
     
-pipeline = Pipeline(stages=[documentAssembler,sentencizer, tokenizer,pos_tagger,dependency_parser, embeddings, ner_model, ner_converter,re_filter, reDL])
+pipeline = nlp.Pipeline(stages=[documentAssembler,sentencizer, tokenizer,pos_tagger,dependency_parser, embeddings, ner_model, ner_converter,re_filter, reDL])
 
 text = """Each party acknowledges that the other's Confidential Information contains valuable trade secret  and proprietary information of that party."""
 

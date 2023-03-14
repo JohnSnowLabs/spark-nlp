@@ -7,6 +7,7 @@ date: 2021-12-28
 tags: [clinical, entity_resolution, en, licensed]
 task: Entity Resolution
 language: en
+nav_key: models
 edition: Healthcare NLP 3.3.4
 spark_version: 2.4
 supported: true
@@ -46,7 +47,7 @@ sbert_embedder = BertSentenceEmbeddings.pretrained('sbert_jsl_medium_rxnorm_unca
       .setOutputCol("sbert_embeddings")
     
 rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_jsl_rxnorm_augmented_med", "en", "clinical/models") \
-      .setInputCols(["ner_chunk", "sbert_embeddings"]) \
+      .setInputCols(["sbert_embeddings"]) \
       .setOutputCol("rxnorm_code")\
       .setDistanceFunction("EUCLIDEAN")
 
@@ -60,16 +61,16 @@ light_model = LightPipeline(rxnorm_pipelineModel)
 result = light_model.fullAnnotate(["Coumadin 5 mg", "aspirin", "Neurontin 300", "avandia 4 mg"])
 ```
 ```scala
-val documentAssembler = DocumentAssembler()\
-      .setInputCol("text")\
+val documentAssembler = DocumentAssembler()
+      .setInputCol("text")
       .setOutputCol("ner_chunk")
       
-val sbert_embedder = BertSentenceEmbeddings.pretrained("sbert_jsl_medium_rxnorm_uncased", "en", "clinical/models")\
-      .setInputCols("ner_chunk")\
+val sbert_embedder = BertSentenceEmbeddings.pretrained("sbert_jsl_medium_rxnorm_uncased", "en", "clinical/models")
+      .setInputCols("ner_chunk")
       .setOutputCol("sbert_embeddings")
     
 val rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_jsl_rxnorm_augmented_med", "en", "clinical/models") \
-      .setInputCols(Array("ner_chunk", "sbert_embeddings")) \
+      .setInputCols(Array("sbert_embeddings")) \
       .setOutputCol("rxnorm_code")\
       .setDistanceFunction("EUCLIDEAN")
 

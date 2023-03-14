@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.8 ScalaDoc  - com.johnsnowlabs.annotator.AnnotationMerger</title>
-          <meta name="description" content="Spark NLP 4.2.8 ScalaDoc - com.johnsnowlabs.annotator.AnnotationMerger" />
-          <meta name="keywords" content="Spark NLP 4.2.8 ScalaDoc com.johnsnowlabs.annotator.AnnotationMerger" />
+          <title>Spark NLP 4.3.1 ScalaDoc  - com.johnsnowlabs.annotator.AnnotationMerger</title>
+          <meta name="description" content="Spark NLP 4.3.1 ScalaDoc - com.johnsnowlabs.annotator.AnnotationMerger" />
+          <meta name="keywords" content="Spark NLP 4.3.1 ScalaDoc com.johnsnowlabs.annotator.AnnotationMerger" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.8 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.3.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -119,14 +119,14 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs">johnsnowlabs</a></dd></dl></div>
     </li><li class="current-entities indented3">
                         <span class="separator"></span>
-                        <a class="class" href="" title=""></a>
-                        <a href="" title="">AnnotationMerger</a>
+                        <a class="class" href="" title="Merges Annotations from multiple columns."></a>
+                        <a href="" title="Merges Annotations from multiple columns.">AnnotationMerger</a>
                       </li><li class="current-entities indented3">
                         <a class="object" href="Doc2ChunkInternal$.html" title="This is the companion object of Doc2ChunkInternal."></a>
                         <a class="class" href="Doc2ChunkInternal.html" title=""></a>
                         <a href="Doc2ChunkInternal.html" title="">Doc2ChunkInternal</a>
                       </li><li class="current-entities indented3">
-                        <span class="separator"></span>
+                        <a class="object" href="FeaturesAssembler$.html" title=""></a>
                         <a class="class" href="FeaturesAssembler.html" title="The FeaturesAssembler is used to collect features from different columns."></a>
                         <a href="FeaturesAssembler.html" title="The FeaturesAssembler is used to collect features from different columns.">FeaturesAssembler</a>
                       </li><li class="current-entities indented3">
@@ -161,7 +161,19 @@
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Merges Annotations from multiple columns.</p><h4>Example</h4><pre><span class="kw">val</span> empty_data = <span class="std">Seq</span>([[<span class="lit">""</span>]]).toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> document1 = DocumentAssembler().setInputCol(<span class="lit">"text"</span>).setOutputCol(<span class="lit">"document1"</span>)
+<span class="kw">val</span> document2 = DocumentAssembler().setInputCol(<span class="lit">"text"</span>).setOutputCol(<span class="lit">"document2"</span>)
+<span class="kw">val</span> annotation_merger = AnnotationMerger()
+    .setInputCols(<span class="lit">"document1"</span>, <span class="lit">"document2"</span>)
+    .setInputType(<span class="lit">"document"</span>)
+    .setOutputCol(<span class="lit">"all_docs"</span>)
+
+<span class="kw">val</span> pipelineModel = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+    document1, document2, annotation_merger)).fit(empty_data)
+<span class="kw">val</span> lp = LightPipeline(pipelineModel)
+lp.fullAnnotate(<span class="lit">"one doc to be replicated"</span>)
+[{'document1': [Annotation(document, <span class="num">0</span>, <span class="num">23</span>, one doc to be replicated, {})], 'document2': [Annotation(document, <span class="num">0</span>, <span class="num">23</span>, one doc to be replicated, {})], 'all_docs': [Annotation(document, <span class="num">0</span>, <span class="num">23</span>, one doc to be replicated, {}), Annotation(document, <span class="num">0</span>, <span class="num">23</span>, one doc to be replicated, {})]}]</pre></div><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -182,7 +194,7 @@
           <div id="order">
             <span class="filtertype">Ordering</span>
             <ol>
-              
+              <li class="group out"><span>Grouped</span></li>
               <li class="alpha in"><span>Alphabetic</span></li>
               <li class="inherit out"><span>By Inheritance</span></li>
             </ol>
@@ -227,7 +239,7 @@
       </span>
       
       
-    </li><li name="com.johnsnowlabs.annotator.AnnotationMerger#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.annotator.AnnotationMerger#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="&lt;init&gt;(uid:String):com.johnsnowlabs.annotator.AnnotationMerger"></a><a id="&lt;init&gt;:AnnotationMerger"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/annotator/AnnotationMerger.html#&lt;init&gt;(uid:String):com.johnsnowlabs.annotator.AnnotationMerger" title="Permalink">
@@ -242,7 +254,7 @@
         <span class="name">AnnotationMerger</span><span class="params">(<span name="uid">uid: <span class="extype" name="scala.Predef.String">String</span></span>)</span>
       </span>
       
-      
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">uid</dt><dd class="cmt"><p>a unique identifier for the instantiated AnnotatorModel</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -513,9 +525,9 @@
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>HasInputAnnotationCols</dd></dl></div>
     </li><li name="com.johnsnowlabs.license.CheckLicense#checkValidEnvironment" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="checkValidEnvironment(spark:Option[org.apache.spark.sql.SparkSession]):Unit"></a><a id="checkValidEnvironment(Option[SparkSession]):Unit"></a>
+      <a id="checkValidEnvironment(spark:Option[org.apache.spark.sql.SparkSession],scopes:Option[Seq[String]]):Unit"></a><a id="checkValidEnvironment(Option[SparkSession],Option[Seq[String]]):Unit"></a>
       <span class="permalink">
-      <a href="../../../com/johnsnowlabs/annotator/AnnotationMerger.html#checkValidEnvironment(spark:Option[org.apache.spark.sql.SparkSession]):Unit" title="Permalink">
+      <a href="../../../com/johnsnowlabs/annotator/AnnotationMerger.html#checkValidEnvironment(spark:Option[org.apache.spark.sql.SparkSession],scopes:Option[Seq[String]]):Unit" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -524,7 +536,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">checkValidEnvironment</span><span class="params">(<span name="spark">spark: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">checkValidEnvironment</span><span class="params">(<span name="spark">spark: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span>]</span>, <span name="scopes">scopes: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>CheckLicense</dd></dl></div>
@@ -977,7 +989,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasInputAnnotationCols</dd></dl></div>
-    </li><li name="com.johnsnowlabs.annotator.AnnotationMerger#getInputType" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.annotator.AnnotationMerger#getInputType" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
       <a id="getInputType():String"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/annotator/AnnotationMerger.html#getInputType():String" title="Permalink">
@@ -992,7 +1004,8 @@
         <span class="name">getInputType</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Gets the inpytType param
+</p>
     </li><li name="com.johnsnowlabs.nlp.CanBeLazy#getLazyAnnotator" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getLazyAnnotator:Boolean"></a>
       <span class="permalink">
@@ -1156,7 +1169,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.annotator.AnnotationMerger#inputAnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.annotator.AnnotationMerger#inputAnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="anno">
       <a id="inputAnnotatorType:String"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/annotator/AnnotationMerger.html#inputAnnotatorType:String" title="Permalink">
@@ -1171,8 +1184,10 @@
         <span class="name">inputAnnotatorType</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.annotator.AnnotationMerger">AnnotationMerger</a> → HasMultipleInputAnnotationCols</dd></dl></div>
-    </li><li name="com.johnsnowlabs.annotator.AnnotationMerger#inputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <p class="shortcomment cmt">Input annotator type: one of DOCUMENT, TOKEN, WORD_EMBEDDINGS, SENTENCE_EMBEDDINGS, CATEGORY, DATE, SENTIMENT, POS, CHUNK, NAMED_ENTITY, REGEX, DEPENDENCY, LABELED_DEPENDENCY, LANGUAGE, or KEYWORD
+</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator type: one of DOCUMENT, TOKEN, WORD_EMBEDDINGS, SENTENCE_EMBEDDINGS, CATEGORY, DATE, SENTIMENT, POS, CHUNK, NAMED_ENTITY, REGEX, DEPENDENCY, LABELED_DEPENDENCY, LANGUAGE, or KEYWORD
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.annotator.AnnotationMerger">AnnotationMerger</a> → HasMultipleInputAnnotationCols</dd></dl></div>
+    </li><li name="com.johnsnowlabs.annotator.AnnotationMerger#inputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="anno">
       <a id="inputAnnotatorTypes:Array[String]"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/annotator/AnnotationMerger.html#inputAnnotatorTypes:Array[String]" title="Permalink">
@@ -1187,7 +1202,9 @@
         <span class="name">inputAnnotatorTypes</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.annotator.AnnotationMerger">AnnotationMerger</a> → HasMultipleInputAnnotationCols → HasInputAnnotationCols</dd></dl></div>
+      <p class="shortcomment cmt">Input annotator types: one of DOCUMENT, TOKEN, WORD_EMBEDDINGS, SENTENCE_EMBEDDINGS, CATEGORY, DATE, SENTIMENT, POS, CHUNK, NAMED_ENTITY, REGEX, DEPENDENCY, LABELED_DEPENDENCY, LANGUAGE, or KEYWORD
+</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator types: one of DOCUMENT, TOKEN, WORD_EMBEDDINGS, SENTENCE_EMBEDDINGS, CATEGORY, DATE, SENTIMENT, POS, CHUNK, NAMED_ENTITY, REGEX, DEPENDENCY, LABELED_DEPENDENCY, LANGUAGE, or KEYWORD
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.annotator.AnnotationMerger">AnnotationMerger</a> → HasMultipleInputAnnotationCols → HasInputAnnotationCols</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#inputCols" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="inputCols:org.apache.spark.ml.param.StringArrayParam"></a><a id="inputCols:StringArrayParam"></a>
       <span class="permalink">
@@ -1204,7 +1221,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>HasInputAnnotationCols</dd></dl></div>
-    </li><li name="com.johnsnowlabs.annotator.AnnotationMerger#inputType" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.annotator.AnnotationMerger#inputType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
       <a id="inputType:org.apache.spark.ml.param.Param[String]"></a><a id="inputType:Param[String]"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/annotator/AnnotationMerger.html#inputType:org.apache.spark.ml.param.Param[String]" title="Permalink">
@@ -1219,7 +1236,8 @@
         <span class="name">inputType</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">The type of the annotations that to merge.</p><div class="fullcomment"><div class="comment cmt"><p>The type of the annotations that to merge.</p><p> Possible values are <code><code>document|token|wordpiece|word_embeddings|sentence_embeddings|category|date|sentiment|pos|chunk|named_entity|regex|dependency|labeled_dependency|language|keyword</code></code>
+</p></div></div>
     </li><li name="org.apache.spark.ml.param.Params#isDefined" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isDefined(param:org.apache.spark.ml.param.Param[_]):Boolean"></a><a id="isDefined(Param[_]):Boolean"></a>
       <span class="permalink">
@@ -1594,7 +1612,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasInputAnnotationCols</dd></dl></div>
-    </li><li name="com.johnsnowlabs.annotator.AnnotationMerger#outputAnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.annotator.AnnotationMerger#outputAnnotatorType" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="anno">
       <a id="outputAnnotatorType:AnnotationMerger.this.AnnotatorType"></a><a id="outputAnnotatorType:AnnotatorType"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/annotator/AnnotationMerger.html#outputAnnotatorType:AnnotationMerger.this.AnnotatorType" title="Permalink">
@@ -1609,7 +1627,9 @@
         <span class="name">outputAnnotatorType</span><span class="result">: <a href="#AnnotatorType=String" class="extmbr" name="com.johnsnowlabs.annotator.AnnotationMerger.AnnotatorType">AnnotatorType</a></span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.annotator.AnnotationMerger">AnnotationMerger</a> → HasOutputAnnotatorType</dd></dl></div>
+      <p class="shortcomment cmt">Output annotator types: CHUNK
+</p><div class="fullcomment"><div class="comment cmt"><p>Output annotator types: CHUNK
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.annotator.AnnotationMerger">AnnotationMerger</a> → HasOutputAnnotatorType</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#outputCol" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputCol:org.apache.spark.ml.param.Param[String]"></a><a id="outputCol:Param[String]"></a>
       <span class="permalink">
@@ -1925,7 +1945,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>HasInputAnnotationCols</dd></dl></div>
-    </li><li name="com.johnsnowlabs.annotator.AnnotationMerger#setInputType" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.annotator.AnnotationMerger#setInputType" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
       <a id="setInputType(value:String):com.johnsnowlabs.annotator.AnnotationMerger"></a><a id="setInputType(String):AnnotationMerger"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/annotator/AnnotationMerger.html#setInputType(value:String):com.johnsnowlabs.annotator.AnnotationMerger" title="Permalink">
@@ -1940,7 +1960,8 @@
         <span class="name">setInputType</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.annotator.AnnotationMerger">AnnotationMerger</a></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Sets the inpytType param
+</p>
     </li><li name="com.johnsnowlabs.nlp.CanBeLazy#setLazyAnnotator" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setLazyAnnotator(value:Boolean):com.johnsnowlabs.nlp.CanBeLazy.&lt;refinement&gt;.type"></a><a id="setLazyAnnotator(Boolean):AnnotationMerger.this.type"></a>
       <span class="permalink">
@@ -2311,8 +2332,17 @@
         </div>
 
         <div id="groupedMembers">
-        <div class="group" name="Ungrouped">
-              <h3>Ungrouped</h3>
+        <div class="group" name="param">
+              <h3>Parameters</h3>
+              
+            </div><div class="group" name="anno">
+              <h3>Annotator types</h3>
+              <div class="comment cmt"><p>Required input and expected output annotator types</p></div>
+            </div><div class="group" name="Ungrouped">
+              <h3>Members</h3>
+              
+            </div><div class="group" name="getParam">
+              <h3>Parameter getters</h3>
               
             </div>
         </div>

@@ -7,6 +7,7 @@ date: 2023-01-14
 tags: [en, licensed, generic_classifier, sdoh, tobacco, clinical]
 task: Text Classification
 language: en
+nav_key: models
 edition: Healthcare NLP 4.2.4
 spark_version: 3.0
 supported: true

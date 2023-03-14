@@ -1,0 +1,105 @@
+name: Bug report
+description: File a possible bug/issue to help us improve Spark NLP. Thank you for contributing!
+labels: [question]
+assignees: "maziyarpanahi"
+
+body:
+  - type: checkboxes
+    attributes:
+      label: Is there an existing issue for this?
+      description: Please search to see if an issue already exists for the bug you encountered.
+      options:
+        - label: I have searched the existing issues and did not find a match.
+          required: true
+  - type: textarea
+    attributes:
+      label: Who can help?
+      description: |
+        Your issue will be processed faster, if you can tag the right person for it.
+        If you know how to use `git blame`, then you can also tag the person directly.
+        Otherwise we will get the right person to help you.
+  - type: textarea
+    attributes:
+      label: What are you working on?
+      description: |
+        A brief description on the context of the issue. Is it an official example?
+        Is it a published or custom task/dataset (GLUE/SQuAD, etc.)?
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Current Behavior
+      description: A concise description of what you're experiencing.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Expected Behavior
+      description: A concise description of what you expected to happen.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Steps To Reproduce
+      description: |
+        Please provide information on how to reproduce the issue. This could be a link to
+        Google Colab or Databricks or any other notebook. Alternatively, it can be a
+        pipeline (that is formatted in Markdown).
+        If you have any error logs and stack traces, attach them here as well.
+      placeholder: |
+        A link to an end-to-end Colab/Jupyter notebook such as https://colab.research.google.com/...
+        or a full pipeline code snippet:
+
+        ```python
+        import sparknlp
+        ...
+        ```
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        ## Environment
+        Please provide us with information about your environment. If you can provide more information for us, we can resolve the issue faster.
+  - type: textarea
+    attributes:
+      label: Spark NLP version and Apache Spark
+      description: Result of `sparknlp.version() and spark.version`
+      placeholder: |
+        import sparknlp
+        sparknlp.version()
+        spark.version
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: Type of Spark Application
+      multiple: true
+      options: ["spark-shell", "spark-submit", "Scala Application", "Python Appliation", "Java Application"]
+  - type: input
+    attributes:
+      label: Java Version
+      description: Result of `java -version`
+  - type: input
+    attributes:
+      label: Java Home Directory
+      description: Result of `echo $JAVA_HOME` or `JAVA_HOME` environment variable for windows
+  - type: input
+    attributes:
+      label: Setup and installation
+      description: How you set up Spark NLP, e.g. Pypi, Conda, Maven, sbt, etc.
+  - type: input
+    attributes:
+      label: Operating System and Version
+  - type: input
+    attributes:
+      label: Link to your project (if available)
+  - type: textarea
+    attributes:
+      label: Additional Information
+      description: |
+        Links? References? Anything that will give us more context about the issue you are encountering.
+
+        Tip: You can attach files by clicking this area to highlight it and then dragging them in.
+    validations:
+      required: false

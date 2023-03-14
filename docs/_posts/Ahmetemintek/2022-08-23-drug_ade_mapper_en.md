@@ -7,6 +7,7 @@ date: 2022-08-23
 tags: [en, chunkmapping, chunkmapper, drug, ade, licensed]
 task: Chunk Mapping
 language: en
+nav_key: models
 edition: Healthcare NLP 4.0.2
 spark_version: 3.0
 supported: true
@@ -26,7 +27,7 @@ This pretrained model maps drugs with their corresponding Adverse Drug Events.
 `ADE`
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/ADE/){:.button.button-orange}
 [Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/26.Chunk_Mapping.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/drug_ade_mapper_en_4.0.2_3.0_1661250246683.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
 [Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/drug_ade_mapper_en_4.0.2_3.0_1661250246683.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}

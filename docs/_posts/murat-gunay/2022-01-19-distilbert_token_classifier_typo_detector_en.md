@@ -7,6 +7,7 @@ date: 2022-01-19
 tags: [typo, distilbert, en, open_source]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Spark NLP 3.3.4
 spark_version: 3.0
 supported: true

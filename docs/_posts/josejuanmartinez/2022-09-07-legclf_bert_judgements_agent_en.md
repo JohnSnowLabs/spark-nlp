@@ -7,6 +7,7 @@ date: 2022-09-07
 tags: [en, legal, judgements, agent, echr, licensed]
 task: Text Classification
 language: en
+nav_key: models
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -58,7 +59,7 @@ clf_model = legal.BertForSequenceClassification.pretrained("legclf_bert_judgemen
     .setCaseSensitive(True)\
     .setMaxSentenceLength(512)
 
-clf_pipeline = Pipeline(stages=[
+clf_pipeline = nlp.Pipeline(stages=[
     document_assembler, 
     tokenizer,
     clf_model   

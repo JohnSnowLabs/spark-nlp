@@ -6,6 +6,7 @@ name: nerdl_snips_100d
 date: 2021-02-15
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Spark NLP 2.7.3
 spark_version: 2.4
 tags: [open_source, ner, en]
@@ -69,7 +70,7 @@ val embeddings = WordEmbeddingsModel.pretrained("glove_100d", "en")
 val ner = NerDLModel.pretrained('nerdl_snips_100d')
 .setInputCols(Array('sentence', 'token', 'embeddings')).setOutputCol('ner')
 
-val ner_converter = NerConverter.setInputCols(Array('document', 'token', 'ner')) \
+val ner_converter = NerConverter.setInputCols(Array('document', 'token', 'ner')) 
 .setOutputCol('ner_chunk')
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, embeddings, ner, ner_converter))

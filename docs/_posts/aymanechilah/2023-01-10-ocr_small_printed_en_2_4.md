@@ -7,6 +7,7 @@ date: 2023-01-10
 tags: [en, licensed]
 task: OCR Text Detection & Recognition
 language: en
+nav_key: models
 edition: Visual NLP 3.3.3
 spark_version: 2.4
 supported: true
@@ -91,7 +92,7 @@ val text_detector = ImageTextDetectorV2.pretrained("image_text_detector_v2", "en
     .setLinkThreshold(0.3)
 
 val ocr = ImageToTextV2.pretrained("ocr_small_printed", "en", "clinical/ocr") 
-    .setInputCols(["image", "text_regions"]) 
+    .setInputCols("image", "text_regions") 
     .setOutputCol("hocr") 
     .setOutputFormat(OcrOutputFormat.HOCR) 
     .setGroupImages(False) 

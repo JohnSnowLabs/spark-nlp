@@ -7,6 +7,7 @@ date: 2021-09-01
 tags: [licensed, clinical, en, ner]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Healthcare NLP 3.1.3
 spark_version: 3.0
 supported: true
@@ -86,8 +87,8 @@ val sentence_detector = new SentenceDetector()
     .setInputCols("document")
     .setOutputCol("sentence")
 
-tokenizer = Tokenizer()\
-    .setInputCols(["sentence"])\
+tokenizer = Tokenizer()
+    .setInputCols("sentence")
     .setOutputCol("token")
 
 val word_embeddings = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")

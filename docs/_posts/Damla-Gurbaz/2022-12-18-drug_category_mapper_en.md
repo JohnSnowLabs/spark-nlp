@@ -7,6 +7,7 @@ date: 2022-12-18
 tags: [category, chunk_mapper, drug, licensed, clinical, en]
 task: Chunk Mapping
 language: en
+nav_key: models
 edition: Healthcare NLP 4.2.2
 spark_version: 3.0
 supported: true
@@ -110,7 +111,7 @@ val converter = new NerConverter()
 val chunkerMapper = ChunkMapperModel.pretrained("drug_category_mapper", "en", "clinical/models")
     .setInputCols("ner_chunk")
     .setOutputCol("mappings")
-    .setRels(Array(["main_category", "sub_category", "other_name"]))
+    .setRels(Array("main_category", "sub_category", "other_name"))
     
 val pipeline = new Pipeline().setStages(Array(
     document_assembler,

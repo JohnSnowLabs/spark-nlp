@@ -7,6 +7,7 @@ date: 2022-10-17
 tags: [legal, en, ner, licensed, warranty]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -39,6 +40,7 @@ This is a Legal Named Entity Recognition Model to identify the Subject (who), Ac
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 documentAssembler = nlp.DocumentAssembler()\

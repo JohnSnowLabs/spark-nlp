@@ -6,6 +6,7 @@ name: ner_jsl_enriched_en
 date: 2020-04-22
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Healthcare NLP 2.4.2
 spark_version: 2.4
 tags: [ner, en, clinical, licensed]

@@ -7,6 +7,7 @@ date: 2022-06-26
 tags: [clinical, licensed, icd10cm, chunk_mapper, en, snomed]
 task: Chunk Mapping
 language: en
+nav_key: models
 edition: Healthcare NLP 3.5.3
 spark_version: 3.0
 supported: true
@@ -46,7 +47,7 @@ sbert_embedder = BertSentenceEmbeddings.pretrained("sbert_jsl_medium_uncased", "
 .setOutputCol("sbert_embeddings")
 
 snomed_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_snomed_conditions", "en", "clinical/models") \
-.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setInputCols(["sbert_embeddings"]) \
 .setOutputCol("snomed_code")\
 .setDistanceFunction("EUCLIDEAN")
 
@@ -79,7 +80,7 @@ val sbert_embedder = BertSentenceEmbeddings.pretrained("sbert_jsl_medium_uncased
 .setOutputCol("sbert_embeddings")
 
 val snomed_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_snomed_conditions", "en", "clinical/models")
-.setInputCols(Array("ner_chunk", "sbert_embeddings"))
+.setInputCols(Array("sbert_embeddings"))
 .setOutputCol("snomed_code")
 .setDistanceFunction("EUCLIDEAN")
 

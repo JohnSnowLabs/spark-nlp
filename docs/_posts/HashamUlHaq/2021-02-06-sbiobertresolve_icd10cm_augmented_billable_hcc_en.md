@@ -6,6 +6,7 @@ name: sbiobertresolve_icd10cm_augmented_billable_hcc
 date: 2021-02-06
 task: Entity Resolution
 language: en
+nav_key: models
 edition: Healthcare NLP 2.7.3
 spark_version: 2.4
 tags: [licensed, clinical, en, entity_resolution]

@@ -7,6 +7,7 @@ date: 2021-04-29
 tags: [en, licensed, clinical, entity_resolution]
 task: Entity Resolution
 language: en
+nav_key: models
 edition: Healthcare NLP 3.0.0
 spark_version: 3.0
 supported: true
@@ -75,7 +76,7 @@ sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli","en
     .setOutputCol("sbert_embeddings")
 
 resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_loinc","en", "clinical/models") \
-    .setInputCols(["ner_chunk", "sbert_embeddings"]) \
+    .setInputCols(["sbert_embeddings"]) \
     .setOutputCol("resolution")\
     .setDistanceFunction("EUCLIDEAN")
 
@@ -121,11 +122,11 @@ val chunk2doc = new Chunk2Doc()
     .setOutputCol("ner_chunk_doc")
 
 val sbert_embedder = BertSentenceEmbeddings.pretrained("sbiobert_base_cased_mli","en","clinical/models")
-    .setInputCols("ner_chunk_doc"])
+    .setInputCols("ner_chunk_doc")
     .setOutputCol("sbert_embeddings")
 
 val resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_loinc","en", "clinical/models")
-    .setInputCols(Array("ner_chunk", "sbert_embeddings"))
+    .setInputCols(Array("sbert_embeddings"))
     .setOutputCol("resolution")
     .setDistanceFunction("EUCLIDEAN")
 

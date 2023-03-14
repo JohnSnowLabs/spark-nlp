@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.8 ScalaDoc  - com.johnsnowlabs.nlp.training</title>
-          <meta name="description" content="Spark NLP 4.2.8 ScalaDoc - com.johnsnowlabs.nlp.training" />
-          <meta name="keywords" content="Spark NLP 4.2.8 ScalaDoc com.johnsnowlabs.nlp.training" />
+          <title>Spark NLP 4.3.1 ScalaDoc  - com.johnsnowlabs.nlp.training</title>
+          <meta name="description" content="Spark NLP 4.3.1 ScalaDoc - com.johnsnowlabs.nlp.training" />
+          <meta name="keywords" content="Spark NLP 4.3.1 ScalaDoc com.johnsnowlabs.nlp.training" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.8 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.3.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -219,8 +219,8 @@
                         <a href="AnnotationDefinition.html" title="">AnnotationDefinition</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
-                        <a class="class" href="AnnotationToolJsonReader.html" title="The annotation tool json reader is a reader to parse Named Entity Recognition, Assertion and Relation Extraction Annotations from a JSON exported from the Annotation Tool."></a>
-                        <a href="AnnotationToolJsonReader.html" title="The annotation tool json reader is a reader to parse Named Entity Recognition, Assertion and Relation Extraction Annotations from a JSON exported from the Annotation Tool.">AnnotationToolJsonReader</a>
+                        <a class="class" href="AnnotationToolJsonReader.html" title="Reads and process the exported json file from NLP Lab."></a>
+                        <a href="AnnotationToolJsonReader.html" title="Reads and process the exported json file from NLP Lab.">AnnotationToolJsonReader</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="class" href="AnnotationValue.html" title=""></a>
@@ -372,7 +372,7 @@
       </span>
       
       
-    </li><li name="com.johnsnowlabs.nlp.training.AnnotationToolJsonReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.training.AnnotationToolJsonReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="AnnotationToolJsonReaderextendsCheckLicense"></a><a id="AnnotationToolJsonReader:AnnotationToolJsonReader"></a>
       <span class="permalink">
       <a href="../../../../com/johnsnowlabs/nlp/training/AnnotationToolJsonReader.html" title="Permalink">
@@ -384,11 +384,17 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="The annotation tool json reader is a reader to parse Named Entity Recognition, Assertion and Relation Extraction Annotations from a JSON exported from the Annotation Tool." href="AnnotationToolJsonReader.html"><span class="name">AnnotationToolJsonReader</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.license.CheckLicense">CheckLicense</span></span>
+        <a title="Reads and process the exported json file from NLP Lab." href="AnnotationToolJsonReader.html"><span class="name">AnnotationToolJsonReader</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.license.CheckLicense">CheckLicense</span></span>
       </span>
       
-      <p class="shortcomment cmt">The annotation tool json reader is a reader to parse Named Entity Recognition, Assertion and Relation Extraction Annotations
-from a JSON exported from the Annotation Tool.</p>
+      <p class="shortcomment cmt">Reads and process the exported json file from NLP Lab.</p><div class="fullcomment"><div class="comment cmt"><p>Reads and process the exported json file from NLP Lab.</p><p>Reader class that parses relevant information exported from NLP Lab into different
+formats. The reader can be used to create a training dataset for training assertion
+status (using the <a href="AnnotationToolJsonReader.html#generateAssertionTrainSet(df:org.apache.spark.sql.DataFrame,sentenceCol:String,assertionCol:String):org.apache.spark.sql.DataFrame" class="extmbr" name="com.johnsnowlabs.nlp.training.AnnotationToolJsonReader#generateAssertionTrainSet"><code>generateAssertionTrainSet</code></a> method)
+or NER models (in the CoNLL format using the <a href="AnnotationToolJsonReader.html#generateConll(df:org.apache.spark.sql.DataFrame,path:String,taskColumn:String,tokenCol:String,nerLabel:String):Unit" class="extmbr" name="com.johnsnowlabs.nlp.training.AnnotationToolJsonReader#generateConll"><code>generateConll</code></a> method).</p><p>To generate the assertion data, the following attributes need to be specified when
+instantiating the class:
+- <code>assertion_labels</code>: The assertion labels to use.
+- <code>excluded_labels</code>: The assertions labels that are excluded for the training dataset creation (can be an empty list).
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.training.AnnotationValue" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="AnnotationValueextendsSerializablewithProduct"></a><a id="AnnotationValue:AnnotationValue"></a>
       <span class="permalink">

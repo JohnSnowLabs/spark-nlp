@@ -60,7 +60,7 @@ classifierdl = legal.ClassifierDLModel.pretrained("legclf_judgement", "de", "leg
                 .setInputCols(["sentence_embeddings"])\
                 .setOutputCol("label")
 
-bert_clf_pipeline = Pipeline(stages=[document_assembler,
+bert_clf_pipeline = nlp.Pipeline(stages=[document_assembler,
                                      tokenizer,
                                      embeddings,
                                      sembeddings,

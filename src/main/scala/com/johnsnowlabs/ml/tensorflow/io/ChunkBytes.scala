@@ -20,7 +20,7 @@ import java.io.{BufferedOutputStream, FileInputStream, FileOutputStream, IOExcep
 import java.nio.file.{Files, Path}
 import scala.collection.mutable.ArrayBuffer
 
-object ChunkBytes {
+private[johnsnowlabs] object ChunkBytes {
 
   /** readFileInByteChunks will read a file by chuning the size of BufferSize and return array of
     * arrays of Byte

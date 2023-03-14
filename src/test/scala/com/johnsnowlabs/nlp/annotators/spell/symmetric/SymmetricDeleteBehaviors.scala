@@ -23,7 +23,7 @@ import com.johnsnowlabs.tags.FastTest
 import com.johnsnowlabs.util.{Benchmark, PipelineModels}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions._
-import org.apache.spark.sql.{DataFrame, Dataset}
+import org.apache.spark.sql.{AnalysisException, DataFrame, Dataset}
 import org.scalatest.flatspec.AnyFlatSpec
 
 trait SymmetricDeleteBehaviors {
@@ -288,13 +288,14 @@ trait SymmetricDeleteBehaviors {
     "" should "raise an error when dataset without array annotation is used" in {
       val trainDataSet =
         AnnotatorBuilder.getTrainingDataSet("src/test/resources/spell/sherlockholmes.txt")
-      val expectedErrorMessage = "Train dataset must have an array annotation type column"
+      val expectedErrorMessage =
+        "The deserializer is not supported: need a(n) \"ARRAY\" field but got \"STRING\"."
       val spell = new SymmetricDeleteApproach()
         .setInputCols(Array("text"))
         .setOutputCol("spell")
         .setDictionary("src/test/resources/spell/words.txt")
 
-      val caught = intercept[IllegalArgumentException] {
+      val caught = intercept[AnalysisException] {
         spell.fit(trainDataSet)
       }
 

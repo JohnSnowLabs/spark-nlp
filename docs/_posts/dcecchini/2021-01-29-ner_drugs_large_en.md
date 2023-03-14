@@ -6,6 +6,7 @@ name: ner_drugs_large_en
 date: 2021-01-29
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Spark NLP for Healthcare 2.7.1
 spark_version: 2.4
 tags: [ner, en, licensed, clinical]

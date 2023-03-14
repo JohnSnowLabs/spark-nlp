@@ -56,7 +56,7 @@ We are releasing **8 new `ChunkMapperModel` models and 9 new pretrained pipeline
 ```python
 ...
 snomed_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_snomed_conditions", "en", "clinical/models") \
-    .setInputCols(["ner_chunk", "sbert_embeddings"]) \
+    .setInputCols(["sbert_embeddings"]) \
     .setOutputCol("snomed_code")\
     .setDistanceFunction("EUCLIDEAN")
 
@@ -530,7 +530,7 @@ cfModel = ChunkMapperFilterer() \
     .setReturnCriteria("fail")
 ...
 resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_rxnorm_augmented", "en", "clinical/models") \
-    .setInputCols(["chunks_fail", "sentence_embeddings"]) \
+    .setInputCols(["sentence_embeddings"]) \
     .setOutputCol("resolver_code") \
     .setDistanceFunction("EUCLIDEAN")
 

@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.annotator.document_normalizer &#8212; Spark NLP 4.2.8 documentation</title>
+    <title>sparknlp.annotator.document_normalizer &#8212; Spark NLP 4.3.1 documentation</title>
   
   
   
@@ -388,7 +388,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../token/chunk_tokenizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.token.chunk_tokenizer</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../token/recursive_tokenizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.token.recursive_tokenizer</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../token/regex_tokenizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.token.regex_tokenizer</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../token/token2_chunk/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.token.token2_chunk</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../token/tokenizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.token.tokenizer</span></code></a></li>
 </ul>
 </li>
@@ -454,13 +453,17 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotator.document_normalizer.DocumentNormalizer">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DocumentNormalizer</span></span><a class="reference internal" href="../../../../../modules/sparknlp/annotator/document_normalizer.html#DocumentNormalizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.document_normalizer.DocumentNormalizer" title="Permalink to this definition">#</a></dt>
-<dd><p>Annotator which normalizes raw text from tagged text, e.g. scraped web
-pages or xml documents, from document type columns into Sentence.</p>
+<dd><dl>
+<dt>Annotator which normalizes raw text from tagged text, e.g. scraped web</dt><dd><p>pages or xml documents, from document type columns into Sentence.</p>
 <p>Removes all dirty characters from text following one or more input regex
 patterns. Can apply not wanted character removal with a specific policy.
 Can apply lower case normalization.</p>
-<p>For extended examples of usage, see the <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/2.Text_Preprocessing_with_SparkNLP_Annotators_Transformers.ipynb">Spark NLP Workshop</a>.</p>
-<table class="table">
+<p>For extended examples of usage, see the <a href="#id1"><span class="problematic" id="id2">`</span></a>Examples &lt;<a class="github reference external" href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/document-normalizer/document_normalizer_notebook.ipynb">JohnSnowLabs/spark-nlp</a></p>
+</dd>
+</dl>
+<p>&gt;`__.</p>
+<blockquote>
+<div><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
 <th class="head"><p>Output Annotation type</p></th>
@@ -472,6 +475,7 @@ Can apply lower case normalization.</p>
 </tr>
 </tbody>
 </table>
+</div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">

@@ -72,7 +72,7 @@ class NerDLApproach(AnnotatorApproach, NerApproach, EvaluationDLParams):
     ...     .setOutputCol("ner") \\
     ...     .setTestDataset("test_data")
 
-    For extended examples of usage, see the `Spark NLP Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop/tree/master/jupyter/training/english/dl-ner>`__.
+    For extended examples of usage, see the `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dl-ner>`__.
 
     ==================================== ======================
     Input Annotation types               Output Annotation type
@@ -428,8 +428,8 @@ class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate, HasEngine):
     depending on which they were trained on. For example, the default model
     ``"ner_dl"`` requires the WordEmbeddings ``"glove_100d"``.
 
-    For extended examples of usage, see the `Spark NLP Workshop
-    <https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/3.SparkNLP_Pretrained_Models.ipynb>`__.
+    For extended examples of usage, see the `Examples
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/model-downloader/Create%20custom%20pipeline%20-%20NerDL.ipynb>`__.
 
     ==================================== ======================
     Input Annotation types               Output Annotation type

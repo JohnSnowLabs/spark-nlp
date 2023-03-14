@@ -7,6 +7,7 @@ date: 2022-08-30
 tags: [en, finance, companies, edgar, licensed]
 task: Entity Resolution
 language: en
+nav_key: models
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -52,7 +53,7 @@ resolver = finance.SentenceEntityResolverModel.pretrained("finel_edgar_company_n
       .setOutputCol("normalized")\
       .setDistanceFunction("EUCLIDEAN")
 
-pipelineModel = PipelineModel(
+pipelineModel = nlp.Pipeline(
       stages = [
           documentAssembler,
           embeddings,

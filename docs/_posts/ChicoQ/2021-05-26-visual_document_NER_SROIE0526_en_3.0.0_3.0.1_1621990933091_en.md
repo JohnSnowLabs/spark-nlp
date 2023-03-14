@@ -8,6 +8,7 @@ tags: [en, licensed]
 supported: true
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Spark NLP 3.0.0
 spark_version: 3.0
 article_header:

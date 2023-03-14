@@ -7,6 +7,7 @@ date: 2021-04-01
 tags: [ner, clinical, licensed, en]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Healthcare NLP 3.0.0
 spark_version: 3.0
 supported: true
@@ -76,28 +77,28 @@ result = model.transform(spark.createDataFrame([[text]]).toDF("text"))
 ```
 ```scala
 
-document_assembler = new DocumentAssembler()\
-    .setInputCol("text")\
+document_assembler = new DocumentAssembler()
+    .setInputCol("text")
     .setOutputCol("document")
 
-sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")\
-    .setInputCols("document")\
+sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl_healthcare","en","clinical/models")
+    .setInputCols("document")
     .setOutputCol("sentence")
 
-tokenizer = new Tokenizer()\
-    .setInputCols(["sentence"])\
+tokenizer = new Tokenizer()
+    .setInputCols("sentence")
     .setOutputCol("token")
 
-embeddings = WordEmbeddingsModel.pretrained("glove_6B_300", "xx")\
-    .setInputCols(Array("sentence", "token"))\
+embeddings = WordEmbeddingsModel.pretrained("glove_6B_300", "xx")
+    .setInputCols(Array("sentence", "token"))
     .setOutputCol("embeddings")
 
-clinical_ner = MedicalNerModel.pretrained("ner_financial_contract", "en", "clinical/models")\
-    .setInputCols(Array("sentence", "token", "embeddings"))\
+clinical_ner = MedicalNerModel.pretrained("ner_financial_contract", "en", "clinical/models")
+    .setInputCols(Array("sentence", "token", "embeddings"))
     .setOutputCol("ner")
 
-ner_converter = new NerConverter()\
-    .setInputCols(Array("sentence", "token", "ner"))\
+ner_converter = new NerConverter()
+    .setInputCols(Array("sentence", "token", "ner"))
     .setOutputCol("ner_chunk")
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentenceDetector, tokenizer, embeddings, clinical_ner, ner_converter))

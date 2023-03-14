@@ -7,6 +7,7 @@ date: 2022-11-18
 tags: [disease, category, description, icd10, icd11, mesh, brite, en, clinical, chunk_mapper, licensed]
 task: Chunk Mapping
 language: en
+nav_key: models
 edition: Healthcare NLP 4.2.2
 spark_version: 3.0
 supported: true

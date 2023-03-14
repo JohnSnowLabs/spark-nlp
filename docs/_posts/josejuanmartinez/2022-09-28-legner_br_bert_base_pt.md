@@ -68,7 +68,7 @@ tokenClassifier = nlp.BertForTokenClassification.pretrained("legner_br_bert_base
     .setInputCols(["sentence", "token"]) \
     .setOutputCol("ner")
 
-pipeline = Pipeline(
+pipeline = nlp.Pipeline(
   stages=[
     documentAssembler, 
     sentenceDetector, 

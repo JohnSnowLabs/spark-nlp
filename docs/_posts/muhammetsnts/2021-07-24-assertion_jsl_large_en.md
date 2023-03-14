@@ -7,6 +7,7 @@ date: 2021-07-24
 tags: [licensed, clinical, assertion, en]
 task: Assertion Status
 language: en
+nav_key: models
 edition: Healthcare NLP 3.1.2
 spark_version: 2.4
 supported: true

@@ -7,6 +7,7 @@ date: 2023-01-03
 tags: [en, licensed]
 task: Question Answering
 language: en
+nav_key: models
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -45,7 +46,7 @@ spanClassifier = nlp.BertForQuestionAnswering.pretrained("finqa_bert","en", "fin
        .setOutputCol("answer") \
        .setCaseSensitive(True)
 
-pipeline = Pipeline().setStages([
+pipeline = nlp.Pipeline().setStages([
         documentAssembler,
         spanClassifier
 ])

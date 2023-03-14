@@ -7,6 +7,7 @@ date: 2022-06-27
 tags: [chunk_mapper, action, treatment, clinical, licensed, en]
 task: Chunk Mapping
 language: en
+nav_key: models
 edition: Healthcare NLP 3.5.3
 spark_version: 3.0
 supported: true
@@ -99,13 +100,13 @@ val chunkerMapper_1 = ChunkMapperModel
 .pretrained("rxnorm_action_treatment_mapper", "en", "clinical/models")
 .setInputCols("rxnorm_code")
 .setOutputCol("action_mappings")
-.setRels(["action"])
+.setRels("action")
 
 val chunkerMapper_2 = ChunkMapperModel
 .pretrained("rxnorm_action_treatment_mapper", "en", "clinical/models")
 .setInputCols("rxnorm_code")
 .setOutputCol("treatment_mappings")
-.setRels(["treatment"])
+.setRels("treatment")
 
 val pipeline = new Pipeline(stages = Array(
 documentAssembler,

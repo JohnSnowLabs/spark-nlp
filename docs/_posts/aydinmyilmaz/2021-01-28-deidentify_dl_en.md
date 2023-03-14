@@ -6,6 +6,7 @@ name: deidentify_dl
 date: 2021-01-28
 task: De-identification
 language: en
+nav_key: models
 edition: Healthcare NLP 2.7.2
 spark_version: 2.4
 tags: [en, deidentify, clinical, licensed]

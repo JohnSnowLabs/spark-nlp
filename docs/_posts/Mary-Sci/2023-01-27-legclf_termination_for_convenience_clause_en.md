@@ -7,6 +7,7 @@ date: 2023-01-27
 tags: [en, legal, classification, termination, convenience, clauses, termination_for_convenience, licensed, tensorflow]
 task: Text Classification
 language: en
+nav_key: models
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true

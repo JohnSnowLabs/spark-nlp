@@ -1,7 +1,10 @@
 
+
 <!DOCTYPE html>
 
-<html lang="en">
+
+<html lang="en" >
+
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,23 +18,23 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
-<link href="../../static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
-<link href="../../static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link href="../../static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
 
   
-  <link href="../../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
+  <link href="../../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../../static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../static/graphviz.css" />
     <link rel="stylesheet" type="text/css" href="../../static/css/custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
-<link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
+  <link rel="preload" as="script" href="../../static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
+<link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
 
     <script data-url_root="../../" id="documentation_options" src="../../static/documentation_options.js"></script>
     <script src="../../static/jquery.js"></script>
@@ -44,79 +47,93 @@
     <link rel="shortcut icon" href="../../static/fav.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="docsearch:language" content="en">
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
   
   
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
   
   
   <a class="skip-link" href="#main-content">Skip to main content</a>
-
   
-  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
   <label class="overlay overlay-primary" for="__primary"></label>
-
   
-  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
   <label class="overlay overlay-secondary" for="__secondary"></label>
-
   
   <div class="search-button__wrapper">
     <div class="search-button__overlay"></div>
     <div class="search-button__search-container">
-      
-<form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
   <i class="fa-solid fa-magnifying-glass"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form>
-    </div>
+</form></div>
   </div>
-
   
-  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
   <label class="sidebar-toggle primary-toggle" for="__primary">
-      <span class="fa-solid fa-bars"></span>
+    <span class="fa-solid fa-bars"></span>
   </label>
-  <div id="navbar-start">
-    
-    
   
-
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
 
 <a class="navbar-brand logo" href="../../index.html">
-
   
   
   
   
+    
+    
+      
+    
+    
+    <img src="../../static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
   
   
-  
-
-  
-    <img src="../../static/logo.png" class="logo__image only-light" alt="Logo image">
-    <img src="../../static/logo.png" class="logo__image only-dark" alt="Logo image">
-  
-  
-</a>
+</a></div>
     
   </div>
-
+  
   
   <div class="col-lg-9 navbar-header-items">
-    <div id="navbar-center" class="mr-auto">
+    
+    <div class="me-auto navbar-header-items__center">
       
-      <div class="navbar-center-item">
-        <nav class="navbar-nav">
-    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
-        Site Navigation
-    </p>
-    <ul id="navbar-main-elements" class="navbar-nav">
-        
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="../../getting_started/index.html">
                         Getting Started
@@ -130,76 +147,79 @@
                       </a>
                     </li>
                 
-    </ul>
-</nav>
-      </div>
+  </ul>
+</nav></div>
       
     </div>
-
-    <div id="navbar-end">
+    
+    
+    <div class="navbar-header-items__end">
       
-        <div class="navbar-end-item navbar-persistent--container">
+        <div class="navbar-item navbar-persistent--container">
           
-<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
-  <i class="fa-solid fa-magnifying-glass"></i>
-</button>
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
         </div>
       
       
-      <div class="navbar-end-item">
-        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
     <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
     <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
-</button>
-      </div>
-      
-      <div class="navbar-end-item">
-        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
-      </ul>
-      </div>
+  </button>
+`);
+</script></div>
       
     </div>
+    
   </div>
-
-
   
   
     <div class="navbar-persistent--mobile">
-<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
-  <i class="fa-solid fa-magnifying-glass"></i>
-</button>
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
     </div>
   
 
   
-  <label class="sidebar-toggle secondary-toggle" for="__secondary">
-      <span class="fa-solid fa-outdent"></span>
-  </label>
-  
-
 </div>
-  </nav>
-  
 
+    </nav>
+  
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
       <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
+
   
   <div class="sidebar-header-items sidebar-primary__section">
     
     
       <div class="sidebar-header-items__center">
-      
-      <div class="navbar-center-item">
-        <nav class="navbar-nav">
-    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
-        Site Navigation
-    </p>
-    <ul id="navbar-main-elements" class="navbar-nav">
         
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="../../getting_started/index.html">
                         Getting Started
@@ -213,61 +233,87 @@
                       </a>
                     </li>
                 
-    </ul>
-</nav>
+  </ul>
+</nav></div>
+        
       </div>
-      
-      </div>
-    
-
     
     
-    <div class="sidebar-header-items__end">
-      
-      <div class="navbar-end-item">
-        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
     <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
     <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
-</button>
+  </button>
+`);
+</script></div>
+        
       </div>
-      
-      <div class="navbar-end-item">
-        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
-      </ul>
-      </div>
-      
-    </div>
     
   </div>
-
   
-
   
-  <div class="sidebar-end-items sidebar-primary__section">
-    <div class="sidebar-end-items__item">
-    </div>
+  <div class="sidebar-primary-items__end sidebar-primary__section">
   </div>
-
   
   <div id="rtd-footer-container"></div>
 
+
       </div>
+      
       <main id="main-content" class="bd-main">
         
         
-        <div class="bd-content">
-          <div class="bd-article-container">
-            
-            <div class="bd-header-article">
-                
-            </div>
-            
-            
-            <article class="bd-article" role="main">
+          <div class="bd-content">
+            <div class="bd-article-container">
               
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../sparknlp_jsl.html" class="nav-link">sparknlp_jsl</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">sparknlp_jsl.alab</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
   <h1>Source code for sparknlp_jsl.alab</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Functions to manipulate an Annotation Lab JSON export into an appropriate layout for training</span>
+<span></span><span class="sd">&quot;&quot;&quot;Functions to manipulate an NLP Lab JSON export into an appropriate layout for training</span>
 <span class="sd">assertion, relation extraction and NER models</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">requests</span>
@@ -292,18 +338,45 @@
 <span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="n">CoNLL</span>
 <span class="kn">from</span> <span class="nn">sparknlp_jsl.eval</span> <span class="kn">import</span> <span class="n">NerDLMetrics</span>
 
-<span class="kn">from</span> <span class="nn">.utils.alab_utils</span> <span class="kn">import</span> <span class="n">get_nlp_token_pipeline</span><span class="p">,</span><span class="n">get_rel_df</span><span class="p">,</span> \
-    <span class="n">get_ner_sentence_borders</span><span class="p">,</span> <span class="n">get_single_task_conll</span><span class="p">,</span> <span class="n">get_nlp_pos_pipeline</span><span class="p">,</span> <span class="n">get_token_df</span>
-
+<span class="kn">from</span> <span class="nn">.utils.alab_utils</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">get_nlp_token_pipeline</span><span class="p">,</span>
+    <span class="n">get_rel_df</span><span class="p">,</span>
+    <span class="n">get_ner_sentence_borders</span><span class="p">,</span>
+    <span class="n">get_single_task_conll</span><span class="p">,</span>
+    <span class="n">get_nlp_pos_pipeline</span><span class="p">,</span>
+    <span class="n">get_token_df</span><span class="p">,</span>
+<span class="p">)</span>
 
 
 <div class="viewcode-block" id="AnnotationLab"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/alab/index.html#sparknlp_jsl.alab.AnnotationLab">[docs]</a><span class="k">class</span> <span class="nc">AnnotationLab</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class to interact with John Snow Labs&#39;s Annotation Lab</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interface to John Snow Labs&#39;s NLP Lab.</span>
+
+<span class="sd">    NLP Lab is a tool for multi-modal data annotation. It allows annotation teams</span>
+<span class="sd">    to efficiently collaborate to generate training data for ML models and/or to</span>
+<span class="sd">    validate automatic annotations generated by those.</span>
+
+<span class="sd">    This module provides programmatically access to NLP Lab through the Healthcare NLP</span>
+<span class="sd">    library. It allows users to:</span>
+<span class="sd">    - Generating a CoNLL formatted file from the annotation JSON for training an NER model.</span>
+<span class="sd">    - Generating a csv/excel formatted file from the annotation JSON for training</span>
+<span class="sd">    classification, assertion, and relation extraction models.</span>
+<span class="sd">    - Build preannotation JSON file using Spark NLP pipelines, saving it as a JSON and</span>
+<span class="sd">    uploading preannotations to a project.</span>
+<span class="sd">    - Interacting with the ALAB instance, and setting up projects of ALAB.</span>
+<span class="sd">    - Getting the list of all projects in the ALAB instance.</span>
+<span class="sd">    - Creating New Projects.</span>
+<span class="sd">    - Deleting Projects.</span>
+<span class="sd">    - Setting &amp; editing configuration of projects.</span>
+<span class="sd">    - Accessing/getting configuration of any existing project.</span>
+<span class="sd">    - Upload tasks to a project.</span>
+<span class="sd">    - Deleting tasks of a project.</span>
+
+<span class="sd">    For usage details and examples, please check the</span>
+<span class="sd">    [NLP Lab tutorial](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Annotation_Lab/Complete_ALab_Module_SparkNLP_JSL.ipynb).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Class Constructor.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Class Constructor.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="kc">None</span>
@@ -315,15 +388,15 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">http_success_codes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">200</span><span class="p">,</span> <span class="mi">201</span><span class="p">,</span> <span class="mi">203</span><span class="p">]</span>
 
 <div class="viewcode-block" id="AnnotationLab.set_credentials"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/alab/index.html#sparknlp_jsl.alab.AnnotationLab.set_credentials">[docs]</a>    <span class="k">def</span> <span class="nf">set_credentials</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">client_secret</span><span class="p">,</span> <span class="n">annotationlab_url</span><span class="o">=</span><span class="s2">&quot;https://annotationlab.johnsnowlabs.com&quot;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Set credentials to connect to your Annotation Lab instance.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets credentials to connect to your NLP Lab instance.</span>
+
 <span class="sd">        :param username: Username</span>
 <span class="sd">        :type username: str</span>
 <span class="sd">        :param password: Password</span>
 <span class="sd">        :type password: str</span>
-<span class="sd">        :param client_secret: Client Secret for your installation (Every installation of Annotation Lab has a secret code).</span>
+<span class="sd">        :param client_secret: Client Secret for your installation (Every installation of NLP Lab has a secret code).</span>
 <span class="sd">        :type client_secret: str</span>
-<span class="sd">        :param annotationlab_url: URL of Annotation Lab. Default: JSL&#39;s Annotation Lab (https://annotationlab.johnsnowlabs.com).</span>
+<span class="sd">        :param annotationlab_url: URL of NLP Lab. Default: JSL&#39;s NLP Lab (https://annotationlab.johnsnowlabs.com).</span>
 <span class="sd">        :type annotationlab_url: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">username</span>
@@ -344,18 +417,23 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">client_id</span> <span class="o">=</span> <span class="s2">&quot;annotationlab&quot;</span></div>
 
-
     <span class="k">def</span> <span class="nf">__create_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Generates a URL.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a URL.</span>
+
+<span class="sd">        :param path: Path to be appended to the base URL.</span>
+<span class="sd">        :type path: str</span>
+
+<span class="sd">        :return: URL</span>
+<span class="sd">        :rtype: str</span>
+
+<span class="sd">        :raises Exception: If NLP Lab credentials are not set.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Annotation Lab credentials not found.</span><span class="se">\n</span><span class="s2">Please set credentials (username, password, client_secret, annotationlab_url) using &#39;set_credentials&#39; method.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;NLP Lab credentials not found.</span><span class="se">\n</span><span class="s2">Please set credentials (username, password, client_secret, annotationlab_url) using &#39;set_credentials&#39; method.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="o">+</span><span class="n">path</span>
 
     <span class="k">def</span> <span class="nf">__make_post_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">jsn</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">with_cookies</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_message</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">header_type</span><span class="o">=</span><span class="s1">&#39;json&#39;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Sends post request.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sends post request.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">header_type</span><span class="o">==</span><span class="s1">&#39;json&#39;</span><span class="p">:</span>
@@ -387,8 +465,7 @@
         <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">__make_get_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Sends a get request.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sends a get request.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">__authenticate</span><span class="p">()</span>
@@ -402,8 +479,7 @@
         <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">__make_delete_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">jsn</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Sends a delete request.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sends a delete request.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">__authenticate</span><span class="p">()</span>
@@ -417,12 +493,11 @@
         <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">__authenticate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Authenticates Username and Password. Also, sets cookies.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Authenticates Username and Password and sets cookies.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">==</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">==</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">client_secret</span> <span class="o">==</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">client_id</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Annotation Lab credentials not found.</span><span class="se">\n</span><span class="s2">Please set credentials (username, password, client_secret, annotationlab_url) using &#39;set_credentials&#39; method.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;NLP Lab credentials not found.</span><span class="se">\n</span><span class="s2">Please set credentials (username, password, client_secret, annotationlab_url) using &#39;set_credentials&#39; method.&quot;</span><span class="p">)</span>
 
         <span class="c1">## cookie URL: &quot;https://annotationlab.johnsnowlabs.com/openid-connect/token&quot;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__create_url</span><span class="p">(</span><span class="s2">&quot;/openid-connect/token&quot;</span><span class="p">)</span>
@@ -443,8 +518,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">cookies</span> <span class="o">=</span> <span class="n">cookies</span>
 
     <span class="k">def</span> <span class="nf">__generate_random_color</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Generates random HEX color codes.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates random HEX color codes.</span>
+
 <span class="sd">        :rtype str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -452,8 +527,7 @@
         <span class="k">return</span> <span class="s1">&#39;#</span><span class="si">%02x%02x%02x</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">r</span><span class="p">(),</span> <span class="n">r</span><span class="p">(),</span> <span class="n">r</span><span class="p">())</span>
 
 <div class="viewcode-block" id="AnnotationLab.get_all_projects"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/alab/index.html#sparknlp_jsl.alab.AnnotationLab.get_all_projects">[docs]</a>    <span class="k">def</span> <span class="nf">get_all_projects</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get a JSON object containing details of all visible projects in Annotation Lab.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets a JSON object containing details of all visible projects in NLP Lab.</span>
 <span class="sd">        :rtype dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -464,8 +538,8 @@
         <span class="k">return</span> <span class="n">content</span></div>
 
 <div class="viewcode-block" id="AnnotationLab.get_project_config"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/alab/index.html#sparknlp_jsl.alab.AnnotationLab.get_project_config">[docs]</a>    <span class="k">def</span> <span class="nf">get_project_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get configuration details of a project as JSON.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets configuration details of a project as JSON.</span>
+
 <span class="sd">        :param project_name: Project Name</span>
 <span class="sd">        :type project_name: str</span>
 <span class="sd">        :rtype dict</span>
@@ -478,8 +552,8 @@
         <span class="k">return</span> <span class="n">content</span></div>
 
 <div class="viewcode-block" id="AnnotationLab.create_project"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/alab/index.html#sparknlp_jsl.alab.AnnotationLab.create_project">[docs]</a>    <span class="k">def</span> <span class="nf">create_project</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_name</span><span class="p">,</span> <span class="n">project_description</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">project_sampling</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">project_instruction</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Create a new project.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a new project.</span>
+
 <span class="sd">        :param project_name: Project Name</span>
 <span class="sd">        :type project_name: str</span>
 <span class="sd">        :param project_description: Project Description</span>
@@ -505,8 +579,8 @@
         <span class="k">return</span> <span class="n">content</span></div>
 
 <div class="viewcode-block" id="AnnotationLab.delete_project"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/alab/index.html#sparknlp_jsl.alab.AnnotationLab.delete_project">[docs]</a>    <span class="k">def</span> <span class="nf">delete_project</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_name</span><span class="p">,</span> <span class="n">confirm</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Delete an existing project.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Deletes an existing project.</span>
+
 <span class="sd">        :param project_name: Project Name</span>
 <span class="sd">        :type project_name: str</span>
 <span class="sd">        :param confirm: If set to True, no input required for confirmation. Default: False.</span>
@@ -528,8 +602,8 @@
             <span class="k">return</span> <span class="n">content</span></div>
 
 <div class="viewcode-block" id="AnnotationLab.set_project_config"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/alab/index.html#sparknlp_jsl.alab.AnnotationLab.set_project_config">[docs]</a>    <span class="k">def</span> <span class="nf">set_project_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_name</span><span class="p">,</span> <span class="n">classification_labels</span><span class="o">=</span><span class="p">[],</span> <span class="n">ner_labels</span><span class="o">=</span><span class="p">[],</span> <span class="n">assertion_labels</span><span class="o">=</span><span class="p">[],</span> <span class="n">relations_labels</span><span class="o">=</span><span class="p">[]):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Set configuration of a project.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets configuration of a project.</span>
+
 <span class="sd">        :param project_name: Project Name</span>
 <span class="sd">        :type project_name: str</span>
 <span class="sd">        :param classification_labels: List of document classification classes. By default, it&#39;d be multiclass classification.</span>
@@ -581,10 +655,9 @@
 
     <span class="c1">#def edit_project_config(self, project_name, ner_labels, assertion_labels, ):</span>
 
-
 <div class="viewcode-block" id="AnnotationLab.upload_tasks"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/alab/index.html#sparknlp_jsl.alab.AnnotationLab.upload_tasks">[docs]</a>    <span class="k">def</span> <span class="nf">upload_tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_name</span><span class="p">,</span> <span class="n">task_list</span><span class="p">,</span> <span class="n">title_list</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">id_offset</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Upload tasks to a project in Annotation Lab.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Uploads tasks to a project in NLP Lab.</span>
+
 <span class="sd">        :param project_name: Project Name</span>
 <span class="sd">        :type project_name: str</span>
 <span class="sd">        :param task_list: List of documents (text).</span>
@@ -610,8 +683,8 @@
         <span class="k">return</span> <span class="n">content</span></div>
 
 <div class="viewcode-block" id="AnnotationLab.delete_tasks"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/alab/index.html#sparknlp_jsl.alab.AnnotationLab.delete_tasks">[docs]</a>    <span class="k">def</span> <span class="nf">delete_tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_name</span><span class="p">,</span> <span class="n">task_ids</span><span class="p">,</span> <span class="n">confirm</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Delete tasks of a project in Annotation Lab.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Deletes tasks of a project in NLP Lab.</span>
+
 <span class="sd">        :param project_name: Project Name</span>
 <span class="sd">        :type project_name: str</span>
 <span class="sd">        :param task_id: List of tasks ids</span>
@@ -635,8 +708,8 @@
             <span class="k">return</span> <span class="n">content</span></div>
 
 <div class="viewcode-block" id="AnnotationLab.get_annotations"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/alab/index.html#sparknlp_jsl.alab.AnnotationLab.get_annotations">[docs]</a>    <span class="k">def</span> <span class="nf">get_annotations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_name</span><span class="p">,</span> <span class="n">output_name</span><span class="p">,</span> <span class="n">save_dir</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get / Export annotations of a project in Annotation Lab.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets / Exports annotations of a project in NLP Lab.</span>
+
 <span class="sd">        :param project_name: Project Name</span>
 <span class="sd">        :type project_name: str</span>
 <span class="sd">        :param output_name: file name where to write the result as json.</span>
@@ -652,12 +725,9 @@
 
         <span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;Exported </span><span class="si">{}</span><span class="s1"> Tasks&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">content</span><span class="p">)))</span>
 
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">save_dir</span><span class="p">)</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="k">pass</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">save_dir</span><span class="p">),</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-        <span class="n">ex_pth</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2">.json&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">save_dir</span><span class="p">,</span> <span class="n">output_name</span><span class="p">)</span>
+        <span class="n">ex_pth</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">save_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">output_name</span><span class="si">}</span><span class="s2">.json&quot;</span><span class="p">)</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">ex_pth</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">content</span><span class="p">))</span>
 
@@ -665,14 +735,23 @@
 
         <span class="k">return</span> <span class="n">content</span></div>
 
-<div class="viewcode-block" id="AnnotationLab.get_conll_data"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/alab/index.html#sparknlp_jsl.alab.AnnotationLab.get_conll_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_conll_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spark</span><span class="p">:</span> <span class="n">SparkSession</span><span class="p">,</span> <span class="n">input_json_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">output_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">save_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;exported_conll&#39;</span><span class="p">,</span>
-                       <span class="n">ground_truth</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">excluded_labels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                       <span class="n">excluded_task_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">excluded_task_titles</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                       <span class="n">regex_pattern</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IO</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a CoNLL file from an Annotation Lab JSON export</span>
+<div class="viewcode-block" id="AnnotationLab.get_conll_data"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/alab/index.html#sparknlp_jsl.alab.AnnotationLab.get_conll_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_conll_data</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">spark</span><span class="p">:</span> <span class="n">SparkSession</span><span class="p">,</span>
+        <span class="n">input_json_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">output_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">save_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;exported_conll&quot;</span><span class="p">,</span>
+        <span class="n">ground_truth</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">excluded_labels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">excluded_task_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">excluded_task_titles</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">regex_pattern</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IO</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a CoNLL file from an NLP Lab JSON export.</span>
+
 <span class="sd">        :param spark: Spark session with spark-nlp-jsl jar</span>
 <span class="sd">        :type spark: SparkSession</span>
-<span class="sd">        :param input_json_path: path to Annotation Lab JSON export</span>
+<span class="sd">        :param input_json_path: path to NLP Lab JSON export</span>
 <span class="sd">        :type input_json_path: str</span>
 <span class="sd">        :param output_name: name of the CoNLL file to save</span>
 <span class="sd">        :type output_name: str</span>
@@ -684,9 +763,9 @@
 <span class="sd">        :param excluded_labels: labels to exclude from CoNLL; these are all assertion labels and irrelevant NER labels,</span>
 <span class="sd">        defaults to None</span>
 <span class="sd">        :type excluded_labels: list</span>
-<span class="sd">        :param excluded_task_ids: list of Annotation Lab task IDs to exclude from CoNLL, defaults to None</span>
+<span class="sd">        :param excluded_task_ids: list of NLP Lab task IDs to exclude from CoNLL, defaults to None</span>
 <span class="sd">        :type excluded_task_ids: list</span>
-<span class="sd">        :param excluded_task_titles: list of Annotation Lab task titles to exclude from CoNLL, defaults to None</span>
+<span class="sd">        :param excluded_task_titles: list of NLP Lab task titles to exclude from CoNLL, defaults to None</span>
 <span class="sd">        :type excluded_task_titles: list</span>
 <span class="sd">        :param regex_pattern: set a pattern to use regex tokenizer, defaults to regular tokenizer if pattern not defined</span>
 <span class="sd">        :type regex_pattern: str</span>
@@ -716,7 +795,7 @@
         <span class="k">except</span><span class="p">:</span>
             <span class="k">pass</span>
 
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">save_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">output_name</span><span class="si">}</span><span class="s1">.conll&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">save_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">output_name</span><span class="si">}</span><span class="s1">.conll&#39;</span><span class="p">),</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">bulk_conll_lines</span><span class="p">:</span>
                 <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 
@@ -726,8 +805,6 @@
 
         <span class="k">return</span> <span class="n">bulk_conll_lines</span><span class="p">[:</span><span class="mi">30</span><span class="p">]</span></div>
 
-
-
 <div class="viewcode-block" id="AnnotationLab.get_assertion_data"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/alab/index.html#sparknlp_jsl.alab.AnnotationLab.get_assertion_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_assertion_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spark</span><span class="p">:</span> <span class="n">SparkSession</span><span class="p">,</span> <span class="n">input_json_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">assertion_labels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">relevant_ner_labels</span><span class="p">:</span>
     <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">ground_truth</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">unannotated_label</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                            <span class="n">regex_pattern</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">unannotated_label_strategy</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -735,10 +812,11 @@
                            <span class="n">included_task_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                            <span class="n">excluded_task_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                            <span class="n">excluded_task_titles</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate a dataframe to train assertion models in Spark NLP from an Annotation Lab JSON export</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a dataframe to train assertion models in Spark NLP from an NLP Lab JSON export.</span>
+
 <span class="sd">        :param spark: Spark session with spark-nlp-jsl jar</span>
 <span class="sd">        :type spark: SparkSession</span>
-<span class="sd">        :param input_json_path: path to Annotation Lab JSON export</span>
+<span class="sd">        :param input_json_path: path to NLP Lab JSON export</span>
 <span class="sd">        :type input_json_path: str</span>
 <span class="sd">        :param assertion_labels: annotated assertion labels to train on</span>
 <span class="sd">        :type assertion_labels: list[str]</span>
@@ -761,18 +839,15 @@
 <span class="sd">        0 and 1 if `unannotated_label_strategy` is &#39;weighted&#39; or between 0 and the max number of occurrences of that NER</span>
 <span class="sd">        label if `unannotated_label_strategy` is &#39;counts&#39;</span>
 <span class="sd">        :type unannotated_label_strategy_dict: dict</span>
-<span class="sd">        :param excluded_task_ids: list of Annotation Lab task IDs to exclude from output dataframe, defaults to None</span>
+<span class="sd">        :param excluded_task_ids: list of NLP Lab task IDs to exclude from output dataframe, defaults to None</span>
 <span class="sd">        :type excluded_task_ids: list</span>
-<span class="sd">        :param excluded_task_titles: list of Annotation Lab task titles to exclude from output dataframe, defaults to None</span>
+<span class="sd">        :param excluded_task_titles: list of NLP Lab task titles to exclude from output dataframe, defaults to None</span>
 <span class="sd">        :type excluded_task_titles: list</span>
 <span class="sd">        :param seed: Makes sure we get the same data every time we execute the code. Defaults to None</span>
 <span class="sd">        :type seed: int</span>
 <span class="sd">        :return: dataframe in appropriate layout for training assertion models</span>
 <span class="sd">        :rtype: pd.DataFrame</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
-
-
         <span class="n">lp_pipeline</span> <span class="o">=</span> <span class="n">get_nlp_token_pipeline</span><span class="p">(</span><span class="n">spark</span><span class="o">=</span><span class="n">spark</span><span class="p">,</span> <span class="n">regex_pattern</span><span class="o">=</span><span class="n">regex_pattern</span><span class="p">)</span>
 
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">input_json_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_file</span><span class="p">:</span>
@@ -798,6 +873,12 @@
             <span class="n">id_title_map</span><span class="p">[</span><span class="n">map_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">map_title</span>
 
             <span class="k">try</span><span class="p">:</span>
+                <span class="n">doc_id</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;EXCEPTION:&#39;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">input_json_path</span><span class="p">),</span> <span class="s2">&quot;Could not find task &#39;id&#39; key&quot;</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+                <span class="k">continue</span>
+
+            <span class="k">try</span><span class="p">:</span>
                 <span class="n">text</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;text&#39;</span><span class="p">]</span>
                 <span class="k">if</span> <span class="n">ground_truth</span><span class="p">:</span>
                     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="s1">&#39;completions&#39;</span><span class="p">])):</span>
@@ -807,16 +888,13 @@
                 <span class="k">elif</span> <span class="n">ground_truth</span> <span class="ow">is</span> <span class="kc">False</span> <span class="ow">or</span> <span class="n">ground_truth</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">gt_index</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
 
-                <span class="n">doc_id</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
-
             <span class="k">except</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;EXCEPTION:&#39;</span><span class="p">,</span> <span class="n">input_json_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;Task ID#&#39;</span><span class="p">,</span> <span class="n">doc_id</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;EXCEPTION:&#39;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">input_json_path</span><span class="p">),</span> <span class="s1">&#39;Task ID#&#39;</span><span class="p">,</span> <span class="n">doc_id</span><span class="p">)</span>
                 <span class="k">continue</span>
 
             <span class="n">lines</span> <span class="o">=</span> <span class="p">[(</span><span class="n">line</span><span class="o">.</span><span class="n">result</span><span class="p">,</span> <span class="n">line</span><span class="o">.</span><span class="n">begin</span><span class="p">,</span> <span class="n">line</span><span class="o">.</span><span class="n">end</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lp_pipeline</span><span class="o">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="n">text</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;sentence&#39;</span><span class="p">]]</span>
 
             <span class="n">sent_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;sentence&#39;</span><span class="p">,</span> <span class="s1">&#39;begin&#39;</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">])</span>
-
 
             <span class="k">try</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="s1">&#39;completions&#39;</span><span class="p">][</span><span class="n">gt_index</span><span class="p">][</span><span class="s1">&#39;result&#39;</span><span class="p">]):</span>
@@ -948,10 +1026,11 @@
                                      <span class="n">negative_relation_strategy_dict</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                                      <span class="n">excluded_task_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                                      <span class="n">excluded_task_titles</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate a dataframe to train relation extraction models in Spark NLP from an Annotation Lab JSON export</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a dataframe to train relation extraction models in Spark NLP from an NLP Lab JSON export.</span>
+
 <span class="sd">        :param spark: Spark session with spark-nlp-jsl jar</span>
 <span class="sd">        :type spark: SparkSession</span>
-<span class="sd">        :param input_json_path: path to Annotation Lab JSON export</span>
+<span class="sd">        :param input_json_path: path to NLP Lab JSON export</span>
 <span class="sd">        :type input_json_path: str</span>
 <span class="sd">        :param ground_truth: set to True to select ground truth completions, False to select latest completions,</span>
 <span class="sd">        defaults to False</span>
@@ -977,9 +1056,9 @@
 <span class="sd">        between 0 and the max number of occurrences of negative relations if `negative_relation_strategy` is &#39;counts&#39;,</span>
 <span class="sd">        defaults to None</span>
 <span class="sd">        :type negative_relation_strategy_dict: dict</span>
-<span class="sd">        :param excluded_task_ids: list of Annotation Lab task IDs to exclude from output dataframe, defaults to None</span>
+<span class="sd">        :param excluded_task_ids: list of NLP Lab task IDs to exclude from output dataframe, defaults to None</span>
 <span class="sd">        :type excluded_task_ids: list</span>
-<span class="sd">        :param excluded_task_titles: list of Annotation Lab task titles to exclude from output dataframe, defaults to None</span>
+<span class="sd">        :param excluded_task_titles: list of NLP Lab task titles to exclude from output dataframe, defaults to None</span>
 <span class="sd">        :type excluded_task_titles: list</span>
 <span class="sd">        :return: dataframe in appropriate layout for training relation extraction models</span>
 <span class="sd">        :rtype: pd.DataFrame</span>
@@ -1156,14 +1235,15 @@
 
 <div class="viewcode-block" id="AnnotationLab.get_classification_data"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/alab/index.html#sparknlp_jsl.alab.AnnotationLab.get_classification_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_classification_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_json_path</span><span class="p">,</span> <span class="n">ground_truth</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a dataframe to train classification models.</span>
-<span class="sd">        :param input_json_path: path of Annotation Lab exported JSON</span>
+
+<span class="sd">        :param input_json_path: path of NLP Lab exported JSON</span>
 <span class="sd">        :type input_json_path: str</span>
 <span class="sd">        :param ground_truth: set to True to select ground truth completions, False to select latest completions,</span>
 <span class="sd">        defaults to False</span>
 <span class="sd">        :type ground_truth: boolean</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">input_json_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">input_json_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">annotations</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 
         <span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;Processing </span><span class="si">{}</span><span class="s1"> annotation(s).&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">input_json_path</span><span class="p">)))</span>
@@ -1195,7 +1275,8 @@
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">res_df</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">__generate_hash</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a unique ID</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a unique ID.</span>
+
 <span class="sd">        :param length: character length of ID</span>
 <span class="sd">        :type length: int</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1207,6 +1288,7 @@
 
     <span class="k">def</span> <span class="nf">__build_ner_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chunk</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">start</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">end</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a Named Entity Annotation object.</span>
+
 <span class="sd">        :param chunk: named entity string</span>
 <span class="sd">        :type chunk: str</span>
 <span class="sd">        :param start: starting string index of entity</span>
@@ -1235,6 +1317,7 @@
 
     <span class="k">def</span> <span class="nf">__build_re_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">from_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">to_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">direction</span> <span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a Relation Annotation object.</span>
+
 <span class="sd">        :param from_id: unique id of chunk1</span>
 <span class="sd">        :type from_id: str</span>
 <span class="sd">        :param tos_id: unique id of chunk2</span>
@@ -1255,7 +1338,8 @@
         <span class="k">return</span> <span class="n">label_json</span>
 
 <div class="viewcode-block" id="AnnotationLab.generate_preannotations"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/alab/index.html#sparknlp_jsl.alab.AnnotationLab.generate_preannotations">[docs]</a>    <span class="k">def</span> <span class="nf">generate_preannotations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">all_results</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="n">document_column</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ner_columns</span> <span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">assertion_columns</span> <span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">relations_columns</span> <span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">user_name</span> <span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="n">titles_list</span> <span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">id_offset</span> <span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a JSON that can be imported directly into Annotation Lab as pre-annotations.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a JSON that can be imported directly into NLP Lab as pre-annotations.</span>
+
 <span class="sd">        :param all_results: list of annotations on documents using light_pipeline.fullAnnotate or full_pipeline.transform(df).collect()</span>
 <span class="sd">        :type all_results: list[objects]</span>
 <span class="sd">        :param document_column: output column name of DocumentAssembler stage</span>
@@ -1270,9 +1354,9 @@
 <span class="sd">        :type relations_columns: list[str]</span>
 <span class="sd">        :param user_name: name of model(s). default: model</span>
 <span class="sd">        :type user_name: str</span>
-<span class="sd">        :param titles_list: custom list of titles of tasks in Annotation Lab. Default: task_ID</span>
+<span class="sd">        :param titles_list: custom list of titles of tasks in NLP Lab. Default: task_ID</span>
 <span class="sd">        :type titles_list: list[str]</span>
-<span class="sd">        :param id_offset: When older tasks are already in Annotation Lab, define the ID offeset to avoid overriting existing tasks. Default: 0</span>
+<span class="sd">        :param id_offset: When older tasks are already in NLP Lab, define the ID offeset to avoid overriting existing tasks. Default: 0</span>
 <span class="sd">        :type id_offset: int</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -1352,8 +1436,8 @@
         <span class="k">return</span> <span class="n">export_anns</span><span class="p">,</span> <span class="n">summary</span></div>
 
 <div class="viewcode-block" id="AnnotationLab.upload_preannotations"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/alab/index.html#sparknlp_jsl.alab.AnnotationLab.upload_preannotations">[docs]</a>    <span class="k">def</span> <span class="nf">upload_preannotations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_name</span><span class="p">,</span> <span class="n">preannotations</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Uploads preannotations to a project in Annotation Lab.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Uploads preannotations to a project in NLP Lab.</span>
+
 <span class="sd">        :param project_name: Project Name</span>
 <span class="sd">        :type project_name: str</span>
 <span class="sd">        :param preannotations: preannotation JSON generated by &#39;generate_preannotations&#39; function</span>
@@ -1370,8 +1454,8 @@
 
 <div class="viewcode-block" id="AnnotationLab.get_IAA_metrics"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/alab/index.html#sparknlp_jsl.alab.AnnotationLab.get_IAA_metrics">[docs]</a>    <span class="k">def</span> <span class="nf">get_IAA_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spark</span><span class="p">:</span> <span class="n">SparkSession</span><span class="p">,</span> <span class="n">conll_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">annotator_names</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">set_ref_annotator</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">return_NerDLMetrics</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                         <span class="n">save_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;results_token_based&quot;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Gets IAA metrics for the annotator annotations</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets IAA metrics for the annotator annotations.</span>
+
 
 <span class="sd">        :param spark: Spark session</span>
 <span class="sd">        :param conll_dir:path to the conll files</span>
@@ -1591,7 +1675,10 @@
                         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;eval_metric_files&#39;</span><span class="p">):</span>
                             <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="s1">&#39;eval_metric_files/with_set_ref_annotator/&#39;</span><span class="p">)</span>
 
-                        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;eval_metric_files/with_set_ref_annotator/</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">_vs_</span><span class="si">{</span><span class="n">set_ref_annotator</span><span class="si">}</span><span class="s1">.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                        <span class="n">filepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                            <span class="s2">&quot;eval_metric_files&quot;</span><span class="p">,</span> <span class="s2">&quot;with_set_ref_annotator&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">_vs_</span><span class="si">{</span><span class="n">set_ref_annotator</span><span class="si">}</span><span class="s2">.txt&quot;</span>
+                        <span class="p">)</span>
+                        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
                             <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">eval_res</span><span class="p">:</span>
                                 <span class="n">line</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">t</span><span class="p">)</span>
                                 <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -1599,8 +1686,7 @@
 
                         <span class="n">entity</span> <span class="o">=</span> <span class="p">[]</span>
                         <span class="n">f1</span> <span class="o">=</span> <span class="p">[]</span>
-
-                        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;eval_metric_files/with_set_ref_annotator/</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">_vs_</span><span class="si">{</span><span class="n">set_ref_annotator</span><span class="si">}</span><span class="s1">.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
                             <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">_vs_</span><span class="si">{</span><span class="n">set_ref_annotator</span><span class="si">}</span><span class="s2">&quot;</span>
                             <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
                                 <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;) (&quot;</span><span class="p">,</span> <span class="s2">&quot;,&quot;</span><span class="p">)</span>
@@ -1623,7 +1709,6 @@
                         <span class="k">if</span> <span class="n">eval_result_df</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
                             <span class="n">eval_result_df</span> <span class="o">=</span> <span class="n">df</span>
                         <span class="k">else</span><span class="p">:</span>
-
                             <span class="n">eval_result_df</span> <span class="o">=</span> <span class="n">eval_result_df</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;outer&quot;</span><span class="p">)</span>
 
                 <span class="n">eval_result_df</span> <span class="o">=</span> <span class="n">eval_result_df</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
@@ -1652,13 +1737,14 @@
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Tasks Not Done by Annotators&quot;</span><span class="p">,</span> <span class="n">final_task_info_dict</span><span class="p">)</span>
 
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">save_dir</span> <span class="o">+</span> <span class="s2">&quot;/without_set_ref_annotator/&quot;</span><span class="p">):</span>
-                    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">save_dir</span> <span class="o">+</span> <span class="s2">&quot;/without_set_ref_annotator/&quot;</span><span class="p">)</span>
-                <span class="n">save_path</span> <span class="o">=</span> <span class="n">save_dir</span> <span class="o">+</span> <span class="s2">&quot;/without_set_ref_annotator/&quot;</span>
+                <span class="n">save_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">save_dir</span><span class="p">,</span> <span class="s2">&quot;without_set_ref_annotator&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">save_path</span><span class="p">):</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">save_path</span><span class="p">)</span>
+                
                 <span class="n">annotator</span> <span class="o">=</span> <span class="n">annotator_names</span>
 
                 <span class="k">for</span> <span class="n">_file_</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">conll_dir</span><span class="p">):</span>
-                    <span class="n">conll_path</span> <span class="o">=</span> <span class="n">conll_dir</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">_file_</span>
+                    <span class="n">conll_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">conll_dir</span><span class="p">,</span> <span class="n">_file_</span><span class="p">)</span>
                     <span class="k">for</span> <span class="n">anno_name</span> <span class="ow">in</span> <span class="n">annotator</span><span class="p">:</span>
                         <span class="k">if</span> <span class="n">anno_name</span> <span class="ow">in</span> <span class="n">conll_path</span><span class="p">:</span>
                             <span class="n">conll_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">conll_path</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;python&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
@@ -1698,12 +1784,13 @@
 
                             <span class="n">preds_df</span><span class="p">[</span><span class="s1">&#39;task_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">conll_df_to_map</span><span class="p">[</span><span class="s1">&#39;task_id&#39;</span><span class="p">]</span>
                             <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;tmp.conll&quot;</span><span class="p">)</span>
-                            <span class="n">preds_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">save_path</span> <span class="o">+</span> <span class="n">anno_name</span> <span class="o">+</span> <span class="s2">&quot;_token_based_comparison.csv&quot;</span><span class="p">)</span>
-                            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Token Comparison File saved as </span><span class="si">{</span><span class="n">save_path</span><span class="si">}{</span><span class="n">anno_name</span><span class="si">}</span><span class="s2">_token_based_comparison.csv&quot;</span><span class="p">)</span>
+                            <span class="n">filepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">save_path</span><span class="p">,</span> <span class="n">anno_name</span> <span class="o">+</span> <span class="s2">&quot;_token_based_comparison.csv&quot;</span><span class="p">)</span>
+                            <span class="n">preds_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Token Comparison File saved as </span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
                 <span class="n">task_dict</span> <span class="o">=</span> <span class="p">{}</span>
                 <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">annotator_names</span><span class="p">:</span>
-                    <span class="n">path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">save_path</span><span class="si">}{</span><span class="n">name</span><span class="si">}</span><span class="s2">_token_based_comparison.csv&quot;</span>
+                    <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">save_path</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">_token_based_comparison.csv&quot;</span><span class="p">)</span>
                     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
                     <span class="n">task_dict</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;task_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
 
@@ -1726,18 +1813,19 @@
                     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">annotator_names</span><span class="p">)):</span>
                         <span class="n">anno1</span> <span class="o">=</span> <span class="n">annotator_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
                         <span class="n">anno2</span> <span class="o">=</span> <span class="n">annotator_names</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
-                        <span class="n">base_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">save_path</span> <span class="o">+</span> <span class="n">anno1</span> <span class="o">+</span> <span class="s1">&#39;_token_based_comparison.csv&#39;</span><span class="p">)</span>
+                        <span class="n">filepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">save_path</span><span class="p">,</span> <span class="n">anno1</span> <span class="o">+</span> <span class="s2">&quot;_token_based_comparison.csv&quot;</span><span class="p">)</span>
+                        <span class="n">base_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
                         <span class="n">a1_a2_df</span> <span class="o">=</span> <span class="n">base_df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
                         <span class="n">base_label</span> <span class="o">=</span> <span class="n">anno1</span> <span class="o">+</span> <span class="s2">&quot;_label&quot;</span>
-                        <span class="n">comparison_df_dir</span> <span class="o">=</span> <span class="n">save_path</span> <span class="o">+</span> <span class="s2">&quot;/comparison_df/&quot;</span>
+                        <span class="n">comparison_df_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">save_path</span><span class="p">,</span> <span class="s2">&quot;comparison_df&quot;</span><span class="p">)</span>
                         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">comparison_df_dir</span><span class="p">):</span>
                             <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">comparison_df_dir</span><span class="p">)</span>
-                        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">save_path</span> <span class="o">+</span> <span class="n">anno2</span> <span class="o">+</span> <span class="s1">&#39;_token_based_comparison.csv&#39;</span><span class="p">)</span>
+                        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">save_path</span><span class="p">,</span> <span class="n">anno2</span> <span class="o">+</span> <span class="s1">&#39;_token_based_comparison.csv&#39;</span><span class="p">))</span>
                         <span class="n">col_name</span> <span class="o">=</span> <span class="n">anno2</span> <span class="o">+</span> <span class="s2">&quot;_label&quot;</span>
                         <span class="n">a1_a2_df</span><span class="p">[</span><span class="n">col_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col_name</span><span class="p">]</span>
                         <span class="n">a1_a2_df</span> <span class="o">=</span> <span class="n">a1_a2_df</span><span class="p">[[</span><span class="s2">&quot;task_id&quot;</span><span class="p">,</span> <span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;begin&quot;</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">,</span> <span class="n">base_label</span><span class="p">,</span> <span class="n">col_name</span><span class="p">]]</span>
                         <span class="n">a1_a2_df</span><span class="p">[</span><span class="n">anno1</span> <span class="o">+</span> <span class="s2">&quot;_vs_&quot;</span> <span class="o">+</span> <span class="n">anno2</span><span class="p">]</span> <span class="o">=</span> <span class="n">a1_a2_df</span><span class="p">[</span><span class="n">base_label</span><span class="p">]</span> <span class="o">==</span> <span class="n">a1_a2_df</span><span class="p">[</span><span class="n">col_name</span><span class="p">]</span>
-                        <span class="n">a1_a2_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">comparison_df_dir</span> <span class="o">+</span> <span class="n">anno2</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">anno1</span> <span class="o">+</span> <span class="s2">&quot;__token_df_comparison.csv&quot;</span><span class="p">)</span>
+                        <span class="n">a1_a2_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">comparison_df_dir</span><span class="p">,</span> <span class="n">anno2</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">anno1</span> <span class="o">+</span> <span class="s2">&quot;__token_df_comparison.csv&quot;</span><span class="p">))</span>
 
                 <span class="n">result_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
                 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">annotator_names</span><span class="p">)):</span>
@@ -1746,7 +1834,7 @@
                         <span class="n">anno2</span> <span class="o">=</span> <span class="n">annotator_names</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
                         <span class="k">for</span> <span class="n">file_</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">comparison_df_dir</span><span class="p">):</span>
                             <span class="k">if</span> <span class="n">anno1</span> <span class="ow">in</span> <span class="n">file_</span> <span class="ow">and</span> <span class="n">anno2</span> <span class="ow">in</span> <span class="n">file_</span><span class="p">:</span>
-                                <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">comparison_df_dir</span> <span class="o">+</span> <span class="n">file_</span><span class="p">)</span>
+                                <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">comparison_df_dir</span><span class="p">,</span> <span class="n">file_</span><span class="p">))</span>
 
                                 <span class="k">if</span> <span class="n">result_df</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
                                     <span class="n">result_df</span> <span class="o">=</span> <span class="n">df</span>
@@ -1761,13 +1849,14 @@
                 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Final Combined Token comparison result written as csv to </span><span class="si">{</span><span class="n">comparison_df_dir</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                 <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span>
                 <span class="n">display</span><span class="p">(</span><span class="n">result_df</span><span class="p">)</span>
-                <span class="n">result_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">comparison_df_dir</span> <span class="o">+</span> <span class="s2">&quot;Final_Combined_Token_Comparison.csv&quot;</span><span class="p">)</span>
+                <span class="n">result_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">comparison_df_dir</span><span class="p">,</span> <span class="s2">&quot;Final_Combined_Token_Comparison.csv&quot;</span><span class="p">))</span>
+                <span class="n">filepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;eval_metric_files&#39;</span><span class="p">,</span> <span class="s1">&#39;without_set_ref_annotator&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">annotator_names</span><span class="p">)):</span>
                     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">annotator_names</span><span class="p">)):</span>
                         <span class="n">anno1</span> <span class="o">=</span> <span class="n">annotator_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
                         <span class="n">anno2</span> <span class="o">=</span> <span class="n">annotator_names</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
-                        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;eval_metric_files/without_set_ref_annotator/&#39;</span><span class="p">):</span>
-                            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="s1">&#39;eval_metric_files/without_set_ref_annotator/&#39;</span><span class="p">)</span>
 
                         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Conll Evaluate Results for </span><span class="si">{</span><span class="n">anno1</span><span class="si">}</span><span class="s2"> vs </span><span class="si">{</span><span class="n">anno2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -1775,17 +1864,17 @@
                         <span class="n">eval_res</span> <span class="o">=</span> <span class="n">ner_log_parser</span><span class="p">()</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">result_df</span><span class="p">[</span><span class="n">anno1</span> <span class="o">+</span> <span class="s2">&quot;_label&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
                                                             <span class="n">result_df</span><span class="p">[</span><span class="n">anno2</span> <span class="o">+</span> <span class="s2">&quot;_label&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
                         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-                        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;eval_metric_files/without_set_ref_annotator/</span><span class="si">{</span><span class="n">anno1</span><span class="si">}</span><span class="s1">_vs_</span><span class="si">{</span><span class="n">anno2</span><span class="si">}</span><span class="s1">.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">anno1</span><span class="si">}</span><span class="s1">_vs_</span><span class="si">{</span><span class="n">anno2</span><span class="si">}</span><span class="s1">.txt&#39;</span><span class="p">),</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
                             <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">eval_res</span><span class="p">:</span>
                                 <span class="n">line</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">t</span><span class="p">)</span>
                                 <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
                             <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
                 <span class="n">eval_result_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
-                <span class="k">for</span> <span class="n">file_</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s2">&quot;eval_metric_files/without_set_ref_annotator/&quot;</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">file_</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
                     <span class="k">if</span> <span class="n">file_</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.txt&#39;</span><span class="p">):</span>
                         <span class="n">entity</span> <span class="o">=</span> <span class="p">[]</span>
                         <span class="n">f1</span> <span class="o">=</span> <span class="p">[]</span>
-                        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;/content/eval_metric_files/without_set_ref_annotator/&quot;</span> <span class="o">+</span> <span class="n">file_</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">file_</span><span class="p">),</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
                             <span class="n">name</span> <span class="o">=</span> <span class="n">file_</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
                             <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
                                 <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;) (&quot;</span><span class="p">,</span> <span class="s2">&quot;,&quot;</span><span class="p">)</span>
@@ -1810,11 +1899,12 @@
                             <span class="n">eval_result_df</span> <span class="o">=</span> <span class="n">eval_result_df</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;outer&quot;</span><span class="p">)</span>
 
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Dataframe written as : eval_metric_files/without_set_ref_annotator/Combined_Evaluation_Metrics.csv&quot;</span><span class="p">)</span>
-                <span class="n">eval_result_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;eval_metric_files/without_set_ref_annotator/Combined_Evaluation_Metrics.csv&quot;</span><span class="p">)</span>
+                <span class="n">filepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;eval_metric_files/without_set_ref_annotator/Combined_Evaluation_Metrics.csv&quot;</span><span class="p">)</span>
+                <span class="n">eval_result_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
                 <span class="n">display</span><span class="p">(</span><span class="n">eval_result_df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
-                <span class="n">token_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">comparison_df_dir</span> <span class="o">+</span> <span class="s2">&quot;Final_Combined_Token_Comparison.csv&quot;</span><span class="p">)</span>
+                <span class="n">token_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">comparison_df_dir</span><span class="p">,</span> <span class="s2">&quot;Final_Combined_Token_Comparison.csv&quot;</span><span class="p">))</span>
                 <span class="n">final_classification_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
                 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">annotator_names</span><span class="p">)):</span>
                     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">annotator_names</span><span class="p">)):</span>
@@ -1835,91 +1925,70 @@
                 <span class="n">display</span><span class="p">(</span><span class="n">final_classification_df</span><span class="p">)</span>
                 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DataFrame written as csv: classification_report.csv </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Tasks Not Done by Annotators&quot;</span><span class="p">,</span> <span class="n">final_task_info_dict</span><span class="p">)</span></div></div>
-
-
-
 </pre></div>
 
-            </article>
-            
-            
-            
-            <footer class="bd-footer-article">
-                <!-- Previous / next buttons -->
-<div class='prev-next-area'>
-</div>
-            </footer>
-            
-          </div>
-          
-          
-          
-            <div class="bd-sidebar-secondary bd-toc">
+                </article>
               
-<div class="toc-item">
-  
-<div id="searchbox"></div>
+              
+              
+                <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
 </div>
-
-<div class="toc-item">
-  
-</div>
-
-<div class="toc-item">
-  
-</div>
-
+                </footer>
+              
             </div>
-          
-          
-        </div>
-        <footer class="bd-footer-content">
-          <div class="bd-footer-content__inner">
+            
+            
+              
             
           </div>
-        </footer>
+          <footer class="bd-footer-content">
+            <div class="bd-footer-content__inner"></div>
+          </footer>
         
       </main>
     </div>
   </div>
-
   
-    
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
-<script src="../../static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
+  <script src="../../static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
+<script src="../../static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
 
-  <footer class="bd-footer"><div class="bd-footer__inner container">
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
   
-  <div class="footer-item">
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
     
-<p class="copyright">
-
-    &copy; Copyright 2022, John Snow Labs.<br>
-
-</p>
-
-  </div>
-  
-  <div class="footer-item">
-    <p class="theme-version">
-    Built with the
-    <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">
-        PyData Sphinx Theme
-    </a>
-    0.12.0.
-</p>
-  </div>
-  
-  <div class="footer-item">
+      © Copyright 2022, John Snow Labs.
+      <br/>
     
-<p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
-</p>
-
-  </div>
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://sphinx-doc.org/">Sphinx</a> 5.3.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.0.
+</p></div>
+      
+    </div>
   
 </div>
+
   </footer>
   </body>
 </html>

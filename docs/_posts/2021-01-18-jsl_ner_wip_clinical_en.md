@@ -6,6 +6,7 @@ name: jsl_ner_wip_clinical
 date: 2021-01-18
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Healthcare NLP 2.7.0
 spark_version: 2.4
 tags: [ner, en, clinical, licensed]
@@ -71,7 +72,7 @@ results = model.transform(spark.createDataFrame([["The patient is a 21-day-old C
 ```scala
 ...
 val embeddings_clinical = WordEmbeddingsModel.pretrained("embeddings_clinical", "en", "clinical/models")
-.setInputCols(["sentence", "token"])
+.setInputCols("sentence", "token")
 .setOutputCol("embeddings")
 val ner = NerDLModel.pretrained("jsl_ner_wip_clinical", "en", "clinical/models") 
 .setInputCols("sentence", "token", "embeddings")

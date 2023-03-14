@@ -7,6 +7,7 @@ date: 2023-01-30
 tags: [en, licensed, tensorflow]
 task: Question Answering
 language: en
+nav_key: models
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -51,7 +52,7 @@ spanClassifier = nlp.RoBertaForQuestionAnswering.pretrained("legqa_roberta_cuad_
 .setOutputCol("answer") \
 .setCaseSensitive(True)
 
-pipeline = Pipeline().setStages([
+pipeline = nlp.Pipeline().setStages([
 documentAssembler,
 spanClassifier
 ])

@@ -7,6 +7,7 @@ date: 2021-09-13
 tags: [en, licensed]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Healthcare NLP 3.2.0
 spark_version: 2.4
 supported: true
@@ -68,7 +69,6 @@ pipeline =  Pipeline(stages=[documentAssembler,
                              tokenizer, 
                              tokenClassifier, 
                              ner_converter])
-
 
 sample_text = """A. Record date : 2093-01-13, David Hale, M.D. Name : Hendrickson, Ora MR. # 7194334. PCP : Oliveira, non-smoking. Cocke County Baptist Hospital. 0295 Keats Street. Phone +1 (302) 786-5227. Patient's complaints first surfaced when he started working for Brothers Coal-Mine."""
 

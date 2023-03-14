@@ -7,6 +7,7 @@ date: 2022-10-15
 tags: [en, finance, re, has_ticker, licensed]
 task: Relation Extraction
 language: en
+nav_key: models
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -96,7 +97,7 @@ re_Model = finance.RelationExtractionDLModel.pretrained("finre_has_ticker", "en"
     .setOutputCol("relations")\
     .setPredictionThreshold(0.2)
 
-pipeline = Pipeline(stages=[
+pipeline = nlp.Pipeline(stages=[
     document_assembler, 
     sentence_detector,
     tokenizer,

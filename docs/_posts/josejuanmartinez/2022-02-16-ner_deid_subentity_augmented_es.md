@@ -36,8 +36,8 @@ This NER model is trained with a combination of custom datasets, Spanish 2002 co
 
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_DEID_ES/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/healthcare-nlp/04.1.Clinical_Multi_Language_Deidentification.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_deid_subentity_augmented_es_3.3.4_3.0_1645006642756.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
 [Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/ner_deid_subentity_augmented_es_3.3.4_3.0_1645006642756.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
@@ -109,7 +109,12 @@ val clinical_ner = MedicalNerModel.pretrained("ner_deid_subentity_augmented", "e
         .setInputCols(Array("sentence","token","embeddings"))
         .setOutputCol("ner")
 
-val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_ner))
+val pipeline = new Pipeline().setStages(Array(
+        documentAssembler, 
+        sentenceDetector, 
+        tokenizer, 
+        embeddings, 
+        clinical_ner))
 
 val text = "Antonio Miguel Martínez, varón de de 35 años de edad, de profesión auxiliar de enfermería y nacido en Cadiz, España. Aún no estaba vacunado, se infectó con Covid-19 el dia 14 de Marzo y tuvo que ir al Hospital. Fue tratado con anticuerpos monoclonales en la Clinica San Carlos."
 

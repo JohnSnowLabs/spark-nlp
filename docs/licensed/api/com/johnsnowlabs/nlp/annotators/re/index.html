@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.2.8 ScalaDoc  - com.johnsnowlabs.nlp.annotators.re</title>
-          <meta name="description" content="Spark NLP 4.2.8 ScalaDoc - com.johnsnowlabs.nlp.annotators.re" />
-          <meta name="keywords" content="Spark NLP 4.2.8 ScalaDoc com.johnsnowlabs.nlp.annotators.re" />
+          <title>Spark NLP 4.3.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.re</title>
+          <meta name="description" content="Spark NLP 4.3.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.re" />
+          <meta name="keywords" content="Spark NLP 4.3.1 ScalaDoc com.johnsnowlabs.nlp.annotators.re" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.2.8 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.3.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -399,8 +399,8 @@
                         <a href="REFeatureGenerator$.html" title="">REFeatureGenerator</a>
                       </li><li class="current-entities indented5">
                         <a class="object" href="RENerChunksFilter$.html" title=""></a>
-                        <a class="class" href="RENerChunksFilter.html" title="Filters and outputs combinations of relations between extracted entities, for further processing."></a>
-                        <a href="RENerChunksFilter.html" title="Filters and outputs combinations of relations between extracted entities, for further processing.">RENerChunksFilter</a>
+                        <a class="class" href="RENerChunksFilter.html" title="Filters entities' dependency relations."></a>
+                        <a href="RENerChunksFilter.html" title="Filters entities' dependency relations.">RENerChunksFilter</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="trait" href="ReadRelationExtractionDLModelTensorflowModel.html" title=""></a>
@@ -458,6 +458,22 @@
       </span>
       <span class="symbol">
         <a title="" href="../resolution/index.html"><span class="name">resolution</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.tokenizer" visbl="pub" class="indented5 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="tokenizer"></a><a id="tokenizer:tokenizer"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/tokenizer/index.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../tokenizer/index.html"><span class="name">tokenizer</span></a>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
@@ -627,11 +643,18 @@ Please see the
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="Filters and outputs combinations of relations between extracted entities, for further processing." href="RENerChunksFilter.html"><span class="name">RENerChunksFilter</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="RENerChunksFilter.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter">RENerChunksFilter</a>] with <span class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</span>[<a href="RENerChunksFilter.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter">RENerChunksFilter</a>] with <span class="extype" name="com.johnsnowlabs.license.CheckLicense">CheckLicense</span></span>
+        <a title="Filters entities' dependency relations." href="RENerChunksFilter.html"><span class="name">RENerChunksFilter</span></a><span class="result"> extends <span class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</span>[<a href="RENerChunksFilter.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter">RENerChunksFilter</a>] with <span class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</span>[<a href="RENerChunksFilter.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RENerChunksFilter">RENerChunksFilter</a>] with <span class="extype" name="com.johnsnowlabs.license.CheckLicense">CheckLicense</span></span>
       </span>
       
-      <p class="shortcomment cmt">Filters and outputs combinations of relations between extracted entities, for further processing.</p><div class="fullcomment"><div class="comment cmt"><p>Filters and outputs combinations of relations between extracted entities, for further processing.
-This annotator is especially useful to create inputs for the <a href="RelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel">RelationExtractionDLModel</a>.</p><h4>Example</h4><p>Define pipeline stages to extract entities</p><pre><span class="kw">val</span> documenter = <span class="kw">new</span> DocumentAssembler()
+      <p class="shortcomment cmt">Filters entities' dependency relations.</p><div class="fullcomment"><div class="comment cmt"><p>Filters entities' dependency relations.</p><p>The annotator filters desired relation pairs (defined by the parameter realtionPairs),
+and store those on the output column.
+Filtering the possible relations can be useful to perform additional analysis for
+a specific use case (e.g., checking adverse drug reactions and drug realations),
+which can be the input for further analysis using a pretrained <a href="RelationExtractionDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionDLModel">RelationExtractionDLModel</a>.</p><p>For example, the <a href="https://nlp.johnsnowlabs.com/2021/03/31/ner_clinical_en.html" target="_blank">ner_clinical</a>
+NER model can identify <code>PROBLEM</code>, <code>TEST</code>, and <code>TREATMENT</code> entities. By using this
+annotator, one can filter (select) the relations between <code>PROBLEM</code> and <code>TREATMENT</code>
+entities only, removing any relation between the other entities, to further analyze
+the associations between clinical problems and treatments.</p><h4>Example</h4><p>Define pipeline stages to extract entities</p><pre><span class="kw">val</span> documenter = <span class="kw">new</span> DocumentAssembler()
   .setInputCol(<span class="lit">"text"</span>)
   .setOutputCol(<span class="lit">"document"</span>)
 
@@ -793,9 +816,14 @@ This annotator is especially useful to create inputs for the <a href="RelationEx
         <a title="Trains a TensorFlow model for relation extraction." href="RelationExtractionApproach.html"><span class="name">RelationExtractionApproach</span></a><span class="result"> extends <a href="../generic_classifier/GenericClassifierApproach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.generic_classifier.GenericClassifierApproach">GenericClassifierApproach</a></span>
       </span>
       
-      <p class="shortcomment cmt">Trains a TensorFlow model for relation extraction.</p><div class="fullcomment"><div class="comment cmt"><p>Trains a TensorFlow model for relation extraction. The Tensorflow graph in <code>.pb</code> format needs to be specified with
-<a href="RelationExtractionApproach.html#setModelFile(modelFile:String):GenericClassifierApproach.this.type" class="extmbr" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach#setModelFile"><code>setModelFile</code></a>. The result is a <a href="RelationExtractionModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel">RelationExtractionModel</a>.
-To start training, see the parameters that need to be set in the Parameters section.</p><h4>Example</h4><p>Defining pipeline stages to extract entities first</p><pre><span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+      <p class="shortcomment cmt">Trains a TensorFlow model for relation extraction.</p><div class="fullcomment"><div class="comment cmt"><p>Trains a TensorFlow model for relation extraction.</p><p>For pretrained models, see the documentation of <a href="RelationExtractionModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel">RelationExtractionModel</a>.</p><p>To train a custom relation extraction model, you need to first create
+a Tensorflow graph using either the <code>TfGraphBuilder</code> annotator or
+the <code>tf_graph</code> module. Then, set the path to the Tensorflow graph
+using the method <a href="RelationExtractionApproach.html#setModelFile(modelFile:String):GenericClassifierApproach.this.type" class="extmbr" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionApproach#setModelFile"><code>setModelFile</code></a>.</p><p>If the parameter <code>relationDirectionCol</code> is set, the model will be
+trained using the direction information (see the parameter decription
+for details). Otherwise, the model won't have direction between the
+relation of the entities. After training a model (using the <code>.fit()</code> method),
+the resulting object is of class <a href="RelationExtractionModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.re.RelationExtractionModel">RelationExtractionModel</a>.</p><h4>Example</h4><p>Defining pipeline stages to extract entities first</p><pre><span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
   .setInputCol(<span class="lit">"text"</span>)
   .setOutputCol(<span class="lit">"document"</span>)
 

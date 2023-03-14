@@ -5,6 +5,7 @@ author: John Snow Labs
 name: re_clinical
 class: RelationExtractionModel
 language: en
+nav_key: models
 repository: clinical/models
 date: 2020-09-24
 task: Relation Extraction

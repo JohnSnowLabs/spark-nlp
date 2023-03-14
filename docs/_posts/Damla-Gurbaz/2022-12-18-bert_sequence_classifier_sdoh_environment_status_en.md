@@ -7,6 +7,7 @@ date: 2022-12-18
 tags: [en, clinical, sdoh, licensed, sequence_classification, environment_status, classifier]
 task: Text Classification
 language: en
+nav_key: models
 edition: Healthcare NLP 4.2.2
 spark_version: 3.0
 supported: true

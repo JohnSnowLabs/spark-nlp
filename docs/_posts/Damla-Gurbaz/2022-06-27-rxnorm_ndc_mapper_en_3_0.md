@@ -7,6 +7,7 @@ date: 2022-06-27
 tags: [rxnorm, ndc, chunk_mapper, licensed, clinical, en]
 task: Chunk Mapping
 language: en
+nav_key: models
 edition: Healthcare NLP 3.5.3
 spark_version: 3.0
 supported: true
@@ -92,7 +93,7 @@ val chunkerMapper = ChunkMapperModel
 .pretrained("rxnorm_ndc_mapper", "en", "clinical/models")
 .setInputCols("rxnorm_code")
 .setOutputCol("ndc_mappings")
-.setRels(["Product NDC", "Package NDC"])
+.setRels("Product NDC", "Package NDC")
 
 val pipeline = new Pipeline(stages = Array(
 documentAssembler,

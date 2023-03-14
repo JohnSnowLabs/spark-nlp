@@ -7,6 +7,7 @@ date: 2021-08-28
 tags: [rxnorm, en, licensed, clinical]
 task: Entity Resolution
 language: en
+nav_key: models
 edition: Healthcare NLP 3.1.3
 spark_version: 2.4
 supported: true
@@ -46,7 +47,7 @@ sbert_embedder = BertSentenceEmbeddings.pretrained('sbert_jsl_medium_uncased', '
 .setOutputCol("sbert_embeddings")
 
 rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_rxnorm_disposition", "en", "clinical/models") \
-.setInputCols(["ner_chunk", "sbert_embeddings"]) \
+.setInputCols(["sbert_embeddings"]) \
 .setOutputCol("rxnorm_code")\
 .setDistanceFunction("EUCLIDEAN")
 
@@ -69,7 +70,7 @@ val sbert_embedder = BertSentenceEmbeddings.pretrained("sbert_jsl_medium_uncased
 .setOutputCol("sbert_embeddings")
 
 val rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbertresolve_rxnorm_disposition", "en", "clinical/models") 
-.setInputCols(Array("ner_chunk", "sbert_embeddings")) 
+.setInputCols(Array("sbert_embeddings")) 
 .setOutputCol("rxnorm_code")
 .setDistanceFunction("EUCLIDEAN")
 

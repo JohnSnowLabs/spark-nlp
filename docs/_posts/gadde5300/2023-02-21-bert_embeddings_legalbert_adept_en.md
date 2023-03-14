@@ -1,12 +1,13 @@
 ---
 layout: model
-title: English BERT Embeddings (from hatemestinbejaia)
+title: English Legal BERT Embeddings 
 author: John Snow Labs
 name: bert_embeddings_legalbert_adept
 date: 2023-02-21
 tags: [bert, en, english, embeddings, transformer, open_source]
 task: Embeddings
 language: en
+nav_key: models
 edition: Spark NLP 4.3.0
 spark_version: 3.0
 supported: true

@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.training.conll &#8212; Spark NLP 4.2.8 documentation</title>
+    <title>sparknlp.training.conll &#8212; Spark NLP 4.3.1 documentation</title>
   
   
   
@@ -362,6 +362,8 @@
 <span class="sd">        Whether to explode sentences to separate rows, by default True</span>
 <span class="sd">    delimiter: str, optional</span>
 <span class="sd">        Delimiter used to separate columns inside CoNLL file</span>
+<span class="sd">    includeDocId: bool, optional</span>
+<span class="sd">        Whether to try and parse the document id from the third item in the -DOCSTART- line (X if not found)</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -389,10 +391,12 @@
                  <span class="n">posCol</span><span class="o">=</span><span class="s1">&#39;pos&#39;</span><span class="p">,</span>
                  <span class="n">conllLabelIndex</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
                  <span class="n">conllPosIndex</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">conllDocIdCol</span><span class="o">=</span><span class="s2">&quot;doc_id&quot;</span><span class="p">,</span>
                  <span class="n">textCol</span><span class="o">=</span><span class="s1">&#39;text&#39;</span><span class="p">,</span>
                  <span class="n">labelCol</span><span class="o">=</span><span class="s1">&#39;label&#39;</span><span class="p">,</span>
                  <span class="n">explodeSentences</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                 <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39; &#39;</span>
+                 <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">,</span>
+                 <span class="n">includeDocId</span><span class="o">=</span><span class="kc">False</span>
                  <span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">CoNLL</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;com.johnsnowlabs.nlp.training.CoNLL&quot;</span><span class="p">,</span>
                                     <span class="n">documentCol</span><span class="p">,</span>
@@ -401,10 +405,12 @@
                                     <span class="n">posCol</span><span class="p">,</span>
                                     <span class="n">conllLabelIndex</span><span class="p">,</span>
                                     <span class="n">conllPosIndex</span><span class="p">,</span>
+                                    <span class="n">conllDocIdCol</span><span class="p">,</span>
                                     <span class="n">textCol</span><span class="p">,</span>
                                     <span class="n">labelCol</span><span class="p">,</span>
                                     <span class="n">explodeSentences</span><span class="p">,</span>
-                                    <span class="n">delimiter</span><span class="p">)</span>
+                                    <span class="n">delimiter</span><span class="p">,</span>
+                                    <span class="n">includeDocId</span><span class="p">)</span>
 
 <div class="viewcode-block" id="CoNLL.readDataset"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/training/conll/index.html#sparknlp.training.conll.CoNLL.readDataset">[docs]</a>    <span class="k">def</span> <span class="nf">readDataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spark</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">read_as</span><span class="o">=</span><span class="n">ReadAs</span><span class="o">.</span><span class="n">TEXT</span><span class="p">,</span> <span class="n">partitions</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">storage_level</span><span class="o">=</span><span class="n">pyspark</span><span class="o">.</span><span class="n">StorageLevel</span><span class="o">.</span><span class="n">DISK_ONLY</span><span class="p">):</span>
         <span class="c1"># ToDo Replace with std pyspark</span>

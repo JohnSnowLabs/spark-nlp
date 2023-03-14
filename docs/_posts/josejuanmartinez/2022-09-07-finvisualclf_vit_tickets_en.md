@@ -7,6 +7,7 @@ date: 2022-09-07
 tags: [en, finance, classification, tickets, licensed]
 task: Image Classification
 language: en
+nav_key: models
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -52,7 +53,7 @@ imageClassifier_loaded = nlp.ViTForImageClassification.pretrained("finvisualclf_
   .setInputCols(["image_assembler"])\
   .setOutputCol("class")
 
-pipeline = Pipeline().setStages([
+pipeline = nlp.Pipeline().setStages([
     document_assembler,
     imageClassifier_loaded
 ])

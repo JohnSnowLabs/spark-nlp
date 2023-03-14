@@ -74,7 +74,7 @@ legal_ner = legal.NerModel.pretrained("legner_courts",'de','legal/models') \
 .setOutputCol("ner")
 ...
 
-legal_pred_pipeline = Pipeline(stages = [document_assembler, sentence_detector, tokenizer, word_embeddings, legal_ner, ner_converter])
+legal_pred_pipeline = nlp.Pipeline(stages = [document_assembler, sentence_detector, tokenizer, word_embeddings, legal_ner, ner_converter])
 legal_light_model = LightPipeline(legal_pred_pipeline.fit(spark.createDataFrame([['']]).toDF("text")))
 
 result = legal_light_model.fullAnnotate('''Jedoch wird der Verkehr darin naheliegend den Namen eines der bekanntesten Flüsse Deutschlands erkennen, welcher als Seitenfluss des Rheins durch Oberfranken, Unterfranken und Südhessen fließt und bei Mainz in den Rhein mündet. Klein , in : Maunz / Schmidt-Bleibtreu / Klein / Bethge , BVerfGG , § 19 Rn. 9 Richtlinien zur Bewertung des Grundvermögens – BewRGr – vom19. I September 1966 (BStBl I, S.890) ''')

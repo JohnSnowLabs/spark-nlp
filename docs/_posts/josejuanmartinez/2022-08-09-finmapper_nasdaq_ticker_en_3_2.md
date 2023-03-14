@@ -7,6 +7,7 @@ date: 2022-08-09
 tags: [en, finance, companies, tickers, nasdaq, licensed]
 task: Chunk Mapping
 language: en
+nav_key: models
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -35,6 +36,7 @@ This model allows you to, given a Ticker, get information about that company, in
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 document_assembler = nlp.DocumentAssembler()\

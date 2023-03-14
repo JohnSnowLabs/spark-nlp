@@ -7,6 +7,7 @@ date: 2023-01-10
 tags: [en, licensed]
 task: OCR Object Detection
 language: en
+nav_key: models
 edition: Visual NLP 4.0.0
 spark_version: 3.2
 supported: true
@@ -103,7 +104,7 @@ val tokenizer = new HocrTokenizer()
 
 val doc_ner = VisualDocumentNerV21()
     .pretrained("visualner_10kfilings", "en", "clinical/models")
-    .setInputCols(Array(["token", "image"))
+    .setInputCols(Array("token", "image"))
     .setOutputCol("entities")
 
 val draw = new ImageDrawAnnotations() 

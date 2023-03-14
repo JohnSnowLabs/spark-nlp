@@ -7,6 +7,7 @@ date: 2022-07-27
 tags: [clinical, licensed, public_health, ade, classifier, sequence_classification, en]
 task: Text Classification
 language: en
+nav_key: models
 edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true
@@ -25,7 +26,7 @@ This model is a [BioBERT-based] (https://github.com/dmis-lab/biobert) classifier
 `ADE`, `noADE`
 
 {:.btn-box}
-[Live Demo](https://demo.johnsnowlabs.com/healthcare/PP_ADE/){:.button.button-orange}
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/ADE/){:.button.button-orange}
 [Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/16.Adverse_Drug_Event_ADE_NER_and_Classifier.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_sequence_classifier_ade_augmented_en_4.0.0_3.0_1658905698079.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
 [Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/bert_sequence_classifier_ade_augmented_en_4.0.0_3.0_1658905698079.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}

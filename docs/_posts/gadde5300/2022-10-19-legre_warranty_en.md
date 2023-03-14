@@ -7,6 +7,7 @@ date: 2022-10-19
 tags: [legal, en, re, licensed, warranty]
 task: Relation Extraction
 language: en
+nav_key: models
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -39,6 +40,7 @@ This is a Legal Relation Extraction Model to identify the Subject (who), Action 
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 
 documentAssembler = nlp.DocumentAssembler()\
@@ -66,7 +68,7 @@ reDL = legal.RelationExtractionDLModel.pretrained("legre_warranty", "en", "legal
     .setInputCols(["ner_chunk", "document"]) \
     .setOutputCol("relations")
     
-pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings, ner_model, ner_converter, reDL])
+pipeline = nlp.Pipeline(stages=[documentAssembler, tokenizer, embeddings, ner_model, ner_converter, reDL])
 
 text = """ARTICLE XI - WARRANTIES   11.1 In addition to the warranties set forth in Article IX of the General Terms and Conditions of Transporter's FERC Gas Tariff, Shipper warrants the following:   (a) Shipper warrants that all upstream and downstream transportation arrangements are in place, or will be in place as of the requested effective date of service, and that it has advised the upstream and downstream transporters of the receipt and delivery points under this Agreement and any quantity limitations for each point as specified on Exhibit "A" attached hereto."""
 

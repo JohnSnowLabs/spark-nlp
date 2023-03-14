@@ -7,6 +7,7 @@ date: 2022-12-02
 tags: [10q, xlbr, en, licensed]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
@@ -62,7 +63,7 @@ nerTagger = finance.NerModel.pretrained('finner_10q_xlbr', 'en', 'finance/models
    .setInputCols(["sentence", "token", "embeddings"])\
    .setOutputCol("ner")
               
-pipeline = Pipeline(stages=[documentAssembler,
+pipeline = nlp.Pipeline(stages=[documentAssembler,
                             sentence,
                             tokenizer,
                             embeddings,
