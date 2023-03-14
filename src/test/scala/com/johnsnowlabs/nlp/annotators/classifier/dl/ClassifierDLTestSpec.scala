@@ -25,6 +25,7 @@ import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
 class ClassifierDLTestSpec extends AnyFlatSpec {
+  import ResourceHelper.spark.implicits._
 
   "ClassifierDL" should "correctly train IMDB train dataset" taggedAs SlowTest in {
 
@@ -58,7 +59,7 @@ class ClassifierDLTestSpec extends AnyFlatSpec {
 
     val pipelineModel = pipeline.fit(smallCorpus)
 
-    pipelineModel.transform(smallCorpus).select("document").show(1, false)
+    pipelineModel.transform(smallCorpus).select("document").show(1, truncate = false)
 
   }
 
@@ -105,6 +106,37 @@ class ClassifierDLTestSpec extends AnyFlatSpec {
   "ClassifierDL" should "correctly download and load pre-trained model" taggedAs FastTest in {
     val classifierDL = ClassifierDLModel.pretrained("classifierdl_use_trec50")
     classifierDL.getClasses.foreach(x => print(x + ", "))
+  }
+
+  "ClassifierDL" should "not fail on empty validation sets" taggedAs SlowTest in {
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentenceEmbeddings = BertSentenceEmbeddings
+      .pretrained("sent_small_bert_L2_128")
+      .setInputCols("document")
+      .setOutputCol("sentence_embeddings")
+
+    val docClassifier = new ClassifierDLApproach()
+      .setInputCols("sentence_embeddings")
+      .setOutputCol("category")
+      .setLabelColumn("label")
+      .setBatchSize(8)
+      .setMaxEpochs(1)
+      .setLr(5e-3f)
+      .setDropout(0.5f)
+      .setValidationSplit(0.1f)
+
+    val pipeline = new Pipeline()
+      .setStages(Array(documentAssembler, sentenceEmbeddings, docClassifier))
+
+    val data = Seq(("This is good.", "good"), ("This is bad.", "bad"), ("This has no labels", ""))
+      .toDF("text", "label")
+
+    val pipelineModel = pipeline.fit(data)
+
+    pipelineModel.transform(data).select("document").show(1, truncate = false)
   }
 
 }

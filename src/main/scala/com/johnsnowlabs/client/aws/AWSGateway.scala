@@ -22,7 +22,8 @@ import com.amazonaws.services.s3.model.{
   GetObjectRequest,
   ObjectMetadata,
   PutObjectResult,
-  S3Object
+  S3Object,
+  S3ObjectSummary
 }
 import com.amazonaws.services.s3.transfer.{Transfer, TransferManagerBuilder}
 import com.amazonaws.services.s3.{AmazonS3, AmazonS3ClientBuilder}
@@ -34,7 +35,9 @@ import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader}
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.slf4j.{Logger, LoggerFactory}
 
+import scala.jdk.CollectionConverters._
 import java.io.File
+import scala.util.control.NonFatal
 
 class AWSGateway(
     accessKeyId: String = ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalAccessKeyId),
@@ -111,6 +114,10 @@ class AWSGateway(
     } catch {
       case exception: AmazonServiceException =>
         if (exception.getStatusCode == 404) false else throw exception
+      case NonFatal(unexpectedException) =>
+        val methodName = Thread.currentThread.getStackTrace()(1).getMethodName
+        throw new Exception(
+          s"Unexpected error in ${this.getClass.getName}.$methodName: $unexpectedException")
     }
   }
 
@@ -121,6 +128,10 @@ class AWSGateway(
     } catch {
       case exception: AmazonServiceException =>
         if (exception.getStatusCode == 404) false else throw exception
+      case NonFatal(unexpectedException) =>
+        val methodName = Thread.currentThread.getStackTrace()(1).getMethodName
+        throw new Exception(
+          s"Unexpected error in ${this.getClass.getName}.$methodName: $unexpectedException")
     }
 
   }
@@ -145,7 +156,12 @@ class AWSGateway(
       val meta = client.getObjectMetadata(bucket, s3FilePath)
       Some(meta.getContentLength)
     } catch {
-      case e: AmazonServiceException => if (e.getStatusCode == 404) None else throw e
+      case exception: AmazonServiceException =>
+        if (exception.getStatusCode == 404) None else throw exception
+      case NonFatal(unexpectedException) =>
+        val methodName = Thread.currentThread.getStackTrace()(1).getMethodName
+        throw new Exception(
+          s"Unexpected error in ${this.getClass.getName}.$methodName: $unexpectedException")
     }
   }
 
@@ -196,6 +212,20 @@ class AWSGateway(
         throw new AmazonClientException("Amazon client error: " + e.getMessage)
       case e: InterruptedException =>
         throw new InterruptedException("Transfer interrupted: " + e.getMessage)
+    }
+  }
+
+  def listS3Files(bucket: String, s3Path: String): Array[S3ObjectSummary] = {
+    try {
+      val listObjects = client.listObjectsV2(bucket, s3Path)
+      listObjects.getObjectSummaries.asScala.toArray
+    } catch {
+      case e: AmazonServiceException =>
+        throw new AmazonServiceException("Amazon service error: " + e.getMessage)
+      case NonFatal(unexpectedException) =>
+        val methodName = Thread.currentThread.getStackTrace()(1).getMethodName
+        throw new Exception(
+          s"Unexpected error in ${this.getClass.getName}.$methodName: $unexpectedException")
     }
   }
 
