@@ -1,42 +1,26 @@
 ---
 
 layout: model
-
 title: English image_classifier_vit_vision_transformer_fmri_classification_ft ViTForImageClassification from shivkumarganesh
-
 author: John Snow Labs
-
 name: image_classifier_vit_vision_transformer_fmri_classification_ft
-
 date: 2022-08-10
-
 tags: [vit, en, images, open_source]
-
 task: Image Classification
-
 language: en
 nav_key: models
-
 edition: Spark NLP 4.1.0
-
 spark_version: 3.0
-
 supported: true
-
 annotator: ViTForImageClassification
-
 article_header:
-
   type: cover
-
 use_language_switcher: "Python-Scala-Java"
 
 ---
 
 
-
 ## Description
-
 
 
 Pretrained VIT  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`image_classifier_vit_vision_transformer_fmri_classification_ft` is a English model originally trained by shivkumarganesh.
@@ -45,12 +29,6 @@ Pretrained VIT  model, adapted from Hugging Face and curated to provide scalabil
 ## Predicted Entities
 
 `test`, `train`, `val`
-
-
-
-
-
-
 
 {:.btn-box}
 
@@ -65,51 +43,27 @@ Pretrained VIT  model, adapted from Hugging Face and curated to provide scalabil
 
 ## How to use
 
-
-
-
-
-
-
 <div class="tabs-box" markdown="1">
 
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
 
-
-
 image_assembler = ImageAssembler() \
-
     .setInputCol("image") \
-
     .setOutputCol("image_assembler")
 
-
-
 imageClassifier = ViTForImageClassification \
-
     .pretrained("image_classifier_vit_vision_transformer_fmri_classification_ft", "en")\
-
     .setInputCols("image_assembler") \
-
     .setOutputCol("class")
 
-
-
 pipeline = Pipeline(stages=[
-
     image_assembler,
-
     imageClassifier,
-
 ])
 
-
-
 pipelineModel = pipeline.fit(imageDF)
-
-
 
 pipelineDF = pipelineModel.transform(imageDF)
 
@@ -117,38 +71,20 @@ pipelineDF = pipelineModel.transform(imageDF)
 
 ```scala
 
-
-
 val imageAssembler = new ImageAssembler()
-
-.setInputCol("image")
-
-.setOutputCol("image_assembler")
-
-
+    .setInputCol("image")
+    .setOutputCol("image_assembler")
 
 val imageClassifier = ViTForImageClassification
-
-.pretrained("image_classifier_vit_vision_transformer_fmri_classification_ft", "en")
-
-.setInputCols("image_assembler")
-
-.setOutputCol("class")
-
-
+    .pretrained("image_classifier_vit_vision_transformer_fmri_classification_ft", "en")
+    .setInputCols("image_assembler")
+    .setOutputCol("class")
 
 val pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier))
 
-
-
 val pipelineModel = pipeline.fit(imageDF)
 
-
-
 val pipelineDF = pipelineModel.transform(imageDF)
-
-
-
 ```
 
 </div>
@@ -162,22 +98,13 @@ val pipelineDF = pipelineModel.transform(imageDF)
 
 
 {:.table-model}
-
 |---|---|
-
 |Model Name:|image_classifier_vit_vision_transformer_fmri_classification_ft|
-
 |Compatibility:|Spark NLP 4.1.0+|
-
 |License:|Open Source|
-
 |Edition:|Official|
-
 |Input Labels:|[image_assembler]|
-
 |Output Labels:|[class]|
-
 |Language:|en|
-
 |Size:|321.9 MB|
 
