@@ -33,8 +33,8 @@ Deidentification NER (Spanish) is a Named Entity Recognition model that annotate
 
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_DEID_ES/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/healthcare-nlp/04.1.Clinical_Multi_Language_Deidentification.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_deid_generic_es_3.3.4_3.0_1642528473168.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
 [Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/ner_deid_generic_es_3.3.4_3.0_1642528473168.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
@@ -51,32 +51,31 @@ Deidentification NER (Spanish) is a Named Entity Recognition model that annotate
 
 ```python
 documentAssembler = nlp.DocumentAssembler()\
-.setInputCol("text")\
-.setOutputCol("document")
+	.setInputCol("text")\
+	.setOutputCol("document")
 
-# Feel free to experiment with multilingual or Spanish nlp.SentenceDetector instead
 sentenceDetector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")\
-.setInputCols(["document"])\
-.setOutputCol("sentence")
+	.setInputCols(["document"])\
+	.setOutputCol("sentence")
 
 tokenizer = nlp.Tokenizer()\
-.setInputCols(["sentence"])\
-.setOutputCol("token")
+	.setInputCols(["sentence"])\
+	.setOutputCol("token")
 
 embeddings = nlp.WordEmbeddingsModel.pretrained("embeddings_sciwiki_300d","es","clinical/models")\
 	.setInputCols(["sentence","token"])\
 	.setOutputCol("word_embeddings")
 
 clinical_ner = medical.NerModel.pretrained("ner_deid_generic", "es", "clinical/models")\
-.setInputCols(["sentence","token","word_embeddings"])\
-.setOutputCol("ner")
+	.setInputCols(["sentence","token","word_embeddings"])\
+	.setOutputCol("ner")
 
-nlpPipeline = Pipeline(stages=[
-documentAssembler,
-sentenceDetector,
-tokenizer,
-embeddings,
-clinical_ner])
+nlpPipeline = nlp.Pipeline(stages=[
+	documentAssembler,
+	sentenceDetector,
+	tokenizer,
+	embeddings,
+	clinical_ner])
 
 text = ['''
 Antonio Pérez Juan, nacido en Cadiz, España. Aún no estaba vacunado, se infectó con Covid-19 el dia 14/03/2020 y tuvo que ir al Hospital. Fue tratado con anticuerpos monoclonales en la Clinica San Carlos.
@@ -88,26 +87,31 @@ results = nlpPipeline.fit(df).transform(df)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-.setInputCol("text")
-.setOutputCol("document")
+	.setInputCol("text")
+	.setOutputCol("document")
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl","xx")
-.setInputCols(Array("document"))
-.setOutputCol("sentence")
+	.setInputCols(Array("document"))
+	.setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-.setInputCols(Array("sentence"))
-.setOutputCol("token")
+	.setInputCols(Array("sentence"))
+	.setOutputCol("token")
 
 embeddings = WordEmbeddingsModel.pretrained("embeddings_sciwiki_300d","es","clinical/models")
 	.setInputCols(Array("sentence","token"))
 	.setOutputCol("word_embeddings")
 
 clinical_ner = MedicalNerModel.pretrained("ner_deid_generic", "es", "clinical/models")
-.setInputCols(Array("sentence","token","word_embeddings"))
-.setOutputCol("ner")
+	.setInputCols(Array("sentence","token","word_embeddings"))
+	.setOutputCol("ner")
 
-val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_ner))
+val pipeline = new Pipeline().setStages(Array(
+	documentAssembler, 
+	sentenceDetector, 
+	tokenizer, 
+	embeddings, 
+	clinical_ner))
 
 val text = """Antonio Pérez Juan, nacido en Cadiz, España. Aún no estaba vacunado, se infectó con Covid-19 el dia 14/03/2020 y tuvo que ir al Hospital. Fue tratado con anticuerpos monoclonales en la Clinica San Carlos."""
 

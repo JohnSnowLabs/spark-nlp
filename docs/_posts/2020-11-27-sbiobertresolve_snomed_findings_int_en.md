@@ -4,6 +4,7 @@ title: Sentence Entity Resolver for Snomed Concepts, INT version (``sbiobert_bas
 author: John Snow Labs
 name: sbiobertresolve_snomed_findings_int
 language: en
+nav_key: models
 repository: clinical/models
 date: 2020-11-27
 task: Entity Resolution

@@ -7,6 +7,7 @@ date: 2021-08-13
 tags: [en, open_source]
 task: Text Classification
 language: en
+nav_key: models
 edition: Spark NLP 3.1.3
 spark_version: 2.4
 supported: true

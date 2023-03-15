@@ -7,6 +7,7 @@ date: 2021-11-22
 tags: [sentiment, open_source, english, en, vivekn]
 task: Sentiment Analysis
 language: en
+nav_key: models
 edition: Spark NLP 2.0.2
 spark_version: 2.4
 supported: true

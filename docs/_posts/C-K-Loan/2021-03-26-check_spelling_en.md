@@ -8,6 +8,7 @@ tags: [open_source, english, check_spelling, pipeline, en]
 supported: true
 task: [Spell Check,]
 language: en
+nav_key: models
 edition: Spark NLP 3.0.0
 spark_version: 3.0
 annotator: PipelineModel

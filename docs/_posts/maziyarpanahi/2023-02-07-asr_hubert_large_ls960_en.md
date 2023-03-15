@@ -7,6 +7,7 @@ date: 2023-02-07
 tags: [open_source, hubert, audio, en, english, asr, speech, librispeech_asr, tensorflow]
 task: Sentiment Analysis
 language: en
+nav_key: models
 edition: Spark NLP 4.3.0
 spark_version: 3.0
 supported: true

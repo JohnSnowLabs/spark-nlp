@@ -7,6 +7,7 @@ date: 2022-08-09
 tags: [es, legal, conventions, classification, en, licensed]
 task: Text Classification
 language: en
+nav_key: models
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true

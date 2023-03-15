@@ -7,6 +7,7 @@ date: 2021-12-11
 tags: [abbreviation, entity_resolver, licensed, en, clinical, acronym]
 task: Entity Resolution
 language: en
+nav_key: models
 edition: Healthcare NLP 3.3.4
 spark_version: 2.4
 supported: true

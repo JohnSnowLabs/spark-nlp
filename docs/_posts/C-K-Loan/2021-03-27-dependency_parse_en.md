@@ -8,6 +8,7 @@ tags: [pipeline, dependency_parsing, untyped_dependency_parsing, typed_dependenc
 supported: true
 task: [Dependency Parser, Pipeline Public]
 language: en
+nav_key: models
 edition: Spark NLP 3.0.0
 spark_version: 3.0
 annotator: Pipeline

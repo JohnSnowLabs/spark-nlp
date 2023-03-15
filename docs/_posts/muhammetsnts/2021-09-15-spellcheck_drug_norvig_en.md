@@ -7,6 +7,7 @@ date: 2021-09-15
 tags: [spell, spell_checker, clinical, en, licensed, drug]
 task: Spell Check
 language: en
+nav_key: models
 edition: Healthcare NLP 3.2.2
 spark_version: 3.0
 supported: true

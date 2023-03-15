@@ -7,6 +7,7 @@ date: 2022-01-03
 tags: [word2vec, en, english, wikipedia, word_embeddings, embeddings, open_source]
 task: Embeddings
 language: en
+nav_key: models
 edition: Spark NLP 3.4.0
 spark_version: 3.0
 supported: true

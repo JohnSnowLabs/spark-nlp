@@ -7,6 +7,7 @@ date: 2022-10-15
 tags: [en, finance, re, has_ticker, licensed]
 task: Relation Extraction
 language: en
+nav_key: models
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true

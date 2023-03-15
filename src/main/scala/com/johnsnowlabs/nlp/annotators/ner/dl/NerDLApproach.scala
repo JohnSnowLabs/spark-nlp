@@ -680,7 +680,6 @@ trait WithGraphResolver {
 
       if (localGraphPath.isDefined && OutputHelper
           .getFileSystem(localGraphPath.get)
-          ._1
           .getScheme == "dbfs") {
         files =
           ResourceHelper.listLocalFiles(localGraphPath.get).map(file => file.getAbsolutePath)

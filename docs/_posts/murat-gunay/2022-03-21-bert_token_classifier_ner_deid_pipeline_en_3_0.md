@@ -7,6 +7,7 @@ date: 2022-03-21
 tags: [licensed, ner, deid, en]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Healthcare NLP 3.4.1
 spark_version: 3.0
 supported: true
@@ -21,8 +22,8 @@ use_language_switcher: "Python-Scala-Java"
 This pretrained pipeline is built on the top of [bert_token_classifier_ner_deid](https://nlp.johnsnowlabs.com/2022/01/06/bert_token_classifier_ner_deid_en.html) model.
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_DEMOGRAPHICS/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/NER_DEMOGRAPHICS.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_ner_deid_pipeline_en_3.4.1_3.0_1647863928244.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
 [Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/bert_token_classifier_ner_deid_pipeline_en_3.4.1_3.0_1647863928244.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
@@ -33,6 +34,8 @@ This pretrained pipeline is built on the top of [bert_token_classifier_ner_deid]
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
+from sparknlp.pretrained import PretrainedPipeline
+
 pipeline = PretrainedPipeline("bert_token_classifier_ner_deid_pipeline", "en", "clinical/models")
 
 pipeline.annotate("A. Record date : 2093-01-13, David Hale, M.D. Name : Hendrickson, Ora MR. # 7194334. PCP : Oliveira, non-smoking. Cocke County Baptist Hospital. 0295 Keats Street. Phone +1 (302) 786-5227. Patient's complaints first surfaced when he started working for Brothers Coal-Mine.")

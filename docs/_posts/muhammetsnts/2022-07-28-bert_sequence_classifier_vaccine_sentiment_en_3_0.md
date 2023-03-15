@@ -7,6 +7,7 @@ date: 2022-07-28
 tags: [public_health, vaccine_sentiment, en, licensed, sequence_classification]
 task: Sentiment Analysis
 language: en
+nav_key: models
 edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true

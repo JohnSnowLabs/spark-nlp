@@ -5,6 +5,7 @@ seotitle: 'Clinical NLP: Radiology - John Snow Labs'
 full_width: true
 permalink: /radiology
 key: demo
+nav_key: demo
 article_header:
   type: demo
 license: false

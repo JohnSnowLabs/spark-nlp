@@ -7,6 +7,7 @@ date: 2022-04-05
 tags: [zero, shot, zero_shot, en, licensed]
 task: Relation Extraction
 language: en
+nav_key: models
 edition: Healthcare NLP 3.5.0
 spark_version: 3.0
 supported: true

@@ -5,6 +5,7 @@ author: John Snow Labs
 name: spellcheck_clinical
 class: ContextSpellCheckerModel
 language: en
+nav_key: models
 repository: clinical/models
 date: 2020-04-17
 task: Spell Check

@@ -5,6 +5,7 @@ author: John Snow Labs
 name: clinical_analysis
 class: PipelineModel
 language: en
+nav_key: models
 repository: clinical/models
 date: 2020-02-01
 task: Pipeline Healthcare

@@ -4,6 +4,7 @@ title: Sentence Entity Resolver for RxCUI (``sbiobert_base_cased_mli`` embedding
 author: John Snow Labs
 name: sbiobertresolve_rxcui
 language: en
+nav_key: models
 repository: clinical/models
 date: 2020-12-11
 task: Entity Resolution

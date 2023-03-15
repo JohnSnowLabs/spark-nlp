@@ -7,6 +7,7 @@ date: 2022-08-28
 tags: [ner, ner_profiling, biobert, licensed, en]
 task: [Named Entity Recognition, Pipeline Healthcare]
 language: en
+nav_key: models
 edition: Healthcare NLP 4.0.2
 spark_version: 3.0
 supported: true

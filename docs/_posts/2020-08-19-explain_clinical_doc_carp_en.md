@@ -6,6 +6,7 @@ name: explain_clinical_doc_carp
 date: 2020-08-19
 task: [Named Entity Recognition, Assertion Status, Relation Extraction, Pipeline Healthcare]
 language: en
+nav_key: models
 edition: Healthcare NLP 2.5.5
 spark_version: 2.4
 tags: [pipeline, en, clinical, licensed]

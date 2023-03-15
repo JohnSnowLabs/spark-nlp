@@ -7,6 +7,7 @@ date: 2022-01-12
 tags: [t5, open_source, en]
 task: Text Generation
 language: en
+nav_key: models
 edition: Spark NLP 3.4.0
 spark_version: 3.0
 supported: true

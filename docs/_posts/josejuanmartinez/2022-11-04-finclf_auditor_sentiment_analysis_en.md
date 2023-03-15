@@ -7,6 +7,7 @@ date: 2022-11-04
 tags: [auditor, sentiment, analysis, en, licensed]
 task: Sentiment Analysis
 language: en
+nav_key: models
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true

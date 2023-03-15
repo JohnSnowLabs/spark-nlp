@@ -7,6 +7,7 @@ date: 2023-02-17
 tags: [en, english, embeddings, transformer, open_source, legal, tensorflow]
 task: Embeddings
 language: en
+nav_key: models
 edition: Spark NLP 4.2.4
 spark_version: 3.0
 supported: true

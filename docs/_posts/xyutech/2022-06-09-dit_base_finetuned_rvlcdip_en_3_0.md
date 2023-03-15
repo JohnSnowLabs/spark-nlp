@@ -7,6 +7,7 @@ date: 2022-06-09
 tags: [en, licensed]
 task: OCR Document Classification
 language: en
+nav_key: models
 edition: Visual NLP 3.3.0
 spark_version: 3.0
 supported: true

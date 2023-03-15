@@ -7,6 +7,7 @@ date: 2023-02-02
 tags: [legal, bert, licensed, agreements, en]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true

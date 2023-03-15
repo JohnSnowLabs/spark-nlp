@@ -7,6 +7,7 @@ date: 2022-05-06
 tags: [open_source, deberta, v3, token_classification, en, english, conll, ner]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Spark NLP 3.4.4
 spark_version: 3.0
 supported: true

@@ -1,12 +1,13 @@
 ---
 layout: model
-title: Multilabel Classification of NDA Clauses (medium)
+title: Multilabel Classification of NDA Clauses (sentences, medium)
 author: John Snow Labs
 name: legmulticlf_mnda_sections_other
 date: 2023-02-09
 tags: [mnda, nda, en, licensed, tensorflow]
 task: Text Classification
 language: en
+nav_key: models
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true

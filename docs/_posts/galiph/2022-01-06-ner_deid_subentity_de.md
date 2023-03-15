@@ -31,7 +31,7 @@ Named Entity recognition annotator allows for a generic model to be trained by u
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/healthcare/NER_DEID_DE){:.button.button-orange}
-[Open in Colab](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/4.1.Clinical_Deidentification_in_German.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/healthcare-nlp/04.1.Clinical_Multi_Language_Deidentification.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_deid_subentity_de_3.3.4_2.4_1641460993460.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
 [Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/ner_deid_subentity_de_3.3.4_2.4_1641460993460.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
@@ -47,32 +47,37 @@ Named Entity recognition annotator allows for a generic model to be trained by u
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 
 ```python
-...
 document_assembler = DocumentAssembler()\
-.setInputCol("text")\
-.setOutputCol("document")
+    .setInputCol("text")\
+    .setOutputCol("document")
 
 sentence_detector = SentenceDetector()\
-.setInputCols(["document"])\
-.setOutputCol("sentence")
+    .setInputCols(["document"])\
+    .setOutputCol("sentence")
 
 tokenizer = Tokenizer()\
-.setInputCols(["sentence"])\
-.setOutputCol("token")
+    .setInputCols(["sentence"])\
+    .setOutputCol("token")
 
 word_embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d","de","clinical/models")\
-.setInputCols(["sentence", "token"])\
-.setOutputCol("embeddings")
+    .setInputCols(["sentence", "token"])\
+    .setOutputCol("embeddings")
 
 deid_ner = MedicalNerModel.pretrained("ner_deid_subentity", "de", "clinical/models")\
-.setInputCols(["sentence", "token", "embeddings"])\
-.setOutputCol("ner")
+    .setInputCols(["sentence", "token", "embeddings"])\
+    .setOutputCol("ner")
 
 ner_converter = NerConverter()\
-.setInputCols(["sentence", "token", "ner"])\
-.setOutputCol("ner_deid_subentity_chunk")
+    .setInputCols(["sentence", "token", "ner"])\
+    .setOutputCol("ner_deid_subentity_chunk")
 
-nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, deid_ner, ner_converter])
+nlpPipeline = Pipeline(stages=[
+    document_assembler, 
+    sentence_detector, 
+    tokenizer,
+    word_embeddings, 
+    deid_ner, 
+    ner_converter])
 
 data = spark.createDataFrame([["""Michael Berger wird am Morgen des 12 Dezember 2018 ins St. Elisabeth-Krankenhaus
 in Bad Kissingen eingeliefert. Herr Berger ist 76 Jahre alt und hat zu viel Wasser in den Beinen."""]]).toDF("text")
@@ -80,32 +85,37 @@ in Bad Kissingen eingeliefert. Herr Berger ist 76 Jahre alt und hat zu viel Wass
 result = nlpPipeline.fit(data).transform(data)
 ```
 ```scala
-...
 val document_assembler = new DocumentAssembler() 
-.setInputCol("text") 
-.setOutputCol("document")
+    .setInputCol("text") 
+    .setOutputCol("document")
 
 val sentence_detector = new SentenceDetector()
-.setInputCols(Array("document"))
-.setOutputCol("sentence")
+    .setInputCols(Array("document"))
+    .setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-.setInputCols(Array("sentence"))
-.setOutputCol("token")
+    .setInputCols(Array("sentence"))
+    .setOutputCol("token")
 
 val word_embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d", "de", "clinical/models")
-.setInputCols(Array("sentence", "token"))
-.setOutputCol("embeddings")
+    .setInputCols(Array("sentence", "token"))
+    .setOutputCol("embeddings")
 
 val deid_ner = MedicalNerModel.pretrained("ner_deid_subentity", "de", "clinical/models") 
-.setInputCols(Array("sentence", "token", "embeddings")) 
-.setOutputCol("ner")
+    .setInputCols(Array("sentence", "token", "embeddings")) 
+    .setOutputCol("ner")
 
 val ner_converter = new NerConverter()
-.setInputCols(Array("sentence", "token", "ner"))
-.setOutputCol("ner_deid_subentity_chunk")
+    .setInputCols(Array("sentence", "token", "ner"))
+    .setOutputCol("ner_deid_subentity_chunk")
 
-val nlpPipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, deid_ner, ner_converter))
+val nlpPipeline = new Pipeline().setStages(Array(
+    document_assembler, 
+    sentence_detector, 
+    tokenizer, 
+    word_embeddings, 
+    deid_ner, 
+    ner_converter))
 
 val data = Seq("""Michael Berger wird am Morgen des 12 Dezember 2018 ins St. Elisabeth-Krankenhausin Bad Kissingen eingeliefert. Herr Berger ist 76 Jahre alt und hat zu viel Wasser in den Beinen.""").toDS.toDF("text")
 

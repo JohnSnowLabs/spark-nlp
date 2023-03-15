@@ -7,6 +7,7 @@ date: 2021-11-21
 tags: [doc2vec, gigaword, wikipedia, en, english, sentence_embeddings, open_source]
 task: Embeddings
 language: en
+nav_key: models
 edition: Spark NLP 3.3.3
 spark_version: 3.0
 supported: true

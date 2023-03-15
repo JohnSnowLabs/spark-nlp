@@ -7,6 +7,7 @@ date: 2022-04-09
 tags: [open_source, deberta, v3, sequence_classification, en, english, ag_news]
 task: Text Classification
 language: en
+nav_key: models
 edition: Spark NLP 3.4.3
 spark_version: 3.0
 supported: true

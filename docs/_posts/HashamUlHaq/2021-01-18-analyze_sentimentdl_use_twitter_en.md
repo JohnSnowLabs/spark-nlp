@@ -6,6 +6,7 @@ name: analyze_sentimentdl_use_twitter
 date: 2021-01-18
 task: [Embeddings, Sentiment Analysis, Pipeline Public]
 language: en
+nav_key: models
 edition: Spark NLP 2.7.1
 spark_version: 2.4
 tags: [en, sentiment, pipeline, open_source]

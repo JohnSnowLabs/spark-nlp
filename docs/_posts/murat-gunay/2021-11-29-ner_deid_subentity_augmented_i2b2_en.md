@@ -7,6 +7,7 @@ date: 2021-11-29
 tags: [deid, ner, phi, deidentification, licensed, i2b2, en]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Healthcare NLP 3.3.2
 spark_version: 2.4
 supported: true
@@ -65,7 +66,13 @@ ner_converter = NerConverter()\
       .setInputCols(["sentence", "token", "ner"])\
       .setOutputCol("ner_chunk_subentity")
 
-nlpPipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, word_embeddings, deid_ner, ner_converter])
+nlpPipeline = Pipeline(stages=[
+      document_assembler, 
+      sentence_detector, 
+      tokenizer, 
+      word_embeddings, 
+      deid_ner, 
+      ner_converter])
 
 model = nlpPipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
@@ -96,7 +103,13 @@ val ner_converter = NerConverter()
       .setInputCols(Array("sentence", "token", "ner"))
       .setOutputCol("ner_chunk_subentity")
 
-val nlpPipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, word_embeddings, deid_ner, ner_converter))
+val nlpPipeline = new Pipeline().setStages(Array(
+      document_assembler, 
+      sentence_detector, 
+      tokenizer, 
+      word_embeddings, 
+      deid_ner, 
+      ner_converter))
 
 val result = nlpPipeline.fit(Seq("""A. Record date : 2093-01-13, David Hale, M.D., Name : Hendrickson, Ora MR. # 7194334 Date : 01/13/93 PCP : Oliveira, 25 years old, Record date : 1-11-2000. Cocke County Baptist Hospital. 0295 Keats Street. Phone +1 (302) 786-5227. Patient's complaints first surfaced when he started working for Brothers Coal-Mine.""").toDS.toDF("text")).transform(data)
 ```

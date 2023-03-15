@@ -7,6 +7,7 @@ date: 2022-10-12
 tags: [vit, en, images, open_source, pipeline]
 task: Image Classification
 language: en
+nav_key: models
 edition: Spark NLP 4.2.1
 spark_version: 3.0
 supported: true

@@ -7,6 +7,7 @@ date: 2022-06-01
 tags: [en, english, deberta, v3, base, conll, open_source]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Spark NLP 4.0.0
 spark_version: 3.0
 supported: true

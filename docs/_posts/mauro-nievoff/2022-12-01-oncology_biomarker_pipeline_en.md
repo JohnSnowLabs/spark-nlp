@@ -7,6 +7,7 @@ date: 2022-12-01
 tags: [licensed, pipeline, oncology, biomarker, en]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Healthcare NLP 4.2.2
 spark_version: 3.0
 supported: true

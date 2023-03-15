@@ -1,0 +1,109 @@
+/*
+ * Copyright 2017-2022 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.johnsnowlabs.nlp.annotators
+
+import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT}
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, Doc2Chunk, HasSimpleAnnotate}
+import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
+
+/** Converts a `CHUNK` type column back into `DOCUMENT`. Useful when trying to re-tokenize or do
+  * further analysis on a `CHUNK` result.
+  *
+  * ==Example==
+  * Location entities are extracted and converted back into `DOCUMENT` type for further processing
+  * {{{
+  * import spark.implicits._
+  * import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+  * import com.johnsnowlabs.nlp.annotators.Chunk2Doc
+  *
+  * val data = Seq((1, "New York and New Jersey aren't that far apart actually.")).toDF("id", "text")
+  *
+  * // Extracts Named Entities amongst other things
+  * val pipeline = PretrainedPipeline("explain_document_dl")
+  *
+  * val chunkToDoc = new Chunk2Doc().setInputCols("entities").setOutputCol("chunkConverted")
+  * val explainResult = pipeline.transform(data)
+  *
+  * val result = chunkToDoc.transform(explainResult)
+  * result.selectExpr("explode(chunkConverted)").show(false)
+  * +------------------------------------------------------------------------------+
+  * |col                                                                           |
+  * +------------------------------------------------------------------------------+
+  * |[document, 0, 7, New York, [entity -> LOC, sentence -> 0, chunk -> 0], []]    |
+  * |[document, 13, 22, New Jersey, [entity -> LOC, sentence -> 0, chunk -> 1], []]|
+  * +------------------------------------------------------------------------------+
+  * }}}
+  *
+  * @see
+  *   [[com.johnsnowlabs.nlp.pretrained.PretrainedPipeline PretrainedPipeline]] on how to use the
+  *   PretrainedPipeline
+  * @see
+  *   [[Doc2Chunk]] for converting `DOCUMENT` annotations to `CHUNK`
+  * @param uid
+  *   required uid for storing annotator to disk
+  * @groupname anno Annotator types
+  * @groupdesc anno
+  *   Required input and expected output annotator types
+  * @groupname Ungrouped Members
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupname Ungrouped Members
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio Ungrouped 3
+  * @groupprio setParam  4
+  * @groupprio getParam  5
+  * @groupdesc param
+  *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
+  *   parameter values through setters and getters, respectively.
+  */
+class Chunk2Doc(override val uid: String)
+    extends AnnotatorModel[Chunk2Doc]
+    with HasSimpleAnnotate[Chunk2Doc] {
+
+  def this() = this(Identifiable.randomUID("CHUNK2DOC"))
+
+  /** Output annotator types: DOCUMENT
+    *
+    * @group anno
+    */
+  override val outputAnnotatorType: AnnotatorType = DOCUMENT
+
+  /** Input annotator types: CHUNK
+    *
+    * @group anno
+    */
+  override val inputAnnotatorTypes: Array[String] = Array(CHUNK)
+
+  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+    annotations.map(annotation => {
+      Annotation(
+        outputAnnotatorType,
+        annotation.begin,
+        annotation.end,
+        annotation.result,
+        annotation.metadata)
+    })
+  }
+
+}
+
+/** This is the companion object of [[Chunk2Doc]]. Please refer to that class for the
+  * documentation.
+  */
+object Chunk2Doc extends DefaultParamsReadable[Chunk2Doc]

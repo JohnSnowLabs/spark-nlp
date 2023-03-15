@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp
 
+import com.johnsnowlabs.nlp
 import org.apache.spark.ml.util.DefaultParamsReadable
 
 package object base {
@@ -35,10 +36,6 @@ package object base {
   type Doc2Chunk = com.johnsnowlabs.nlp.Doc2Chunk
 
   object Doc2Chunk extends DefaultParamsReadable[Doc2Chunk]
-
-  type Chunk2Doc = com.johnsnowlabs.nlp.Chunk2Doc
-
-  object Chunk2Doc extends DefaultParamsReadable[Chunk2Doc]
 
   type Finisher = com.johnsnowlabs.nlp.Finisher
 
@@ -63,4 +60,5 @@ package object base {
   type TableAssembler = com.johnsnowlabs.nlp.TableAssembler
 
   object TableAssembler extends DefaultParamsReadable[TableAssembler]
+
 }

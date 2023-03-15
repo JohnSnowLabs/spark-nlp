@@ -6,6 +6,7 @@ name: ner_dl_bert
 date: 2020-09-08
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Spark NLP 2.6.0
 spark_version: 2.4
 tags: [ner, en, open_source]

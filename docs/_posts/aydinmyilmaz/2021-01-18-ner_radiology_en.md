@@ -6,6 +6,7 @@ name: ner_radiology
 date: 2021-01-18
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Spark NLP for Healthcare 2.7.0
 spark_version: 2.4
 tags: [en, ner, licensed, clinical]

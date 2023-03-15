@@ -5,6 +5,7 @@ author: John Snow Labs
 name: chunkresolve_rxnorm_sbd_clinical
 class: ChunkEntityResolverModel
 language: en
+nav_key: models
 repository: clinical/models
 date: 2020-07-27
 task: Entity Resolution

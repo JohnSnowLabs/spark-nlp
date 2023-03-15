@@ -7,6 +7,7 @@ date: 2023-01-21
 tags: [document, contract, agreement, type, parties, aliases, former, names, effective, dates, en, licensed]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true

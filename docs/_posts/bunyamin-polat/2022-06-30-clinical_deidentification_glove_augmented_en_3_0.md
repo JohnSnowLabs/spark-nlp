@@ -7,6 +7,7 @@ date: 2022-06-30
 tags: [en, deid, deidentification, clinical, licensed]
 task: Pipeline Healthcare
 language: en
+nav_key: models
 edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true

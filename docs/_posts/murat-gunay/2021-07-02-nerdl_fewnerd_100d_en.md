@@ -7,6 +7,7 @@ date: 2021-07-02
 tags: [ner, en, fewnerd, public, open_source]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Spark NLP 3.1.1
 spark_version: 2.4
 supported: true

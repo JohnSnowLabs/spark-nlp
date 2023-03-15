@@ -6,6 +6,9 @@ subtitle: Run 300+ live demos and notebooks
 full_width: true
 permalink: /diagnoses_procedures
 key: demo
+nav_key: demo
+nav_key: demo
+nav_key: demo
 article_header:
   type: demo
 license: false
@@ -19,19 +22,7 @@ data:
         - subtitle: Diagnoses & Procedures - Live Demos & Notebooks
           activemenu: diagnoses_procedures
       source: yes
-      source:           
-        - title: Identify diagnosis and symptoms assertion status
-          id: identify_diagnosis_and_symptoms_assertion_status
-          image: 
-              src: /assets/images/Identify_diagnosis_and_symptoms_assertion_status.svg
-          excerpt: Automatically detect if a diagnosis or a symptom is present, absent, uncertain or associated to other persons (e.g. family members).
-          actions:
-          - text: Live Demo
-            type: normal
-            url: https://demo.johnsnowlabs.com/healthcare/ASSERTION/
-          - text: Colab
-            type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ASSERTION.ipynb        
+      source:    
         - title: Detect clinical entities in text
           id: detect_clinical_entities_in_text
           image: 
@@ -43,7 +34,19 @@ data:
             url: https://demo.johnsnowlabs.com/healthcare/NER_CLINICAL/
           - text: Colab
             type: blue_btn
-            url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
+            url: https://githubtocolab.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb       
+        - title: Identify diagnosis and symptoms assertion status
+          id: identify_diagnosis_and_symptoms_assertion_status
+          image: 
+              src: /assets/images/Identify_diagnosis_and_symptoms_assertion_status.svg
+          excerpt: Automatically detect if a diagnosis or a symptom is present, absent, uncertain or associated to other persons (e.g. family members).
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/ASSERTION/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/ASSERTION.ipynb
         - title: Detect diagnosis and procedures
           id: detect_diagnosis_and_procedures
           image: 
@@ -104,4 +107,16 @@ data:
           - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/RE_CLINICAL_DATE.ipynb
+        - title: Detect Available Pretrained NER Models    
+          id: detect_available_pretrained_ner_models         
+          image: 
+              src: /assets/images/Detect_Available_Pretrained_NER_Models.svg
+          excerpt: This pipeline can be used to explore all the available pretrained NER models at once. When you run this pipeline over your text, you will end up with the predictions coming out of each pretrained clinical NER model.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_PROFILING/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings_JSL/Healthcare/1.Clinical_Named_Entity_Recognition_Model.ipynb
 ---

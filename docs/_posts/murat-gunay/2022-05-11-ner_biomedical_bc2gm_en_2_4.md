@@ -7,6 +7,7 @@ date: 2022-05-11
 tags: [bc2gm, ner, biomedical, gene_protein, gene, protein, en, licensed, clinical]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Healthcare NLP 3.5.1
 spark_version: 2.4
 supported: true

@@ -9,6 +9,7 @@ supported: true
 recommended: true
 task: Summarization
 language: en
+nav_key: models
 edition: Healthcare NLP 2.7.4
 spark_version: 2.4
 annotator: T5Transformer

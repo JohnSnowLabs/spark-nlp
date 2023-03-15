@@ -5,6 +5,7 @@ author: John Snow Labs
 name: explain_clinical_doc_cra
 class: PipelineModel
 language: en
+nav_key: models
 repository: clinical/models
 date: 2020-08-19
 task: [Named Entity Recognition, Assertion Status, Relation Extraction, Pipeline Healthcare]

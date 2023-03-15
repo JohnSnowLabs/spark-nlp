@@ -7,6 +7,7 @@ date: 2023-01-14
 tags: [relation_extraction, en, clinical, licensed, ade, biobert, tensorflow]
 task: Relation Extraction
 language: en
+nav_key: models
 edition: Healthcare NLP 4.2.4
 spark_version: 3.0
 supported: true

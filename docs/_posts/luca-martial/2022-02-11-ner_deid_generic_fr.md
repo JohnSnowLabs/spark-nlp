@@ -33,8 +33,8 @@ Deidentification NER (French) is a Named Entity Recognition model that annotates
 
 
 {:.btn-box}
-<button class="button button-orange" disabled>Live Demo</button>
-<button class="button button-orange" disabled>Open in Colab</button>
+[Live Demo](https://demo.johnsnowlabs.com/healthcare/DEID_PHI_TEXT_MULTI/){:.button.button-orange}
+[Open in Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/healthcare-nlp/04.1.Clinical_Multi_Language_Deidentification.ipynb){:.button.button-orange.button-orange-trans.co.button-icon}
 [Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_deid_generic_fr_3.4.1_2.4_1644591444704.zip){:.button.button-orange.button-orange-trans.arr.button-icon.hidden}
 [Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/ner_deid_generic_fr_3.4.1_2.4_1644591444704.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
@@ -50,79 +50,69 @@ Deidentification NER (French) is a Named Entity Recognition model that annotates
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler()\
-.setInputCol("text")\
-.setOutputCol("document")
+	.setInputCol("text")\
+	.setOutputCol("document")
 
 sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\
-.setInputCols(["document"])\
-.setOutputCol("sentence")
-
+	.setInputCols(["document"])\
+	.setOutputCol("sentence")
 
 tokenizer = Tokenizer()\
-.setInputCols(["sentence"])\
-.setOutputCol("token")
-
+	.setInputCols(["sentence"])\
+	.setOutputCol("token")
 
 embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d", "fr")\
 	.setInputCols(["sentence", "token"])\
 	.setOutputCol("word_embeddings")
 
-
 clinical_ner = MedicalNerModel.pretrained("ner_deid_generic", "fr", "clinical/models")\
-.setInputCols(["sentence","token", "word_embeddings"])\
-.setOutputCol("ner")
+	.setInputCols(["sentence","token", "word_embeddings"])\
+	.setOutputCol("ner")
 
-
-nlpPipeline = Pipeline(stages=[
-documentAssembler,
-sentenceDetector,
-tokenizer,
-embeddings,
-clinical_ner])
-
+nlpPipeline = nlp.Pipeline(stages=[
+	documentAssembler,
+	sentenceDetector,
+	tokenizer,
+	embeddings,
+	clinical_ner])
 
 text = ["J'ai vu en consultation Michel Martinez (49 ans) adressé au Centre Hospitalier De Plaisir pour un diabète mal contrôlé avec des symptômes datant de Mars 2015."]
 
-
 data = spark.createDataFrame([text]).toDF("text")
-
 
 results = nlpPipeline.fit(data).transform(data)
 ```
 ```scala
 val documentAssembler = new DocumentAssembler()
-.setInputCol("text")
-.setOutputCol("document")
-
+	.setInputCol("text")
+	.setOutputCol("document")
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
-.setInputCols(Array("document"))
-.setOutputCol("sentence")
-
+	.setInputCols(Array("document"))
+	.setOutputCol("sentence")
 
 val tokenizer = new Tokenizer()
-.setInputCols(Array("sentence"))
-.setOutputCol("token")
-
+	.setInputCols(Array("sentence"))
+	.setOutputCol("token")
 
 val embeddings = WordEmbeddingsModel.pretrained("w2v_cc_300d", "fr")
-.setInputCols(Array("sentence", "token"))
-.setOutputCol("embeddings")
-
+	.setInputCols(Array("sentence", "token"))
+	.setOutputCol("embeddings")
 
 val clinical_ner = MedicalNerModel.pretrained("ner_deid_generic", "fr", "clinical/models")
-.setInputCols(Array("sentence","token","embeddings"))
-.setOutputCol("ner")
+	.setInputCols(Array("sentence","token","embeddings"))
+	.setOutputCol("ner")
 
-
-val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_ner))
-
+val pipeline = new Pipeline().setStages(Array(
+	documentAssembler, 
+	sentenceDetector, 
+	tokenizer, 
+	embeddings, 
+	clinical_ner))
 
 val text = "J'ai vu en consultation Michel Martinez (49 ans) adressé au Centre Hospitalier De Plaisir pour un diabète mal contrôlé avec des symptômes datant de Mars 2015."
 
-
 val data = Seq(text).toDF("text")
-
 
 val results = pipeline.fit(data).transform(data)
 ```

@@ -7,6 +7,7 @@ date: 2022-07-06
 tags: [umls, chunk_mapper, clinical, licensed, en]
 task: Chunk Mapping
 language: en
+nav_key: models
 edition: Healthcare NLP 4.0.0
 spark_version: 3.0
 supported: true

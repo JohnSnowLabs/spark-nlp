@@ -7,6 +7,7 @@ date: 2022-09-02
 tags: [en, legal, ner, zero, shot, zeroshot, licensed]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true

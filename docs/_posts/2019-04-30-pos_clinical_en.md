@@ -5,6 +5,7 @@ author: John Snow Labs
 name: pos_clinical
 class: PerceptronModel
 language: en
+nav_key: models
 repository: clinical/models
 date: 2019-04-30
 task: Part of Speech Tagging

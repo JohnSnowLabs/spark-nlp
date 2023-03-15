@@ -7,6 +7,7 @@ date: 2022-04-25
 tags: [licensed, en, entity_resolution, clinical, rxnorm]
 task: Entity Resolution
 language: en
+nav_key: models
 edition: Healthcare NLP 3.5.1
 spark_version: 2.4
 supported: true

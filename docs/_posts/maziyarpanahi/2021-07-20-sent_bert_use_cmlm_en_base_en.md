@@ -7,6 +7,7 @@ date: 2021-07-20
 tags: [embeddings, bert, open_source, english, en, cmlm, use]
 task: Embeddings
 language: en
+nav_key: models
 edition: Spark NLP 3.1.3
 spark_version: 2.4
 supported: true

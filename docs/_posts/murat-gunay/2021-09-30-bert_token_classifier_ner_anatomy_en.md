@@ -7,6 +7,7 @@ date: 2021-09-30
 tags: [anatomy, bertfortokenclassification, en, licensed, ner]
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Healthcare NLP 3.2.2
 spark_version: 2.4
 supported: true

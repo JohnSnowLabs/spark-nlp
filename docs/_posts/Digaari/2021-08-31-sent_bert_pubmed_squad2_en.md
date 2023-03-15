@@ -7,6 +7,7 @@ date: 2021-08-31
 tags: [en, open_source, sentence_embeddings, medline_pubmed_dataset, squad_2_dataset]
 task: Embeddings
 language: en
+nav_key: models
 edition: Spark NLP 3.2.0
 spark_version: 3.0
 supported: true

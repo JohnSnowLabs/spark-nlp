@@ -7,6 +7,7 @@ date: 2022-09-01
 tags: [resolver, snomed, umls, rxnorm, ndc, ade, en, licensed, pipeline]
 task: Pipeline Healthcare
 language: en
+nav_key: models
 edition: Healthcare NLP 4.0.2
 spark_version: 3.0
 supported: true

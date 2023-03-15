@@ -6,6 +6,7 @@ name: ner_jsl_enriched_en
 date: 2020-04-22
 task: Named Entity Recognition
 language: en
+nav_key: models
 edition: Healthcare NLP 2.4.2
 spark_version: 2.4
 tags: [ner, en, clinical, licensed]
@@ -20,6 +21,26 @@ use_language_switcher: "Python-Scala-Java"
 
 
 Pretrained named entity recognition deep learning model for clinical terminology. The SparkNLP deep learning model (NerDL) is inspired by a former state of the art model for NER: Chiu & Nicols, Named Entity Recognition with Bidirectional LSTM-CNN. 
+
+Definitions of Predicted Entities:
+
+- `Age`: All mention of ages, past or present, related to the patient or with anybody else. 
+- `Dosage`: Quantity prescribed by the physician for an active ingredient; measurement units are available described by [FDA](http://wayback.archive-it.org/7993/20171115111313/https:/www.fda.gov/Drugs/DevelopmentApprovalProcess/FormsSubmissionRequirements/ElectronicSubmissions/DataStandardsManualmonographs/ucm071667.htm). 
+- `Drug_Name`: Commercial labeling name chosen by the labeler or the drug manufacturer for a drug containing a single or multiple drug active ingredients. 
+- `Frequency`: Frequency of administration for a dose prescribed. 
+- `Gender`: Gender-specific nouns and pronouns. 
+- `Symptom`: All the symptoms mentioned in the document, of a patient or someone else. 
+- `Allergen`: Allergen related extractions mentioned in the document. 
+- `Blood_Pressure`: Systemic blood pressure, mean arterial pressure, systolic and/or diastolic are extracted. 
+- `Modifier`: Terms that modify the symptoms, diseases or risk factors. If a modifier is included in ICD-10 name of a specific disease, the respective modifier is not extracted separately. 
+- `O2_Saturation`: Systemic arterial, venous or peripheral oxygen saturation measurements. 
+- `Procedure`: All mentions of invasive medical or surgical procedures or treatments. 
+- `Pulse`: Peripheral heart rate, without advanced information like measurement location. 
+- `Respiration`: Number of breaths per minute. 
+- `Route`: Drug and medication administration routes available described by [FDA](http://wayback.archive-it.org/7993/20171115111313/https:/www.fda.gov/Drugs/DevelopmentApprovalProcess/FormsSubmissionRequirements/ElectronicSubmissions/DataStandardsManualmonographs/ucm071667.htm). 
+- `Section_Header`: All the section headers present in the text  (Medical History, Family History, Social History, Physical Examination and Vital signs Headers are extracted separately with their specific labels). 
+- `Temperature`: All mentions that refer to body temperature. 
+- `Weight`: All mentions related to a patients weight. 
 
 
 ## Predicted Entities 

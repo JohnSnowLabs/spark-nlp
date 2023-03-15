@@ -5,6 +5,7 @@ author: John Snow Labs
 name: deidentify_rb
 class: DeIdentificationModel
 language: en
+nav_key: models
 repository: clinical/models
 date: 2019-06-04
 task: De-identification

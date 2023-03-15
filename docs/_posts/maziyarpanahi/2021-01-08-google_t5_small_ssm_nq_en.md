@@ -6,6 +6,7 @@ name: google_t5_small_ssm_nq
 date: 2021-01-08
 task: Question Answering
 language: en
+nav_key: models
 edition: Spark NLP 2.7.1
 spark_version: 2.4
 tags: [open_source, t5, seq2seq, question_answering, en]

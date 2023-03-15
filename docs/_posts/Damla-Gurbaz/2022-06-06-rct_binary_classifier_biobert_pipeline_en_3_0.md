@@ -7,6 +7,7 @@ date: 2022-06-06
 tags: [licensed, clinical, classifier, rct, en]
 task: Pipeline Healthcare
 language: en
+nav_key: models
 edition: Healthcare NLP 3.4.2
 spark_version: 3.0
 supported: true

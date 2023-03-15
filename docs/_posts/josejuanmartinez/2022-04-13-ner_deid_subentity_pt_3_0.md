@@ -61,16 +61,13 @@ sentenceDetector = nlp.SentenceDetectorDLModel.pretrained("sentence_detector_dl"
     .setInputCols(["document"])\
     .setOutputCol("sentence")
 
-
 tokenizer = nlp.Tokenizer()\
     .setInputCols(["sentence"])\
     .setOutputCol("token")
 
-
 embeddings = nlp.WordEmbeddingsModel.pretrained("w2v_cc_300d", "pt")\
     .setInputCols(["sentence","token"])\
     .setOutputCol("word_embeddings")
-
 
 clinical_ner = medical.NerModel.pretrained("ner_deid_subentity", "pt", "clinical/models")\
     .setInputCols(["sentence","token","word_embeddings"])\
@@ -80,7 +77,7 @@ ner_converter = nlp.NerConverter()\
     .setInputCols(["sentence","token","ner"])\
     .setOutputCol("ner_chunk")
 
-nlpPipeline = Pipeline(stages=[
+nlpPipeline = nlp.Pipeline(stages=[
     documentAssembler,
     sentenceDetector,
     tokenizer,
@@ -131,7 +128,13 @@ val ner_converter = new NerConverter()
 	.setInputCols(Array("sentence", "token", "ner"))
 	.setOutputCol("ner_chunk")
 
-val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, embeddings, clinical_ner, ner_converter))
+val pipeline = new Pipeline().setStages(Array(
+    documentAssembler, 
+    sentenceDetector, 
+    tokenizer, 
+    embeddings, 
+    clinical_ner, 
+    ner_converter))
 
 
 val text = """Detalhes do paciente.

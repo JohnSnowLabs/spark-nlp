@@ -6,6 +6,7 @@ name: stopwords_en
 date: 2020-07-14 19:03:00 +0800
 task: Stop Words Removal
 language: en
+nav_key: models
 edition: Spark NLP 2.5.4
 spark_version: 2.4
 tags: [stopwords, en]

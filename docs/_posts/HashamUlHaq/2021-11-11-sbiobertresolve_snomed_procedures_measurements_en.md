@@ -7,6 +7,7 @@ date: 2021-11-11
 tags: [en, entity_resolution, licensed, clinical]
 task: Entity Resolution
 language: en
+nav_key: models
 edition: Healthcare NLP 3.3.0
 spark_version: 3.0
 supported: true

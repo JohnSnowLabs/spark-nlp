@@ -7,6 +7,7 @@ date: 2022-08-10
 tags: [vit, en, images, open_source]
 task: Image Classification
 language: en
+nav_key: models
 edition: Spark NLP 4.1.0
 spark_version: 3.0
 supported: true

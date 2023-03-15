@@ -7,6 +7,7 @@ date: 2022-04-01
 tags: [licensed, en, clinical, ner, assertion, relation_extraction, posology]
 task: Pipeline Healthcare
 language: en
+nav_key: models
 edition: Healthcare NLP 3.4.2
 spark_version: 3.0
 supported: true
