@@ -1,5 +1,22 @@
-package com.johnsnowlabs.ml.ai.util.Generation
-import util.control.Breaks._
+/*
+ * Copyright 2017 - 2023  John Snow Labs
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
+package com.johnsnowlabs.ml.ai.util.Generation.Search
+
+import scala.util.control.Breaks.*
 
 class BeamSearchScorer(
     var beamSize: Int,
@@ -9,12 +26,19 @@ class BeamSearchScorer(
     var numBeamHypothesisToKeep: Int = 1)
     extends BeamScorer {
 
+  val numBeams: Int = beamSize
   private var beamHypothesesSeq: Seq[BeamHypotheses] = Seq.empty[BeamHypotheses]
   (1 to batchSize) foreach (i =>
     beamHypothesesSeq = beamHypothesesSeq :+ new BeamHypotheses(
       lengthPenalty = lengthPenalty,
       numBeams = beamSize,
       earlyStopping = doEarlyStopping))
+
+  override def getBeamHypothesesSeq:Seq[BeamHypotheses] = {
+    beamHypothesesSeq
+  }
+
+  override def getNumBeams: Int = numBeams
   private val done: Array[Boolean] = Array.fill(batchSize)(false)
 
   override protected def process(
