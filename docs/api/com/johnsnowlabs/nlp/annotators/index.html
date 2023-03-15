@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.3.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators</title>
-          <meta name="description" content="Spark NLP 4.3.1 ScalaDoc - com.johnsnowlabs.nlp.annotators" />
-          <meta name="keywords" content="Spark NLP 4.3.1 ScalaDoc com.johnsnowlabs.nlp.annotators" />
+          <title>Spark NLP 4.3.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators</title>
+          <meta name="description" content="Spark NLP 4.3.2 ScalaDoc - com.johnsnowlabs.nlp.annotators" />
+          <meta name="keywords" content="Spark NLP 4.3.2 ScalaDoc com.johnsnowlabs.nlp.annotators" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.3.1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.3.2 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -470,6 +470,10 @@
       
       
     </li><li class="current-entities indented4">
+                        <a class="object" href="Chunk2Doc$.html" title="This is the companion object of Chunk2Doc."></a>
+                        <a class="class" href="Chunk2Doc.html" title="Converts a CHUNK type column back into DOCUMENT."></a>
+                        <a href="Chunk2Doc.html" title="Converts a CHUNK type column back into DOCUMENT.">Chunk2Doc</a>
+                      </li><li class="current-entities indented4">
                         <a class="object" href="ChunkTokenizer$.html" title="This is the companion object of ChunkTokenizer."></a>
                         <a class="class" href="ChunkTokenizer.html" title="Tokenizes and flattens extracted NER chunks."></a>
                         <a href="ChunkTokenizer.html" title="Tokenizes and flattens extracted NER chunks.">ChunkTokenizer</a>
@@ -776,7 +780,46 @@
 
         <div id="types" class="types members">
               <h3>Type Members</h3>
-              <ol><li name="com.johnsnowlabs.nlp.annotators.ChunkTokenizer" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+              <ol><li name="com.johnsnowlabs.nlp.annotators.Chunk2Doc" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="Chunk2DocextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.Chunk2Doc]withHasSimpleAnnotate[com.johnsnowlabs.nlp.annotators.Chunk2Doc]"></a><a id="Chunk2Doc:Chunk2Doc"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/Chunk2Doc.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="Converts a CHUNK type column back into DOCUMENT." href="Chunk2Doc.html"><span class="name">Chunk2Doc</span></a><span class="result"> extends <a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="Chunk2Doc.html" class="extype" name="com.johnsnowlabs.nlp.annotators.Chunk2Doc">Chunk2Doc</a>] with <a href="../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a>[<a href="Chunk2Doc.html" class="extype" name="com.johnsnowlabs.nlp.annotators.Chunk2Doc">Chunk2Doc</a>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Converts a <code>CHUNK</code> type column back into <code>DOCUMENT</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Converts a <code>CHUNK</code> type column back into <code>DOCUMENT</code>. Useful when trying to re-tokenize or do
+further analysis on a <code>CHUNK</code> result.</p><h4>Example</h4><p>Location entities are extracted and converted back into <code>DOCUMENT</code> type for further processing</p><pre><span class="kw">import</span> spark.implicits._
+<span class="kw">import</span> com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.Chunk2Doc
+
+<span class="kw">val</span> data = <span class="std">Seq</span>((<span class="num">1</span>, <span class="lit">"New York and New Jersey aren't that far apart actually."</span>)).toDF(<span class="lit">"id"</span>, <span class="lit">"text"</span>)
+
+<span class="cmt">// Extracts Named Entities amongst other things</span>
+<span class="kw">val</span> pipeline = PretrainedPipeline(<span class="lit">"explain_document_dl"</span>)
+
+<span class="kw">val</span> chunkToDoc = <span class="kw">new</span> Chunk2Doc().setInputCols(<span class="lit">"entities"</span>).setOutputCol(<span class="lit">"chunkConverted"</span>)
+<span class="kw">val</span> explainResult = pipeline.transform(data)
+
+<span class="kw">val</span> result = chunkToDoc.transform(explainResult)
+result.selectExpr(<span class="lit">"explode(chunkConverted)"</span>).show(<span class="kw">false</span>)
++------------------------------------------------------------------------------+
+|col                                                                           |
++------------------------------------------------------------------------------+
+|[document, <span class="num">0</span>, <span class="num">7</span>, New York, [entity -&gt; LOC, sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">0</span>], []]    |
+|[document, <span class="num">13</span>, <span class="num">22</span>, New Jersey, [entity -&gt; LOC, sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">1</span>], []]|
++------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
+  <a href="../pretrained/PretrainedPipeline.html" class="extype" name="com.johnsnowlabs.nlp.pretrained.PretrainedPipeline">PretrainedPipeline</a> on how to use the
+  PretrainedPipeline</p></span><span class="cmt"><p>
+  <a href="../Doc2Chunk.html" class="extype" name="com.johnsnowlabs.nlp.Doc2Chunk">Doc2Chunk</a> for converting <code>DOCUMENT</code> annotations to <code>CHUNK</code></p></span></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ChunkTokenizer" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ChunkTokenizerextendsTokenizer"></a><a id="ChunkTokenizer:ChunkTokenizer"></a>
       <span class="permalink">
       <a href="../../../../com/johnsnowlabs/nlp/annotators/ChunkTokenizer.html" title="Permalink">
@@ -2122,7 +2165,25 @@ standards. A few rules will help customizing it if defaults do not fit user need
         <div class="values members">
               <h3>Value Members</h3>
               <ol>
-                <li name="com.johnsnowlabs.nlp.annotators.ChunkTokenizer" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+                <li name="com.johnsnowlabs.nlp.annotators.Chunk2Doc" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="Chunk2Doc"></a><a id="Chunk2Doc:Chunk2Doc"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/Chunk2Doc$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="This is the companion object of Chunk2Doc." href="Chunk2Doc$.html"><span class="name">Chunk2Doc</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="Chunk2Doc.html" class="extype" name="com.johnsnowlabs.nlp.annotators.Chunk2Doc">Chunk2Doc</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">This is the companion object of <a href="Chunk2Doc.html" class="extype" name="com.johnsnowlabs.nlp.annotators.Chunk2Doc">Chunk2Doc</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="Chunk2Doc.html" class="extype" name="com.johnsnowlabs.nlp.annotators.Chunk2Doc">Chunk2Doc</a>. Please refer to that class for the
+documentation.
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ChunkTokenizer" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ChunkTokenizer"></a><a id="ChunkTokenizer:ChunkTokenizer"></a>
       <span class="permalink">
       <a href="../../../../com/johnsnowlabs/nlp/annotators/ChunkTokenizer$.html" title="Permalink">

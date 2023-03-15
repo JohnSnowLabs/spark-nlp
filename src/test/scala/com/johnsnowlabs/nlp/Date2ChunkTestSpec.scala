@@ -17,7 +17,7 @@
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.annotator._
-import com.johnsnowlabs.nlp.annotators.MultiDateMatcher
+import com.johnsnowlabs.nlp.annotators.{Date2Chunk, MultiDateMatcher}
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}
@@ -66,6 +66,7 @@ class Date2ChunkTestSpec extends AnyFlatSpec {
     val pipeline = new Pipeline().setStages(Array(date, multiDate, date2Chunk, multiDate2Chunk))
 
     val pipelineModel = pipeline.fit(data)
+    pipelineModel.write.overwrite().save("./tmp_date2chunk_pipeline")
     val lightPipeline = new LightPipeline(pipelineModel)
 
     lightPipeline.annotate("Hello from Spark NLP in 2023 !")

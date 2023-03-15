@@ -130,7 +130,7 @@ class TensorflowClassifier(
         enableOutputLogs,
         outputLogsPath)
 
-      if (validationSplit > 0.0) {
+      if (validationSet.nonEmpty && validationSplit > 0.0) {
         println(
           s"Quality on validation dataset (${validationSplit * 100}%), validation examples = ${validationSet.length}")
         outputLog(
@@ -145,6 +145,9 @@ class TensorflowClassifier(
           extended = evaluationLogExtended,
           enableOutputLogs,
           outputLogsPath)
+      } else if (validationSet.isEmpty) {
+        println(f"WARNING: Could not create validation set. " +
+          f"Number of data points (${inputs._1.length}) not enough for validation split $validationSplit.")
       }
 
       if (testSet.nonEmpty) {
@@ -256,7 +259,7 @@ class TensorflowClassifier(
       .run()
 
     val tagsId = TensorResources.extractFloats(calculated.get(0)).grouped(numClasses).toArray
-    val predictedLabels = tagsId.map { case (score) =>
+    val predictedLabels = tagsId.map { score =>
       val labelId = score.zipWithIndex.maxBy(_._1)._2
       labelId
     }
