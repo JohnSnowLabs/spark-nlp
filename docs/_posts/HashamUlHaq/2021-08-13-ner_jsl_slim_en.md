@@ -23,6 +23,27 @@ use_language_switcher: "Python-Scala-Java"
 
 This is a pretrained named entity recognition deep learning model for clinical terminology. It is based on `ner_jsl` model, but with more generalised entities.
 
+Definitions of Predicted Entities: 
+
+- `Death_Entity`: Mentions that indicate the death of a patient. 
+- `Medical_Device`: All mentions related to medical devices and supplies. 
+- `Vital_Signs_Header`: Identifies section headers that correspond to Vital Signs of a patient.
+- `Allergen`: Allergen related extractions mentioned in the document.  
+- `Drug_BrandName`: Commercial labeling name chosen by the labeler or the drug manufacturer for a drug containing a single or multiple drug active ingredients. 
+- `Clinical_Dept`: Terms that indicate the medical and/or surgical departments. 
+- `Symptom`: All the symptoms mentioned in the document, of a patient or someone else. 
+- `External_body_part_or_region`: All mentions related to external body parts or organs that can be examined by naked eye. 
+- `Admission_Discharge`: Terms that indicate the admission and/or the discharge of a patient.
+- `Age`: All mention of ages, past or present, related to the patient or with anybody else.  
+- `Birth_Entity`: Mentions that indicate giving birth. 
+- `Oncological`: All the cancer, tumor or metastasis related extractions mentioned in the document, of the patient or someone else. 
+- `Substance_Quantity`: All mentions of substance quantity (quantitative information related to illicit/recreational drugs). 
+- `Test_Result`: Terms related to all the test results present in the document (clinical tests results are included). 
+- `Test`: Mentions of laboratory, pathology, and radiological tests. 
+- `Procedure`: All mentions of invasive medical or surgical procedures or treatments. 
+- `Treatment`: Includes therapeutic and minimally invasive treatment and procedures (invasive treatments or procedures are extracted as "Procedure"). 
+- `Disease_Syndrome_Disorder`: All the diseases mentioned in the document, of the patient or someone else (excluding diseases that are extracted with their specific labels, such as "Heart_Disease" etc.). 
+
 
 ## Predicted Entities
 
