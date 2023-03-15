@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Multilabel Classification of NDA Clauses (medium)
+title: Multilabel Classification of NDA Clauses (sentences, medium)
 author: John Snow Labs
 name: legmulticlf_mnda_sections_other
 date: 2023-02-09

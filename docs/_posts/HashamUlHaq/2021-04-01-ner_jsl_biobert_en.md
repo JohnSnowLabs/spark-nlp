@@ -22,7 +22,30 @@ use_language_switcher: "Python-Scala-Java"
 
 
 Detect symptoms, modifiers, age, drugs, treatments, tests and a lot more using a single pretrained NER model.
+ 
+Definitions of Predicted Entities: 
 
+- `Symptom`: All the symptoms mentioned in the document, of a patient or someone else. 
+- `Pulse`: Peripheral heart rate, without advanced information like measurement location. 
+- `Death_Entity`: Mentions that indicate the death of a patient. 
+- `Age`: All mention of ages, past or present, related to the patient or with anybody else. 
+- `Modifier`: Terms that modify the symptoms, diseases or risk factors. If a modifier is included in ICD-10 name of a specific disease, the respective modifier is not extracted separately. 
+- `Substance`: All mentions of substance use related to the patient or someone else (recreational drugs, illicit drugs). 
+- `Drug_Ingredient`: Active ingredient/s found in drug products. 
+- `Weight`: All mentions related to a patients weight. 
+- `Drug_BrandName`: Commercial labeling name chosen by the labeler or the drug manufacturer for a drug containing a single or multiple drug active ingredients. 
+- `Procedure`: All mentions of invasive medical or surgical procedures or treatments.
+- `Blood_Pressure`: Systemic blood pressure, mean arterial pressure, systolic and/or diastolic are extracted. 
+- `Gender`: Gender-specific nouns and pronouns. 
+- `Temperature`: All mentions that refer to body temperature. 
+- `Section_Header`: All the section headers present in the text  (Medical History, Family History, Social History, Physical Examination and Vital signs Headers are extracted separately with their specific labels). 
+- `Route`: Drug and medication administration routes available described by [FDA](http://wayback.archive-it.org/7993/20171115111313/https:/www.fda.gov/Drugs/DevelopmentApprovalProcess/FormsSubmissionRequirements/ElectronicSubmissions/DataStandardsManualmonographs/ucm071667.htm). 
+- `O2_Saturation`: Systemic arterial, venous or peripheral oxygen saturation measurements. 
+- `Respiration`: Number of breaths per minute. 
+- `Procedure`: All mentions of invasive medical or surgical procedures or treatments. 
+- `Frequency`: Frequency of administration for a dose prescribed. 
+- `Dosage`: Quantity prescribed by the physician for an active ingredient; measurement units are available described by [FDA](http://wayback.archive-it.org/7993/20171115111313/https:/www.fda.gov/Drugs/DevelopmentApprovalProcess/FormsSubmissionRequirements/ElectronicSubmissions/DataStandardsManualmonographs/ucm071667.htm). 
+- `Allergen`: Allergen related extractions mentioned in the document. 
 
 ## Predicted Entities
 

@@ -54,7 +54,7 @@ val result = pipeline.fullAnnotate(text)
 
 ## Results
 
-```bash
+```bass
 |    | ner_chunks                        |   begin |   end | ner_label                 |   confidence |
 |---:|:----------------------------------|--------:|------:|:--------------------------|-------------:|
 |  0 | Angio CT                          |      12 |    19 | Imaging_Test              |     0.96415  |
