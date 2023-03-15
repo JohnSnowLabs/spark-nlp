@@ -28,7 +28,7 @@
 
 </script><title>Detect Clinical Entities (Slim version, BertForTokenClassifier)</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionThis is a pretrained named entity recognition deep learning model for clinical terminology. It is based on the bert_token_classifier_ner_jsl model, but with more generalized entities. This model is trained with BertForTokenClassification method from the transformers library and imported into Spark NLP.Pre...">
+<meta name="description" content="DescriptionThis is a pretrained named entity recognition deep learning model for clinical terminology. It is based on the bert_token_classifier_ner_jsl model, but with more generalized entities. This model is trained with BertForTokenClassification method from the transformers library and imported into Spark NLP.Def...">
 <link rel="canonical" href="/2022/01/06/bert_token_classifier_ner_jsl_slim_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -437,6 +437,29 @@
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
 <p>This is a pretrained named entity recognition deep learning model for clinical terminology. It is based on the <code class="language-plaintext highlighter-rouge">bert_token_classifier_ner_jsl</code> model, but with more generalized entities. This model is trained with BertForTokenClassification method from the <code class="language-plaintext highlighter-rouge">transformers</code> library and imported into Spark NLP.</p>
+
+<p>Definitions of Predicted Entities:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Death_Entity</code>: Mentions that indicate the death of a patient.</li>
+  <li><code class="language-plaintext highlighter-rouge">Medical_Device</code>: All mentions related to medical devices and supplies.</li>
+  <li><code class="language-plaintext highlighter-rouge">Vital_Signs_Header</code>: Identifies section headers that correspond to Vital Signs of a patient.</li>
+  <li><code class="language-plaintext highlighter-rouge">Allergen</code>: Allergen related extractions mentioned in the document.</li>
+  <li><code class="language-plaintext highlighter-rouge">Drug_BrandName</code>: Commercial labeling name chosen by the labeler or the drug manufacturer for a drug containing a single or multiple drug active ingredients.</li>
+  <li><code class="language-plaintext highlighter-rouge">Clinical_Dept</code>: Terms that indicate the medical and/or surgical departments.</li>
+  <li><code class="language-plaintext highlighter-rouge">Symptom</code>: All the symptoms mentioned in the document, of a patient or someone else.</li>
+  <li><code class="language-plaintext highlighter-rouge">External_body_part_or_region</code>: All mentions related to external body parts or organs that can be examined by naked eye.</li>
+  <li><code class="language-plaintext highlighter-rouge">Admission_Discharge</code>: Terms that indicate the admission and/or the discharge of a patient.</li>
+  <li><code class="language-plaintext highlighter-rouge">Age</code>: All mention of ages, past or present, related to the patient or with anybody else.</li>
+  <li><code class="language-plaintext highlighter-rouge">Birth_Entity</code>: Mentions that indicate giving birth.</li>
+  <li><code class="language-plaintext highlighter-rouge">Oncological</code>: All the cancer, tumor or metastasis related extractions mentioned in the document, of the patient or someone else.</li>
+  <li><code class="language-plaintext highlighter-rouge">Substance_Quantity</code>: All mentions of substance quantity (quantitative information related to illicit/recreational drugs).</li>
+  <li><code class="language-plaintext highlighter-rouge">Test_Result</code>: Terms related to all the test results present in the document (clinical tests results are included).</li>
+  <li><code class="language-plaintext highlighter-rouge">Test</code>: Mentions of laboratory, pathology, and radiological tests.</li>
+  <li><code class="language-plaintext highlighter-rouge">Procedure</code>: All mentions of invasive medical or surgical procedures or treatments.</li>
+  <li><code class="language-plaintext highlighter-rouge">Treatment</code>: Includes therapeutic and minimally invasive treatment and procedures (invasive treatments or procedures are extracted as “Procedure”).</li>
+  <li><code class="language-plaintext highlighter-rouge">Disease_Syndrome_Disorder</code>: All the diseases mentioned in the document, of the patient or someone else (excluding diseases that are extracted with their specific labels, such as “Heart_Disease” etc.).</li>
+</ul>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 

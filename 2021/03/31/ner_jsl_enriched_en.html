@@ -28,7 +28,7 @@
 
 </script><title>Detect Diagnosis, Symptoms, Drugs, Labs and Demographics (ner_jsl_enriched)</title><meta property="og:title" content=""/>
 
-<meta name="description" content="DescriptionPretrained named entity recognition deep learning model for clinical terminology. The SparkNLP deep learning model (MedicalNerModel) is inspired by a former state of the art model for NER: Chiu &amp; Nicols, Named Entity Recognition with Bidirectional LSTM-CNN.Predicted EntitiesAge, Name, Procedure, Pulse...">
+<meta name="description" content="DescriptionPretrained named entity recognition deep learning model for clinical terminology. The SparkNLP deep learning model (MedicalNerModel) is inspired by a former state of the art model for NER: Chiu &amp; Nicols, Named Entity Recognition with Bidirectional LSTM-CNN.Definitions of Predicted Entities:  Age: All ...">
 <link rel="canonical" href="/2021/03/31/ner_jsl_enriched_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <!---->
 <!-- <link rel="apple-touch-icon" sizes="180x180" href="/fav.ico"> -->
@@ -437,6 +437,29 @@
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
 
 <p>Pretrained named entity recognition deep learning model for clinical terminology. The SparkNLP deep learning model (MedicalNerModel) is inspired by a former state of the art model for NER: Chiu &amp; Nicols, Named Entity Recognition with Bidirectional LSTM-CNN.</p>
+
+<p>Definitions of Predicted Entities:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Age</code>: All mention of ages, past or present, related to the patient or with anybody else.</li>
+  <li><code class="language-plaintext highlighter-rouge">Dosage</code>: Quantity prescribed by the physician for an active ingredient; measurement units are available described by <a href="http://wayback.archive-it.org/7993/20171115111313/https:/www.fda.gov/Drugs/DevelopmentApprovalProcess/FormsSubmissionRequirements/ElectronicSubmissions/DataStandardsManualmonographs/ucm071667.htm">FDA</a>.</li>
+  <li><code class="language-plaintext highlighter-rouge">Drug_Name</code>: Commercial labeling name chosen by the labeler or the drug manufacturer for a drug containing a single or multiple drug active ingredients.</li>
+  <li><code class="language-plaintext highlighter-rouge">Frequency</code>: Frequency of administration for a dose prescribed.</li>
+  <li><code class="language-plaintext highlighter-rouge">Gender</code>: Gender-specific nouns and pronouns.</li>
+  <li><code class="language-plaintext highlighter-rouge">Symptom</code>: All the symptoms mentioned in the document, of a patient or someone else.</li>
+  <li><code class="language-plaintext highlighter-rouge">Allergen</code>: Allergen related extractions mentioned in the document.</li>
+  <li><code class="language-plaintext highlighter-rouge">Blood_Pressure</code>: Systemic blood pressure, mean arterial pressure, systolic and/or diastolic are extracted.</li>
+  <li><code class="language-plaintext highlighter-rouge">Modifier</code>: Terms that modify the symptoms, diseases or risk factors. If a modifier is included in ICD-10 name of a specific disease, the respective modifier is not extracted separately.</li>
+  <li><code class="language-plaintext highlighter-rouge">O2_Saturation</code>: Systemic arterial, venous or peripheral oxygen saturation measurements.</li>
+  <li><code class="language-plaintext highlighter-rouge">Procedure</code>: All mentions of invasive medical or surgical procedures or treatments.</li>
+  <li><code class="language-plaintext highlighter-rouge">Pulse</code>: Peripheral heart rate, without advanced information like measurement location.</li>
+  <li><code class="language-plaintext highlighter-rouge">Respiration</code>: Number of breaths per minute.</li>
+  <li><code class="language-plaintext highlighter-rouge">Route</code>: Drug and medication administration routes available described by <a href="http://wayback.archive-it.org/7993/20171115111313/https:/www.fda.gov/Drugs/DevelopmentApprovalProcess/FormsSubmissionRequirements/ElectronicSubmissions/DataStandardsManualmonographs/ucm071667.htm">FDA</a>.</li>
+  <li><code class="language-plaintext highlighter-rouge">Section_Header</code>: All the section headers present in the text  (Medical History, Family History, Social History, Physical Examination and Vital signs Headers are extracted separately with their specific labels).</li>
+  <li><code class="language-plaintext highlighter-rouge">Temperature</code>: All mentions that refer to body temperature.</li>
+  <li><code class="language-plaintext highlighter-rouge">Weight</code>: All mentions related to a patients weight.</li>
+  <li><code class="language-plaintext highlighter-rouge">Substance</code>: All mentions of substance use related to the patient or someone else (recreational drugs, illicit drugs).</li>
+</ul>
 
 <h2 id="predicted-entities">Predicted Entities</h2>
 
