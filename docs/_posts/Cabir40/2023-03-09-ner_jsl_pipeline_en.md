@@ -55,7 +55,7 @@ val result = pipeline.fullAnnotate(text)
 ## Results
 
 ```bash
-|    | ber_chunks                                |   begin |   end | ner_label                    |   confidence |
+|    | ner_chunks                                |   begin |   end | ner_label                    |   confidence |
 |---:|:------------------------------------------|--------:|------:|:-----------------------------|-------------:|
 |  0 | 21-day-old                                |      17 |    26 | Age                          |     0.997    |
 |  1 | Caucasian                                 |      28 |    36 | Race_Ethnicity               |     0.9995   |
