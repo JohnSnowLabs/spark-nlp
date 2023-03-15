@@ -44,7 +44,6 @@ import scala.io.Source
   * `setPatternsResource`. The file format needs to be set as the "format" field in the `option`
   * parameter map and depending on the file type, additional parameters might need to be set.
   *
-  * To enable regex extraction, `setEnablePatternRegex(true)` needs to be called.
   *
   * If the file is in a JSON format, then the rule definitions need to be given in a list with the
   * fields "id", "label" and "patterns":
@@ -115,7 +114,6 @@ import scala.io.Source
   *     readAs = ReadAs.TEXT,
   *     options = Map("format" -> "csv", "delimiter" -> "\\|")
   *   )
-  *   .setEnablePatternRegex(true)
   *
   * val pipeline = new Pipeline().setStages(Array(
   *   documentAssembler,
@@ -170,18 +168,10 @@ class EntityRulerApproach(override val uid: String)
     *
     * @group param
     */
-  val patternsResource = new ExternalResourceParam(
+  val patternsResource: ExternalResourceParam = new ExternalResourceParam(
     this,
     "patternsResource",
     "Resource in JSON or CSV format to map entities to patterns")
-
-  /** Enables regex pattern match (Default: `false`).
-    *
-    * @group param
-    */
-  @deprecated("Enabling pattern regex now is define on each pattern", "Since 4.2.0")
-  val enablePatternRegex =
-    new BooleanParam(this, "enablePatternRegex", "Enables regex pattern match")
 
   val sentenceMatch = new BooleanParam(
     this,
@@ -199,10 +189,6 @@ class EntityRulerApproach(override val uid: String)
     this,
     "alphabet",
     "Alphabet resource path to plain text file with all characters in a given alphabet")
-
-  /** @group setParam */
-  @deprecated("Enabling pattern regex now is define on each pattern", "4.2.0")
-  def setEnablePatternRegex(value: Boolean): this.type = set(enablePatternRegex, value)
 
   /** @group setParam */
   def setPatternsResource(
@@ -224,7 +210,6 @@ class EntityRulerApproach(override val uid: String)
   setDefault(
     storagePath -> ExternalResource("", ReadAs.TEXT, Map()),
     patternsResource -> null,
-    enablePatternRegex -> false,
     useStorage -> false,
     sentenceMatch -> false,
     caseSensitive -> true,
@@ -568,10 +553,7 @@ class EntityRulerApproach(override val uid: String)
   }
 
   protected def createWriter(database: Name, connection: RocksDBConnection): StorageWriter[_] = {
-    database match {
-      case Database.ENTITY_PATTERNS => new PatternsReadWriter(connection)
-      case Database.ENTITY_REGEX_PATTERNS => new RegexPatternsReadWriter(connection)
-    }
+    new RegexPatternsReadWriter(connection)
   }
 
   override def indexStorage(fitDataset: Dataset[_], resource: Option[ExternalResource]): Unit = {
