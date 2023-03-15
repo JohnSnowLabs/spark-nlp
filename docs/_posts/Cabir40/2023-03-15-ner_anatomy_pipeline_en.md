@@ -23,8 +23,8 @@ This pretrained pipeline is built on the top of [ner_anatomy](https://nlp.johnsn
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_anatomy_pipeline_en_4.3.0_3.2_1678839306761.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/ner_anatomy_pipeline_en_4.3.0_3.2_1678839306761.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/clinical/models/ner_anatomy_pipeline_en_4.3.0_3.2_1678861992438.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/clinical/models/ner_anatomy_pipeline_en_4.3.0_3.2_1678861992438.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -43,7 +43,7 @@ HEENT: Sclerae and conjunctivae clear. Extraocular muscles intact. TMs clear. Na
 Neck: No lymphadenopathy.
 Chest: Clear.
 Abdomen: Positive bowel sounds and soft.
-Dermatologic: She has got redness along the lateral portion of her right great toe, but no bleeding or oozing. Some dryness of her skin. Her toenails themselves are very short and even on her left foot and her left great toe the toenails are very short'''
+Dermatologic: She has got redness along the lateral portion of her right great toe, but no bleeding or oozing. Some dryness of her skin. Her toenails themselves are very short and even on her left foot and her left great toe the toenails are very short.'''
 
 result = pipeline.fullAnnotate(text)
 ```
@@ -58,7 +58,7 @@ HEENT: Sclerae and conjunctivae clear. Extraocular muscles intact. TMs clear. Na
 Neck: No lymphadenopathy.
 Chest: Clear.
 Abdomen: Positive bowel sounds and soft.
-Dermatologic: She has got redness along the lateral portion of her right great toe, but no bleeding or oozing. Some dryness of her skin. Her toenails themselves are very short and even on her left foot and her left great toe the toenails are very short"
+Dermatologic: She has got redness along the lateral portion of her right great toe, but no bleeding or oozing. Some dryness of her skin. Her toenails themselves are very short and even on her left foot and her left great toe the toenails are very short."
 
 val result = pipeline.fullAnnotate(text)
 ```
