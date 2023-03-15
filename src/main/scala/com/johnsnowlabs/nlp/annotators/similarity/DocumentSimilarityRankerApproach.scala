@@ -106,12 +106,22 @@ class DocumentSimilarityRankerApproach(override val uid: String)
 
   val visibleDistances = new BooleanParam(
     this,
-    "setVisibleDistances",
-    "Whether to set visibleDistances in LSH output (Default: `false`)")
+    "visibleDistances",
+    "Whether to set visibleDistances in ranking output (Default: `false`)")
 
   def setVisibleDistances(value: Boolean): this.type = set(visibleDistances, value)
 
   def getVisibleDistances: Boolean = $(visibleDistances)
+
+  val identityRanking = new BooleanParam(
+    this,
+    "identityRanking",
+    "Whether to include identity in ranking result set. Useful for debug. (Default: `false`)")
+
+  def setIdentityRanking(value: Boolean): this.type = set(identityRanking, value)
+
+  def getIdentityRanking: Boolean = $(identityRanking)
+
 
   setDefault(
     inputCols -> Array(SENTENCE_EMBEDDINGS),
@@ -120,7 +130,8 @@ class DocumentSimilarityRankerApproach(override val uid: String)
     numberOfNeighbours -> 10,
     bucketLength -> 2.0,
     numHashTables -> 3,
-    visibleDistances -> false
+    visibleDistances -> false,
+    identityRanking -> false
   )
 
   def getNeighborsResultSet(model: BucketedRandomProjectionLSHModel,
@@ -128,7 +139,13 @@ class DocumentSimilarityRankerApproach(override val uid: String)
                             similarityDataset: DataFrame): NeighborsResultSet = {
     query match {
       case (index, queryVector) =>
-        val similarRankedDocs = model.approxNearestNeighbors(similarityDataset, queryVector, getNumberOfNeighbours)
+        val _similarityDataset =
+          if (getIdentityRanking) {
+            similarityDataset
+          } else {
+            similarityDataset.where(col("index") =!= index)
+          }
+        val similarRankedDocs = model.approxNearestNeighbors(_similarityDataset, queryVector, getNumberOfNeighbours)
 
         if(getVisibleDistances) {
           val rankedNeighboursWithDistances = similarRankedDocs

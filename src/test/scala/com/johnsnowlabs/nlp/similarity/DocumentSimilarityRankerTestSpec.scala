@@ -67,7 +67,7 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
       .setSimilarityMethod("brp")
       .setNumberOfNeighbours(3)
       .setVisibleDistances(true)
-    // .setIncludeQueryInResult(true) // TODO useful for debug
+      .setIdentityRanking(true)
 
     val documentSimilarityFinisher = new DocumentSimilarityRankerFinisher()
       .setInputCols("doc_similarity_rankings")
