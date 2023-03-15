@@ -12,8 +12,6 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 """Module of base Spark NLP annotators."""
-
-from sparknlp.base.chunk2_doc import *
 from sparknlp.base.doc2_chunk import *
 from sparknlp.base.document_assembler import *
 from sparknlp.base.multi_document_assembler import *
@@ -29,5 +27,3 @@ from sparknlp.base.image_assembler import *
 from sparknlp.base.audio_assembler import *
 from sparknlp.base.table_assembler import *
 from sparknlp.base.token2_chunk import *
-from sparknlp.base.date2_chunk import *
-
