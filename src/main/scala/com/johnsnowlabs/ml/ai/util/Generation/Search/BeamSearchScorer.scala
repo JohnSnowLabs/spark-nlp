@@ -21,7 +21,7 @@ import scala.util.control.Breaks.*
 class BeamSearchScorer(
     var beamSize: Int,
     var batchSize: Int,
-    var lengthPenalty: Double = 1.0,
+    var lengthPenalty: Float = 1.0f,
     var doEarlyStopping: Boolean = false,
     var numBeamHypothesisToKeep: Int = 1)
     extends BeamScorer {
@@ -34,25 +34,26 @@ class BeamSearchScorer(
       numBeams = beamSize,
       earlyStopping = doEarlyStopping))
 
-  override def getBeamHypothesesSeq:Seq[BeamHypotheses] = {
+  override def getBeamHypothesesSeq: Seq[BeamHypotheses] = {
     beamHypothesesSeq
   }
 
   override def getNumBeams: Int = numBeams
   private val done: Array[Boolean] = Array.fill(batchSize)(false)
 
-  override protected def process(
+  override def process(
       inputIds: Seq[Array[Int]],
-      nextScores: Seq[Array[Double]],
+      nextScores: Seq[Array[Float]],
       nextTokens: Seq[Array[Int]],
       nextIndices: Seq[Array[Int]],
       padTokenId: Int,
       eosTokenId: Int,
-      beamIndices: Seq[Array[Int]])
-      : (Array[Array[Double]], Array[Array[Int]], Array[Array[Int]]) = {
-    val currentLength = inputIds.length
+      beamIndices: Seq[Array[Int]],
+      currentLength: Int)
+      : (Array[Array[Float]], Array[Array[Int]], Array[Array[Int]]) = {
+//    val currentLength = inputIds.length
     val batchSize = this.beamHypothesesSeq.length
-    val nextBeamScores = Array.ofDim[Double](batchSize, this.beamSize)
+    val nextBeamScores = Array.ofDim[Float](batchSize, this.beamSize)
     val nextBeamTokens = Array.ofDim[Int](batchSize, this.beamSize)
     val nextBeamIndices = Array.ofDim[Int](batchSize, this.beamSize)
 
@@ -101,13 +102,13 @@ class BeamSearchScorer(
 
   override protected def finalize(
       inputIds: Seq[Array[Int]],
-      finalBeamScores: Array[Double],
+      finalBeamScores: Array[Float],
       finalBeamTokens: Array[Int],
       finalBeamIndices: Array[Int],
       maxLength: Int,
       padTokenId: Int,
       eosTokenId: Int,
-      beamIndices: Seq[Array[Int]]): (Array[Array[Int]], Array[Double], Array[Array[Int]]) = {
+      beamIndices: Seq[Array[Int]]): (Array[Array[Int]], Array[Float], Array[Array[Int]]) = {
     val batchSize = this.beamHypothesesSeq.length
     this.beamHypothesesSeq.zipWithIndex.foreach { case (hypotheses, batchIdx) =>
       breakable {
@@ -129,7 +130,7 @@ class BeamSearchScorer(
     val sentLengths = Array.ofDim[Int](batchSize * this.numBeamHypothesisToKeep)
     var best = Seq[Array[Int]]()
     var bestIndices = Seq[Array[Int]]()
-    val bestScores = Array.ofDim[Double](batchSize * this.numBeamHypothesisToKeep)
+    val bestScores = Array.ofDim[Float](batchSize * this.numBeamHypothesisToKeep)
     this.beamHypothesesSeq.zipWithIndex.foreach { case (hypotheses, i) =>
       breakable {
         var sortedHypotheses = hypotheses.getBeams().sortWith(_._1 < _._1)
@@ -142,31 +143,33 @@ class BeamSearchScorer(
           sentLengths(this.numBeamHypothesisToKeep * i * j) = bestHypothesis.length
           best = best :+ bestHypothesis
           bestIndices = bestIndices :+ bestIndex
-          bestScores(i * this.numBeamHypothesisToKeep + j) = bestScore
+          bestScores(i * this.numBeamHypothesisToKeep + j) = bestScore.toFloat
         }
       }
     }
     val sentLengthMax = sentLengths.max + 1
-    val sentMaxLength = Math.min(sentLengthMax,maxLength)
-    var decoded = Array.ofDim[Int](batchSize*this.numBeamHypothesisToKeep,sentMaxLength)
-    var indices  = Array.ofDim[Int](batchSize*this.numBeamHypothesisToKeep,sentMaxLength)
+    val sentMaxLength = Math.min(sentLengthMax, maxLength)
+    var decoded = Array.ofDim[Int](batchSize * this.numBeamHypothesisToKeep, sentMaxLength)
+    var indices = Array.ofDim[Int](batchSize * this.numBeamHypothesisToKeep, sentMaxLength)
 
-    if (sentLengths.min != sentLengths.max){
-      decoded = decoded.map(each => each.map(_=> padTokenId))
+    if (sentLengths.min != sentLengths.max) {
+      decoded = decoded.map(each => each.map(_ => padTokenId))
     }
-    indices = indices.map(each => each.map(_=> -1))
-    for(i <- best.indices){
+    indices = indices.map(each => each.map(_ => -1))
+    for (i <- best.indices) {
       val hypo = best(i)
       val bestIdx = bestIndices(i)
-      for(j<-0 until sentLengths(i)){
+      for (j <- 0 until sentLengths(i)) {
         decoded(i)(j) = hypo(j)
         indices(i)(j) = bestIdx(j)
       }
-      if(sentLengths(i) < sentMaxLength){
+      if (sentLengths(i) < sentMaxLength) {
         decoded(i)(sentLengths(i)) = eosTokenId
       }
     }
-    (decoded,bestScores,indices)
+    (decoded, bestScores, indices)
 
   }
+
+  override def isDone: Boolean = !this.done.contains(false)
 }

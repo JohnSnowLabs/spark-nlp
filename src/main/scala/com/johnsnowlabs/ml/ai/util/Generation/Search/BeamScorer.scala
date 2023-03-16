@@ -18,24 +18,26 @@ package com.johnsnowlabs.ml.ai.util.Generation.Search
 
 abstract class BeamScorer() {
 
-  protected def process(
+  def process(
       inputIds: Seq[Array[Int]],
-      nextScores: Seq[Array[Double]],
+      nextScores: Seq[Array[Float]],
       nextTokens: Seq[Array[Int]],
       nextIndices: Seq[Array[Int]],
       padTokenId: Int,
       eosTokenId: Int,
-      beamIndices: Seq[Array[Int]]): (Array[Array[Double]], Array[Array[Int]], Array[Array[Int]])
+      beamIndices: Seq[Array[Int]],
+      currentLength: Int): (Array[Array[Float]], Array[Array[Int]], Array[Array[Int]])
 
-  protected def finalize(
+  def finalize(
       inputIds: Seq[Array[Int]],
-      finalBeamScores: Array[Double],
+      finalBeamScores: Array[Float],
       finalBeamTokens: Array[Int],
       finalBeamIndices: Array[Int],
       maxLength: Int,
       padTokenId: Int,
       eosTokenId: Int,
-      beamIndices: Seq[Array[Int]]):(Array[Array[Int]], Array[Double], Array[Array[Int]])
+      beamIndices: Seq[Array[Int]]):(Array[Array[Int]], Array[Float], Array[Array[Int]])
   def getBeamHypothesesSeq:Seq[BeamHypotheses]
   def getNumBeams:Int
+  def isDone:Boolean
 }
