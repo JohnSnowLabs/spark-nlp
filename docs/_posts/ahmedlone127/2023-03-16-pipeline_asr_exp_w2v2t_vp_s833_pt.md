@@ -25,8 +25,8 @@ NOTE: This pipeline only works on a CPU, if you need to use this pipeline on a G
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_asr_exp_w2v2t_vp_s833_pt_4.4.0_3.0_1678968021821.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/pipeline_asr_exp_w2v2t_vp_s833_pt_4.4.0_3.0_1678968021821.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_asr_exp_w2v2t_vp_s833_pt_4.4.0_3.0_1678985601623.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/pipeline_asr_exp_w2v2t_vp_s833_pt_4.4.0_3.0_1678985601623.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
