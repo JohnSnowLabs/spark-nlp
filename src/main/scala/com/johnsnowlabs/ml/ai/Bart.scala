@@ -1,17 +1,17 @@
 /*
- * Copyright 2017-2022 John Snow Labs
+ * Copyright 2017 - 2023  John Snow Labs
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *        http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
  */
 
 package com.johnsnowlabs.ml.ai
@@ -23,7 +23,7 @@ import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.BartTokenizer
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import org.tensorflow.{Session, Tensor}
 import com.johnsnowlabs.nlp.annotators.common.{Sentence, SentenceSplit}
-
+import com.johnsnowlabs.ml.ai.util.Generation.Generate
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 import scala.math._
@@ -32,9 +32,9 @@ import scala.math._
   * Input for this model must be tokenized with a SentencePieceModel,
   *
   * @param tensorflow
-  *   Albert Model wrapper with TensorFlowWrapper
+  *   BART Model wrapper with TensorFlowWrapper
   * @param bpeTokenizer
-  *   Albert SentencePiece model with SentencePieceWrapper
+  *   BART Byte-Pair Encoder model with BPEWrapper
   * @param configProtoBytes
   *   Configuration for TensorFlow session
   */
@@ -44,7 +44,7 @@ private[johnsnowlabs] class Bart(
     val bpeTokenizer: BartTokenizer,
     configProtoBytes: Option[Array[Byte]] = None,
     signatures: Option[Map[String, String]] = None)
-    extends Serializable {
+    extends Serializable with Generate {
 
   private val _tfT5Signatures: Map[String, String] =
     signatures.getOrElse(ModelSignatureManager.apply())
@@ -221,6 +221,12 @@ private[johnsnowlabs] class Bart(
       val decoderOutputs = TensorResources
         .extractFloats(decoderOuts.head)
         .grouped(vocab_size)
+
+
+
+
+
+
         .toArray
         .grouped(decoderInputLength)
         .toArray
@@ -605,4 +611,5 @@ private[johnsnowlabs] class Bart(
     }
   }
 
+  override def getModelOutput(inputIds: Seq[Array[Int]]): Array[Array[Float]] = ???
 }
