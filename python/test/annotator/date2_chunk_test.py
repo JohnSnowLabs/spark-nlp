@@ -33,7 +33,7 @@ from test.util import SparkContextForTest
 
 
 @pytest.mark.fast
-class DateMatcherTestSpec(unittest.TestCase):
+class Date2ChunkTestSpec(unittest.TestCase):
 
     def setUp(self):
         self.data = SparkContextForTest.data
@@ -42,14 +42,23 @@ class DateMatcherTestSpec(unittest.TestCase):
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
+
         date_matcher = DateMatcher() \
             .setInputCols(['document']) \
             .setOutputCol("date") \
             .setOutputFormat("yyyyMM") \
             .setSourceLanguage("en")
+
         date_to_chunk = Date2Chunk() \
             .setInputCols(['date']) \
             .setOutputCol("date_chunk")
 
-        assembled = document_assembler.transform(self.data)
-        date_matcher.transform(assembled).show()
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            date_matcher,
+            date_to_chunk
+        ])
+
+        model = pipeline.fit(self.data)
+        model.write().overwrite().save("./tmp_date2chunk_model")
+        PipelineModel.load("./tmp_date2chunk_model").transform(self.data)
