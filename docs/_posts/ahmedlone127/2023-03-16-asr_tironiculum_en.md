@@ -26,8 +26,8 @@ NOTE: This model only works on a CPU, if you need to use this model on a GPU dev
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_tironiculum_en_4.4.0_3.0_1678979228267.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/asr_tironiculum_en_4.4.0_3.0_1678979228267.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_tironiculum_en_4.4.0_3.0_1678983641725.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/asr_tironiculum_en_4.4.0_3.0_1678983641725.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -87,4 +87,4 @@ val pipelineDF = pipelineModel.transform(audioDf)
 |Input Labels:|[audio_assembler]|
 |Output Labels:|[text]|
 |Language:|en|
-|Size:|349.2 MB|
+|Size:|349.3 MB|
