@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.3.1 ScalaDoc  - com.johnsnowlabs.ml.tensorflow.TensorflowBioGPT</title>
-          <meta name="description" content="Spark NLP 4.3.1 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowBioGPT" />
-          <meta name="keywords" content="Spark NLP 4.3.1 ScalaDoc com.johnsnowlabs.ml.tensorflow.TensorflowBioGPT" />
+          <title>Spark NLP 4.3.2 ScalaDoc  - com.johnsnowlabs.ml.tensorflow.TensorflowBioGPT</title>
+          <meta name="description" content="Spark NLP 4.3.2 ScalaDoc - com.johnsnowlabs.ml.tensorflow.TensorflowBioGPT" />
+          <meta name="keywords" content="Spark NLP 4.3.2 ScalaDoc com.johnsnowlabs.ml.tensorflow.TensorflowBioGPT" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.3.1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.3.2 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -280,9 +280,9 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="com.johnsnowlabs.ml.tensorflow.TensorflowBioGPT#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(tensorflow:com.johnsnowlabs.ml.tensorflow.TensorflowWrapper,bpeTokenizer:com.johnsnowlabs.nlp.annotators.tokenizer.BioGPTTokenizer,configProtoBytes:Option[Array[Byte]]):com.johnsnowlabs.ml.tensorflow.TensorflowBioGPT"></a><a id="&lt;init&gt;:TensorflowBioGPT"></a>
+      <a id="&lt;init&gt;(tensorflow:com.johnsnowlabs.ml.tensorflow.TensorflowWrapper,bpeTokenizer:com.johnsnowlabs.nlp.annotators.tokenizer.BioGPTTokenizer,configProtoBytes:Option[Array[Byte]],numLayers:Integer,numAttentionHeads:Integer):com.johnsnowlabs.ml.tensorflow.TensorflowBioGPT"></a><a id="&lt;init&gt;:TensorflowBioGPT"></a>
       <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/ml/tensorflow/TensorflowBioGPT.html#&lt;init&gt;(tensorflow:com.johnsnowlabs.ml.tensorflow.TensorflowWrapper,bpeTokenizer:com.johnsnowlabs.nlp.annotators.tokenizer.BioGPTTokenizer,configProtoBytes:Option[Array[Byte]]):com.johnsnowlabs.ml.tensorflow.TensorflowBioGPT" title="Permalink">
+      <a href="../../../../com/johnsnowlabs/ml/tensorflow/TensorflowBioGPT.html#&lt;init&gt;(tensorflow:com.johnsnowlabs.ml.tensorflow.TensorflowWrapper,bpeTokenizer:com.johnsnowlabs.nlp.annotators.tokenizer.BioGPTTokenizer,configProtoBytes:Option[Array[Byte]],numLayers:Integer,numAttentionHeads:Integer):com.johnsnowlabs.ml.tensorflow.TensorflowBioGPT" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -291,7 +291,7 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">TensorflowBioGPT</span><span class="params">(<span name="tensorflow">tensorflow: <span class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowWrapper">TensorflowWrapper</span></span>, <span name="bpeTokenizer">bpeTokenizer: <a href="../../nlp/annotators/tokenizer/BioGPTTokenizer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.tokenizer.BioGPTTokenizer">BioGPTTokenizer</a></span>, <span name="configProtoBytes">configProtoBytes: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>]] = <span class="symbol">None</span></span>)</span>
+        <span class="name">TensorflowBioGPT</span><span class="params">(<span name="tensorflow">tensorflow: <span class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowWrapper">TensorflowWrapper</span></span>, <span name="bpeTokenizer">bpeTokenizer: <a href="../../nlp/annotators/tokenizer/BioGPTTokenizer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.tokenizer.BioGPTTokenizer">BioGPTTokenizer</a></span>, <span name="configProtoBytes">configProtoBytes: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>]] = <span class="symbol">None</span></span>, <span name="numLayers">numLayers: <span class="extype" name="java.lang.Integer">Integer</span> = <span class="symbol">24</span></span>, <span name="numAttentionHeads">numAttentionHeads: <span class="extype" name="java.lang.Integer">Integer</span> = <span class="symbol">16</span></span>)</span>
       </span>
       
       
@@ -409,22 +409,6 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowBioGPT#createNextTokenLogitsPenalties" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="createNextTokenLogitsPenalties(inputIds:Seq[Array[Int]],logits:Array[Array[Float]],repetitionPenalty:Double):Array[Array[Float]]"></a><a id="createNextTokenLogitsPenalties(Seq[Array[Int]],Array[Array[Float]],Double):Array[Array[Float]]"></a>
-      <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/ml/tensorflow/TensorflowBioGPT.html#createNextTokenLogitsPenalties(inputIds:Seq[Array[Int]],logits:Array[Array[Float]],repetitionPenalty:Double):Array[Array[Float]]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">createNextTokenLogitsPenalties</span><span class="params">(<span name="inputIds">inputIds: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>, <span name="logits">logits: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]</span>, <span name="repetitionPenalty">repetitionPenalty: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]</span>
-      </span>
-      
-      
     </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowBioGPT#decode" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="decode(sentences:Array[Array[Int]]):Seq[String]"></a><a id="decode(Array[Array[Int]]):Seq[String]"></a>
       <span class="permalink">
@@ -512,9 +496,9 @@
               
         </dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowBioGPT#generateNoBeamSearch" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="generateNoBeamSearch(inputIds:Seq[Array[Int]],maxOutputLength:Int,maxNewTokens:Int,minOutputLength:Int,doSample:Boolean,temperature:Double,topK:Int,topP:Double,repetitionPenalty:Double,noRepeatNgramSize:Int,batch_size:Int,vocab_size:Int,randomSeed:Option[Int],session:org.tensorflow.Session,ignoreTokenIds:Array[Int],questionAnswerTerminals:Array[Int],skipLastToken:Boolean):Array[Array[Int]]"></a><a id="generateNoBeamSearch(Seq[Array[Int]],Int,Int,Int,Boolean,Double,Int,Double,Double,Int,Int,Int,Option[Int],Session,Array[Int],Array[Int],Boolean):Array[Array[Int]]"></a>
+      <a id="generateNoBeamSearch(inputIds:Seq[Array[Int]],maxContextLength:Int,maxNewTokens:Int,doSample:Boolean,topK:Int,vocabSize:Int,randomSeed:Option[Int],session:org.tensorflow.Session,ignoreTokenIds:Array[Int],questionAnswerTerminals:Array[Int],skipLastToken:Boolean,useCache:Boolean):Array[Array[Int]]"></a><a id="generateNoBeamSearch(Seq[Array[Int]],Int,Int,Boolean,Int,Int,Option[Int],Session,Array[Int],Array[Int],Boolean,Boolean):Array[Array[Int]]"></a>
       <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/ml/tensorflow/TensorflowBioGPT.html#generateNoBeamSearch(inputIds:Seq[Array[Int]],maxOutputLength:Int,maxNewTokens:Int,minOutputLength:Int,doSample:Boolean,temperature:Double,topK:Int,topP:Double,repetitionPenalty:Double,noRepeatNgramSize:Int,batch_size:Int,vocab_size:Int,randomSeed:Option[Int],session:org.tensorflow.Session,ignoreTokenIds:Array[Int],questionAnswerTerminals:Array[Int],skipLastToken:Boolean):Array[Array[Int]]" title="Permalink">
+      <a href="../../../../com/johnsnowlabs/ml/tensorflow/TensorflowBioGPT.html#generateNoBeamSearch(inputIds:Seq[Array[Int]],maxContextLength:Int,maxNewTokens:Int,doSample:Boolean,topK:Int,vocabSize:Int,randomSeed:Option[Int],session:org.tensorflow.Session,ignoreTokenIds:Array[Int],questionAnswerTerminals:Array[Int],skipLastToken:Boolean,useCache:Boolean):Array[Array[Int]]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -523,7 +507,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">generateNoBeamSearch</span><span class="params">(<span name="inputIds">inputIds: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>, <span name="maxOutputLength">maxOutputLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="maxNewTokens">maxNewTokens: <span class="extype" name="scala.Int">Int</span></span>, <span name="minOutputLength">minOutputLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="doSample">doSample: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="temperature">temperature: <span class="extype" name="scala.Double">Double</span></span>, <span name="topK">topK: <span class="extype" name="scala.Int">Int</span></span>, <span name="topP">topP: <span class="extype" name="scala.Double">Double</span></span>, <span name="repetitionPenalty">repetitionPenalty: <span class="extype" name="scala.Double">Double</span></span>, <span name="noRepeatNgramSize">noRepeatNgramSize: <span class="extype" name="scala.Int">Int</span></span>, <span name="batch_size">batch_size: <span class="extype" name="scala.Int">Int</span></span>, <span name="vocab_size">vocab_size: <span class="extype" name="scala.Int">Int</span></span>, <span name="randomSeed">randomSeed: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="session">session: <span class="extype" name="org.tensorflow.Session">Session</span></span>, <span name="ignoreTokenIds">ignoreTokenIds: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="questionAnswerTerminals">questionAnswerTerminals: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="skipLastToken">skipLastToken: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>
+        <span class="name">generateNoBeamSearch</span><span class="params">(<span name="inputIds">inputIds: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>, <span name="maxContextLength">maxContextLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="maxNewTokens">maxNewTokens: <span class="extype" name="scala.Int">Int</span></span>, <span name="doSample">doSample: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="topK">topK: <span class="extype" name="scala.Int">Int</span></span>, <span name="vocabSize">vocabSize: <span class="extype" name="scala.Int">Int</span></span>, <span name="randomSeed">randomSeed: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="session">session: <span class="extype" name="org.tensorflow.Session">Session</span></span>, <span name="ignoreTokenIds">ignoreTokenIds: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="questionAnswerTerminals">questionAnswerTerminals: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="skipLastToken">skipLastToken: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="useCache">useCache: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>
       </span>
       
       
@@ -546,22 +530,6 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowBioGPT#getGeneratedNgrams" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="getGeneratedNgrams(prevInputIds:Seq[Array[Int]],generatedNgrams:Array[scala.collection.mutable.Map[IndexedSeq[Int],List[Int]]],hypoIdx:Int,curLen:Int,noRepeatNgramSize:Int):Array[Int]"></a><a id="getGeneratedNgrams(Seq[Array[Int]],Array[Map[IndexedSeq[Int],List[Int]]],Int,Int,Int):Array[Int]"></a>
-      <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/ml/tensorflow/TensorflowBioGPT.html#getGeneratedNgrams(prevInputIds:Seq[Array[Int]],generatedNgrams:Array[scala.collection.mutable.Map[IndexedSeq[Int],List[Int]]],hypoIdx:Int,curLen:Int,noRepeatNgramSize:Int):Array[Int]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">getGeneratedNgrams</span><span class="params">(<span name="prevInputIds">prevInputIds: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>, <span name="generatedNgrams">generatedNgrams: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.collection.mutable.Map">Map</span>[<span class="extype" name="scala.IndexedSeq">IndexedSeq</span>[<span class="extype" name="scala.Int">Int</span>], <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Int">Int</span>]]]</span>, <span name="hypoIdx">hypoIdx: <span class="extype" name="scala.Int">Int</span></span>, <span name="curLen">curLen: <span class="extype" name="scala.Int">Int</span></span>, <span name="noRepeatNgramSize">noRepeatNgramSize: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]</span>
-      </span>
-      
-      
     </li><li name="scala.AnyRef#hashCode" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <span class="permalink">
@@ -652,9 +620,9 @@
               
         </dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowBioGPT#predict" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="predict(questionAndContexts:Seq[(com.johnsnowlabs.nlp.Annotation,com.johnsnowlabs.nlp.Annotation)],batchSize:Int,minOutputLength:Int,maxNewTokens:Int,maxOutputLength:Int,doSample:Boolean,temperature:Double,topK:Int,topP:Double,repetitionPenalty:Double,noRepeatNgramSize:Int,questionPrompt:String,randomSeed:Option[Int],ignoreTokenIds:Array[Int],isCaseSensitive:Boolean,questionAnswerTerminals:Array[Int],skipLastToken:Boolean):Seq[com.johnsnowlabs.nlp.Annotation]"></a><a id="predict(Seq[(Annotation,Annotation)],Int,Int,Int,Int,Boolean,Double,Int,Double,Double,Int,String,Option[Int],Array[Int],Boolean,Array[Int],Boolean):Seq[Annotation]"></a>
+      <a id="predict(questionAndContexts:Seq[(com.johnsnowlabs.nlp.Annotation,com.johnsnowlabs.nlp.Annotation)],batchSize:Int,maxNewTokens:Int,maxContextLength:Int,doSample:Boolean,topK:Int,questionPrompt:String,randomSeed:Option[Int],ignoreTokenIds:Array[Int],isCaseSensitive:Boolean,questionAnswerTerminals:Array[Int],skipLastToken:Boolean,useCache:Boolean):Seq[com.johnsnowlabs.nlp.Annotation]"></a><a id="predict(Seq[(Annotation,Annotation)],Int,Int,Int,Boolean,Int,String,Option[Int],Array[Int],Boolean,Array[Int],Boolean,Boolean):Seq[Annotation]"></a>
       <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/ml/tensorflow/TensorflowBioGPT.html#predict(questionAndContexts:Seq[(com.johnsnowlabs.nlp.Annotation,com.johnsnowlabs.nlp.Annotation)],batchSize:Int,minOutputLength:Int,maxNewTokens:Int,maxOutputLength:Int,doSample:Boolean,temperature:Double,topK:Int,topP:Double,repetitionPenalty:Double,noRepeatNgramSize:Int,questionPrompt:String,randomSeed:Option[Int],ignoreTokenIds:Array[Int],isCaseSensitive:Boolean,questionAnswerTerminals:Array[Int],skipLastToken:Boolean):Seq[com.johnsnowlabs.nlp.Annotation]" title="Permalink">
+      <a href="../../../../com/johnsnowlabs/ml/tensorflow/TensorflowBioGPT.html#predict(questionAndContexts:Seq[(com.johnsnowlabs.nlp.Annotation,com.johnsnowlabs.nlp.Annotation)],batchSize:Int,maxNewTokens:Int,maxContextLength:Int,doSample:Boolean,topK:Int,questionPrompt:String,randomSeed:Option[Int],ignoreTokenIds:Array[Int],isCaseSensitive:Boolean,questionAnswerTerminals:Array[Int],skipLastToken:Boolean,useCache:Boolean):Seq[com.johnsnowlabs.nlp.Annotation]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -663,7 +631,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">predict</span><span class="params">(<span name="questionAndContexts">questionAndContexts: <span class="extype" name="scala.Seq">Seq</span>[(<span class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</span>, <span class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</span>)]</span>, <span name="batchSize">batchSize: <span class="extype" name="scala.Int">Int</span></span>, <span name="minOutputLength">minOutputLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="maxNewTokens">maxNewTokens: <span class="extype" name="scala.Int">Int</span></span>, <span name="maxOutputLength">maxOutputLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="doSample">doSample: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="temperature">temperature: <span class="extype" name="scala.Double">Double</span></span>, <span name="topK">topK: <span class="extype" name="scala.Int">Int</span></span>, <span name="topP">topP: <span class="extype" name="scala.Double">Double</span></span>, <span name="repetitionPenalty">repetitionPenalty: <span class="extype" name="scala.Double">Double</span></span>, <span name="noRepeatNgramSize">noRepeatNgramSize: <span class="extype" name="scala.Int">Int</span></span>, <span name="questionPrompt">questionPrompt: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="randomSeed">randomSeed: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Int">Int</span>] = <span class="symbol">None</span></span>, <span name="ignoreTokenIds">ignoreTokenIds: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>] = <span class="symbol">Array()</span></span>, <span name="isCaseSensitive">isCaseSensitive: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="questionAnswerTerminals">questionAnswerTerminals: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="skipLastToken">skipLastToken: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</span>]</span>
+        <span class="name">predict</span><span class="params">(<span name="questionAndContexts">questionAndContexts: <span class="extype" name="scala.Seq">Seq</span>[(<span class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</span>, <span class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</span>)]</span>, <span name="batchSize">batchSize: <span class="extype" name="scala.Int">Int</span></span>, <span name="maxNewTokens">maxNewTokens: <span class="extype" name="scala.Int">Int</span></span>, <span name="maxContextLength">maxContextLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="doSample">doSample: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="topK">topK: <span class="extype" name="scala.Int">Int</span></span>, <span name="questionPrompt">questionPrompt: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="randomSeed">randomSeed: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Int">Int</span>] = <span class="symbol">None</span></span>, <span name="ignoreTokenIds">ignoreTokenIds: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>] = <span class="symbol">Array()</span></span>, <span name="isCaseSensitive">isCaseSensitive: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="questionAnswerTerminals">questionAnswerTerminals: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="skipLastToken">skipLastToken: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="useCache">useCache: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="com.johnsnowlabs.nlp.Annotation">Annotation</span>]</span>
       </span>
       
       
@@ -684,9 +652,9 @@
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.TensorflowBioGPT#tag" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="tag(batch:Seq[Array[Int]],minOutputLength:Int,maxNewTokens:Int,maxOutputLength:Int,doSample:Boolean,temperature:Double,topK:Int,topP:Double,repetitionPenalty:Double,noRepeatNgramSize:Int,randomSeed:Option[Int],ignoreTokenIds:Array[Int],questionAnswerTerminals:Array[Int],skipLastToken:Boolean):Array[Array[Int]]"></a><a id="tag(Seq[Array[Int]],Int,Int,Int,Boolean,Double,Int,Double,Double,Int,Option[Int],Array[Int],Array[Int],Boolean):Array[Array[Int]]"></a>
+      <a id="tag(batch:Seq[Array[Int]],maxNewTokens:Int,maxContextLength:Int,doSample:Boolean,topK:Int,randomSeed:Option[Int],ignoreTokenIds:Array[Int],questionAnswerTerminals:Array[Int],skipLastToken:Boolean,useCache:Boolean):Array[Array[Int]]"></a><a id="tag(Seq[Array[Int]],Int,Int,Boolean,Int,Option[Int],Array[Int],Array[Int],Boolean,Boolean):Array[Array[Int]]"></a>
       <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/ml/tensorflow/TensorflowBioGPT.html#tag(batch:Seq[Array[Int]],minOutputLength:Int,maxNewTokens:Int,maxOutputLength:Int,doSample:Boolean,temperature:Double,topK:Int,topP:Double,repetitionPenalty:Double,noRepeatNgramSize:Int,randomSeed:Option[Int],ignoreTokenIds:Array[Int],questionAnswerTerminals:Array[Int],skipLastToken:Boolean):Array[Array[Int]]" title="Permalink">
+      <a href="../../../../com/johnsnowlabs/ml/tensorflow/TensorflowBioGPT.html#tag(batch:Seq[Array[Int]],maxNewTokens:Int,maxContextLength:Int,doSample:Boolean,topK:Int,randomSeed:Option[Int],ignoreTokenIds:Array[Int],questionAnswerTerminals:Array[Int],skipLastToken:Boolean,useCache:Boolean):Array[Array[Int]]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -695,7 +663,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">tag</span><span class="params">(<span name="batch">batch: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>, <span name="minOutputLength">minOutputLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="maxNewTokens">maxNewTokens: <span class="extype" name="scala.Int">Int</span></span>, <span name="maxOutputLength">maxOutputLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="doSample">doSample: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="temperature">temperature: <span class="extype" name="scala.Double">Double</span></span>, <span name="topK">topK: <span class="extype" name="scala.Int">Int</span></span>, <span name="topP">topP: <span class="extype" name="scala.Double">Double</span></span>, <span name="repetitionPenalty">repetitionPenalty: <span class="extype" name="scala.Double">Double</span></span>, <span name="noRepeatNgramSize">noRepeatNgramSize: <span class="extype" name="scala.Int">Int</span></span>, <span name="randomSeed">randomSeed: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="ignoreTokenIds">ignoreTokenIds: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="questionAnswerTerminals">questionAnswerTerminals: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="skipLastToken">skipLastToken: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>
+        <span class="name">tag</span><span class="params">(<span name="batch">batch: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>, <span name="maxNewTokens">maxNewTokens: <span class="extype" name="scala.Int">Int</span></span>, <span name="maxContextLength">maxContextLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="doSample">doSample: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="topK">topK: <span class="extype" name="scala.Int">Int</span></span>, <span name="randomSeed">randomSeed: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="ignoreTokenIds">ignoreTokenIds: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="questionAnswerTerminals">questionAnswerTerminals: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="skipLastToken">skipLastToken: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="useCache">useCache: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>
       </span>
       
       

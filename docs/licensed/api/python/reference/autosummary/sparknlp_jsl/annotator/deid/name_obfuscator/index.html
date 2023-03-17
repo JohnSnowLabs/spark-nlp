@@ -355,6 +355,11 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../../resolution/sentence_entity_resolver/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.resolution.sentence_entity_resolver</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../seq2seq/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.seq2seq</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-15"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../seq2seq/medical_encoder_decoder/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.seq2seq.medical_encoder_decoder</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../seq2seq/medical_summarizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.seq2seq.medical_summarizer</span></code></a></li>
+</ul>
+</li>
 </ul>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../annotation_merger/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.annotation_merger</span></code></a></li>
@@ -427,18 +432,125 @@ document.write(`
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach" title="sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NameChunkObfuscatorApproach</span></code></a></p></td>
-<td><p>Base class for :py:class:<a href="#id1"><span class="problematic" id="id2">`</span></a>Estimator`s that wrap Java/Scala</p></td>
+<td><p>Contains all the methods for training a NameChunkObfuscator model.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator" title="sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NameChunkObfuscator</span></code></a></p></td>
-<td><p>Base class for :py:class:<a href="#id3"><span class="problematic" id="id4">`</span></a>Model`s that wrap Java/Scala</p></td>
+<td><p>Contains all the parameters to transform a dataset with an Input Annotation</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">NameChunkObfuscatorApproach</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/name_obfuscator.html#NameChunkObfuscatorApproach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach" title="Permalink to this definition">#</a></dt>
-<dd><p>Base class for :py:class:<a href="#id5"><span class="problematic" id="id6">`</span></a>Estimator`s that wrap Java/Scala
-implementations.</p>
+<dd><p>Contains all the methods for training a NameChunkObfuscator model.
+This module can replace name entities with consistent fakers.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
+<th class="head"><p>Output Annotation type</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CHUNK</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">CHUNK</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>obfuscateRefFile</strong></dt><dd><p>File with the faker names to be used for obfuscation</p>
+</dd>
+<dt><strong>refFileFormat</strong></dt><dd><p>Format of the reference file</p>
+</dd>
+<dt><strong>refSep</strong></dt><dd><p>Seperator character in refFile</p>
+</dd>
+<dt><strong>seed</strong></dt><dd><p>The seed to select the names on obfuscation. With the seed, you can reply an execution several times with the same output.</p>
+</dd>
+<dt><strong>obfuscateRefSource</strong></dt><dd><p>Mode for select obfuscation source [‘both’|’faker’| ‘file’]</p>
+</dd>
+<dt><strong>language</strong></dt><dd><p>The language used to select some faker names.’en’(english),’de’(german), ‘es’(Spanish), ‘fr’(french) or ‘ro’(romanian)</p>
+</dd>
+<dt><strong>sameLength</strong></dt><dd><p>The sameLength used to select the same length names as original ones during obfuscation. Default: true</p>
+</dd>
+<dt><strong>Examples</strong></dt><dd></dd>
+<dt><strong>——-</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; import sparknlp</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; from sparknlp.base import *</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; from sparknlp_jsl.common import *</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; from sparknlp.annotator import *</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; from sparknlp.training import *</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; import sparknlp_jsl</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; from sparknlp_jsl.base import *</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; from sparknlp_jsl.annotator import *</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; from pyspark.ml import Pipeline</strong></dt><dd></dd>
+<dt><a href="#id1"><span class="problematic" id="id2">**</span></a>&gt;&gt;&gt; documentAssembler = DocumentAssembler() **</dt><dd></dd>
+<dt><a href="#id3"><span class="problematic" id="id4">**</span></a>…     .setInputCol(“text”) **</dt><dd></dd>
+<dt><strong>…     .setOutputCol(“document”)</strong></dt><dd></dd>
+<dt><strong>…</strong></dt><dd></dd>
+<dt><a href="#id5"><span class="problematic" id="id6">**</span></a>&gt;&gt;&gt;  sentenceDetector = SentenceDetector() **</dt><dd></dd>
+<dt><a href="#id7"><span class="problematic" id="id8">**</span></a>…     .setInputCols([“document”]) **</dt><dd></dd>
+<dt><a href="#id9"><span class="problematic" id="id10">**</span></a>…     .setOutputCol(“sentence”) **</dt><dd></dd>
+<dt><strong>…     .setUseAbbreviations(True)</strong></dt><dd></dd>
+<dt><strong>…</strong></dt><dd></dd>
+<dt><a href="#id11"><span class="problematic" id="id12">**</span></a>&gt;&gt;&gt; tokenizer = Tokenizer() **</dt><dd></dd>
+<dt><a href="#id13"><span class="problematic" id="id14">**</span></a>…     .setInputCols([“sentence”]) **</dt><dd></dd>
+<dt><strong>…     .setOutputCol(“token”)</strong></dt><dd></dd>
+<dt><strong>…</strong></dt><dd></dd>
+<dt><a href="#id15"><span class="problematic" id="id16">**</span></a>&gt;&gt;&gt; embeddings = WordEmbeddingsModel **</dt><dd></dd>
+<dt><a href="#id17"><span class="problematic" id="id18">**</span></a>…     .pretrained(“embeddings_clinical”, “en”, “clinical/models”) **</dt><dd></dd>
+<dt><a href="#id19"><span class="problematic" id="id20">**</span></a>…     .setInputCols([“sentence”, “token”]) **</dt><dd></dd>
+<dt><a href="#id21"><span class="problematic" id="id22">**</span></a>…     .setOutputCol(“embeddings”) **</dt><dd></dd>
+<dt><strong>…</strong></dt><dd><p>Ner entities</p>
+</dd>
+<dt><a href="#id23"><span class="problematic" id="id24">**</span></a>&gt;&gt;&gt; clinical_sensitive_entities = MedicalNerModel **</dt><dd></dd>
+<dt><a href="#id25"><span class="problematic" id="id26">**</span></a>…     .pretrained(“ner_deid_enriched”, “en”, “clinical/models”) **</dt><dd></dd>
+<dt><strong>…     .setInputCols([“sentence”, “token”, “embeddings”]).setOutputCol(“ner”)</strong></dt><dd></dd>
+<dt><strong>…</strong></dt><dd></dd>
+<dt><a href="#id27"><span class="problematic" id="id28">**</span></a>&gt;&gt;&gt; nerConverter = NerConverter() **</dt><dd></dd>
+<dt><a href="#id29"><span class="problematic" id="id30">**</span></a>…     .setInputCols([“sentence”, “token”, “ner”]) **</dt><dd></dd>
+<dt><strong>…     .setOutputCol(“ner_chunk”)</strong></dt><dd><p>NameChunkObfuscatorApproach</p>
+</dd>
+<dt><a href="#id31"><span class="problematic" id="id32">**</span></a>&gt;&gt;&gt; nameChunkObfuscator = NameChunkObfuscatorApproach() **</dt><dd></dd>
+<dt><a href="#id33"><span class="problematic" id="id34">**</span></a>…     .setInputCols([“ner_chunk”]) **</dt><dd></dd>
+<dt><a href="#id35"><span class="problematic" id="id36">**</span></a>…     .setOutputCol(“replacement”) **</dt><dd></dd>
+<dt><a href="#id37"><span class="problematic" id="id38">**</span></a>…     .setRefFileFormat(“csv”) **</dt><dd></dd>
+<dt><a href="#id39"><span class="problematic" id="id40">**</span></a>…     .setRefSep(“#”) **</dt><dd></dd>
+<dt><a href="#id41"><span class="problematic" id="id42">**</span></a>…     .setObfuscateRefFile(“obfuscator_names.txt”) **</dt><dd></dd>
+<dt><a href="#id43"><span class="problematic" id="id44">**</span></a>…     .setObfuscateRefSource(“both”) **</dt><dd></dd>
+<dt><strong>…     .setLanguage(“en”)</strong></dt><dd></dd>
+<dt><strong>…</strong></dt><dd></dd>
+<dt><a href="#id45"><span class="problematic" id="id46">**</span></a>&gt;&gt;&gt; replacer_name = Replacer() **</dt><dd></dd>
+<dt><a href="#id47"><span class="problematic" id="id48">**</span></a>…     .setInputCols(“replacement”, “sentence”) **</dt><dd></dd>
+<dt><a href="#id49"><span class="problematic" id="id50">**</span></a>…     .setOutputCol(“obfuscated_name”) **</dt><dd></dd>
+<dt><strong>…     .setUseReplacement(True)</strong></dt><dd></dd>
+<dt><strong>Pipeline</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; data = spark.createDataFrame([</strong></dt><dd></dd>
+<dt><strong>…     [“John Davies is a 62 y.o. patient admitted.He was seen by attending physician Dr. Lorand and was scheduled for emergency assessment.”]</strong></dt><dd></dd>
+<dt><strong>…     ]).toDF(“text”)</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; pipeline = Pipeline(stages=[</strong></dt><dd></dd>
+<dt><strong>…     documentAssembler,</strong></dt><dd></dd>
+<dt><strong>…     sentenceDetector,</strong></dt><dd></dd>
+<dt><strong>…     tokenizer,</strong></dt><dd></dd>
+<dt><strong>…     embeddings,</strong></dt><dd></dd>
+<dt><strong>…     clinical_sensitive_entities,</strong></dt><dd></dd>
+<dt><strong>…     nerConverter,</strong></dt><dd></dd>
+<dt><strong>…     nameChunkObfuscator,</strong></dt><dd></dd>
+<dt><strong>…     replacer_name</strong></dt><dd></dd>
+<dt><strong>… ])</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; result = pipeline.fit(data).transform(data)</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; result.select(“obfuscated_name.result”).show(truncate = False)</strong></dt><dd><table class="table">
+<tbody>
+<tr class="row-odd"><td><p>result</p></td>
+</tr>
+<tr class="row-even"><td><p>[Charlestine is a 62 y.o. patient admitted.He was seen by attending physician Dr. Lowery and was scheduled for emergency assessment.]</p></td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd>
+</dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.inputAnnotatorTypes">
 <span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/name_obfuscator.html#NameChunkObfuscatorApproach.inputAnnotatorTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
@@ -467,6 +579,21 @@ implementations.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.seed">
 <span class="sig-name descname"><span class="pre">seed</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/name_obfuscator.html#NameChunkObfuscatorApproach.seed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.seed" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.obfuscateRefSource">
+<span class="sig-name descname"><span class="pre">obfuscateRefSource</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/name_obfuscator.html#NameChunkObfuscatorApproach.obfuscateRefSource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.obfuscateRefSource" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.language">
+<span class="sig-name descname"><span class="pre">language</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/name_obfuscator.html#NameChunkObfuscatorApproach.language"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.language" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.sameLength">
+<span class="sig-name descname"><span class="pre">sameLength</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/name_obfuscator.html#NameChunkObfuscatorApproach.sameLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.sameLength" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -514,11 +641,65 @@ implementations.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.setSeed">
 <span class="sig-name descname"><span class="pre">setSeed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/name_obfuscator.html#NameChunkObfuscatorApproach.setSeed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.setSeed" title="Permalink to this definition">#</a></dt>
-<dd><p>Sets the seed to select the entities on obfuscate mode</p>
+<dd><dl class="simple">
+<dt>Sets the seed to select the names on obfuscation. With the seed, you can reply an execution several times</dt><dd><p>with the same output.</p>
+</dd>
+</dl>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>s</strong><span class="classifier">int</span></dt><dd><blockquote>
+<div><p>The seed to select the names on obfuscation. With the seed, you can reply an execution several times</p>
+</div></blockquote>
+<p>with the same output.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.setObfuscateRefSource">
+<span class="sig-name descname"><span class="pre">setObfuscateRefSource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/name_obfuscator.html#NameChunkObfuscatorApproach.setObfuscateRefSource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.setObfuscateRefSource" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets mode for select obfuscate source [‘both’|’faker’| ‘file’]
+Default: ‘both’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>s</strong><span class="classifier">int</span></dt><dd><p>The seed to select the entities on obfuscate mode</p>
+<dt><strong>s</strong><span class="classifier">str</span></dt><dd><p>Mode for select obfuscate source [‘both’|’faker’| ‘file]</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.setLanguage">
+<span class="sig-name descname"><span class="pre">setLanguage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/name_obfuscator.html#NameChunkObfuscatorApproach.setLanguage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.setLanguage" title="Permalink to this definition">#</a></dt>
+<dd><p>The language used to select some faker names.
+The values are the following:
+‘en’(english),’de’(german), ‘es’(Spanish), ‘fr’(french) or ‘ro’(romanian)
+Default:’en’</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>l</strong><span class="classifier">str</span></dt><dd><p>The language used to select some faker names.’en’(english),’de’(german), ‘es’(Spanish), ‘fr’(french) or ‘ro’(romanian)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.setSameLength">
+<span class="sig-name descname"><span class="pre">setSameLength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/name_obfuscator.html#NameChunkObfuscatorApproach.setSameLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.setSameLength" title="Permalink to this definition">#</a></dt>
+<dd><p>The sameLength used to select the same length names as original ones during obfuscation.
+Example: ‘John’ –&gt; ‘Mike’.
+Default: true</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>l</strong><span class="classifier">bool</span></dt><dd><p>The sameLength used to select the same length names as original ones during obfuscation. Default: true</p>
 </dd>
 </dl>
 </dd>
@@ -530,9 +711,41 @@ implementations.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">NameChunkObfuscator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.deid.NameChunkObfuscator'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/name_obfuscator.html#NameChunkObfuscator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator" title="Permalink to this definition">#</a></dt>
-<dd><p>Base class for :py:class:<a href="#id7"><span class="problematic" id="id8">`</span></a>Model`s that wrap Java/Scala
-implementations. Subclasses should inherit this class before
-param mix-ins, because this sets the UID from the Java model.</p>
+<dd><p>Contains all the parameters to transform a dataset with an Input Annotation
+of type CHUNK, into its obfuscated version of by obfuscating the given CHUNKS.
+This module can replace name entities with consistent fakers, remain others same.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Input Annotation types</p></th>
+<th class="head"><p>Output Annotation type</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CHUNK</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">CHUNK</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>obfuscateRefFile</strong></dt><dd><p>File with the faker names to be used for obfuscation</p>
+</dd>
+<dt><strong>refFileFormat</strong></dt><dd><p>Format of the reference file</p>
+</dd>
+<dt><strong>refSep</strong></dt><dd><p>Seperator character in refFile</p>
+</dd>
+<dt><strong>seed</strong></dt><dd><p>The seed to select the names on obfuscation. With the seed, you can reply an execution several times with the same output.</p>
+</dd>
+<dt><strong>obfuscateRefSource</strong></dt><dd><p>Mode for select obfuscation source [‘both’|’faker’| ‘file’]</p>
+</dd>
+<dt><strong>language</strong></dt><dd><p>The language used to select some faker names.’en’(english),’de’(german), ‘es’(Spanish), ‘fr’(french) or ‘ro’(romanian)</p>
+</dd>
+<dt><strong>sameLength</strong></dt><dd><p>The sameLength used to select the same length names as original ones during obfuscation. Default: true</p>
+</dd>
+</dl>
+</dd>
+</dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.inputAnnotatorTypes">
 <span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/name_obfuscator.html#NameChunkObfuscator.inputAnnotatorTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
@@ -548,14 +761,83 @@ param mix-ins, because this sets the UID from the Java model.</p>
 <span class="sig-name descname"><span class="pre">seed</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/name_obfuscator.html#NameChunkObfuscator.seed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.seed" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.obfuscateRefSource">
+<span class="sig-name descname"><span class="pre">obfuscateRefSource</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/name_obfuscator.html#NameChunkObfuscator.obfuscateRefSource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.obfuscateRefSource" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.language">
+<span class="sig-name descname"><span class="pre">language</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/name_obfuscator.html#NameChunkObfuscator.language"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.language" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.sameLength">
+<span class="sig-name descname"><span class="pre">sameLength</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/name_obfuscator.html#NameChunkObfuscator.sameLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.sameLength" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.setSeed">
 <span class="sig-name descname"><span class="pre">setSeed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/name_obfuscator.html#NameChunkObfuscator.setSeed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.setSeed" title="Permalink to this definition">#</a></dt>
-<dd><p>Sets the seed to select the entities on obfuscate mode</p>
+<dd><dl class="simple">
+<dt>Sets the seed to select the names on obfuscation. With the seed, you can reply an execution several times</dt><dd><p>with the same output.</p>
+</dd>
+</dl>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>s</strong><span class="classifier">int</span></dt><dd><blockquote>
+<div><p>The seed to select the names on obfuscation. With the seed, you can reply an execution several times</p>
+</div></blockquote>
+<p>with the same output.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.setObfuscateRefSource">
+<span class="sig-name descname"><span class="pre">setObfuscateRefSource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/name_obfuscator.html#NameChunkObfuscator.setObfuscateRefSource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.setObfuscateRefSource" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets mode for select obfuscate source [‘both’|’faker’| ‘file’]
+Default: ‘both’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>s</strong><span class="classifier">int</span></dt><dd><p>The seed to select the entities on obfuscate mode</p>
+<dt><strong>s</strong><span class="classifier">str</span></dt><dd><p>Mode for select obfuscate source [‘both’|’faker’| ‘file]</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.setLanguage">
+<span class="sig-name descname"><span class="pre">setLanguage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/name_obfuscator.html#NameChunkObfuscator.setLanguage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.setLanguage" title="Permalink to this definition">#</a></dt>
+<dd><p>The language used to select some faker names.
+The values are the following:
+‘en’(english),’de’(german), ‘es’(Spanish), ‘fr’(french) or ‘ro’(romanian)
+Default:’en’</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>l</strong><span class="classifier">str</span></dt><dd><p>The language used to select some faker names.’en’(english),’de’(german), ‘es’(Spanish), ‘fr’(french) or ‘ro’(romanian)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.setSameLength">
+<span class="sig-name descname"><span class="pre">setSameLength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/name_obfuscator.html#NameChunkObfuscator.setSameLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.setSameLength" title="Permalink to this definition">#</a></dt>
+<dd><p>The sameLength used to select the same length names as original ones during obfuscation.
+Example: ‘John’ –&gt; ‘Mike’.
+Default: true</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>l</strong><span class="classifier">bool</span></dt><dd><p>The sameLength used to select the same length names as original ones during obfuscation. Default: true</p>
 </dd>
 </dl>
 </dd>
@@ -625,17 +907,29 @@ Spark NLPs repositories otherwise.</p>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.refFileFormat"><code class="docutils literal notranslate"><span class="pre">NameChunkObfuscatorApproach.refFileFormat</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.refSep"><code class="docutils literal notranslate"><span class="pre">NameChunkObfuscatorApproach.refSep</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.seed"><code class="docutils literal notranslate"><span class="pre">NameChunkObfuscatorApproach.seed</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.obfuscateRefSource"><code class="docutils literal notranslate"><span class="pre">NameChunkObfuscatorApproach.obfuscateRefSource</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.language"><code class="docutils literal notranslate"><span class="pre">NameChunkObfuscatorApproach.language</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.sameLength"><code class="docutils literal notranslate"><span class="pre">NameChunkObfuscatorApproach.sameLength</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.setObfuscateRefFile"><code class="docutils literal notranslate"><span class="pre">NameChunkObfuscatorApproach.setObfuscateRefFile()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.setRefFileFormat"><code class="docutils literal notranslate"><span class="pre">NameChunkObfuscatorApproach.setRefFileFormat()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.setRefSep"><code class="docutils literal notranslate"><span class="pre">NameChunkObfuscatorApproach.setRefSep()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.setSeed"><code class="docutils literal notranslate"><span class="pre">NameChunkObfuscatorApproach.setSeed()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.setObfuscateRefSource"><code class="docutils literal notranslate"><span class="pre">NameChunkObfuscatorApproach.setObfuscateRefSource()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.setLanguage"><code class="docutils literal notranslate"><span class="pre">NameChunkObfuscatorApproach.setLanguage()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.setSameLength"><code class="docutils literal notranslate"><span class="pre">NameChunkObfuscatorApproach.setSameLength()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator"><code class="docutils literal notranslate"><span class="pre">NameChunkObfuscator</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.inputAnnotatorTypes"><code class="docutils literal notranslate"><span class="pre">NameChunkObfuscator.inputAnnotatorTypes</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.outputAnnotatorType"><code class="docutils literal notranslate"><span class="pre">NameChunkObfuscator.outputAnnotatorType</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.seed"><code class="docutils literal notranslate"><span class="pre">NameChunkObfuscator.seed</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.obfuscateRefSource"><code class="docutils literal notranslate"><span class="pre">NameChunkObfuscator.obfuscateRefSource</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.language"><code class="docutils literal notranslate"><span class="pre">NameChunkObfuscator.language</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.sameLength"><code class="docutils literal notranslate"><span class="pre">NameChunkObfuscator.sameLength</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.setSeed"><code class="docutils literal notranslate"><span class="pre">NameChunkObfuscator.setSeed()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.setObfuscateRefSource"><code class="docutils literal notranslate"><span class="pre">NameChunkObfuscator.setObfuscateRefSource()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.setLanguage"><code class="docutils literal notranslate"><span class="pre">NameChunkObfuscator.setLanguage()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.setSameLength"><code class="docutils literal notranslate"><span class="pre">NameChunkObfuscator.setSameLength()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.pretrained"><code class="docutils literal notranslate"><span class="pre">NameChunkObfuscator.pretrained()</span></code></a></li>
 </ul>
 </li>
@@ -646,17 +940,29 @@ Spark NLPs repositories otherwise.</p>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.refFileFormat">refFileFormat</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.refSep">refSep</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.seed">seed</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.obfuscateRefSource">obfuscateRefSource</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.language">language</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.sameLength">sameLength</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.setObfuscateRefFile">setObfuscateRefFile</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.setRefFileFormat">setRefFileFormat</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.setRefSep">setRefSep</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.setSeed">setSeed</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.setObfuscateRefSource">setObfuscateRefSource</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.setLanguage">setLanguage</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.setSameLength">setSameLength</a></li>
 </ul>
 </li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator">NameChunkObfuscator</a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.inputAnnotatorTypes">inputAnnotatorTypes</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.outputAnnotatorType">outputAnnotatorType</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.seed">seed</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.obfuscateRefSource">obfuscateRefSource</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.language">language</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.sameLength">sameLength</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.setSeed">setSeed</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.setObfuscateRefSource">setObfuscateRefSource</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.setLanguage">setLanguage</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.setSameLength">setSameLength</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.pretrained">pretrained</a></li>
 </ul>
 </li>
@@ -718,7 +1024,7 @@ Spark NLPs repositories otherwise.</p>
     <div class="footer-items__end">
       
         <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.1.
 </p></div>
       
     </div>
