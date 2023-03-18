@@ -23,7 +23,7 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
     val smallCorpus = spark.createDataFrame(
       List(
         "First document, this is my first sentence. This is my second sentence.",
-        "Second document, this is my first sentence. This is my second sentence.",
+        "Second document, this is my second sentence. This is my second sentence.",
         "Third document, climate change is arguably one of the most pressing problems of our time.",
         "Fourth document, climate change is definitely one of the most pressing problems of our time.",
         "Fifth document, Florence in Italy, is among the most beautiful cities in Europe.",
@@ -67,7 +67,7 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
       .setSimilarityMethod("brp")
       .setNumberOfNeighbours(3)
       .setVisibleDistances(true)
-      .setIdentityRanking(true)
+      .setIdentityRanking(false)
 
     val documentSimilarityFinisher = new DocumentSimilarityRankerFinisher()
       .setInputCols("doc_similarity_rankings")
@@ -93,7 +93,11 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
 
     transformed.printSchema
     transformed
-      .select("text", "finished_doc_similarity_rankings_id", "nearest_neighbor_id", "nearest_neighbor_distance")
+      .select("text",
+        "finished_sentence_embeddings",
+        "finished_doc_similarity_rankings_id",
+        "nearest_neighbor_id",
+        "nearest_neighbor_distance")
       .show(false)
 
     // correct if not empty as inclusive query points are at distance 0.0 from themselves

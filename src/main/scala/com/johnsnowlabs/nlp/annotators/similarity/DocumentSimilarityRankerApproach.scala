@@ -77,7 +77,7 @@ class DocumentSimilarityRankerApproach(override val uid: String)
   val numberOfNeighbours = new Param[Int](
     this,
     "numberOfNeighbours",
-    """The number of neighbours the model will return (Default:`"10"`)""")
+    """The number of neighbours the model will return for each document (Default:`"10"`)""")
 
   def setNumberOfNeighbours(value: Int): this.type = set(numberOfNeighbours, value)
 
