@@ -1,6 +1,6 @@
 ---
 layout: model
-title: MNDA / NDA Agreement Document Classifier (small, Bert Sentence Embeddings)
+title: MNDA / NDA Agreement Document Classifier (Bert Sentence Embeddings)
 author: John Snow Labs
 name: legclf_nda_agreements
 date: 2023-02-08
@@ -20,9 +20,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-The `legclf_nda_agreements` model is a small Bert Sentence Embeddings Document Classifier used to classify if the document belongs to the class `nda` or not (Binary Classification).
-
-There are models trained with more data and Universal Sentence Encoder Embeddings as, for example, `legclf_nda_agreements_md`. Check Models Hub for better models.
+The `legclf_nda_agreements` model is a Bert Sentence Embeddings Document Classifier used to classify if the document belongs to the class `nda` or not (Binary Classification).
 
 Unlike the Longformer model, this model is lighter in terms of inference time.
 
