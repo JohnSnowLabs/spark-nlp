@@ -396,28 +396,81 @@ document.write(`
 <span class="sd">    from pretrained open-source models.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bertForSequenceClassifierPath</span><span class="p">,</span> <span class="n">tfModelPath</span><span class="p">,</span> <span class="n">jspark</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">_MedicalBertForSequenceClassificationLoaderOpensource</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="s2">&quot;com.johnsnowlabs.finance.sequence_classification.LegalBertForSequenceClassification.loadSavedModelOpenSource&quot;</span><span class="p">,</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">_FinanceBertForSequenceClassificationLoaderOpensource</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="s2">&quot;com.johnsnowlabs.finance.sequence_classification.FinanceBertForSequenceClassification.loadSavedModelOpenSource&quot;</span><span class="p">,</span>
             <span class="n">bertForSequenceClassifierPath</span><span class="p">,</span> <span class="n">tfModelPath</span><span class="p">,</span> <span class="n">jspark</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_FinanceBertForSequenceClassificationLoader</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Loader class for the FinanceBertForSequenceClassification annotator.</span>
+
+<span class="sd">    This class is used to load the FinanceBertForSequenceClassificationModel annotator</span>
+<span class="sd">    from licensed pretrained models.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">jspark</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">_FinanceBertForSequenceClassificationLoader</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="s2">&quot;com.johnsnowlabs.finance.sequence_classification.FinanceBertForSequenceClassification.loadSavedModel&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">jspark</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_FinanceBertTokenClassificationLoader</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Loader class for the FinanceBertTokenClassificationModel annotator.</span>
+
+<span class="sd">    This class is used to load the FinanceBertTokenClassificationModel annotator</span>
+<span class="sd">    from licensed pretrained models.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">jspark</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">_FinanceBertTokenClassificationLoader</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="s2">&quot;com.johnsnowlabs.finance.token_classification.ner.FinanceBertForTokenClassification.loadSavedModel&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">jspark</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_FinanceBertTokenClassificationLoaderOpensource</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Loader class for the FinanceBertTokenClassificationModel annotator.</span>
+
+<span class="sd">    This class is used to load the FinanceBertTokenClassificationModel annotator</span>
+<span class="sd">    from pretrained open-source models.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bertForTokenClassifierPath</span><span class="p">,</span> <span class="n">tfModelPath</span><span class="p">,</span> <span class="n">jspark</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">_FinanceBertTokenClassificationLoaderOpensource</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="s2">&quot;com.johnsnowlabs.finance.token_classification.ner.FinanceBertForTokenClassification.loadSavedModelOpenSource&quot;</span><span class="p">,</span>
+            <span class="n">bertForTokenClassifierPath</span><span class="p">,</span> <span class="n">tfModelPath</span><span class="p">,</span> <span class="n">jspark</span><span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">_LegalBertForSequenceClassificationLoaderOpensource</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bertForSequenceClassifierPath</span><span class="p">,</span> <span class="n">tfModelPath</span><span class="p">,</span> <span class="n">jspark</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">_MedicalBertForSequenceClassificationLoaderOpensource</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="s2">&quot;com.johnsnowlabs.legal.sequence_classification.LegalBertForSequenceClassificationMedicalBertForSequenceClassification.loadSavedModelOpenSource&quot;</span><span class="p">,</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">_LegalBertForSequenceClassificationLoaderOpensource</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="s2">&quot;com.johnsnowlabs.legal.sequence_classification.LegalBertForSequenceClassification.loadSavedModelOpenSource&quot;</span><span class="p">,</span>
             <span class="n">bertForSequenceClassifierPath</span><span class="p">,</span> <span class="n">tfModelPath</span><span class="p">,</span> <span class="n">jspark</span><span class="p">)</span>
 
 
-<span class="k">class</span> <span class="nc">_FinanceBertForSequenceClassificationLoaderOpensource</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">_LegalBertForSequenceClassificationLoader</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Loader class for the LegalBertForSequenceClassification annotator.</span>
 
 <span class="sd">    This class is used to load the LegalBertForSequenceClassificationModel annotator</span>
 <span class="sd">    from pretrained open-source models.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">jspark</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">_LegalBertForSequenceClassificationLoader</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="s2">&quot;com.johnsnowlabs.legal.sequence_classification.LegalBertForSequenceClassification.loadSavedModel&quot;</span><span class="p">,</span>
+            <span class="n">path</span><span class="p">,</span> <span class="n">jspark</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_LegalBertForTokenClassificationLoaderOpensource</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bertForSequenceClassifierPath</span><span class="p">,</span> <span class="n">tfModelPath</span><span class="p">,</span> <span class="n">jspark</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">_MedicalBertForSequenceClassificationLoaderOpensource</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="s2">&quot;com.johnsnowlabs.nlp.annotators.classification.MedicalBertForSequenceClassification.loadSavedModelOpenSource&quot;</span><span class="p">,</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">_LegalBertForTokenClassificationLoaderOpensource</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="s2">&quot;com.johnsnowlabs.legal.token_classification.ner.LegalBertForTokenClassification.loadSavedModelOpenSource&quot;</span><span class="p">,</span>
             <span class="n">bertForSequenceClassifierPath</span><span class="p">,</span> <span class="n">tfModelPath</span><span class="p">,</span> <span class="n">jspark</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_LegalBertForTokenClassificationLoader</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Loader class for the LegalBertForTokenClassification annotator.</span>
+
+<span class="sd">    This class is used to load the LegalBertForTokenClassificationModel annotator</span>
+<span class="sd">    from pretrained open-source models.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">jspark</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">_LegalBertForTokenClassificationLoader</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="s2">&quot;com.johnsnowlabs.legal.token_classification.ner.LegalBertForTokenClassification.loadSavedModel&quot;</span><span class="p">,</span>
+            <span class="n">path</span><span class="p">,</span> <span class="n">jspark</span><span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">_MedicalDistilBertForSequenceClassificationLoader</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
@@ -647,6 +700,16 @@ document.write(`
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">jspark</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">_MedicalQuestionAnsweringLoader</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="s2">&quot;com.johnsnowlabs.nlp.annotators.qa.MedicalQuestionAnswering.loadSavedModel&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">jspark</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">_MedicalSummarizerLoader</span><span class="p">(</span><span class="n">ExtendedJavaWrapper</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Loader class for the MedicalSummarizer annotator.</span>
+
+<span class="sd">    This class is used to load the MedicalSummarizer annotator</span>
+<span class="sd">    from pretrained models.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">jspark</span><span class="p">,</span> <span class="n">use_cache</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">_MedicalSummarizerLoader</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="s2">&quot;com.johnsnowlabs.nlp.annotators.seq2seq.MedicalSummarizer.loadSavedModel&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">jspark</span><span class="p">,</span> <span class="n">use_cache</span><span class="p">)</span>
 </pre></div>
 
                 </article>
@@ -704,7 +767,7 @@ document.write(`
     <div class="footer-items__end">
       
         <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.1.
 </p></div>
       
     </div>

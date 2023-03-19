@@ -394,6 +394,8 @@ document.write(`
 <span class="sd">    sameLengthFormattedEntities</span>
 <span class="sd">        List of formatted entities to generate the same length outputs as original ones during obfuscation.</span>
 <span class="sd">        The formatted entities are: PHONE, FAX, ID, IDNUM, BIOID, MEDICALRECORD, ZIP, VIN, SSN, DLN, LICENSE, PLATE</span>
+<span class="sd">    selectiveObfuscationModesPath</span>
+<span class="sd">        Dictionary path where is the json that contains the selective obfuscation modes</span>
 
 
 <span class="sd">    Examples</span>
@@ -566,6 +568,11 @@ document.write(`
 <div class="viewcode-block" id="DeIdentification.sameLengthFormattedEntities"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/deIdentification/index.html#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.sameLengthFormattedEntities">[docs]</a>    <span class="n">sameLengthFormattedEntities</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;sameLengthFormattedEntities&quot;</span><span class="p">,</span>
                                         <span class="s2">&quot;List of formatted entities to generate the same length outputs as original ones during obfuscation&quot;</span><span class="p">,</span>
                                         <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DeIdentification.selectiveObfuscationModesPath"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/deIdentification/index.html#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.selectiveObfuscationModesPath">[docs]</a>    <span class="n">selectiveObfuscationModesPath</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                                          <span class="s2">&quot;selectiveObfuscationModesPath&quot;</span><span class="p">,</span>
+                                          <span class="s2">&quot;Dictionary path where is the json that contains the selective obfuscation modes&quot;</span><span class="p">,</span>
+                                          <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -902,6 +909,21 @@ document.write(`
 <div class="viewcode-block" id="DeIdentification.getSameLengthFormattedEntities"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/deIdentification/index.html#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.getSameLengthFormattedEntities">[docs]</a>    <span class="k">def</span> <span class="nf">getSameLengthFormattedEntities</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">regexEntities</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="DeIdentification.setSelectiveObfuscationModes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/deIdentification/index.html#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setSelectiveObfuscationModes">[docs]</a>    <span class="k">def</span> <span class="nf">setSelectiveObfuscationModes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets a Json path which has a dictionary of modes to enable multi-mode deidentification.</span>
+<span class="sd">            &#39;obfuscate&#39;: Replace the values with random values.</span>
+<span class="sd">            &#39;mask_same_length_chars&#39;: Replace the name with the asterix with same length minus two plus brackets on both end.</span>
+<span class="sd">            &#39;mask_entity_labels&#39;: Replace the values with the entity value.</span>
+<span class="sd">            &#39;mask_fixed_length_chars&#39;: Replace the name with the asterix with fixed length. You should also invoke &quot;setFixedMaskLength()&quot;</span>
+<span class="sd">            &#39;skip&#39;: Skip the values without replacing</span>
+<span class="sd">        The entities which have not been given in dictionary will deidentify according to setMode()</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        path : str</span>
+<span class="sd">            Dictionary path where is the json that contains the selective obfuscation modes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">dictionary</span><span class="o">=</span><span class="n">p</span><span class="p">)</span></div>
+
     <span class="k">def</span> <span class="nf">_create_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">java_model</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates the model using the java model.</span>
 
@@ -975,11 +997,12 @@ document.write(`
 <span class="sd">            If the entity is less than 3 chars (like Jo, or 5), asterisks without brackets will be returned.</span>
 <span class="sd">            entity_labels: Replace the values with the corresponding entity labels.</span>
 <span class="sd">            fixed_length_chars: Replace the obfuscated entity with a masking sequence composed of a fixed number of asterisks.</span>
-
 <span class="sd">    fixedMaskLength: this is the length of the masking sequence that will be used when the &#39;fixed_length_chars&#39; masking policy is selected.</span>
 <span class="sd">    sameLengthFormattedEntities</span>
 <span class="sd">        List of formatted entities to generate the same length outputs as original ones during obfuscation.</span>
 <span class="sd">        The formatted entities are: PHONE, FAX, ID, IDNUM, BIOID, MEDICALRECORD, ZIP, VIN, SSN, DLN, LICENSE, PLATE.</span>
+<span class="sd">    selectiveObfuscationModesPath</span>
+<span class="sd">        Dictionary path where is the json that contains the selective obfuscation modes</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -1522,7 +1545,7 @@ document.write(`
     <div class="footer-items__end">
       
         <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.1.
 </p></div>
       
     </div>

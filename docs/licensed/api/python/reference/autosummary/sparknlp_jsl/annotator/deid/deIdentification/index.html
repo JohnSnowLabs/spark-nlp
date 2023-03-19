@@ -355,6 +355,11 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../../resolution/sentence_entity_resolver/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.resolution.sentence_entity_resolver</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../seq2seq/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.seq2seq</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-15"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../seq2seq/medical_encoder_decoder/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.seq2seq.medical_encoder_decoder</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../seq2seq/medical_summarizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.seq2seq.medical_summarizer</span></code></a></li>
+</ul>
+</li>
 </ul>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../annotation_merger/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.annotation_merger</span></code></a></li>
@@ -515,6 +520,8 @@ fixed_length_chars: Replace the obfuscated entity with a masking sequence compos
 </dd>
 <dt><strong>sameLengthFormattedEntities</strong></dt><dd><p>List of formatted entities to generate the same length outputs as original ones during obfuscation.
 The formatted entities are: PHONE, FAX, ID, IDNUM, BIOID, MEDICALRECORD, ZIP, VIN, SSN, DLN, LICENSE, PLATE</p>
+</dd>
+<dt><strong>selectiveObfuscationModesPath</strong></dt><dd><p>Dictionary path where is the json that contains the selective obfuscation modes</p>
 </dd>
 </dl>
 </dd>
@@ -754,6 +761,11 @@ The formatted entities are: PHONE, FAX, ID, IDNUM, BIOID, MEDICALRECORD, ZIP, VI
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.sameLengthFormattedEntities">
 <span class="sig-name descname"><span class="pre">sameLengthFormattedEntities</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/deIdentification.html#DeIdentification.sameLengthFormattedEntities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.sameLengthFormattedEntities" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.selectiveObfuscationModesPath">
+<span class="sig-name descname"><span class="pre">selectiveObfuscationModesPath</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/deIdentification.html#DeIdentification.selectiveObfuscationModesPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.selectiveObfuscationModesPath" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -1213,6 +1225,26 @@ s : list</p>
 <span class="sig-name descname"><span class="pre">getSameLengthFormattedEntities</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/deIdentification.html#DeIdentification.getSameLengthFormattedEntities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.getSameLengthFormattedEntities" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setSelectiveObfuscationModes">
+<span class="sig-name descname"><span class="pre">setSelectiveObfuscationModes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/deid/deIdentification.html#DeIdentification.setSelectiveObfuscationModes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setSelectiveObfuscationModes" title="Permalink to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>Sets a Json path which has a dictionary of modes to enable multi-mode deidentification.</dt><dd><p>‘obfuscate’: Replace the values with random values.
+‘mask_same_length_chars’: Replace the name with the asterix with same length minus two plus brackets on both end.
+‘mask_entity_labels’: Replace the values with the entity value.
+‘mask_fixed_length_chars’: Replace the name with the asterix with fixed length. You should also invoke “setFixedMaskLength()”
+‘skip’: Skip the values without replacing</p>
+</dd>
+</dl>
+<p>The entities which have not been given in dictionary will deidentify according to setMode()
+Parameters
+———-
+path : str</p>
+<blockquote>
+<div><p>Dictionary path where is the json that contains the selective obfuscation modes</p>
+</div></blockquote>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -1292,6 +1324,8 @@ fixed_length_chars: Replace the obfuscated entity with a masking sequence compos
 <dt><strong>fixedMaskLength: this is the length of the masking sequence that will be used when the ‘fixed_length_chars’ masking policy is selected.</strong></dt><dd></dd>
 <dt><strong>sameLengthFormattedEntities</strong></dt><dd><p>List of formatted entities to generate the same length outputs as original ones during obfuscation.
 The formatted entities are: PHONE, FAX, ID, IDNUM, BIOID, MEDICALRECORD, ZIP, VIN, SSN, DLN, LICENSE, PLATE.</p>
+</dd>
+<dt><strong>selectiveObfuscationModesPath</strong></dt><dd><p>Dictionary path where is the json that contains the selective obfuscation modes</p>
 </dd>
 </dl>
 </dd>
@@ -2020,6 +2054,7 @@ Spark NLPs repositories otherwise.</p>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.ageRanges"><code class="docutils literal notranslate"><span class="pre">DeIdentification.ageRanges</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.outputAsDocument"><code class="docutils literal notranslate"><span class="pre">DeIdentification.outputAsDocument</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.sameLengthFormattedEntities"><code class="docutils literal notranslate"><span class="pre">DeIdentification.sameLengthFormattedEntities</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.selectiveObfuscationModesPath"><code class="docutils literal notranslate"><span class="pre">DeIdentification.selectiveObfuscationModesPath</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.getBlackList"><code class="docutils literal notranslate"><span class="pre">DeIdentification.getBlackList()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setLanguage"><code class="docutils literal notranslate"><span class="pre">DeIdentification.setLanguage()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setRegexPatternsDictionary"><code class="docutils literal notranslate"><span class="pre">DeIdentification.setRegexPatternsDictionary()</span></code></a></li>
@@ -2053,6 +2088,7 @@ Spark NLPs repositories otherwise.</p>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setOutputAsDocument"><code class="docutils literal notranslate"><span class="pre">DeIdentification.setOutputAsDocument()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setSameLengthFormattedEntities"><code class="docutils literal notranslate"><span class="pre">DeIdentification.setSameLengthFormattedEntities()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.getSameLengthFormattedEntities"><code class="docutils literal notranslate"><span class="pre">DeIdentification.getSameLengthFormattedEntities()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setSelectiveObfuscationModes"><code class="docutils literal notranslate"><span class="pre">DeIdentification.setSelectiveObfuscationModes()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel"><code class="docutils literal notranslate"><span class="pre">DeIdentificationModel</span></code></a><ul class="nav section-nav flex-column">
@@ -2157,6 +2193,7 @@ Spark NLPs repositories otherwise.</p>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.ageRanges">ageRanges</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.outputAsDocument">outputAsDocument</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.sameLengthFormattedEntities">sameLengthFormattedEntities</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.selectiveObfuscationModesPath">selectiveObfuscationModesPath</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.getBlackList">getBlackList</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setLanguage">setLanguage</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setRegexPatternsDictionary">setRegexPatternsDictionary</a></li>
@@ -2190,6 +2227,7 @@ Spark NLPs repositories otherwise.</p>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setOutputAsDocument">setOutputAsDocument</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setSameLengthFormattedEntities">setSameLengthFormattedEntities</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.getSameLengthFormattedEntities">getSameLengthFormattedEntities</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentification.setSelectiveObfuscationModes">setSelectiveObfuscationModes</a></li>
 </ul>
 </li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.deid.deIdentification.DeIdentificationModel">DeIdentificationModel</a><ul class="nav section-nav flex-column">
@@ -2317,7 +2355,7 @@ Spark NLPs repositories otherwise.</p>
     <div class="footer-items__end">
       
         <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.1.
 </p></div>
       
     </div>

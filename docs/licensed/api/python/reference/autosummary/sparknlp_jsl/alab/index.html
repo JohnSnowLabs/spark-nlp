@@ -667,6 +667,25 @@ defaults to None
 :param save_dir: path to save token based results, default = “results_token_based”</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.alab.AnnotationLab.review_annotations">
+<span class="sig-name descname"><span class="pre">review_annotations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.SparkSession.html#pyspark.sql.SparkSession" title="(in PySpark vmaster)"><span class="pre">pyspark.sql.SparkSession</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">conll_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ner_model_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp_jsl/alab.html#AnnotationLab.review_annotations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.alab.AnnotationLab.review_annotations" title="Permalink to this definition">#</a></dt>
+<dd><p>This function is used to get the review files from a conll file.
+It predicts the ner tags for the conll file and compares the predicted tags with the
+original conll tags and generates a review files.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>spark (SparkSession): spark session
+conn_path (str): path to conll file
+ner_model_path (str): path to ner model</p>
+</dd>
+<dt>Returns:</dt><dd><p>chunk_based_comparison_df (DataFrame): cuhunk based comparison dataframe
+token_based_comparision_df (DataFrame): token based comparison dataframe
+chunk_frequency_df (DataFrame): chunk frequency dataframe
+metrics_result(Dict): metrics result</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -715,6 +734,7 @@ defaults to None
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.alab.AnnotationLab.generate_preannotations"><code class="docutils literal notranslate"><span class="pre">AnnotationLab.generate_preannotations()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.alab.AnnotationLab.upload_preannotations"><code class="docutils literal notranslate"><span class="pre">AnnotationLab.upload_preannotations()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.alab.AnnotationLab.get_IAA_metrics"><code class="docutils literal notranslate"><span class="pre">AnnotationLab.get_IAA_metrics()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.alab.AnnotationLab.review_annotations"><code class="docutils literal notranslate"><span class="pre">AnnotationLab.review_annotations()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.alab.AnnotationLab">AnnotationLab</a><ul class="nav section-nav flex-column">
@@ -734,6 +754,7 @@ defaults to None
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.alab.AnnotationLab.generate_preannotations">generate_preannotations</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.alab.AnnotationLab.upload_preannotations">upload_preannotations</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.alab.AnnotationLab.get_IAA_metrics">get_IAA_metrics</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.alab.AnnotationLab.review_annotations">review_annotations</a></li>
 </ul>
 </li>
 </ul>
@@ -794,7 +815,7 @@ defaults to None
     <div class="footer-items__end">
       
         <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.1.
 </p></div>
       
     </div>

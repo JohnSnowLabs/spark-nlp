@@ -340,34 +340,20 @@ document.write(`
 <span class="sd">        description of question types</span>
 <span class="sd">    maxNewTokens</span>
 <span class="sd">        Maximum number of of new tokens to generate, by default 30</span>
-<span class="sd">    minOutputLength</span>
-<span class="sd">        Minimum length of text (including context), by default 1024</span>
-<span class="sd">    maxOutputLength</span>
-<span class="sd">        Maximum length of text (including context), by default 20</span>
+<span class="sd">    maxContextLength</span>
+<span class="sd">        Maximum length of context text</span>
 <span class="sd">    configProtoBytes</span>
 <span class="sd">        ConfigProto from tensorflow, serialized into byte array.</span>
 <span class="sd">    doSample</span>
 <span class="sd">        Whether or not to use sampling; use greedy decoding otherwise, by default False</span>
-<span class="sd">    temperature</span>
-<span class="sd">        The value used to module the next token probabilities, by default 1.0</span>
 <span class="sd">    topK</span>
-<span class="sd">        The number of highest probability vocabulary tokens to keep for</span>
-<span class="sd">        top-k-filtering, by default 50</span>
-<span class="sd">    topP</span>
-<span class="sd">        Top cumulative probability for vocabulary tokens, by default 1.0</span>
-
-<span class="sd">        If set to float &lt; 1, only the most probable tokens with probabilities</span>
-<span class="sd">        that add up to ``topP`` or higher are kept for generation.</span>
-<span class="sd">    repetitionPenalty</span>
-<span class="sd">        The parameter for repetition penalty, 1.0 means no penalty. , by default</span>
-<span class="sd">        1.0</span>
-<span class="sd">    noRepeatNgramSize</span>
-<span class="sd">        If set to int &gt; 0, all ngrams of that size can only occur once, by</span>
-<span class="sd">        default 0</span>
+<span class="sd">        The number of highest probability vocabulary tokens to consider, by default 1</span>
 <span class="sd">    ignoreTokenIds</span>
 <span class="sd">        A list of token ids which are ignored in the decoder&#39;s output, by</span>
 <span class="sd">        default []</span>
-
+<span class="sd">    useCache</span>
+<span class="sd">        Cache internal state of the model to improve performance, by default is True.</span>
+<span class="sd">        Disable it only if you are processing short texts or you want to spare memory usage.</span>
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; context = &quot;This study aims to evaluate local failure patterns in node negative breast cancer patients ...&quot;</span>
@@ -410,6 +396,9 @@ document.write(`
                          <span class="s2">&quot;Question type&quot;</span><span class="p">,</span>
                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="MedicalQuestionAnswering.useCache"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/medical_qa/index.html#sparknlp_jsl.annotator.qa.medical_qa.MedicalQuestionAnswering.useCache">[docs]</a>    <span class="n">useCache</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;useCache&quot;</span><span class="p">,</span> <span class="s2">&quot;Cache internal state of the model to improve performance&quot;</span><span class="p">,</span>
+                  <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="MedicalQuestionAnswering.setConfigProtoBytes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/medical_qa/index.html#sparknlp_jsl.annotator.qa.medical_qa.MedicalQuestionAnswering.setConfigProtoBytes">[docs]</a>    <span class="k">def</span> <span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
 
@@ -419,6 +408,16 @@ document.write(`
 <span class="sd">            ConfigProto from tensorflow, serialized into byte array</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">configProtoBytes</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MedicalQuestionAnswering.setUseCache"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/medical_qa/index.html#sparknlp_jsl.annotator.qa.medical_qa.MedicalQuestionAnswering.setUseCache">[docs]</a>    <span class="k">def</span> <span class="nf">setUseCache</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Cache internal state of the model to improve performance</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            Whether or not to use cache</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">useCache</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="MedicalQuestionAnswering.setQuestionType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/medical_qa/index.html#sparknlp_jsl.annotator.qa.medical_qa.MedicalQuestionAnswering.setQuestionType">[docs]</a>    <span class="k">def</span> <span class="nf">setQuestionType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the question type</span>
@@ -482,7 +481,8 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
             <span class="n">batchSize</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
             <span class="n">caseSensitive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">questionType</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+            <span class="n">questionType</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="n">useCache</span><span class="o">=</span><span class="kc">True</span>
         <span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
@@ -584,7 +584,7 @@ document.write(`
     <div class="footer-items__end">
       
         <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.1.
 </p></div>
       
     </div>

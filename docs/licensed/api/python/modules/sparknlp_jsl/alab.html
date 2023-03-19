@@ -332,11 +332,16 @@ document.write(`
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
 <span class="kn">from</span> <span class="nn">sparknlp_jsl.training_log_parser</span> <span class="kn">import</span> <span class="n">ner_log_parser</span>
 <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span>
 <span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">functions</span> <span class="k">as</span> <span class="n">F</span>
 <span class="kn">from</span> <span class="nn">sparknlp.training</span> <span class="kn">import</span> <span class="n">CoNLL</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="n">WordEmbeddingsModel</span>
 <span class="kn">from</span> <span class="nn">sparknlp_jsl.eval</span> <span class="kn">import</span> <span class="n">NerDLMetrics</span>
+<span class="kn">from</span> <span class="nn">sparknlp_jsl.annotator</span> <span class="kn">import</span> <span class="n">MedicalNerModel</span>
+
+
 
 <span class="kn">from</span> <span class="nn">.utils.alab_utils</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">get_nlp_token_pipeline</span><span class="p">,</span>
@@ -853,6 +858,9 @@ document.write(`
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">input_json_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_file</span><span class="p">:</span>
             <span class="n">output_list</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">json_file</span><span class="p">)</span>
 
+        <span class="c1"># Sort by task ID</span>
+        <span class="n">output_list</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">output_list</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span>
+
         <span class="k">if</span> <span class="n">excluded_task_ids</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">output_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">task</span> <span class="k">for</span> <span class="n">task</span> <span class="ow">in</span> <span class="n">output_list</span> <span class="k">if</span> <span class="n">task</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">excluded_task_ids</span><span class="p">]</span>
 
@@ -920,7 +928,7 @@ document.write(`
                         <span class="n">token_df</span> <span class="o">=</span> <span class="n">get_token_df</span><span class="p">(</span><span class="n">sent</span><span class="p">)</span>
 
 
-                        <span class="n">ix</span> <span class="o">=</span> <span class="n">token_df</span><span class="p">[(</span><span class="n">token_df</span><span class="o">.</span><span class="n">begin</span> <span class="o">&gt;=</span> <span class="n">begin</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">token_df</span><span class="o">.</span><span class="n">end</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">)]</span><span class="o">.</span><span class="n">index</span>
+                        <span class="n">ix</span> <span class="o">=</span> <span class="n">token_df</span><span class="p">[(</span><span class="n">token_df</span><span class="o">.</span><span class="n">begin</span> <span class="o">&gt;=</span> <span class="n">begin</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">token_df</span><span class="o">.</span><span class="n">end</span> <span class="o">&lt;=</span> <span class="n">end</span><span class="p">)]</span><span class="o">.</span><span class="n">index</span>
 
                         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ix</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                             <span class="k">continue</span>
@@ -1262,10 +1270,17 @@ document.write(`
                     <span class="n">ann_results</span> <span class="o">=</span> <span class="n">ann</span><span class="p">[</span><span class="s1">&#39;completions&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;result&#39;</span><span class="p">]</span>
 
                 <span class="k">for</span> <span class="n">ann_res</span> <span class="ow">in</span> <span class="n">ann_results</span><span class="p">:</span>
-                    <span class="n">all_classes</span> <span class="o">+=</span> <span class="n">ann_res</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;choices&#39;</span><span class="p">,</span> <span class="p">[])</span>
+                    <span class="k">if</span> <span class="n">ann_res</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;choices&quot;</span><span class="p">:</span>
+                        <span class="n">all_classes</span><span class="p">[</span><span class="n">ann_res</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;from_name&quot;</span><span class="p">,</span> <span class="s2">&quot;unknown&quot;</span><span class="p">)]</span><span class="o">=</span><span class="n">ann_res</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;choices&quot;</span><span class="p">,</span> <span class="p">[])</span>
 
-                <span class="n">res_df</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;task_id&#39;</span><span class="p">:</span> <span class="n">ann</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="s1">&#39;task_title&#39;</span><span class="p">:</span> <span class="n">ann</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;title&#39;</span><span class="p">],</span> <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="n">ann</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;text&#39;</span><span class="p">],</span> <span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="n">all_classes</span><span class="p">})</span>
-
+                <span class="n">res_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">{</span>
+                        <span class="s2">&quot;task_id&quot;</span><span class="p">:</span> <span class="n">ann</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                        <span class="s2">&quot;task_title&quot;</span><span class="p">:</span> <span class="n">ann</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+                        <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="n">ann</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="s2">&quot;text&quot;</span><span class="p">],</span>
+                        <span class="s2">&quot;classes_choices&quot;</span><span class="p">:</span> <span class="n">all_classes</span><span class="p">,</span>
+                    <span class="p">}</span>
+                <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;EXCEPTION: No Completion found for TaskID: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ann</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;id&#39;</span><span class="p">]))</span>
 
@@ -1924,7 +1939,374 @@ document.write(`
                 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Combined Classification Report with no ref annotator : </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
                 <span class="n">display</span><span class="p">(</span><span class="n">final_classification_df</span><span class="p">)</span>
                 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DataFrame written as csv: classification_report.csv </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Tasks Not Done by Annotators&quot;</span><span class="p">,</span> <span class="n">final_task_info_dict</span><span class="p">)</span></div></div>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Tasks Not Done by Annotators&quot;</span><span class="p">,</span> <span class="n">final_task_info_dict</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AnnotationLab.review_annotations"><a class="viewcode-back" href="../../reference/autosummary/sparknlp_jsl/alab/index.html#sparknlp_jsl.alab.AnnotationLab.review_annotations">[docs]</a>    <span class="k">def</span> <span class="nf">review_annotations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spark</span><span class="p">:</span> <span class="n">SparkSession</span><span class="p">,</span> <span class="n">conll_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ner_model_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function is used to get the review files from a conll file.</span>
+<span class="sd">        It predicts the ner tags for the conll file and compares the predicted tags with the</span>
+<span class="sd">        original conll tags and generates a review files.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            spark (SparkSession): spark session</span>
+<span class="sd">            conn_path (str): path to conll file</span>
+<span class="sd">            ner_model_path (str): path to ner model</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            chunk_based_comparison_df (DataFrame): cuhunk based comparison dataframe</span>
+<span class="sd">            token_based_comparision_df (DataFrame): token based comparison dataframe</span>
+<span class="sd">            chunk_frequency_df (DataFrame): chunk frequency dataframe</span>
+<span class="sd">            metrics_result(Dict): metrics result</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">__read_conll_data</span><span class="p">(</span><span class="n">conll_path</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This function is used to read conll data and returns a index &amp; task_id dataframe</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># Read CONLL file</span>
+                <span class="n">conll_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+                    <span class="n">conll_path</span><span class="p">,</span>
+                    <span class="n">sep</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+                    <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;python&quot;</span><span class="p">,</span>
+                    <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                    <span class="n">skip_blank_lines</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                    <span class="n">quoting</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error reading CONLL file: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">None</span>
+
+            <span class="c1"># Rename columns and add missing row</span>
+            <span class="n">tmp_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">conll_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">to_list</span><span class="p">()],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;pos1&quot;</span><span class="p">,</span> <span class="s2">&quot;pos2&quot;</span><span class="p">,</span> <span class="s2">&quot;label&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">conll_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">tmp_df</span><span class="o">.</span><span class="n">columns</span>
+            <span class="n">conll_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">tmp_df</span><span class="p">,</span> <span class="n">conll_df</span><span class="p">])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="c1"># Fill NaN values</span>
+            <span class="n">conll_df</span> <span class="o">=</span> <span class="n">conll_df</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Create task_id column</span>
+            <span class="n">ids</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">conll_df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+                <span class="k">if</span> <span class="s2">&quot;-&quot;</span> <span class="ow">in</span> <span class="n">j</span><span class="o">.</span><span class="n">pos2</span><span class="p">:</span>
+                    <span class="n">task_id</span> <span class="o">=</span> <span class="n">j</span><span class="o">.</span><span class="n">pos2</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">pass</span>
+                <span class="n">ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">task_id</span><span class="p">)</span>
+
+            <span class="n">conll_df</span><span class="p">[</span><span class="s2">&quot;task_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ids</span>
+            <span class="n">conll_df_to_map</span> <span class="o">=</span> <span class="n">conll_df</span><span class="p">[</span><span class="o">~</span><span class="n">conll_df</span><span class="p">[</span><span class="s2">&quot;pos1&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;-X-&quot;</span><span class="p">])][</span>
+                <span class="p">[</span><span class="s2">&quot;task_id&quot;</span><span class="p">]</span>
+            <span class="p">]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Conll file read successfully&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">conll_df_to_map</span>
+
+        <span class="k">def</span> <span class="nf">__process_i_labels</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">label_source</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This function is used to convert &quot;I-&quot; labels to &quot;O&quot; if the previous one is &quot;O&quot;</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">j</span><span class="p">[</span><span class="n">label_source</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;I-&quot;</span><span class="p">))</span> <span class="ow">and</span> <span class="p">(</span><span class="n">i</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">df</span><span class="p">[</span><span class="n">label_source</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;O&quot;</span><span class="p">:</span>
+                        <span class="n">df</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">label_source</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;O&quot;</span>
+            <span class="k">return</span> <span class="n">df</span>
+
+        <span class="k">def</span> <span class="nf">__get_model_results</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">conll_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ner_model_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This function is used to get the model results from a conll file and </span>
+<span class="sd">            save them in a dataframe using the model at ner_model_path model</span>
+<span class="sd">            Takes a conll file and a model path as input</span>
+<span class="sd">            Returns model prediction pandas dataframe and spark dataframe</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">word_embeddings</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">WordEmbeddingsModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">(</span>
+                    <span class="s2">&quot;embeddings_clinical&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;clinical/models&quot;</span>
+                <span class="p">)</span>
+                <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">])</span>
+                <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;embeddings&quot;</span><span class="p">)</span>
+            <span class="p">)</span>
+
+            <span class="n">clinical_ner</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">MedicalNerModel</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ner_model_path</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="s2">&quot;embeddings&quot;</span><span class="p">])</span>
+                <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;ner&quot;</span><span class="p">)</span>
+            <span class="p">)</span>
+
+            <span class="n">nlp_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">word_embeddings</span><span class="p">,</span> <span class="n">clinical_ner</span><span class="p">])</span>
+
+            <span class="n">empty_data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+            <span class="n">model</span> <span class="o">=</span> <span class="n">nlp_pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty_data</span><span class="p">)</span>
+
+            <span class="n">conll_df</span> <span class="o">=</span> <span class="n">CoNLL</span><span class="p">()</span><span class="o">.</span><span class="n">readDataset</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">conll_path</span><span class="p">)</span>
+            <span class="n">result_df</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">conll_df</span><span class="p">)</span>
+
+            <span class="n">preds_df</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">result_df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+                    <span class="s2">&quot;sentence&quot;</span><span class="p">,</span>
+                    <span class="n">F</span><span class="o">.</span><span class="n">explode</span><span class="p">(</span>
+                        <span class="n">F</span><span class="o">.</span><span class="n">arrays_zip</span><span class="p">(</span>
+                            <span class="n">result_df</span><span class="o">.</span><span class="n">token</span><span class="o">.</span><span class="n">result</span><span class="p">,</span>
+                            <span class="n">result_df</span><span class="o">.</span><span class="n">token</span><span class="o">.</span><span class="n">begin</span><span class="p">,</span>
+                            <span class="n">result_df</span><span class="o">.</span><span class="n">token</span><span class="o">.</span><span class="n">end</span><span class="p">,</span>
+                            <span class="n">result_df</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">result</span><span class="p">,</span>
+                            <span class="n">result_df</span><span class="o">.</span><span class="n">ner</span><span class="o">.</span><span class="n">result</span><span class="p">,</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;cols&quot;</span><span class="p">),</span>
+                <span class="p">)</span>
+                <span class="o">.</span><span class="n">select</span><span class="p">(</span>
+                    <span class="s2">&quot;sentence&quot;</span><span class="p">,</span>
+                    <span class="n">F</span><span class="o">.</span><span class="n">expr</span><span class="p">(</span><span class="s2">&quot;cols[&#39;0&#39;]&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">),</span>
+                    <span class="n">F</span><span class="o">.</span><span class="n">expr</span><span class="p">(</span><span class="s2">&quot;cols[&#39;1&#39;]&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;begin&quot;</span><span class="p">),</span>
+                    <span class="n">F</span><span class="o">.</span><span class="n">expr</span><span class="p">(</span><span class="s2">&quot;cols[&#39;2&#39;]&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;end&quot;</span><span class="p">),</span>
+                    <span class="n">F</span><span class="o">.</span><span class="n">expr</span><span class="p">(</span><span class="s2">&quot;cols[&#39;3&#39;]&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;conll_label&quot;</span><span class="p">),</span>
+                    <span class="n">F</span><span class="o">.</span><span class="n">expr</span><span class="p">(</span><span class="s2">&quot;cols[&#39;4&#39;]&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;predicted_label&quot;</span><span class="p">),</span>
+                <span class="p">)</span>
+                <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">explode</span><span class="p">(</span><span class="n">result_df</span><span class="o">.</span><span class="n">sentence</span><span class="o">.</span><span class="n">result</span><span class="p">))</span>
+                <span class="o">.</span><span class="n">toPandas</span><span class="p">()</span>
+            <span class="p">)</span>
+            
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Model results extracted successfully&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">result_df</span><span class="p">,</span> <span class="n">preds_df</span>
+
+        <span class="k">def</span> <span class="nf">__create_chunk_df</span><span class="p">(</span><span class="n">token_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">label_source</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This function is used to create a dataframe with chunks from a token dataframe</span>
+<span class="sd">            Takes a token dataframe and a label source as input</span>
+<span class="sd">            Returns a dataframe following the format:</span>
+<span class="sd">            task_id, sentence, begin, end, chunk, label</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="c1"># Process &quot;I-&quot; labels</span>
+            <span class="n">token_df</span> <span class="o">=</span> <span class="n">__process_i_labels</span><span class="p">(</span><span class="n">token_df</span><span class="p">,</span> <span class="n">label_source</span><span class="p">)</span>
+
+            <span class="c1"># Initialize lists to store extracted information</span>
+            <span class="n">task_id</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">sentence</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">chunk_begin</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">chunk_end</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">chunk</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">tmp_chunk</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="c1"># Loop through rows of temporary dataframe</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">token_df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+                <span class="c1"># If token starts a new chunk</span>
+                <span class="k">if</span> <span class="n">j</span><span class="p">[</span><span class="n">label_source</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;B-&quot;</span><span class="p">):</span>
+                    <span class="c1"># Extract relevant information and append to respective lists</span>
+                    <span class="n">task_id</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="o">.</span><span class="n">task_id</span><span class="p">)</span>
+                    <span class="n">sentence</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="o">.</span><span class="n">sentence</span><span class="p">)</span>
+                    <span class="n">chunk_begin</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="o">.</span><span class="n">begin</span><span class="p">)</span>
+                    <span class="n">label</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">[</span><span class="n">label_source</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+
+                    <span class="c1"># If last row, end of chunk is end of token and token is chunk</span>
+                    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">token_df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">chunk_end</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="o">.</span><span class="n">end</span><span class="p">)</span>
+                        <span class="n">chunk</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="o">.</span><span class="n">token</span><span class="p">)</span>
+                    <span class="c1"># Otherwise, check if next token starts a new chunk or is outside current chunk</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="p">(</span><span class="n">token_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">label_source</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;O&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
+                            <span class="n">token_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">label_source</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;B-&quot;</span><span class="p">)</span>
+                        <span class="p">):</span>
+                            <span class="c1"># If so, end of chunk is end of current token and token is part of chunk</span>
+                            <span class="n">chunk_end</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="o">.</span><span class="n">end</span><span class="p">)</span>
+                            <span class="n">chunk</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="o">.</span><span class="n">token</span><span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="c1"># Otherwise, add token to temporary chunk list</span>
+                            <span class="n">tmp_chunk</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="o">.</span><span class="n">token</span><span class="p">)</span>
+
+                <span class="c1"># If token is part of a chunk</span>
+                <span class="k">elif</span> <span class="n">j</span><span class="p">[</span><span class="n">label_source</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;I-&quot;</span><span class="p">):</span>
+                    <span class="c1"># If last row, add token to temporary chunk list and finalize chunk</span>
+                    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">token_df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">tmp_chunk</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="o">.</span><span class="n">token</span><span class="p">)</span>
+                        <span class="n">chunk</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmp_chunk</span><span class="p">))</span>
+                        <span class="n">chunk_end</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="o">.</span><span class="n">end</span><span class="p">)</span>
+                        <span class="n">tmp_chunk</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="c1"># Otherwise, check if next token starts a new chunk or is outside current chunk</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="p">(</span><span class="n">token_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">label_source</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;O&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
+                            <span class="n">token_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">label_source</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;B-&quot;</span><span class="p">)</span>
+                        <span class="p">):</span>
+                            <span class="c1"># If so, add token to temporary chunk list and finalize chunk</span>
+                            <span class="n">tmp_chunk</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="o">.</span><span class="n">token</span><span class="p">)</span>
+                            <span class="n">chunk</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmp_chunk</span><span class="p">))</span>
+                            <span class="n">chunk_end</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="o">.</span><span class="n">end</span><span class="p">)</span>
+                            <span class="n">tmp_chunk</span> <span class="o">=</span> <span class="p">[]</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="c1"># Otherwise, add token to temporary chunk list</span>
+                            <span class="n">tmp_chunk</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="o">.</span><span class="n">token</span><span class="p">)</span>
+
+            <span class="n">chunk_col</span> <span class="o">=</span> <span class="n">label_source</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;task_id&quot;</span><span class="p">:</span> <span class="n">task_id</span><span class="p">,</span>
+                    <span class="s2">&quot;sentence&quot;</span><span class="p">:</span> <span class="n">sentence</span><span class="p">,</span>
+                    <span class="s2">&quot;begin&quot;</span><span class="p">:</span> <span class="n">chunk_begin</span><span class="p">,</span>
+                    <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="n">chunk_end</span><span class="p">,</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">chunk_col</span><span class="si">}</span><span class="s2">_chunk&quot;</span><span class="p">:</span> <span class="n">chunk</span><span class="p">,</span>
+                    <span class="n">label_source</span><span class="p">:</span> <span class="n">label</span><span class="p">,</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">__chunk_based_comparison</span><span class="p">(</span><span class="n">token_df</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This function is used to compare the model predictions with the conll ground truth</span>
+<span class="sd">            Takes a token dataframe as input</span>
+<span class="sd">            Returns a dataframe following the columns:</span>
+<span class="sd">            task_id, sentence, begin, end, conll_chunk, conll_label, predicted_label,</span>
+<span class="sd">            predicted_chunk, compare</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">conll_chunk_df</span> <span class="o">=</span> <span class="n">__create_chunk_df</span><span class="p">(</span><span class="n">token_df</span><span class="p">,</span> <span class="s2">&quot;conll_label&quot;</span><span class="p">)</span>
+            <span class="n">model_chunk_df</span> <span class="o">=</span> <span class="n">__create_chunk_df</span><span class="p">(</span><span class="n">token_df</span><span class="p">,</span> <span class="s2">&quot;predicted_label&quot;</span><span class="p">)</span>
+
+            <span class="c1"># merge conll and model chunk dfs labels</span>
+            <span class="n">merged_chunk</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+                <span class="n">conll_chunk_df</span><span class="p">,</span>
+                <span class="n">model_chunk_df</span><span class="p">,</span>
+                <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;task_id&quot;</span><span class="p">,</span> <span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;begin&quot;</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">],</span>
+                <span class="n">how</span><span class="o">=</span><span class="s2">&quot;outer&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">merged_chunk</span><span class="o">.</span><span class="n">task_id</span> <span class="o">=</span> <span class="n">merged_chunk</span><span class="o">.</span><span class="n">task_id</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+            <span class="n">merged_chunk</span><span class="o">.</span><span class="n">begin</span> <span class="o">=</span> <span class="n">merged_chunk</span><span class="o">.</span><span class="n">begin</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+            <span class="n">merged_chunk</span> <span class="o">=</span> <span class="n">merged_chunk</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s2">&quot;task_id&quot;</span><span class="p">,</span> <span class="s2">&quot;begin&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span>
+                <span class="n">drop</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
+
+            <span class="c1"># fill NaN values with meaningful strings</span>
+            <span class="n">merged_chunk</span><span class="o">.</span><span class="n">conll_chunk</span> <span class="o">=</span> <span class="n">merged_chunk</span><span class="o">.</span><span class="n">conll_chunk</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s2">&quot;NOT_LABELLED&quot;</span><span class="p">)</span>
+            <span class="n">merged_chunk</span><span class="o">.</span><span class="n">conll_label</span> <span class="o">=</span> <span class="n">merged_chunk</span><span class="o">.</span><span class="n">conll_label</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s2">&quot;NOT_LABELLED&quot;</span><span class="p">)</span>
+            <span class="n">merged_chunk</span><span class="o">.</span><span class="n">predicted_chunk</span> <span class="o">=</span> <span class="n">merged_chunk</span><span class="o">.</span><span class="n">predicted_chunk</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span>
+                <span class="s2">&quot;NOT_DETECTED&quot;</span>
+            <span class="p">)</span>
+            <span class="n">merged_chunk</span><span class="o">.</span><span class="n">predicted_label</span> <span class="o">=</span> <span class="n">merged_chunk</span><span class="o">.</span><span class="n">predicted_label</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span>
+                <span class="s2">&quot;NOT_DETECTED&quot;</span>
+            <span class="p">)</span>
+
+            <span class="c1"># add a comparison column to the dataframe to compare</span>
+            <span class="c1"># the model&#39;s predictions to the CoNLL data</span>
+            <span class="n">merged_chunk</span><span class="p">[</span><span class="s2">&quot;match&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">merged_chunk</span><span class="o">.</span><span class="n">predicted_chunk</span> <span class="o">==</span> <span class="n">merged_chunk</span><span class="o">.</span><span class="n">conll_chunk</span>
+            <span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">merged_chunk</span><span class="o">.</span><span class="n">predicted_label</span> <span class="o">==</span> <span class="n">merged_chunk</span><span class="o">.</span><span class="n">conll_label</span><span class="p">)</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Chunk based comparison generated successfully&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">merged_chunk</span>
+
+        <span class="k">def</span> <span class="nf">__get_chunk_frequency</span><span class="p">(</span><span class="n">chunk_df</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This function is used to get the frequency of each chunk in the dataframe</span>
+<span class="sd">            Takes in a pandas dataframe with including the columns &quot;conll_chunk&quot; and &quot;conll_label&quot;</span>
+<span class="sd">            Returns a pandas dataframe with the columns &quot;conll_chunk&quot;, &quot;conll_label&quot;, and &quot;frequency&quot;</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">chunk_df</span> <span class="o">=</span> <span class="n">chunk_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;conll_chunk&quot;</span><span class="p">,</span> <span class="s2">&quot;conll_label&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+            <span class="n">chunk_df</span> <span class="o">=</span> <span class="n">chunk_df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;frequency&quot;</span><span class="p">})</span>
+            <span class="n">chunk_df</span> <span class="o">=</span> <span class="n">chunk_df</span><span class="p">[</span><span class="n">chunk_df</span><span class="p">[</span><span class="s2">&quot;conll_chunk&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;NOT_LABELLED&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Chunk frequencies generated successfully&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">chunk_df</span>
+
+        <span class="k">def</span> <span class="nf">__get_metrics</span><span class="p">(</span><span class="n">results</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This function is used to get the metrics from the results dataframe</span>
+<span class="sd">            Takes in a spark dataframe with the results and</span>
+<span class="sd">            returns a dictionary with the metrics</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">metric_result</span> <span class="o">=</span> <span class="p">{}</span>
+
+            <span class="c1">####### CHUNK BASED METRICS #######</span>
+            <span class="n">evaler</span> <span class="o">=</span> <span class="n">NerDLMetrics</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;full_chunk&quot;</span><span class="p">)</span>
+            <span class="n">eval_result</span> <span class="o">=</span> <span class="n">evaler</span><span class="o">.</span><span class="n">computeMetricsFromDF</span><span class="p">(</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="s2">&quot;ner&quot;</span><span class="p">),</span>
+                <span class="n">prediction_col</span><span class="o">=</span><span class="s2">&quot;ner&quot;</span><span class="p">,</span>
+                <span class="n">label_col</span><span class="o">=</span><span class="s2">&quot;label&quot;</span><span class="p">,</span>
+                <span class="n">drop_o</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">case_sensitive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">cache</span><span class="p">()</span>
+
+            <span class="n">metric_result</span><span class="p">[</span><span class="s2">&quot;full_chunk_metrics&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">eval_result</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;precision&quot;</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">eval_result</span><span class="p">[</span><span class="s2">&quot;precision&quot;</span><span class="p">],</span> <span class="mi">4</span><span class="p">))</span>
+                <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;recall&quot;</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">eval_result</span><span class="p">[</span><span class="s2">&quot;recall&quot;</span><span class="p">],</span> <span class="mi">4</span><span class="p">))</span>
+                <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;f1&quot;</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">eval_result</span><span class="p">[</span><span class="s2">&quot;f1&quot;</span><span class="p">],</span> <span class="mi">4</span><span class="p">))</span>
+                <span class="o">.</span><span class="n">toPandas</span><span class="p">()</span>
+            <span class="p">)</span>
+            <span class="n">metric_result</span><span class="p">[</span><span class="s2">&quot;full_chunk_macro_f1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">eval_result</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span>
+                <span class="s2">&quot;avg(f1) as macro&quot;</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">()[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">metric_result</span><span class="p">[</span><span class="s2">&quot;full_chunk_micro_f1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">eval_result</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;sum(f1*total) as sumprod&quot;</span><span class="p">,</span> <span class="s2">&quot;sum(total) as sumtotal&quot;</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;sumprod/sumtotal as micro&quot;</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">collect</span><span class="p">()[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="p">)</span>
+
+            <span class="c1">####### TOKEN BASED METRICS #######</span>
+            <span class="n">evaler</span> <span class="o">=</span> <span class="n">NerDLMetrics</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;partial_chunk_per_token&quot;</span><span class="p">)</span>
+            <span class="n">eval_result</span> <span class="o">=</span> <span class="n">evaler</span><span class="o">.</span><span class="n">computeMetricsFromDF</span><span class="p">(</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="s2">&quot;ner&quot;</span><span class="p">),</span>
+                <span class="n">prediction_col</span><span class="o">=</span><span class="s2">&quot;ner&quot;</span><span class="p">,</span>
+                <span class="n">label_col</span><span class="o">=</span><span class="s2">&quot;label&quot;</span><span class="p">,</span>
+                <span class="n">drop_o</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">case_sensitive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">cache</span><span class="p">()</span>
+
+            <span class="n">metric_result</span><span class="p">[</span><span class="s2">&quot;partial_chunk_metrics&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">eval_result</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;precision&quot;</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">eval_result</span><span class="p">[</span><span class="s2">&quot;precision&quot;</span><span class="p">],</span> <span class="mi">4</span><span class="p">))</span>
+                <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;recall&quot;</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">eval_result</span><span class="p">[</span><span class="s2">&quot;recall&quot;</span><span class="p">],</span> <span class="mi">4</span><span class="p">))</span>
+                <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;f1&quot;</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">eval_result</span><span class="p">[</span><span class="s2">&quot;f1&quot;</span><span class="p">],</span> <span class="mi">4</span><span class="p">))</span>
+                <span class="o">.</span><span class="n">toPandas</span><span class="p">()</span>
+            <span class="p">)</span>
+            <span class="n">metric_result</span><span class="p">[</span><span class="s2">&quot;partial_chunk_macro_f1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">eval_result</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span>
+                <span class="s2">&quot;avg(f1) as macro&quot;</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">()[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">metric_result</span><span class="p">[</span><span class="s2">&quot;partial_chunk_micro_f1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">eval_result</span><span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;sum(f1*total) as sumprod&quot;</span><span class="p">,</span> <span class="s2">&quot;sum(total) as sumtotal&quot;</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s2">&quot;sumprod/sumtotal as micro&quot;</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">collect</span><span class="p">()[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="p">)</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Metrics generated successfully&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">metric_result</span>
+
+        <span class="c1"># token based comparison</span>
+
+        <span class="n">conll_df_to_map</span> <span class="o">=</span> <span class="n">__read_conll_data</span><span class="p">(</span><span class="n">conll_path</span><span class="o">=</span><span class="n">conll_path</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">conll_df_to_map</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+            <span class="c1"># get the model&#39;s predicted results for the CoNLL data</span>
+            <span class="n">result_sparkdf</span><span class="p">,</span> <span class="n">token_based_comparision_df</span> <span class="o">=</span> <span class="n">__get_model_results</span><span class="p">(</span>
+                <span class="n">spark</span><span class="p">,</span> <span class="n">conll_path</span><span class="p">,</span> <span class="n">ner_model_path</span>
+            <span class="p">)</span>
+
+            <span class="c1"># ensure the number of rows in both dataframes is the same</span>
+            <span class="k">assert</span> <span class="n">token_based_comparision_df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">conll_df_to_map</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="c1"># map the task_id column from the CoNLL dataframe to the model results dataframe</span>
+            <span class="n">token_based_comparision_df</span><span class="p">[</span><span class="s2">&quot;task_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">conll_df_to_map</span><span class="p">[</span><span class="s2">&quot;task_id&quot;</span><span class="p">]</span>
+
+            <span class="c1"># create a new &quot;match&quot; column in the model results dataframe,</span>
+            <span class="c1"># which is True if the predicted label matches the actual label, False otherwise</span>
+            <span class="n">token_based_comparision_df</span><span class="p">[</span><span class="s2">&quot;match&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">token_based_comparision_df</span><span class="p">[</span><span class="s2">&quot;conll_label&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">token_based_comparision_df</span><span class="p">[</span><span class="s2">&quot;predicted_label&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Token based comparison generated successfully&quot;</span><span class="p">)</span>
+
+            <span class="c1"># chunk based comparison</span>
+            <span class="n">chunk_based_comparision_df</span> <span class="o">=</span> <span class="n">__chunk_based_comparison</span><span class="p">(</span><span class="n">token_based_comparision_df</span><span class="p">)</span>
+
+            <span class="c1"># get the frequency of each chunk</span>
+            <span class="n">chunk_frequency_df</span> <span class="o">=</span> <span class="n">__get_chunk_frequency</span><span class="p">(</span><span class="n">chunk_based_comparision_df</span><span class="p">)</span>
+
+            <span class="c1"># get the metrics</span>
+            <span class="n">metrics_result</span> <span class="o">=</span> <span class="n">__get_metrics</span><span class="p">(</span><span class="n">result_sparkdf</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">chunk_based_comparision_df</span><span class="p">,</span> <span class="n">token_based_comparision_df</span><span class="p">,</span> <span class="n">chunk_frequency_df</span><span class="p">,</span> <span class="n">metrics_result</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span></div></div>
+
+
+
+
 </pre></div>
 
                 </article>
@@ -1982,7 +2364,7 @@ document.write(`
     <div class="footer-items__end">
       
         <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.1.
 </p></div>
       
     </div>

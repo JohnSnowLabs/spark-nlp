@@ -647,19 +647,7 @@ https://arxiv.org/abs/1505.00387</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.HighwayWrapper.zero_state">
 <span class="sig-name descname"><span class="pre">zero_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#HighwayWrapper.zero_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.HighwayWrapper.zero_state" title="Permalink to this definition">#</a></dt>
-<dd><p>Return zero-filled state tensor(s).</p>
-<dl>
-<dt>Args:</dt><dd><p>batch_size: int, float, or unit Tensor representing the batch size.
-dtype: the data type to use for the state.</p>
-</dd>
-<dt>Returns:</dt><dd><p>If <cite>state_size</cite> is an int or TensorShape, then the return value is a
-<cite>N-D</cite> tensor of shape <cite>[batch_size, state_size]</cite> filled with zeros.</p>
-<p>If <cite>state_size</cite> is a nested list or tuple, then the return value is
-a nested list or tuple (of the same structure) of <cite>2-D</cite> tensors with
-the shapes <cite>[batch_size, s]</cite> for each s in <cite>state_size</cite>.</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -703,20 +691,7 @@ Stanislau Semeniuta, Aliaksei Severyn, Erhardt Barth.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NASCell.build">
 <span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#NASCell.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NASCell.build" title="Permalink to this definition">#</a></dt>
-<dd><p>Creates the variables of the layer (optional, for subclass implementers).</p>
-<p>This is a method that implementers of subclasses of <cite>Layer</cite> or <cite>Model</cite>
-can override if they need a state-creation step in-between
-layer instantiation and layer call.</p>
-<p>This is typically used to create the weights of <cite>Layer</cite> subclasses.</p>
-<dl class="simple">
-<dt>Arguments:</dt><dd><dl class="simple">
-<dt>input_shape: Instance of <cite>TensorShape</cite>, or list of instances of</dt><dd><p><cite>TensorShape</cite> if the layer expects a list of inputs
-(one instance per input).</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NASCell.call">
@@ -848,19 +823,7 @@ state: state Tensor, 2D, batch x num units.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CompiledWrapper.zero_state">
 <span class="sig-name descname"><span class="pre">zero_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#CompiledWrapper.zero_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CompiledWrapper.zero_state" title="Permalink to this definition">#</a></dt>
-<dd><p>Return zero-filled state tensor(s).</p>
-<dl>
-<dt>Args:</dt><dd><p>batch_size: int, float, or unit Tensor representing the batch size.
-dtype: the data type to use for the state.</p>
-</dd>
-<dt>Returns:</dt><dd><p>If <cite>state_size</cite> is an int or TensorShape, then the return value is a
-<cite>N-D</cite> tensor of shape <cite>[batch_size, state_size]</cite> filled with zeros.</p>
-<p>If <cite>state_size</cite> is a nested list or tuple, then the return value is
-a nested list or tuple (of the same structure) of <cite>2-D</cite> tensors with
-the shapes <cite>[batch_size, s]</cite> for each s in <cite>state_size</cite>.</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -906,15 +869,7 @@ It stores the features.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.ConvLSTMCell.call">
 <span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scope</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#ConvLSTMCell.call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.ConvLSTMCell.call" title="Permalink to this definition">#</a></dt>
-<dd><p>This is where the layer’s logic lives.</p>
-<dl class="simple">
-<dt>Arguments:</dt><dd><p>inputs: Input tensor, or list/tuple of input tensors.
-<a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs: Additional keyword arguments.</p>
-</dd>
-<dt>Returns:</dt><dd><p>A tensor or list/tuple of tensors.</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -1089,26 +1044,13 @@ the given variables, an error is raised.</p>
 cases.</p>
 </dd>
 </dl>
-<p><a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs: Additional keyword arguments.</p>
+<p><a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs: Additional keyword arguments.</p>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.SRUCell.build">
 <span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#SRUCell.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.SRUCell.build" title="Permalink to this definition">#</a></dt>
-<dd><p>Creates the variables of the layer (optional, for subclass implementers).</p>
-<p>This is a method that implementers of subclasses of <cite>Layer</cite> or <cite>Model</cite>
-can override if they need a state-creation step in-between
-layer instantiation and layer call.</p>
-<p>This is typically used to create the weights of <cite>Layer</cite> subclasses.</p>
-<dl class="simple">
-<dt>Arguments:</dt><dd><dl class="simple">
-<dt>input_shape: Instance of <cite>TensorShape</cite>, or list of instances of</dt><dd><p><cite>TensorShape</cite> if the layer expects a list of inputs
-(one instance per input).</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.SRUCell.call">
@@ -1200,20 +1142,7 @@ cases.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndRNNCell.build">
 <span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#IndRNNCell.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndRNNCell.build" title="Permalink to this definition">#</a></dt>
-<dd><p>Creates the variables of the layer (optional, for subclass implementers).</p>
-<p>This is a method that implementers of subclasses of <cite>Layer</cite> or <cite>Model</cite>
-can override if they need a state-creation step in-between
-layer instantiation and layer call.</p>
-<p>This is typically used to create the weights of <cite>Layer</cite> subclasses.</p>
-<dl class="simple">
-<dt>Arguments:</dt><dd><dl class="simple">
-<dt>input_shape: Instance of <cite>TensorShape</cite>, or list of instances of</dt><dd><p><cite>TensorShape</cite> if the layer expects a list of inputs
-(one instance per input).</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndRNNCell.call">
@@ -1271,20 +1200,7 @@ cases.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyGRUCell.build">
 <span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#IndyGRUCell.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyGRUCell.build" title="Permalink to this definition">#</a></dt>
-<dd><p>Creates the variables of the layer (optional, for subclass implementers).</p>
-<p>This is a method that implementers of subclasses of <cite>Layer</cite> or <cite>Model</cite>
-can override if they need a state-creation step in-between
-layer instantiation and layer call.</p>
-<p>This is typically used to create the weights of <cite>Layer</cite> subclasses.</p>
-<dl class="simple">
-<dt>Arguments:</dt><dd><dl class="simple">
-<dt>input_shape: Instance of <cite>TensorShape</cite>, or list of instances of</dt><dd><p><cite>TensorShape</cite> if the layer expects a list of inputs
-(one instance per input).</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyGRUCell.call">
@@ -1322,20 +1238,7 @@ use peep-hole connections: it is the basic baseline.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyLSTMCell.build">
 <span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#IndyLSTMCell.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyLSTMCell.build" title="Permalink to this definition">#</a></dt>
-<dd><p>Creates the variables of the layer (optional, for subclass implementers).</p>
-<p>This is a method that implementers of subclasses of <cite>Layer</cite> or <cite>Model</cite>
-can override if they need a state-creation step in-between
-layer instantiation and layer call.</p>
-<p>This is typically used to create the weights of <cite>Layer</cite> subclasses.</p>
-<dl class="simple">
-<dt>Arguments:</dt><dd><dl class="simple">
-<dt>input_shape: Instance of <cite>TensorShape</cite>, or list of instances of</dt><dd><p><cite>TensorShape</cite> if the layer expects a list of inputs
-(one instance per input).</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.IndyLSTMCell.call">
@@ -1379,50 +1282,17 @@ A Graves, G Wayne, I Danihelka</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell.build">
 <span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#NTMCell.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell.build" title="Permalink to this definition">#</a></dt>
-<dd><p>Creates the variables of the layer (optional, for subclass implementers).</p>
-<p>This is a method that implementers of subclasses of <cite>Layer</cite> or <cite>Model</cite>
-can override if they need a state-creation step in-between
-layer instantiation and layer call.</p>
-<p>This is typically used to create the weights of <cite>Layer</cite> subclasses.</p>
-<dl class="simple">
-<dt>Arguments:</dt><dd><dl class="simple">
-<dt>input_shape: Instance of <cite>TensorShape</cite>, or list of instances of</dt><dd><p><cite>TensorShape</cite> if the layer expects a list of inputs
-(one instance per input).</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell.call">
 <span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prev_state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#NTMCell.call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell.call" title="Permalink to this definition">#</a></dt>
-<dd><p>This is where the layer’s logic lives.</p>
-<dl class="simple">
-<dt>Arguments:</dt><dd><p>inputs: Input tensor, or list/tuple of input tensors.
-<a href="#id5"><span class="problematic" id="id6">**</span></a>kwargs: Additional keyword arguments.</p>
-</dd>
-<dt>Returns:</dt><dd><p>A tensor or list/tuple of tensors.</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell.zero_state">
 <span class="sig-name descname"><span class="pre">zero_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#NTMCell.zero_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.NTMCell.zero_state" title="Permalink to this definition">#</a></dt>
-<dd><p>Return zero-filled state tensor(s).</p>
-<dl>
-<dt>Args:</dt><dd><p>batch_size: int, float, or unit Tensor representing the batch size.
-dtype: the data type to use for the state.</p>
-</dd>
-<dt>Returns:</dt><dd><p>If <cite>state_size</cite> is an int or TensorShape, then the return value is a
-<cite>N-D</cite> tensor of shape <cite>[batch_size, state_size]</cite> filled with zeros.</p>
-<p>If <cite>state_size</cite> is a nested list or tuple, then the return value is
-a nested list or tuple (of the same structure) of <cite>2-D</cite> tensors with
-the shapes <cite>[batch_size, s]</cite> for each s in <cite>state_size</cite>.</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -1445,20 +1315,7 @@ the previous hidden state, using a single update gate.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.MinimalRNNCell.build">
 <span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#MinimalRNNCell.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.MinimalRNNCell.build" title="Permalink to this definition">#</a></dt>
-<dd><p>Creates the variables of the layer (optional, for subclass implementers).</p>
-<p>This is a method that implementers of subclasses of <cite>Layer</cite> or <cite>Model</cite>
-can override if they need a state-creation step in-between
-layer instantiation and layer call.</p>
-<p>This is typically used to create the weights of <cite>Layer</cite> subclasses.</p>
-<dl class="simple">
-<dt>Arguments:</dt><dd><dl class="simple">
-<dt>input_shape: Instance of <cite>TensorShape</cite>, or list of instances of</dt><dd><p><cite>TensorShape</cite> if the layer expects a list of inputs
-(one instance per input).</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.MinimalRNNCell.call">
@@ -1501,20 +1358,7 @@ hidden state, using decoupled input and forget gates.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CFNCell.build">
 <span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/_tf_graph_builders/tf2contrib/rnn_cell.html#CFNCell.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CFNCell.build" title="Permalink to this definition">#</a></dt>
-<dd><p>Creates the variables of the layer (optional, for subclass implementers).</p>
-<p>This is a method that implementers of subclasses of <cite>Layer</cite> or <cite>Model</cite>
-can override if they need a state-creation step in-between
-layer instantiation and layer call.</p>
-<p>This is typically used to create the weights of <cite>Layer</cite> subclasses.</p>
-<dl class="simple">
-<dt>Arguments:</dt><dd><dl class="simple">
-<dt>input_shape: Instance of <cite>TensorShape</cite>, or list of instances of</dt><dd><p><cite>TensorShape</cite> if the layer expects a list of inputs
-(one instance per input).</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl._tf_graph_builders.tf2contrib.rnn_cell.CFNCell.call">
@@ -1838,7 +1682,7 @@ state: state Tensor, must be 2-D, <cite>[batch, state_size]</cite>.</p>
     <div class="footer-items__end">
       
         <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.1.
 </p></div>
       
     </div>

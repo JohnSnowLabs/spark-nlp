@@ -325,14 +325,121 @@ document.write(`
 <span class="kn">from</span> <span class="nn">sparknlp_jsl.common</span> <span class="kn">import</span> <span class="o">*</span>
 
 <div class="viewcode-block" id="NameChunkObfuscatorApproach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach">[docs]</a><span class="k">class</span> <span class="nc">NameChunkObfuscatorApproach</span><span class="p">(</span><span class="n">AnnotatorApproachInternal</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Contains all the methods for training a NameChunkObfuscator model.</span>
+<span class="sd">    This module can replace name entities with consistent fakers.</span>
+
+<span class="sd">    ========================================= ======================</span>
+<span class="sd">    Input Annotation types                    Output Annotation type</span>
+<span class="sd">    ========================================= ======================</span>
+<span class="sd">    ``CHUNK``                                  ``CHUNK``</span>
+<span class="sd">    ========================================= ======================</span>
+
+<span class="sd">     Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    obfuscateRefFile</span>
+<span class="sd">        File with the faker names to be used for obfuscation</span>
+<span class="sd">    refFileFormat</span>
+<span class="sd">        Format of the reference file</span>
+<span class="sd">    refSep</span>
+<span class="sd">        Seperator character in refFile</span>
+<span class="sd">    seed</span>
+<span class="sd">        The seed to select the names on obfuscation. With the seed, you can reply an execution several times with the same output.</span>
+<span class="sd">    obfuscateRefSource</span>
+<span class="sd">        Mode for select obfuscation source [&#39;both&#39;|&#39;faker&#39;| &#39;file&#39;]</span>
+<span class="sd">    language</span>
+<span class="sd">        The language used to select some faker names.&#39;en&#39;(english),&#39;de&#39;(german), &#39;es&#39;(Spanish), &#39;fr&#39;(french) or &#39;ro&#39;(romanian)</span>
+<span class="sd">    sameLength</span>
+<span class="sd">        The sameLength used to select the same length names as original ones during obfuscation. Default: true</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    -------</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.common import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.training import *</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp_jsl</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp_jsl.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler() \\</span>
+<span class="sd">    ...     .setInputCol(&quot;text&quot;) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt;  sentenceDetector = SentenceDetector() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;sentence&quot;) \\</span>
+<span class="sd">    ...     .setUseAbbreviations(True)</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;sentence&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;token&quot;)</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; embeddings = WordEmbeddingsModel \\</span>
+<span class="sd">    ...     .pretrained(&quot;embeddings_clinical&quot;, &quot;en&quot;, &quot;clinical/models&quot;) \\</span>
+<span class="sd">    ...     .setInputCols([&quot;sentence&quot;, &quot;token&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;embeddings&quot;) \\</span>
+<span class="sd">    ...</span>
+<span class="sd">     Ner entities</span>
+<span class="sd">    &gt;&gt;&gt; clinical_sensitive_entities = MedicalNerModel \\</span>
+<span class="sd">    ...     .pretrained(&quot;ner_deid_enriched&quot;, &quot;en&quot;, &quot;clinical/models&quot;) \\</span>
+<span class="sd">    ...     .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;embeddings&quot;]).setOutputCol(&quot;ner&quot;)</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; nerConverter = NerConverter() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;sentence&quot;, &quot;token&quot;, &quot;ner&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;ner_chunk&quot;)</span>
+<span class="sd">     NameChunkObfuscatorApproach</span>
+<span class="sd">    &gt;&gt;&gt; nameChunkObfuscator = NameChunkObfuscatorApproach() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;ner_chunk&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;replacement&quot;) \\</span>
+<span class="sd">    ...     .setRefFileFormat(&quot;csv&quot;) \\</span>
+<span class="sd">    ...     .setRefSep(&quot;#&quot;) \\</span>
+<span class="sd">    ...     .setObfuscateRefFile(&quot;obfuscator_names.txt&quot;) \\</span>
+<span class="sd">    ...     .setObfuscateRefSource(&quot;both&quot;) \\</span>
+<span class="sd">    ...     .setLanguage(&quot;en&quot;)</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; replacer_name = Replacer() \\</span>
+<span class="sd">    ...     .setInputCols(&quot;replacement&quot;, &quot;sentence&quot;) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;obfuscated_name&quot;) \\</span>
+<span class="sd">    ...     .setUseReplacement(True)</span>
+<span class="sd">    Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([</span>
+<span class="sd">    ...     [&quot;John Davies is a 62 y.o. patient admitted.He was seen by attending physician Dr. Lorand and was scheduled for emergency assessment.&quot;]</span>
+<span class="sd">    ...     ]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline(stages=[</span>
+<span class="sd">    ...     documentAssembler,</span>
+<span class="sd">    ...     sentenceDetector,</span>
+<span class="sd">    ...     tokenizer,</span>
+<span class="sd">    ...     embeddings,</span>
+<span class="sd">    ...     clinical_sensitive_entities,</span>
+<span class="sd">    ...     nerConverter,</span>
+<span class="sd">    ...     nameChunkObfuscator,</span>
+<span class="sd">    ...     replacer_name</span>
+<span class="sd">    ... ])</span>
+<span class="sd">    &gt;&gt;&gt; result = pipeline.fit(data).transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; result.select(&quot;obfuscated_name.result&quot;).show(truncate = False)</span>
+<span class="sd">      +-------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">      |result                                                                                                                               |</span>
+<span class="sd">      +-------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">      |[Charlestine is a 62 y.o. patient admitted.He was seen by attending physician Dr. Lowery and was scheduled for emergency assessment.]|</span>
+<span class="sd">      +-------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="NameChunkObfuscatorApproach.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span><span class="p">]</span></div>
 <div class="viewcode-block" id="NameChunkObfuscatorApproach.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span></div>
 <div class="viewcode-block" id="NameChunkObfuscatorApproach.obfuscateRefFile"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.obfuscateRefFile">[docs]</a>    <span class="n">obfuscateRefFile</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;obfuscateRefFile&quot;</span><span class="p">,</span> <span class="s2">&quot;File with the terms to be used for Obfuscation&quot;</span><span class="p">,</span>
                              <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
-<div class="viewcode-block" id="NameChunkObfuscatorApproach.refFileFormat"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.refFileFormat">[docs]</a>    <span class="n">refFileFormat</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;refFileFormat&quot;</span><span class="p">,</span> <span class="s2">&quot;Format of the reference file&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
-<div class="viewcode-block" id="NameChunkObfuscatorApproach.refSep"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.refSep">[docs]</a>    <span class="n">refSep</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;refSep&quot;</span><span class="p">,</span> <span class="s2">&quot;Sep character in refFile&quot;</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
-<div class="viewcode-block" id="NameChunkObfuscatorApproach.seed"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.seed">[docs]</a>    <span class="n">seed</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;seed&quot;</span><span class="p">,</span> <span class="s2">&quot;It is the seed to select the entities on obfuscate mode&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="NameChunkObfuscatorApproach.refFileFormat"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.refFileFormat">[docs]</a>    <span class="n">refFileFormat</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;refFileFormat&quot;</span><span class="p">,</span> <span class="s2">&quot;Format of the reference file&quot;</span><span class="p">,</span>
+                          <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+<div class="viewcode-block" id="NameChunkObfuscatorApproach.refSep"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.refSep">[docs]</a>    <span class="n">refSep</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;refSep&quot;</span><span class="p">,</span> <span class="s2">&quot;Sep character in refFile&quot;</span><span class="p">,</span>
+                   <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+<div class="viewcode-block" id="NameChunkObfuscatorApproach.seed"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.seed">[docs]</a>    <span class="n">seed</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;seed&quot;</span><span class="p">,</span> <span class="s2">&quot;It is the seed to select the names on obfuscation&quot;</span><span class="p">,</span>
                  <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+<div class="viewcode-block" id="NameChunkObfuscatorApproach.obfuscateRefSource"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.obfuscateRefSource">[docs]</a>    <span class="n">obfuscateRefSource</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;obfuscateRefSource&quot;</span><span class="p">,</span> <span class="s2">&quot;The source of obfuscation to obfuscate the names&quot;</span><span class="p">,</span>
+                               <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+<div class="viewcode-block" id="NameChunkObfuscatorApproach.language"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.language">[docs]</a>    <span class="n">language</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;language&quot;</span><span class="p">,</span> <span class="s2">&quot;The language used to select some faker names&quot;</span><span class="p">,</span>
+                     <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+<div class="viewcode-block" id="NameChunkObfuscatorApproach.sameLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.sameLength">[docs]</a>    <span class="n">sameLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;sameLength&quot;</span><span class="p">,</span> <span class="s2">&quot;The sameLength used to select the same length names as original ones during obfuscation.&quot;</span><span class="p">,</span>
+                       <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
 
     <span class="nd">@keyword_only</span>
@@ -371,14 +478,53 @@ document.write(`
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">refSep</span><span class="o">=</span><span class="n">c</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="NameChunkObfuscatorApproach.setSeed"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.setSeed">[docs]</a>    <span class="k">def</span> <span class="nf">setSeed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the seed to select the entities on obfuscate mode</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the seed to select the names on obfuscation. With the seed, you can reply an execution several times</span>
+<span class="sd">         with the same output.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        s : int</span>
-<span class="sd">            The seed to select the entities on obfuscate mode</span>
+<span class="sd">            The seed to select the names on obfuscation. With the seed, you can reply an execution several times</span>
+<span class="sd">         with the same output.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">s</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NameChunkObfuscatorApproach.setObfuscateRefSource"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.setObfuscateRefSource">[docs]</a>    <span class="k">def</span> <span class="nf">setObfuscateRefSource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets mode for select obfuscate source [&#39;both&#39;|&#39;faker&#39;| &#39;file&#39;]</span>
+<span class="sd">        Default: &#39;both&#39;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        s : str</span>
+<span class="sd">            Mode for select obfuscate source [&#39;both&#39;|&#39;faker&#39;| &#39;file]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">obfuscateRefSource</span><span class="o">=</span><span class="n">s</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NameChunkObfuscatorApproach.setLanguage"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.setLanguage">[docs]</a>    <span class="k">def</span> <span class="nf">setLanguage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">l</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The language used to select some faker names.</span>
+<span class="sd">        The values are the following:</span>
+<span class="sd">        &#39;en&#39;(english),&#39;de&#39;(german), &#39;es&#39;(Spanish), &#39;fr&#39;(french) or &#39;ro&#39;(romanian)</span>
+<span class="sd">        Default:&#39;en&#39;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        l : str</span>
+<span class="sd">          The language used to select some faker names.&#39;en&#39;(english),&#39;de&#39;(german), &#39;es&#39;(Spanish), &#39;fr&#39;(french) or &#39;ro&#39;(romanian)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">language</span><span class="o">=</span><span class="n">l</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NameChunkObfuscatorApproach.setSameLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscatorApproach.setSameLength">[docs]</a>    <span class="k">def</span> <span class="nf">setSameLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">l</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The sameLength used to select the same length names as original ones during obfuscation.</span>
+<span class="sd">        Example: &#39;John&#39; --&gt; &#39;Mike&#39;.</span>
+<span class="sd">        Default: true</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        l : bool</span>
+<span class="sd">          The sameLength used to select the same length names as original ones during obfuscation. Default: true</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">language</span><span class="o">=</span><span class="n">l</span><span class="p">)</span></div>
+
     <span class="k">def</span> <span class="nf">_create_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">java_model</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates the model using the java model.</span>
 
@@ -389,26 +535,100 @@ document.write(`
 
 
 <div class="viewcode-block" id="NameChunkObfuscator"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator">[docs]</a><span class="k">class</span> <span class="nc">NameChunkObfuscator</span><span class="p">(</span><span class="n">AnnotatorModelInternal</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Contains all the parameters to transform a dataset with an Input Annotation</span>
+<span class="sd">    of type CHUNK, into its obfuscated version of by obfuscating the given CHUNKS.</span>
+<span class="sd">    This module can replace name entities with consistent fakers, remain others same.</span>
+
+<span class="sd">    ========================================= ======================</span>
+<span class="sd">    Input Annotation types                    Output Annotation type</span>
+<span class="sd">    ========================================= ======================</span>
+<span class="sd">    ``CHUNK``                                  ``CHUNK``</span>
+<span class="sd">    ========================================= ======================</span>
+
+<span class="sd">     Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    obfuscateRefFile</span>
+<span class="sd">        File with the faker names to be used for obfuscation</span>
+<span class="sd">    refFileFormat</span>
+<span class="sd">        Format of the reference file</span>
+<span class="sd">    refSep</span>
+<span class="sd">        Seperator character in refFile</span>
+<span class="sd">    seed</span>
+<span class="sd">        The seed to select the names on obfuscation. With the seed, you can reply an execution several times with the same output.</span>
+<span class="sd">    obfuscateRefSource</span>
+<span class="sd">        Mode for select obfuscation source [&#39;both&#39;|&#39;faker&#39;| &#39;file&#39;]</span>
+<span class="sd">    language</span>
+<span class="sd">        The language used to select some faker names.&#39;en&#39;(english),&#39;de&#39;(german), &#39;es&#39;(Spanish), &#39;fr&#39;(french) or &#39;ro&#39;(romanian)</span>
+<span class="sd">    sameLength</span>
+<span class="sd">        The sameLength used to select the same length names as original ones during obfuscation. Default: true</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="NameChunkObfuscator.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span><span class="p">]</span></div>
 <div class="viewcode-block" id="NameChunkObfuscator.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span></div>
 
-<div class="viewcode-block" id="NameChunkObfuscator.seed"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.seed">[docs]</a>    <span class="n">seed</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;seed&quot;</span><span class="p">,</span> <span class="s2">&quot;It is the seed to select the entities on obfuscate mode&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="NameChunkObfuscator.seed"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.seed">[docs]</a>    <span class="n">seed</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;seed&quot;</span><span class="p">,</span> <span class="s2">&quot;It is the seed to select the names. With the seed you can reply an execution several times with the same output.&quot;</span><span class="p">,</span>
                  <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+<div class="viewcode-block" id="NameChunkObfuscator.obfuscateRefSource"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.obfuscateRefSource">[docs]</a>    <span class="n">obfuscateRefSource</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;obfuscateRefSource&quot;</span><span class="p">,</span> <span class="s2">&quot;The source of obfuscation to obfuscate the names&quot;</span><span class="p">,</span>
+                               <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+<div class="viewcode-block" id="NameChunkObfuscator.language"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.language">[docs]</a>    <span class="n">language</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;language&quot;</span><span class="p">,</span> <span class="s2">&quot;The language used to select some faker names&quot;</span><span class="p">,</span>
+                     <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+<div class="viewcode-block" id="NameChunkObfuscator.sameLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.sameLength">[docs]</a>    <span class="n">sameLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;sameLength&quot;</span><span class="p">,</span> <span class="s2">&quot;The sameLength used to select the same length names as original ones during obfuscation.&quot;</span><span class="p">,</span>
+                       <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="NameChunkObfuscator.setSeed"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.setSeed">[docs]</a>    <span class="k">def</span> <span class="nf">setSeed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the seed to select the entities on obfuscate mode</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the seed to select the names on obfuscation. With the seed, you can reply an execution several times</span>
+<span class="sd">         with the same output.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        s : int</span>
-<span class="sd">            The seed to select the entities on obfuscate mode</span>
+<span class="sd">            The seed to select the names on obfuscation. With the seed, you can reply an execution several times</span>
+<span class="sd">         with the same output.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">s</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NameChunkObfuscator.setObfuscateRefSource"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.setObfuscateRefSource">[docs]</a>    <span class="k">def</span> <span class="nf">setObfuscateRefSource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets mode for select obfuscate source [&#39;both&#39;|&#39;faker&#39;| &#39;file&#39;]</span>
+<span class="sd">        Default: &#39;both&#39;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        s : str</span>
+<span class="sd">            Mode for select obfuscate source [&#39;both&#39;|&#39;faker&#39;| &#39;file]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">obfuscateRefSource</span><span class="o">=</span><span class="n">s</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NameChunkObfuscator.setLanguage"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.setLanguage">[docs]</a>    <span class="k">def</span> <span class="nf">setLanguage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">l</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The language used to select some faker names.</span>
+<span class="sd">        The values are the following:</span>
+<span class="sd">        &#39;en&#39;(english),&#39;de&#39;(german), &#39;es&#39;(Spanish), &#39;fr&#39;(french) or &#39;ro&#39;(romanian)</span>
+<span class="sd">        Default:&#39;en&#39;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        l : str</span>
+<span class="sd">          The language used to select some faker names.&#39;en&#39;(english),&#39;de&#39;(german), &#39;es&#39;(Spanish), &#39;fr&#39;(french) or &#39;ro&#39;(romanian)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">language</span><span class="o">=</span><span class="n">l</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NameChunkObfuscator.setSameLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.setSameLength">[docs]</a>    <span class="k">def</span> <span class="nf">setSameLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">l</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The sameLength used to select the same length names as original ones during obfuscation.</span>
+<span class="sd">        Example: &#39;John&#39; --&gt; &#39;Mike&#39;.</span>
+<span class="sd">        Default: true</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        l : bool</span>
+<span class="sd">          The sameLength used to select the same length names as original ones during obfuscation. Default: true</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">language</span><span class="o">=</span><span class="n">l</span><span class="p">)</span></div>
+
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.deid.NameChunkObfuscator&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">NameChunkObfuscator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
             <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
         <span class="p">)</span>
+
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="NameChunkObfuscator.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/deid/name_obfuscator/index.html#sparknlp_jsl.annotator.deid.name_obfuscator.NameChunkObfuscator.pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -489,7 +709,7 @@ document.write(`
     <div class="footer-items__end">
       
         <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.1.
 </p></div>
       
     </div>
