@@ -29,16 +29,17 @@ class Date2Chunk(AnnotatorModel):
 
     Parameters
     ----------
-    None
+    entityName
+        Entity name for the metadata, by default ``"DATE"``.
 
     Examples
     --------
     >>> from pyspark.ml import Pipeline
 
-import sparknlp
-from sparknlp.base import *
-from sparknlp.annotator import *
-documentAssembler = DocumentAssembler() \\
+    >>> import sparknlp
+    >>> from sparknlp.base import *
+    >>> from sparknlp.annotator import *
+    >>> documentAssembler = DocumentAssembler() \\
     ...     .setInputCol("text") \\
     ...     .setOutputCol("document")
     >>> date = DateMatcher() \\
@@ -70,3 +71,18 @@ documentAssembler = DocumentAssembler() \\
     @keyword_only
     def __init__(self):
         super(Date2Chunk, self).__init__(classname="com.johnsnowlabs.nlp.annotators.Date2Chunk")
+        self._setDefault(entityName="DATE")
+
+    entityName = Param(Params._dummy(), "entityName", "Entity name for the metadata",
+                       TypeConverters.toString)
+
+    def setEntityName(self, name):
+        """Sets Learning Rate, by default 0.001.
+
+        Parameters
+        ----------
+        v : float
+            Learning Rate
+        """
+        self._set(entityName=name)
+        return self
