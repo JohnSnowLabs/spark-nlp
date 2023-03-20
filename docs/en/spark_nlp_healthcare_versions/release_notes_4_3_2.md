@@ -69,21 +69,21 @@ med_qa = MedicalQuestionAnswering.pretrained("medical_qa_biogpt","en","clinical/
 
 pipeline = Pipeline(stages=[document_assembler, med_qa])
 
-paper_abstract = "The visual indexing theory proposed by Zenon Pylyshyn (Cognition, 32, 65-97, 1989) predicts that visual attention mechanisms are employed when mental images are projected onto a visual scene."
+paper_abstract = "The visual indexing theory proposed by Zenon Pylyshyn (Cognition, 32, 65–97, 1989) predicts that visual attention mechanisms are employed when mental images are projected onto a visual scene. Recent eye-tracking studies have supported this hypothesis by showing that people tend to look at empty places where requested information has been previously presented. However, it has remained unclear to what extent this behavior is related to memory performance. The aim of the present study was to explore whether the manipulation of spatial attention can facilitate memory retrieval. In two experiments, participants were asked first to memorize a set of four objects and then to determine whether a probe word referred to any of the objects. The results of both experiments indicate that memory accuracy is not affected by the current focus of attention and that all the effects of directing attention to specific locations on response times can be explained in terms of stimulus–stimulus and stimulus–response spatial compatibility."
 ```
 
 *Result for `long` answer*:
 
 ```bash
 Question ["What is the effect of directing attention on memory?"]
-Answer ["the present study investigated whether directing spatial attention to one location in a visual array would enhance memory for the array features. participants memorized two"]
+Answer ["the results of the present study suggest that the visual indexing theory does not fully explain the effects of spatial attention on memory performance."]
 ```
 
 *Result for `short` answer*:
 
 ```bash
 Question ["Does directing attention improve memory for items?"]
-Answer ["yes"]
+Answer ["no"]
 ```
 
 You can check the [Medical Question Answering Notebook](https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/healthcare-nlp/31.Medical_Question_Answering.ipynb) for more examples and see the [Medical Question Answering](https://demo.johnsnowlabs.com/healthcare/BIOGPT_MEDICAL_QUESTION_ANSWERING/) demo.
