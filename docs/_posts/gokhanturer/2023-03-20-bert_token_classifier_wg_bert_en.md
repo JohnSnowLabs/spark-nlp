@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English BertForTokenClassification Cased model (from lukasweber)
+title: English BertForTokenClassification Cased model (from krishjothi)
 author: John Snow Labs
 name: bert_token_classifier_wg_bert
 date: 2023-03-20
@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained BertForTokenClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `WG_BERT` is a English model originally trained by `lukasweber`.
+Pretrained BertForTokenClassification model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `WG_Bert` is a English model originally trained by `krishjothi`.
 
 ## Predicted Entities
 
@@ -28,8 +28,8 @@ Pretrained BertForTokenClassification model, adapted from Hugging Face and curat
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_token_classifier_wg_bert_en_4.3.1_3.0_1679331909654.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bert_token_classifier_wg_bert_en_4.3.1_3.0_1679331909654.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_token_classifier_wg_bert_en_4.3.1_3.0_1679332051979.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bert_token_classifier_wg_bert_en_4.3.1_3.0_1679332051979.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -95,4 +95,4 @@ val result = pipeline.fit(data).transform(data)
 
 ## References
 
-- https://huggingface.co/lukasweber/WG_BERT
+- https://huggingface.co/krishjothi/WG_Bert
