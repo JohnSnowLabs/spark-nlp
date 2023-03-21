@@ -95,7 +95,7 @@ import java.io.File
   * }}}
   *
   * @see
-  *   [[BertForSequenceClassification]] for sequnece-level classification
+  *   [[BertForSequenceClassification]] for sequence-level classification
   * @see
   *   [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of
   *   transformer based classifiers
