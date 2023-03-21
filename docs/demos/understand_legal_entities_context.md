@@ -32,5 +32,17 @@ data:
             url:  https://demo.johnsnowlabs.com/legal/LEGASSERTION_TEMPORALITY/
           - text: Colab
             type: blue_btn
-            url:           
+            url: 
+        - title: Legal Assertion Status (Negation)
+          id: legal_assertion_status_negation  
+          image: 
+              src: /assets/images/Legal_Assertion_Status_Negation.svg
+          excerpt: This is a Legal Negation model, aimed to identify if an NER entity is mentioned in the context to be negated or not.
+          actions:
+          - text: Live Demo
+            type: normal
+            url:  https://demo.johnsnowlabs.com/finance/NEGATION_DETECTION_IN_FINANCIAL_TEXTS/
+          - text: Colab
+            type: blue_btn
+            url:          
 ---
