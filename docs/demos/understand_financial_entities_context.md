@@ -56,5 +56,29 @@ data:
             url: https://demo.johnsnowlabs.com/finance/FINASSERTION_TEMPORALITY/
           - text: Colab
             type: blue_btn
-            url:     
+            url:   
+        - title: Financial Assertion Status (Negation) 
+          id: financial_assertion_status_negation     
+          image: 
+              src: /assets/images/Financial_Assertion_Status_Negation.svg
+          excerpt: This is a Financial Negation model, aimed to identify if an NER entity is mentioned in the context to be negated or not.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/finance/NEGATION_DETECTION_IN_FINANCIAL_TEXTS/
+          - text: Colab
+            type: blue_btn
+            url:  
+        - title: Understand Increased or Decreased Amounts and Percentages in Context 
+          id: understand_increased_decreased_amounts_percentages_context     
+          image: 
+              src: /assets/images/Understand_Increased_or_Decreased_Amounts_and_Percentages_in_Context.svg
+          excerpt: This demo shows how to use the Assertion Status model to identify if a mentioned amount or percentage is stated to be increased or decreased in context.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/finance/FINASSERTION_INCREASE_DECREASE/
+          - text: Colab
+            type: blue_btn
+            url: 
 ---
