@@ -5,7 +5,7 @@ author: John Snow Labs
 name: image_classifier_swin_base_patch4_window12_384_in22k
 date: 2023-02-07
 tags: [open_source, swin, image, en, english, image_classification, imagenet, tensorflow]
-task: Sentiment Analysis
+task: Image Classification
 language: en
 nav_key: models
 edition: Spark NLP 4.3.0
