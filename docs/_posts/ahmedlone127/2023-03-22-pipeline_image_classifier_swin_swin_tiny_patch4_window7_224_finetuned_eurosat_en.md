@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English image_classifier_swin_swin_tiny_patch4_window7_224_finetuned_eurosat TFSwinForImageClassification from aricibo
+title: English image_classifier_swin_swin_tiny_patch4_window7_224_finetuned_eurosat TFSwinForImageClassification from amyeroberts
 author: John Snow Labs
 name: pipeline_image_classifier_swin_swin_tiny_patch4_window7_224_finetuned_eurosat
 date: 2023-03-22
@@ -18,13 +18,13 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained  Swin  pipeline, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`image_classifier_swin_swin_tiny_patch4_window7_224_finetuned_eurosat` is a English model originally trained by aricibo.
+Pretrained  Swin  pipeline, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`image_classifier_swin_swin_tiny_patch4_window7_224_finetuned_eurosat` is a English model originally trained by amyeroberts.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_image_classifier_swin_swin_tiny_patch4_window7_224_finetuned_eurosat_en_4.4.0_3.0_1679520647266.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/pipeline_image_classifier_swin_swin_tiny_patch4_window7_224_finetuned_eurosat_en_4.4.0_3.0_1679520647266.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/pipeline_image_classifier_swin_swin_tiny_patch4_window7_224_finetuned_eurosat_en_4.4.0_3.0_1679520651730.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/pipeline_image_classifier_swin_swin_tiny_patch4_window7_224_finetuned_eurosat_en_4.4.0_3.0_1679520651730.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
