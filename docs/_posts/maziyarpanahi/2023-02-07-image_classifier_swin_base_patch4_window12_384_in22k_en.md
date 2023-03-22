@@ -90,4 +90,4 @@ val pipelineDF = pipelineModel.transform(imageDF)
 
 ## References
 
-[https://huggingface.co/microsoft/swin_base_patch4_window12_384_in22k](https://huggingface.co/microsoft/swin_base_patch4_window12_384_in22k)
+[https://huggingface.co/microsoft/swin-large-patch4-window12-384-in22k](https://huggingface.co/microsoft/swin-large-patch4-window12-384-in22k)
