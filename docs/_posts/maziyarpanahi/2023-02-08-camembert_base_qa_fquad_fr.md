@@ -10,6 +10,7 @@ language: fr
 edition: Spark NLP 4.3.0
 spark_version: [3.2, 3.0]
 supported: true
+recommended: true
 engine: tensorflow
 annotator: CamemBertForQuestionAnswering
 article_header:

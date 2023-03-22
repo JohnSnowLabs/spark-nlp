@@ -11,6 +11,7 @@ nav_key: models
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
+recommended: true
 article_header:
   type: cover
 use_language_switcher: "Python-Scala-Java"

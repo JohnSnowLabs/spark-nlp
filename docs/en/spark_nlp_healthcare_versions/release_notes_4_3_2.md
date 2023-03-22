@@ -35,6 +35,7 @@ sidebar:
     - [Social Determinants of Health Behaviour Problems](https://demo.johnsnowlabs.com/healthcare/NER_SDOH_BEHAVIOURS_PROBLEMS/) demo
     - [Social Determinants of Health Access Status](https://demo.johnsnowlabs.com/healthcare/NER_SDOH_ACCESS/) demo
     - [Voice of The Patients](https://demo.johnsnowlabs.com/healthcare/VOICE_OF_THE_PATIENTS/) demo
++ New blogposts
 + 30+ new clinical models and pipelines added & updated in total
 
 </div><div class="h3-box" markdown="1">
@@ -186,6 +187,15 @@ text = "Record date : 2093-01-13 , David Hale , M.D . , Name : Hendrickson Ora ,
 + [Social Determinants of Health Access Status](https://demo.johnsnowlabs.com/healthcare/NER_SDOH_ACCESS/) demo
 + [Voice of The Patients](https://demo.johnsnowlabs.com/healthcare/VOICE_OF_THE_PATIENTS/) demo
 
+
+</div><div class="h3-box" markdown="1">
+
+#### New Blogposts
+
+- [Extract Social Determinants of Health Entities From Clinical Text with Spark NLP](https://medium.com/john-snow-labs/extract-social-determinants-of-health-entities-from-clinical-text-with-spark-nlp-542a9a4e0ffc)
+- [Extract Clinical Entities From Patient Forums with Healthcare NLP](https://www.johnsnowlabs.com/extract-clinical-entities-from-patient-forums-with-healthcare-nlp/)
+- [Mapping Rxnorm and NDC Codes to the National Institute of Health (NIH) Drug Brand Names with Spark NLP](https://medium.com/john-snow-labs/mapping-rxnorm-and-ndc-codes-to-the-nih-drug-brand-names-with-spark-nlp-e10eeb7e122c)
+- [Format Consistency For Entity Obfuscation In De-Identification with Spark NLP](https://medium.com/john-snow-labs/format-consistency-for-entity-obfuscation-in-de-identification-with-spark-nlp-9d850a25e455)
 
 </div><div class="h3-box" markdown="1">
 
