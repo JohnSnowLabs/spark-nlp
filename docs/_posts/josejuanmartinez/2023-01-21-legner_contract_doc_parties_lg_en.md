@@ -11,6 +11,7 @@ nav_key: models
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
+recommended: true
 annotator: LegalNerModel
 article_header:
   type: cover

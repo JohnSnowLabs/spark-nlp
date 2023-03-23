@@ -10,6 +10,7 @@ language: en
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
+recommended: true
 engine: tensorflow
 annotator: MedicalBertForSequenceClassification
 article_header:
