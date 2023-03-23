@@ -19,7 +19,8 @@ package com.johnsnowlabs.ml.ai.util.Generation.Search
 class BeamHypotheses(
     var lengthPenalty: Double,
     var numBeams: Int,
-    var earlyStopping: Boolean = false) {
+    var earlyStopping: Boolean = false,
+    var maxLength: Int) {
   private var beams: Seq[(Double, Array[Int], Array[Int])] = Seq()
   private var worstScore: Double = 1e9
 
@@ -69,9 +70,16 @@ class BeamHypotheses(
       false
     } else if (this.earlyStopping) {
       true
-    } else {
+    } else if (!this.earlyStopping) {
       val currentScore = bestSumLogProbs / Math.pow(currentLength, this.lengthPenalty)
       this.worstScore >= currentScore
+    } else {
+      if (this.lengthPenalty > 0) {
+        this.worstScore >= (bestSumLogProbs / Math.pow(this.maxLength, this.lengthPenalty))
+      } else {
+        val currentScore = bestSumLogProbs / Math.pow(currentLength, this.lengthPenalty)
+        this.worstScore >= currentScore
+      }
     }
   }
 }

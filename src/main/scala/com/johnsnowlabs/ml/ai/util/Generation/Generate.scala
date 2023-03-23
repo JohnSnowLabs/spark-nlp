@@ -57,28 +57,35 @@ trait Generate {
     val expandedEncoderInputIdsVals = encoderInputIdsVals.flatMap(x => List.fill(numBeams)(x))
     breakable {
       while (true) {
-        println(beamScores.mkString(","))
+
+        // Feed the encoder input ids and decoder input ids to the model and get the output
+        // return shape (beamSize,vocabSize)
         val nextTokenLogits =
           this.getModelOutput(expandedEncoderInputIdsVals, expandedInputs, maxLength)
+
+        // Apply log softmax to model outputs
         var nextTokenScores = nextTokenLogits.map(logSoftmax)
+
+        // Process the logits by defined logit processors
         val nextTokenScoresProcessed =
           logitProcessor.process(expandedInputs, nextTokenScores, currentLength)
+
+        // Add previous beam scores to the output
         nextTokenScores = nextTokenScoresProcessed.zipWithIndex.map { case (x, ind1) =>
-          x.zipWithIndex.map { case (y, ind2) =>
+          x.zipWithIndex.map { case (y, _) =>
             y + beamScores(ind1)
           }
         }
-//        nextTokenScores = logitProcessor.warp(expandedInputs, nextTokenScores, currentLength)
+        // Process the logits by defined logit warpers
+        nextTokenScores = logitProcessor.warp(expandedInputs, nextTokenScores, currentLength)
+
+        // Reshape next token score to (batchSize, vocabSize * numBeams)
         val vocabSize = nextTokenScores.head.length
-        var reshapedNextTokenScores = Array.ofDim[Float](batchSize, vocabSize * numBeams)
-        for (i <- 0 until batchSize * numBeams by numBeams) {
-          var tempScores = Seq[Float]()
-          for (j <- i until i + numBeams) {
-            tempScores ++= nextTokenScores(j).toSeq
-          }
-          reshapedNextTokenScores((i / numBeams)) = tempScores.toArray
-        }
+        val reshapedNextTokenScores =
+          reshapeArray(nextTokenScores, batchSize, vocabSize * numBeams)
+
         nextTokenScores = reshapedNextTokenScores
+
         var nextKTopTokenScores: Array[Array[Float]] = Array[Array[Float]]()
         var nextKTopTokens: Array[Array[Int]] = Array[Array[Int]]()
 
@@ -126,7 +133,6 @@ trait Generate {
         val beamIdx = beamOutputs._3.flatMap(_.toList)
         var newInputIds = Seq[Array[Int]]()
 
-        println(beamNextTokens.mkString(","))
         for ((i, ind) <- beamIdx.zipWithIndex) {
           val tempInput = expandedInputs(i) :+ beamNextTokens(ind)
           newInputIds = newInputIds :+ (tempInput)
@@ -166,6 +172,28 @@ trait Generate {
     val expElem = values.map(x => exp(x - c))
     val logSumExp = log(expElem.sum)
     values.map(x => (x - c - logSumExp).toFloat)
+  }
+
+  def reshapeArray(
+      inputArray: Array[Array[Float]],
+      numRows: Int,
+      numCols: Int): Array[Array[Float]] = {
+    if (inputArray.length * inputArray(0).length != numRows * numCols) {
+      throw new IllegalArgumentException(
+        "Number of elements in input array does not match desired shape")
+    }
+
+    val flatArray = inputArray.flatten // Flatten the input array into a 1D array
+    val outputArray = Array.ofDim[Float](numRows, numCols) // Initialize the output array
+
+    // Loop through the output array and fill it with elements from the flat array
+    for (i <- 0 until numRows) {
+      for (j <- 0 until numCols) {
+        outputArray(i)(j) = flatArray(i * numCols + j)
+      }
+    }
+
+    outputArray // Return the reshaped array
   }
 
   def sample(logits: Seq[Float], k: Int, seed: Long = 42): Array[Int] = {

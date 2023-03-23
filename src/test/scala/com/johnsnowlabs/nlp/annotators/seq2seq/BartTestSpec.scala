@@ -24,9 +24,43 @@ import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
 class BartTestSpec extends AnyFlatSpec {
+
   "bart-large-cnn" should "should handle temperature=0 correctly and not crash when predicting more than 1 element with doSample=True" taggedAs FastTest in {
     // Even tough the Paper states temperature in interval [0,1), using temperature=0 will result in division by 0 error.
     // Also DoSample=True may result in infinities being generated and distFiltered.length==0 which results in exception if we don't return 0 instead internally.
+    val testData = ResourceHelper.spark
+      .createDataFrame(
+        Seq(
+          (
+            1,
+            "PG&E stated it scheduled the blackouts in response to forecasts for high winds " +
+              "amid dry conditions. The aim is to reduce the risk of wildfires. Nearly 800 thousand customers were " +
+              "scheduled to be affected by the shutoffs which were expected to last through at least midday tomorrow.")))
+      .toDF("id", "text")
+      .repartition(1)
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("documents")
+
+    val gpt2 = BartTransformer
+      .loadSavedModel(
+        "/home/prabod/Projects/ModelZoo/BART/facebook/bart-large-cnn/saved_model/1",
+        ResourceHelper.spark)
+      .setTask("summarize:")
+      .setInputCols(Array("documents"))
+      .setTopK(50)
+      .setDoSample(true)
+      .setMaxOutputLength(25)
+      .setMinOutputLength(5)
+      .setOutputCol("generation")
+    new Pipeline()
+      .setStages(Array(documentAssembler, gpt2))
+      .fit(testData)
+      .transform(testData)
+      .show(truncate = false)
+
+  }
+  "bart-large-cnn" should "run SparkNLP pipeline with maxLength=130 and doSample=true" taggedAs SlowTest in {
     val testData = ResourceHelper.spark
       .createDataFrame(
         Seq((
@@ -48,30 +82,35 @@ class BartTestSpec extends AnyFlatSpec {
             "by Immigration and Customs Enforcement and the Department of Homeland Security\\'s\nInvestigation Division. Seven of the men are from so-called" +
             " \"red-flagged\" countries, including Egypt, Turkey, Georgia, Pakistan and Mali.")))
       .toDF("id", "text")
-      .repartition(1)
+
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
       .setOutputCol("documents")
 
-    val gpt2 = BartTransformer
+    val bart = BartTransformer
       .loadSavedModel(
         "/home/prabod/Projects/ModelZoo/BART/facebook/bart-large-cnn/saved_model/1",
         ResourceHelper.spark)
       .setTask("summarize:")
       .setInputCols(Array("documents"))
-      .setTopK(50)
-      .setDoSample(true)
-      .setMaxOutputLength(130)
+      .setMaxOutputLength(70)
       .setMinOutputLength(30)
-      .setOutputCol("generation")
-    new Pipeline()
-      .setStages(Array(documentAssembler, gpt2))
-      .fit(testData)
-      .transform(testData)
-      .show(truncate = false)
+      .setDoSample(false)
+      .setOutputCol("summaries")
 
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, bart))
+
+    val model = pipeline.fit(testData)
+    val results = model.transform(testData)
+
+    results.select("summaries.result").show(truncate = false)
+    val dataframe = results.select("summaries.result").collect()
+    val result = dataframe.toSeq.head.getAs[Seq[String]](0).head
+    println(result)
+    //    assert(
+    //      result == "a knob of dripping or 2 tablespoons of vegetable oil in a large large pan . cut the kidneys in half and snip out the white core . heat the pan for 1-2 minutes, turning once, until browned .")
   }
-  "bart-large-cnn" should "run SparkNLP pipeline with maxLength=200 " taggedAs FastTest in {
+  "bart-large-cnn" should "run SparkNLP pipeline with maxLength=100 " taggedAs FastTest in {
     val testData = ResourceHelper.spark
       .createDataFrame(
         Seq(
@@ -100,7 +139,7 @@ class BartTestSpec extends AnyFlatSpec {
         ResourceHelper.spark)
       .setTask("summarize:")
       .setInputCols(Array("documents"))
-      .setMaxOutputLength(200)
+      .setMaxOutputLength(100)
       .setOutputCol("summaries")
 
     val pipeline = new Pipeline().setStages(Array(documentAssembler, t5))
@@ -115,7 +154,7 @@ class BartTestSpec extends AnyFlatSpec {
 //    assert(
 //      result == "a knob of dripping or 2 tablespoons of vegetable oil in a large large pan . cut the kidneys in half and snip out the white core . heat the pan for 1-2 minutes, turning once, until browned .")
   }
-  "bart-large-cnn" should "run SparkNLP pipeline with doSample=true " taggedAs FastTest in {
+  "bart-large-cnn" should "run SparkNLP pipeline with doSample=true " taggedAs SlowTest in {
     val testData = ResourceHelper.spark
       .createDataFrame(
         Seq(

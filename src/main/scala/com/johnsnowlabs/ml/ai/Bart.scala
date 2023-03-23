@@ -64,8 +64,7 @@ private[johnsnowlabs] class Bart(
   private val paddingTokenId = 1
   private val eosTokenId = 2
   private val vocab_size = 50264
-//  private val pieceSize = spp.getSppModel.getPieceSize
-//
+
   private def sessionWarmup(): Unit = {
     val dummyInput = Array.fill(1)(0) ++ Array(eosTokenId)
     tag(
@@ -99,11 +98,6 @@ private[johnsnowlabs] class Bart(
       ignoreTokenIds: Array[Int] = Array(),
       beamSize: Int): Array[Array[Int]] = {
 
-//    runner
-//      .feed("serving_default_input_ids:0", encoderInputTensors)
-//      .feed("serving_default_attention_mask:0", encoderAttentionMaskTensors)
-//      .fetch("StatefulPartitionedCall_1:0")
-//
 //    val modelOutputs = generateNoBeamSearch(
 //      batch,
 //      maxOutputLength,
@@ -151,28 +145,40 @@ private[johnsnowlabs] class Bart(
       noRepeatNgramSize: Int,
       randomSeed: Option[Long],
       ignoreTokenIds: Array[Int] = Array()): Array[Array[Int]] = {
+
     var decoderInputs = inputIds.map(_ => Array(this.eosTokenId)).toArray
+
     var logitProcessorList = new LogitProcessorList()
+
     logitProcessorList.addProcess(new RepetitionPenaltyLogitProcessor(repetitionPenalty))
+
     logitProcessorList.addProcess(
       new NoRepeatNgramsLogitProcessor(
         noRepeatNgramSize = noRepeatNgramSize,
         vocabSize = this.vocab_size))
+
     logitProcessorList.addProcess(
       new MinLengthLogitProcessor(this.eosTokenId, minOutputLength, this.vocab_size))
+
     logitProcessorList.addProcess(new TemperatureLogitWarper(temperature))
+
     logitProcessorList.addProcess(new TopKLogitWarper(topK))
+
     logitProcessorList.addProcess(new TopPLogitWarper(topP))
+
     var beamSearchScorer = new BeamSearchScorer(
       beamSize = beamSize,
       batchSize = inputIds.length,
       lengthPenalty = repetitionPenalty.toFloat,
-      doEarlyStopping = true,
-      numBeamHypothesisToKeep = numReturnSequences)
+      doEarlyStopping = false,
+      numBeamHypothesisToKeep = numReturnSequences,
+      maxLength = maxOutputLength)
+
     var randomSeeder: Long = 42
     if (randomSeed.isDefined) {
       randomSeeder = randomSeed.get
     }
+
     this.beamSearch(
       inputIds,
       decoderInputs,
@@ -301,9 +307,10 @@ private[johnsnowlabs] class Bart(
         .extractFloats(decoderOuts.head)
         .grouped(vocab_size)
         .toArray
-        .grouped(decoderInputLength)
+        .grouped(maxSentenceLength)
         .toArray
-      var nextTokenLogits = for (decoderOutput <- decoderOutputs) yield decoderOutput.last
+      var nextTokenLogits =
+        for (decoderOutput <- decoderOutputs) yield decoderOutput(decoderInputLength - 1)
 
       nextTokenLogits = nextTokenLogits.map(logits => {
         logits.indices

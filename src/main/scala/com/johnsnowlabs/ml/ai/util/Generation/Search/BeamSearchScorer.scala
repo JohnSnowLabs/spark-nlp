@@ -23,7 +23,8 @@ class BeamSearchScorer(
     var batchSize: Int,
     var lengthPenalty: Float = 1.0f,
     var doEarlyStopping: Boolean = false,
-    var numBeamHypothesisToKeep: Int = 1)
+    var numBeamHypothesisToKeep: Int = 1,
+    var maxLength: Int)
     extends BeamScorer {
 
   val numBeams: Int = beamSize
@@ -32,7 +33,8 @@ class BeamSearchScorer(
     beamHypothesesSeq = beamHypothesesSeq :+ new BeamHypotheses(
       lengthPenalty = lengthPenalty,
       numBeams = beamSize,
-      earlyStopping = doEarlyStopping))
+      earlyStopping = doEarlyStopping,
+      maxLength = maxLength))
 
   override def getBeamHypothesesSeq: Seq[BeamHypotheses] = {
     beamHypothesesSeq
