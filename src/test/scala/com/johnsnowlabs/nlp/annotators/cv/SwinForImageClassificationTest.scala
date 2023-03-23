@@ -1,6 +1,5 @@
 package com.johnsnowlabs.nlp.annotators.cv
 
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.scalatest.flatspec.AnyFlatSpec
 
 class SwinForImageClassificationTest extends AnyFlatSpec with ViTForImageClassificationBehaviors {
@@ -22,6 +21,7 @@ class SwinForImageClassificationTest extends AnyFlatSpec with ViTForImageClassif
 
   it should behave like
     behaviorsViTForImageClassification[SwinForImageClassification](
+      SwinForImageClassification.load,
       SwinForImageClassification.pretrained(),
       goldStandards)
 }

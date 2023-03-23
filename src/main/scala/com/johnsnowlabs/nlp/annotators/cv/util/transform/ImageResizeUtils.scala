@@ -16,36 +16,40 @@
 
 package com.johnsnowlabs.nlp.annotators.cv.util.transform
 
-import com.johnsnowlabs.nlp.annotators.cv.util.io.ImageIOUtils
-
+import java.awt.Color
 import java.awt.geom.AffineTransform
 import java.awt.image.{AffineTransformOp, BufferedImage}
-import java.awt.{Color, Image}
 import scala.collection.mutable.ArrayBuffer
 
 private[johnsnowlabs] object ImageResizeUtils {
 
-  def resizeBufferedImage(width: Int, height: Int, channels: Option[Int])(
+  /** Resized a BufferedImage with specified width, height and filter.
+    *
+    * @param width
+    *   Target width of the image
+    * @param height
+    *   Target height of the image
+    * @param resample
+    *   Transformation/Filter to apply, either `AffineTransformOp.TYPE_NEAREST_NEIGHBOR`(1),
+    *   `AffineTransformOp.TYPE_BILINEAR`(2), `AffineTransformOp.TYPE_BICUBIC`(3)
+    * @param image
+    *   Image to resize
+    * @return
+    *   Resized BufferedImage
+    */
+  def resizeBufferedImage(width: Int, height: Int, resample: Int)(
       image: BufferedImage): BufferedImage = {
-    val imgType = channels.map(ImageIOUtils.convertChannelsToType).getOrElse(image.getType)
 
-    if (image.getWidth == width &&
-      image.getHeight == height &&
-      image.getType == imgType) {
-      return image
-    }
+    val scaleX = width / image.getWidth.toDouble
+    val scaleY = height / image.getHeight.toDouble
 
-    // SCALE_AREA_AVERAGING performs slower than SCALE_DEFAULT
-    val resizedImage = image.getScaledInstance(width, height, Image.SCALE_DEFAULT)
-    val bufferedImage = new BufferedImage(width, height, imgType)
-    val graphic = bufferedImage.createGraphics()
-    // scalastyle:ignore null
-    graphic.drawImage(resizedImage, 0, 0, null)
-    graphic.dispose()
-    bufferedImage
+    val transform = AffineTransform.getScaleInstance(scaleX, scaleY)
+    val transformOp = new AffineTransformOp(transform, resample)
+    val result = transformOp.filter(image, null) // Creates new BufferedImage
+
+    result
   }
 
-  // TODO implement doNormalize = false to only return Array[Array[Array[Float]]] without normalizing
   /** @param img
     *   The image in BufferedImage
     * @param mean
@@ -56,11 +60,14 @@ private[johnsnowlabs] object ImageResizeUtils {
     *   Factor to rescale the image values by
     * @return
     */
-  def normalizeBufferedImage(
+  def normalizeAndConvertBufferedImage(
       img: BufferedImage,
       mean: Array[Double],
       std: Array[Double],
-      rescaleFactor: Double = 1 / 255.0d): Array[Array[Array[Float]]] = {
+      doNormalize: Boolean,
+      doRescale: Boolean,
+      rescaleFactor: Double): Array[Array[Array[Float]]] = {
+
     val data =
       Array(ArrayBuffer[Array[Float]](), ArrayBuffer[Array[Float]](), ArrayBuffer[Array[Float]]())
     for (y <- 0 until img.getHeight) {
@@ -73,10 +80,18 @@ private[johnsnowlabs] object ImageResizeUtils {
         // Creating a Color object from pixel value
         val color = new Color(pixel, true)
 
-        // Retrieving the R G B values and Normalizing them
-        val red = ((color.getRed * rescaleFactor) - mean.head) / std.head
-        val green = ((color.getGreen * rescaleFactor) - mean(1)) / std(1)
-        val blue = ((color.getBlue * rescaleFactor) - mean(2)) / std(2)
+        // Retrieving the R G B values, rescaling and normalizing them
+        val rescaledRed = if (doRescale) color.getRed * rescaleFactor else color.getRed
+        val rescaledGreen = if (doRescale) color.getGreen * rescaleFactor else color.getGreen
+        val rescaledBlue = if (doRescale) color.getBlue * rescaleFactor else color.getBlue
+
+        val (red, green, blue) = if (doNormalize) {
+          val normR = (rescaledRed - mean.head) / std.head
+          val normG = (rescaledGreen - mean(1)) / std(1)
+          val normB = (rescaledBlue - mean(2)) / std(2)
+          (normR, normG, normB)
+        } else (rescaledRed, rescaledGreen, rescaledBlue)
+
         RedList += red.toFloat
         GreenList += green.toFloat
         BlueList += blue.toFloat
@@ -124,5 +139,39 @@ private[johnsnowlabs] object ImageResizeUtils {
       width: Int,
       height: Int): BufferedImage = {
     bufferedImage.getSubimage(x, y, width, height)
+  }
+
+  /** Resizes and crops an image, intended for smaller images.
+    *
+    * The image is resized based on a percentage. The smaller edge will be resized to
+    * `requestedSize / cropPct` and then cropped to `(requestedSize, requestedSize)`.
+    */
+  def resizeAndCenterCropImage(
+      img: BufferedImage,
+      requestedSize: Int,
+      resample: Int,
+      cropPct: Double): BufferedImage = {
+
+    val width = img.getWidth()
+    val height = img.getHeight()
+
+    val (shortEdge, longEdge) = if (width <= height) (width, height) else (height, width)
+
+    val sizeForCrop = requestedSize / cropPct
+    val newShortEdge = sizeForCrop.toInt
+    val newLongEdge = (sizeForCrop * (longEdge / shortEdge.toFloat)).toInt
+
+    val (resizeWidth, resizeHeight) =
+      if (width <= height) (newShortEdge, newLongEdge) else (newLongEdge, newShortEdge)
+
+    // Resize the Image with the new calculated size
+    val resizedImage =
+      resizeBufferedImage(resizeWidth, resizeHeight, resample)(img)
+
+    // Crop at the center of the image
+    val cropLeft = (resizeWidth - requestedSize).abs / 2
+    val cropTop = (resizeHeight - requestedSize).abs / 2
+
+    cropBufferedImage(resizedImage, cropLeft, cropTop, requestedSize, requestedSize)
   }
 }

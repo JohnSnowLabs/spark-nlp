@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.cv
 
+import com.johnsnowlabs.ml.ai.ConvNextClassifier
 import com.johnsnowlabs.ml.tensorflow.{ReadTensorflowModel, TensorflowWrapper}
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadJsonStringAsset,
@@ -25,30 +26,27 @@ import com.johnsnowlabs.ml.util.LoadExternalModel.{
 import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.cv.feature_extractor.Preprocessor
-import org.apache.spark.ml.param.{BooleanParam, DoubleParam}
+import org.apache.spark.broadcast.Broadcast
+import org.apache.spark.ml.param.DoubleParam
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 
-/** SwinImageClassification is an image classifier based on Swin.
+/** ConvNextForImageClassification is an image classifier based on ConvNet models.
   *
-  * The Swin Transformer was proposed in Swin Transformer: Hierarchical Vision Transformer using
-  * Shifted Windows by Ze Liu, Yutong Lin, Yue Cao, Han Hu, Yixuan Wei, Zheng Zhang, Stephen Lin,
-  * Baining Guo.
-  *
-  * It is basically a hierarchical Transformer whose representation is computed with shifted
-  * windows. The shifted windowing scheme brings greater efficiency by limiting self-attention
-  * computation to non-overlapping local windows while also allowing for cross-window connection.
+  * The ConvNeXT model was proposed in A ConvNet for the 2020s by Zhuang Liu, Hanzi Mao, Chao-Yuan
+  * Wu, Christoph Feichtenhofer, Trevor Darrell, Saining Xie. ConvNeXT is a pure convolutional
+  * model (ConvNet), inspired by the design of Vision Transformers, that claims to outperform
+  * them.
   *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{
-  * val imageClassifier = SwinForImageClassification.pretrained()
+  * val imageClassifier = ConvNextForImageClassification.pretrained()
   *   .setInputCols("image_assembler")
   *   .setOutputCol("class")
   * }}}
-  * The default model is `"image_classifier_swin_base_patch4_window7_224"`, if no name is
-  * provided.
+  * The default model is `"image_classifier_convnext_tiny_224_local"`, if no name is provided.
   *
   * For available pretrained models please see the
   * [[https://nlp.johnsnowlabs.com/models?task=Image+Classification Models Hub]].
@@ -57,30 +55,30 @@ import org.json4s.jackson.JsonMethods._
   * see which models are compatible and how to import them see
   * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]] and to see more extended
   * examples, see
-  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/cv/SwinForImageClassificationTest.scala SwinForImageClassificationTest]].
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/cv/ConvNextForImageClassificationTestSpec.scala ConvNextForImageClassificationTestSpec]].
   *
   * '''References:'''
   *
-  * [[https://arxiv.org/pdf/2103.14030.pdf Swin Transformer: Hierarchical Vision Transformer using Shifted Windows]]
+  * [[https://arxiv.org/abs/2201.03545 A ConvNet for the 2020s]]
   *
   * '''Paper Abstract:'''
   *
-  * ''This paper presents a new vision Transformer, called Swin Transformer, that capably serves
-  * as a general-purpose backbone for computer vision. Challenges in adapting Transformer from
-  * language to vision arise from differences between the two domains, such as large variations in
-  * the scale of visual entities and the high resolution of pixels in images compared to words in
-  * text. To address these differences, we propose a hierarchical Transformer whose representation
-  * is computed with Shifted windows. The shifted windowing scheme brings greater efficiency by
-  * limiting self-attention computation to non-overlapping local windows while also allowing for
-  * cross-window connection. This hierarchical architecture has the flexibility to model at
-  * various scales and has linear computational complexity with respect to image size. These
-  * qualities of Swin Transformer make it compatible with a broad range of vision tasks, including
-  * image classification (87.3 top-1 accuracy on ImageNet-1K) and dense prediction tasks such as
-  * object detection (58.7 box AP and 51.1 mask AP on COCO test- dev) and semantic segmentation
-  * (53.5 mIoU on ADE20K val). Its performance surpasses the previous state-of-the- art by a large
-  * margin of +2.7 box AP and +2.6 mask AP on COCO, and +3.2 mIoU on ADE20K, demonstrating the
-  * potential of Transformer-based models as vision backbones. The hierarchical design and the
-  * shifted window approach also prove beneficial for all-MLP architectures.''
+  * ''The "Roaring 20s" of visual recognition began with the introduction of Vision Transformers
+  * (ViTs), which quickly superseded ConvNets as the state-of-the-art image classification model.
+  * A vanilla ViT, on the other hand, faces difficulties when applied to general computer vision
+  * tasks such as object detection and semantic segmentation. It is the hierarchical Transformers
+  * (e.g., Swin Transformers) that reintroduced several ConvNet priors, making Transformers
+  * practically viable as a generic vision backbone and demonstrating remarkable performance on a
+  * wide variety of vision tasks. However, the effectiveness of such hybrid approaches is still
+  * largely credited to the intrinsic superiority of Transformers, rather than the inherent
+  * inductive biases of convolutions. In this work, we reexamine the design spaces and test the
+  * limits of what a pure ConvNet can achieve. We gradually "modernize" a standard ResNet toward
+  * the design of a vision Transformer, and discover several key components that contribute to the
+  * performance difference along the way. The outcome of this exploration is a family of pure
+  * ConvNet models dubbed ConvNeXt. Constructed entirely from standard ConvNet modules, ConvNeXts
+  * compete favorably with Transformers in terms of accuracy and scalability, achieving 87.8%
+  * ImageNet top-1 accuracy and outperforming Swin Transformers on COCO detection and ADE20K
+  * segmentation, while maintaining the simplicity and efficiency of standard ConvNets. ''
   *
   * ==Example==
   * {{{
@@ -97,7 +95,7 @@ import org.json4s.jackson.JsonMethods._
   *   .setInputCol("image")
   *   .setOutputCol("image_assembler")
   *
-  * val imageClassifier = SwinForImageClassification
+  * val imageClassifier = ConvNextForImageClassification
   *   .pretrained()
   *   .setInputCols("image_assembler")
   *   .setOutputCol("class")
@@ -143,39 +141,30 @@ import org.json4s.jackson.JsonMethods._
   *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
   *   parameter values through setters and getters, respectively.
   */
-class SwinForImageClassification(override val uid: String)
-    extends ViTForImageClassification(uid) {
+class ConvNextForImageClassification(override val uid: String)
+    extends SwinForImageClassification(uid) {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
     */
-  def this() = this(Identifiable.randomUID("SwinForImageClassification"))
+  def this() = this(Identifiable.randomUID("ConvNextForImageClassification"))
 
-  /** Whether to rescale the image values by rescaleFactor.
+  /** Determines rescale and crop percentage for images smaller than the configured size (Default:
+    * `224 / 256d`).
+    *
+    * If the image size is smaller than the specified size, the smaller edge of the image will be
+    * matched to `int(size / cropPct)`. Afterwards the image is cropped to `(size, size)`.
     *
     * @group param
     */
-  val doRescale =
-    new BooleanParam(this, "doRescale", "Whether to rescale the image values by rescaleFactor.")
-
-  /** Factor to scale the image values (Default: `1 / 255.0`).
-    *
-    * @group param
-    */
-  val rescaleFactor =
-    new DoubleParam(this, "rescaleFactor", "Factor to scale the image values")
+  val cropPct =
+    new DoubleParam(this, "cropPct", "Percentage of the resized image to crop")
 
   /** @group setParam */
-  def setDoRescale(value: Boolean): this.type = set(this.doRescale, value)
+  def setCropPct(value: Double): this.type = set(this.cropPct, value)
 
   /** @group getParam */
-  def getDoRescale: Boolean = $(doRescale)
-
-  /** @group setParam */
-  def setRescaleFactor(value: Double): this.type = set(this.rescaleFactor, value)
-
-  /** @group getParam */
-  def getRescaleFactor: Double = $(rescaleFactor)
+  def getCropPct: Double = $(cropPct)
 
   setDefault(
     batchSize -> 2,
@@ -186,7 +175,31 @@ class SwinForImageClassification(override val uid: String)
     imageStd -> Array(0.229d, 0.224d, 0.225d),
     resample -> 3,
     size -> 224,
-    rescaleFactor -> 1 / 255.0d)
+    rescaleFactor -> 1 / 255d,
+    cropPct -> 224 / 256d)
+
+  private var _model: Option[Broadcast[ConvNextClassifier]] = None
+
+  /** @group getParam */
+  override def getModelIfNotSet: ConvNextClassifier = _model.get.value
+
+  override def setModelIfNotSet(
+      spark: SparkSession,
+      tensorflow: TensorflowWrapper,
+      preprocessor: Preprocessor): ConvNextForImageClassification.this.type = {
+    if (_model.isEmpty) {
+
+      _model = Some(
+        spark.sparkContext.broadcast(
+          new ConvNextClassifier(
+            tensorflow,
+            configProtoBytes = getConfigProtoBytes,
+            tags = $$(labels),
+            preprocessor = preprocessor,
+            signatures = getSignatures)))
+    }
+    this
+  }
 
   /** Takes a document and annotations and produces new annotations of this annotator's annotation
     * type
@@ -199,7 +212,6 @@ class SwinForImageClassification(override val uid: String)
     */
   override def batchAnnotate(
       batchedAnnotations: Seq[Array[AnnotationImage]]): Seq[Seq[Annotation]] = {
-
     // Zip annotations to the row it belongs to
     val imagesWithRow = batchedAnnotations.zipWithIndex
       .flatMap { case (annotations, i) => annotations.map(x => (x, i)) }
@@ -220,7 +232,8 @@ class SwinForImageClassification(override val uid: String)
             resample = getResample,
             size = getSize,
             do_rescale = getDoRescale,
-            rescale_factor = getRescaleFactor))
+            rescale_factor = getRescaleFactor,
+            crop_pct = Option(getCropPct)))
       } else {
         Seq.empty[Annotation]
       }
@@ -249,39 +262,38 @@ class SwinForImageClassification(override val uid: String)
       spark,
       getModelIfNotSet.tensorflowWrapper,
       "_image_classification",
-      SwinForImageClassification.tfFile,
+      ConvNextForImageClassification.tfFile,
       configProtoBytes = getConfigProtoBytes)
   }
 
 }
 
-trait ReadablePretrainedSwinForImageModel
-    extends ParamsAndFeaturesReadable[SwinForImageClassification]
-    with HasPretrained[SwinForImageClassification] {
-  override val defaultModelName: Some[String] = Some(
-    "image_classifier_swin_base_patch4_window7_224")
+trait ReadablePretrainedConvNextForImageModel
+    extends ParamsAndFeaturesReadable[ConvNextForImageClassification]
+    with HasPretrained[ConvNextForImageClassification] {
+  override val defaultModelName: Some[String] = Some("image_classifier_convnext_tiny_224_local")
 
   /** Java compliant-overrides */
-  override def pretrained(): SwinForImageClassification = super.pretrained()
+  override def pretrained(): ConvNextForImageClassification = super.pretrained()
 
-  override def pretrained(name: String): SwinForImageClassification = super.pretrained(name)
+  override def pretrained(name: String): ConvNextForImageClassification = super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): SwinForImageClassification =
+  override def pretrained(name: String, lang: String): ConvNextForImageClassification =
     super.pretrained(name, lang)
 
   override def pretrained(
       name: String,
       lang: String,
-      remoteLoc: String): SwinForImageClassification = super.pretrained(name, lang, remoteLoc)
+      remoteLoc: String): ConvNextForImageClassification = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadSwinForImageDLModel extends ReadTensorflowModel {
-  this: ParamsAndFeaturesReadable[SwinForImageClassification] =>
+trait ReadConvNextForImageDLModel extends ReadTensorflowModel {
+  this: ParamsAndFeaturesReadable[ConvNextForImageClassification] =>
 
-  override val tfFile: String = "image_classification_swin_tensorflow"
+  override val tfFile: String = "image_classification_convnext_tensorflow"
 
   def readTensorflow(
-      instance: SwinForImageClassification,
+      instance: ConvNextForImageClassification,
       path: String,
       spark: SparkSession): Unit = {
 
@@ -290,20 +302,22 @@ trait ReadSwinForImageDLModel extends ReadTensorflowModel {
     val preprocessor = Preprocessor(
       do_normalize = instance.getDoNormalize,
       do_resize = instance.getDoRescale,
-      feature_extractor_type = "SwinFeatureExtractor",
+      feature_extractor_type = "ConvNextFeatureExtractor",
       image_mean = instance.getImageMean,
       image_std = instance.getImageStd,
       resample = instance.getResample,
       do_rescale = instance.getDoRescale,
       rescale_factor = instance.getRescaleFactor,
-      size = instance.getSize)
+      size = instance.getSize,
+      crop_pct = Option(instance.getCropPct))
 
     instance.setModelIfNotSet(spark, tf, preprocessor)
+
   }
 
   addReader(readTensorflow)
 
-  def loadSavedModel(modelPath: String, spark: SparkSession): SwinForImageClassification = {
+  def loadSavedModel(modelPath: String, spark: SparkSession): ConvNextForImageClassification = {
 
     val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
@@ -318,8 +332,12 @@ trait ReadSwinForImageDLModel extends ReadTensorflowModel {
     val preprocessorConfig =
       Preprocessor.loadPreprocessorConfig(preprocessorConfigJsonContent)
 
-    /*Universal parameters for all engines*/
-    val annotatorModel = new SwinForImageClassification()
+    require(
+      preprocessorConfig.size >= 384 || preprocessorConfig.crop_pct.nonEmpty,
+      "Property \'crop_pct\' should be defined, if size < 384.")
+    val cropPct = preprocessorConfig.crop_pct.get
+
+    val annotatorModel = new ConvNextForImageClassification()
       .setLabels(labelJsonMap)
       .setDoNormalize(preprocessorConfig.do_normalize)
       .setDoResize(preprocessorConfig.do_resize)
@@ -330,6 +348,7 @@ trait ReadSwinForImageDLModel extends ReadTensorflowModel {
       .setSize(preprocessorConfig.size)
       .setDoRescale(preprocessorConfig.do_rescale)
       .setRescaleFactor(preprocessorConfig.rescale_factor)
+      .setCropPct(cropPct)
 
     annotatorModel.set(annotatorModel.engine, detectedEngine)
 
@@ -349,7 +368,6 @@ trait ReadSwinForImageDLModel extends ReadTensorflowModel {
         annotatorModel
           .setSignatures(_signatures)
           .setModelIfNotSet(spark, wrapper, preprocessorConfig)
-
       case _ =>
         throw new Exception(notSupportedEngineError)
     }
@@ -358,9 +376,9 @@ trait ReadSwinForImageDLModel extends ReadTensorflowModel {
   }
 }
 
-/** This is the companion object of [[SwinForImageClassification]]. Please refer to that class for
-  * the documentation.
+/** This is the companion object of [[ConvNextForImageClassification]]. Please refer to that class
+  * for the documentation.
   */
-object SwinForImageClassification
-    extends ReadablePretrainedSwinForImageModel
-    with ReadSwinForImageDLModel
+object ConvNextForImageClassification
+    extends ReadablePretrainedConvNextForImageModel
+    with ReadConvNextForImageDLModel
