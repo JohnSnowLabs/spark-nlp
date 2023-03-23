@@ -24,27 +24,29 @@ import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
 class BartTestSpec extends AnyFlatSpec {
-  "gpt2" should "should handle temperature=0 correctly and not crash when predicting more than 1 element with doSample=True" taggedAs FastTest in {
+  "bart-large-cnn" should "should handle temperature=0 correctly and not crash when predicting more than 1 element with doSample=True" taggedAs FastTest in {
     // Even tough the Paper states temperature in interval [0,1), using temperature=0 will result in division by 0 error.
     // Also DoSample=True may result in infinities being generated and distFiltered.length==0 which results in exception if we don't return 0 instead internally.
     val testData = ResourceHelper.spark
       .createDataFrame(
-        Seq(
-          (
-            1,
-            "PG&E stated it scheduled the blackouts in response to forecasts for high winds " +
-              "amid dry conditions. The aim is to reduce the risk of wildfires. Nearly 800 thousand customers were " +
-              "scheduled to be affected by the shutoffs which were expected to last through at least midday tomorrow.")
-//        (2, "My name is Leonardo and I come from Rome."),
-//        (3, "My name is"),
-//        (4, "What is my name?"),
-//        (5, "Who is Ronaldo?"),
-//        (6, "Who discovered the microscope?"),
-//        (7, "Where does petrol come from?"),
-//        (8, "What is the difference between diesel and petrol?"),
-//        (9, "Where is Sofia?"),
-//        (10, "The priest is convinced that")
-        ))
+        Seq((
+          1,
+          "New York (CNN)When Liana Barrientos was 23 years old, she got married in Westchester County, New York.\nA " +
+            "year later, she got married again in Westchester County, but to a different man and without divorcing her first husband." +
+            "\nOnly 18 days after that marriage, she got hitched yet again. Then, Barrientos declared \"I do\" five more times, sometimes " +
+            "only within two weeks of each other.\nIn 2010, she married once more, this time in the Bronx. In an application for a marriage " +
+            "license, she stated it was her \"first and only\" marriage.\nBarrientos, now 39, is facing two criminal counts of \"offering a " +
+            "false instrument for filing in the first degree,\" referring to her false statements on the\n2010 marriage license application, " +
+            "according to court documents.\nProsecutors said the marriages were part of an immigration scam.\nOn Friday, she pleaded not guilty " +
+            "at State Supreme Court in the Bronx, according to her attorney, Christopher Wright, who declined to comment further.\nAfter leaving court, " +
+            "Barrientos was arrested and charged with theft of service and criminal trespass for allegedly sneaking into the New York subway through an " +
+            "emergency exit, said Detective\nAnnette Markowski, a police spokeswoman. In total, Barrientos has been married 10 times, with nine of her " +
+            "marriages occurring between 1999 and 2002.\nAll occurred either in Westchester County, Long Island, New Jersey or the Bronx. She is believed to" +
+            " still be married to four men, and at one time, she was married to eight men at once, prosecutors say.\nProsecutors said the immigration scam involved " +
+            "some of her husbands, who filed for permanent residence status shortly after the marriages.\nAny divorces happened only after such filings were" +
+            " approved. It was unclear whether any of the men will be prosecuted.\nThe case was referred to the Bronx District Attorney\\'s Office " +
+            "by Immigration and Customs Enforcement and the Department of Homeland Security\\'s\nInvestigation Division. Seven of the men are from so-called" +
+            " \"red-flagged\" countries, including Egypt, Turkey, Georgia, Pakistan and Mali.")))
       .toDF("id", "text")
       .repartition(1)
     val documentAssembler = new DocumentAssembler()
@@ -57,8 +59,10 @@ class BartTestSpec extends AnyFlatSpec {
         ResourceHelper.spark)
       .setTask("summarize:")
       .setInputCols(Array("documents"))
+      .setTopK(50)
       .setDoSample(true)
-      .setMaxOutputLength(50)
+      .setMaxOutputLength(130)
+      .setMinOutputLength(30)
       .setOutputCol("generation")
     new Pipeline()
       .setStages(Array(documentAssembler, gpt2))
@@ -67,79 +71,89 @@ class BartTestSpec extends AnyFlatSpec {
       .show(truncate = false)
 
   }
-
-  "gpt2" should "run SparkNLP pipeline with larger batch size" taggedAs SlowTest in {
+  "bart-large-cnn" should "run SparkNLP pipeline with maxLength=200 " taggedAs FastTest in {
     val testData = ResourceHelper.spark
-      .createDataFrame(Seq(
-        (1, "My name is Leonardo."),
-        (2, "My name is Leonardo and I come from Rome."),
-        (3, "My name is"),
-        (4, "What is my name?"),
-        (5, "Who is Ronaldo?"),
-        (6, "Who discovered the microscope?"),
-        (7, "Where does petrol come from?"),
-        (8, "What is the difference between diesel and petrol?"),
-        (9, "Where is Sofia?"),
-        (10, "The priest is convinced that")))
+      .createDataFrame(
+        Seq(
+          (
+            1,
+            "Preheat the oven to 220°C/ fan200°C/gas 7. Trim the lamb fillet of fat and cut into slices the thickness" +
+              " of a chop. Cut the kidneys in half and snip out the white core. Melt a knob of dripping or 2 tablespoons " +
+              "of vegetable oil in a heavy large pan. Fry the lamb fillet in batches for 3-4 minutes, turning once, until " +
+              "browned. Set aside. Fry the kidneys and cook for 1-2 minutes, turning once, until browned. Set aside." +
+              "Wipe the pan with kitchen paper, then add the butter. Add the onions and fry for about 10 minutes until " +
+              "softened. Sprinkle in the flour and stir well for 1 minute. Gradually pour in the stock, stirring all the " +
+              "time to avoid lumps. Add the herbs. Stir the lamb and kidneys into the onions. Season well. Transfer to a" +
+              " large 2.5-litre casserole. Slice the peeled potatoes thinly and arrange on top in overlapping rows. Brush " +
+              "with melted butter and season. Cover and bake for 30 minutes. Reduce the oven temperature to 160°C" +
+              "/fan140°C/gas 3 and cook for a further 2 hours. Then increase the oven temperature to 200°C/ fan180°C/gas 6," +
+              " uncover, and brush the potatoes with more butter. Cook uncovered for 15-20 minutes, or until golden.")))
       .toDF("id", "text")
-      .repartition(1)
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
       .setOutputCol("documents")
 
-    val gpt2 = GPT2Transformer
-      .pretrained()
+    val t5 = BartTransformer
+      .loadSavedModel(
+        "/home/prabod/Projects/ModelZoo/BART/facebook/bart-large-cnn/saved_model/1",
+        ResourceHelper.spark)
+      .setTask("summarize:")
       .setInputCols(Array("documents"))
-      .setMaxOutputLength(50)
-      .setDoSample(false)
-      .setTopK(50)
-      .setBatchSize(5)
-      .setNoRepeatNgramSize(3)
-      .setOutputCol("generation")
+      .setMaxOutputLength(200)
+      .setOutputCol("summaries")
 
-    val pipeline = new Pipeline().setStages(Array(documentAssembler, gpt2))
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, t5))
 
     val model = pipeline.fit(testData)
     val results = model.transform(testData)
 
-    Benchmark.time("Time to save pipeline the first time", true) {
-      results.select("generation.result").write.mode("overwrite").save("./tmp_gpt_pipeline")
-    }
-
-    Benchmark.time("Time to save pipeline the second time", true) {
-      results.select("generation.result").write.mode("overwrite").save("./tmp_gpt_pipeline")
-    }
-
-    Benchmark.time("Time to generate text", true) {
-      results.select("generation.result").show(truncate = false)
-    }
+    results.select("summaries.result").show(truncate = false)
+    val dataframe = results.select("summaries.result").collect()
+    val result = dataframe.toSeq.head.getAs[Seq[String]](0).head
+    println(result)
+//    assert(
+//      result == "a knob of dripping or 2 tablespoons of vegetable oil in a large large pan . cut the kidneys in half and snip out the white core . heat the pan for 1-2 minutes, turning once, until browned .")
   }
-
-  "gpt2" should "run SparkNLP pipeline with doSample=true " taggedAs SlowTest in {
+  "bart-large-cnn" should "run SparkNLP pipeline with doSample=true " taggedAs FastTest in {
     val testData = ResourceHelper.spark
-      .createDataFrame(Seq((1, "Leonardo Da Vinci invented the wheel?")))
+      .createDataFrame(
+        Seq(
+          (
+            1,
+            "Preheat the oven to 220°C/ fan200°C/gas 7. Trim the lamb fillet of fat and cut into slices the thickness" +
+              " of a chop. Cut the kidneys in half and snip out the white core. Melt a knob of dripping or 2 tablespoons " +
+              "of vegetable oil in a heavy large pan. Fry the lamb fillet in batches for 3-4 minutes, turning once, until " +
+              "browned. Set aside. Fry the kidneys and cook for 1-2 minutes, turning once, until browned. Set aside." +
+              "Wipe the pan with kitchen paper, then add the butter. Add the onions and fry for about 10 minutes until " +
+              "softened. Sprinkle in the flour and stir well for 1 minute. Gradually pour in the stock, stirring all the " +
+              "time to avoid lumps. Add the herbs. Stir the lamb and kidneys into the onions. Season well. Transfer to a" +
+              " large 2.5-litre casserole. Slice the peeled potatoes thinly and arrange on top in overlapping rows. Brush " +
+              "with melted butter and season. Cover and bake for 30 minutes. Reduce the oven temperature to 160°C" +
+              "/fan140°C/gas 3 and cook for a further 2 hours. Then increase the oven temperature to 200°C/ fan180°C/gas 6," +
+              " uncover, and brush the potatoes with more butter. Cook uncovered for 15-20 minutes, or until golden.")))
       .toDF("id", "text")
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
       .setOutputCol("documents")
 
-    val gpt2 = GPT2Transformer
-      .pretrained()
-      .setTask("Is it true that")
+    val t5 = BartTransformer
+      .loadSavedModel(
+        "/home/prabod/Projects/ModelZoo/BART/facebook/bart-large-cnn/saved_model/1",
+        ResourceHelper.spark)
+      .setTask("summarize:")
       .setInputCols(Array("documents"))
       .setDoSample(true)
       .setMaxOutputLength(50)
-      .setOutputCol("generation")
+      .setOutputCol("summaries")
 
-    val pipeline = new Pipeline().setStages(Array(documentAssembler, gpt2))
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, t5))
 
     val model = pipeline.fit(testData)
-
     val dataframe1 = model
       .transform(testData)
-      .select("generation.result")
+      .select("summaries.result")
       .collect()
       .toSeq
       .head
@@ -148,7 +162,7 @@ class BartTestSpec extends AnyFlatSpec {
     println(dataframe1)
     val dataframe2 = model
       .transform(testData)
-      .select("generation.result")
+      .select("summaries.result")
       .collect()
       .toSeq
       .head
@@ -157,49 +171,5 @@ class BartTestSpec extends AnyFlatSpec {
     println(dataframe2)
 
     assert(!dataframe1.equals(dataframe2))
-
   }
-
-  "gpt2" should "run SparkNLP pipeline with doSample=true and fixed random seed " taggedAs SlowTest in {
-    val testData =
-      ResourceHelper.spark.createDataFrame(Seq((1, "Preheat the oven to."))).toDF("id", "text")
-
-    val documentAssembler = new DocumentAssembler()
-      .setInputCol("text")
-      .setOutputCol("documents")
-
-    val gpt2 = GPT2Transformer
-      .pretrained()
-      .setInputCols(Array("documents"))
-      .setDoSample(true)
-      .setMaxOutputLength(50)
-      .setRandomSeed(10)
-      .setOutputCol("generation")
-
-    val pipeline = new Pipeline().setStages(Array(documentAssembler, gpt2))
-
-    val model = pipeline.fit(testData)
-
-    val dataframe1 = model
-      .transform(testData)
-      .select("generation.result")
-      .collect()
-      .toSeq
-      .head
-      .getAs[Seq[String]](0)
-      .head
-    println(dataframe1)
-    val dataframe2 = model
-      .transform(testData)
-      .select("generation.result")
-      .collect()
-      .toSeq
-      .head
-      .getAs[Seq[String]](0)
-      .head
-    println(dataframe2)
-
-    assert(dataframe1.equals(dataframe2))
-  }
-
 }
