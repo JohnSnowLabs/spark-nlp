@@ -18,14 +18,14 @@ package com.johnsnowlabs.ml.ai.util.Generation.Logit
 
 abstract class Logit {
   def call(
-            inputIds: Seq[Array[Int]],
-            scores: Array[Array[Float]],
-            currentLength: Int): Array[Array[Float]]
+      inputIds: Seq[Array[Int]],
+      scores: Array[Array[Float]],
+      currentLength: Int): Array[Array[Float]]
 
   protected def setTensorByIndicesToValue(
-                                           prevInputIds: Array[Float],
-                                           indices: IndexedSeq[Boolean],
-                                           value: Float): Array[Float] = {
+      prevInputIds: Array[Float],
+      indices: IndexedSeq[Boolean],
+      value: Float): Array[Float] = {
     for ((inputId, index) <- prevInputIds.zip(indices)) yield if (index) value else inputId
   }
 }

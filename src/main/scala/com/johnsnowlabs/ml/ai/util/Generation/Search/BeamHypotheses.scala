@@ -23,11 +23,11 @@ class BeamHypotheses(
   private var beams: Seq[(Double, Array[Int], Array[Int])] = Seq()
   private var worstScore: Double = 1e9
 
-  def length():Int = {
+  def length(): Int = {
     beams.length
   }
 
-  def getBeams():Seq[(Double, Array[Int], Array[Int])] ={
+  def getBeams: Seq[(Double, Array[Int], Array[Int])] = {
     this.beams
   }
 
@@ -44,9 +44,10 @@ class BeamHypotheses(
     if (this.beams.length < this.numBeams || score > this.worstScore) {
       this.beams = beams :+ (score, hypotheses, beamIndices)
       if (this.beams.length > this.numBeams) {
-        val sortedNextScores = this.beams.zipWithIndex.sortBy(_._1._1)(Ordering.Double.reverse)
-        this.worstScore = sortedNextScores.head._1._1
+        val sortedNextScores = this.beams.zipWithIndex.sortBy(_._1._1)
+
         this.beams = this.beams.zipWithIndex.filter(_._2 != sortedNextScores.head._2).map(_._1)
+        this.worstScore = sortedNextScores(1)._1._1
       } else {
         this.worstScore = Math.min(score, this.worstScore)
       }

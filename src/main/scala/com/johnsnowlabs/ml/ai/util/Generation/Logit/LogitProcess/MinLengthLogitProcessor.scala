@@ -16,8 +16,12 @@
 
 package com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitProcess
 
-class MinLengthLogitProcessor(val eosTokenId: Int, val minLength: Int, val vocabSize: Int) extends LogitProcessor {
-  override def call(inputIds: Seq[Array[Int]], scores: Array[Array[Float]], currentLength: Int): Array[Array[Float]] = {
+class MinLengthLogitProcessor(val eosTokenId: Int, val minLength: Int, val vocabSize: Int)
+    extends LogitProcessor {
+  override def call(
+      inputIds: Seq[Array[Int]],
+      scores: Array[Array[Float]],
+      currentLength: Int): Array[Array[Float]] = {
     if (!eosTokenId.isNaN && currentLength < this.minLength) {
       // create eosTokenId boolean mask
       val isTokenLogit_eosToken =
@@ -27,15 +31,13 @@ class MinLengthLogitProcessor(val eosTokenId: Int, val minLength: Int, val vocab
       val eosTokenIndices_mask = Array.fill(scores.length)(isTokenLogit_eosToken)
 
       val newScores =
-        for ((nextTokenLogit, bannedTokensIndex_mask) <- scores.zip(
-          eosTokenIndices_mask))
-        yield this.setTensorByIndicesToValue(
-          nextTokenLogit,
-          bannedTokensIndex_mask,
-          Float.NegativeInfinity)
+        for ((nextTokenLogit, bannedTokensIndex_mask) <- scores.zip(eosTokenIndices_mask))
+          yield this.setTensorByIndicesToValue(
+            nextTokenLogit,
+            bannedTokensIndex_mask,
+            Float.NegativeInfinity)
       newScores
-    }
-    else{
+    } else {
       scores
     }
 

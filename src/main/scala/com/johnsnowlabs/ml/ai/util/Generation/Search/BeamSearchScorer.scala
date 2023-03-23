@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.ml.ai.util.Generation.Search
 
-import scala.util.control.Breaks.*
+import scala.util.control.Breaks._
 
 class BeamSearchScorer(
     var beamSize: Int,
@@ -49,8 +49,7 @@ class BeamSearchScorer(
       padTokenId: Int,
       eosTokenId: Int,
       beamIndices: Seq[Array[Int]],
-      currentLength: Int)
-      : (Array[Array[Float]], Array[Array[Int]], Array[Array[Int]]) = {
+      currentLength: Int): (Array[Array[Float]], Array[Array[Int]], Array[Array[Int]]) = {
 //    val currentLength = inputIds.length
     val batchSize = this.beamHypothesesSeq.length
     val nextBeamScores = Array.ofDim[Float](batchSize, this.beamSize)
@@ -59,15 +58,15 @@ class BeamSearchScorer(
 
     this.beamHypothesesSeq.zipWithIndex.foreach { case (hypotheses, batchIdx) =>
       breakable {
-        if (!this.done.contains(false)) {
-          nextBeamScores(batchIdx) = nextBeamScores(batchIdx).map(_ => 0)
+        if (this.done(batchIdx)) {
+          nextBeamScores(batchIdx) = nextBeamScores(batchIdx).map(_ => 0.0f)
           nextBeamTokens(batchIdx) = nextBeamTokens(batchIdx).map(_ => padTokenId)
           nextBeamIndices(batchIdx) = nextBeamIndices(batchIdx).map(_ => 0)
           break
         }
         var beamIdx = 0
         var beamTokenRank = 0
-        while (beamTokenRank < nextScores.head.length && beamIdx < this.beamSize) {
+        while (beamTokenRank < nextScores(batchIdx).length && beamIdx < this.beamSize) {
 
           val nextScore = nextScores(batchIdx)(beamTokenRank)
           val nextToken = nextTokens(batchIdx)(beamTokenRank)
@@ -100,7 +99,7 @@ class BeamSearchScorer(
     (nextBeamScores, nextBeamTokens, nextBeamIndices)
   }
 
-  override protected def finalize(
+  override def finalize(
       inputIds: Seq[Array[Int]],
       finalBeamScores: Array[Float],
       finalBeamTokens: Array[Int],
@@ -133,22 +132,22 @@ class BeamSearchScorer(
     val bestScores = Array.ofDim[Float](batchSize * this.numBeamHypothesisToKeep)
     this.beamHypothesesSeq.zipWithIndex.foreach { case (hypotheses, i) =>
       breakable {
-        var sortedHypotheses = hypotheses.getBeams().sortWith(_._1 < _._1)
+        var sortedHypotheses = hypotheses.getBeams.sortWith(_._1 < _._1)
         for (j <- 0 until this.numBeamHypothesisToKeep) {
           val bestHypothesisTuple = sortedHypotheses.last
-          sortedHypotheses = sortedHypotheses.dropRight(1)
           val bestScore = bestHypothesisTuple._1
           val bestHypothesis = bestHypothesisTuple._2
           val bestIndex = bestHypothesisTuple._3
-          sentLengths(this.numBeamHypothesisToKeep * i * j) = bestHypothesis.length
+          sentLengths(this.numBeamHypothesisToKeep * i + j) = bestHypothesis.length
           best = best :+ bestHypothesis
           bestIndices = bestIndices :+ bestIndex
           bestScores(i * this.numBeamHypothesisToKeep + j) = bestScore.toFloat
+          sortedHypotheses = sortedHypotheses.dropRight(1)
         }
       }
     }
     val sentLengthMax = sentLengths.max + 1
-    val sentMaxLength = Math.min(sentLengthMax, maxLength)
+    val sentMaxLength = Math.min(sentLengthMax, maxLength) + 1
     var decoded = Array.ofDim[Int](batchSize * this.numBeamHypothesisToKeep, sentMaxLength)
     var indices = Array.ofDim[Int](batchSize * this.numBeamHypothesisToKeep, sentMaxLength)
 
@@ -161,7 +160,7 @@ class BeamSearchScorer(
       val bestIdx = bestIndices(i)
       for (j <- 0 until sentLengths(i)) {
         decoded(i)(j) = hypo(j)
-        indices(i)(j) = bestIdx(j)
+//        indices(i)(j) = bestIdx(j)
       }
       if (sentLengths(i) < sentMaxLength) {
         decoded(i)(sentLengths(i)) = eosTokenId

@@ -15,7 +15,7 @@
  */
 
 package com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitWarper
-import scala.math.*
+import scala.math._
 import com.johnsnowlabs.ml.ai.util.Generation.Logit.Logit
 abstract class LogitWarper extends Logit {
 

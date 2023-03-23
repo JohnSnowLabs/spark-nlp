@@ -16,11 +16,7 @@
 
 package com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitWarper
 
-class TopPLogitWarper(
-    val p: Int,
-    val filterValue: Float = Float.NegativeInfinity,
-    val minTokensToKeep: Int = 1)
-    extends LogitWarper {
+class TopPLogitWarper(val p: Double, val minTokensToKeep: Int = 1) extends LogitWarper {
   override def call(
       inputIds: Seq[Array[Int]],
       scores: Array[Array[Float]],
@@ -54,7 +50,8 @@ class TopPLogitWarper(
           .drop(1)
 
       /** scatter sorted tensors to original indexing */
-      val indicesToRemove = this.scatterValuesOnBatchIndices(sortedIndicesToRemove.toList, sortedIndices)
+      val indicesToRemove =
+        this.scatterValuesOnBatchIndices(sortedIndicesToRemove.toList, sortedIndices)
       scoresUpd =
         for ((nextTokenLogit, indexToRemove) <- scores.zip(
             IndexedSeq.fill(scores.length)(indicesToRemove)))

@@ -23,24 +23,28 @@ class NoRepeatNgramsLogitProcessor(val noRepeatNgramSize: Int, val vocabSize: In
       inputIds: Seq[Array[Int]],
       scores: Array[Array[Float]],
       currentLength: Int): Array[Array[Float]] = {
+    if (noRepeatNgramSize > 0) {
 
-    val bannedTokens =
-      calcBannedNgramTokens(inputIds, inputIds.length, this.noRepeatNgramSize, currentLength)
-    // create bannedTokens boolean mask
-    var bannedTokensIndicesMask = Array.empty[IndexedSeq[Boolean]]
-    for (bannedTokensSlice <- bannedTokens) {
-      bannedTokensIndicesMask = bannedTokensIndicesMask :+
-        (for (token <- 0 until this.vocabSize)
-          yield if (bannedTokensSlice.contains(token)) true else false)
-    }
-    if (!bannedTokensIndicesMask.isEmpty) {
-      val nextTokenLogits =
-        for ((nextTokenLogit, bannedTokensIndexMask) <- scores.zip(bannedTokensIndicesMask))
-          yield setTensorByIndicesToValue(
-            nextTokenLogit,
-            bannedTokensIndexMask,
-            Float.NegativeInfinity)
-      nextTokenLogits
+      val bannedTokens =
+        calcBannedNgramTokens(inputIds, inputIds.length, this.noRepeatNgramSize, currentLength)
+      // create bannedTokens boolean mask
+      var bannedTokensIndicesMask = Array.empty[IndexedSeq[Boolean]]
+      for (bannedTokensSlice <- bannedTokens) {
+        bannedTokensIndicesMask = bannedTokensIndicesMask :+
+          (for (token <- 0 until this.vocabSize)
+            yield if (bannedTokensSlice.contains(token)) true else false)
+      }
+      if (!bannedTokensIndicesMask.isEmpty) {
+        val nextTokenLogits =
+          for ((nextTokenLogit, bannedTokensIndexMask) <- scores.zip(bannedTokensIndicesMask))
+            yield setTensorByIndicesToValue(
+              nextTokenLogit,
+              bannedTokensIndexMask,
+              Float.NegativeInfinity)
+        nextTokenLogits
+      } else {
+        scores
+      }
     } else {
       scores
     }

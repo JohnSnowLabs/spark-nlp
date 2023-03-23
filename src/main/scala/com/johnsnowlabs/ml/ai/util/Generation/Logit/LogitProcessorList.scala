@@ -15,9 +15,10 @@
  */
 
 package com.johnsnowlabs.ml.ai.util.Generation.Logit
-
+import com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitProcess.LogitProcessor
+import com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitWarper.LogitWarper
 class LogitProcessorList {
-  var logitProcesses: List[Logit] = List()
+  private var logitProcesses: List[Logit] = List()
 
   def addProcess(process: Logit): Unit = {
     logitProcesses = logitProcesses :+ process
@@ -29,7 +30,22 @@ class LogitProcessorList {
       currentLength: Int): Array[Array[Float]] = {
     var tempScores = scores
     logitProcesses.foreach(p => {
-      tempScores = p.call(inputIds, tempScores, currentLength)
+      if (p.isInstanceOf[LogitProcessor]) {
+        tempScores = p.call(inputIds, tempScores, currentLength)
+      }
+    })
+    tempScores
+  }
+
+  def warp(
+      inputIds: Seq[Array[Int]],
+      scores: Array[Array[Float]],
+      currentLength: Int): Array[Array[Float]] = {
+    var tempScores = scores
+    logitProcesses.foreach(p => {
+      if (p.isInstanceOf[LogitWarper]) {
+        tempScores = p.call(inputIds, tempScores, currentLength)
+      }
     })
     tempScores
   }
