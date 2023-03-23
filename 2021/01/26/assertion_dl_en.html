@@ -551,28 +551,25 @@
 
 <h2 id="results">Results</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+--------------------+---------+---------+
-|               chunk|ner_label|assertion|
-+--------------------+---------+---------+
-|                 Kir|     TEST|  present|
-|               GIRK3|     TEST|  present|
-|  chromosome 1q21-23|TREATMENT|  present|
-|a candidate gene ...|  PROBLEM| possible|
-|        coding exons|     TEST|   absent|
-|     byapproximately|     TEST|  present|
-|             introns|     TEST|   absent|
-|single nucleotide...|  PROBLEM|  present|
-|aVal366Ala substi...|TREATMENT|  present|
-|      an 8 base-pair|  PROBLEM|  present|
-|                 bp<span class="o">)</span>|     TEST|  present|
-|Ourexpression stu...|     TEST|  present|
-|The characterizat...|     TEST|  present|
-|      furtherstudies|TREATMENT|  present|
-|       KCNJ9 protein|     TEST|  present|
-|          evaluation|     TEST|  present|
-+--------------------+---------+---------+
-
-</code></pre></div></div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----------------------------------------------------------+---------+-----------+
+|chunk                                                      |ner_label|assertion  |
++-----------------------------------------------------------+---------+-----------+
+|the G-protein-activated inwardly rectifying potassium <span class="o">(</span>GIRK|TREATMENT|conditional|
+|the genomicorganization                                    |TREATMENT|present    |
+|a candidate gene forType II diabetes mellitus              |PROBLEM  |present    |
+|byapproximately                                            |TREATMENT|present    |
+|single nucleotide polymorphisms                            |TREATMENT|present    |
+|aVal366Ala substitution                                    |TREATMENT|present    |
+|insertion/deletion                                         |PROBLEM  |present    |
+|<span class="s1">'Ourexpression studies                                     |TEST     |present    |
+|the transcript in various humantissues                     |PROBLEM  |present    |
+|fat andskeletal muscle                                     |PROBLEM  |possible   |
+|furtherstudies                                             |PROBLEM  |present    |
+|the KCNJ9 protein                                          |TREATMENT|present    |
+|evaluation                                                 |TEST     |possible   |
+|Type II diabetes                                           |PROBLEM  |present    |
++-----------------------------------------------------------+---------+-----------+
+</span></code></pre></div></div>
 
 <h2 class="model-param" id="model-information">Model Information</h2>
 
