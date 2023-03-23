@@ -16,14 +16,26 @@
 
 package com.johnsnowlabs.ml.ai
 
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper
-import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
+import com.johnsnowlabs.ml.ai.util.Generation.Generate
+import com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitProcess.{
+  MinLengthLogitProcessor,
+  NoRepeatNgramsLogitProcessor,
+  RepetitionPenaltyLogitProcessor
+}
+import com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitProcessorList
+import com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitWarper.{
+  TemperatureLogitWarper,
+  TopKLogitWarper,
+  TopPLogitWarper
+}
+import com.johnsnowlabs.ml.ai.util.Generation.Search.BeamSearchScorer
+import com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureManager
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
+import com.johnsnowlabs.nlp.annotators.common.SentenceSplit
 import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.BartTokenizer
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
-import org.tensorflow.{Session, Tensor}
 import com.johnsnowlabs.nlp.annotators.common.{Sentence, SentenceSplit}
-import com.johnsnowlabs.ml.ai.util.Generation.Generate
+
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 import scala.math._
@@ -44,31 +56,34 @@ private[johnsnowlabs] class Bart(
     val bpeTokenizer: BartTokenizer,
     configProtoBytes: Option[Array[Byte]] = None,
     signatures: Option[Map[String, String]] = None)
-    extends Serializable with Generate {
+    extends Serializable
+    with Generate {
 
   private val _tfT5Signatures: Map[String, String] =
     signatures.getOrElse(ModelSignatureManager.apply())
   private val paddingTokenId = 1
   private val eosTokenId = 2
+  private val vocab_size = 50264
 //  private val pieceSize = spp.getSppModel.getPieceSize
 //
-//  private def sessionWarmup(): Unit = {
-//    val dummyInput = Array.fill(1)(0) ++ Array(eosTokenId)
-//    tag(
-//      Seq(dummyInput),
-//      minOutputLength = 0,
-//      maxOutputLength = 1,
-//      doSample = false,
-//      temperature = 0f,
-//      topK = 0,
-//      topP = 0f,
-//      repetitionPenalty = 0f,
-//      noRepeatNgramSize = 0,
-//      randomSeed = Option(0L),
-//      ignoreTokenIds = Array(0))
-//  }
-//
-//  sessionWarmup()
+  private def sessionWarmup(): Unit = {
+    val dummyInput = Array.fill(1)(0) ++ Array(eosTokenId)
+    tag(
+      Seq(dummyInput),
+      minOutputLength = 0,
+      maxOutputLength = 1,
+      doSample = false,
+      temperature = 0f,
+      topK = 0,
+      topP = 0f,
+      repetitionPenalty = 0f,
+      noRepeatNgramSize = 0,
+      randomSeed = Option(0L),
+      ignoreTokenIds = Array(0),
+      beamSize = 1)
+  }
+
+  sessionWarmup()
 
   def tag(
       batch: Seq[Array[Int]],
@@ -81,18 +96,34 @@ private[johnsnowlabs] class Bart(
       repetitionPenalty: Double,
       noRepeatNgramSize: Int,
       randomSeed: Option[Long],
-      ignoreTokenIds: Array[Int] = Array()): Array[Array[Int]] = {
+      ignoreTokenIds: Array[Int] = Array(),
+      beamSize: Int): Array[Array[Int]] = {
 
 //    runner
 //      .feed("serving_default_input_ids:0", encoderInputTensors)
 //      .feed("serving_default_attention_mask:0", encoderAttentionMaskTensors)
 //      .fetch("StatefulPartitionedCall_1:0")
+//
+//    val modelOutputs = generateNoBeamSearch(
+//      batch,
+//      maxOutputLength,
+//      minOutputLength,
+//      doSample,
+//      temperature,
+//      topK,
+//      topP,
+//      repetitionPenalty,
+//      noRepeatNgramSize,
+//      randomSeed,
+//      ignoreTokenIds)
 
-    val modelOutputs = generateNoBeamSearch(
+    val modelOutputs = generateBeamSearch(
       batch,
       maxOutputLength,
       minOutputLength,
       doSample,
+      beamSize,
+      1,
       temperature,
       topK,
       topP,
@@ -104,6 +135,54 @@ private[johnsnowlabs] class Bart(
 //    tensorEncoder.clearTensors()
     modelOutputs
 
+  }
+
+  def generateBeamSearch(
+      inputIds: Seq[Array[Int]],
+      maxOutputLength: Int,
+      minOutputLength: Int,
+      doSample: Boolean,
+      beamSize: Int,
+      numReturnSequences: Int,
+      temperature: Double,
+      topK: Int,
+      topP: Double,
+      repetitionPenalty: Double,
+      noRepeatNgramSize: Int,
+      randomSeed: Option[Long],
+      ignoreTokenIds: Array[Int] = Array()): Array[Array[Int]] = {
+    var decoderInputs = inputIds.map(_ => Array(this.eosTokenId)).toArray
+    var logitProcessorList = new LogitProcessorList()
+    logitProcessorList.addProcess(new RepetitionPenaltyLogitProcessor(repetitionPenalty))
+    logitProcessorList.addProcess(
+      new NoRepeatNgramsLogitProcessor(
+        noRepeatNgramSize = noRepeatNgramSize,
+        vocabSize = this.vocab_size))
+    logitProcessorList.addProcess(
+      new MinLengthLogitProcessor(this.eosTokenId, minOutputLength, this.vocab_size))
+    logitProcessorList.addProcess(new TemperatureLogitWarper(temperature))
+    logitProcessorList.addProcess(new TopKLogitWarper(topK))
+    logitProcessorList.addProcess(new TopPLogitWarper(topP))
+    var beamSearchScorer = new BeamSearchScorer(
+      beamSize = beamSize,
+      batchSize = inputIds.length,
+      lengthPenalty = repetitionPenalty.toFloat,
+      doEarlyStopping = true,
+      numBeamHypothesisToKeep = numReturnSequences)
+    var randomSeeder: Long = 42
+    if (randomSeed.isDefined) {
+      randomSeeder = randomSeed.get
+    }
+    this.beamSearch(
+      inputIds,
+      decoderInputs,
+      beamSearchScorer,
+      logitProcessorList,
+      maxOutputLength,
+      this.paddingTokenId,
+      this.eosTokenId,
+      doSample,
+      randomSeeder)
   }
 
   def generateNoBeamSearch(
@@ -221,12 +300,6 @@ private[johnsnowlabs] class Bart(
       val decoderOutputs = TensorResources
         .extractFloats(decoderOuts.head)
         .grouped(vocab_size)
-
-
-
-
-
-
         .toArray
         .grouped(decoderInputLength)
         .toArray
@@ -348,6 +421,7 @@ private[johnsnowlabs] class Bart(
         || (decoderInputs.head.length > maxOutputLength))
 
     }
+    tensorEncoder.clearTensors()
     decoderInputs
   }
 
@@ -501,11 +575,11 @@ private[johnsnowlabs] class Bart(
     initArray.toList
   }
 
-  private def softmax(values: Array[Float]): Array[Float] = {
-    val expElem = values.map(exp(_))
-    val total = expElem.sum
-    expElem.map(_ / total).map(_.toFloat)
-  }
+//  private def softmax(values: Array[Float]): Array[Float] = {
+//    val expElem = values.map(exp(_))
+//    val total = expElem.sum
+//    expElem.map(_ / total).map(_.toFloat)
+//  }
 
   private def setTensorByIndicesToValue(
       prevInputIds: Array[Float],
@@ -551,13 +625,13 @@ private[johnsnowlabs] class Bart(
       .unpack(sentences)
       .map(s => {
         val sentWithTask =
-          if (task.nonEmpty)
-            new Sentence(
-              content = task.concat(" ").concat(s.content),
-              start = s.start,
-              end = s.end + task.length + 1,
-              index = s.index,
-              metadata = s.metadata)
+          if (task.nonEmpty) s
+//            new Sentence(
+//              content = task.concat(" ").concat(s.content),
+//              start = s.start,
+//              end = s.end + task.length + 1,
+//              index = s.index,
+//              metadata = s.metadata)
           else s
         bpeTokenizer.tokenize(sentWithTask).map(bpeTokenizer.encode).flatMap(_.map(_.pieceId))
       })
@@ -576,7 +650,8 @@ private[johnsnowlabs] class Bart(
       noRepeatNgramSize: Int,
       task: String,
       randomSeed: Option[Long] = None,
-      ignoreTokenIds: Array[Int] = Array()): Seq[Annotation] = {
+      ignoreTokenIds: Array[Int] = Array(),
+      beamSize: Int): Seq[Annotation] = {
 
     val batchDecoder = sentences.grouped(batchSize).toArray.flatMap { batch =>
       val batchSP = encode(batch, task)
@@ -591,7 +666,8 @@ private[johnsnowlabs] class Bart(
         repetitionPenalty,
         noRepeatNgramSize,
         randomSeed,
-        ignoreTokenIds)
+        ignoreTokenIds,
+        beamSize)
 
       decode(spIds)
 
@@ -611,5 +687,106 @@ private[johnsnowlabs] class Bart(
     }
   }
 
-  override def getModelOutput(inputIds: Seq[Array[Int]]): Array[Array[Float]] = ???
+  override def getModelOutput(
+      encoderInputIds: Seq[Array[Int]],
+      decoderInputIds: Seq[Array[Int]],
+      maxLength: Int): Array[Array[Float]] = {
+    val sequencesLength = encoderInputIds.map(x => x.length).toArray
+    var maxSentenceLength = sequencesLength.max // - curLen
+    maxSentenceLength = max(maxSentenceLength, maxLength)
+    val vocab_size = this.vocab_size
+    val doSample = true
+    // Run encoder
+    val tensorEncoder = new TensorResources()
+    val inputDim = encoderInputIds.length * maxSentenceLength
+
+    val encoderInputBuffers = tensorEncoder.createIntBuffer(inputDim)
+    val encoderAttentionMaskBuffers = tensorEncoder.createIntBuffer(inputDim)
+
+    val shape = Array(encoderInputIds.length.toLong, maxSentenceLength)
+
+    encoderInputIds.zipWithIndex.foreach { case (tokenIds, idx) =>
+      val offset = idx * maxSentenceLength
+      val diff = maxSentenceLength - tokenIds.length
+
+      val s = tokenIds.take(maxSentenceLength) ++ Array.fill[Int](diff)(this.paddingTokenId)
+      encoderInputBuffers.offset(offset).write(s)
+      val mask = s.map(x => if (x != this.paddingTokenId) 1 else 0)
+      encoderAttentionMaskBuffers.offset(offset).write(mask)
+    }
+
+    val encoderInputTensors = tensorEncoder.createIntBufferTensor(shape, encoderInputBuffers)
+    val encoderAttentionMaskTensors =
+      tensorEncoder.createIntBufferTensor(shape, encoderAttentionMaskBuffers)
+
+    val session = tensorflow.getTFSessionWithSignature(
+      configProtoBytes = configProtoBytes,
+      initAllTables = false,
+      savedSignatures = signatures)
+
+    var decoderInputs = decoderInputIds
+    val decoderInputLength = decoderInputs.head.length
+    val tensorDecoder = new TensorResources()
+
+    val decoderInputBuffers =
+      tensorDecoder.createIntBuffer(inputDim)
+    val decoderAttentionBuffers =
+      tensorDecoder.createIntBuffer(inputDim)
+
+    decoderInputs.zipWithIndex.foreach { case (pieceIds, idx) =>
+      val offset = idx * maxSentenceLength
+      val diff = maxSentenceLength - pieceIds.length
+
+      val s = pieceIds.take(maxSentenceLength) ++ Array.fill[Int](diff)(this.paddingTokenId)
+      decoderInputBuffers.offset(offset).write(s)
+
+      val paddingMasks = s.map(x => if (x != this.paddingTokenId) 1 else 0)
+      decoderAttentionBuffers.offset(offset).write(paddingMasks)
+    }
+    val decoderInputTensors = tensorDecoder.createIntBufferTensor(shape, decoderInputBuffers)
+    val decoderAttentionMaskTensors =
+      tensorDecoder.createIntBufferTensor(shape, decoderAttentionBuffers)
+    val runner = session.runner
+
+    // TODO add past to the model and use cache
+    runner
+      .feed("serving_default_input_ids:0", encoderInputTensors)
+      .feed("serving_default_attention_mask:0", encoderAttentionMaskTensors)
+      .feed("serving_default_decoder_input_ids:0", decoderInputTensors)
+      .feed("serving_default_decoder_attention_mask:0", decoderAttentionMaskTensors)
+      //        .feed("serving_default_decoder_encoder_state:0", decoderEncoderStateTensors)
+      //        .feed(
+      //          "serving_default_decoder_decoder_encoder_attention_mask:0:0",
+      //          encoderAttentionMaskTensors)
+      .fetch("StatefulPartitionedCall_1:1")
+
+    val decoderOuts = runner.run().asScala
+//    val decoderOutputs = TensorResources
+//      .extractFloats(decoderOuts.head)
+//      .grouped(vocab_size)
+//      .toArray
+//      .grouped(decoderInputLength)
+//      .toArray
+//      .grouped(decoderInputs.length)
+//      .toArray
+    val decoderOutputs = TensorResources
+      .extractFloats(decoderOuts.head)
+      .grouped(vocab_size)
+      .toArray
+      .grouped(maxSentenceLength)
+      .toArray
+
+    var nextTokenLogits =
+      for (decoderOutput <- decoderOutputs) yield decoderOutput(decoderInputLength - 1)
+
+//    val nextTokenLogits = for (decoderOutput <- decoderOutputs) yield decoderOutput.last
+//    val nextTokenLogits = lastOut.last
+//      for (tokens <- decoderOutput) yield tokens.last
+//    }
+    tensorDecoder.clearTensors()
+    tensorDecoder.clearSession(decoderOuts)
+    decoderInputTensors.close()
+    tensorEncoder.clearTensors()
+    nextTokenLogits
+  }
 }
