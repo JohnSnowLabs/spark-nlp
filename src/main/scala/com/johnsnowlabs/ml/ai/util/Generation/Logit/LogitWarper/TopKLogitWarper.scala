@@ -31,17 +31,17 @@ class TopKLogitWarper(
       val topKup = k.max(minTokensToKeep).min(logitsShape.last) // Safety check
 
       /** Remove all tokens with a probability less than the last token of the top-k */
-      val removeLimit = scores(0).sortWith(_ > _).take(topKup).min
-      val indicesToRemove =
-        for (logit <- scores)
-          yield for (elem <- logit) yield if (elem < removeLimit) true else false
+
+      val topkInd = scores.map(x => x.sortWith(_ > _).take(topKup))
+      val indicesToRemove = scores.zipWithIndex.map {
+        case (logit, ind) => {
+          for (elem <- logit) yield if (topkInd(ind).contains(elem)) false else true
+        }
+      }
 
       logitsUpd =
         for ((nextTokenLogit, indexToRemove) <- scores.zip(indicesToRemove))
-          yield this.setTensorByIndicesToValue(
-            nextTokenLogit,
-            indexToRemove,
-            Float.NegativeInfinity)
+          yield this.setTensorByIndicesToValue(nextTokenLogit, indexToRemove, filterValue)
     }
     logitsUpd
   }

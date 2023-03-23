@@ -21,24 +21,28 @@ class RepetitionPenaltyLogitProcessor(val penalty: Double) extends LogitProcesso
       inputIds: Seq[Array[Int]],
       scores: Array[Array[Float]],
       currentLength: Int): Array[Array[Float]] = {
-    val nextTokenscores = Array.ofDim[Array[Float]](scores.length)
+    if (penalty != 1.0) {
+      val nextTokenscores = Array.ofDim[Array[Float]](scores.length)
 
-    for (i <- scores.indices) {
-      var nextTokenLogit = scores(i)
-      val prevInputIds = inputIds.head.distinct
-      for ((prevInputId, _) <- prevInputIds.zipWithIndex) {
-        var logitPenalty = 1.0
-        if (scores(i)(prevInputId) < 0) {
-          logitPenalty = this.penalty
-        } else {
-          logitPenalty = 1 / this.penalty
+      for (i <- scores.indices) {
+        var nextTokenLogit = scores(i)
+        val prevInputIds = inputIds.head.distinct
+        for ((prevInputId, _) <- prevInputIds.zipWithIndex) {
+          var logitPenalty = 1.0
+          if (scores(i)(prevInputId) < 0) {
+            logitPenalty = this.penalty
+          } else {
+            logitPenalty = 1 / this.penalty
+          }
+          nextTokenLogit = nextTokenLogit.updated(
+            prevInputId,
+            (logitPenalty * nextTokenLogit(prevInputId)).toFloat)
         }
-        nextTokenLogit = nextTokenLogit.updated(
-          prevInputId,
-          (logitPenalty * nextTokenLogit(prevInputId)).toFloat)
+        nextTokenscores(i) = nextTokenLogit
       }
-      nextTokenscores(i) = nextTokenLogit
+      nextTokenscores
+    } else {
+      scores
     }
-    nextTokenscores
   }
 }
