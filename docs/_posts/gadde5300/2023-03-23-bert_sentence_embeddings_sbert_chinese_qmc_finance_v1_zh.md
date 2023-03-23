@@ -7,7 +7,7 @@ date: 2023-03-23
 tags: [bert, zh, embeddings, sentence, open_source, tensorflow]
 task: Embeddings
 language: zh
-edition: Spark NLP 4.3.2
+edition: Spark NLP 4.4.0
 spark_version: 3.0
 supported: true
 engine: tensorflow
