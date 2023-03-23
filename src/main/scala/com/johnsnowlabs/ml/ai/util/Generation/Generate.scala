@@ -38,14 +38,6 @@ trait Generate {
     val batchBeamSize = batchSize * numBeams
     var currentLength = inputIds.head.length
 
-//    if (numBeams * batchSize != batchBeamSize) {
-//      throw new Exception(
-//        "Batch dimension of `input_ids` should be {num_beams * batch_size}, but is {batch_beam_size}.")
-//    }
-
-    //    var beamScores = Array.ofDim[Double](batchSize, numBeams)
-    //    beamScores = beamScores.map(x =>
-    //      x.zipWithIndex.map { case (_, ind) => { if (ind % numBeams == 0) 0 else -1e-9 } })
     var beamScores = Array.ofDim[Float](batchSize * numBeams)
     beamScores = beamScores.zipWithIndex.map { case (_, ind) =>
       if (ind % numBeams == 0) 0 else (-1e-9).toFloat
@@ -246,32 +238,6 @@ trait Generate {
 
     selectedIndices
   }
-
-//  def multinomialSampling(logitValues: Array[Float], k: Int, seed: Long = 42): Array[Int] = {
-////    val n = logitValues.length
-////    val (distFiltered, indices) =
-////      logitValues.zipWithIndex.filter { case (elem, index) => !elem.isInfinite }.sorted.unzip
-//
-//    val maxLogit = logitValues.max
-//    val logitsExp = logitValues.map(logit => math.exp(logit - maxLogit))
-//    val sumExp = logitsExp.sum
-//    val probs = logitsExp.map(exp => (exp / sumExp).toFloat)
-////    val probs = softmax(distFiltered)
-//    val cdf = getCDF(probs)
-//    val rand = new scala.util.Random(seed)
-//    val samples = Array.ofDim[Int](k)
-//
-//    for (i <- 0 until k) {
-//      val u = rand.nextDouble()
-//      var j = 0
-//      while (u > cdf(j)) {
-//        j += 1
-//      }
-//      samples(i) = j
-//      cdf(j) = 0.0f // remove probability mass for sampling without replacement
-//    }
-//    samples
-//  }
 
   def softmax(logitValues: Array[Float]): Array[Float] = {
     val maxLogit = logitValues.max
