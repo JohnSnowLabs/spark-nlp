@@ -98,7 +98,9 @@
           <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "vaccinations" %} class="active"  {% endif %} {% endfor %} {% endif %} >
             <a href="/vaccinations">Vaccinations</a>
           </li>
-        </ul> 
+        </ul>        
+      </div>
+      <div class="col-side">    
         <ul class="acc-top"><li class="acc-top-item">Biomedical NLP<i class="fas fa-chevron-down"></i></li></ul>
         <ul class="acc-body">          
           <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "genes_variants_phenotypes" %} class="active"  {% endif %} {% endfor %} {% endif %} >
@@ -119,7 +121,31 @@
           <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "analyze_medical_text_spanish" %} class="active"  {% endif %} {% endfor %} {% endif %} >
             <a href="/analyze_medical_text_spanish">Spanish</a>
           </li>
-        </ul> 
+        </ul>     
+        <ul class="acc-top"><li class="acc-top-item">Visual NLP<i class="fas fa-chevron-down"></i></li></ul>
+        <ul class="acc-body">          
+          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "extract_text_from_documents" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+            <a href="/extract_text_from_documents">Extract Text from Documents</a>
+          </li>
+          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "extract_tables" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+            <a href="/extract_tables">Extract Tables</a>
+          </li>
+          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "visual_document_understanding" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+            <a href="/visual_document_understanding">Visual Document Understanding</a>
+          </li>
+          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "financial_document_understanding" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+            <a href="/financial_document_understanding">Financial Document Understanding</a>
+          </li>
+          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "extract_handwritten_texts" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+            <a href="/extract_handwritten_texts">Extract handwritten texts</a>
+          </li>
+          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "enhance_low_quality_images" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+            <a href="/enhance_low_quality_images">Enhance Low-Quality Images</a>
+          </li>
+          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "analyze_non_english_text_documents" %} class="active"  {% endif %} {% endfor %} {% endif %} >
+            <a href="/analyze_non_english_text_documents">Analyze Non-English Text &amp; Documents</a>
+          </li>
+        </ul>                
       </div>
       <div class="col-side">
         <ul class="acc-top"><li class="acc-top-item">Finance NLP<i class="fas fa-chevron-down"></i></li></ul>
@@ -181,33 +207,7 @@
           <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "long_document_splitting" %} class="active"  {% endif %} {% endfor %} {% endif %} >
             <a href="/long_document_splitting">Long Document Splitting</a>
           </li>
-        </ul>              
-      </div>
-      <div class="col-side">
-        <ul class="acc-top"><li class="acc-top-item">Visual NLP<i class="fas fa-chevron-down"></i></li></ul>
-        <ul class="acc-body">          
-          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "extract_text_from_documents" %} class="active"  {% endif %} {% endfor %} {% endif %} >
-            <a href="/extract_text_from_documents">Extract Text from Documents</a>
-          </li>
-          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "extract_tables" %} class="active"  {% endif %} {% endfor %} {% endif %} >
-            <a href="/extract_tables">Extract Tables</a>
-          </li>
-          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "visual_document_understanding" %} class="active"  {% endif %} {% endfor %} {% endif %} >
-            <a href="/visual_document_understanding">Visual Document Understanding</a>
-          </li>
-          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "financial_document_understanding" %} class="active"  {% endif %} {% endfor %} {% endif %} >
-            <a href="/financial_document_understanding">Financial Document Understanding</a>
-          </li>
-          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "extract_handwritten_texts" %} class="active"  {% endif %} {% endfor %} {% endif %} >
-            <a href="/extract_handwritten_texts">Extract handwritten texts</a>
-          </li>
-          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "enhance_low_quality_images" %} class="active"  {% endif %} {% endfor %} {% endif %} >
-            <a href="/enhance_low_quality_images">Enhance Low-Quality Images</a>
-          </li>
-          <li {% if _section.secheader %} {% for child in _section.secheader %} {% if child.activemenu == "analyze_non_english_text_documents" %} class="active"  {% endif %} {% endfor %} {% endif %} >
-            <a href="/analyze_non_english_text_documents">Analyze Non-English Text &amp; Documents</a>
-          </li>
-        </ul>          
+        </ul>   
       </div>
     </div>
   </div>
