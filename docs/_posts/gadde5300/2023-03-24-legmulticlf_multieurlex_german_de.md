@@ -65,7 +65,7 @@ model = pipeline.fit(empty_data)
 
 light_model = nlp.LightPipeline(model)
 
-result = light_model.annotate(ENTSCHEIDUNG DER KOMMISSION
+result = light_model.annotate("""ENTSCHEIDUNG DER KOMMISSION
 vom 6. März 2006
 zur Festlegung der Brandverhaltensklassen für bestimmte Bauprodukte (Holzfußböden sowie Wand- und Deckenbekleidungen aus Massivholz)
 (Bekannt gegeben unter Aktenzeichen K(2006) 655)
@@ -100,7 +100,7 @@ Artikel 3
 Die Produkte werden - sofern relevant - in Bezug auf ihre Endanwendung betrachtet.
 Artikel 4
 Diese Entscheidung ist an die Mitgliedstaaten gerichtet.
-Brüssel, den 6. März 2006)
+Brüssel, den 6. März 2006""")
 
 ```
 
