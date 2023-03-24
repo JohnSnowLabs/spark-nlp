@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This is a Multilabel Text Classification model that can help you classify 16 types of legal documents.
+This is a Multilabel Text Classification model that can help you classify 17 types of  French legal documents.
 
 ## Predicted Entities
 
