@@ -37,52 +37,57 @@ This model maps clinical entities and concepts (like drugs/ingredients) to RxNor
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler()\
-.setInputCol("text")\
-.setOutputCol("ner_chunk")
+  .setInputCol("text")\
+  .setOutputCol("ner_chunk")
 
 sbert_embedder = BertSentenceEmbeddings\
-.pretrained("sbiobert_base_cased_mli", "en","clinical/models")\
-.setInputCols(["ner_chunk"])\
-.setOutputCol("sbert_embeddings")
+  .pretrained("sbiobert_base_cased_mli", "en","clinical/models")\
+  .setInputCols(["ner_chunk"])\
+  .setOutputCol("sbert_embeddings")
 
 rxnorm_resolver = SentenceEntityResolverModel\
-.pretrained("sbiobertresolve_rxnorm_augmented", "en", "clinical/models")\
-.setInputCols(["ner_chunk", "sbert_embeddings"])\
-.setOutputCol("rxnorm_code")\
-.setDistanceFunction("EUCLIDEAN")
+  .pretrained("sbiobertresolve_rxnorm_augmented", "en", "clinical/models")\
+  .setInputCols("sbert_embeddings")\
+  .setOutputCol("rxnorm_code")\
+  .setDistanceFunction("EUCLIDEAN")
 
-rxnorm_pipeline = Pipeline(
-stages = [
-documentAssembler,
-sbert_embedder,
-rxnorm_resolver])
+rxnorm_pipeline = Pipeline(stages = [
+  documentAssembler,
+  sbert_embedder,
+  rxnorm_resolver])
 
-light_model = LightPipeline(rxnorm_pipeline)
+model = rxnorm_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
 
-result = light_model.fullAnnotate(["Coumadin 5 mg", "aspirin", ""avandia 4 mg"])
+light_model = LightPipeline(model)
+
+result = light_model.fullAnnotate(["Coumadin 5 mg", "aspirin", "avandia 4 mg"])
 ```
 ```scala
-val documentAssembler = DocumentAssembler()
-.setInputCol("text")
-.setOutputCol("ner_chunk")
+val documentAssembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("ner_chunk")
 
 val sbert_embedder = BertSentenceEmbeddings
-.pretrained("sbiobert_base_cased_mli", "en","clinical/models")
-.setInputCols(Array("ner_chunk"))
-.setOutputCol("sbert_embeddings")
+    .pretrained("sbiobert_base_cased_mli", "en","clinical/models")
+    .setInputCols(Array("ner_chunk"))
+    .setOutputCol("sbert_embeddings")
 
-val rxnorm_resolver = SentenceEntityResolverModel.pretrained("sbiobertresolve_rxnorm_augmented_cased", "en", "clinical/models") \
-.setInputCols(Array("sbert_embeddings")) \
-.setOutputCol("rxnorm_code")\
-.setDistanceFunction("EUCLIDEAN")
+val rxnorm_resolver = SentenceEntityResolverModel
+    .pretrained("sbiobertresolve_rxnorm_augmented_cased", "en", "clinical/models")
+    .setInputCols("sbert_embeddings")
+    .setOutputCol("rxnorm_code")
+    .setDistanceFunction("EUCLIDEAN")
 
-val rxnorm_pipelineModel = new PipelineModel().setStages(Array(documentAssembler, sbert_embedder, rxnorm_resolver))
+val rxnorm_pipelineModel = new PipelineModel().setStages(Array(documentAssembler, 
+                                                               sbert_embedder, 
+                                                               rxnorm_resolver))
 
-val light_model = LightPipeline(rxnorm_pipelineModel)
+val data = Seq(Array("Coumadin 5 mg", "aspirin", ""avandia 4 mg")).toDS.toDF("text")
 
-val result = light_model.fullAnnotate(Array("Coumadin 5 mg", "aspirin", ""avandia 4 mg"))
+val result= rxnorm_pipelineModel.fit(data).transform(data)
 ```
 
 

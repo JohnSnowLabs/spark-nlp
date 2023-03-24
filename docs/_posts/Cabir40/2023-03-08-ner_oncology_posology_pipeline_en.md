@@ -55,7 +55,7 @@ val result = pipeline.fullAnnotate(text)
 ## Results
 
 ```bash
-|    | ber_chunks       |   begin |   end | ner_label      |   confidence |
+|    | ner_chunks       |   begin |   end | ner_label      |   confidence |
 |---:|:-----------------|--------:|------:|:---------------|-------------:|
 |  0 | adriamycin       |      46 |    55 | Cancer_Therapy |      1       |
 |  1 | 60 mg/m2         |      58 |    65 | Dosage         |      0.92005 |

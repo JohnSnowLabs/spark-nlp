@@ -287,6 +287,12 @@ Spark NLP 4.3.2 has been tested and is compatible with the following runtimes:
 - 11.2 ML
 - 11.3
 - 11.3 ML
+- 12.0
+- 12.0 ML
+- 12.1
+- 12.1 ML
+- 12.2
+- 12.2 ML
 
 **GPU:**
 
@@ -300,6 +306,9 @@ Spark NLP 4.3.2 has been tested and is compatible with the following runtimes:
 - 11.1 ML & GPU
 - 11.2 ML & GPU
 - 11.3 ML & GPU
+- 12.0 ML & GPU
+- 12.1 ML & GPU
+- 12.2 ML & GPU
 
 NOTE: Spark NLP 4.x is based on TensorFlow 2.7.x which is compatible with CUDA11 and cuDNN 8.0.2. The only Databricks
 runtimes supporting CUDA 11 are 9.x and above as listed under GPU.
@@ -315,6 +324,9 @@ Spark NLP 4.3.2 has been tested and is compatible with the following EMR release
 - emr-6.5.0
 - emr-6.6.0
 - emr-6.7.0
+- emr-6.8.0
+- emr-6.9.0
+- emr-6.10.0
 
 Full list of [Amazon EMR 6.x releases](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-6x.html)
 

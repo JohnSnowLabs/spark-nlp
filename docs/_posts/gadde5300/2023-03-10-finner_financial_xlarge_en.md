@@ -10,6 +10,7 @@ language: en
 edition: Finance NLP 1.0.0
 spark_version: 3.0
 supported: true
+recommended: true
 engine: tensorflow
 annotator: FinanceBertForTokenClassification
 article_header:

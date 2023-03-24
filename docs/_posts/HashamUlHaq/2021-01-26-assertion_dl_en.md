@@ -142,27 +142,24 @@ nlu.load("en.assert").predict("""The human KCNJ9 (Kir 3.3, GIRK3) is a member of
 ## Results
 
 ```bash
-+--------------------+---------+---------+
-|               chunk|ner_label|assertion|
-+--------------------+---------+---------+
-|                 Kir|     TEST|  present|
-|               GIRK3|     TEST|  present|
-|  chromosome 1q21-23|TREATMENT|  present|
-|a candidate gene ...|  PROBLEM| possible|
-|        coding exons|     TEST|   absent|
-|     byapproximately|     TEST|  present|
-|             introns|     TEST|   absent|
-|single nucleotide...|  PROBLEM|  present|
-|aVal366Ala substi...|TREATMENT|  present|
-|      an 8 base-pair|  PROBLEM|  present|
-|                 bp)|     TEST|  present|
-|Ourexpression stu...|     TEST|  present|
-|The characterizat...|     TEST|  present|
-|      furtherstudies|TREATMENT|  present|
-|       KCNJ9 protein|     TEST|  present|
-|          evaluation|     TEST|  present|
-+--------------------+---------+---------+
-
++-----------------------------------------------------------+---------+-----------+
+|chunk                                                      |ner_label|assertion  |
++-----------------------------------------------------------+---------+-----------+
+|the G-protein-activated inwardly rectifying potassium (GIRK|TREATMENT|conditional|
+|the genomicorganization                                    |TREATMENT|present    |
+|a candidate gene forType II diabetes mellitus              |PROBLEM  |present    |
+|byapproximately                                            |TREATMENT|present    |
+|single nucleotide polymorphisms                            |TREATMENT|present    |
+|aVal366Ala substitution                                    |TREATMENT|present    |
+|insertion/deletion                                         |PROBLEM  |present    |
+|'Ourexpression studies                                     |TEST     |present    |
+|the transcript in various humantissues                     |PROBLEM  |present    |
+|fat andskeletal muscle                                     |PROBLEM  |possible   |
+|furtherstudies                                             |PROBLEM  |present    |
+|the KCNJ9 protein                                          |TREATMENT|present    |
+|evaluation                                                 |TEST     |possible   |
+|Type II diabetes                                           |PROBLEM  |present    |
++-----------------------------------------------------------+---------+-----------+
 ```
 
 {:.model-param}

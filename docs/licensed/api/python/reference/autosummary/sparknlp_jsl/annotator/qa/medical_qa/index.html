@@ -355,6 +355,11 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../../resolution/sentence_entity_resolver/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.resolution.sentence_entity_resolver</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../seq2seq/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.seq2seq</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-15"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../seq2seq/medical_encoder_decoder/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.seq2seq.medical_encoder_decoder</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../seq2seq/medical_summarizer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.seq2seq.medical_summarizer</span></code></a></li>
+</ul>
+</li>
 </ul>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../annotation_merger/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp_jsl.annotator.annotation_merger</span></code></a></li>
@@ -449,58 +454,45 @@ capable of answering various types of questions, including yes-no or full text o
 </tr>
 </tbody>
 </table>
-<dl class="field-list">
+<dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>questionType</strong></dt><dd><p>Question type, e.g. “short” or “long”. The question types depend on the model, check the model card to get a
 description of question types</p>
 </dd>
 <dt><strong>maxNewTokens</strong></dt><dd><p>Maximum number of of new tokens to generate, by default 30</p>
 </dd>
-<dt><strong>minOutputLength</strong></dt><dd><p>Minimum length of text (including context), by default 1024</p>
-</dd>
-<dt><strong>maxOutputLength</strong></dt><dd><p>Maximum length of text (including context), by default 20</p>
+<dt><strong>maxContextLength</strong></dt><dd><p>Maximum length of context text</p>
 </dd>
 <dt><strong>configProtoBytes</strong></dt><dd><p>ConfigProto from tensorflow, serialized into byte array.</p>
 </dd>
 <dt><strong>doSample</strong></dt><dd><p>Whether or not to use sampling; use greedy decoding otherwise, by default False</p>
 </dd>
-<dt><strong>temperature</strong></dt><dd><p>The value used to module the next token probabilities, by default 1.0</p>
-</dd>
-<dt><strong>topK</strong></dt><dd><p>The number of highest probability vocabulary tokens to keep for
-top-k-filtering, by default 50</p>
-</dd>
-<dt><strong>topP</strong></dt><dd><p>Top cumulative probability for vocabulary tokens, by default 1.0</p>
-<p>If set to float &lt; 1, only the most probable tokens with probabilities
-that add up to <code class="docutils literal notranslate"><span class="pre">topP</span></code> or higher are kept for generation.</p>
-</dd>
-<dt><strong>repetitionPenalty</strong></dt><dd><p>The parameter for repetition penalty, 1.0 means no penalty. , by default
-1.0</p>
-</dd>
-<dt><strong>noRepeatNgramSize</strong></dt><dd><p>If set to int &gt; 0, all ngrams of that size can only occur once, by
-default 0</p>
+<dt><strong>topK</strong></dt><dd><p>The number of highest probability vocabulary tokens to consider, by default 1</p>
 </dd>
 <dt><strong>ignoreTokenIds</strong></dt><dd><p>A list of token ids which are ignored in the decoder’s output, by
 default []</p>
 </dd>
+<dt><strong>useCache</strong></dt><dd><p>Cache internal state of the model to improve performance, by default is True.
+Disable it only if you are processing short texts or you want to spare memory usage.</p>
+</dd>
+<dt><strong>Examples</strong></dt><dd></dd>
+<dt><strong>——–</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; context = “This study aims to evaluate local failure patterns in node negative breast cancer patients …”</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; question = “Should chest wall irradiation be included after mastectomy and negative node breast cancer?”</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; data = spark.createDataFrame([[question, context]]).toDF(“question”, “context”)</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; document_assembler = MultiDocumentAssembler()    …   .setInputCols(“question”, “context”)    …   .setOutputCols(“document_question”, “document_context”)</strong></dt><dd></dd>
+<dt><strong>…</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; med_qa = sparknlp_jsl.annotators.qa.MedicalQuestionAnswering    …   .load(“/models/sparknlp/medical_qa_biogpt”)    …   .setQuestionType(“short”)    …   .setInputCols([“document_question”, “document_context”])    …   .setMaxNewTokens(100)    …   .setOutputCol(“answer”)    &gt;&gt;&gt; pipeline = Pipeline(stages=[document_assembler, med_qa])</strong></dt><dd></dd>
+<dt><strong>&gt;&gt;&gt; pipeline    …   .fit(data)    …   .select(“answer.result”)    …   .show(truncate=False)</strong></dt><dd></dd>
+<dt><strong>+——-+</strong></dt><dd></dd>
+<dt><strong>|result |</strong></dt><dd></dd>
+<dt><strong>+——-+</strong></dt><dd></dd>
+<dt><strong>|[yes]  |</strong></dt><dd></dd>
+<dt><strong>+——-+</strong></dt><dd></dd>
 </dl>
 </dd>
 </dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">context</span> <span class="o">=</span> <span class="s2">&quot;This study aims to evaluate local failure patterns in node negative breast cancer patients ...&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">question</span> <span class="o">=</span> <span class="s2">&quot;Should chest wall irradiation be included after mastectomy and negative node breast cancer?&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">question</span><span class="p">,</span> <span class="n">context</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;question&quot;</span><span class="p">,</span> <span class="s2">&quot;context&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">MultiDocumentAssembler</span><span class="p">()</span>    <span class="o">...</span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s2">&quot;question&quot;</span><span class="p">,</span> <span class="s2">&quot;context&quot;</span><span class="p">)</span>    <span class="o">...</span>   <span class="o">.</span><span class="n">setOutputCols</span><span class="p">(</span><span class="s2">&quot;document_question&quot;</span><span class="p">,</span> <span class="s2">&quot;document_context&quot;</span><span class="p">)</span>
-<span class="gp">...</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">med_qa</span> <span class="o">=</span> <span class="n">sparknlp_jsl</span><span class="o">.</span><span class="n">annotators</span><span class="o">.</span><span class="n">qa</span><span class="o">.</span><span class="n">MedicalQuestionAnswering</span>    <span class="o">...</span>   <span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;/models/sparknlp/medical_qa_biogpt&quot;</span><span class="p">)</span>    <span class="o">...</span>   <span class="o">.</span><span class="n">setQuestionType</span><span class="p">(</span><span class="s2">&quot;short&quot;</span><span class="p">)</span>    <span class="o">...</span>   <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document_question&quot;</span><span class="p">,</span> <span class="s2">&quot;document_context&quot;</span><span class="p">])</span>    <span class="o">...</span>   <span class="o">.</span><span class="n">setMaxNewTokens</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>    <span class="o">...</span>   <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;answer&quot;</span><span class="p">)</span>    <span class="o">&gt;&gt;&gt;</span> <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">med_qa</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span>    <span class="o">...</span>   <span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>    <span class="o">...</span>   <span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;answer.result&quot;</span><span class="p">)</span>    <span class="o">...</span>   <span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="go">+-------+</span>
-<span class="go">|result |</span>
-<span class="go">+-------+</span>
-<span class="go">|[yes]  |</span>
-<span class="go">+-------+</span>
-</pre></div>
-</div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.qa.medical_qa.MedicalQuestionAnswering.name">
 <span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">MedicalQuestionAnswering</span></em><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/qa/medical_qa.html#MedicalQuestionAnswering.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.qa.medical_qa.MedicalQuestionAnswering.name" title="Permalink to this definition">#</a></dt>
@@ -526,6 +518,11 @@ default []</p>
 <span class="sig-name descname"><span class="pre">questionType</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/qa/medical_qa.html#MedicalQuestionAnswering.questionType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.qa.medical_qa.MedicalQuestionAnswering.questionType" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.qa.medical_qa.MedicalQuestionAnswering.useCache">
+<span class="sig-name descname"><span class="pre">useCache</span></span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/qa/medical_qa.html#MedicalQuestionAnswering.useCache"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.qa.medical_qa.MedicalQuestionAnswering.useCache" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp_jsl.annotator.qa.medical_qa.MedicalQuestionAnswering.setConfigProtoBytes">
 <span class="sig-name descname"><span class="pre">setConfigProtoBytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/qa/medical_qa.html#MedicalQuestionAnswering.setConfigProtoBytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.qa.medical_qa.MedicalQuestionAnswering.setConfigProtoBytes" title="Permalink to this definition">#</a></dt>
@@ -534,6 +531,20 @@ default []</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>b</strong><span class="classifier">List[int]</span></dt><dd><p>ConfigProto from tensorflow, serialized into byte array</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp_jsl.annotator.qa.medical_qa.MedicalQuestionAnswering.setUseCache">
+<span class="sig-name descname"><span class="pre">setUseCache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp_jsl/annotator/qa/medical_qa.html#MedicalQuestionAnswering.setUseCache"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp_jsl.annotator.qa.medical_qa.MedicalQuestionAnswering.setUseCache" title="Permalink to this definition">#</a></dt>
+<dd><p>Cache internal state of the model to improve performance</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether or not to use cache</p>
 </dd>
 </dl>
 </dd>
@@ -683,7 +694,9 @@ Spark NLPs repositories otherwise.</p>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.medical_qa.MedicalQuestionAnswering.outputAnnotatorType"><code class="docutils literal notranslate"><span class="pre">MedicalQuestionAnswering.outputAnnotatorType</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.medical_qa.MedicalQuestionAnswering.configProtoBytes"><code class="docutils literal notranslate"><span class="pre">MedicalQuestionAnswering.configProtoBytes</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.medical_qa.MedicalQuestionAnswering.questionType"><code class="docutils literal notranslate"><span class="pre">MedicalQuestionAnswering.questionType</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.medical_qa.MedicalQuestionAnswering.useCache"><code class="docutils literal notranslate"><span class="pre">MedicalQuestionAnswering.useCache</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.medical_qa.MedicalQuestionAnswering.setConfigProtoBytes"><code class="docutils literal notranslate"><span class="pre">MedicalQuestionAnswering.setConfigProtoBytes()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.medical_qa.MedicalQuestionAnswering.setUseCache"><code class="docutils literal notranslate"><span class="pre">MedicalQuestionAnswering.setUseCache()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.medical_qa.MedicalQuestionAnswering.setQuestionType"><code class="docutils literal notranslate"><span class="pre">MedicalQuestionAnswering.setQuestionType()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.medical_qa.MedicalQuestionAnswering.setQuestionAnswerTerminals"><code class="docutils literal notranslate"><span class="pre">MedicalQuestionAnswering.setQuestionAnswerTerminals()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.medical_qa.MedicalQuestionAnswering.setQuestionPrompts"><code class="docutils literal notranslate"><span class="pre">MedicalQuestionAnswering.setQuestionPrompts()</span></code></a></li>
@@ -699,7 +712,9 @@ Spark NLPs repositories otherwise.</p>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.medical_qa.MedicalQuestionAnswering.outputAnnotatorType">outputAnnotatorType</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.medical_qa.MedicalQuestionAnswering.configProtoBytes">configProtoBytes</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.medical_qa.MedicalQuestionAnswering.questionType">questionType</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.medical_qa.MedicalQuestionAnswering.useCache">useCache</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.medical_qa.MedicalQuestionAnswering.setConfigProtoBytes">setConfigProtoBytes</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.medical_qa.MedicalQuestionAnswering.setUseCache">setUseCache</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.medical_qa.MedicalQuestionAnswering.setQuestionType">setQuestionType</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.medical_qa.MedicalQuestionAnswering.setQuestionAnswerTerminals">setQuestionAnswerTerminals</a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp_jsl.annotator.qa.medical_qa.MedicalQuestionAnswering.setQuestionPrompts">setQuestionPrompts</a></li>
@@ -767,7 +782,7 @@ Spark NLPs repositories otherwise.</p>
     <div class="footer-items__end">
       
         <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.1.
 </p></div>
       
     </div>

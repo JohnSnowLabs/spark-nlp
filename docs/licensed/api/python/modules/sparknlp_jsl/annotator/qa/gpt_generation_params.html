@@ -321,33 +321,15 @@ document.write(`
 <span></span><span class="kn">from</span> <span class="nn">sparknlp_jsl.common</span> <span class="kn">import</span> <span class="o">*</span>
 
 <div class="viewcode-block" id="GPTGenerationParams"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/gpt_generation_params/index.html#sparknlp_jsl.annotator.qa.gpt_generation_params.GPTGenerationParams">[docs]</a><span class="k">class</span> <span class="nc">GPTGenerationParams</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-<div class="viewcode-block" id="GPTGenerationParams.minOutputLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/gpt_generation_params/index.html#sparknlp_jsl.annotator.qa.gpt_generation_params.GPTGenerationParams.minOutputLength">[docs]</a>    <span class="n">minOutputLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;minOutputLength&quot;</span><span class="p">,</span> <span class="s2">&quot;Minimum length of the sequence to be generated&quot;</span><span class="p">,</span>
-                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="GPTGenerationParams.maxOutputLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/gpt_generation_params/index.html#sparknlp_jsl.annotator.qa.gpt_generation_params.GPTGenerationParams.maxOutputLength">[docs]</a>    <span class="n">maxOutputLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;maxOutputLength&quot;</span><span class="p">,</span> <span class="s2">&quot;Maximum length of output text&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="GPTGenerationParams.maxContextLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/gpt_generation_params/index.html#sparknlp_jsl.annotator.qa.gpt_generation_params.GPTGenerationParams.maxContextLength">[docs]</a>    <span class="n">maxContextLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;maxContextLength&quot;</span><span class="p">,</span> <span class="s2">&quot;Maximum length of the context text&quot;</span><span class="p">,</span>
                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GPTGenerationParams.doSample"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/gpt_generation_params/index.html#sparknlp_jsl.annotator.qa.gpt_generation_params.GPTGenerationParams.doSample">[docs]</a>    <span class="n">doSample</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;doSample&quot;</span><span class="p">,</span> <span class="s2">&quot;Whether or not to use sampling; use greedy decoding otherwise&quot;</span><span class="p">,</span>
                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GPTGenerationParams.temperature"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/gpt_generation_params/index.html#sparknlp_jsl.annotator.qa.gpt_generation_params.GPTGenerationParams.temperature">[docs]</a>    <span class="n">temperature</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;temperature&quot;</span><span class="p">,</span> <span class="s2">&quot;The value used to module the next token probabilities&quot;</span><span class="p">,</span>
-                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
-
 <div class="viewcode-block" id="GPTGenerationParams.topK"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/gpt_generation_params/index.html#sparknlp_jsl.annotator.qa.gpt_generation_params.GPTGenerationParams.topK">[docs]</a>    <span class="n">topK</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;topK&quot;</span><span class="p">,</span>
-                 <span class="s2">&quot;The number of highest probability vocabulary tokens to keep for top-k-filtering&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;The number of highest probability vocabulary tokens to consider&quot;</span><span class="p">,</span>
                  <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="GPTGenerationParams.topP"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/gpt_generation_params/index.html#sparknlp_jsl.annotator.qa.gpt_generation_params.GPTGenerationParams.topP">[docs]</a>    <span class="n">topP</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;topP&quot;</span><span class="p">,</span>
-                 <span class="s2">&quot;If set to float &lt; 1, only the most probable tokens with probabilities that add up to ``top_p`` or higher are kept for generation&quot;</span><span class="p">,</span>
-                 <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="GPTGenerationParams.repetitionPenalty"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/gpt_generation_params/index.html#sparknlp_jsl.annotator.qa.gpt_generation_params.GPTGenerationParams.repetitionPenalty">[docs]</a>    <span class="n">repetitionPenalty</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;repetitionPenalty&quot;</span><span class="p">,</span>
-                              <span class="s2">&quot;The parameter for repetition penalty. 1.0 means no penalty. See `this paper &lt;https://arxiv.org/pdf/1909.05858.pdf&gt;`__ for more details&quot;</span><span class="p">,</span>
-                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="GPTGenerationParams.noRepeatNgramSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/gpt_generation_params/index.html#sparknlp_jsl.annotator.qa.gpt_generation_params.GPTGenerationParams.noRepeatNgramSize">[docs]</a>    <span class="n">noRepeatNgramSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;noRepeatNgramSize&quot;</span><span class="p">,</span>
-                              <span class="s2">&quot;If set to int &gt; 0, all ngrams of that size can only occur once&quot;</span><span class="p">,</span>
-                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GPTGenerationParams.ignoreTokenIds"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/gpt_generation_params/index.html#sparknlp_jsl.annotator.qa.gpt_generation_params.GPTGenerationParams.ignoreTokenIds">[docs]</a>    <span class="n">ignoreTokenIds</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;ignoreTokenIds&quot;</span><span class="p">,</span>
                            <span class="s2">&quot;A list of token ids which are ignored in the decoder&#39;s output&quot;</span><span class="p">,</span>
@@ -367,17 +349,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">ignoreTokenIds</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GPTGenerationParams.setMinOutputLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/gpt_generation_params/index.html#sparknlp_jsl.annotator.qa.gpt_generation_params.GPTGenerationParams.setMinOutputLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMinOutputLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets minimum length of the sequence to be generated.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        value : int</span>
-<span class="sd">            Minimum length of the sequence to be generated</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">minOutputLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="GPTGenerationParams.setMaxOutputLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/gpt_generation_params/index.html#sparknlp_jsl.annotator.qa.gpt_generation_params.GPTGenerationParams.setMaxOutputLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxOutputLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="GPTGenerationParams.setMaxContextLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/gpt_generation_params/index.html#sparknlp_jsl.annotator.qa.gpt_generation_params.GPTGenerationParams.setMaxContextLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxContextLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets maximum length of output text.</span>
 
 <span class="sd">        Parameters</span>
@@ -385,7 +357,7 @@ document.write(`
 <span class="sd">        value : int</span>
 <span class="sd">            Maximum length of output text</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxOutputLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxContextLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GPTGenerationParams.setDoSample"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/gpt_generation_params/index.html#sparknlp_jsl.annotator.qa.gpt_generation_params.GPTGenerationParams.setDoSample">[docs]</a>    <span class="k">def</span> <span class="nf">setDoSample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether or not to use sampling, use greedy decoding otherwise.</span>
@@ -397,66 +369,15 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">doSample</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GPTGenerationParams.setTemperature"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/gpt_generation_params/index.html#sparknlp_jsl.annotator.qa.gpt_generation_params.GPTGenerationParams.setTemperature">[docs]</a>    <span class="k">def</span> <span class="nf">setTemperature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the value used to module the next token probabilities.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        value : float</span>
-<span class="sd">            The value used to module the next token probabilities</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">temperature</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
-
 <div class="viewcode-block" id="GPTGenerationParams.setTopK"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/gpt_generation_params/index.html#sparknlp_jsl.annotator.qa.gpt_generation_params.GPTGenerationParams.setTopK">[docs]</a>    <span class="k">def</span> <span class="nf">setTopK</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the number of highest probability vocabulary tokens to keep for</span>
-<span class="sd">        top-k-filtering.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the number of highest probability vocabulary tokens to consider</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        value : int</span>
-<span class="sd">            Number of highest probability vocabulary tokens to keep</span>
+<span class="sd">            Number of highest probability vocabulary tokens to consider</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">topK</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="GPTGenerationParams.setTopP"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/gpt_generation_params/index.html#sparknlp_jsl.annotator.qa.gpt_generation_params.GPTGenerationParams.setTopP">[docs]</a>    <span class="k">def</span> <span class="nf">setTopP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the top cumulative probability for vocabulary tokens.</span>
-
-<span class="sd">        If set to float &lt; 1, only the most probable tokens with probabilities</span>
-<span class="sd">        that add up to ``topP`` or higher are kept for generation.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        value : float</span>
-<span class="sd">            Cumulative probability for vocabulary tokens</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">topP</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="GPTGenerationParams.setRepetitionPenalty"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/gpt_generation_params/index.html#sparknlp_jsl.annotator.qa.gpt_generation_params.GPTGenerationParams.setRepetitionPenalty">[docs]</a>    <span class="k">def</span> <span class="nf">setRepetitionPenalty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the parameter for repetition penalty. 1.0 means no penalty.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        value : float</span>
-<span class="sd">            The repetition penalty</span>
-
-<span class="sd">        References</span>
-<span class="sd">        ----------</span>
-<span class="sd">        See `Ctrl: A Conditional Transformer Language Model For Controllable</span>
-<span class="sd">        Generation &lt;https://arxiv.org/pdf/1909.05858.pdf&gt;`__ for more details.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">repetitionPenalty</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="GPTGenerationParams.setNoRepeatNgramSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/gpt_generation_params/index.html#sparknlp_jsl.annotator.qa.gpt_generation_params.GPTGenerationParams.setNoRepeatNgramSize">[docs]</a>    <span class="k">def</span> <span class="nf">setNoRepeatNgramSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets size of n-grams that can only occur once.</span>
-
-<span class="sd">        If set to int &gt; 0, all ngrams of that size can only occur once.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        value : int</span>
-<span class="sd">            N-gram size can only occur once</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">noRepeatNgramSize</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GPTGenerationParams.setMaxNewTokens"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp_jsl/annotator/qa/gpt_generation_params/index.html#sparknlp_jsl.annotator.qa.gpt_generation_params.GPTGenerationParams.setMaxNewTokens">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxNewTokens</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the maximum number of new tokens to be generated</span>
@@ -472,14 +393,9 @@ document.write(`
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">GPTGenerationParams</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
-            <span class="n">minOutputLength</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-            <span class="n">maxOutputLength</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span>
+            <span class="n">maxContextLength</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span>
             <span class="n">doSample</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">temperature</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-            <span class="n">topK</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-            <span class="n">topP</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-            <span class="n">repetitionPenalty</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-            <span class="n">noRepeatNgramSize</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+            <span class="n">topK</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
             <span class="n">ignoreTokenIds</span><span class="o">=</span><span class="p">[],</span>
             <span class="n">maxNewTokens</span><span class="o">=</span><span class="mi">30</span></div>
         <span class="p">)</span>
@@ -540,7 +456,7 @@ document.write(`
     <div class="footer-items__end">
       
         <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.1.
 </p></div>
       
     </div>

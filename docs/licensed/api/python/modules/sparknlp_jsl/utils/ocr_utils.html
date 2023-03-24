@@ -359,30 +359,30 @@ document.write(`
               <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">154</span><span class="p">,</span> <span class="mi">205</span><span class="p">,</span> <span class="mi">50</span><span class="p">)]</span></div>
 
 
-<span class="k">def</span> <span class="nf">__ocr_pipeline</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">pdf_path</span><span class="p">,</span> <span class="n">ner_pipeline</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">__ocr_pipeline</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">pdf_path</span><span class="p">,</span> <span class="n">ner_pipeline</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">pageIteratorLevel</span><span class="o">=</span><span class="n">PageIteratorLevel</span><span class="o">.</span><span class="n">SYMBOL</span><span class="p">,</span> <span class="n">pageSegMode</span><span class="o">=</span><span class="n">PageSegmentationMode</span><span class="o">.</span><span class="n">SPARSE_TEXT_OSD</span><span class="p">,</span> <span class="n">confidenceThreshold</span><span class="o">=</span><span class="mi">70</span><span class="p">):</span>
     <span class="c1"># Read Pdf as image</span>
     <span class="n">pdf_to_image</span> <span class="o">=</span> <span class="n">PdfToImage</span><span class="p">()</span> \
         <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;content&quot;</span><span class="p">)</span> \
         <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;image_raw&quot;</span><span class="p">)</span> \
-        <span class="o">.</span><span class="n">setResolution</span><span class="p">(</span><span class="mi">400</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">setResolution</span><span class="p">(</span><span class="n">resolution</span><span class="p">)</span>
 
     <span class="c1"># Extract text from image</span>
     <span class="n">ocr</span> <span class="o">=</span> <span class="n">ImageToText</span><span class="p">()</span> \
         <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;image_raw&quot;</span><span class="p">)</span> \
         <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
         <span class="o">.</span><span class="n">setIgnoreResolution</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span> \
-        <span class="o">.</span><span class="n">setPageIteratorLevel</span><span class="p">(</span><span class="n">PageIteratorLevel</span><span class="o">.</span><span class="n">SYMBOL</span><span class="p">)</span> \
-        <span class="o">.</span><span class="n">setPageSegMode</span><span class="p">(</span><span class="n">PageSegmentationMode</span><span class="o">.</span><span class="n">SPARSE_TEXT</span><span class="p">)</span> \
+        <span class="o">.</span><span class="n">setPageIteratorLevel</span><span class="p">(</span><span class="n">pageIteratorLevel</span><span class="p">)</span> \
+        <span class="o">.</span><span class="n">setPageSegMode</span><span class="p">(</span><span class="n">pageSegMode</span><span class="p">)</span> \
         <span class="o">.</span><span class="n">setWithSpaces</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span> \
-        <span class="o">.</span><span class="n">setConfidenceThreshold</span><span class="p">(</span><span class="mi">70</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">setConfidenceThreshold</span><span class="p">(</span><span class="n">confidenceThreshold</span><span class="p">)</span>
 
     <span class="n">hocr</span> <span class="o">=</span> <span class="n">ImageToHocr</span><span class="p">()</span> \
         <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;image_raw&quot;</span><span class="p">)</span> \
         <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;hocr&quot;</span><span class="p">)</span> \
         <span class="o">.</span><span class="n">setIgnoreResolution</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span> \
         <span class="o">.</span><span class="n">setOcrParams</span><span class="p">([</span><span class="s2">&quot;preserve_interword_spaces=0&quot;</span><span class="p">])</span> \
-        <span class="o">.</span><span class="n">setPageIteratorLevel</span><span class="p">(</span><span class="n">PageIteratorLevel</span><span class="o">.</span><span class="n">SYMBOL</span><span class="p">)</span> \
-        <span class="o">.</span><span class="n">setPageSegMode</span><span class="p">(</span><span class="n">PageSegmentationMode</span><span class="o">.</span><span class="n">SPARSE_TEXT</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">setPageIteratorLevel</span><span class="p">(</span><span class="n">pageIteratorLevel</span><span class="p">)</span> \
+        <span class="o">.</span><span class="n">setPageSegMode</span><span class="p">(</span><span class="n">pageSegMode</span><span class="p">)</span>
 
     <span class="n">pipeline_stages</span> <span class="o">=</span> <span class="p">[</span><span class="n">pdf_to_image</span><span class="p">,</span> <span class="n">ocr</span><span class="p">,</span> <span class="n">hocr</span><span class="p">]</span> <span class="o">+</span> <span class="n">ner_pipeline</span><span class="o">.</span><span class="n">stages</span>
     <span class="n">ocr_pipeline</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="n">pipeline_stages</span><span class="p">)</span>
@@ -831,7 +831,7 @@ document.write(`
     <div class="footer-items__end">
       
         <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.1.
 </p></div>
       
     </div>

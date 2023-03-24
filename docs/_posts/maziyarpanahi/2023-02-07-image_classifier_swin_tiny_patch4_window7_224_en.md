@@ -5,7 +5,7 @@ author: John Snow Labs
 name: image_classifier_swin_tiny_patch4_window7_224
 date: 2023-02-07
 tags: [open_source, swin, image, en, english, image_classification, imagenet, tensorflow]
-task: Sentiment Analysis
+task: Image Classification
 language: en
 nav_key: models
 edition: Spark NLP 4.3.0
@@ -90,4 +90,4 @@ val pipelineDF = pipelineModel.transform(imageDF)
 
 ## References
 
-[https://huggingface.co/microsoft/swin_tiny_patch4_window7_224](https://huggingface.co/microsoft/swin_tiny_patch4_window7_224)
+[https://huggingface.co/microsoft/swin-tiny-patch4-window7-224](https://huggingface.co/microsoft/swin-tiny-patch4-window7-224)

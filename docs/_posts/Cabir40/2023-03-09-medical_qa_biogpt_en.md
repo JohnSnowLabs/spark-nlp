@@ -10,6 +10,7 @@ language: en
 edition: Healthcare NLP 4.3.1
 spark_version: 3.0
 supported: true
+recommended: true
 engine: tensorflow
 annotator: MedicalQuestionAnswering
 article_header:

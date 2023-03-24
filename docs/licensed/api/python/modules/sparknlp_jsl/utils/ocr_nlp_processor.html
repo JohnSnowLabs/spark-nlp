@@ -317,6 +317,7 @@ document.write(`
 <span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">IO</span>
 <span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">PipelineModel</span>
+<span class="kn">from</span> <span class="nn">sparkocr.enums</span> <span class="kn">import</span> <span class="o">*</span>
 
 <div class="viewcode-block" id="colors"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp_jsl/utils/ocr_nlp_processor/index.html#sparknlp_jsl.utils.ocr_nlp_processor.colors">[docs]</a><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;aqua&#39;</span><span class="p">,</span> <span class="s1">&#39;aquamarine&#39;</span><span class="p">,</span> <span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="s1">&#39;blanchedalmond&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;blueviolet&#39;</span><span class="p">,</span> <span class="s1">&#39;brown&#39;</span><span class="p">,</span> <span class="s1">&#39;burlywood&#39;</span><span class="p">,</span> <span class="s1">&#39;cadetblue&#39;</span><span class="p">,</span>
           <span class="s1">&#39;chartreuse&#39;</span><span class="p">,</span> <span class="s1">&#39;chocolate&#39;</span><span class="p">,</span> <span class="s1">&#39;cornflowerblue&#39;</span><span class="p">,</span> <span class="s1">&#39;crimson&#39;</span><span class="p">,</span> <span class="s1">&#39;darkblue&#39;</span><span class="p">,</span> <span class="s1">&#39;darkcyan&#39;</span><span class="p">,</span> <span class="s1">&#39;darkgoldenrod&#39;</span><span class="p">,</span> <span class="s1">&#39;darkgray&#39;</span><span class="p">,</span>
@@ -337,7 +338,11 @@ document.write(`
                          <span class="n">save_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;save_folder&quot;</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                          <span class="n">label_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="n">color_chart_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;color_chart.png&quot;</span><span class="p">,</span>
                          <span class="n">chunk_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;ner_chunk&quot;</span><span class="p">,</span>
-                         <span class="n">black_list</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">display_result</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IO</span><span class="p">:</span>
+                         <span class="n">black_list</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">display_result</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> 
+                         <span class="n">resolution</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> 
+                         <span class="n">confidenceThreshold</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span> 
+                         <span class="n">pageIteratorLevel</span><span class="o">=</span><span class="n">PageIteratorLevel</span><span class="o">.</span><span class="n">SYMBOL</span><span class="p">,</span>
+                         <span class="n">pageSegMode</span><span class="o">=</span><span class="n">PageSegmentationMode</span><span class="o">.</span><span class="n">SPARSE_TEXT_OSD</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IO</span><span class="p">:</span>
 
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates an annotated PDF file using input PDF files</span>
 <span class="sd">        :param spark: Spark session with spark-nlp-jsl and spark-ocr jar</span>
@@ -381,7 +386,7 @@ document.write(`
 
     <span class="k">global</span> <span class="n">colors</span>
 
-    <span class="n">results</span> <span class="o">=</span> <span class="n">__ocr_pipeline</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">ner_pipeline</span><span class="p">)</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">__ocr_pipeline</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">ner_pipeline</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="n">resolution</span><span class="p">,</span> <span class="n">pageIteratorLevel</span><span class="o">=</span><span class="n">pageIteratorLevel</span><span class="p">,</span> <span class="n">pageSegMode</span><span class="o">=</span><span class="n">pageSegMode</span><span class="p">,</span> <span class="n">confidenceThreshold</span><span class="o">=</span><span class="n">confidenceThreshold</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;path&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">distinct</span><span class="p">()</span><span class="o">.</span><span class="n">collect</span><span class="p">():</span>
         <span class="n">result</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">results</span><span class="o">.</span><span class="n">path</span> <span class="o">==</span> <span class="n">i</span><span class="o">.</span><span class="n">path</span><span class="p">]</span>
@@ -468,7 +473,7 @@ document.write(`
     <div class="footer-items__end">
       
         <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.1.
 </p></div>
       
     </div>

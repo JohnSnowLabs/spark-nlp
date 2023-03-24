@@ -16,11 +16,9 @@ sidebar:
 Legal NLP runs on top of `johnsnowlabs` library (former *nlu*).
 Please find technical documentation about how to install it [here](https://nlu.johnsnowlabs.com/docs/en/install).
 
-| Legal NLP	 | johnsnowlabs  |
-|------------|---------------|
-| 1.X.X      | 4.X.X |
+All our models are backwards compatible, which means it will be safe for you to always use the last version of `johnsnowlabs`.
 
-Check which version of Spark NLP, Visual NLP or even Clinical NLP are included in `johnsnowlabs` versions [here](https://nlu.johnsnowlabs.com/docs/en/jsl-release-notes)
+If you are curious about which version of Spark NLP, Visual NLP or Clinical NLP are included in the last `johnsnowlabs` versions, please check [here](https://nlu.johnsnowlabs.com/docs/en/jsl-release-notes)
 
 Legal NLP is also supported in Annotation Lab from Alab 4.2.3 version on!
 
