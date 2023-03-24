@@ -180,5 +180,4 @@ B-STOCKHOLDERS_EQUITY       1.00      0.93      0.96        27
             micro-avg       0.93      0.96      0.95     10905
             macro-avg       0.85      0.87      0.85     10905
          weighted-avg       0.93      0.96      0.95     10905
-
 ```
