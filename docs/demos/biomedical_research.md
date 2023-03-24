@@ -33,7 +33,7 @@ data:
           - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/31.Medical_Question_Answering.ipynb
-         - title: Detect drugs interactions
+        - title: Detect drugs interactions
           id: detect_drugs_interactions
           image: 
               src: /assets/images/Detect_drugs_interactions.svg
