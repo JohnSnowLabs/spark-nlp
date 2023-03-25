@@ -2,7 +2,8 @@
 layout: landing
 comment: no
 title: 'Spark NLP: <span>State of the Art Natural Language Processing</span>'
-excerpt: Spark NLP is a state-of-the-art natural language processing library, the first one to offer production-grade versions of the latest deep learning NLP research results. It is the the most widely used open-source NLP library in the enterprise.
+excerpt: Spark NLP is an open source text processing library for Python, Java, and Scala. It provides production-grade, scalable, and trainable versions of the latest research in natural language processing
+
 seotitle: Spark NLP - John Snow Labs
 permalink: /
 header: true
