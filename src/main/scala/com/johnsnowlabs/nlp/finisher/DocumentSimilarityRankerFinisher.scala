@@ -9,9 +9,8 @@ import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types.{IntegerType, StructType}
 import org.apache.spark.sql.{DataFrame, Dataset}
 
-
-case class DocumentSimilarityRankerFinisher (override val uid: String)
-  extends Transformer
+case class DocumentSimilarityRankerFinisher(override val uid: String)
+    extends Transformer
     with DefaultParamsWritable {
 
   def this() = this(Identifiable.randomUID("document_similarity_ranker_finisher"))
@@ -25,77 +24,85 @@ case class DocumentSimilarityRankerFinisher (override val uid: String)
   val FINISHED_DOC_SIM_RANKER_NEIGHBORS_DEFAULT = "finished_doc_similarity_rankings_neighbors"
 
   /** Name of input annotation cols containing embeddings
-   *
-   * @group param
-   */
+    *
+    * @group param
+    */
   val inputCols: StringArrayParam =
-    new StringArrayParam(this, "inputCols", "Name of input annotation cols containing similar documents")
+    new StringArrayParam(
+      this,
+      "inputCols",
+      "Name of input annotation cols containing similar documents")
 
   /** Name of input annotation cols containing similar documents
-   *
-   * @group setParam
-   */
+    *
+    * @group setParam
+    */
   def setInputCols(value: Array[String]): this.type = set(inputCols, value)
 
   /** Name of input annotation cols containing similar documents
-   *
-   * @group setParam
-   */
+    *
+    * @group setParam
+    */
   def setInputCols(value: String*): this.type = setInputCols(value.toArray)
 
   /** Name of DocumentSimilarityRankerFinisher output cols
-   *
-   * @group getParam
-   */
+    *
+    * @group getParam
+    */
   def getInputCols: Array[String] = $(inputCols)
 
   /** Name of DocumentSimilarityRankerFinisher output cols
-   *
-   * @group param
-   */
+    *
+    * @group param
+    */
   val outputCols: StringArrayParam =
-    new StringArrayParam(this, "outputCols", "Name of DocumentSimilarityRankerFinisher output cols")
+    new StringArrayParam(
+      this,
+      "outputCols",
+      "Name of DocumentSimilarityRankerFinisher output cols")
 
   /** Name of DocumentSimilarityRankerFinisher output cols
-   *
-   * @group setParam
-   */
+    *
+    * @group setParam
+    */
   def setOutputCols(value: Array[String]): this.type = set(outputCols, value)
 
   /** Name of DocumentSimilarityRankerFinisher output cols
-   *
-   * @group setParam
-   */
+    *
+    * @group setParam
+    */
   def setOutputCols(value: String*): this.type = setOutputCols(value.toArray)
 
   /** Name of input annotation cols containing embeddings
-   *
-   * @group getParam
-   */
+    *
+    * @group getParam
+    */
   def getOutputCols: Array[String] = get(outputCols).getOrElse(getInputCols.map("finished_" + _))
 
   val extractNearestNeighbor: BooleanParam =
-    new BooleanParam(this, "extractNearestNeighbor", doc = "Extract the best neighbors with distance")
+    new BooleanParam(
+      this,
+      "extractNearestNeighbor",
+      doc = "Extract the best neighbors with distance")
 
   /** Set flag to extract best neighbor with distance
-   *
-   * @group setParam
-   */
+    *
+    * @group setParam
+    */
   def setExtractNearestNeighbor(value: Boolean): this.type = set(extractNearestNeighbor, value)
 
   /** Name of input annotation cols containing embeddings
-   *
-   * @group getParam
-   */
+    *
+    * @group getParam
+    */
   def getExtractNearestNeighbor: Boolean = $(extractNearestNeighbor)
 
-  setDefault(
-    extractNearestNeighbor -> false
-  )
+  setDefault(extractNearestNeighbor -> false)
 
   override def transform(dataset: Dataset[_]): DataFrame = {
 
-    require(getOutputCols.length == 1 || getOutputCols.length == 2,
+    require(
+      getOutputCols.length == 1 || getOutputCols.length == 2,
       "Output column array should have length 1 (default case) or 2 when value id and neighbors are assigned.")
 
     val (idColName, neighborsColName) =
@@ -109,24 +116,32 @@ case class DocumentSimilarityRankerFinisher (override val uid: String)
         idColName,
         element_at(col(s"${AnnotatorType.DOC_SIMILARITY_RANKINGS}.metadata"), 1)
           .getItem(LSH_ID_COL_NAME)
-          .cast("int")
-      )
+          .cast("int"))
       .withColumn(
         neighborsColName,
         element_at(col(s"${AnnotatorType.DOC_SIMILARITY_RANKINGS}.metadata"), 1)
-          .getItem(LSH_NEIGHBORS_COL_NAME)
-      )
+          .getItem(LSH_NEIGHBORS_COL_NAME))
 
     val formatted = transformed
-      .withColumn(s"no_squared_$neighborsColName", regexp_replace(col(neighborsColName), "[\\[\\]]", ""))
-      .withColumn(s"tuple_extract_$neighborsColName", regexp_extract(col(s"no_squared_$neighborsColName"), "\\((.*?)\\)", 0))
-      .withColumn(s"no_rounded_$neighborsColName", regexp_replace(col(s"tuple_extract_$neighborsColName"), "[\\(\\)]", ""))
+      .withColumn(
+        s"no_squared_$neighborsColName",
+        regexp_replace(col(neighborsColName), "[\\[\\]]", ""))
+      .withColumn(
+        s"tuple_extract_$neighborsColName",
+        regexp_extract(col(s"no_squared_$neighborsColName"), "\\((.*?)\\)", 0))
+      .withColumn(
+        s"no_rounded_$neighborsColName",
+        regexp_replace(col(s"tuple_extract_$neighborsColName"), "[\\(\\)]", ""))
 
     val result =
-      if(getExtractNearestNeighbor)
+      if (getExtractNearestNeighbor)
         formatted
-          .withColumn(s"split_$neighborsColName", split(col(s"no_rounded_$neighborsColName"), ","))
-          .withColumn("nearest_neighbor_id", element_at(col(s"split_$neighborsColName"), 1).cast(IntegerType))
+          .withColumn(
+            s"split_$neighborsColName",
+            split(col(s"no_rounded_$neighborsColName"), ","))
+          .withColumn(
+            "nearest_neighbor_id",
+            element_at(col(s"split_$neighborsColName"), 1).cast(IntegerType))
           .withColumn("nearest_neighbor_distance", element_at(col(s"split_$neighborsColName"), 2))
       else
         formatted
@@ -147,9 +162,9 @@ case class DocumentSimilarityRankerFinisher (override val uid: String)
       FinisherUtil.checkIfInputColsExist(getInputCols, schema)
       FinisherUtil.checkIfAnnotationColumnIsSparkNLPAnnotation(schema, annotationColumn)
 
-      /** Check if the annotationColumn has DocumentSimilarityRanker. It must be
-       * annotators: DocumentSimilarityRanker
-       */
+      /** Check if the annotationColumn has DocumentSimilarityRanker. It must be annotators:
+        * DocumentSimilarityRanker
+        */
       require(
         documentSimilarityRankerAnnotators.contains(
           schema(annotationColumn).metadata.getString("annotatorType")),

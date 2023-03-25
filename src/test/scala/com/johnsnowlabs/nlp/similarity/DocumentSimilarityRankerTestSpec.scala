@@ -20,17 +20,18 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
 
   "DocumentSimilarityRanker" should "should rank document similarity" taggedAs SlowTest in {
 
-    val smallCorpus = spark.createDataFrame(
-      List(
-        "First document, this is my first sentence. This is my second sentence.",
-        "Second document, this is my second sentence. This is my second sentence.",
-        "Third document, climate change is arguably one of the most pressing problems of our time.",
-        "Fourth document, climate change is definitely one of the most pressing problems of our time.",
-        "Fifth document, Florence in Italy, is among the most beautiful cities in Europe.",
-        "Sixth document, Florence in Italy, is a very beautiful city in Europe like Lyon in France.",
-        "Seventh document, the French Riviera is the Mediterranean coastline of the southeast corner of France.",
-        "Eighth document, the warmest place in France is the French Riviera coast in Southern France.",
-      ).map(Tuple1(_)))
+    val smallCorpus = spark
+      .createDataFrame(
+        List(
+          "First document, this is my first sentence. This is my second sentence.",
+          "Second document, this is my second sentence. This is my second sentence.",
+          "Third document, climate change is arguably one of the most pressing problems of our time.",
+          "Fourth document, climate change is definitely one of the most pressing problems of our time.",
+          "Fifth document, Florence in Italy, is among the most beautiful cities in Europe.",
+          "Sixth document, Florence in Italy, is a very beautiful city in Europe like Lyon in France.",
+          "Seventh document, the French Riviera is the Mediterranean coastline of the southeast corner of France.",
+          "Eighth document, the warmest place in France is the French Riviera coast in Southern France.")
+          .map(Tuple1(_)))
       .toDF("text")
 
     val documentAssembler = new DocumentAssembler()
@@ -86,14 +87,14 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
           embeddingsSentence,
           sentenceFinisher,
           docSimilarityRanker,
-          documentSimilarityFinisher
-        ))
+          documentSimilarityFinisher))
 
     val transformed = pipeline.fit(smallCorpus).transform(smallCorpus)
 
     transformed.printSchema
     transformed
-      .select("text",
+      .select(
+        "text",
         "finished_sentence_embeddings",
         "finished_doc_similarity_rankings_id",
         "nearest_neighbor_id",

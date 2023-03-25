@@ -25,35 +25,35 @@ class DocumentSimilarityRankerApproach(AnnotatorApproach, HasStorageRef, HasEnab
                              "similarityMethod",
                              "The similarity method used to calculate the neighbours. (Default: 'brp', "
                              "Bucketed Random Projection for Euclidean Distance)",
-                             typeConverter=TypeConverters.toString())
+                             typeConverter=TypeConverters.toString)
 
     numberOfNeighbours = Param(Params._dummy(),
                                "numberOfNeighbours",
                                "The number of neighbours the model will return (Default:`10`)",
-                               typeConverter=TypeConverters.toInt())
+                               typeConverter=TypeConverters.toInt)
 
     bucketLength = Param(Params._dummy(),
                          "bucketLength",
                          "The bucket length that controls the average size of hash buckets. "
                          "A larger bucket length (i.e., fewer buckets) increases the probability of features "
                          "being hashed to the same bucket (increasing the numbers of true and false positives).",
-                         typeConverter=TypeConverters.toFloat())
+                         typeConverter=TypeConverters.toFloat)
 
     numHashTables = Param(Params._dummy(),
                           "numHashTables",
                           "number of hash tables, where increasing number of hash tables lowers the "
                           "false negative rate,and decreasing it improves the running performance.",
-                          typeConverter=TypeConverters.toInt())
+                          typeConverter=TypeConverters.toInt)
 
     visibleDistances = Param(Params._dummy(),
-                             "numHashTables",
+                             "visibleDistances",
                              "Whether to set visibleDistances in ranking output (Default: `false`).",
-                             typeConverter=TypeConverters.toBoolean())
+                             typeConverter=TypeConverters.toBoolean)
 
     identityRanking = Param(Params._dummy(),
-                            "numHashTables",
+                            "identityRanking",
                             "Whether to include identity in ranking result set. Useful for debug. (Default: `false`).",
-                            typeConverter=TypeConverters.toBoolean())
+                            typeConverter=TypeConverters.toBoolean)
 
     def setSimilarityMethod(self, value):
         """Sets the similarity method used to calculate the neighbours.
@@ -66,7 +66,7 @@ class DocumentSimilarityRankerApproach(AnnotatorApproach, HasStorageRef, HasEnab
         """
         return self._set(similarityMethod=value)
 
-    def numberOfNeighbours(self, value):
+    def setNumberOfNeighbours(self, value):
         """Sets The number of neighbours the model will return for each document(Default:`"10"`).
 
         Parameters
@@ -76,7 +76,7 @@ class DocumentSimilarityRankerApproach(AnnotatorApproach, HasStorageRef, HasEnab
         """
         return self._set(numberOfNeighbours=value)
 
-    def bucketLength(self, value):
+    def setBucketLength(self, value):
         """Sets the bucket length that controls the average size of hash buckets (Default:`"2.0"`).
 
         Parameters
@@ -86,7 +86,7 @@ class DocumentSimilarityRankerApproach(AnnotatorApproach, HasStorageRef, HasEnab
         """
         return self._set(bucketLength=value)
 
-    def numHashTables(self, value):
+    def setNumHashTables(self, value):
         """Sets the number of hash tables.
 
         Parameters
@@ -96,7 +96,7 @@ class DocumentSimilarityRankerApproach(AnnotatorApproach, HasStorageRef, HasEnab
         """
         return self._set(numHashTables=value)
 
-    def visibleDistances(self, value):
+    def setVisibleDistances(self, value):
         """Sets the document distances visible in the result set.
 
         Parameters
@@ -107,7 +107,7 @@ class DocumentSimilarityRankerApproach(AnnotatorApproach, HasStorageRef, HasEnab
         """
         return self._set(visibleDistances=value)
 
-    def visibleDistances(self, value):
+    def setIdentityRanking(self, value):
         """Sets the document identity ranking inclusive in the result set.
 
         Parameters
@@ -121,8 +121,8 @@ class DocumentSimilarityRankerApproach(AnnotatorApproach, HasStorageRef, HasEnab
 
     @keyword_only
     def __init__(self):
-        super(DocumentSimilarityRankerApproach, self).__init__(classname="com.johnsnowlabs.nlp.annotators.similarity"
-                                                                         ".DocumentSimilarityRankerApproach")
+        super(DocumentSimilarityRankerApproach, self)\
+            .__init__(classname="com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerApproach")
         self._setDefault(
             similarityMethod="brp",
             numberOfNeighbours=10,
@@ -142,9 +142,13 @@ class DocumentSimilarityRankerModel(AnnotatorModel, HasStorageRef, HasEmbeddings
     inputAnnotatorTypes = [AnnotatorType.SENTENCE_EMBEDDINGS]
     outputAnnotatorType = AnnotatorType.DOC_SIMILARITY_RANKINGS
 
-    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.similarity"
-                                 ".DocumentSimilarityRankerModel", java_model=None):
+    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerModel",
+                 java_model=None):
         super(DocumentSimilarityRankerModel, self).__init__(
             classname=classname,
             java_model=java_model
         )
+
+
+class DocumentSimilarityRankerFinisher:
+    pass
