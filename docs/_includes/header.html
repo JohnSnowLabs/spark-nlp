@@ -11,12 +11,12 @@
 {%- endif -%}
     <div class="main">
       <div class="header__title">
-        <a class="responsive_btn" href="#" id="responsive_menu">          
+        <a class="responsive_btn" href="#" id="responsive_menu">
         <i class="fas fa-bars"></i>
         <i class="fas fa-times"></i>
         </a>
         <div class="header__brand">
-          <a title="{%- if site.description -%}{{ site.description }}{%- endif -%}" href="https://www.johnsnowlabs.com" target="_blank">
+          <a title="{%- if site.description -%}{{ site.description }}{%- endif -%}" href="/">
             {%- include svg/logo.svg -%}
           </a>
           {%- assign _paths_root = site.paths.root | default: site.data.variables.default.paths.root  -%}
@@ -49,8 +49,8 @@
           {%- endif -%}
         </ul>
       </nav>
-      {%- endif -%}      
-      <a class="responsive_btn" href="#" id="aside_menu">          
+      {%- endif -%}
+      <a class="responsive_btn" href="#" id="aside_menu">
         <i class="fas fa-bars"></i>
         <i class="fas fa-times"></i>
         </a>

@@ -17,12 +17,10 @@
         <img src="https://static.pepy.tech/personalized-badge/spark-nlp?period=total&units=international_system&left_color=grey&right_color=orange&left_text=pip%20downloads" /></a>
 </p>
 
-Spark NLP is a state-of-the-art Natural Language Processing library built on top of Apache Spark. It provides **simple
-**, **performant** & **accurate** NLP annotations for machine learning pipelines that **scale** easily in a distributed
+Spark NLP is a state-of-the-art Natural Language Processing library built on top of Apache Spark. It provides **simple**, **performant** & **accurate** NLP annotations for machine learning pipelines that **scale** easily in a distributed
 environment.
 Spark NLP comes with **11000+** pretrained **pipelines** and **models** in more than **200+** languages.
-It also offers tasks such as **Tokenization**, **Word Segmentation**, **Part-of-Speech Tagging**, Word and Sentence **Embeddings**, **Named Entity Recognition**, **Dependency Parsing**, **Spell Checking**, **Text Classification**, **Sentiment Analysis**, **Token Classification**, **Machine Translation** (+180 languages), **Summarization**, **Question Answering**, **Table Question Answering**, **Text Generation**, **Image Classification**, **Automatic Speech Recognition
-**, and many more [NLP tasks](#features).
+It also offers tasks such as **Tokenization**, **Word Segmentation**, **Part-of-Speech Tagging**, Word and Sentence **Embeddings**, **Named Entity Recognition**, **Dependency Parsing**, **Spell Checking**, **Text Classification**, **Sentiment Analysis**, **Token Classification**, **Machine Translation** (+180 languages), **Summarization**, **Question Answering**, **Table Question Answering**, **Text Generation**, **Image Classification**, **Automatic Speech Recognition**, and many more [NLP tasks](#features).
 
 **Spark NLP** is the only open-source NLP library in **production** that offers state-of-the-art transformers such as **BERT**, **CamemBERT**, **ALBERT**, **ELECTRA**, **XLNet**, **DistilBERT**, **RoBERTa**, **DeBERTa**, **XLM-RoBERTa**, **Longformer**, **ELMO**, **Universal Sentence Encoder**, **Google T5**, **MarianMT**, **GPT2**, and **Vision Transformers (ViT)** not only to **Python** and **R**, but also to **JVM** ecosystem (**Java**, **Scala**, and **Kotlin**) at **scale** by extending **Apache Spark** natively.
 
@@ -289,6 +287,12 @@ Spark NLP 4.3.2 has been tested and is compatible with the following runtimes:
 - 11.2 ML
 - 11.3
 - 11.3 ML
+- 12.0
+- 12.0 ML
+- 12.1
+- 12.1 ML
+- 12.2
+- 12.2 ML
 
 **GPU:**
 
@@ -302,6 +306,9 @@ Spark NLP 4.3.2 has been tested and is compatible with the following runtimes:
 - 11.1 ML & GPU
 - 11.2 ML & GPU
 - 11.3 ML & GPU
+- 12.0 ML & GPU
+- 12.1 ML & GPU
+- 12.2 ML & GPU
 
 NOTE: Spark NLP 4.x is based on TensorFlow 2.7.x which is compatible with CUDA11 and cuDNN 8.0.2. The only Databricks
 runtimes supporting CUDA 11 are 9.x and above as listed under GPU.
@@ -317,6 +324,9 @@ Spark NLP 4.3.2 has been tested and is compatible with the following EMR release
 - emr-6.5.0
 - emr-6.6.0
 - emr-6.7.0
+- emr-6.8.0
+- emr-6.9.0
+- emr-6.10.0
 
 Full list of [Amazon EMR 6.x releases](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-6x.html)
 

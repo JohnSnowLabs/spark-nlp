@@ -81,4 +81,16 @@ data:
           - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/PUBLIC_HEALTH_MENTION.ipynb
+        - title: Voice of the Patients
+          id: voice_patients           
+          image: 
+              src: /assets/images/Voice_of_the_Patients.svg
+          excerpt: This demo extracts healthcare-related terms from the documents transferred from the patient’s own sentences.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/VOICE_OF_THE_PATIENTS/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/VOICE_OF_THE_PATIENTS.ipynb
 ---
