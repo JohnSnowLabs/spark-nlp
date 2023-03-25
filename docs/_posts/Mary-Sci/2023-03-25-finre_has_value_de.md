@@ -13,7 +13,7 @@ supported: true
 engine: tensorflow
 annotator: RelationExtractionDLModel
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,6 +37,7 @@ This model is a relation extraction model to extract financial entities and thei
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler()\
     .setInputCol("text")\
