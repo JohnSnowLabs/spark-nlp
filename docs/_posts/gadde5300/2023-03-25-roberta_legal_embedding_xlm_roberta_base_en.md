@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English Legal RoBerta Embeddings (Large)
+title: English Legal RoBerta Embeddings (Base)
 author: John Snow Labs
 name: roberta_legal_embedding_xlm_roberta_base
 date: 2023-03-25
@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained RoBerta Embeddings model is a English Legal embeddings model adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.
+Pretrained RoBerta Embeddings model is a English Base Legal embeddings model adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
