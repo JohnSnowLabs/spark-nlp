@@ -22,7 +22,7 @@ use_language_switcher: "Python-Scala-Java"
 This model is a relation extraction model to extract financial entities and their values from text with `finner_financial_entity_value` model.
 
 ## Predicted Entities
-
+`has_value`
 
 
 {:.btn-box}
