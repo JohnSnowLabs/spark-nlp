@@ -18,9 +18,14 @@ package com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitWarper
 
 class TemperatureLogitWarper(val temperature: Double) extends LogitWarper {
   override def call(
-      inputIds: Seq[Array[Int]],
+      inputIds: Seq[Array[Long]],
       scores: Array[Array[Float]],
       currentLength: Int): Array[Array[Float]] = {
-    scores.map(_.map(x => (x / temperature.toFloat)))
+    if (temperature > 0 && temperature <= 1) {
+      scores.map(_.map(x => (x / temperature.toFloat)))
+    } else {
+      scores
+    }
+
   }
 }

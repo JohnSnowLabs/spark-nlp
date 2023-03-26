@@ -22,7 +22,7 @@ class TopKLogitWarper(
     val minTokensToKeep: Int = 1)
     extends LogitWarper {
   override def call(
-      inputIds: Seq[Array[Int]],
+      inputIds: Seq[Array[Long]],
       scores: Array[Array[Float]],
       currentLength: Int): Array[Array[Float]] = {
     var logitsUpd = scores

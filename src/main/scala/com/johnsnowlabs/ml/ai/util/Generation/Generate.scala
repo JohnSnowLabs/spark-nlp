@@ -23,15 +23,15 @@ import scala.util.Random
 
 trait Generate {
   def beamSearch(
-      encoderInputIdsVals: Seq[Array[Int]],
-      inputIdsVal: Seq[Array[Int]],
+      encoderInputIdsVals: Seq[Array[Long]],
+      inputIdsVal: Seq[Array[Long]],
       beamScorer: BeamScorer,
       logitProcessor: LogitProcessorList,
       maxLength: Int,
-      padTokenId: Int,
-      eosTokenId: Int,
+      padTokenId: Long,
+      eosTokenId: Long,
       doSample: Boolean,
-      randomSeed: Long): Array[Array[Int]] = {
+      randomSeed: Option[Long]): Array[Array[Long]] = {
     var inputIds = inputIdsVal
     val batchSize = beamScorer.getBeamHypothesesSeq.length
     val numBeams = beamScorer.getNumBeams
@@ -42,9 +42,9 @@ trait Generate {
     beamScores = beamScores.zipWithIndex.map { case (_, ind) =>
       if (ind % numBeams == 0) 0 else (-1e-9).toFloat
     }
-    var beamIndices = Seq.fill(batchBeamSize)(Array[Int]())
-    var nextIndices = Array[Array[Int]]()
-    var nextTokens = Array[Array[Int]]()
+    var beamIndices = Seq.fill(batchBeamSize)(Array[Long]())
+    var nextIndices = Array[Array[Long]]()
+    var nextTokens = Array[Array[Long]]()
     var expandedInputs = inputIds.flatMap(x => List.fill(numBeams)(x))
     val expandedEncoderInputIdsVals = encoderInputIdsVals.flatMap(x => List.fill(numBeams)(x))
     breakable {
@@ -69,8 +69,9 @@ trait Generate {
           }
         }
         // Process the logits by defined logit warpers
-        nextTokenScores = logitProcessor.warp(expandedInputs, nextTokenScores, currentLength)
-
+        if (doSample) {
+          nextTokenScores = logitProcessor.warp(expandedInputs, nextTokenScores, currentLength)
+        }
         // Reshape next token score to (batchSize, vocabSize * numBeams)
         val vocabSize = nextTokenScores.head.length
         val reshapedNextTokenScores =
@@ -79,7 +80,7 @@ trait Generate {
         nextTokenScores = reshapedNextTokenScores
 
         var nextKTopTokenScores: Array[Array[Float]] = Array[Array[Float]]()
-        var nextKTopTokens: Array[Array[Int]] = Array[Array[Int]]()
+        var nextKTopTokens: Array[Array[Long]] = Array[Array[Long]]()
 
         if (doSample) {
           val nextKIndices = nextTokenScores.map(x => {
@@ -88,14 +89,14 @@ trait Generate {
           nextKTopTokenScores = Array.ofDim[Float](nextKIndices.length, nextKIndices.head.length)
           for (i <- nextKIndices.indices) {
             for (j <- nextKIndices(i).indices) {
-              nextKTopTokenScores(i)(j) = nextTokenScores(i)(nextKIndices(i)(j))
+              nextKTopTokenScores(i)(j) = nextTokenScores(i)(nextKIndices(i)(j).toInt)
             }
           }
           nextKTopTokenScores =
             nextKTopTokenScores.map(x => x.zipWithIndex.sortWith(_._1 > _._1).map(_._1))
           val tempNextKInd =
             nextKTopTokenScores.map(x => x.zipWithIndex.sortWith(_._1 > _._1).map(_._2))
-          nextKTopTokens = Array.ofDim[Int](nextKIndices.length, nextKIndices.head.length)
+          nextKTopTokens = Array.ofDim[Long](nextKIndices.length, nextKIndices.head.length)
 
           for (i <- tempNextKInd.indices) {
             for (j <- tempNextKInd(i).indices) {
@@ -106,7 +107,7 @@ trait Generate {
           nextKTopTokenScores = nextTokenScores.map(x =>
             x.zipWithIndex.sortWith(_._1 > _._1).take(2 * numBeams).map(_._1))
           nextKTopTokens = nextTokenScores.map(x =>
-            x.zipWithIndex.sortWith(_._1 > _._1).take(2 * numBeams).map(_._2))
+            x.zipWithIndex.sortWith(_._1 > _._1).take(2 * numBeams).map(_._2.toLong))
         }
         nextIndices = nextKTopTokens.map(y => y.map(x => x / vocabSize))
         nextTokens = nextKTopTokens.map(y => y.map(x => x % vocabSize))
@@ -123,16 +124,16 @@ trait Generate {
         val newBeamScores = beamOutputs._1.flatMap(_.toList)
         val beamNextTokens = beamOutputs._2.flatMap(_.toList)
         val beamIdx = beamOutputs._3.flatMap(_.toList)
-        var newInputIds = Seq[Array[Int]]()
+        var newInputIds = Seq[Array[Long]]()
 
         for ((i, ind) <- beamIdx.zipWithIndex) {
-          val tempInput = expandedInputs(i) :+ beamNextTokens(ind)
+          val tempInput = expandedInputs(i.toInt) :+ beamNextTokens(ind)
           newInputIds = newInputIds :+ (tempInput)
         }
         expandedInputs = newInputIds
         beamScores = newBeamScores
         beamIndices = beamIndices.indices.map { elem =>
-          beamIndices(beamIdx(elem)) :+ beamIdx(elem)
+          beamIndices(beamIdx(elem).toInt) :+ beamIdx(elem)
         }
         currentLength = currentLength + 1
         if (beamScorer.isDone || (expandedInputs.head.length >= maxLength)) {
@@ -155,8 +156,8 @@ trait Generate {
   }
 
   def getModelOutput(
-      encoderInputIds: Seq[Array[Int]],
-      decoderInputIds: Seq[Array[Int]],
+      encoderInputIds: Seq[Array[Long]],
+      decoderInputIds: Seq[Array[Long]],
       maxLength: Int): Array[Array[Float]]
 
   def logSoftmax(values: Array[Float]): Array[Float] = {
@@ -188,7 +189,7 @@ trait Generate {
     outputArray // Return the reshaped array
   }
 
-  def sample(logits: Seq[Float], k: Int, seed: Long = 42): Array[Int] = {
+  def sample(logits: Seq[Float], k: Int, seed: Long = 42): Array[Long] = {
     val maxLogit = logits.max
     val logitsExp = logits.map(logit => math.exp(logit - maxLogit))
     val sumExp = logitsExp.sum
@@ -205,10 +206,10 @@ trait Generate {
       }
       results :+= index
     }
-    results.toArray
+    results.map(_.toLong).toArray
   }
 
-  def multinomialSampling(logitValues: Array[Float], k: Int, seed: Long = 42): Array[Int] = {
+  def multinomialSampling(logitValues: Array[Float], k: Int, seed: Option[Long]): Array[Long] = {
     val (distFiltered, indices) =
       logitValues.zipWithIndex.filter { case (elem, index) => !elem.isInfinite }.sorted.unzip
 
@@ -218,10 +219,16 @@ trait Generate {
     val probabilities = expLogitValues.map(_ / sumExpLogitValues)
 
 //    val indices = Array.range(0, logitValues.length)
-    val selectedIndices = new Array[Int](k)
-    val seededRandom = new scala.util.Random(seed)
+    val selectedIndices = new Array[Long](k)
+    var seededRandom = new scala.util.Random()
+    if (seed.isDefined) {
+      seededRandom = new scala.util.Random(seed.get)
+    }
     for (i <- 0 until k) {
-      val rand = seededRandom.nextDouble()
+      var rand = scala.util.Random.nextDouble()
+      if (seed.isDefined) {
+        rand = new scala.util.Random(seed.get).nextDouble()
+      }
       var cumProb = 0.0
       var j = 0
       while (j < probabilities.length - i) {

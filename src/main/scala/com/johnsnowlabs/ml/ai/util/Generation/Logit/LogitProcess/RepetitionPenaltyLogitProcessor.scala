@@ -18,7 +18,7 @@ package com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitProcess
 
 class RepetitionPenaltyLogitProcessor(val penalty: Double) extends LogitProcessor {
   override def call(
-      inputIds: Seq[Array[Int]],
+      inputIds: Seq[Array[Long]],
       scores: Array[Array[Float]],
       currentLength: Int): Array[Array[Float]] = {
     if (penalty != 1.0) {
@@ -29,14 +29,14 @@ class RepetitionPenaltyLogitProcessor(val penalty: Double) extends LogitProcesso
         val prevInputIds = inputIds.head.distinct
         for ((prevInputId, _) <- prevInputIds.zipWithIndex) {
           var logitPenalty = 1.0
-          if (scores(i)(prevInputId) < 0) {
+          if (scores(i)(prevInputId.toInt) < 0) {
             logitPenalty = this.penalty
           } else {
             logitPenalty = 1 / this.penalty
           }
           nextTokenLogit = nextTokenLogit.updated(
-            prevInputId,
-            (logitPenalty * nextTokenLogit(prevInputId)).toFloat)
+            prevInputId.toInt,
+            (logitPenalty * nextTokenLogit(prevInputId.toInt)).toFloat)
         }
         nextTokenscores(i) = nextTokenLogit
       }
