@@ -116,7 +116,7 @@ conclusion    0.93         0.79      0.85      52
 definition    0.87         0.81      0.84      58  
 other         0.88         0.88      0.88      57  
 subsumption   0.64         0.79      0.71      52  
-accuracy      0.82         219       -         -  
+accuracy         -            -      0.82      219     
 macro-avg     0.83         0.82      0.82      219 
 weighted-avg  0.83         0.82      0.82      219 
 ```
