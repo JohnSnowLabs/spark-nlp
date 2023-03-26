@@ -18,7 +18,7 @@ package com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitWarper
 
 class TopPLogitWarper(val p: Double, val minTokensToKeep: Int = 1) extends LogitWarper {
   override def call(
-      inputIds: Seq[Array[Int]],
+      inputIds: Seq[Array[Long]],
       scores: Array[Array[Float]],
       currentLength: Int): Array[Array[Float]] = {
     var scoresUpd = scores

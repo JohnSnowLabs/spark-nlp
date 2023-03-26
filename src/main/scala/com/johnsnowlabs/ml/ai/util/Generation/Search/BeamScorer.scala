@@ -19,24 +19,24 @@ package com.johnsnowlabs.ml.ai.util.Generation.Search
 abstract class BeamScorer() {
 
   def process(
-      inputIds: Seq[Array[Int]],
+      inputIds: Seq[Array[Long]],
       nextScores: Seq[Array[Float]],
-      nextTokens: Seq[Array[Int]],
-      nextIndices: Seq[Array[Int]],
-      padTokenId: Int,
-      eosTokenId: Int,
-      beamIndices: Seq[Array[Int]],
-      currentLength: Int): (Array[Array[Float]], Array[Array[Int]], Array[Array[Int]])
+      nextTokens: Seq[Array[Long]],
+      nextIndices: Seq[Array[Long]],
+      padTokenId: Long,
+      eosTokenId: Long,
+      beamIndices: Seq[Array[Long]],
+      currentLength: Long): (Array[Array[Float]], Array[Array[Long]], Array[Array[Long]])
 
   def finalize(
-      inputIds: Seq[Array[Int]],
+      inputIds: Seq[Array[Long]],
       finalBeamScores: Array[Float],
-      finalBeamTokens: Array[Int],
-      finalBeamIndices: Array[Int],
-      maxLength: Int,
-      padTokenId: Int,
-      eosTokenId: Int,
-      beamIndices: Seq[Array[Int]]): (Array[Array[Int]], Array[Float], Array[Array[Int]])
+      finalBeamTokens: Array[Long],
+      finalBeamIndices: Array[Long],
+      maxLength: Long,
+      padTokenId: Long,
+      eosTokenId: Long,
+      beamIndices: Seq[Array[Long]]): (Array[Array[Long]], Array[Float], Array[Array[Long]])
   def getBeamHypothesesSeq: Seq[BeamHypotheses]
   def getNumBeams: Int
   def isDone: Boolean

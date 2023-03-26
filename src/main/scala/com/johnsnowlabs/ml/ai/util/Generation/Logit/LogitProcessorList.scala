@@ -25,7 +25,7 @@ class LogitProcessorList {
   }
 
   def process(
-      inputIds: Seq[Array[Int]],
+      inputIds: Seq[Array[Long]],
       scores: Array[Array[Float]],
       currentLength: Int): Array[Array[Float]] = {
     var tempScores = scores
@@ -38,7 +38,7 @@ class LogitProcessorList {
   }
 
   def warp(
-      inputIds: Seq[Array[Int]],
+      inputIds: Seq[Array[Long]],
       scores: Array[Array[Float]],
       currentLength: Int): Array[Array[Float]] = {
     var tempScores = scores

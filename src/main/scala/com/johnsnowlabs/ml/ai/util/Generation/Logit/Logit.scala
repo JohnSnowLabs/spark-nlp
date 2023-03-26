@@ -18,7 +18,7 @@ package com.johnsnowlabs.ml.ai.util.Generation.Logit
 
 abstract class Logit {
   def call(
-      inputIds: Seq[Array[Int]],
+      inputIds: Seq[Array[Long]],
       scores: Array[Array[Float]],
       currentLength: Int): Array[Array[Float]]
 

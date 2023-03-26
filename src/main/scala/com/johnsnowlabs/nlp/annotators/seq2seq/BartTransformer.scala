@@ -491,7 +491,7 @@ class BartTransformer(override val uid: String)
         noRepeatNgramSize = $(noRepeatNgramSize),
         task = $(task),
         randomSeed = this.randomSeed,
-        ignoreTokenIds = $(ignoreTokenIds),
+        ignoreTokenIds = $(ignoreTokenIds).map(_.toLong),
         beamSize = $(beamSize))
     } else {
       Seq()

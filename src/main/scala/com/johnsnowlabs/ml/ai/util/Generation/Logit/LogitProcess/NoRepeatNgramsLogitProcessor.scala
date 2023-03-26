@@ -20,7 +20,7 @@ import scala.collection.mutable
 class NoRepeatNgramsLogitProcessor(val noRepeatNgramSize: Int, val vocabSize: Int)
     extends LogitProcessor {
   override def call(
-      inputIds: Seq[Array[Int]],
+      inputIds: Seq[Array[Long]],
       scores: Array[Array[Float]],
       currentLength: Int): Array[Array[Float]] = {
     if (noRepeatNgramSize > 0) {
@@ -51,16 +51,16 @@ class NoRepeatNgramsLogitProcessor(val noRepeatNgramSize: Int, val vocabSize: In
   }
 
   private def calcBannedNgramTokens(
-      prevInputIds: Seq[Array[Int]],
+      prevInputIds: Seq[Array[Long]],
       numHypos: Int,
       noRepeatNgramSize: Int,
-      curLen: Int): Array[Array[Int]] = {
+      curLen: Int): Array[Array[Long]] = {
     // based on fairseq for noRepeatNgram in beam_search
     if (curLen + 1 < noRepeatNgramSize)
       // return no banned tokens if we haven't generated noRepeatNgram_size tokens yet
-      return Array.ofDim[Int](numHypos, 0)
+      return Array.ofDim[Long](numHypos, 0)
     val generatedNgrams =
-      Array.tabulate(numHypos)(_ => mutable.Map.empty[IndexedSeq[Int], List[Int]])
+      Array.tabulate(numHypos)(_ => mutable.Map.empty[IndexedSeq[Long], List[Long]])
     for (idx <- 0 until numHypos) {
       val genTokens = prevInputIds(idx)
       val generatedNgram = generatedNgrams(idx)
@@ -69,7 +69,7 @@ class NoRepeatNgramsLogitProcessor(val noRepeatNgramSize: Int, val vocabSize: In
         val ngram = for (e <- ngramArrays) yield e(ngramInd)
         val prevNgramTuple = ngram.dropRight(1)
         generatedNgram(prevNgramTuple) =
-          generatedNgram.getOrElse(prevNgramTuple, List.empty[Int]) :+ ngram.last
+          generatedNgram.getOrElse(prevNgramTuple, List.empty[Long]) :+ ngram.last
       }
     }
     (for (hypoIdx <- 0 until numHypos)
@@ -82,14 +82,14 @@ class NoRepeatNgramsLogitProcessor(val noRepeatNgramSize: Int, val vocabSize: In
   }
 
   private def getGeneratedNgrams(
-      prevInputIds: Seq[Array[Int]],
-      generatedNgrams: Array[mutable.Map[IndexedSeq[Int], List[Int]]],
+      prevInputIds: Seq[Array[Long]],
+      generatedNgrams: Array[mutable.Map[IndexedSeq[Long], List[Long]]],
       hypoIdx: Int,
       curLen: Int,
-      noRepeatNgramSize: Int): Array[Int] = {
+      noRepeatNgramSize: Int): Array[Long] = {
     // Before decoding the next token, prevent decoding of ngrams that have already appeared
     val startIdx = curLen + 1 - noRepeatNgramSize
     val ngramIdx = prevInputIds(hypoIdx).slice(startIdx, curLen)
-    generatedNgrams(hypoIdx).getOrElse(ngramIdx, List.empty[Int]).toArray
+    generatedNgrams(hypoIdx).getOrElse(ngramIdx, List.empty[Long]).toArray
   }
 }
