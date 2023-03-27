@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Legal Criticality Prediction Classifier in German
+title: Legal Criticality Prediction Classifier (German)
 author: John Snow Labs
 name: legclf_critical_prediction_legal
 date: 2023-03-27
