@@ -581,15 +581,17 @@ object ResourceDownloader {
   /** Downloads the provided S3 path to a local temporary directory and returns the location of
     * the folder.
     *
-    * @param path
+    * @param s3Path
     *   S3 URL to the resource
     * @return
     *   URI of the local path to the temporary folder of the resource
     */
-  def downloadS3Directory(path: String): URI = {
+  def downloadS3Directory(
+      s3Path: String,
+      tempLocalPath: String = "",
+      isIndex: Boolean = false): URI = {
 
-    val (bucketName, keyPrefix) = ResourceHelper.parseS3URI(path)
-
+    val (bucketName, keyPrefix) = ResourceHelper.parseS3URI(s3Path)
     val (accessKey, secretKey, sessionToken) = ConfigHelper.getHadoopS3Config
     val region = ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalRegion)
     val privateS3Defined =
@@ -605,10 +607,10 @@ object ResourceDownloader {
         new AWSGateway(credentialsType = "public")
       }
 
-    val tmpDirectory = SparkFiles.getRootDirectory()
-    awsGateway.downloadFilesFromDirectory(bucketName, keyPrefix, new File(tmpDirectory))
+    val directory = if (tempLocalPath.isEmpty) SparkFiles.getRootDirectory() else tempLocalPath
+    awsGateway.downloadFilesFromDirectory(bucketName, keyPrefix, new File(directory), isIndex)
+    Paths.get(directory, keyPrefix).toUri
 
-    Paths.get(tmpDirectory, keyPrefix).toUri
   }
 
 }

@@ -37,6 +37,7 @@ import org.slf4j.{Logger, LoggerFactory}
 
 import scala.jdk.CollectionConverters._
 import java.io.File
+import java.nio.file.Files
 import scala.util.control.NonFatal
 
 class AWSGateway(
@@ -185,7 +186,9 @@ class AWSGateway(
   def downloadFilesFromDirectory(
       bucketName: String,
       keyPrefix: String,
-      directoryPath: File): Unit = {
+      directoryPath: File,
+      isIndex: Boolean = false): Unit = {
+
     val transferManager = TransferManagerBuilder
       .standard()
       .withS3Client(client)
@@ -201,6 +204,45 @@ class AWSGateway(
           "Amazon service error when downloading files from S3 directory: " + e.getMessage)
     }
     transferManager.shutdownNow()
+
+    if (isIndex) {
+      // Recursively rename the downloaded files to the desired directory path
+      def renameFiles(directory: File, keySuffix: String): Unit = {
+        val downloadedFiles = directory.listFiles()
+        for (file <- downloadedFiles) {
+          if (file.isDirectory()) {
+            // If the file is a directory, recursively rename its contents
+            val subDirectory = new File(directory, file.getName())
+            val subKeySuffix = file.getName()
+            renameFiles(subDirectory, subKeySuffix)
+          } else {
+            // Otherwise, rename the file to the desired local file path
+            val fileName = file.getName()
+            val newFilePath =
+              new File(directoryPath, fileName.stripPrefix(keyPrefix)).getPath()
+            file.renameTo(new File(newFilePath))
+          }
+        }
+      }
+
+      // Rename the downloaded files to the desired local file path
+      val keySuffix = keyPrefix.split("/").tail.mkString("/")
+      renameFiles(directoryPath, keySuffix)
+
+      // Remove all old folders
+      def removeAllFolders(directoryPath: File): Unit = {
+        val files = directoryPath.listFiles()
+        for (file <- files) {
+          if (file.isDirectory()) {
+            removeAllFolders(file)
+            Files.deleteIfExists(file.toPath())
+          }
+        }
+      }
+
+      removeAllFolders(directoryPath)
+    }
+
   }
 
   private def waitForCompletion(transfer: Transfer): Unit = {
