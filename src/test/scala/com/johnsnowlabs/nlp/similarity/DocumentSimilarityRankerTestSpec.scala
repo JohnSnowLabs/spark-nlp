@@ -91,11 +91,11 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
 
     val transformed = pipeline.fit(smallCorpus).transform(smallCorpus)
 
-    transformed.printSchema
+    // transformed.printSchema
     transformed
       .select(
         "text",
-        "finished_sentence_embeddings",
+        //"finished_sentence_embeddings",
         "finished_doc_similarity_rankings_id",
         "nearest_neighbor_id",
         "nearest_neighbor_distance")

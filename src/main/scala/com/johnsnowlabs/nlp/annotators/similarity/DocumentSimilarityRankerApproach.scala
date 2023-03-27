@@ -6,7 +6,7 @@ import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.feature.{BucketedRandomProjectionLSH, BucketedRandomProjectionLSHModel}
 import org.apache.spark.ml.functions.array_to_vector
-import org.apache.spark.ml.linalg.DenseVector
+import org.apache.spark.ml.linalg.Vector
 import org.apache.spark.ml.param.{BooleanParam, Param}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.functions.{col, flatten, udf}
@@ -131,8 +131,9 @@ class DocumentSimilarityRankerApproach(override val uid: String)
 
   def getNeighborsResultSet(
       model: BucketedRandomProjectionLSHModel,
-      query: (Int, DenseVector),
+      query: (Int, Vector),
       similarityDataset: DataFrame): NeighborsResultSet = {
+
     query match {
       case (index, queryVector) =>
         val _similarityDataset =
@@ -141,6 +142,11 @@ class DocumentSimilarityRankerApproach(override val uid: String)
           } else {
             similarityDataset.where(col("index") =!= index)
           }
+
+        // FIXME remove it
+        // _similarityDataset.select(col(INDEX_COL_NAME), col(LSH_INPUT_COL_NAME)).show(false)
+        // println(s"Searching query:\n" + queryVector)
+
         val similarRankedDocs =
           model.approxNearestNeighbors(_similarityDataset, queryVector, getNumberOfNeighbours)
 
@@ -159,6 +165,7 @@ class DocumentSimilarityRankerApproach(override val uid: String)
 
           NeighborsResultSet(index, IndexedNeighbors(rankedNeighbours))
         }
+      case _ => throw new IllegalArgumentException("query is not of type (Int, DenseVector)")
     }
   }
 
@@ -189,14 +196,16 @@ class DocumentSimilarityRankerApproach(override val uid: String)
       MurmurHash3.stringHash(s, MurmurHash3.stringSeed)
     }
 
-    val similarityDatasetWithIndex =
-      similarityDataset.withColumn(INDEX_COL_NAME, mh3UDF(col(TEXT)))
+    val similarityDatasetWithIndex = similarityDataset.withColumn(INDEX_COL_NAME, mh3UDF(col(TEXT)))
 
     val indexedVectorTuples = similarityDatasetWithIndex
       .select(INDEX_COL_NAME, LSH_INPUT_COL_NAME)
       .rdd
-      .map(x => (x.getAs[Int](INDEX_COL_NAME), x.getAs[DenseVector](LSH_INPUT_COL_NAME)))
+      .map(x => (x.getAs[Int](INDEX_COL_NAME), x.getAs[Vector](LSH_INPUT_COL_NAME)))
       .collect()
+
+    // FIXME remove it
+    // println(indexedVectorTuples.mkString("\n"))
 
     val similarityMappings: Map[Int, NeighborAnnotation] = indexedVectorTuples
       .map(query => getNeighborsResultSet(model, query, similarityDatasetWithIndex))
