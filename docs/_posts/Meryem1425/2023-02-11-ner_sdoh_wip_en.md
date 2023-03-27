@@ -11,6 +11,7 @@ nav_key: models
 edition: Healthcare NLP 4.2.8
 spark_version: 3.0
 supported: true
+recommended: true
 annotator: MedicalNerModel
 article_header:
   type: cover

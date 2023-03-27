@@ -10,6 +10,7 @@ language: en
 edition: Legal NLP 1.0.0
 spark_version: 3.0
 supported: true
+recommended: true
 annotator: PipelineModel
 article_header:
   type: cover
@@ -20,12 +21,8 @@ use_language_switcher: "Python-Scala-Java"
 
 This is a Pretrained Pipeline aimed to deidentify legal and financial documents to be compliant with data privacy regulations as GDPR and CCPA. Since the models used in this pipeline are statistical, make sure you use this model in a human-in-the-loop process to guarantee a 100% accuracy.
 
-You can carry out both masking and obfuscation with this pipeline, on the following entities:
-- Company names
-- People's names and titles
-- Contact information (address, email, phone numbers...)
-- Dates
-- etc
+You can carry out both masking and obfuscation with this pipeline, on the following entities: 
+`ALIAS`, `EMAIL`, `PHONE`, `PROFESSION`, `ORG`, `DATE`, `PERSON`, `ADDRESS`, `STREET`, `CITY`, `STATE`, `ZIP`, `COUNTRY`
 
 {:.btn-box}
 [Live Demo](https://demo.johnsnowlabs.com/legal/DEID_LEGAL/){:.button.button-orange}
@@ -83,20 +80,20 @@ print("\n".join(result['obfuscated']))
 Masked with entity labels
 ------------------------------
 <PARTY>. <DOC> This <DOC> (the <ALIAS>) is entered into as of the Agreement Date shown on the cover page between <PARTY> a Florida corporation, and the individual or legal entity identified on the cover page.
-Source: <PARTY>., <EFFDATE>
+Source: <PARTY>., <DATE>
 
 
 1.
 <PARTY> 1.1.
 <PARTY>.
 1.1.1 We grant you the right, and you accept the obligation, to use the <PARTY> and the System to operate one Restaurant (the <ALIAS>) at the Premises, in accordance with the terms of this Agreement.
-Source: <PARTY>., <EFFDATE>
+Source: <PARTY>., <DATE>
 
 
 1.3.
 Our <PARTY> and <PARTY>.
 The rights granted to you under this Agreement are not exclusive.sed Business.
-Source: <PARTY>., <EFFDATE>
+Source: <PARTY>., <DATE>
 
 Masked with chars
 ------------------------------

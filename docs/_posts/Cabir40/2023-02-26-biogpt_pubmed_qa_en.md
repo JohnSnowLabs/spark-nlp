@@ -10,7 +10,7 @@ language: en
 nav_key: models
 edition: Healthcare NLP 4.3.0
 spark_version: 3.0
-supported: true
+deprecated: true
 engine: tensorflow
 annotator: MedicalQuestionAnswering
 article_header:

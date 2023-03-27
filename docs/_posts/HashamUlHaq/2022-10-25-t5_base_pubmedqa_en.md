@@ -39,30 +39,45 @@ The T5 transformer model described in the seminal paper “Exploring the Limits 
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 document_assembler = DocumentAssembler()\
-.setInputCol("text")\
-.setOutputCol("documents")
+    .setInputCol("text")\
+    .setOutputCol("documents")
 
-t5 = T5Transformer().pretrained("t5_base_pubmedqa", "en", "clinical/models") \
-.setInputCols(["documents"]) \
-.setOutputCol("t5_output")\
-.setTask("summarize medical questions:")\
-.setMaxOutputLength(200)
+t5 = T5Transformer().pretrained("t5_base_pubmedqa", "en", "clinical/models")\
+    .setInputCols(["documents"])\
+    .setOutputCol("t5_output")\
+    .setTask("summarize medical questions:")\
+    .setMaxOutputLength(200)
 
-pipeline = Pipeline(stages=[
-document_assembler, 
-sentence_detector,
-t5
-])
-pipeline = Pipeline(stages=[
-document_assembler, 
-sentence_detector,
-t5
-])
+pipeline = Pipeline(stages=[document_assembler, t5])
+
 data = spark.createDataFrame([
-[1, "content:SUBJECT: Normal physical traits but no period MESSAGE: I'm a 40 yr. old woman that has infantile reproductive organs and have never experienced a mensus. I have had Doctors look but they all say I just have infantile female reproductive organs. When I try to look for answers on the internet I cannot find anything. ALL my \"girly\" parts are normal. My organs never matured. Could you give me more information please. focus:all"]
+  [1, "content:SUBJECT: Normal physical traits but no period MESSAGE: I'm a 40 yr. old woman that has infantile reproductive organs and have never experienced a mensus. I have had Doctors look but they all say I just have infantile female reproductive organs. When I try to look for answers on the internet I cannot find anything. ALL my \"girly\" parts are normal. My organs never matured. Could you give me more information please. focus:all"]
 ]).toDF('id', 'text')
+
 results = pipeline.fit(data).transform(data)
+
 results.select("t5_output.result").show(truncate=False)
+```
+
+```scala
+val document_assembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("documents")
+
+val t5 = T5Transformer()
+    .pretrained("t5_base_pubmedqa", "en", "clinical/models")
+    .setInputCols("documents")
+    .setOutputCol("t5_output")
+    .setTask("summarize medical questions:")
+    .setMaxOutputLength(200)
+
+val pipeline = new Pipeline().setStages(Array(document_assembler, t5))
+
+val data = Seq(Array(
+  (1, "content:SUBJECT: Normal physical traits but no period MESSAGE: I'm a 40 yr. old woman that has infantile reproductive organs and have never experienced a mensus. I have had Doctors look but they all say I just have infantile female reproductive organs. When I try to look for answers on the internet I cannot find anything. ALL my \"girly\" parts are normal. My organs never matured. Could you give me more information please. focus:all")
+)).toDF("id", "text")
+
+val results = pipeline.fit(data).transform(data)
 ```
 
 </div>
