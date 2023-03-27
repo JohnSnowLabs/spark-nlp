@@ -13,7 +13,7 @@ supported: true
 engine: tensorflow
 annotator: RoBertaForSequenceClassification
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -37,6 +37,7 @@ Description: This is a Binary classification model which identifies two critical
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = nlp.DocumentAssembler() \
     .setInputCol("text") \
