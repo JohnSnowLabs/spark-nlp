@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Financial Target Sentiments (Codalab)
+title: Financial Consumer Sentiments (Codalab)
 author: John Snow Labs
 name: finclf_bert_consumer_sentiments
 date: 2023-03-27
