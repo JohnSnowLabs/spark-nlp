@@ -229,7 +229,7 @@ class WordEmbeddingsModel(override val uid: String)
     WordpieceEmbeddingsSentence.pack(withEmbeddings)
   }
 
-  def retrieveEmbeddings(token: String): (Option[Array[Float]], Array[Float]) = {
+  private def retrieveEmbeddings(token: String): (Option[Array[Float]], Array[Float]) = {
     if ($(enableInMemoryStorage)) {
       val zeroArray = Array.fill[Float]($(dimension))(0f)
       var embeddings: Option[Array[Float]] = None
