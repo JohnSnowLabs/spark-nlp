@@ -18,14 +18,14 @@ package com.johnsnowlabs.nlp.annotators.seq2seq
 
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
 class BartTestSpec extends AnyFlatSpec {
 
-  "bart-large-cnn" should "should handle temperature=0 correctly and not crash when predicting more than 1 element with doSample=True" taggedAs FastTest in {
+  "bart-large-cnn" should "should handle temperature=0 correctly and not crash when predicting more than 1 element with doSample=True" taggedAs SlowTest in {
     // Even tough the Paper states temperature in interval [0,1), using temperature=0 will result in division by 0 error.
     // Also DoSample=True may result in infinities being generated and distFiltered.length==0 which results in exception if we don't return 0 instead internally.
     val testData = ResourceHelper.spark
@@ -42,19 +42,15 @@ class BartTestSpec extends AnyFlatSpec {
       .setInputCol("text")
       .setOutputCol("documents")
 
-    val gpt2 = BartTransformer
-      .loadSavedModel(
-        "/home/prabod/Projects/ModelZoo/BART/facebook/bart-large-cnn/saved_model/1",
-        ResourceHelper.spark)
+    val bart = BartTransformer
+      .pretrained("bart_large_cnn")
       .setTask("summarize:")
       .setInputCols(Array("documents"))
-      .setTopK(50)
       .setDoSample(true)
-      .setMaxOutputLength(25)
-      .setMinOutputLength(5)
+      .setMaxOutputLength(30)
       .setOutputCol("generation")
     new Pipeline()
-      .setStages(Array(documentAssembler, gpt2))
+      .setStages(Array(documentAssembler, bart))
       .fit(testData)
       .transform(testData)
       .show(truncate = false)
@@ -88,14 +84,12 @@ class BartTestSpec extends AnyFlatSpec {
       .setOutputCol("documents")
 
     val bart = BartTransformer
-      .loadSavedModel(
-        "/home/prabod/Projects/ModelZoo/BART/facebook/bart-large-cnn/saved_model/1",
-        ResourceHelper.spark)
+      .pretrained("bart_large_cnn")
       .setTask("summarize:")
       .setInputCols(Array("documents"))
       .setMaxOutputLength(70)
       .setMinOutputLength(30)
-      .setDoSample(false)
+      .setDoSample(true)
       .setOutputCol("summaries")
 
     val pipeline = new Pipeline().setStages(Array(documentAssembler, bart))
@@ -104,13 +98,13 @@ class BartTestSpec extends AnyFlatSpec {
     val results = model.transform(testData)
 
     results.select("summaries.result").show(truncate = false)
-    val dataframe = results.select("summaries.result").collect()
-    val result = dataframe.toSeq.head.getAs[Seq[String]](0).head
-    println(result)
+//    val dataframe = results.select("summaries.result").collect()
+//    val result = dataframe.toSeq.head.getAs[Seq[String]](0).head
+//    println(result)
     //    assert(
     //      result == "a knob of dripping or 2 tablespoons of vegetable oil in a large large pan . cut the kidneys in half and snip out the white core . heat the pan for 1-2 minutes, turning once, until browned .")
   }
-  "bart-large-cnn" should "run SparkNLP pipeline with maxLength=100 " taggedAs FastTest in {
+  "bart-large-cnn" should "run SparkNLP pipeline with maxLength=100 " taggedAs SlowTest in {
     val testData = ResourceHelper.spark
       .createDataFrame(
         Seq(
@@ -133,16 +127,14 @@ class BartTestSpec extends AnyFlatSpec {
       .setInputCol("text")
       .setOutputCol("documents")
 
-    val t5 = BartTransformer
-      .loadSavedModel(
-        "/home/prabod/Projects/ModelZoo/BART/facebook/bart-large-cnn/saved_model/1",
-        ResourceHelper.spark)
+    val bart = BartTransformer
+      .pretrained("bart_large_cnn")
       .setTask("summarize:")
       .setInputCols(Array("documents"))
       .setMaxOutputLength(100)
       .setOutputCol("summaries")
 
-    val pipeline = new Pipeline().setStages(Array(documentAssembler, t5))
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, bart))
 
     val model = pipeline.fit(testData)
     val results = model.transform(testData)
@@ -177,19 +169,19 @@ class BartTestSpec extends AnyFlatSpec {
       .setInputCol("text")
       .setOutputCol("documents")
 
-    val t5 = BartTransformer
-      .loadSavedModel(
-        "/home/prabod/Projects/ModelZoo/BART/facebook/bart-large-cnn/saved_model/1",
-        ResourceHelper.spark)
+    val bart = BartTransformer
+      .pretrained("bart_large_cnn")
       .setTask("summarize:")
       .setInputCols(Array("documents"))
       .setDoSample(true)
+      .setRandomSeed(56)
       .setMaxOutputLength(50)
       .setOutputCol("summaries")
 
-    val pipeline = new Pipeline().setStages(Array(documentAssembler, t5))
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, bart))
 
     val model = pipeline.fit(testData)
+
     val dataframe1 = model
       .transform(testData)
       .select("summaries.result")
@@ -209,6 +201,6 @@ class BartTestSpec extends AnyFlatSpec {
       .head
     println(dataframe2)
 
-    assert(!dataframe1.equals(dataframe2))
+    assert(dataframe1.equals(dataframe2))
   }
 }
