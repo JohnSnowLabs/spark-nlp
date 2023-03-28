@@ -17,16 +17,29 @@ from sparknlp.common import *
 
 
 class BartTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
-    """T5: the Text-To-Text Transfer Transformer
+    """BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation,
+    Translation, and Comprehension Transformer
 
-    T5 reconsiders all NLP tasks into a unified text-to-text-format where the
-    input and output are always text strings, in contrast to BERT-style models
-    that can only output either a class label or a span of the input. The
-    text-to-text framework is able to use the same model, loss function, and
-    hyper-parameters on any NLP task, including machine translation, document
-    summarization, question answering, and classification tasks (e.g., sentiment
-    analysis). T5 can even apply to regression tasks by training it to predict
-    the string representation of a number instead of the number itself.
+    The Facebook BART (Bidirectional and Auto-Regressive Transformer) model is a state-of-the-art
+    language generation model that was introduced by Facebook AI in 2019. It is based on the
+    transformer architecture and is designed to handle a wide range of natural language processing
+    tasks such as text generation, summarization, and machine translation.
+   
+    BART is unique in that it is both bidirectional and auto-regressive, meaning that it can
+    generate text both from left-to-right and from right-to-left. This allows it to capture
+    contextual information from both past and future tokens in a sentence,resulting in more
+    accurate and natural language generation.
+   
+    The model was trained on a large corpus of text data using a combination of unsupervised and
+    supervised learning techniques. It incorporates pretraining and fine-tuning phases, where the
+    model is first trained on a large unlabeled corpus of text, and then fine-tuned on specific
+    downstream tasks.
+   
+    BART has achieved state-of-the-art performance on a wide range of NLP tasks, including
+    summarization, question-answering, and language translation. Its ability to handle multiple
+    tasks and its high performance on each of these tasks make it a versatile and valuable tool
+    for natural language processing applications.
+   
 
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
@@ -37,9 +50,9 @@ class BartTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     ...     .setOutputCol("summaries")
 
 
-    The default model is ``"t5_small"``, if no name is provided. For available
+    The default model is ``"bart_large_cnn"``, if no name is provided. For available
     pretrained models please see the `Models Hub
-    <https://nlp.johnsnowlabs.com/models?q=t5>`__.
+    <https://nlp.johnsnowlabs.com/models?q=bart>`__.
 
     For extended examples of usage, see the `Examples
     <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/question-answering/Question_Answering_and_Summarization_with_T5.ipynb>`__.
@@ -67,6 +80,8 @@ class BartTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     topK
         The number of highest probability vocabulary tokens to keep for
         top-k-filtering
+    BeamSize
+        The number of beam size for beam search
     topP
         Top cumulative probability for vocabulary tokens
 
@@ -86,29 +101,26 @@ class BartTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
 
     References
     ----------
-    - `Exploring Transfer Learning with T5: the Text-To-Text Transfer
-      Transformer
-      <https://ai.googleblog.com/2020/02/exploring-transfer-learning-with-t5.html>`__
-    - `Exploring the Limits of Transfer Learning with a Unified Text-to-Text
-      Transformer <https://arxiv.org/abs/1910.10683>`__
-    - https://github.com/google-research/text-to-text-transfer-transformer
+    - `Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension
+     <https://arxiv.org/abs/1910.13461>`__
+    - https://github.com/pytorch/fairseq
 
     **Paper Abstract:**
-
-    *Transfer learning, where a model is first pre-trained on a data-rich task
-    before being fine-tuned on a downstream task, has emerged as a powerful
-    technique in natural language processing (NLP). The effectiveness of
-    transfer learning has given rise to a diversity of approaches, methodology,
-    and practice. In this paper, we explore the landscape of transfer learning
-    techniques for NLP by introducing a unified framework that converts all
-    text-based language problems into a text-to-text format. Our systematic
-    study compares pre-training objectives, architectures, unlabeled data sets,
-    transfer approaches, and other factors on dozens of language understanding
-    tasks. By combining the insights from our exploration with scale and our new
-    Colossal Clean Crawled Corpus, we achieve state-of-the-art results on many
-    benchmarks covering summarization, question answering, text classification,
-    and more. To facilitate future work on transfer learning for NLP, we release
-    our data set, pre-trained models, and code.*
+    *We present BART, a denoising autoencoder for pretraining sequence-to-sequence models.
+    BART is trained by (1) corrupting text with an arbitrary noising function, and (2)
+    learning a model to reconstruct the original text. It uses a standard Tranformer-based
+    neural machine translation architecture which, despite its simplicity, can be seen as
+    generalizing BERT (due to the bidirectional encoder), GPT (with the left-to-right decoder),
+    and many other more recent pretraining schemes. We evaluate a number of noising approaches,
+    finding the best performance by both randomly shuffling the order of the original sentences
+    and using a novel in-filling scheme, where spans of text are replaced with a single mask token.
+    BART is particularly effective when fine tuned for text generation but also works well for
+    comprehension tasks. It matches the performance of RoBERTa with comparable training resources
+    on GLUE and SQuAD, achieves new state-of-the-art results on a range of abstractive dialogue,
+    question answering, and summarization tasks, with gains of up to 6 ROUGE. BART also provides
+    a 1.1 BLEU increase over a back-translation system for machine translation, with only target
+    language pretraining. We also report ablation experiments that replicate other pretraining
+    schemes within the BART framework, to better measure which factors most influence end-task performance.*
 
     Examples
     --------
@@ -119,12 +131,12 @@ class BartTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     >>> documentAssembler = DocumentAssembler() \\
     ...     .setInputCol("text") \\
     ...     .setOutputCol("documents")
-    >>> t5 = BartTransformer.pretrained("t5_small") \\
+    >>> bart = BartTransformer.pretrained("bart_large_cnn") \\
     ...     .setTask("summarize:") \\
     ...     .setInputCols(["documents"]) \\
     ...     .setMaxOutputLength(200) \\
     ...     .setOutputCol("summaries")
-    >>> pipeline = Pipeline().setStages([documentAssembler, t5])
+    >>> pipeline = Pipeline().setStages([documentAssembler, bart])
     >>> data = spark.createDataFrame([[
     ...     "Transfer learning, where a model is first pre-trained on a data-rich task before being fine-tuned on a " +
     ...     "downstream task, has emerged as a powerful technique in natural language processing (NLP). The effectiveness" +
