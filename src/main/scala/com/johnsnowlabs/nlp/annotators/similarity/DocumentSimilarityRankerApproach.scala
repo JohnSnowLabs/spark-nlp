@@ -4,7 +4,11 @@ import com.johnsnowlabs.nlp.AnnotatorType.{DOC_SIMILARITY_RANKINGS, SENTENCE_EMB
 import com.johnsnowlabs.nlp.{AnnotatorApproach, HasEnableCachingProperties}
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.feature.{BucketedRandomProjectionLSH, BucketedRandomProjectionLSHModel}
+import org.apache.spark.ml.feature.{
+  BucketedRandomProjectionLSH,
+  BucketedRandomProjectionLSHModel,
+  MinHashLSH
+}
 import org.apache.spark.ml.functions.array_to_vector
 import org.apache.spark.ml.linalg.Vector
 import org.apache.spark.ml.param.{BooleanParam, Param}
@@ -130,9 +134,26 @@ class DocumentSimilarityRankerApproach(override val uid: String)
     identityRanking -> false)
 
   def getNeighborsResultSet(
-      model: BucketedRandomProjectionLSHModel,
       query: (Int, Vector),
       similarityDataset: DataFrame): NeighborsResultSet = {
+
+    val lsh = $(similarityMethod) match {
+      case "brp" =>
+        new BucketedRandomProjectionLSH()
+          .setBucketLength($(bucketLength))
+          .setNumHashTables($(numHashTables))
+          .setInputCol(LSH_INPUT_COL_NAME)
+          .setOutputCol(LSH_OUTPUT_COL_NAME)
+      case "mh" =>
+        new MinHashLSH()
+          .setNumHashTables($(numHashTables))
+          .setInputCol(LSH_INPUT_COL_NAME)
+          .setOutputCol(LSH_OUTPUT_COL_NAME)
+      case _ =>
+        throw new IllegalArgumentException(s"${$(similarityMethod)} is not a valid value.")
+    }
+
+    val model = lsh.fit(similarityDataset)
 
     query match {
       case (index, queryVector) =>
@@ -142,10 +163,6 @@ class DocumentSimilarityRankerApproach(override val uid: String)
           } else {
             similarityDataset.where(col("index") =!= index)
           }
-
-        // FIXME remove it
-        // _similarityDataset.select(col(INDEX_COL_NAME), col(LSH_INPUT_COL_NAME)).show(false)
-        // println(s"Searching query:\n" + queryVector)
 
         val similarRankedDocs =
           model.approxNearestNeighbors(_similarityDataset, queryVector, getNumberOfNeighbours)
@@ -173,30 +190,16 @@ class DocumentSimilarityRankerApproach(override val uid: String)
       dataset: Dataset[_],
       recursivePipeline: Option[PipelineModel]): DocumentSimilarityRankerModel = {
 
-    val lsh = $(similarityMethod) match {
-      case "brp" =>
-        new BucketedRandomProjectionLSH()
-          .setBucketLength($(bucketLength))
-          .setNumHashTables($(numHashTables))
-          .setInputCol(LSH_INPUT_COL_NAME)
-          .setOutputCol(LSH_OUTPUT_COL_NAME)
-      case _ =>
-        throw new IllegalArgumentException(s"${$(similarityMethod)} is not a valid value.")
-    }
-
     val embeddingsDataset = dataset.withColumn(LSH_INPUT_COL_NAME, col(INPUT_EMBEDDINGS))
 
     val similarityDataset: DataFrame = embeddingsDataset
       .withColumn(s"$LSH_INPUT_COL_NAME", flatten(col(s"$LSH_INPUT_COL_NAME")))
       .withColumn(s"$LSH_INPUT_COL_NAME", array_to_vector(col(s"$LSH_INPUT_COL_NAME")))
 
-    val model = lsh.fit(similarityDataset)
+    val mh3UDF = udf { (s: String) => MurmurHash3.stringHash(s, MurmurHash3.stringSeed) }
 
-    val mh3UDF = udf { (s: String) =>
-      MurmurHash3.stringHash(s, MurmurHash3.stringSeed)
-    }
-
-    val similarityDatasetWithIndex = similarityDataset.withColumn(INDEX_COL_NAME, mh3UDF(col(TEXT)))
+    val similarityDatasetWithIndex =
+      similarityDataset.withColumn(INDEX_COL_NAME, mh3UDF(col(TEXT)))
 
     val indexedVectorTuples = similarityDatasetWithIndex
       .select(INDEX_COL_NAME, LSH_INPUT_COL_NAME)
@@ -204,11 +207,8 @@ class DocumentSimilarityRankerApproach(override val uid: String)
       .map(x => (x.getAs[Int](INDEX_COL_NAME), x.getAs[Vector](LSH_INPUT_COL_NAME)))
       .collect()
 
-    // FIXME remove it
-    // println(indexedVectorTuples.mkString("\n"))
-
     val similarityMappings: Map[Int, NeighborAnnotation] = indexedVectorTuples
-      .map(query => getNeighborsResultSet(model, query, similarityDatasetWithIndex))
+      .map(query => getNeighborsResultSet(query, similarityDatasetWithIndex))
       .map(_.result)
       .toMap
 

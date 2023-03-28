@@ -15,11 +15,9 @@ import unittest
 
 import pytest
 from pyspark.sql import SparkSession
-
 from sparknlp.annotator import *
 from sparknlp.annotator.similarity.document_similarity_ranker import DocumentSimilarityRankerApproach
 from sparknlp.base import *
-
 
 # from test.util import SparkSessionForTest
 
@@ -68,7 +66,6 @@ class DocumentSimilarityRankerTestSpec(unittest.TestCase):
             .setInputCols(["document"]) \
             .setOutputCol("sentence_embeddings")
 
-        # TODO add document_similarity_ranker minmax LSH
         # TODO add document_similarity_ranker with input col embeddings too
         document_similarity_ranker = DocumentSimilarityRankerApproach() \
             .setInputCols("sentence_embeddings") \
@@ -92,6 +89,45 @@ class DocumentSimilarityRankerTestSpec(unittest.TestCase):
         model = pipeline.fit(self.data)
         # TODO add write/read pipeline
         model.transform(self.data).show()
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+        sentence_detector = SentenceDetector() \
+            .setInputCols(["document"]) \
+            .setOutputCol("sentence")
+        tokenizer = Tokenizer() \
+            .setInputCols(["sentence"]) \
+            .setOutputCol("token")
+
+        sentence_embeddings = RoBertaSentenceEmbeddings.pretrained() \
+            .setInputCols(["document"]) \
+            .setOutputCol("sentence_embeddings")
+
+        # TODO add document_similarity_ranker with input col embeddings too
+        document_similarity_ranker = DocumentSimilarityRankerApproach() \
+            .setInputCols("sentence_embeddings") \
+            .setOutputCol("doc_similarity_rankings") \
+            .setSimilarityMethod("mh") \
+            .setNumberOfNeighbours(10) \
+            .setNumHashTables(3) \
+            .setVisibleDistances(True) \
+            .setIdentityRanking(False)
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            sentence_detector,
+            tokenizer,
+            sentence_embeddings,
+            document_similarity_ranker
+            # TODO add document_similarity_ranker_finisher
+        ])
+
+        model = pipeline.fit(self.data)
+        # TODO add write/read pipeline
+        transformed = model.transform(self.data)
+        transformed.show()
 
     # FIXME encoding on GloVe generates different embeddings length
     # def runTest(self):
