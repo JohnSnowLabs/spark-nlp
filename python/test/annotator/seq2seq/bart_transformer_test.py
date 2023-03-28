@@ -27,16 +27,17 @@ class BartTransformerQATestSpec(unittest.TestCase):
 
     def runTest(self):
         data = self.spark.createDataFrame([
-            [1,"PG&E stated it scheduled the blackouts in response to forecasts for high winds " +
-             "amid dry conditions. The aim is to reduce the risk of wildfires. Nearly 800 thousand customers were " +
-             "scheduled to be affected by the shutoffs which were expected to last through at least midday tomorrow."],
+            [1, """PG&E stated it scheduled the blackouts in response to forecasts for high winds
+             amid dry conditions. The aim is to reduce the risk of wildfires. Nearly 800 thousand customers were 
+             scheduled to be affected by the shutoffs which were expected to last through at least midday tomorrow.
+             """.strip().replace("\n", " ")],
             ]).toDF("id", "text")
 
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("documents")
 
-        bart = BartTransformer.loadSavedModel("/home/prabod/Projects/ModelZoo/BART/BART/models/facebook/bart-large-cnn",self.spark) \
+        bart = BartTransformer.pretrained("bart_large_cnn") \
             .setInputCols(["documents"]) \
             .setOutputCol("answers")
 
@@ -76,7 +77,7 @@ class BartTransformerSummaryTestSpec(unittest.TestCase):
             .setInputCol("text") \
             .setOutputCol("documents")
 
-        bart = BartTransformer.loadSavedModel("/home/prabod/Projects/ModelZoo/BART/BART/models/facebook/bart-large-cnn",self.spark) \
+        bart = BartTransformer.pretrained("bart_large_cnn") \
             .setTask("summarize:") \
             .setMaxOutputLength(200) \
             .setInputCols(["documents"]) \
@@ -112,7 +113,7 @@ class BartTransformerSummaryWithRepetitionPenaltyTestSpec(unittest.TestCase):
             .setInputCol("text") \
             .setOutputCol("documents")
 
-        bart = BartTransformer.loadSavedModel("/home/prabod/Projects/ModelZoo/BART/BART/models/facebook/bart-large-cnn",self.spark) \
+        bart = BartTransformer.pretrained("bart_large_cnn") \
             .setTask("summarize:") \
             .setMaxOutputLength(50) \
             .setInputCols(["documents"]) \
@@ -149,7 +150,7 @@ class BartTransformerSummaryWithSamplingAndDeactivatedTopKTestSpec(unittest.Test
             .setInputCol("text") \
             .setOutputCol("documents")
 
-        bart = BartTransformer.loadSavedModel("/home/prabod/Projects/ModelZoo/BART/BART/models/facebook/bart-large-cnn",self.spark) \
+        bart = BartTransformer.pretrained("bart_large_cnn") \
             .setTask("summarize:") \
             .setMaxOutputLength(50) \
             .setDoSample(True) \
@@ -187,7 +188,7 @@ class BartTransformerSummaryWithSamplingAndTemperatureTestSpec(unittest.TestCase
             .setInputCol("text") \
             .setOutputCol("documents")
 
-        bart = BartTransformer.loadSavedModel("/home/prabod/Projects/ModelZoo/BART/BART/models/facebook/bart-large-cnn",self.spark) \
+        bart = BartTransformer.pretrained("bart_large_cnn") \
             .setTask("summarize:") \
             .setMaxOutputLength(50) \
             .setDoSample(True) \
@@ -226,7 +227,7 @@ class BartTransformerSummaryWithSamplingAndTopPTestSpec(unittest.TestCase):
             .setInputCol("text") \
             .setOutputCol("documents")
 
-        bart = BartTransformer.loadSavedModel("/home/prabod/Projects/ModelZoo/BART/BART/models/facebook/bart-large-cnn",self.spark) \
+        bart = BartTransformer.pretrained("bart_large_cnn")\
             .setTask("summarize:") \
             .setMaxOutputLength(50) \
             .setDoSample(True) \
@@ -265,7 +266,7 @@ class BartTransformerSummaryWithSamplingTestSpec(unittest.TestCase):
             .setInputCol("text") \
             .setOutputCol("documents")
 
-        bart = BartTransformer.loadSavedModel("/home/prabod/Projects/ModelZoo/BART/BART/models/facebook/bart-large-cnn",self.spark) \
+        bart = BartTransformer.pretrained("bart_large_cnn") \
             .setTask("summarize:") \
             .setMaxOutputLength(50) \
             .setDoSample(True) \
