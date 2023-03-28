@@ -15,6 +15,7 @@
  */
 
 package com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitWarper
+import scala.collection.mutable.ArrayBuffer
 
 class TopKLogitWarper(
     val k: Int,
@@ -32,17 +33,28 @@ class TopKLogitWarper(
 
       /** Remove all tokens with a probability less than the last token of the top-k */
 
-      val topkInd = scores.map(x => x.sortWith(_ > _).take(topKup))
-      val indicesToRemove = scores.zipWithIndex.map {
-        case (logit, ind) => {
-          for (elem <- logit) yield if (topkInd(ind).contains(elem)) false else true
-        }
+      val topKLogits = new ArrayBuffer[Array[Float]]()
+      for (logits <- scores) {
+        val topKIndices = getTopKIndices(logits, topKup)
+        val maskedValues = maskNotTopKValues(logits, topKIndices)
+        topKLogits += maskedValues
       }
-
-      logitsUpd =
-        for ((nextTokenLogit, indexToRemove) <- scores.zip(indicesToRemove))
-          yield this.setTensorByIndicesToValue(nextTokenLogit, indexToRemove, filterValue)
+      topKLogits.toArray
     }
     logitsUpd
+  }
+
+  private def getTopKIndices(logits: Array[Float], k: Int): Array[Int] = {
+    logits.indices.sortBy(logits(_)).reverse.take(k).toArray
+  }
+
+  private def maskNotTopKValues(logits: Array[Float], topKIndices: Array[Int]): Array[Float] = {
+    val maskedValues = logits.clone()
+    for (i <- logits.indices) {
+      if (!topKIndices.contains(i)) {
+        maskedValues(i) = this.filterValue
+      }
+    }
+    maskedValues
   }
 }
