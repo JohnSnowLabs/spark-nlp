@@ -20,18 +20,22 @@ import com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitProcessorList
 import scala.math._
 import scala.util.control.Breaks._
 import scala.util.Random
+import org.tensorflow.{Session, Tensor}
 
 trait Generate {
   def beamSearch(
       encoderInputIdsVals: Seq[Array[Long]],
       inputIdsVal: Seq[Array[Long]],
+      decoderEncoderStateTensors: Tensor,
+      encoderAttentionMaskTensors: Tensor,
       beamScorer: BeamScorer,
       logitProcessor: LogitProcessorList,
       maxLength: Int,
       padTokenId: Long,
       eosTokenId: Long,
       doSample: Boolean,
-      randomSeed: Option[Long]): Array[Array[Long]] = {
+      randomSeed: Option[Long],
+      session: Session): Array[Array[Long]] = {
     var inputIds = inputIdsVal
     val batchSize = beamScorer.getBeamHypothesesSeq.length
     val numBeams = beamScorer.getNumBeams
@@ -53,7 +57,13 @@ trait Generate {
         // Feed the encoder input ids and decoder input ids to the model and get the output
         // return shape (beamSize,vocabSize)
         val nextTokenLogits =
-          this.getModelOutput(expandedEncoderInputIdsVals, expandedInputs, maxLength)
+          this.getModelOutput(
+            expandedEncoderInputIdsVals,
+            expandedInputs,
+            decoderEncoderStateTensors,
+            encoderAttentionMaskTensors,
+            maxLength,
+            session)
 
         // Apply log softmax to model outputs
         var nextTokenScores = nextTokenLogits.map(logSoftmax)
@@ -158,7 +168,10 @@ trait Generate {
   def getModelOutput(
       encoderInputIds: Seq[Array[Long]],
       decoderInputIds: Seq[Array[Long]],
-      maxLength: Int): Array[Array[Float]]
+      decoderEncoderStateTensors: Tensor,
+      encoderAttentionMaskTensors: Tensor,
+      maxLength: Int,
+      session: Session): Array[Array[Float]]
 
   def logSoftmax(values: Array[Float]): Array[Float] = {
     val c = values.max
