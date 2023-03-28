@@ -27,24 +27,20 @@ class BartTransformerQATestSpec(unittest.TestCase):
 
     def runTest(self):
         data = self.spark.createDataFrame([
-            [1, "Which is the capital of France? Who was the first president of USA?"],
-            [1, "Which is the capital of Bulgaria ?"],
-            [2, "Who is Donald Trump?"]]).toDF("id", "text")
+            [1,"PG&E stated it scheduled the blackouts in response to forecasts for high winds " +
+             "amid dry conditions. The aim is to reduce the risk of wildfires. Nearly 800 thousand customers were " +
+             "scheduled to be affected by the shutoffs which were expected to last through at least midday tomorrow."],
+            ]).toDF("id", "text")
 
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("documents")
 
-        sentence_detector = SentenceDetectorDLModel \
-            .pretrained() \
-            .setInputCols(["documents"]) \
-            .setOutputCol("questions")
-
         bart = BartTransformer.loadSavedModel("/home/prabod/Projects/ModelZoo/BART/BART/models/facebook/bart-large-cnn",self.spark) \
-            .setInputCols(["questions"]) \
+            .setInputCols(["documents"]) \
             .setOutputCol("answers")
 
-        pipeline = Pipeline().setStages([document_assembler, sentence_detector, bart])
+        pipeline = Pipeline().setStages([document_assembler, bart])
         results = pipeline.fit(data).transform(data)
 
         results.select("questions.result", "answers.result").show(truncate=False)
