@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Korean Electra Embeddings (from krevas)
+title: Financial Korean Electra Embeddings (Base)
 author: John Snow Labs
 name: electra_embeddings_finance_koelectra_base_generator
 date: 2022-05-17
@@ -18,7 +18,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Electra Embeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `finance-koelectra-base-generator` is a Korean model orginally trained by `krevas`.
+Pretrained Financial Korean Electra Embeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `finance-koelectra-base-generator` is a Korean model orginally trained by `krevas`. This is a Base model.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
