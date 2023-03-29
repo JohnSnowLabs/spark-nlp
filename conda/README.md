@@ -58,7 +58,7 @@ conda install -c johnsnowlabs spark-nlp
 
 ## Project's website
 
-Take a look at our official spark-nlp page: [http://nlp.johnsnowlabs.com/](http://nlp.johnsnowlabs.com/) for user documentation and examples
+Take a look at our official spark-nlp page: [https://sparknlp.org/](https://sparknlp.org/) for user documentation and examples
 
 ## License
 
