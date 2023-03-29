@@ -26,7 +26,7 @@ It also offers tasks such as **Tokenization**, **Word Segmentation**, **Part-of-
 
 ## Project's website
 
-Take a look at our official Spark NLP page: [http://nlp.johnsnowlabs.com/](http://nlp.johnsnowlabs.com/) for user
+Take a look at our official Spark NLP page: [https://sparknlp.org/](https://sparknlp.org/) for user
 documentation and examples
 
 ## Community support
