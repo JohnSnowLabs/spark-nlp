@@ -1,122 +1,97 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-03-27T19:47:13+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
-</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">Legal Criticality Prediction Classifier (German)</title><link href="/2023/03/27/legclf_critical_prediction_legal_de.html" rel="alternate" type="text/html" title="Legal Criticality Prediction Classifier (German)" /><published>2023-03-27T00:00:00+00:00</published><updated>2023-03-27T00:00:00+00:00</updated><id>/2023/03/27/legclf_critical_prediction_legal_de</id><content type="html" xml:base="/2023/03/27/legclf_critical_prediction_legal_de.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-03-29T08:53:55+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">Legal Criticality Prediction Classifier (German)</title><link href="/2023/03/27/legclf_critical_prediction_legal_de.html" rel="alternate" type="text/html" title="Legal Criticality Prediction Classifier (German)" /><published>2023-03-27T00:00:00+00:00</published><updated>2023-03-27T00:00:00+00:00</updated><id>/2023/03/27/legclf_critical_prediction_legal_de</id><content type="html" xml:base="/2023/03/27/legclf_critical_prediction_legal_de.html">## Description
 
-&lt;p&gt;This is a Binary classification model which identifies two criticality labels(critical, non-critical) in German-based Court Cases.&lt;/p&gt;
+This is a Binary classification model which identifies two criticality labels(critical, non-critical) in German-based Court Cases.
 
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+## Predicted Entities
 
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;critical&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;non-critical&lt;/code&gt;&lt;/p&gt;
+`critical`, `non-critical`
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_critical_prediction_legal_de_1.0.0_3.0_1679923757236.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/legal/models/legclf_critical_prediction_legal_de_1.0.0_3.0_1679923757236.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_critical_prediction_legal_de_1.0.0_3.0_1679923757236.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_critical_prediction_legal_de_1.0.0_3.0_1679923757236.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
 
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
-&lt;span class=&quot;n&quot;&gt;classifier&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RoBertaForSequenceClassification&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;legclf_critical_prediction_legal&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;de&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;legal/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;class&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+```python
+documentAssembler = nlp.DocumentAssembler() \
+    .setInputCol(&quot;text&quot;) \
+    .setOutputCol(&quot;document&quot;)
 
-&lt;span class=&quot;n&quot;&gt;nlpPipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;classifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+tokenizer = nlp.Tokenizer() \
+    .setInputCols(&quot;document&quot;) \
+    .setOutputCol(&quot;token&quot;)
+
+classifier = nlp.RoBertaForSequenceClassification.pretrained(&quot;legclf_critical_prediction_legal&quot;, &quot;de&quot;, &quot;legal/models&quot;) \
+    .setInputCols([&quot;document&quot;, &quot;token&quot;]) \
+    .setOutputCol(&quot;class&quot;)
+
+nlpPipeline = nlp.Pipeline(
+      stages = [documentAssembler,
+                tokenizer,
+                classifier])
      
-&lt;span class=&quot;c1&quot;&gt;# Example text
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;example&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;erkennt der Präsident: 1. Auf die Beschwerde wird nicht eingetreten. 2. Es werden keine Gerichtskosten erhoben. 3. Dieses Urteil wird den Parteien, dem Sozialversicherungsgericht des Kantons Zürich und dem Staatssekretariat für Wirtschaft (SECO) schriftlich mitgeteilt. Luzern, 5. Dezember 2016 Im Namen der I. sozialrechtlichen Abteilung des Schweizerischen Bundesgerichts Der Präsident: Maillard Der Gerichtsschreiber: Grünvogel&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+# Example text
+example = spark.createDataFrame([[&quot;erkennt der Präsident: 1. Auf die Beschwerde wird nicht eingetreten. 2. Es werden keine Gerichtskosten erhoben. 3. Dieses Urteil wird den Parteien, dem Sozialversicherungsgericht des Kantons Zürich und dem Staatssekretariat für Wirtschaft (SECO) schriftlich mitgeteilt. Luzern, 5. Dezember 2016 Im Namen der I. sozialrechtlichen Abteilung des Schweizerischen Bundesgerichts Der Präsident: Maillard Der Gerichtsschreiber: Grünvogel&quot;]]).toDF(&quot;text&quot;)
 
-&lt;span class=&quot;n&quot;&gt;empty_data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlpPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;empty_data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+empty_data = spark.createDataFrame([[&quot;&quot;]]).toDF(&quot;text&quot;)
+model = nlpPipeline.fit(empty_data)
 
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;example&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+result = model.transform(example)
 
-&lt;span class=&quot;c1&quot;&gt;# result is a DataFrame
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;class.result&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+# result is a DataFrame
+result.select(&quot;text&quot;, &quot;class.result&quot;).show()
+```
 
 &lt;/div&gt;
 
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+## Results
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+----------------------------------------------------------------------------------------------------+--------------+
+```bash
++----------------------------------------------------------------------------------------------------+--------------+
 |                                                                                                text|        result|
 +----------------------------------------------------------------------------------------------------+--------------+
 |erkennt der Präsident: 1. Auf die Beschwerde wird nicht eingetreten. 2. Es werden keine Gerichtsk...|[non_critical]|
 +----------------------------------------------------------------------------------------------------+--------------+
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+```
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;legclf_critical_prediction_legal&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Legal NLP 1.0.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Licensed&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[document, token]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[class]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;de&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;468.5 MB&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Case sensitive:&lt;/td&gt;
-      &lt;td&gt;true&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Max sentence length:&lt;/td&gt;
-      &lt;td&gt;512&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|legclf_critical_prediction_legal|
+|Compatibility:|Legal NLP 1.0.0+|
+|License:|Licensed|
+|Edition:|Official|
+|Input Labels:|[document, token]|
+|Output Labels:|[class]|
+|Language:|de|
+|Size:|468.5 MB|
+|Case sensitive:|true|
+|Max sentence length:|512|
 
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+## References
 
-&lt;p&gt;Train dataset available &lt;a href=&quot;https://huggingface.co/datasets/rcds/legal_criticality_prediction&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
+Train dataset available [here](https://huggingface.co/datasets/rcds/legal_criticality_prediction)
 
-&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
+## Benchmarking
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;label         precision  recall  f1-score  support 
+```bash
+label         precision  recall  f1-score  support 
 critical      0.76       0.87    0.81      249     
 non_critical  0.87       0.76    0.81      293     
 accuracy      -          -       0.81      542     
 macro-avg     0.81       0.82    0.81      542     
 weighted-avg  0.82       0.81    0.81      542     
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="classification" /><category term="de" /><category term="licensed" /><category term="legal" /><category term="tensorflow" /><summary type="html">Description This is a Binary classification model which identifies two criticality labels(critical, non-critical) in German-based Court Cases. Predicted Entities critical, non-critical Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = nlp.DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) tokenizer = nlp.Tokenizer() \ .setInputCols(&quot;document&quot;) \ .setOutputCol(&quot;token&quot;) classifier = nlp.RoBertaForSequenceClassification.pretrained(&quot;legclf_critical_prediction_legal&quot;, &quot;de&quot;, &quot;legal/models&quot;) \ .setInputCols([&quot;document&quot;, &quot;token&quot;]) \ .setOutputCol(&quot;class&quot;) nlpPipeline = nlp.Pipeline( stages = [documentAssembler, tokenizer, classifier]) # Example text example = spark.createDataFrame([[&quot;erkennt der Präsident: 1. Auf die Beschwerde wird nicht eingetreten. 2. Es werden keine Gerichtskosten erhoben. 3. Dieses Urteil wird den Parteien, dem Sozialversicherungsgericht des Kantons Zürich und dem Staatssekretariat für Wirtschaft (SECO) schriftlich mitgeteilt. Luzern, 5. Dezember 2016 Im Namen der I. sozialrechtlichen Abteilung des Schweizerischen Bundesgerichts Der Präsident: Maillard Der Gerichtsschreiber: Grünvogel&quot;]]).toDF(&quot;text&quot;) empty_data = spark.createDataFrame([[&quot;&quot;]]).toDF(&quot;text&quot;) model = nlpPipeline.fit(empty_data) result = model.transform(example) # result is a DataFrame result.select(&quot;text&quot;, &quot;class.result&quot;).show() Results +----------------------------------------------------------------------------------------------------+--------------+ | text| result| +----------------------------------------------------------------------------------------------------+--------------+ |erkennt der Präsident: 1. Auf die Beschwerde wird nicht eingetreten. 2. Es werden keine Gerichtsk...|[non_critical]| +----------------------------------------------------------------------------------------------------+--------------+ Model Information Model Name: legclf_critical_prediction_legal Compatibility: Legal NLP 1.0.0+ License: Licensed Edition: Official Input Labels: [document, token] Output Labels: [class] Language: de Size: 468.5 MB Case sensitive: true Max sentence length: 512 References Train dataset available here Benchmarking label precision recall f1-score support critical 0.76 0.87 0.81 249 non_critical 0.87 0.76 0.81 293 accuracy - - 0.81 542 macro-avg 0.81 0.82 0.81 542 weighted-avg 0.82 0.81 0.81 542</summary></entry><entry><title type="html">Financial Company Sentiments (Codalab)</title><link href="/2023/03/27/finclf_bert_company_sentiments_es.html" rel="alternate" type="text/html" title="Financial Company Sentiments (Codalab)" /><published>2023-03-27T00:00:00+00:00</published><updated>2023-03-27T00:00:00+00:00</updated><id>/2023/03/27/finclf_bert_company_sentiments_es</id><content type="html" xml:base="/2023/03/27/finclf_bert_company_sentiments_es.html">## Description
+```</content><author><name>John Snow Labs</name></author><category term="classification" /><category term="de" /><category term="licensed" /><category term="legal" /><category term="tensorflow" /><summary type="html">Description This is a Binary classification model which identifies two criticality labels(critical, non-critical) in German-based Court Cases. Predicted Entities critical, non-critical Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = nlp.DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) tokenizer = nlp.Tokenizer() \ .setInputCols(&quot;document&quot;) \ .setOutputCol(&quot;token&quot;) classifier = nlp.RoBertaForSequenceClassification.pretrained(&quot;legclf_critical_prediction_legal&quot;, &quot;de&quot;, &quot;legal/models&quot;) \ .setInputCols([&quot;document&quot;, &quot;token&quot;]) \ .setOutputCol(&quot;class&quot;) nlpPipeline = nlp.Pipeline( stages = [documentAssembler, tokenizer, classifier]) # Example text example = spark.createDataFrame([[&quot;erkennt der Präsident: 1. Auf die Beschwerde wird nicht eingetreten. 2. Es werden keine Gerichtskosten erhoben. 3. Dieses Urteil wird den Parteien, dem Sozialversicherungsgericht des Kantons Zürich und dem Staatssekretariat für Wirtschaft (SECO) schriftlich mitgeteilt. Luzern, 5. Dezember 2016 Im Namen der I. sozialrechtlichen Abteilung des Schweizerischen Bundesgerichts Der Präsident: Maillard Der Gerichtsschreiber: Grünvogel&quot;]]).toDF(&quot;text&quot;) empty_data = spark.createDataFrame([[&quot;&quot;]]).toDF(&quot;text&quot;) model = nlpPipeline.fit(empty_data) result = model.transform(example) # result is a DataFrame result.select(&quot;text&quot;, &quot;class.result&quot;).show() Results +----------------------------------------------------------------------------------------------------+--------------+ | text| result| +----------------------------------------------------------------------------------------------------+--------------+ |erkennt der Präsident: 1. Auf die Beschwerde wird nicht eingetreten. 2. Es werden keine Gerichtsk...|[non_critical]| +----------------------------------------------------------------------------------------------------+--------------+ Model Information Model Name: legclf_critical_prediction_legal Compatibility: Legal NLP 1.0.0+ License: Licensed Edition: Official Input Labels: [document, token] Output Labels: [class] Language: de Size: 468.5 MB Case sensitive: true Max sentence length: 512 References Train dataset available here Benchmarking label precision recall f1-score support critical 0.76 0.87 0.81 249 non_critical 0.87 0.76 0.81 293 accuracy - - 0.81 542 macro-avg 0.81 0.82 0.81 542 weighted-avg 0.82 0.81 0.81 542</summary></entry><entry><title type="html">Financial Company Sentiments (Codalab)</title><link href="/2023/03/27/finclf_bert_company_sentiments_es.html" rel="alternate" type="text/html" title="Financial Company Sentiments (Codalab)" /><published>2023-03-27T00:00:00+00:00</published><updated>2023-03-27T00:00:00+00:00</updated><id>/2023/03/27/finclf_bert_company_sentiments_es</id><content type="html" xml:base="/2023/03/27/finclf_bert_company_sentiments_es.html">## Description
 
 This  Spanish Text Classifier will identify from the viewpoint of a company whether a financial statement is `positive`, `neutral` or `negative`. This model is trained from the competition - `IBERLEF 2023 Task - FinancES. Financial Targeted Sentiment Analysis in Spanish`. We have used the participation dataset which is a small subset of the main one to train this model.
 
@@ -640,120 +615,101 @@ B-STOCKHOLDERS_EQUITY       1.00      0.93      0.96        27
             macro-avg       0.85      0.87      0.85     10905
          weighted-avg       0.93      0.96      0.95     10905
 
-```</content><author><name>John Snow Labs</name></author><category term="bert" /><category term="finance" /><category term="broker_reports" /><category term="ner" /><category term="en" /><category term="licensed" /><category term="tensorflow" /><summary type="html">Description This is a sm (small) version of a financial model trained on Broker Reports to detect financial entities (NER model). Predicted Entities LIABILITY_INCREASE, REVENUE_INCREASE, ASSET_DECREASE, AMOUNT, TICKER, TARGET_PRICE, ORG, DATE, LIABILITY_DECREASE, LIABILITY, CFO_INCREASE, ASSET_INCREASE, LOSS, CMP, ASSET, CF_DECREASE, EXPENSE, CF, PAD, CFO, FCF, PROFIT_INCREASE, REVENUE_DECLINE, CF_INCREASE, PERCENTAGE, RATING, STOCKHOLDERS_EQUITY, PROFIT_DECLINE, PROFIT, CURRENCY, FISCAL_YEAR, EXPENSE_INCREASE, EXPENSE_DECREASE, REVENUE Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = nlp.DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) tokenizer = nlp.Tokenizer()\ .setInputCols(&quot;document&quot;)\ .setOutputCol(&quot;token&quot;) tokenClassifier = finance.BertForTokenClassification.pretrained(&quot;finner_broker_reports_specific_sm&quot;,&quot;en&quot;,&quot;finance/models&quot;)\ .setInputCols(&quot;token&quot;, &quot;document&quot;)\ .setOutputCol(&quot;label&quot;)\ .setCaseSensitive(True) converter = finance.NerConverterInternal()\ .setInputCols([&quot;document&quot;, &quot;token&quot;, &quot;label&quot;])\ .setOutputCol(&quot;ner_span&quot;) pipeline = nlp.Pipeline( stages=[ documentAssembler, tokenizer, tokenClassifier, converter ] ) Results +-----------------+----------+ |chunk |entity | +-----------------+----------+ |revenue |REVENUE | |$ |CURRENCY | |1.7 billion |AMOUNT | |net profit margin|PROFIT | |13 |PERCENTAGE| |net debt |LIABILITY | |Rs |CURRENCY | |6.62bn |AMOUNT | +-----------------+----------+ Model Information Model Name: finner_broker_reports_specific_sm Compatibility: Finance NLP 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence, token] Output Labels: [ner] Language: en Size: 400.9 MB Case sensitive: true Max sentence length: 128 References In-house annotated dataset Benchmarking labels precision recall f1-score support B-REVENUE_INCREASE 0.69 0.78 0.73 126 I-ASSET_DECREASE 0.80 0.87 0.83 23 B-ASSET 0.84 0.82 0.83 50 B-REVENUE_DECLINE 0.81 0.79 0.80 28 I-STOCKHOLDERS_EQUITY 1.00 0.96 0.98 56 B-CF 0.77 0.94 0.85 18 I-LOSS 0.92 0.92 0.92 25 I-REVENUE 0.28 0.26 0.27 19 I-PROFIT_DECLINE 0.80 0.94 0.86 17 I-PROFIT 0.91 0.94 0.93 249 I-EXPENSE_DECREASE 0.77 1.00 0.87 10 I-REVENUE_INCREASE 0.58 0.68 0.63 56 B-TICKER 0.65 0.81 0.72 73 B-EXPENSE 0.76 0.90 0.83 63 I-CF_DECREASE 0.90 1.00 0.95 38 B-RATING 0.93 0.99 0.96 536 B-FCF 1.00 1.00 1.00 18 B-CF_INCREASE 1.00 1.00 1.00 20 B-CURRENCY 0.98 1.00 0.99 936 I-ASSET_INCREASE 0.76 1.00 0.86 16 B-CFO 0.96 1.00 0.98 22 I-LIABILITY 0.97 0.82 0.89 38 B-LOSS 0.85 0.94 0.89 31 I-LIABILITY_DECREASE 0.44 0.67 0.53 12 B-PROFIT_INCREASE 0.81 0.77 0.79 173 B-EXPENSE_DECREASE 0.90 1.00 0.95 26 B-CFO_INCREASE 0.92 0.96 0.94 25 B-AMOUNT 0.97 1.00 0.98 1999 B-TARGET_PRICE 0.97 0.98 0.97 171 B-PROFIT 0.85 0.92 0.88 437 I-AMOUNT 0.97 0.97 0.97 464 B-ASSET_INCREASE 0.69 0.78 0.73 23 I-EXPENSE_INCREASE 0.88 0.79 0.84 29 B-LIABILITY_DECREASE 0.85 0.88 0.86 40 B-PROFIT_DECLINE 0.90 0.85 0.87 53 B-STOCKHOLDERS_EQUITY 1.00 0.93 0.96 27 I-EXPENSE 0.91 0.87 0.89 61 B-PERCENTAGE 0.95 0.99 0.97 1133 I-ASSET 0.97 0.73 0.83 44 I-PERCENTAGE 0.33 1.00 0.50 2 I-TARGET_PRICE 0.94 1.00 0.97 119 B-CMP 0.89 1.00 0.94 33 I-PROFIT_INCREASE 0.75 0.75 0.75 48 I-DATE 0.40 0.57 0.47 14 B-REVENUE 0.78 0.83 0.80 128 B-ASSET_DECREASE 0.87 0.91 0.89 22 I-CF_INCREASE 1.00 1.00 1.00 42 I-FISCAL_YEAR 0.98 0.89 0.93 110 I-CFO 0.97 1.00 0.99 75 I-FCF 1.00 1.00 1.00 32 B-ORG 0.95 0.98 0.96 1310 I-ORG 0.95 0.98 0.97 1005 B-EXPENSE_INCREASE 1.00 0.68 0.81 34 I-REVENUE_DECLINE 0.67 0.38 0.48 21 I-RATING 0.00 0.00 0.00 1 B-DATE 0.98 0.99 0.98 358 I-CMP 0.97 1.00 0.98 29 B-LIABILITY_INCREASE 1.00 0.93 0.96 41 B-FISCAL_YEAR 0.96 0.89 0.93 28 I-CURRENCY 0.96 1.00 0.98 72 I-CFO_INCREASE 0.89 0.97 0.93 72 B-CF_DECREASE 0.96 1.00 0.98 23 I-TICKER 1.00 0.40 0.57 5 I-LIABILITY_INCREASE 1.00 0.94 0.97 31 B-LIABILITY 0.96 0.92 0.94 26 I-CF 0.80 0.85 0.83 39 micro-avg 0.93 0.96 0.95 10905 macro-avg 0.85 0.87 0.85 10905 weighted-avg 0.93 0.96 0.95 10905</summary></entry><entry><title type="html">Legal Arguments Mining in Court Decisions</title><link href="/2023/03/26/legclf_argument_mining_en.html" rel="alternate" type="text/html" title="Legal Arguments Mining in Court Decisions" /><published>2023-03-26T00:00:00+00:00</published><updated>2023-03-26T00:00:00+00:00</updated><id>/2023/03/26/legclf_argument_mining_en</id><content type="html" xml:base="/2023/03/26/legclf_argument_mining_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+```</content><author><name>John Snow Labs</name></author><category term="bert" /><category term="finance" /><category term="broker_reports" /><category term="ner" /><category term="en" /><category term="licensed" /><category term="tensorflow" /><summary type="html">Description This is a sm (small) version of a financial model trained on Broker Reports to detect financial entities (NER model). Predicted Entities LIABILITY_INCREASE, REVENUE_INCREASE, ASSET_DECREASE, AMOUNT, TICKER, TARGET_PRICE, ORG, DATE, LIABILITY_DECREASE, LIABILITY, CFO_INCREASE, ASSET_INCREASE, LOSS, CMP, ASSET, CF_DECREASE, EXPENSE, CF, PAD, CFO, FCF, PROFIT_INCREASE, REVENUE_DECLINE, CF_INCREASE, PERCENTAGE, RATING, STOCKHOLDERS_EQUITY, PROFIT_DECLINE, PROFIT, CURRENCY, FISCAL_YEAR, EXPENSE_INCREASE, EXPENSE_DECREASE, REVENUE Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = nlp.DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) tokenizer = nlp.Tokenizer()\ .setInputCols(&quot;document&quot;)\ .setOutputCol(&quot;token&quot;) tokenClassifier = finance.BertForTokenClassification.pretrained(&quot;finner_broker_reports_specific_sm&quot;,&quot;en&quot;,&quot;finance/models&quot;)\ .setInputCols(&quot;token&quot;, &quot;document&quot;)\ .setOutputCol(&quot;label&quot;)\ .setCaseSensitive(True) converter = finance.NerConverterInternal()\ .setInputCols([&quot;document&quot;, &quot;token&quot;, &quot;label&quot;])\ .setOutputCol(&quot;ner_span&quot;) pipeline = nlp.Pipeline( stages=[ documentAssembler, tokenizer, tokenClassifier, converter ] ) Results +-----------------+----------+ |chunk |entity | +-----------------+----------+ |revenue |REVENUE | |$ |CURRENCY | |1.7 billion |AMOUNT | |net profit margin|PROFIT | |13 |PERCENTAGE| |net debt |LIABILITY | |Rs |CURRENCY | |6.62bn |AMOUNT | +-----------------+----------+ Model Information Model Name: finner_broker_reports_specific_sm Compatibility: Finance NLP 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence, token] Output Labels: [ner] Language: en Size: 400.9 MB Case sensitive: true Max sentence length: 128 References In-house annotated dataset Benchmarking labels precision recall f1-score support B-REVENUE_INCREASE 0.69 0.78 0.73 126 I-ASSET_DECREASE 0.80 0.87 0.83 23 B-ASSET 0.84 0.82 0.83 50 B-REVENUE_DECLINE 0.81 0.79 0.80 28 I-STOCKHOLDERS_EQUITY 1.00 0.96 0.98 56 B-CF 0.77 0.94 0.85 18 I-LOSS 0.92 0.92 0.92 25 I-REVENUE 0.28 0.26 0.27 19 I-PROFIT_DECLINE 0.80 0.94 0.86 17 I-PROFIT 0.91 0.94 0.93 249 I-EXPENSE_DECREASE 0.77 1.00 0.87 10 I-REVENUE_INCREASE 0.58 0.68 0.63 56 B-TICKER 0.65 0.81 0.72 73 B-EXPENSE 0.76 0.90 0.83 63 I-CF_DECREASE 0.90 1.00 0.95 38 B-RATING 0.93 0.99 0.96 536 B-FCF 1.00 1.00 1.00 18 B-CF_INCREASE 1.00 1.00 1.00 20 B-CURRENCY 0.98 1.00 0.99 936 I-ASSET_INCREASE 0.76 1.00 0.86 16 B-CFO 0.96 1.00 0.98 22 I-LIABILITY 0.97 0.82 0.89 38 B-LOSS 0.85 0.94 0.89 31 I-LIABILITY_DECREASE 0.44 0.67 0.53 12 B-PROFIT_INCREASE 0.81 0.77 0.79 173 B-EXPENSE_DECREASE 0.90 1.00 0.95 26 B-CFO_INCREASE 0.92 0.96 0.94 25 B-AMOUNT 0.97 1.00 0.98 1999 B-TARGET_PRICE 0.97 0.98 0.97 171 B-PROFIT 0.85 0.92 0.88 437 I-AMOUNT 0.97 0.97 0.97 464 B-ASSET_INCREASE 0.69 0.78 0.73 23 I-EXPENSE_INCREASE 0.88 0.79 0.84 29 B-LIABILITY_DECREASE 0.85 0.88 0.86 40 B-PROFIT_DECLINE 0.90 0.85 0.87 53 B-STOCKHOLDERS_EQUITY 1.00 0.93 0.96 27 I-EXPENSE 0.91 0.87 0.89 61 B-PERCENTAGE 0.95 0.99 0.97 1133 I-ASSET 0.97 0.73 0.83 44 I-PERCENTAGE 0.33 1.00 0.50 2 I-TARGET_PRICE 0.94 1.00 0.97 119 B-CMP 0.89 1.00 0.94 33 I-PROFIT_INCREASE 0.75 0.75 0.75 48 I-DATE 0.40 0.57 0.47 14 B-REVENUE 0.78 0.83 0.80 128 B-ASSET_DECREASE 0.87 0.91 0.89 22 I-CF_INCREASE 1.00 1.00 1.00 42 I-FISCAL_YEAR 0.98 0.89 0.93 110 I-CFO 0.97 1.00 0.99 75 I-FCF 1.00 1.00 1.00 32 B-ORG 0.95 0.98 0.96 1310 I-ORG 0.95 0.98 0.97 1005 B-EXPENSE_INCREASE 1.00 0.68 0.81 34 I-REVENUE_DECLINE 0.67 0.38 0.48 21 I-RATING 0.00 0.00 0.00 1 B-DATE 0.98 0.99 0.98 358 I-CMP 0.97 1.00 0.98 29 B-LIABILITY_INCREASE 1.00 0.93 0.96 41 B-FISCAL_YEAR 0.96 0.89 0.93 28 I-CURRENCY 0.96 1.00 0.98 72 I-CFO_INCREASE 0.89 0.97 0.93 72 B-CF_DECREASE 0.96 1.00 0.98 23 I-TICKER 1.00 0.40 0.57 5 I-LIABILITY_INCREASE 1.00 0.94 0.97 31 B-LIABILITY 0.96 0.92 0.94 26 I-CF 0.80 0.85 0.83 39 micro-avg 0.93 0.96 0.95 10905 macro-avg 0.85 0.87 0.85 10905 weighted-avg 0.93 0.96 0.95 10905</summary></entry><entry><title type="html">Legal Arguments Mining in Court Decisions</title><link href="/2023/03/26/legclf_argument_mining_en.html" rel="alternate" type="text/html" title="Legal Arguments Mining in Court Decisions" /><published>2023-03-26T00:00:00+00:00</published><updated>2023-03-26T00:00:00+00:00</updated><id>/2023/03/26/legclf_argument_mining_en</id><content type="html" xml:base="/2023/03/26/legclf_argument_mining_en.html">## Description
 
-&lt;p&gt;This is a Multiclass classification model which classifies arguments in legal discourse. These are the following classes: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;subsumption&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;definition&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;conclusion&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;other&lt;/code&gt;.&lt;/p&gt;
+This is a Multiclass classification model which classifies arguments in legal discourse. These are the following classes: `subsumption`, `definition`, `conclusion`, `other`.
 
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+## Predicted Entities
 
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;subsumption&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;definition&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;conclusion&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;other&lt;/code&gt;&lt;/p&gt;
+`subsumption`, `definition`, `conclusion`, `other`
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_argument_mining_en_1.0.0_3.0_1679829561976.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/legal/models/legclf_argument_mining_en_1.0.0_3.0_1679829561976.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_argument_mining_en_1.0.0_3.0_1679829561976.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_argument_mining_en_1.0.0_3.0_1679829561976.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
 
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
-&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RoBertaEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;roberta_embeddings_legal_roberta_base&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setMaxSentenceLength&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;512&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+```python
+documentAssembler = nlp.DocumentAssembler()\
+    .setInputCol(&quot;text&quot;)\
+    .setOutputCol(&quot;document&quot;)
 
-&lt;span class=&quot;n&quot;&gt;embeddingsSentence&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SentenceEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence_embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setPoolingStrategy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;AVERAGE&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+tokenizer = nlp.Tokenizer()\
+    .setInputCols([&quot;document&quot;])\
+    .setOutputCol(&quot;token&quot;)
 
-&lt;span class=&quot;n&quot;&gt;docClassifier&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;legal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ClassifierDLModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;legclf_argument_mining&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;legal/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence_embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;category&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+embeddings = nlp.RoBertaEmbeddings.pretrained(&quot;roberta_embeddings_legal_roberta_base&quot;, &quot;en&quot;)\
+    .setInputCols([&quot;document&quot;, &quot;token&quot;])\
+    .setOutputCol(&quot;embeddings&quot;)\
+    .setMaxSentenceLength(512)
 
-&lt;span class=&quot;n&quot;&gt;nlpPipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-      &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;embeddingsSentence&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;docClassifier&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+embeddingsSentence = nlp.SentenceEmbeddings()\
+    .setInputCols([&quot;document&quot;, &quot;embeddings&quot;])\
+    .setOutputCol(&quot;sentence_embeddings&quot;)\
+    .setPoolingStrategy(&quot;AVERAGE&quot;)
 
-&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;There is therefore no doubt – and the Government do not contest – that the measures concerned in the present case ( the children 's continued placement in foster homes and the restrictions imposed on contact between the applicants and their children ) amounts to an “ interference ” with the applicants ' rights to respect for their family life .&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+docClassifier = legal.ClassifierDLModel.pretrained(&quot;legclf_argument_mining&quot;,&quot;en&quot;, &quot;legal/models&quot;)\
+      .setInputCols([&quot;sentence_embeddings&quot;])\
+      .setOutputCol(&quot;category&quot;)
 
-&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlpPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+nlpPipeline = nlp.Pipeline(stages=[
+      documentAssembler, 
+      tokenizer,
+      embeddings,
+      embeddingsSentence,
+      docClassifier
+])
 
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+df = spark.createDataFrame([[&quot;There is therefore no doubt – and the Government do not contest – that the measures concerned in the present case ( the children 's continued placement in foster homes and the restrictions imposed on contact between the applicants and their children ) amounts to an “ interference ” with the applicants ' rights to respect for their family life .&quot;]]).toDF(&quot;text&quot;)
 
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;category.result&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+model = nlpPipeline.fit(df)
+
+result = model.transform(df)
+
+result.select(&quot;text&quot;, &quot;category.result&quot;).show()
+```
 
 &lt;/div&gt;
 
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+## Results
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+--------------------+-------------+
+```bash
++--------------------+-------------+
 |                text|       result|
 +--------------------+-------------+
 |There is therefor...|[subsumption]|
 +--------------------+-------------+
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+```
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;legclf_argument_mining&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Legal NLP 1.0.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Licensed&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[sentence_embeddings]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[class]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;22.2 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|legclf_argument_mining|
+|Compatibility:|Legal NLP 1.0.0+|
+|License:|Licensed|
+|Edition:|Official|
+|Input Labels:|[sentence_embeddings]|
+|Output Labels:|[class]|
+|Language:|en|
+|Size:|22.2 MB|
 
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+## References
 
-&lt;p&gt;Train dataset available &lt;a href=&quot;https://huggingface.co/datasets/MeilingShi/legal_argument_mining&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
+Train dataset available [here](https://huggingface.co/datasets/MeilingShi/legal_argument_mining)
 
-&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
+## Benchmarking
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;label         precision    recall    f1-score  support      
+```bash
+label         precision    recall    f1-score  support      
 conclusion    0.93         0.79      0.85      52  
 definition    0.87         0.81      0.84      58  
 other         0.88         0.88      0.88      57  
@@ -761,120 +717,101 @@ subsumption   0.64         0.79      0.71      52
 accuracy         -            -      0.82      219     
 macro-avg     0.83         0.82      0.82      219 
 weighted-avg  0.83         0.82      0.82      219 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="classification" /><category term="licensed" /><category term="legal" /><category term="tensorflow" /><summary type="html">Description This is a Multiclass classification model which classifies arguments in legal discourse. These are the following classes: subsumption, definition, conclusion, other. Predicted Entities subsumption, definition, conclusion, other Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = nlp.DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) tokenizer = nlp.Tokenizer()\ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;token&quot;) embeddings = nlp.RoBertaEmbeddings.pretrained(&quot;roberta_embeddings_legal_roberta_base&quot;, &quot;en&quot;)\ .setInputCols([&quot;document&quot;, &quot;token&quot;])\ .setOutputCol(&quot;embeddings&quot;)\ .setMaxSentenceLength(512) embeddingsSentence = nlp.SentenceEmbeddings()\ .setInputCols([&quot;document&quot;, &quot;embeddings&quot;])\ .setOutputCol(&quot;sentence_embeddings&quot;)\ .setPoolingStrategy(&quot;AVERAGE&quot;) docClassifier = legal.ClassifierDLModel.pretrained(&quot;legclf_argument_mining&quot;,&quot;en&quot;, &quot;legal/models&quot;)\ .setInputCols([&quot;sentence_embeddings&quot;])\ .setOutputCol(&quot;category&quot;) nlpPipeline = nlp.Pipeline(stages=[ documentAssembler, tokenizer, embeddings, embeddingsSentence, docClassifier ]) df = spark.createDataFrame([[&quot;There is therefore no doubt – and the Government do not contest – that the measures concerned in the present case ( the children 's continued placement in foster homes and the restrictions imposed on contact between the applicants and their children ) amounts to an “ interference ” with the applicants ' rights to respect for their family life .&quot;]]).toDF(&quot;text&quot;) model = nlpPipeline.fit(df) result = model.transform(df) result.select(&quot;text&quot;, &quot;category.result&quot;).show() Results +--------------------+-------------+ | text| result| +--------------------+-------------+ |There is therefor...|[subsumption]| +--------------------+-------------+ Model Information Model Name: legclf_argument_mining Compatibility: Legal NLP 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence_embeddings] Output Labels: [class] Language: en Size: 22.2 MB References Train dataset available here Benchmarking label precision recall f1-score support conclusion 0.93 0.79 0.85 52 definition 0.87 0.81 0.84 58 other 0.88 0.88 0.88 57 subsumption 0.64 0.79 0.71 52 accuracy - - 0.82 219 macro-avg 0.83 0.82 0.82 219 weighted-avg 0.83 0.82 0.82 219</summary></entry><entry><title type="html">Legal Arguments Mining in Court Decisions (in German)</title><link href="/2023/03/26/legclf_argument_mining_german_de.html" rel="alternate" type="text/html" title="Legal Arguments Mining in Court Decisions (in German)" /><published>2023-03-26T00:00:00+00:00</published><updated>2023-03-26T00:00:00+00:00</updated><id>/2023/03/26/legclf_argument_mining_german_de</id><content type="html" xml:base="/2023/03/26/legclf_argument_mining_german_de.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+```</content><author><name>John Snow Labs</name></author><category term="en" /><category term="classification" /><category term="licensed" /><category term="legal" /><category term="tensorflow" /><summary type="html">Description This is a Multiclass classification model which classifies arguments in legal discourse. These are the following classes: subsumption, definition, conclusion, other. Predicted Entities subsumption, definition, conclusion, other Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = nlp.DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) tokenizer = nlp.Tokenizer()\ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;token&quot;) embeddings = nlp.RoBertaEmbeddings.pretrained(&quot;roberta_embeddings_legal_roberta_base&quot;, &quot;en&quot;)\ .setInputCols([&quot;document&quot;, &quot;token&quot;])\ .setOutputCol(&quot;embeddings&quot;)\ .setMaxSentenceLength(512) embeddingsSentence = nlp.SentenceEmbeddings()\ .setInputCols([&quot;document&quot;, &quot;embeddings&quot;])\ .setOutputCol(&quot;sentence_embeddings&quot;)\ .setPoolingStrategy(&quot;AVERAGE&quot;) docClassifier = legal.ClassifierDLModel.pretrained(&quot;legclf_argument_mining&quot;,&quot;en&quot;, &quot;legal/models&quot;)\ .setInputCols([&quot;sentence_embeddings&quot;])\ .setOutputCol(&quot;category&quot;) nlpPipeline = nlp.Pipeline(stages=[ documentAssembler, tokenizer, embeddings, embeddingsSentence, docClassifier ]) df = spark.createDataFrame([[&quot;There is therefore no doubt – and the Government do not contest – that the measures concerned in the present case ( the children 's continued placement in foster homes and the restrictions imposed on contact between the applicants and their children ) amounts to an “ interference ” with the applicants ' rights to respect for their family life .&quot;]]).toDF(&quot;text&quot;) model = nlpPipeline.fit(df) result = model.transform(df) result.select(&quot;text&quot;, &quot;category.result&quot;).show() Results +--------------------+-------------+ | text| result| +--------------------+-------------+ |There is therefor...|[subsumption]| +--------------------+-------------+ Model Information Model Name: legclf_argument_mining Compatibility: Legal NLP 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence_embeddings] Output Labels: [class] Language: en Size: 22.2 MB References Train dataset available here Benchmarking label precision recall f1-score support conclusion 0.93 0.79 0.85 52 definition 0.87 0.81 0.84 58 other 0.88 0.88 0.88 57 subsumption 0.64 0.79 0.71 52 accuracy - - 0.82 219 macro-avg 0.83 0.82 0.82 219 weighted-avg 0.83 0.82 0.82 219</summary></entry><entry><title type="html">Legal Arguments Mining in Court Decisions (in German)</title><link href="/2023/03/26/legclf_argument_mining_german_de.html" rel="alternate" type="text/html" title="Legal Arguments Mining in Court Decisions (in German)" /><published>2023-03-26T00:00:00+00:00</published><updated>2023-03-26T00:00:00+00:00</updated><id>/2023/03/26/legclf_argument_mining_german_de</id><content type="html" xml:base="/2023/03/26/legclf_argument_mining_german_de.html">## Description
 
-&lt;p&gt;This is a Multiclass classification model in German which classifies arguments in legal discourse. These are the following classes: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;subsumption&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;definition&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;conclusion&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;other&lt;/code&gt;.&lt;/p&gt;
+This is a Multiclass classification model in German which classifies arguments in legal discourse. These are the following classes: `subsumption`, `definition`, `conclusion`, `other`.
 
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+## Predicted Entities
 
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;subsumption&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;definition&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;conclusion&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;other&lt;/code&gt;&lt;/p&gt;
+`subsumption`, `definition`, `conclusion`, `other`
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_argument_mining_german_de_1.0.0_3.0_1679848514704.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/legal/models/legclf_argument_mining_german_de_1.0.0_3.0_1679848514704.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/legal/models/legclf_argument_mining_german_de_1.0.0_3.0_1679848514704.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/legal/models/legclf_argument_mining_german_de_1.0.0_3.0_1679848514704.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
-
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RoBertaEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;roberta_large_german_legal&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;de&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setMaxSentenceLength&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;512&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;embeddingsSentence&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SentenceEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence_embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setPoolingStrategy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;AVERAGE&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+## How to use
 
 
-&lt;span class=&quot;n&quot;&gt;docClassifier&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;legal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ClassifierDLModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;legclf_argument_mining_de&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;de&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;legal/models&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence_embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;category&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;nlpPipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-      &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;embeddingsSentence&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;docClassifier&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
-&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Folglich liegt eine Verletzung von Artikel 8 der Konvention vor .&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+```python
+documentAssembler = nlp.DocumentAssembler()\
+        .setInputCol(&quot;text&quot;)\
+        .setOutputCol(&quot;document&quot;)
 
-&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlpPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+tokenizer = nlp.Tokenizer()\
+        .setInputCols([&quot;document&quot;])\
+        .setOutputCol(&quot;token&quot;)
 
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;category.result&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;truncate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+embeddings = nlp.RoBertaEmbeddings.pretrained(&quot;roberta_large_german_legal&quot;, &quot;de&quot;)\
+        .setInputCols([&quot;document&quot;, &quot;token&quot;])\
+        .setOutputCol(&quot;embeddings&quot;)\
+        .setMaxSentenceLength(512)
+
+embeddingsSentence = nlp.SentenceEmbeddings()\
+        .setInputCols([&quot;document&quot;, &quot;embeddings&quot;])\
+        .setOutputCol(&quot;sentence_embeddings&quot;)\
+        .setPoolingStrategy(&quot;AVERAGE&quot;)\
+
+
+docClassifier = legal.ClassifierDLModel.pretrained(&quot;legclf_argument_mining_de&quot;, &quot;de&quot;, &quot;legal/models&quot;)\
+        .setInputCols([&quot;sentence_embeddings&quot;])\
+        .setOutputCol(&quot;category&quot;)
+
+nlpPipeline = nlp.Pipeline(stages=[
+      documentAssembler, 
+      tokenizer,
+      embeddings,
+      embeddingsSentence,
+      docClassifier
+])
+
+df = spark.createDataFrame([[&quot;Folglich liegt eine Verletzung von Artikel 8 der Konvention vor .&quot;]]).toDF(&quot;text&quot;)
+
+model = nlpPipeline.fit(df)
+result = model.transform(df)
+
+result.select(&quot;text&quot;, &quot;category.result&quot;).show(truncate=False)
+```
 
 &lt;/div&gt;
 
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+## Results
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;+-----------------------------------------------------------------+------------+
+```bash
++-----------------------------------------------------------------+------------+
 |text                                                             |result      |
 +-----------------------------------------------------------------+------------+
 |Folglich liegt eine Verletzung von Artikel 8 der Konvention vor .|[conclusion]|
 +-----------------------------------------------------------------+------------+
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+```
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;legclf_argument_mining_german&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Legal NLP 1.0.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Licensed&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[sentence_embeddings]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[class]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;de&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;24.0 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|legclf_argument_mining_german|
+|Compatibility:|Legal NLP 1.0.0+|
+|License:|Licensed|
+|Edition:|Official|
+|Input Labels:|[sentence_embeddings]|
+|Output Labels:|[class]|
+|Language:|de|
+|Size:|24.0 MB|
 
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+## References
 
-&lt;p&gt;Train dataset available &lt;a href=&quot;https://huggingface.co/datasets/MeilingShi/legal_argument_mining&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
+Train dataset available [here](https://huggingface.co/datasets/MeilingShi/legal_argument_mining)
 
-&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
+## Benchmarking
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;label         precision  recall    f1-score  support      
+```bash
+label         precision  recall    f1-score  support      
 conclusion    0.88       0.88      0.88      52  
 definition    0.83       0.83      0.83      58  
 other         0.86       0.88      0.87      49  
@@ -882,7 +819,7 @@ subsumption   0.81       0.80      0.80      64
 accuracy         -          -      0.84      223                     
 macro avg     0.85       0.85      0.85      223 
 weighted avg  0.84       0.84      0.84      223 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="de" /><category term="licensed" /><category term="classification" /><category term="legal" /><category term="tensorflow" /><summary type="html">Description This is a Multiclass classification model in German which classifies arguments in legal discourse. These are the following classes: subsumption, definition, conclusion, other. Predicted Entities subsumption, definition, conclusion, other Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = nlp.DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) tokenizer = nlp.Tokenizer()\ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;token&quot;) embeddings = nlp.RoBertaEmbeddings.pretrained(&quot;roberta_large_german_legal&quot;, &quot;de&quot;)\ .setInputCols([&quot;document&quot;, &quot;token&quot;])\ .setOutputCol(&quot;embeddings&quot;)\ .setMaxSentenceLength(512) embeddingsSentence = nlp.SentenceEmbeddings()\ .setInputCols([&quot;document&quot;, &quot;embeddings&quot;])\ .setOutputCol(&quot;sentence_embeddings&quot;)\ .setPoolingStrategy(&quot;AVERAGE&quot;)\ docClassifier = legal.ClassifierDLModel.pretrained(&quot;legclf_argument_mining_de&quot;, &quot;de&quot;, &quot;legal/models&quot;)\ .setInputCols([&quot;sentence_embeddings&quot;])\ .setOutputCol(&quot;category&quot;) nlpPipeline = nlp.Pipeline(stages=[ documentAssembler, tokenizer, embeddings, embeddingsSentence, docClassifier ]) df = spark.createDataFrame([[&quot;Folglich liegt eine Verletzung von Artikel 8 der Konvention vor .&quot;]]).toDF(&quot;text&quot;) model = nlpPipeline.fit(df) result = model.transform(df) result.select(&quot;text&quot;, &quot;category.result&quot;).show(truncate=False) Results +-----------------------------------------------------------------+------------+ |text |result | +-----------------------------------------------------------------+------------+ |Folglich liegt eine Verletzung von Artikel 8 der Konvention vor .|[conclusion]| +-----------------------------------------------------------------+------------+ Model Information Model Name: legclf_argument_mining_german Compatibility: Legal NLP 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence_embeddings] Output Labels: [class] Language: de Size: 24.0 MB References Train dataset available here Benchmarking label precision recall f1-score support conclusion 0.88 0.88 0.88 52 definition 0.83 0.83 0.83 58 other 0.86 0.88 0.87 49 subsumption 0.81 0.80 0.80 64 accuracy - - 0.84 223 macro avg 0.85 0.85 0.85 223 weighted avg 0.84 0.84 0.84 223</summary></entry><entry><title type="html">Financial NER for German Financial Statements</title><link href="/2023/03/25/finner_financial_entity_value_de.html" rel="alternate" type="text/html" title="Financial NER for German Financial Statements" /><published>2023-03-25T00:00:00+00:00</published><updated>2023-03-25T00:00:00+00:00</updated><id>/2023/03/25/finner_financial_entity_value_de</id><content type="html" xml:base="/2023/03/25/finner_financial_entity_value_de.html">## Description
+```</content><author><name>John Snow Labs</name></author><category term="de" /><category term="licensed" /><category term="classification" /><category term="legal" /><category term="tensorflow" /><summary type="html">Description This is a Multiclass classification model in German which classifies arguments in legal discourse. These are the following classes: subsumption, definition, conclusion, other. Predicted Entities subsumption, definition, conclusion, other Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = nlp.DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) tokenizer = nlp.Tokenizer()\ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;token&quot;) embeddings = nlp.RoBertaEmbeddings.pretrained(&quot;roberta_large_german_legal&quot;, &quot;de&quot;)\ .setInputCols([&quot;document&quot;, &quot;token&quot;])\ .setOutputCol(&quot;embeddings&quot;)\ .setMaxSentenceLength(512) embeddingsSentence = nlp.SentenceEmbeddings()\ .setInputCols([&quot;document&quot;, &quot;embeddings&quot;])\ .setOutputCol(&quot;sentence_embeddings&quot;)\ .setPoolingStrategy(&quot;AVERAGE&quot;)\ docClassifier = legal.ClassifierDLModel.pretrained(&quot;legclf_argument_mining_de&quot;, &quot;de&quot;, &quot;legal/models&quot;)\ .setInputCols([&quot;sentence_embeddings&quot;])\ .setOutputCol(&quot;category&quot;) nlpPipeline = nlp.Pipeline(stages=[ documentAssembler, tokenizer, embeddings, embeddingsSentence, docClassifier ]) df = spark.createDataFrame([[&quot;Folglich liegt eine Verletzung von Artikel 8 der Konvention vor .&quot;]]).toDF(&quot;text&quot;) model = nlpPipeline.fit(df) result = model.transform(df) result.select(&quot;text&quot;, &quot;category.result&quot;).show(truncate=False) Results +-----------------------------------------------------------------+------------+ |text |result | +-----------------------------------------------------------------+------------+ |Folglich liegt eine Verletzung von Artikel 8 der Konvention vor .|[conclusion]| +-----------------------------------------------------------------+------------+ Model Information Model Name: legclf_argument_mining_german Compatibility: Legal NLP 1.0.0+ License: Licensed Edition: Official Input Labels: [sentence_embeddings] Output Labels: [class] Language: de Size: 24.0 MB References Train dataset available here Benchmarking label precision recall f1-score support conclusion 0.88 0.88 0.88 52 definition 0.83 0.83 0.83 58 other 0.86 0.88 0.87 49 subsumption 0.81 0.80 0.80 64 accuracy - - 0.84 223 macro avg 0.85 0.85 0.85 223 weighted avg 0.84 0.84 0.84 223</summary></entry><entry><title type="html">Financial NER for German Financial Statements</title><link href="/2023/03/25/finner_financial_entity_value_de.html" rel="alternate" type="text/html" title="Financial NER for German Financial Statements" /><published>2023-03-25T00:00:00+00:00</published><updated>2023-03-25T00:00:00+00:00</updated><id>/2023/03/25/finner_financial_entity_value_de</id><content type="html" xml:base="/2023/03/25/finner_financial_entity_value_de.html">## Description
 
 This is a German NER model trained on German Financial Statements, aimed to extract the following entities from the financial documents.
 
