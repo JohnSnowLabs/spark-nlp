@@ -21,6 +21,18 @@ data:
           activemenu: biomedical_research
       source: yes
       source:           
+        - title: Medical Question Answering (BioGPT)
+          id: medical_question_answering_biogpt
+          image: 
+              src: /assets/images/Medical_Question_Answering_BioGPT.svg
+          excerpt: Automatically generate answers to questions with context in clinical documents.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/BIOGPT_MEDICAL_QUESTION_ANSWERING/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Healthcare/31.Medical_Question_Answering.ipynb
         - title: Detect drugs interactions
           id: detect_drugs_interactions
           image: 

@@ -177,4 +177,16 @@ data:
           - text: Colab
             type: blue_btn
             url:
+        - title: Extract Entities from Responsibility and ESG Reports
+          id: extract_entities_responsibility_esg_reports   
+          image: 
+              src: /assets/images/Extract_Entities_from_Responsibility_and_ESG_Reports.svg
+          excerpt: This demo shows how to extract up to 20 quantifiable entities, including KPI, from the Responsibility and ESG Reports of companies.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/finance/FINNER_RESPONSIBILITY_REPORTS/
+          - text: Colab
+            type: blue_btn
+            url:
 ---

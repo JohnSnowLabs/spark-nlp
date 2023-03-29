@@ -30,7 +30,7 @@ If you have big legal documents, and you want to look for clauses, we recommend 
 
 Take into consideration the embeddings of this model allows up to 512 tokens. If you have more than that, consider splitting in smaller pieces (you can also check the same tutorial link provided above).
 
-This model can be combined with any of the other 400+ Legal Clauses Classifiers you will find in Models Hub, getting as an output a series of True/False values for each of the legal clause model you have added.
+This model can be combined with any of the other "hundreds" of Legal Clauses Classifiers you will find in Models Hub, getting as an output a series of True/False values for each of the legal clause model you have added.
 
 ## Predicted Entities
 
