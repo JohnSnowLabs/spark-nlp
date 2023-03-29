@@ -1,7 +1,7 @@
 ---
 layout: docs
 header: true
-title: Quick Start
+title: Spark NLP - Quick Start
 seotitle: Spark NLP - Getting Started
 permalink: /docs/en/quickstart
 key: docs-quickstart

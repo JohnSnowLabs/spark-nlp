@@ -2,17 +2,17 @@ header:
   - title: Home
     url: /
   - title: Docs
-    url: /docs
+    url: /docs/en/quickstart
     key: docs
-  - title: Learn
-    url: /learn
-    key: learn
   - title: Models
     url: /models
     key: models
   - title: Demo
-    url: /demos
+    url: /infer_meaning_intent
     key: demo
+  - title: Learn
+    url: /learn
+    key: learn
   - title: '<span style="color: #FF8A00;"><i class = "fab fa-github fa-2x"></i></span>'
     url: https://github.com/JohnSnowLabs/spark-nlp
   - title: '<span style="color: #FF8A00;"><i class="fab fa-slack-hash fa-2x"></i></span>'
@@ -31,7 +31,7 @@ extras:
 sparknlp:
   - title: Spark NLP
     children:
-      - title: Getting Started
+      - title: Spark NLP Getting Started
         url: /docs/en/quickstart
       - title: Install Spark NLP
         url: /docs/en/install
@@ -65,174 +65,6 @@ sparknlp:
         url: /docs/en/third-party-projects
       - title: Release Notes
         url: /docs/en/release_notes
-
-annotation-lab:
-  - title: NLP Lab
-    children:
-      - title: Getting Started
-        url: /docs/en/alab/quickstart
-      - title: Installation
-        url: /docs/en/alab/install
-      - subtitle: Resources Hub
-        children:
-          - title: Models Hub
-            url: /docs/en/alab/models_hub
-          - title: Models
-            url: /docs/en/alab/models
-          - title: Embeddings
-            url: /docs/en/alab/embeddings
-          - title: Rules
-            url: /docs/en/alab/rules
-          - title: Prompts
-            url: /docs/en/alab/prompts   
-          - title: Playground
-            url: /docs/en/alab/playground                        
-      - subtitle: Project
-        children:
-          - title: Dashboard
-            url: /docs/en/alab/project_dashboard
-          - title: Project Creation
-            url: /docs/en/alab/project_creation
-          - title: Configuration
-            url: /docs/en/alab/project_configuration
-          - title: Import Tasks
-            url: /docs/en/alab/import
-          - title: Tasks
-            url: /docs/en/alab/tasks
-          - title: Workflows
-            url: /docs/en/alab/workflow
-      - subtitle: Annotation
-        children:
-          - title: Manual annotation
-            url: /docs/en/alab/annotation
-          - title: Pre-annotation
-            url: /docs/en/alab/preannotation
-          - title: Audit Trail
-            url: /docs/en/alab/audit_trail
-          - title: Productivity
-            url: /docs/en/alab/productivity
-          - title: Configuration
-            url: /docs/en/alab/annotation_configurations
-          - title: Export
-            url: /docs/en/alab/export
-      - subtitle: Model Training
-        children:
-          - title: No-Code Model Training
-            url: /docs/en/alab/training_configurations
-          - title: Active Learning
-            url: /docs/en/alab/active_learning
-          - title: Transfer Learning
-            url: /docs/en/alab/transfer_learning
-          - title: Test Project Configuration
-            url: /docs/en/alab/test_project_configuration
-      - subtitle: Administration
-        children:
-          - title: User Management
-            url: /docs/en/alab/user_management
-          - title: License Management
-            url: /docs/en/alab/byol
-          - title: Backup and Restore
-            url: /docs/en/alab/backup_restore
-          - title: Analytics Permission
-            url: /docs/en/alab/analytics_permission
-          - title: API Integration
-            url: /docs/en/alab/api
-          - title: Infrastructure Configuration
-            url: /docs/en/alab/infrastructure
-          - title: Cluster Management
-            url: /docs/en/alab/cluster_management
-      - title: NLP Libraries Integration
-        url: /docs/en/alab/healthcare
-      - title: Security and Privacy
-        url: /docs/en/alab/security
-      - title: Video Tutorials
-        url: /docs/en/alab/tutorials
-      - title: FAQ
-        url: /docs/en/alab/troubleshooting
-      - title: Release Notes
-        url: /docs/en/alab/release_notes
-
-sparknlp-healthcare:
-  - title: All Enterprise libraries
-    children:
-      - title: Getting Started
-        url: /docs/en/license_getting_started
-      - title: Installation
-        url: /docs/en/licensed_install
-      - title: Annotators
-        url: /docs/en/licensed_annotators
-      - title: Training
-        url: /docs/en/licensed_training
-      - title: Evaluation
-        url: /docs/en/evaluation
-      - title: Risk Adjustments Score Calculation
-        url: /docs/en/healthcare_risk_adjustments_score_calculation
-      - title: Utility & Helper Modules
-        url: /docs/en/utility_helper_modules
-      - title: Serving Spark NLP&#58 SynapseML
-        url: /docs/en/licensed_serving_spark_nlp_via_api_synapseml
-      - title: Serving Spark NLP&#58 FastAPI
-        url: /docs/en/licensed_serving_spark_nlp_via_api_fastapi
-      - title: Scala API (Scaladoc)
-        url: /licensed/api/
-      - title: Python API (Sphinx)
-        url: /licensed/api/python
-      - title: Wiki
-        url: /docs/en/wiki
-      - title: Cluster Speed Benchmarks
-        url: /docs/en/benchmark
-      - title: CPU NER Benchmarks
-        url: /docs/en/cpu-ner-benchmark
-      - title: GPU vs CPU benchmarks
-        url: /docs/en/CPUvsGPUbenchmark_healthcare
-      - title: Best Practices Using Pretrained Models Together
-        url: /docs/en/best_practices_pretrained_models
-  - title: Healthcare NLP
-    children:
-      - title: Release Notes
-        url: /docs/en/spark_nlp_healthcare_versions/licensed_release_notes
-      - title: Healthcare Models
-        url: /models?edition=Spark+NLP+for+Healthcare
-      - title: Version Compatibility
-        url: /docs/en/licensed_version_compatibility
-  - title: Finance NLP
-    children:
-      - title: Release Notes
-        url: /docs/en/financial_release_notes
-      - title: Financial Models
-        url: /models?edition=Spark+NLP+for+Finance
-      - title: Version Compatibility
-        url: /docs/en/financial_version_compatibility
-  - title: Legal NLP
-    children:
-      - title: Release Notes
-        url: /docs/en/legal_release_notes
-      - title: Legal Models
-        url: /models?edition=Spark+NLP+for+Legal
-      - title: Version Compatibility
-        url: /docs/en/legal_version_compatibility
-
-spark-ocr:
-  - title: Spark OCR
-    children:
-      - title: Getting Started
-        url: /docs/en/ocr
-      - title: Installation
-        url: /docs/en/ocr_install
-      - title: Version Compatibility
-        url: /docs/en/version_compatibility
-      - title: Pipeline components
-        url: /docs/en/ocr_pipeline_components
-      - title: Table recognition
-        url: /docs/en/ocr_table_recognition
-      - title: Visual document understanding
-        url: /docs/en/ocr_visual_document_understanding
-      - title: Object detection
-        url: /docs/en/ocr_object_detection
-      - title: Structures and helpers
-        url: /docs/en/ocr_structures
-      - title: Release notes
-        url: /docs/en/spark_ocr_versions/ocr_release_notes
 
 nlp-server:
   - title: NLP Server

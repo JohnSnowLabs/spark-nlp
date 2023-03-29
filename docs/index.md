@@ -9,7 +9,7 @@ permalink: /
 header: true
 article_header:
   actions:
-    - text: Get Started
+    - text: Spark NLP Get Started
       type: active
       url: /docs/en/quickstart
     - text: View Demo
