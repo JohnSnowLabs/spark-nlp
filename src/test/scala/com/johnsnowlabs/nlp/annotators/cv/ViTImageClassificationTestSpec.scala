@@ -219,7 +219,7 @@ class ViTImageClassificationTestSpec extends AnyFlatSpec with ViTForImageClassif
 
   behavior of "ViTForImageClassification"
 
-  val goldStandards: Map[String, String] =
+  lazy val goldStandards: Map[String, String] =
     Map(
       "palace.JPEG" -> "palace",
       "egyptian_cat.jpeg" -> "Egyptian cat",
@@ -232,9 +232,11 @@ class ViTImageClassificationTestSpec extends AnyFlatSpec with ViTForImageClassif
       "tractor.JPEG" -> "tractor",
       "ox.JPEG" -> "ox")
 
+  private lazy val model: ViTForImageClassification = ViTForImageClassification.pretrained()
+
   it should behave like
     behaviorsViTForImageClassification[ViTForImageClassification](
       ViTForImageClassification.load,
-      ViTForImageClassification.pretrained(),
+      model,
       goldStandards)
 }

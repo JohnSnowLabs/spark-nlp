@@ -8,7 +8,7 @@ class ConvNextForImageClassificationTestSpec
 
   behavior of "ConvNextForImageClassification"
 
-  val goldStandards: Map[String, String] =
+  lazy val goldStandards: Map[String, String] =
     Map(
       "bluetick.jpg" -> "bluetick",
       "chihuahua.jpg" -> "Chihuahua",
@@ -21,9 +21,11 @@ class ConvNextForImageClassificationTestSpec
       "palace.JPEG" -> "palace",
       "tractor.JPEG" -> "thresher, thrasher, threshing machine")
 
+  private lazy val model: ConvNextForImageClassification =
+    ConvNextForImageClassification.pretrained()
   it should behave like
     behaviorsViTForImageClassification[ConvNextForImageClassification](
       ConvNextForImageClassification.load,
-      ConvNextForImageClassification.pretrained(),
+      model,
       goldStandards)
 }

@@ -6,7 +6,7 @@ class SwinForImageClassificationTest extends AnyFlatSpec with ViTForImageClassif
 
   behavior of "SwinForImageClassificationTest"
 
-  val goldStandards: Map[String, String] =
+  lazy val goldStandards: Map[String, String] =
     Map(
       "hen.JPEG" -> "hen",
       "chihuahua.jpg" -> "Chihuahua",
@@ -19,9 +19,10 @@ class SwinForImageClassificationTest extends AnyFlatSpec with ViTForImageClassif
       "bluetick.jpg" -> "bluetick",
       "palace.JPEG" -> "palace")
 
+  private lazy val model: SwinForImageClassification = SwinForImageClassification.pretrained()
   it should behave like
     behaviorsViTForImageClassification[SwinForImageClassification](
       SwinForImageClassification.load,
-      SwinForImageClassification.pretrained(),
+      model,
       goldStandards)
 }
