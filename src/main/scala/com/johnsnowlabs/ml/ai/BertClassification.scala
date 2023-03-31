@@ -79,8 +79,8 @@ private[johnsnowlabs] class BertClassification(
     }
   }
 
-   def tokenizeSeqString(
-       candidateLabels: Seq[String],
+  def tokenizeSeqString(
+      candidateLabels: Seq[String],
       maxSeqLength: Int,
       caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = {
 
@@ -330,18 +330,6 @@ private[johnsnowlabs] class BertClassification(
     tensors.clearSession(outs)
     tensors.clearTensors()
 
-//    val dim = rawScores.length / batchLength
-//    val batchScores: Array[Array[Float]] =
-//      rawScores
-//        .grouped(dim)
-//        .map(scores =>
-//          activation match {
-//            case ActivationFunction.softmax => calculateSoftmax(scores)
-//            case ActivationFunction.sigmoid => calculateSigmoid(scores)
-//            case _ => calculateSoftmax(scores)
-//          })
-//        .toArray
-//    Array(batchScores)
     val dim = rawScores.length / batchLength
     rawScores
       .grouped(dim)
