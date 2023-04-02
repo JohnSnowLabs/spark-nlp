@@ -1,7 +1,7 @@
 ---
 layout: docs
 header: true
-title: Examples
+title: Spark NLP - Examples
 key: docs-examples
 permalink: /docs/en/examples
 modify_date: "2022-12-21"

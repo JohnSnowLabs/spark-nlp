@@ -1,7 +1,7 @@
 ---
 layout: docs
 header: true
-title: Hardware Acceleration
+title: Spark NLP - Hardware Acceleration
 permalink: /docs/en/hardware_acceleration
 key: docs-concepts
 modify_date: "2022-12-21"
