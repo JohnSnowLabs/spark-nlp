@@ -1,902 +1,702 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-04-02T08:59:44+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
-</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">English asr_Malaya_speech_fine_tune_realcase_27_Jun TFWav2Vec2ForCTC from RuiqianLi</title><link href="/2023/03/14/asr_Malaya_speech_fine_tune_realcase_27_Jun_en.html" rel="alternate" type="text/html" title="English asr_Malaya_speech_fine_tune_realcase_27_Jun TFWav2Vec2ForCTC from RuiqianLi" /><published>2023-03-14T00:00:00+00:00</published><updated>2023-03-14T00:00:00+00:00</updated><id>/2023/03/14/asr_Malaya_speech_fine_tune_realcase_27_Jun_en</id><content type="html" xml:base="/2023/03/14/asr_Malaya_speech_fine_tune_realcase_27_Jun_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-04-02T10:13:33+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">English asr_Malaya_speech_fine_tune_realcase_27_Jun TFWav2Vec2ForCTC from RuiqianLi</title><link href="/2023/03/14/asr_Malaya_speech_fine_tune_realcase_27_Jun_en.html" rel="alternate" type="text/html" title="English asr_Malaya_speech_fine_tune_realcase_27_Jun TFWav2Vec2ForCTC from RuiqianLi" /><published>2023-03-14T00:00:00+00:00</published><updated>2023-03-14T00:00:00+00:00</updated><id>/2023/03/14/asr_Malaya_speech_fine_tune_realcase_27_Jun_en</id><content type="html" xml:base="/2023/03/14/asr_Malaya_speech_fine_tune_realcase_27_Jun_en.html">## Description
 
-&lt;p&gt;Pretrained Wav2vec2  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;asr_Malaya_speech_fine_tune_realcase_27_Jun&lt;/code&gt; is a English model originally trained by RuiqianLi.&lt;/p&gt;
+Pretrained Wav2vec2  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`asr_Malaya_speech_fine_tune_realcase_27_Jun` is a English model originally trained by RuiqianLi.
 
-&lt;p&gt;NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Malaya_speech_fine_tune_realcase_27_Jun_gpu&lt;/p&gt;
+NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Malaya_speech_fine_tune_realcase_27_Jun_gpu
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_Malaya_speech_fine_tune_realcase_27_Jun_en_4.4.0_3.0_1678793941796.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/asr_Malaya_speech_fine_tune_realcase_27_Jun_en_4.4.0_3.0_1678793941796.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_Malaya_speech_fine_tune_realcase_27_Jun_en_4.4.0_3.0_1678793941796.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/asr_Malaya_speech_fine_tune_realcase_27_Jun_en_4.4.0_3.0_1678793941796.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;n&quot;&gt;audio_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AudioAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_content&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;speech_to_text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Wav2Vec2ForCTC&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;asr_Malaya_speech_fine_tune_realcase_27_Jun&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;audio_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;speech_to_text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
 
-&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+audio_assembler = AudioAssembler() \
+    .setInputCol(&quot;audio_content&quot;) \
+    .setOutputCol(&quot;audio_assembler&quot;)
 
-&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;audioAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;AudioAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_content&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+speech_to_text = Wav2Vec2ForCTC \
+    .pretrained(&quot;asr_Malaya_speech_fine_tune_realcase_27_Jun&quot;, &quot;en&quot;)\
+    .setInputCols(&quot;audio_assembler&quot;) \
+    .setOutputCol(&quot;text&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;speechToText&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Wav2Vec2ForCTC&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;asr_Malaya_speech_fine_tune_realcase_27_Jun&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+pipeline = Pipeline(stages=[
+  audio_assembler,
+  speech_to_text,
+])
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;speechToText&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+pipelineModel = pipeline.fit(audioDf)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+pipelineDF = pipelineModel.transform(audioDf)
+```
+```scala
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val audioAssembler = new AudioAssembler()
+    .setInputCol(&quot;audio_content&quot;) 
+    .setOutputCol(&quot;audio_assembler&quot;)
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+val speechToText = Wav2Vec2ForCTC
+    .pretrained(&quot;asr_Malaya_speech_fine_tune_realcase_27_Jun&quot;, &quot;en&quot;)
+    .setInputCols(&quot;audio_assembler&quot;) 
+    .setOutputCol(&quot;text&quot;) 
+
+val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText))
+
+val pipelineModel = pipeline.fit(audioDf)
+
+val pipelineDF = pipelineModel.transform(audioDf)
+
+```
 &lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;asr_Malaya_speech_fine_tune_realcase_27_Jun&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.4.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[audio_assembler]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[text]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;1.2 GB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="wav2vec2" /><category term="en" /><category term="audio" /><category term="open_source" /><category term="asr" /><category term="tensorflow" /><summary type="html">Description Pretrained Wav2vec2 model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.asr_Malaya_speech_fine_tune_realcase_27_Jun is a English model originally trained by RuiqianLi. NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Malaya_speech_fine_tune_realcase_27_Jun_gpu Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU audio_assembler = AudioAssembler() \ .setInputCol(&quot;audio_content&quot;) \ .setOutputCol(&quot;audio_assembler&quot;) speech_to_text = Wav2Vec2ForCTC \ .pretrained(&quot;asr_Malaya_speech_fine_tune_realcase_27_Jun&quot;, &quot;en&quot;)\ .setInputCols(&quot;audio_assembler&quot;) \ .setOutputCol(&quot;text&quot;) pipeline = Pipeline(stages=[ audio_assembler, speech_to_text, ]) pipelineModel = pipeline.fit(audioDf) pipelineDF = pipelineModel.transform(audioDf) val audioAssembler = new AudioAssembler() .setInputCol(&quot;audio_content&quot;) .setOutputCol(&quot;audio_assembler&quot;) val speechToText = Wav2Vec2ForCTC .pretrained(&quot;asr_Malaya_speech_fine_tune_realcase_27_Jun&quot;, &quot;en&quot;) .setInputCols(&quot;audio_assembler&quot;) .setOutputCol(&quot;text&quot;) val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText)) val pipelineModel = pipeline.fit(audioDf) val pipelineDF = pipelineModel.transform(audioDf) Model Information Model Name: asr_Malaya_speech_fine_tune_realcase_27_Jun Compatibility: Spark NLP 4.4.0+ License: Open Source Edition: Official Input Labels: [audio_assembler] Output Labels: [text] Language: en Size: 1.2 GB</summary></entry><entry><title type="html">English asr_Malaya_speech_fine_tune_realcase_30_Jun_lm TFWav2Vec2ForCTC from RuiqianLi</title><link href="/2023/03/14/asr_Malaya_speech_fine_tune_realcase_30_Jun_lm_en.html" rel="alternate" type="text/html" title="English asr_Malaya_speech_fine_tune_realcase_30_Jun_lm TFWav2Vec2ForCTC from RuiqianLi" /><published>2023-03-14T00:00:00+00:00</published><updated>2023-03-14T00:00:00+00:00</updated><id>/2023/03/14/asr_Malaya_speech_fine_tune_realcase_30_Jun_lm_en</id><content type="html" xml:base="/2023/03/14/asr_Malaya_speech_fine_tune_realcase_30_Jun_lm_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+{:.table-model}
+|---|---|
+|Model Name:|asr_Malaya_speech_fine_tune_realcase_27_Jun|
+|Compatibility:|Spark NLP 4.4.0+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[audio_assembler]|
+|Output Labels:|[text]|
+|Language:|en|
+|Size:|1.2 GB|</content><author><name>John Snow Labs</name></author><category term="wav2vec2" /><category term="en" /><category term="audio" /><category term="open_source" /><category term="asr" /><category term="tensorflow" /><summary type="html">Description Pretrained Wav2vec2 model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.asr_Malaya_speech_fine_tune_realcase_27_Jun is a English model originally trained by RuiqianLi. NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Malaya_speech_fine_tune_realcase_27_Jun_gpu Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU audio_assembler = AudioAssembler() \ .setInputCol(&quot;audio_content&quot;) \ .setOutputCol(&quot;audio_assembler&quot;) speech_to_text = Wav2Vec2ForCTC \ .pretrained(&quot;asr_Malaya_speech_fine_tune_realcase_27_Jun&quot;, &quot;en&quot;)\ .setInputCols(&quot;audio_assembler&quot;) \ .setOutputCol(&quot;text&quot;) pipeline = Pipeline(stages=[ audio_assembler, speech_to_text, ]) pipelineModel = pipeline.fit(audioDf) pipelineDF = pipelineModel.transform(audioDf) val audioAssembler = new AudioAssembler() .setInputCol(&quot;audio_content&quot;) .setOutputCol(&quot;audio_assembler&quot;) val speechToText = Wav2Vec2ForCTC .pretrained(&quot;asr_Malaya_speech_fine_tune_realcase_27_Jun&quot;, &quot;en&quot;) .setInputCols(&quot;audio_assembler&quot;) .setOutputCol(&quot;text&quot;) val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText)) val pipelineModel = pipeline.fit(audioDf) val pipelineDF = pipelineModel.transform(audioDf) Model Information Model Name: asr_Malaya_speech_fine_tune_realcase_27_Jun Compatibility: Spark NLP 4.4.0+ License: Open Source Edition: Official Input Labels: [audio_assembler] Output Labels: [text] Language: en Size: 1.2 GB</summary></entry><entry><title type="html">English asr_Malaya_speech_fine_tune_realcase_30_Jun_lm TFWav2Vec2ForCTC from RuiqianLi</title><link href="/2023/03/14/asr_Malaya_speech_fine_tune_realcase_30_Jun_lm_en.html" rel="alternate" type="text/html" title="English asr_Malaya_speech_fine_tune_realcase_30_Jun_lm TFWav2Vec2ForCTC from RuiqianLi" /><published>2023-03-14T00:00:00+00:00</published><updated>2023-03-14T00:00:00+00:00</updated><id>/2023/03/14/asr_Malaya_speech_fine_tune_realcase_30_Jun_lm_en</id><content type="html" xml:base="/2023/03/14/asr_Malaya_speech_fine_tune_realcase_30_Jun_lm_en.html">## Description
 
-&lt;p&gt;Pretrained Wav2vec2  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;asr_Malaya_speech_fine_tune_realcase_30_Jun_lm&lt;/code&gt; is a English model originally trained by RuiqianLi.&lt;/p&gt;
+Pretrained Wav2vec2  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`asr_Malaya_speech_fine_tune_realcase_30_Jun_lm` is a English model originally trained by RuiqianLi.
 
-&lt;p&gt;NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Malaya_speech_fine_tune_realcase_30_Jun_lm_gpu&lt;/p&gt;
+NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Malaya_speech_fine_tune_realcase_30_Jun_lm_gpu
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_Malaya_speech_fine_tune_realcase_30_Jun_lm_en_4.4.0_3.0_1678799134721.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/asr_Malaya_speech_fine_tune_realcase_30_Jun_lm_en_4.4.0_3.0_1678799134721.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_Malaya_speech_fine_tune_realcase_30_Jun_lm_en_4.4.0_3.0_1678799134721.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/asr_Malaya_speech_fine_tune_realcase_30_Jun_lm_en_4.4.0_3.0_1678799134721.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;n&quot;&gt;audio_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AudioAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_content&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;speech_to_text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Wav2Vec2ForCTC&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;asr_Malaya_speech_fine_tune_realcase_30_Jun_lm&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;audio_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;speech_to_text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
 
-&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+audio_assembler = AudioAssembler() \
+    .setInputCol(&quot;audio_content&quot;) \
+    .setOutputCol(&quot;audio_assembler&quot;)
 
-&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;audioAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;AudioAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_content&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+speech_to_text = Wav2Vec2ForCTC \
+    .pretrained(&quot;asr_Malaya_speech_fine_tune_realcase_30_Jun_lm&quot;, &quot;en&quot;)\
+    .setInputCols(&quot;audio_assembler&quot;) \
+    .setOutputCol(&quot;text&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;speechToText&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Wav2Vec2ForCTC&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;asr_Malaya_speech_fine_tune_realcase_30_Jun_lm&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+pipeline = Pipeline(stages=[
+  audio_assembler,
+  speech_to_text,
+])
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;speechToText&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+pipelineModel = pipeline.fit(audioDf)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+pipelineDF = pipelineModel.transform(audioDf)
+```
+```scala
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val audioAssembler = new AudioAssembler()
+    .setInputCol(&quot;audio_content&quot;) 
+    .setOutputCol(&quot;audio_assembler&quot;)
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+val speechToText = Wav2Vec2ForCTC
+    .pretrained(&quot;asr_Malaya_speech_fine_tune_realcase_30_Jun_lm&quot;, &quot;en&quot;)
+    .setInputCols(&quot;audio_assembler&quot;) 
+    .setOutputCol(&quot;text&quot;) 
+
+val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText))
+
+val pipelineModel = pipeline.fit(audioDf)
+
+val pipelineDF = pipelineModel.transform(audioDf)
+
+```
 &lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;asr_Malaya_speech_fine_tune_realcase_30_Jun_lm&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.4.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[audio_assembler]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[text]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;1.2 GB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="wav2vec2" /><category term="en" /><category term="audio" /><category term="open_source" /><category term="asr" /><category term="tensorflow" /><summary type="html">Description Pretrained Wav2vec2 model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.asr_Malaya_speech_fine_tune_realcase_30_Jun_lm is a English model originally trained by RuiqianLi. NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Malaya_speech_fine_tune_realcase_30_Jun_lm_gpu Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU audio_assembler = AudioAssembler() \ .setInputCol(&quot;audio_content&quot;) \ .setOutputCol(&quot;audio_assembler&quot;) speech_to_text = Wav2Vec2ForCTC \ .pretrained(&quot;asr_Malaya_speech_fine_tune_realcase_30_Jun_lm&quot;, &quot;en&quot;)\ .setInputCols(&quot;audio_assembler&quot;) \ .setOutputCol(&quot;text&quot;) pipeline = Pipeline(stages=[ audio_assembler, speech_to_text, ]) pipelineModel = pipeline.fit(audioDf) pipelineDF = pipelineModel.transform(audioDf) val audioAssembler = new AudioAssembler() .setInputCol(&quot;audio_content&quot;) .setOutputCol(&quot;audio_assembler&quot;) val speechToText = Wav2Vec2ForCTC .pretrained(&quot;asr_Malaya_speech_fine_tune_realcase_30_Jun_lm&quot;, &quot;en&quot;) .setInputCols(&quot;audio_assembler&quot;) .setOutputCol(&quot;text&quot;) val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText)) val pipelineModel = pipeline.fit(audioDf) val pipelineDF = pipelineModel.transform(audioDf) Model Information Model Name: asr_Malaya_speech_fine_tune_realcase_30_Jun_lm Compatibility: Spark NLP 4.4.0+ License: Open Source Edition: Official Input Labels: [audio_assembler] Output Labels: [text] Language: en Size: 1.2 GB</summary></entry><entry><title type="html">English asr_Mandarin_char TFWav2Vec2ForCTC from GleamEyeBeast</title><link href="/2023/03/14/asr_Mandarin_char_en.html" rel="alternate" type="text/html" title="English asr_Mandarin_char TFWav2Vec2ForCTC from GleamEyeBeast" /><published>2023-03-14T00:00:00+00:00</published><updated>2023-03-14T00:00:00+00:00</updated><id>/2023/03/14/asr_Mandarin_char_en</id><content type="html" xml:base="/2023/03/14/asr_Mandarin_char_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+{:.table-model}
+|---|---|
+|Model Name:|asr_Malaya_speech_fine_tune_realcase_30_Jun_lm|
+|Compatibility:|Spark NLP 4.4.0+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[audio_assembler]|
+|Output Labels:|[text]|
+|Language:|en|
+|Size:|1.2 GB|</content><author><name>John Snow Labs</name></author><category term="wav2vec2" /><category term="en" /><category term="audio" /><category term="open_source" /><category term="asr" /><category term="tensorflow" /><summary type="html">Description Pretrained Wav2vec2 model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.asr_Malaya_speech_fine_tune_realcase_30_Jun_lm is a English model originally trained by RuiqianLi. NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Malaya_speech_fine_tune_realcase_30_Jun_lm_gpu Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU audio_assembler = AudioAssembler() \ .setInputCol(&quot;audio_content&quot;) \ .setOutputCol(&quot;audio_assembler&quot;) speech_to_text = Wav2Vec2ForCTC \ .pretrained(&quot;asr_Malaya_speech_fine_tune_realcase_30_Jun_lm&quot;, &quot;en&quot;)\ .setInputCols(&quot;audio_assembler&quot;) \ .setOutputCol(&quot;text&quot;) pipeline = Pipeline(stages=[ audio_assembler, speech_to_text, ]) pipelineModel = pipeline.fit(audioDf) pipelineDF = pipelineModel.transform(audioDf) val audioAssembler = new AudioAssembler() .setInputCol(&quot;audio_content&quot;) .setOutputCol(&quot;audio_assembler&quot;) val speechToText = Wav2Vec2ForCTC .pretrained(&quot;asr_Malaya_speech_fine_tune_realcase_30_Jun_lm&quot;, &quot;en&quot;) .setInputCols(&quot;audio_assembler&quot;) .setOutputCol(&quot;text&quot;) val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText)) val pipelineModel = pipeline.fit(audioDf) val pipelineDF = pipelineModel.transform(audioDf) Model Information Model Name: asr_Malaya_speech_fine_tune_realcase_30_Jun_lm Compatibility: Spark NLP 4.4.0+ License: Open Source Edition: Official Input Labels: [audio_assembler] Output Labels: [text] Language: en Size: 1.2 GB</summary></entry><entry><title type="html">English asr_Mandarin_char TFWav2Vec2ForCTC from GleamEyeBeast</title><link href="/2023/03/14/asr_Mandarin_char_en.html" rel="alternate" type="text/html" title="English asr_Mandarin_char TFWav2Vec2ForCTC from GleamEyeBeast" /><published>2023-03-14T00:00:00+00:00</published><updated>2023-03-14T00:00:00+00:00</updated><id>/2023/03/14/asr_Mandarin_char_en</id><content type="html" xml:base="/2023/03/14/asr_Mandarin_char_en.html">## Description
 
-&lt;p&gt;Pretrained Wav2vec2  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;asr_Mandarin_char&lt;/code&gt; is a English model originally trained by GleamEyeBeast.&lt;/p&gt;
+Pretrained Wav2vec2  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`asr_Mandarin_char` is a English model originally trained by GleamEyeBeast.
 
-&lt;p&gt;NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Mandarin_char_gpu&lt;/p&gt;
+NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Mandarin_char_gpu
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_Mandarin_char_en_4.4.0_3.0_1678814822299.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/asr_Mandarin_char_en_4.4.0_3.0_1678814822299.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_Mandarin_char_en_4.4.0_3.0_1678814822299.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/asr_Mandarin_char_en_4.4.0_3.0_1678814822299.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;n&quot;&gt;audio_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AudioAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_content&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;speech_to_text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Wav2Vec2ForCTC&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;asr_Mandarin_char&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;audio_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;speech_to_text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
 
-&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+audio_assembler = AudioAssembler() \
+    .setInputCol(&quot;audio_content&quot;) \
+    .setOutputCol(&quot;audio_assembler&quot;)
 
-&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;audioAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;AudioAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_content&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+speech_to_text = Wav2Vec2ForCTC \
+    .pretrained(&quot;asr_Mandarin_char&quot;, &quot;en&quot;)\
+    .setInputCols(&quot;audio_assembler&quot;) \
+    .setOutputCol(&quot;text&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;speechToText&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Wav2Vec2ForCTC&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;asr_Mandarin_char&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+pipeline = Pipeline(stages=[
+  audio_assembler,
+  speech_to_text,
+])
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;speechToText&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+pipelineModel = pipeline.fit(audioDf)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+pipelineDF = pipelineModel.transform(audioDf)
+```
+```scala
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val audioAssembler = new AudioAssembler()
+    .setInputCol(&quot;audio_content&quot;) 
+    .setOutputCol(&quot;audio_assembler&quot;)
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+val speechToText = Wav2Vec2ForCTC
+    .pretrained(&quot;asr_Mandarin_char&quot;, &quot;en&quot;)
+    .setInputCols(&quot;audio_assembler&quot;) 
+    .setOutputCol(&quot;text&quot;) 
+
+val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText))
+
+val pipelineModel = pipeline.fit(audioDf)
+
+val pipelineDF = pipelineModel.transform(audioDf)
+
+```
 &lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;asr_Mandarin_char&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.4.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[audio_assembler]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[text]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;1.2 GB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="wav2vec2" /><category term="en" /><category term="audio" /><category term="open_source" /><category term="asr" /><category term="tensorflow" /><summary type="html">Description Pretrained Wav2vec2 model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.asr_Mandarin_char is a English model originally trained by GleamEyeBeast. NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Mandarin_char_gpu Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU audio_assembler = AudioAssembler() \ .setInputCol(&quot;audio_content&quot;) \ .setOutputCol(&quot;audio_assembler&quot;) speech_to_text = Wav2Vec2ForCTC \ .pretrained(&quot;asr_Mandarin_char&quot;, &quot;en&quot;)\ .setInputCols(&quot;audio_assembler&quot;) \ .setOutputCol(&quot;text&quot;) pipeline = Pipeline(stages=[ audio_assembler, speech_to_text, ]) pipelineModel = pipeline.fit(audioDf) pipelineDF = pipelineModel.transform(audioDf) val audioAssembler = new AudioAssembler() .setInputCol(&quot;audio_content&quot;) .setOutputCol(&quot;audio_assembler&quot;) val speechToText = Wav2Vec2ForCTC .pretrained(&quot;asr_Mandarin_char&quot;, &quot;en&quot;) .setInputCols(&quot;audio_assembler&quot;) .setOutputCol(&quot;text&quot;) val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText)) val pipelineModel = pipeline.fit(audioDf) val pipelineDF = pipelineModel.transform(audioDf) Model Information Model Name: asr_Mandarin_char Compatibility: Spark NLP 4.4.0+ License: Open Source Edition: Official Input Labels: [audio_assembler] Output Labels: [text] Language: en Size: 1.2 GB</summary></entry><entry><title type="html">English asr_Mandarin_naive TFWav2Vec2ForCTC from GleamEyeBeast</title><link href="/2023/03/14/asr_Mandarin_naive_en.html" rel="alternate" type="text/html" title="English asr_Mandarin_naive TFWav2Vec2ForCTC from GleamEyeBeast" /><published>2023-03-14T00:00:00+00:00</published><updated>2023-03-14T00:00:00+00:00</updated><id>/2023/03/14/asr_Mandarin_naive_en</id><content type="html" xml:base="/2023/03/14/asr_Mandarin_naive_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+{:.table-model}
+|---|---|
+|Model Name:|asr_Mandarin_char|
+|Compatibility:|Spark NLP 4.4.0+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[audio_assembler]|
+|Output Labels:|[text]|
+|Language:|en|
+|Size:|1.2 GB|</content><author><name>John Snow Labs</name></author><category term="wav2vec2" /><category term="en" /><category term="audio" /><category term="open_source" /><category term="asr" /><category term="tensorflow" /><summary type="html">Description Pretrained Wav2vec2 model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.asr_Mandarin_char is a English model originally trained by GleamEyeBeast. NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Mandarin_char_gpu Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU audio_assembler = AudioAssembler() \ .setInputCol(&quot;audio_content&quot;) \ .setOutputCol(&quot;audio_assembler&quot;) speech_to_text = Wav2Vec2ForCTC \ .pretrained(&quot;asr_Mandarin_char&quot;, &quot;en&quot;)\ .setInputCols(&quot;audio_assembler&quot;) \ .setOutputCol(&quot;text&quot;) pipeline = Pipeline(stages=[ audio_assembler, speech_to_text, ]) pipelineModel = pipeline.fit(audioDf) pipelineDF = pipelineModel.transform(audioDf) val audioAssembler = new AudioAssembler() .setInputCol(&quot;audio_content&quot;) .setOutputCol(&quot;audio_assembler&quot;) val speechToText = Wav2Vec2ForCTC .pretrained(&quot;asr_Mandarin_char&quot;, &quot;en&quot;) .setInputCols(&quot;audio_assembler&quot;) .setOutputCol(&quot;text&quot;) val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText)) val pipelineModel = pipeline.fit(audioDf) val pipelineDF = pipelineModel.transform(audioDf) Model Information Model Name: asr_Mandarin_char Compatibility: Spark NLP 4.4.0+ License: Open Source Edition: Official Input Labels: [audio_assembler] Output Labels: [text] Language: en Size: 1.2 GB</summary></entry><entry><title type="html">English asr_Mandarin_naive TFWav2Vec2ForCTC from GleamEyeBeast</title><link href="/2023/03/14/asr_Mandarin_naive_en.html" rel="alternate" type="text/html" title="English asr_Mandarin_naive TFWav2Vec2ForCTC from GleamEyeBeast" /><published>2023-03-14T00:00:00+00:00</published><updated>2023-03-14T00:00:00+00:00</updated><id>/2023/03/14/asr_Mandarin_naive_en</id><content type="html" xml:base="/2023/03/14/asr_Mandarin_naive_en.html">## Description
 
-&lt;p&gt;Pretrained Wav2vec2  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;asr_Mandarin_naive&lt;/code&gt; is a English model originally trained by GleamEyeBeast.&lt;/p&gt;
+Pretrained Wav2vec2  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`asr_Mandarin_naive` is a English model originally trained by GleamEyeBeast.
 
-&lt;p&gt;NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Mandarin_naive_gpu&lt;/p&gt;
+NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Mandarin_naive_gpu
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_Mandarin_naive_en_4.4.0_3.0_1678816937348.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/asr_Mandarin_naive_en_4.4.0_3.0_1678816937348.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_Mandarin_naive_en_4.4.0_3.0_1678816937348.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/asr_Mandarin_naive_en_4.4.0_3.0_1678816937348.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;n&quot;&gt;audio_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AudioAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_content&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;speech_to_text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Wav2Vec2ForCTC&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;asr_Mandarin_naive&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;audio_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;speech_to_text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
 
-&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+audio_assembler = AudioAssembler() \
+    .setInputCol(&quot;audio_content&quot;) \
+    .setOutputCol(&quot;audio_assembler&quot;)
 
-&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;audioAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;AudioAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_content&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+speech_to_text = Wav2Vec2ForCTC \
+    .pretrained(&quot;asr_Mandarin_naive&quot;, &quot;en&quot;)\
+    .setInputCols(&quot;audio_assembler&quot;) \
+    .setOutputCol(&quot;text&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;speechToText&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Wav2Vec2ForCTC&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;asr_Mandarin_naive&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+pipeline = Pipeline(stages=[
+  audio_assembler,
+  speech_to_text,
+])
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;speechToText&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+pipelineModel = pipeline.fit(audioDf)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+pipelineDF = pipelineModel.transform(audioDf)
+```
+```scala
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val audioAssembler = new AudioAssembler()
+    .setInputCol(&quot;audio_content&quot;) 
+    .setOutputCol(&quot;audio_assembler&quot;)
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+val speechToText = Wav2Vec2ForCTC
+    .pretrained(&quot;asr_Mandarin_naive&quot;, &quot;en&quot;)
+    .setInputCols(&quot;audio_assembler&quot;) 
+    .setOutputCol(&quot;text&quot;) 
+
+val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText))
+
+val pipelineModel = pipeline.fit(audioDf)
+
+val pipelineDF = pipelineModel.transform(audioDf)
+
+```
 &lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;asr_Mandarin_naive&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.4.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[audio_assembler]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[text]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;1.2 GB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="wav2vec2" /><category term="en" /><category term="audio" /><category term="open_source" /><category term="asr" /><category term="tensorflow" /><summary type="html">Description Pretrained Wav2vec2 model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.asr_Mandarin_naive is a English model originally trained by GleamEyeBeast. NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Mandarin_naive_gpu Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU audio_assembler = AudioAssembler() \ .setInputCol(&quot;audio_content&quot;) \ .setOutputCol(&quot;audio_assembler&quot;) speech_to_text = Wav2Vec2ForCTC \ .pretrained(&quot;asr_Mandarin_naive&quot;, &quot;en&quot;)\ .setInputCols(&quot;audio_assembler&quot;) \ .setOutputCol(&quot;text&quot;) pipeline = Pipeline(stages=[ audio_assembler, speech_to_text, ]) pipelineModel = pipeline.fit(audioDf) pipelineDF = pipelineModel.transform(audioDf) val audioAssembler = new AudioAssembler() .setInputCol(&quot;audio_content&quot;) .setOutputCol(&quot;audio_assembler&quot;) val speechToText = Wav2Vec2ForCTC .pretrained(&quot;asr_Mandarin_naive&quot;, &quot;en&quot;) .setInputCols(&quot;audio_assembler&quot;) .setOutputCol(&quot;text&quot;) val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText)) val pipelineModel = pipeline.fit(audioDf) val pipelineDF = pipelineModel.transform(audioDf) Model Information Model Name: asr_Mandarin_naive Compatibility: Spark NLP 4.4.0+ License: Open Source Edition: Official Input Labels: [audio_assembler] Output Labels: [text] Language: en Size: 1.2 GB</summary></entry><entry><title type="html">English asr_Wav2Vec2_XLSR_Bengali_1b TFWav2Vec2ForCTC from LegolasTheElf</title><link href="/2023/03/14/asr_Wav2Vec2_XLSR_Bengali_1b_en.html" rel="alternate" type="text/html" title="English asr_Wav2Vec2_XLSR_Bengali_1b TFWav2Vec2ForCTC from LegolasTheElf" /><published>2023-03-14T00:00:00+00:00</published><updated>2023-03-14T00:00:00+00:00</updated><id>/2023/03/14/asr_Wav2Vec2_XLSR_Bengali_1b_en</id><content type="html" xml:base="/2023/03/14/asr_Wav2Vec2_XLSR_Bengali_1b_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+{:.table-model}
+|---|---|
+|Model Name:|asr_Mandarin_naive|
+|Compatibility:|Spark NLP 4.4.0+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[audio_assembler]|
+|Output Labels:|[text]|
+|Language:|en|
+|Size:|1.2 GB|</content><author><name>John Snow Labs</name></author><category term="wav2vec2" /><category term="en" /><category term="audio" /><category term="open_source" /><category term="asr" /><category term="tensorflow" /><summary type="html">Description Pretrained Wav2vec2 model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.asr_Mandarin_naive is a English model originally trained by GleamEyeBeast. NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Mandarin_naive_gpu Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU audio_assembler = AudioAssembler() \ .setInputCol(&quot;audio_content&quot;) \ .setOutputCol(&quot;audio_assembler&quot;) speech_to_text = Wav2Vec2ForCTC \ .pretrained(&quot;asr_Mandarin_naive&quot;, &quot;en&quot;)\ .setInputCols(&quot;audio_assembler&quot;) \ .setOutputCol(&quot;text&quot;) pipeline = Pipeline(stages=[ audio_assembler, speech_to_text, ]) pipelineModel = pipeline.fit(audioDf) pipelineDF = pipelineModel.transform(audioDf) val audioAssembler = new AudioAssembler() .setInputCol(&quot;audio_content&quot;) .setOutputCol(&quot;audio_assembler&quot;) val speechToText = Wav2Vec2ForCTC .pretrained(&quot;asr_Mandarin_naive&quot;, &quot;en&quot;) .setInputCols(&quot;audio_assembler&quot;) .setOutputCol(&quot;text&quot;) val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText)) val pipelineModel = pipeline.fit(audioDf) val pipelineDF = pipelineModel.transform(audioDf) Model Information Model Name: asr_Mandarin_naive Compatibility: Spark NLP 4.4.0+ License: Open Source Edition: Official Input Labels: [audio_assembler] Output Labels: [text] Language: en Size: 1.2 GB</summary></entry><entry><title type="html">English asr_Wav2Vec2_XLSR_Bengali_1b TFWav2Vec2ForCTC from LegolasTheElf</title><link href="/2023/03/14/asr_Wav2Vec2_XLSR_Bengali_1b_en.html" rel="alternate" type="text/html" title="English asr_Wav2Vec2_XLSR_Bengali_1b TFWav2Vec2ForCTC from LegolasTheElf" /><published>2023-03-14T00:00:00+00:00</published><updated>2023-03-14T00:00:00+00:00</updated><id>/2023/03/14/asr_Wav2Vec2_XLSR_Bengali_1b_en</id><content type="html" xml:base="/2023/03/14/asr_Wav2Vec2_XLSR_Bengali_1b_en.html">## Description
 
-&lt;p&gt;Pretrained Wav2vec2  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;asr_Wav2Vec2_XLSR_Bengali_1b&lt;/code&gt; is a English model originally trained by LegolasTheElf.&lt;/p&gt;
+Pretrained Wav2vec2  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`asr_Wav2Vec2_XLSR_Bengali_1b` is a English model originally trained by LegolasTheElf.
 
-&lt;p&gt;NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Wav2Vec2_XLSR_Bengali_1b_gpu&lt;/p&gt;
+NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Wav2Vec2_XLSR_Bengali_1b_gpu
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_Wav2Vec2_XLSR_Bengali_1b_en_4.4.0_3.0_1678787741774.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/asr_Wav2Vec2_XLSR_Bengali_1b_en_4.4.0_3.0_1678787741774.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_Wav2Vec2_XLSR_Bengali_1b_en_4.4.0_3.0_1678787741774.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/asr_Wav2Vec2_XLSR_Bengali_1b_en_4.4.0_3.0_1678787741774.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;n&quot;&gt;audio_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AudioAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_content&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;speech_to_text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Wav2Vec2ForCTC&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;asr_Wav2Vec2_XLSR_Bengali_1b&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;audio_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;speech_to_text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
 
-&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+audio_assembler = AudioAssembler() \
+    .setInputCol(&quot;audio_content&quot;) \
+    .setOutputCol(&quot;audio_assembler&quot;)
 
-&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;audioAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;AudioAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_content&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+speech_to_text = Wav2Vec2ForCTC \
+    .pretrained(&quot;asr_Wav2Vec2_XLSR_Bengali_1b&quot;, &quot;en&quot;)\
+    .setInputCols(&quot;audio_assembler&quot;) \
+    .setOutputCol(&quot;text&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;speechToText&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Wav2Vec2ForCTC&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;asr_Wav2Vec2_XLSR_Bengali_1b&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+pipeline = Pipeline(stages=[
+  audio_assembler,
+  speech_to_text,
+])
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;speechToText&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+pipelineModel = pipeline.fit(audioDf)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+pipelineDF = pipelineModel.transform(audioDf)
+```
+```scala
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val audioAssembler = new AudioAssembler()
+    .setInputCol(&quot;audio_content&quot;) 
+    .setOutputCol(&quot;audio_assembler&quot;)
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+val speechToText = Wav2Vec2ForCTC
+    .pretrained(&quot;asr_Wav2Vec2_XLSR_Bengali_1b&quot;, &quot;en&quot;)
+    .setInputCols(&quot;audio_assembler&quot;) 
+    .setOutputCol(&quot;text&quot;) 
+
+val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText))
+
+val pipelineModel = pipeline.fit(audioDf)
+
+val pipelineDF = pipelineModel.transform(audioDf)
+
+```
 &lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;asr_Wav2Vec2_XLSR_Bengali_1b&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.4.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[audio_assembler]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[text]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;3.6 GB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="wav2vec2" /><category term="en" /><category term="audio" /><category term="open_source" /><category term="asr" /><category term="tensorflow" /><summary type="html">Description Pretrained Wav2vec2 model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.asr_Wav2Vec2_XLSR_Bengali_1b is a English model originally trained by LegolasTheElf. NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Wav2Vec2_XLSR_Bengali_1b_gpu Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU audio_assembler = AudioAssembler() \ .setInputCol(&quot;audio_content&quot;) \ .setOutputCol(&quot;audio_assembler&quot;) speech_to_text = Wav2Vec2ForCTC \ .pretrained(&quot;asr_Wav2Vec2_XLSR_Bengali_1b&quot;, &quot;en&quot;)\ .setInputCols(&quot;audio_assembler&quot;) \ .setOutputCol(&quot;text&quot;) pipeline = Pipeline(stages=[ audio_assembler, speech_to_text, ]) pipelineModel = pipeline.fit(audioDf) pipelineDF = pipelineModel.transform(audioDf) val audioAssembler = new AudioAssembler() .setInputCol(&quot;audio_content&quot;) .setOutputCol(&quot;audio_assembler&quot;) val speechToText = Wav2Vec2ForCTC .pretrained(&quot;asr_Wav2Vec2_XLSR_Bengali_1b&quot;, &quot;en&quot;) .setInputCols(&quot;audio_assembler&quot;) .setOutputCol(&quot;text&quot;) val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText)) val pipelineModel = pipeline.fit(audioDf) val pipelineDF = pipelineModel.transform(audioDf) Model Information Model Name: asr_Wav2Vec2_XLSR_Bengali_1b Compatibility: Spark NLP 4.4.0+ License: Open Source Edition: Official Input Labels: [audio_assembler] Output Labels: [text] Language: en Size: 3.6 GB</summary></entry><entry><title type="html">English asr_Wav2Vec2_XLSR_Bengali_V3 TFWav2Vec2ForCTC from LegolasTheElf</title><link href="/2023/03/14/asr_Wav2Vec2_XLSR_Bengali_V3_en.html" rel="alternate" type="text/html" title="English asr_Wav2Vec2_XLSR_Bengali_V3 TFWav2Vec2ForCTC from LegolasTheElf" /><published>2023-03-14T00:00:00+00:00</published><updated>2023-03-14T00:00:00+00:00</updated><id>/2023/03/14/asr_Wav2Vec2_XLSR_Bengali_V3_en</id><content type="html" xml:base="/2023/03/14/asr_Wav2Vec2_XLSR_Bengali_V3_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+{:.table-model}
+|---|---|
+|Model Name:|asr_Wav2Vec2_XLSR_Bengali_1b|
+|Compatibility:|Spark NLP 4.4.0+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[audio_assembler]|
+|Output Labels:|[text]|
+|Language:|en|
+|Size:|3.6 GB|</content><author><name>John Snow Labs</name></author><category term="wav2vec2" /><category term="en" /><category term="audio" /><category term="open_source" /><category term="asr" /><category term="tensorflow" /><summary type="html">Description Pretrained Wav2vec2 model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.asr_Wav2Vec2_XLSR_Bengali_1b is a English model originally trained by LegolasTheElf. NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Wav2Vec2_XLSR_Bengali_1b_gpu Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU audio_assembler = AudioAssembler() \ .setInputCol(&quot;audio_content&quot;) \ .setOutputCol(&quot;audio_assembler&quot;) speech_to_text = Wav2Vec2ForCTC \ .pretrained(&quot;asr_Wav2Vec2_XLSR_Bengali_1b&quot;, &quot;en&quot;)\ .setInputCols(&quot;audio_assembler&quot;) \ .setOutputCol(&quot;text&quot;) pipeline = Pipeline(stages=[ audio_assembler, speech_to_text, ]) pipelineModel = pipeline.fit(audioDf) pipelineDF = pipelineModel.transform(audioDf) val audioAssembler = new AudioAssembler() .setInputCol(&quot;audio_content&quot;) .setOutputCol(&quot;audio_assembler&quot;) val speechToText = Wav2Vec2ForCTC .pretrained(&quot;asr_Wav2Vec2_XLSR_Bengali_1b&quot;, &quot;en&quot;) .setInputCols(&quot;audio_assembler&quot;) .setOutputCol(&quot;text&quot;) val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText)) val pipelineModel = pipeline.fit(audioDf) val pipelineDF = pipelineModel.transform(audioDf) Model Information Model Name: asr_Wav2Vec2_XLSR_Bengali_1b Compatibility: Spark NLP 4.4.0+ License: Open Source Edition: Official Input Labels: [audio_assembler] Output Labels: [text] Language: en Size: 3.6 GB</summary></entry><entry><title type="html">English asr_Wav2Vec2_XLSR_Bengali_V3 TFWav2Vec2ForCTC from LegolasTheElf</title><link href="/2023/03/14/asr_Wav2Vec2_XLSR_Bengali_V3_en.html" rel="alternate" type="text/html" title="English asr_Wav2Vec2_XLSR_Bengali_V3 TFWav2Vec2ForCTC from LegolasTheElf" /><published>2023-03-14T00:00:00+00:00</published><updated>2023-03-14T00:00:00+00:00</updated><id>/2023/03/14/asr_Wav2Vec2_XLSR_Bengali_V3_en</id><content type="html" xml:base="/2023/03/14/asr_Wav2Vec2_XLSR_Bengali_V3_en.html">## Description
 
-&lt;p&gt;Pretrained Wav2vec2  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;asr_Wav2Vec2_XLSR_Bengali_V3&lt;/code&gt; is a English model originally trained by LegolasTheElf.&lt;/p&gt;
+Pretrained Wav2vec2  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`asr_Wav2Vec2_XLSR_Bengali_V3` is a English model originally trained by LegolasTheElf.
 
-&lt;p&gt;NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Wav2Vec2_XLSR_Bengali_V3_gpu&lt;/p&gt;
+NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Wav2Vec2_XLSR_Bengali_V3_gpu
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_Wav2Vec2_XLSR_Bengali_V3_en_4.4.0_3.0_1678820951571.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/asr_Wav2Vec2_XLSR_Bengali_V3_en_4.4.0_3.0_1678820951571.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_Wav2Vec2_XLSR_Bengali_V3_en_4.4.0_3.0_1678820951571.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/asr_Wav2Vec2_XLSR_Bengali_V3_en_4.4.0_3.0_1678820951571.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;n&quot;&gt;audio_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AudioAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_content&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;speech_to_text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Wav2Vec2ForCTC&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;asr_Wav2Vec2_XLSR_Bengali_V3&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;audio_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;speech_to_text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
 
-&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+audio_assembler = AudioAssembler() \
+    .setInputCol(&quot;audio_content&quot;) \
+    .setOutputCol(&quot;audio_assembler&quot;)
 
-&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;audioAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;AudioAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_content&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+speech_to_text = Wav2Vec2ForCTC \
+    .pretrained(&quot;asr_Wav2Vec2_XLSR_Bengali_V3&quot;, &quot;en&quot;)\
+    .setInputCols(&quot;audio_assembler&quot;) \
+    .setOutputCol(&quot;text&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;speechToText&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Wav2Vec2ForCTC&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;asr_Wav2Vec2_XLSR_Bengali_V3&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+pipeline = Pipeline(stages=[
+  audio_assembler,
+  speech_to_text,
+])
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;speechToText&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+pipelineModel = pipeline.fit(audioDf)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+pipelineDF = pipelineModel.transform(audioDf)
+```
+```scala
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val audioAssembler = new AudioAssembler()
+    .setInputCol(&quot;audio_content&quot;) 
+    .setOutputCol(&quot;audio_assembler&quot;)
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+val speechToText = Wav2Vec2ForCTC
+    .pretrained(&quot;asr_Wav2Vec2_XLSR_Bengali_V3&quot;, &quot;en&quot;)
+    .setInputCols(&quot;audio_assembler&quot;) 
+    .setOutputCol(&quot;text&quot;) 
+
+val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText))
+
+val pipelineModel = pipeline.fit(audioDf)
+
+val pipelineDF = pipelineModel.transform(audioDf)
+
+```
 &lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;asr_Wav2Vec2_XLSR_Bengali_V3&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.4.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[audio_assembler]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[text]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;1.2 GB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="wav2vec2" /><category term="en" /><category term="audio" /><category term="open_source" /><category term="asr" /><category term="tensorflow" /><summary type="html">Description Pretrained Wav2vec2 model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.asr_Wav2Vec2_XLSR_Bengali_V3 is a English model originally trained by LegolasTheElf. NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Wav2Vec2_XLSR_Bengali_V3_gpu Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU audio_assembler = AudioAssembler() \ .setInputCol(&quot;audio_content&quot;) \ .setOutputCol(&quot;audio_assembler&quot;) speech_to_text = Wav2Vec2ForCTC \ .pretrained(&quot;asr_Wav2Vec2_XLSR_Bengali_V3&quot;, &quot;en&quot;)\ .setInputCols(&quot;audio_assembler&quot;) \ .setOutputCol(&quot;text&quot;) pipeline = Pipeline(stages=[ audio_assembler, speech_to_text, ]) pipelineModel = pipeline.fit(audioDf) pipelineDF = pipelineModel.transform(audioDf) val audioAssembler = new AudioAssembler() .setInputCol(&quot;audio_content&quot;) .setOutputCol(&quot;audio_assembler&quot;) val speechToText = Wav2Vec2ForCTC .pretrained(&quot;asr_Wav2Vec2_XLSR_Bengali_V3&quot;, &quot;en&quot;) .setInputCols(&quot;audio_assembler&quot;) .setOutputCol(&quot;text&quot;) val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText)) val pipelineModel = pipeline.fit(audioDf) val pipelineDF = pipelineModel.transform(audioDf) Model Information Model Name: asr_Wav2Vec2_XLSR_Bengali_V3 Compatibility: Spark NLP 4.4.0+ License: Open Source Edition: Official Input Labels: [audio_assembler] Output Labels: [text] Language: en Size: 1.2 GB</summary></entry><entry><title type="html">Hindi asr_Wav2Vec2_large_xlsr_hindi TFWav2Vec2ForCTC from theainerd</title><link href="/2023/03/14/asr_Wav2Vec2_large_xlsr_hindi_hi.html" rel="alternate" type="text/html" title="Hindi asr_Wav2Vec2_large_xlsr_hindi TFWav2Vec2ForCTC from theainerd" /><published>2023-03-14T00:00:00+00:00</published><updated>2023-03-14T00:00:00+00:00</updated><id>/2023/03/14/asr_Wav2Vec2_large_xlsr_hindi_hi</id><content type="html" xml:base="/2023/03/14/asr_Wav2Vec2_large_xlsr_hindi_hi.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+{:.table-model}
+|---|---|
+|Model Name:|asr_Wav2Vec2_XLSR_Bengali_V3|
+|Compatibility:|Spark NLP 4.4.0+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[audio_assembler]|
+|Output Labels:|[text]|
+|Language:|en|
+|Size:|1.2 GB|</content><author><name>John Snow Labs</name></author><category term="wav2vec2" /><category term="en" /><category term="audio" /><category term="open_source" /><category term="asr" /><category term="tensorflow" /><summary type="html">Description Pretrained Wav2vec2 model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.asr_Wav2Vec2_XLSR_Bengali_V3 is a English model originally trained by LegolasTheElf. NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Wav2Vec2_XLSR_Bengali_V3_gpu Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU audio_assembler = AudioAssembler() \ .setInputCol(&quot;audio_content&quot;) \ .setOutputCol(&quot;audio_assembler&quot;) speech_to_text = Wav2Vec2ForCTC \ .pretrained(&quot;asr_Wav2Vec2_XLSR_Bengali_V3&quot;, &quot;en&quot;)\ .setInputCols(&quot;audio_assembler&quot;) \ .setOutputCol(&quot;text&quot;) pipeline = Pipeline(stages=[ audio_assembler, speech_to_text, ]) pipelineModel = pipeline.fit(audioDf) pipelineDF = pipelineModel.transform(audioDf) val audioAssembler = new AudioAssembler() .setInputCol(&quot;audio_content&quot;) .setOutputCol(&quot;audio_assembler&quot;) val speechToText = Wav2Vec2ForCTC .pretrained(&quot;asr_Wav2Vec2_XLSR_Bengali_V3&quot;, &quot;en&quot;) .setInputCols(&quot;audio_assembler&quot;) .setOutputCol(&quot;text&quot;) val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText)) val pipelineModel = pipeline.fit(audioDf) val pipelineDF = pipelineModel.transform(audioDf) Model Information Model Name: asr_Wav2Vec2_XLSR_Bengali_V3 Compatibility: Spark NLP 4.4.0+ License: Open Source Edition: Official Input Labels: [audio_assembler] Output Labels: [text] Language: en Size: 1.2 GB</summary></entry><entry><title type="html">Hindi asr_Wav2Vec2_large_xlsr_hindi TFWav2Vec2ForCTC from theainerd</title><link href="/2023/03/14/asr_Wav2Vec2_large_xlsr_hindi_hi.html" rel="alternate" type="text/html" title="Hindi asr_Wav2Vec2_large_xlsr_hindi TFWav2Vec2ForCTC from theainerd" /><published>2023-03-14T00:00:00+00:00</published><updated>2023-03-14T00:00:00+00:00</updated><id>/2023/03/14/asr_Wav2Vec2_large_xlsr_hindi_hi</id><content type="html" xml:base="/2023/03/14/asr_Wav2Vec2_large_xlsr_hindi_hi.html">## Description
 
-&lt;p&gt;Pretrained Wav2vec2  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;asr_Wav2Vec2_large_xlsr_hindi&lt;/code&gt; is a Hindi model originally trained by theainerd.&lt;/p&gt;
+Pretrained Wav2vec2  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`asr_Wav2Vec2_large_xlsr_hindi` is a Hindi model originally trained by theainerd.
 
-&lt;p&gt;NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Wav2Vec2_large_xlsr_hindi_gpu&lt;/p&gt;
+NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Wav2Vec2_large_xlsr_hindi_gpu
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_Wav2Vec2_large_xlsr_hindi_hi_4.4.0_3.0_1678822131874.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/asr_Wav2Vec2_large_xlsr_hindi_hi_4.4.0_3.0_1678822131874.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_Wav2Vec2_large_xlsr_hindi_hi_4.4.0_3.0_1678822131874.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/asr_Wav2Vec2_large_xlsr_hindi_hi_4.4.0_3.0_1678822131874.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;n&quot;&gt;audio_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AudioAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_content&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;speech_to_text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Wav2Vec2ForCTC&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;asr_Wav2Vec2_large_xlsr_hindi&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;hi&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;audio_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;speech_to_text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
 
-&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+audio_assembler = AudioAssembler() \
+    .setInputCol(&quot;audio_content&quot;) \
+    .setOutputCol(&quot;audio_assembler&quot;)
 
-&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;audioAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;AudioAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_content&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+speech_to_text = Wav2Vec2ForCTC \
+    .pretrained(&quot;asr_Wav2Vec2_large_xlsr_hindi&quot;, &quot;hi&quot;)\
+    .setInputCols(&quot;audio_assembler&quot;) \
+    .setOutputCol(&quot;text&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;speechToText&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Wav2Vec2ForCTC&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;asr_Wav2Vec2_large_xlsr_hindi&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;hi&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+pipeline = Pipeline(stages=[
+  audio_assembler,
+  speech_to_text,
+])
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;speechToText&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+pipelineModel = pipeline.fit(audioDf)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+pipelineDF = pipelineModel.transform(audioDf)
+```
+```scala
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val audioAssembler = new AudioAssembler()
+    .setInputCol(&quot;audio_content&quot;) 
+    .setOutputCol(&quot;audio_assembler&quot;)
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+val speechToText = Wav2Vec2ForCTC
+    .pretrained(&quot;asr_Wav2Vec2_large_xlsr_hindi&quot;, &quot;hi&quot;)
+    .setInputCols(&quot;audio_assembler&quot;) 
+    .setOutputCol(&quot;text&quot;) 
+
+val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText))
+
+val pipelineModel = pipeline.fit(audioDf)
+
+val pipelineDF = pipelineModel.transform(audioDf)
+
+```
 &lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;asr_Wav2Vec2_large_xlsr_hindi&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.4.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[audio_assembler]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[text]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;hi&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;1.2 GB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="wav2vec2" /><category term="hi" /><category term="audio" /><category term="open_source" /><category term="asr" /><category term="tensorflow" /><summary type="html">Description Pretrained Wav2vec2 model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.asr_Wav2Vec2_large_xlsr_hindi is a Hindi model originally trained by theainerd. NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Wav2Vec2_large_xlsr_hindi_gpu Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU audio_assembler = AudioAssembler() \ .setInputCol(&quot;audio_content&quot;) \ .setOutputCol(&quot;audio_assembler&quot;) speech_to_text = Wav2Vec2ForCTC \ .pretrained(&quot;asr_Wav2Vec2_large_xlsr_hindi&quot;, &quot;hi&quot;)\ .setInputCols(&quot;audio_assembler&quot;) \ .setOutputCol(&quot;text&quot;) pipeline = Pipeline(stages=[ audio_assembler, speech_to_text, ]) pipelineModel = pipeline.fit(audioDf) pipelineDF = pipelineModel.transform(audioDf) val audioAssembler = new AudioAssembler() .setInputCol(&quot;audio_content&quot;) .setOutputCol(&quot;audio_assembler&quot;) val speechToText = Wav2Vec2ForCTC .pretrained(&quot;asr_Wav2Vec2_large_xlsr_hindi&quot;, &quot;hi&quot;) .setInputCols(&quot;audio_assembler&quot;) .setOutputCol(&quot;text&quot;) val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText)) val pipelineModel = pipeline.fit(audioDf) val pipelineDF = pipelineModel.transform(audioDf) Model Information Model Name: asr_Wav2Vec2_large_xlsr_hindi Compatibility: Spark NLP 4.4.0+ License: Open Source Edition: Official Input Labels: [audio_assembler] Output Labels: [text] Language: hi Size: 1.2 GB</summary></entry><entry><title type="html">English asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_5gram_v4_1 TFWav2Vec2ForCTC from gary109</title><link href="/2023/03/14/asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_5gram_v4_1_en.html" rel="alternate" type="text/html" title="English asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_5gram_v4_1 TFWav2Vec2ForCTC from gary109" /><published>2023-03-14T00:00:00+00:00</published><updated>2023-03-14T00:00:00+00:00</updated><id>/2023/03/14/asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_5gram_v4_1_en</id><content type="html" xml:base="/2023/03/14/asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_5gram_v4_1_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+{:.table-model}
+|---|---|
+|Model Name:|asr_Wav2Vec2_large_xlsr_hindi|
+|Compatibility:|Spark NLP 4.4.0+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[audio_assembler]|
+|Output Labels:|[text]|
+|Language:|hi|
+|Size:|1.2 GB|</content><author><name>John Snow Labs</name></author><category term="wav2vec2" /><category term="hi" /><category term="audio" /><category term="open_source" /><category term="asr" /><category term="tensorflow" /><summary type="html">Description Pretrained Wav2vec2 model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.asr_Wav2Vec2_large_xlsr_hindi is a Hindi model originally trained by theainerd. NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_Wav2Vec2_large_xlsr_hindi_gpu Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU audio_assembler = AudioAssembler() \ .setInputCol(&quot;audio_content&quot;) \ .setOutputCol(&quot;audio_assembler&quot;) speech_to_text = Wav2Vec2ForCTC \ .pretrained(&quot;asr_Wav2Vec2_large_xlsr_hindi&quot;, &quot;hi&quot;)\ .setInputCols(&quot;audio_assembler&quot;) \ .setOutputCol(&quot;text&quot;) pipeline = Pipeline(stages=[ audio_assembler, speech_to_text, ]) pipelineModel = pipeline.fit(audioDf) pipelineDF = pipelineModel.transform(audioDf) val audioAssembler = new AudioAssembler() .setInputCol(&quot;audio_content&quot;) .setOutputCol(&quot;audio_assembler&quot;) val speechToText = Wav2Vec2ForCTC .pretrained(&quot;asr_Wav2Vec2_large_xlsr_hindi&quot;, &quot;hi&quot;) .setInputCols(&quot;audio_assembler&quot;) .setOutputCol(&quot;text&quot;) val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText)) val pipelineModel = pipeline.fit(audioDf) val pipelineDF = pipelineModel.transform(audioDf) Model Information Model Name: asr_Wav2Vec2_large_xlsr_hindi Compatibility: Spark NLP 4.4.0+ License: Open Source Edition: Official Input Labels: [audio_assembler] Output Labels: [text] Language: hi Size: 1.2 GB</summary></entry><entry><title type="html">English asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_5gram_v4_1 TFWav2Vec2ForCTC from gary109</title><link href="/2023/03/14/asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_5gram_v4_1_en.html" rel="alternate" type="text/html" title="English asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_5gram_v4_1 TFWav2Vec2ForCTC from gary109" /><published>2023-03-14T00:00:00+00:00</published><updated>2023-03-14T00:00:00+00:00</updated><id>/2023/03/14/asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_5gram_v4_1_en</id><content type="html" xml:base="/2023/03/14/asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_5gram_v4_1_en.html">## Description
 
-&lt;p&gt;Pretrained Wav2vec2  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_5gram_v4_1&lt;/code&gt; is a English model originally trained by gary109.&lt;/p&gt;
+Pretrained Wav2vec2  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_5gram_v4_1` is a English model originally trained by gary109.
 
-&lt;p&gt;NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_5gram_v4_1_gpu&lt;/p&gt;
+NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_5gram_v4_1_gpu
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_5gram_v4_1_en_4.4.0_3.0_1678796697997.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_5gram_v4_1_en_4.4.0_3.0_1678796697997.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_5gram_v4_1_en_4.4.0_3.0_1678796697997.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_5gram_v4_1_en_4.4.0_3.0_1678796697997.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;n&quot;&gt;audio_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AudioAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_content&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;speech_to_text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Wav2Vec2ForCTC&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_5gram_v4_1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;audio_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;speech_to_text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
 
-&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+audio_assembler = AudioAssembler() \
+    .setInputCol(&quot;audio_content&quot;) \
+    .setOutputCol(&quot;audio_assembler&quot;)
 
-&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;audioAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;AudioAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_content&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+speech_to_text = Wav2Vec2ForCTC \
+    .pretrained(&quot;asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_5gram_v4_1&quot;, &quot;en&quot;)\
+    .setInputCols(&quot;audio_assembler&quot;) \
+    .setOutputCol(&quot;text&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;speechToText&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Wav2Vec2ForCTC&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_5gram_v4_1&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+pipeline = Pipeline(stages=[
+  audio_assembler,
+  speech_to_text,
+])
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;speechToText&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+pipelineModel = pipeline.fit(audioDf)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+pipelineDF = pipelineModel.transform(audioDf)
+```
+```scala
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val audioAssembler = new AudioAssembler()
+    .setInputCol(&quot;audio_content&quot;) 
+    .setOutputCol(&quot;audio_assembler&quot;)
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+val speechToText = Wav2Vec2ForCTC
+    .pretrained(&quot;asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_5gram_v4_1&quot;, &quot;en&quot;)
+    .setInputCols(&quot;audio_assembler&quot;) 
+    .setOutputCol(&quot;text&quot;) 
+
+val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText))
+
+val pipelineModel = pipeline.fit(audioDf)
+
+val pipelineDF = pipelineModel.transform(audioDf)
+
+```
 &lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_5gram_v4_1&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.4.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[audio_assembler]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[text]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;1.2 GB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="wav2vec2" /><category term="en" /><category term="audio" /><category term="open_source" /><category term="asr" /><category term="tensorflow" /><summary type="html">Description Pretrained Wav2vec2 model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_5gram_v4_1 is a English model originally trained by gary109. NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_5gram_v4_1_gpu Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU audio_assembler = AudioAssembler() \ .setInputCol(&quot;audio_content&quot;) \ .setOutputCol(&quot;audio_assembler&quot;) speech_to_text = Wav2Vec2ForCTC \ .pretrained(&quot;asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_5gram_v4_1&quot;, &quot;en&quot;)\ .setInputCols(&quot;audio_assembler&quot;) \ .setOutputCol(&quot;text&quot;) pipeline = Pipeline(stages=[ audio_assembler, speech_to_text, ]) pipelineModel = pipeline.fit(audioDf) pipelineDF = pipelineModel.transform(audioDf) val audioAssembler = new AudioAssembler() .setInputCol(&quot;audio_content&quot;) .setOutputCol(&quot;audio_assembler&quot;) val speechToText = Wav2Vec2ForCTC .pretrained(&quot;asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_5gram_v4_1&quot;, &quot;en&quot;) .setInputCols(&quot;audio_assembler&quot;) .setOutputCol(&quot;text&quot;) val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText)) val pipelineModel = pipeline.fit(audioDf) val pipelineDF = pipelineModel.transform(audioDf) Model Information Model Name: asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_5gram_v4_1 Compatibility: Spark NLP 4.4.0+ License: Open Source Edition: Official Input Labels: [audio_assembler] Output Labels: [text] Language: en Size: 1.2 GB</summary></entry><entry><title type="html">English asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_v2 TFWav2Vec2ForCTC from gary109</title><link href="/2023/03/14/asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_v2_en.html" rel="alternate" type="text/html" title="English asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_v2 TFWav2Vec2ForCTC from gary109" /><published>2023-03-14T00:00:00+00:00</published><updated>2023-03-14T00:00:00+00:00</updated><id>/2023/03/14/asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_v2_en</id><content type="html" xml:base="/2023/03/14/asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_v2_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+{:.table-model}
+|---|---|
+|Model Name:|asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_5gram_v4_1|
+|Compatibility:|Spark NLP 4.4.0+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[audio_assembler]|
+|Output Labels:|[text]|
+|Language:|en|
+|Size:|1.2 GB|</content><author><name>John Snow Labs</name></author><category term="wav2vec2" /><category term="en" /><category term="audio" /><category term="open_source" /><category term="asr" /><category term="tensorflow" /><summary type="html">Description Pretrained Wav2vec2 model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_5gram_v4_1 is a English model originally trained by gary109. NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_5gram_v4_1_gpu Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU audio_assembler = AudioAssembler() \ .setInputCol(&quot;audio_content&quot;) \ .setOutputCol(&quot;audio_assembler&quot;) speech_to_text = Wav2Vec2ForCTC \ .pretrained(&quot;asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_5gram_v4_1&quot;, &quot;en&quot;)\ .setInputCols(&quot;audio_assembler&quot;) \ .setOutputCol(&quot;text&quot;) pipeline = Pipeline(stages=[ audio_assembler, speech_to_text, ]) pipelineModel = pipeline.fit(audioDf) pipelineDF = pipelineModel.transform(audioDf) val audioAssembler = new AudioAssembler() .setInputCol(&quot;audio_content&quot;) .setOutputCol(&quot;audio_assembler&quot;) val speechToText = Wav2Vec2ForCTC .pretrained(&quot;asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_5gram_v4_1&quot;, &quot;en&quot;) .setInputCols(&quot;audio_assembler&quot;) .setOutputCol(&quot;text&quot;) val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText)) val pipelineModel = pipeline.fit(audioDf) val pipelineDF = pipelineModel.transform(audioDf) Model Information Model Name: asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_5gram_v4_1 Compatibility: Spark NLP 4.4.0+ License: Open Source Edition: Official Input Labels: [audio_assembler] Output Labels: [text] Language: en Size: 1.2 GB</summary></entry><entry><title type="html">English asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_v2 TFWav2Vec2ForCTC from gary109</title><link href="/2023/03/14/asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_v2_en.html" rel="alternate" type="text/html" title="English asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_v2 TFWav2Vec2ForCTC from gary109" /><published>2023-03-14T00:00:00+00:00</published><updated>2023-03-14T00:00:00+00:00</updated><id>/2023/03/14/asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_v2_en</id><content type="html" xml:base="/2023/03/14/asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_v2_en.html">## Description
 
-&lt;p&gt;Pretrained Wav2vec2  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_v2&lt;/code&gt; is a English model originally trained by gary109.&lt;/p&gt;
+Pretrained Wav2vec2  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_v2` is a English model originally trained by gary109.
 
-&lt;p&gt;NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_v2_gpu&lt;/p&gt;
+NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_v2_gpu
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_v2_en_4.4.0_3.0_1678795495611.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_v2_en_4.4.0_3.0_1678795495611.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_v2_en_4.4.0_3.0_1678795495611.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_v2_en_4.4.0_3.0_1678795495611.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;n&quot;&gt;audio_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AudioAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_content&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;speech_to_text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Wav2Vec2ForCTC&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_v2&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;audio_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;speech_to_text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
 
-&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+audio_assembler = AudioAssembler() \
+    .setInputCol(&quot;audio_content&quot;) \
+    .setOutputCol(&quot;audio_assembler&quot;)
 
-&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;audioAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;AudioAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_content&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+speech_to_text = Wav2Vec2ForCTC \
+    .pretrained(&quot;asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_v2&quot;, &quot;en&quot;)\
+    .setInputCols(&quot;audio_assembler&quot;) \
+    .setOutputCol(&quot;text&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;speechToText&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Wav2Vec2ForCTC&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_v2&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+pipeline = Pipeline(stages=[
+  audio_assembler,
+  speech_to_text,
+])
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;speechToText&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+pipelineModel = pipeline.fit(audioDf)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+pipelineDF = pipelineModel.transform(audioDf)
+```
+```scala
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val audioAssembler = new AudioAssembler()
+    .setInputCol(&quot;audio_content&quot;) 
+    .setOutputCol(&quot;audio_assembler&quot;)
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+val speechToText = Wav2Vec2ForCTC
+    .pretrained(&quot;asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_v2&quot;, &quot;en&quot;)
+    .setInputCols(&quot;audio_assembler&quot;) 
+    .setOutputCol(&quot;text&quot;) 
+
+val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText))
+
+val pipelineModel = pipeline.fit(audioDf)
+
+val pipelineDF = pipelineModel.transform(audioDf)
+
+```
 &lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_v2&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.4.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[audio_assembler]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[text]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;1.2 GB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="wav2vec2" /><category term="en" /><category term="audio" /><category term="open_source" /><category term="asr" /><category term="tensorflow" /><summary type="html">Description Pretrained Wav2vec2 model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_v2 is a English model originally trained by gary109. NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_v2_gpu Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU audio_assembler = AudioAssembler() \ .setInputCol(&quot;audio_content&quot;) \ .setOutputCol(&quot;audio_assembler&quot;) speech_to_text = Wav2Vec2ForCTC \ .pretrained(&quot;asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_v2&quot;, &quot;en&quot;)\ .setInputCols(&quot;audio_assembler&quot;) \ .setOutputCol(&quot;text&quot;) pipeline = Pipeline(stages=[ audio_assembler, speech_to_text, ]) pipelineModel = pipeline.fit(audioDf) pipelineDF = pipelineModel.transform(audioDf) val audioAssembler = new AudioAssembler() .setInputCol(&quot;audio_content&quot;) .setOutputCol(&quot;audio_assembler&quot;) val speechToText = Wav2Vec2ForCTC .pretrained(&quot;asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_v2&quot;, &quot;en&quot;) .setInputCols(&quot;audio_assembler&quot;) .setOutputCol(&quot;text&quot;) val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText)) val pipelineModel = pipeline.fit(audioDf) val pipelineDF = pipelineModel.transform(audioDf) Model Information Model Name: asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_v2 Compatibility: Spark NLP 4.4.0+ License: Open Source Edition: Official Input Labels: [audio_assembler] Output Labels: [text] Language: en Size: 1.2 GB</summary></entry><entry><title type="html">Castilian, Spanish asr_exp_w2v2r_vp_100k_accent_surpeninsular_0_nortepeninsular_10_s211 TFWav2Vec2ForCTC from jonatasgrosman</title><link href="/2023/03/14/asr_exp_w2v2r_vp_100k_accent_surpeninsular_0_nortepeninsular_10_s211_es.html" rel="alternate" type="text/html" title="Castilian, Spanish asr_exp_w2v2r_vp_100k_accent_surpeninsular_0_nortepeninsular_10_s211 TFWav2Vec2ForCTC from jonatasgrosman" /><published>2023-03-14T00:00:00+00:00</published><updated>2023-03-14T00:00:00+00:00</updated><id>/2023/03/14/asr_exp_w2v2r_vp_100k_accent_surpeninsular_0_nortepeninsular_10_s211_es</id><content type="html" xml:base="/2023/03/14/asr_exp_w2v2r_vp_100k_accent_surpeninsular_0_nortepeninsular_10_s211_es.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+{:.table-model}
+|---|---|
+|Model Name:|asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_v2|
+|Compatibility:|Spark NLP 4.4.0+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[audio_assembler]|
+|Output Labels:|[text]|
+|Language:|en|
+|Size:|1.2 GB|</content><author><name>John Snow Labs</name></author><category term="wav2vec2" /><category term="en" /><category term="audio" /><category term="open_source" /><category term="asr" /><category term="tensorflow" /><summary type="html">Description Pretrained Wav2vec2 model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_v2 is a English model originally trained by gary109. NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_v2_gpu Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU audio_assembler = AudioAssembler() \ .setInputCol(&quot;audio_content&quot;) \ .setOutputCol(&quot;audio_assembler&quot;) speech_to_text = Wav2Vec2ForCTC \ .pretrained(&quot;asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_v2&quot;, &quot;en&quot;)\ .setInputCols(&quot;audio_assembler&quot;) \ .setOutputCol(&quot;text&quot;) pipeline = Pipeline(stages=[ audio_assembler, speech_to_text, ]) pipelineModel = pipeline.fit(audioDf) pipelineDF = pipelineModel.transform(audioDf) val audioAssembler = new AudioAssembler() .setInputCol(&quot;audio_content&quot;) .setOutputCol(&quot;audio_assembler&quot;) val speechToText = Wav2Vec2ForCTC .pretrained(&quot;asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_v2&quot;, &quot;en&quot;) .setInputCols(&quot;audio_assembler&quot;) .setOutputCol(&quot;text&quot;) val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText)) val pipelineModel = pipeline.fit(audioDf) val pipelineDF = pipelineModel.transform(audioDf) Model Information Model Name: asr_ai_light_dance_singing2_wav2vec2_large_xlsr_53_v2 Compatibility: Spark NLP 4.4.0+ License: Open Source Edition: Official Input Labels: [audio_assembler] Output Labels: [text] Language: en Size: 1.2 GB</summary></entry><entry><title type="html">Castilian, Spanish asr_exp_w2v2r_vp_100k_accent_surpeninsular_0_nortepeninsular_10_s211 TFWav2Vec2ForCTC from jonatasgrosman</title><link href="/2023/03/14/asr_exp_w2v2r_vp_100k_accent_surpeninsular_0_nortepeninsular_10_s211_es.html" rel="alternate" type="text/html" title="Castilian, Spanish asr_exp_w2v2r_vp_100k_accent_surpeninsular_0_nortepeninsular_10_s211 TFWav2Vec2ForCTC from jonatasgrosman" /><published>2023-03-14T00:00:00+00:00</published><updated>2023-03-14T00:00:00+00:00</updated><id>/2023/03/14/asr_exp_w2v2r_vp_100k_accent_surpeninsular_0_nortepeninsular_10_s211_es</id><content type="html" xml:base="/2023/03/14/asr_exp_w2v2r_vp_100k_accent_surpeninsular_0_nortepeninsular_10_s211_es.html">## Description
 
-&lt;p&gt;Pretrained Wav2vec2  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;asr_exp_w2v2r_vp_100k_accent_surpeninsular_0_nortepeninsular_10_s211&lt;/code&gt; is a Castilian, Spanish model originally trained by jonatasgrosman.&lt;/p&gt;
+Pretrained Wav2vec2  model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.`asr_exp_w2v2r_vp_100k_accent_surpeninsular_0_nortepeninsular_10_s211` is a Castilian, Spanish model originally trained by jonatasgrosman.
 
-&lt;p&gt;NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_exp_w2v2r_vp_100k_accent_surpeninsular_0_nortepeninsular_10_s211_gpu&lt;/p&gt;
+NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_exp_w2v2r_vp_100k_accent_surpeninsular_0_nortepeninsular_10_s211_gpu
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_exp_w2v2r_vp_100k_accent_surpeninsular_0_nortepeninsular_10_s211_es_4.4.0_3.0_1678819788313.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/asr_exp_w2v2r_vp_100k_accent_surpeninsular_0_nortepeninsular_10_s211_es_4.4.0_3.0_1678819788313.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/asr_exp_w2v2r_vp_100k_accent_surpeninsular_0_nortepeninsular_10_s211_es_4.4.0_3.0_1678819788313.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/asr_exp_w2v2r_vp_100k_accent_surpeninsular_0_nortepeninsular_10_s211_es_4.4.0_3.0_1678819788313.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;n&quot;&gt;audio_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AudioAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_content&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;speech_to_text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Wav2Vec2ForCTC&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;asr_exp_w2v2r_vp_100k_accent_surpeninsular_0_nortepeninsular_10_s211&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;es&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;audio_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;speech_to_text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
 
-&lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+audio_assembler = AudioAssembler() \
+    .setInputCol(&quot;audio_content&quot;) \
+    .setOutputCol(&quot;audio_assembler&quot;)
 
-&lt;span class=&quot;n&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;audioAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;AudioAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_content&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+speech_to_text = Wav2Vec2ForCTC \
+    .pretrained(&quot;asr_exp_w2v2r_vp_100k_accent_surpeninsular_0_nortepeninsular_10_s211&quot;, &quot;es&quot;)\
+    .setInputCols(&quot;audio_assembler&quot;) \
+    .setOutputCol(&quot;text&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;speechToText&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Wav2Vec2ForCTC&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;asr_exp_w2v2r_vp_100k_accent_surpeninsular_0_nortepeninsular_10_s211&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;es&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;audio_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
+pipeline = Pipeline(stages=[
+  audio_assembler,
+  speech_to_text,
+])
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;speechToText&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+pipelineModel = pipeline.fit(audioDf)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+pipelineDF = pipelineModel.transform(audioDf)
+```
+```scala
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;audioDf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val audioAssembler = new AudioAssembler()
+    .setInputCol(&quot;audio_content&quot;) 
+    .setOutputCol(&quot;audio_assembler&quot;)
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+val speechToText = Wav2Vec2ForCTC
+    .pretrained(&quot;asr_exp_w2v2r_vp_100k_accent_surpeninsular_0_nortepeninsular_10_s211&quot;, &quot;es&quot;)
+    .setInputCols(&quot;audio_assembler&quot;) 
+    .setOutputCol(&quot;text&quot;) 
+
+val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText))
+
+val pipelineModel = pipeline.fit(audioDf)
+
+val pipelineDF = pipelineModel.transform(audioDf)
+
+```
 &lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;asr_exp_w2v2r_vp_100k_accent_surpeninsular_0_nortepeninsular_10_s211&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.4.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[audio_assembler]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[text]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;es&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;1.2 GB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="wav2vec2" /><category term="es" /><category term="audio" /><category term="open_source" /><category term="asr" /><category term="tensorflow" /><summary type="html">Description Pretrained Wav2vec2 model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.asr_exp_w2v2r_vp_100k_accent_surpeninsular_0_nortepeninsular_10_s211 is a Castilian, Spanish model originally trained by jonatasgrosman. NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_exp_w2v2r_vp_100k_accent_surpeninsular_0_nortepeninsular_10_s211_gpu Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU audio_assembler = AudioAssembler() \ .setInputCol(&quot;audio_content&quot;) \ .setOutputCol(&quot;audio_assembler&quot;) speech_to_text = Wav2Vec2ForCTC \ .pretrained(&quot;asr_exp_w2v2r_vp_100k_accent_surpeninsular_0_nortepeninsular_10_s211&quot;, &quot;es&quot;)\ .setInputCols(&quot;audio_assembler&quot;) \ .setOutputCol(&quot;text&quot;) pipeline = Pipeline(stages=[ audio_assembler, speech_to_text, ]) pipelineModel = pipeline.fit(audioDf) pipelineDF = pipelineModel.transform(audioDf) val audioAssembler = new AudioAssembler() .setInputCol(&quot;audio_content&quot;) .setOutputCol(&quot;audio_assembler&quot;) val speechToText = Wav2Vec2ForCTC .pretrained(&quot;asr_exp_w2v2r_vp_100k_accent_surpeninsular_0_nortepeninsular_10_s211&quot;, &quot;es&quot;) .setInputCols(&quot;audio_assembler&quot;) .setOutputCol(&quot;text&quot;) val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText)) val pipelineModel = pipeline.fit(audioDf) val pipelineDF = pipelineModel.transform(audioDf) Model Information Model Name: asr_exp_w2v2r_vp_100k_accent_surpeninsular_0_nortepeninsular_10_s211 Compatibility: Spark NLP 4.4.0+ License: Open Source Edition: Official Input Labels: [audio_assembler] Output Labels: [text] Language: es Size: 1.2 GB</summary></entry></feed>
+{:.table-model}
+|---|---|
+|Model Name:|asr_exp_w2v2r_vp_100k_accent_surpeninsular_0_nortepeninsular_10_s211|
+|Compatibility:|Spark NLP 4.4.0+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[audio_assembler]|
+|Output Labels:|[text]|
+|Language:|es|
+|Size:|1.2 GB|</content><author><name>John Snow Labs</name></author><category term="wav2vec2" /><category term="es" /><category term="audio" /><category term="open_source" /><category term="asr" /><category term="tensorflow" /><summary type="html">Description Pretrained Wav2vec2 model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP.asr_exp_w2v2r_vp_100k_accent_surpeninsular_0_nortepeninsular_10_s211 is a Castilian, Spanish model originally trained by jonatasgrosman. NOTE: This model only works on a CPU, if you need to use this model on a GPU device please use asr_exp_w2v2r_vp_100k_accent_surpeninsular_0_nortepeninsular_10_s211_gpu Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU audio_assembler = AudioAssembler() \ .setInputCol(&quot;audio_content&quot;) \ .setOutputCol(&quot;audio_assembler&quot;) speech_to_text = Wav2Vec2ForCTC \ .pretrained(&quot;asr_exp_w2v2r_vp_100k_accent_surpeninsular_0_nortepeninsular_10_s211&quot;, &quot;es&quot;)\ .setInputCols(&quot;audio_assembler&quot;) \ .setOutputCol(&quot;text&quot;) pipeline = Pipeline(stages=[ audio_assembler, speech_to_text, ]) pipelineModel = pipeline.fit(audioDf) pipelineDF = pipelineModel.transform(audioDf) val audioAssembler = new AudioAssembler() .setInputCol(&quot;audio_content&quot;) .setOutputCol(&quot;audio_assembler&quot;) val speechToText = Wav2Vec2ForCTC .pretrained(&quot;asr_exp_w2v2r_vp_100k_accent_surpeninsular_0_nortepeninsular_10_s211&quot;, &quot;es&quot;) .setInputCols(&quot;audio_assembler&quot;) .setOutputCol(&quot;text&quot;) val pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText)) val pipelineModel = pipeline.fit(audioDf) val pipelineDF = pipelineModel.transform(audioDf) Model Information Model Name: asr_exp_w2v2r_vp_100k_accent_surpeninsular_0_nortepeninsular_10_s211 Compatibility: Spark NLP 4.4.0+ License: Open Source Edition: Official Input Labels: [audio_assembler] Output Labels: [text] Language: es Size: 1.2 GB</summary></entry></feed>
