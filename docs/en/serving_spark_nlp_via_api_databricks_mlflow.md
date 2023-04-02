@@ -1,8 +1,8 @@
 ---
 layout: docs
 header: true
-seotitle: Spark NLP
-title: Serving Spark NLP&#58 MLFlow on Databricks
+seotitle: Spark NLP - Serving with MLFlow on Databricks
+title: Spark NLP - Serving with MLFlow on Databricks
 permalink: /docs/en/serving_spark_nlp_via_api_databricks_mlflow
 key: docs-experiment_tracking
 modify_date: "2022-02-18"

@@ -1,7 +1,7 @@
 ---
 layout: docs
 header: true
-title: General Concepts
+title: Spark NLP - General Concepts
 permalink: /docs/en/concepts
 key: docs-concepts
 modify_date: "2022-12-21"

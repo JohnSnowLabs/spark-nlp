@@ -1,8 +1,8 @@
 ---
 layout: docs
 header: true
-seotitle: Spark NLP
-title: Experiment Tracking
+seotitle: Spark NLP - Experiment Tracking
+title: Spark NLP - Experiment Tracking
 permalink: /docs/en/mlflow
 key: docs-experiment_tracking
 modify_date: "2021-11-21"
@@ -192,7 +192,7 @@ def start():
         .config("spark.kryoserializer.buffer.max", "2000M") \
         .config("spark.driver.maxResultSize","4000M") \
         .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:3.3.2,org.mlflow:mlflow-spark:1.21.0")
-      
+
     return builder.getOrCreate()
 
 spark = start()
@@ -322,15 +322,15 @@ Each time you run execute this cell, you will get a different run for the same e
 
 ```
 with mlflow.start_run(experiment_id=EXPERIMENT_ID) as run:
-    
+
     # Printing RUN and EXPERIMENT ID
 	# ==============================
     print(f"Model name: {MODEL_NAME}")
     RUN_ID = run.info.run_id
     print(f"Run id: {RUN_ID}")
     EXPERIMENT_ID = run.info.experiment_id
-    print(f"Experiment id: {EXPERIMENT_ID}")    
-    
+    print(f"Experiment id: {EXPERIMENT_ID}")
+
     # Training the model
 	# ==================
     print("Starting training...")
@@ -339,24 +339,24 @@ with mlflow.start_run(experiment_id=EXPERIMENT_ID) as run:
     end = time.time()
     ELAPSED_SEC_TRAINING = end - start
     print("- Finished!")
-    
+
     # Saving the model in TensorFlow (ready to be loaded using NerDLModel.load)
-	# ==============================	
+	# ==============================
     print("Saving the model...")
     ner_model.stages[-1].write().overwrite().save(f"{OUTPUT_DIR}/{MODEL_DIR}/{MODEL_NAME}")
     print("- Finished!")
-    
+
     # Loading the model (to check everything worked)
 	# ==============================
     print("Loading back the model...")
     loaded_ner_model = NerDLModel.load(f"{OUTPUT_DIR}/{MODEL_DIR}/{MODEL_NAME}")\
         .setInputCols(["sentence", "token", "embeddings"])\
         .setOutputCol("ner")
-    
+
 	# Creating the inference pipeline with the loaded model
 	# ==============================
     ner_prediction_pipeline = Pipeline(stages = ner_preprocessing_pipeline.getStages() + [loaded_ner_model])
-    
+
     # Triggering inference
 	# ==============================
     print("Starting inference...")
@@ -367,7 +367,7 @@ with mlflow.start_run(experiment_id=EXPERIMENT_ID) as run:
     end = time.time()
     ELAPSED_SEC_INFERENCE = end - start
     print("- Finished!")
-    
+
     # Calculating NER metrics from logs using scikit-learn 'classification_report'
 	# ==============================
     print("Starting metric calculation...")
@@ -377,22 +377,22 @@ with mlflow.start_run(experiment_id=EXPERIMENT_ID) as run:
                               F.expr("cols['1']").alias("ground_truth"),
                               F.expr("cols['2']").alias("prediction")).toPandas()
     preds_df = preds_df.fillna(value='O')
-    with open(f'{OUTPUT_DIR}/{CLASSIFICATION_REPORT_LOG_NAME}', 'w') as f:    
+    with open(f'{OUTPUT_DIR}/{CLASSIFICATION_REPORT_LOG_NAME}', 'w') as f:
         metrics = classification_report(preds_df['ground_truth'], preds_df['prediction'])
         f.write(metrics)
-    
+
     metrics_dict = classification_report(preds_df['ground_truth'], preds_df['prediction'], output_dict=True)
     print("- Finished!")
-    
+
     # Printing metrics
 	# ==============================
-    print(f"Training dataset size: {TRAINING_SIZE}")    
+    print(f"Training dataset size: {TRAINING_SIZE}")
     print(f"Training time (sec): {ELAPSED_SEC_TRAINING}")
     print(f"Inference dataset size: {TEST_SIZE}")
     print(f"Inference time (sec): {ELAPSED_SEC_INFERENCE}")
     print(f"Metrics:\n")
     print(metrics)
-    
+
     # Logging all our params, metrics, charts and artifacts using MLFlow
 	# - log_param: logs a configuration param
 	# - log_artifacts: logs a folder and all its files
@@ -411,26 +411,26 @@ with mlflow.start_run(experiment_id=EXPERIMENT_ID) as run:
 	mlflow.log_param("batch_size", BATCH_SIZE)
 	mlflow.log_param("random_seed", RANDOM_SEED)
 	mlflow.log_param("validation_split", VALIDATION_SPLIT)
-	
+
     for file in glob.glob(f"{OUTPUT_DIR}/*.log"):
         images = {}
-        images.update(ner_image_log_parser.get_charts(file, img_prec_rec_f1_path=f"{OUTPUT_DIR}/{PREC_REC_F1_NAME}", 
+        images.update(ner_image_log_parser.get_charts(file, img_prec_rec_f1_path=f"{OUTPUT_DIR}/{PREC_REC_F1_NAME}",
                                   img_macro_micro_avg_path=f"{OUTPUT_DIR}/{MACRO_MICRO_AVG_NAME}"))
         images.update(ner_image_log_parser.loss_plot(file, img_loss_path=f"{OUTPUT_DIR}/{LOSS_NAME}"))
-    
+
     mlflow.log_artifacts(OUTPUT_DIR)
     mlflow.log_artifact(TRAIN_DATASET)
     mlflow.log_artifact(TEST_DATASET)
-                                  
+
     for k,v in metrics_dict.items():
         if isinstance(v, dict):
             for kv, vv in v.items():
                 mlflow.log_metric(f"{k}_{kv}", vv)
         else:
-            mlflow.log_metric(k, v)  
+            mlflow.log_metric(k, v)
     print("- Finished!")
-            
-    print("Logging the model in MLFlow")    
+
+    print("Logging the model in MLFlow")
 	# ==============================
     # Logging the model to be explored in the MLFLow UI
     tracking_url_type_store = urlparse(mlflow.get_tracking_uri()).scheme
@@ -445,7 +445,7 @@ with mlflow.start_run(experiment_id=EXPERIMENT_ID) as run:
     else:
         mlflow.spark.log_model(ner_model, f"{MODEL_NAME}_{EXPERIMENT_ID}_{RUN_ID}", pip_requirements=PIP_REQUIREMENTS)
     print("- Finished!")
-    
+
     # Saving the model, in case you want to export it
 	# ==============================
     print("Saving the model...")

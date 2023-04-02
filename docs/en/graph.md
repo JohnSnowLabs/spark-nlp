@@ -2,7 +2,7 @@
 layout: docs
 header: true
 seotitle:
-title: Tensorflow Graph
+title: Spark NLP - Tensorflow Graph
 permalink: /docs/en/graph
 key: docs-graph
 modify_date: "2020-02-03"

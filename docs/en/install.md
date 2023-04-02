@@ -1,8 +1,8 @@
 ---
 layout: docs
 header: true
-seotitle: Spark NLP
-title: Installation
+seotitle: Spark NLP - Installation
+title: Spark NLP - Installation
 permalink: /docs/en/install
 key: docs-install
 modify_date: "2022-12-21"
