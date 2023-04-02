@@ -5703,7 +5703,7 @@ ol.list1 {
   .benchmark-section:before {
     content: '';
     height: calc(100% + 136px);
-    width: 950px;
+    width: 1200px;
     background: #F7FCFE;
     top: -68px;
     margin: 0 auto;
