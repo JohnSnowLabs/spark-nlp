@@ -391,3 +391,47 @@ class HasEngine:
            Deep Learning engine used for this model"
         """
         return self.getOrDefault(self.engine)
+
+
+class HasCandidateLabelsProperties:
+    candidateLabels = Param(Params._dummy(), "candidateLabels",
+                            "Deep Learning engine used for this model",
+                            typeConverter=TypeConverters.toListString)
+
+    contradictionIdParam = Param(Params._dummy(), "contradictionIdParam",
+                                 "contradictionIdParam",
+                                 typeConverter=TypeConverters.toInt)
+
+    entailmentIdParam = Param(Params._dummy(), "entailmentIdParam",
+                              "contradictionIdParam",
+                              typeConverter=TypeConverters.toInt)
+
+    def setCandidateLabels(self, v):
+        """Sets candidateLabels.
+
+        Parameters
+        ----------
+        v : list[string]
+            candidateLabels
+        """
+        return self._set(candidateLabels=v)
+
+    def setContradictionIdParam(self, v):
+        """Sets contradictionIdParam.
+
+        Parameters
+        ----------
+        v : int
+            contradictionIdParam
+        """
+        return self._set(contradictionIdParam=v)
+
+    def setEntailmentIdParam(self, v):
+        """Sets entailmentIdParam.
+
+        Parameters
+        ----------
+        v : int
+            entailmentIdParam
+        """
+        return self._set(entailmentIdParam=v)
