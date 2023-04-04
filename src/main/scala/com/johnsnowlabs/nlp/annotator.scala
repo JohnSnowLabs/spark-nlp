@@ -682,8 +682,7 @@ package object annotator {
   type BartTransformer = com.johnsnowlabs.nlp.annotators.seq2seq.BartTransformer
 
   object BartTransformer
-    extends ReadablePretrainedBartTransformerModel
+      extends ReadablePretrainedBartTransformerModel
       with ReadBartTransformerDLModel
-      with ReadSentencePieceModel
 
 }
