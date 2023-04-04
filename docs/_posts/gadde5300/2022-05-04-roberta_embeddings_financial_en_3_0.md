@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English financial Word Embeddings (Roberta)
+title: English financial Word Embeddings (Roberta, Financial Phrasebank Corpus)
 author: John Snow Labs
 name: roberta_embeddings_financial
 date: 2022-05-04
@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Financial Pretrained Roberta Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. `abhilash1910/financial_roberta` is a English model orginally trained by `abhilash1910`.
+Financial Pretrained Roberta Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. `abhilash1910/financial_roberta` is a English Financial model orginally trained upon Financial Phrasebank Corpus.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

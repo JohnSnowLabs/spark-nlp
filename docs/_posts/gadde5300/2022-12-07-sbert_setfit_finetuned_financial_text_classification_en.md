@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English Financial BERT Sentence Embeddings
+title: English Financial BERT Sentence Embeddings( Finance, 768D)
 author: John Snow Labs
 name: sbert_setfit_finetuned_financial_text_classification
 date: 2022-12-07
@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Financial BERT Sentence Embeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `setfit-finetuned-financial-text-classification` is a English model originally trained by `nickmuchi`.
+Pretrained Financial BERT Sentence Embeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `setfit-finetuned-financial-text-classification` is a English Financial model which is maps sentences & paragraphs to a 768 dimensional dense vector space and can be used for tasks like clustering or semantic search.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

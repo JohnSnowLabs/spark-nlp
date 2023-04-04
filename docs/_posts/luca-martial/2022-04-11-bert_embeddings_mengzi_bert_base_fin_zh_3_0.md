@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Chinese Bert Embeddings (Base, Finance)
+title: Chinese Bert Embeddings (Base, Finance, Financial news, Research reports)
 author: John Snow Labs
 name: bert_embeddings_mengzi_bert_base_fin
 date: 2022-04-11
@@ -18,7 +18,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Bert Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. `mengzi-bert-base-fin` is a Chinese model orginally trained by `Langboat`.
+Pretrained Bert Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. `mengzi-bert-base-fin` is a Chinese Financial model orginally trained upon 20G financial news and research reports. Masked language modeling(MLM), part-of-speech(POS) tagging and sentence order prediction(SOP) are used as training task.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
