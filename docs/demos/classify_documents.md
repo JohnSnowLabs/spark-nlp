@@ -116,5 +116,17 @@ data:
             url: https://demo.johnsnowlabs.com/public/CLASSIFICATION_EN_NEWS/
           - text: Colab
             type: blue_btn
-            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/BertForSequenceClassification.ipynb            
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/BertForSequenceClassification.ipynb
+        - title: ViT for Image Classification
+          id: vit_image_classification  
+          image: 
+              src: /assets/images/ViT_for_Image_Classification.svg
+          excerpt: This demo identifies image classes using the vision transformer (ViT).
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/public/VIT_IMAGE_CLASSIFICATION/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/open-source-nlp/16.0.ViT_for_Image_Classification.ipynb
 ---

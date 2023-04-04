@@ -23,7 +23,7 @@ import org.apache.spark.ml.Pipeline
 
 // COMMAND ----------
 
-// MAGIC %sh 
+// MAGIC %sh
 // MAGIC curl -O 'https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/resources/en/classifier-dl/news_Category/news_category_train.csv'
 
 // COMMAND ----------
@@ -67,7 +67,7 @@ val sentenceEmbeddings = new SentenceEmbeddings()
   .setOutputCol("sentence_embeddings")
   .setStorageRef("glove_100d")
 
-//ClassifierDL accepts SENTENCE_EMBEDDINGS 
+//ClassifierDL accepts SENTENCE_EMBEDDINGS
 //UniversalSentenceEncoder or SentenceEmbeddings can produce SENTECE_EMBEDDINGS
 val docClassifier = new ClassifierDLApproach()
   .setInputCols("sentence_embeddings")

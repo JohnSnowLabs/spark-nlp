@@ -152,7 +152,7 @@ private[johnsnowlabs] class TensorflowMultiClassifier(
         enableOutputLogs,
         outputLogsPath)
 
-      if (validationSplit > 0.0) {
+      if (validationSet.nonEmpty && validationSplit > 0.0) {
         println(
           s"Quality on validation dataset (${validationSplit * 100}%), validation examples = ${validationSet.length} ")
         outputLog(
@@ -167,6 +167,9 @@ private[johnsnowlabs] class TensorflowMultiClassifier(
           extended = evaluationLogExtended,
           enableOutputLogs,
           outputLogsPath)
+      } else if (validationSet.isEmpty) {
+        println(f"WARNING: Could not create validation set. " +
+          f"Number of data points (${trainInputs._1.length}) not enough for validation split $validationSplit.")
       }
 
       if (testInputs.isDefined) {

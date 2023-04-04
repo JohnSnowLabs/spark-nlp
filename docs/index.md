@@ -2,18 +2,16 @@
 layout: landing
 comment: no
 title: 'Spark NLP: <span>State of the Art Natural Language Processing</span>'
-excerpt: Spark NLP is a state-of-the-art natural language processing library, the first one to offer production-grade versions of the latest deep learning NLP research results. It is the the most widely used open-source NLP library in the enterprise.
-seotitle: Spark NLP - John Snow Labs
+excerpt: Spark NLP is an open source text processing library for Python, Java, and Scala. It provides production-grade, scalable, and trainable versions of the latest research in natural language processing
+
+seotitle: Spark NLP - State of the Art NLP Library
 permalink: /
 header: true
 article_header:
   actions:
-    - text: Get Started
+    - text: Getting Started
       type: active
       url: /docs/en/quickstart
-    - text: View Demo
-      type: trans
-      url: /demos
     - text: '<i class="fab fa-github"></i> GitHub'
       type: trans
       url: https://github.com/johnsnowlabs/spark-nlp
@@ -24,15 +22,11 @@ article_header:
   theme: dark
 data:
   sections:
-    - title: The most widely used NLP library in the enterprise
-      top: yes
-      excerpt: Source:2020 NLP Industry Survey, by <b>Gradient Flow</b>.
-      bigimage: /assets/images/2020.png
-      threeblocks:
+    - threeblocks:
         - title: 100% Open Source
           image:
             src: /assets/images/open_source.svg
-          excerpt: Including pre-trained <b>models</b> and <b>pipelines</b>
+          excerpt: The full code base is open under the <b>Apache 2.0</b> license, including pre-trained <b>models</b> and <b>pipelines</b>
         - title: Natively scalable
           image:
             src: /assets/images/one_node_to_many.svg
@@ -41,6 +35,7 @@ data:
           image:
             src: /assets/images/chat_symbols.svg
           excerpt: Full <b>Python</b>, <b>Scala</b>, and <b>Java</b> support
+
 
     - title: Transformers at Scale
       transformers: yes
@@ -53,6 +48,11 @@ data:
         - text: Install Spark NLP
           type: big_btn
           url: /docs/en/install
+
+    - title: The most widely used NLP library in the enterprise
+      top: yes
+      excerpt: Gradient Flow NLP Survey, 2021.
+      bigimage: /assets/images/home/nlp_libraries.png
 
     - title: Right Out of The Box
       top: yes

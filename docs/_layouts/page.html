@@ -95,7 +95,7 @@ layout: base
           {%- if _demomenu != false -%}
             {%- include demomenu.html -%}
           {%- endif -%}
-            
+
         {%- if _article_header_type == 'overlay' or _article_header_type == 'cover' -%}
 
           {%- if _article_header_type == 'overlay' -%}
@@ -253,7 +253,7 @@ layout: base
   <div class="grid--container container-aside">
     <div class="grid">
 
-      {%- for child in _section.articles -%}          
+      {%- for child in _section.articles -%}
 
       {%- if _size >= 2 -%}
       {%- assign _cell_md_col = 3 -%}
@@ -303,7 +303,7 @@ layout: base
           <div class="video-descr">{{ child.excerpt }}</div>
           {%- endif -%}
 
-        </div>              
+        </div>
 
         {%- if child.content-%}
         <p>{{ child.content }}</p>
@@ -337,6 +337,8 @@ layout: base
   {%- endif -%}
   {%- include scripts/page.js -%}
 </script>
+<!-- Place this tag in your head or just before your close body tag. -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
 
 {%- if page.sidebar -%}
 <script>{%- include scripts/components/sidebar.js -%}</script>

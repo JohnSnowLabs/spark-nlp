@@ -1,7 +1,7 @@
 ---
 layout: docs
 header: true
-title: Hardware Acceleration
+title: Spark NLP - Hardware Acceleration
 permalink: /docs/en/hardware_acceleration
 key: docs-concepts
 modify_date: "2022-12-21"
@@ -49,7 +49,7 @@ Since the new Transformer models such as BERT for Word and Sentence embeddings a
 | DeBERTa Large     |        +477%(5.8x)        |
 | Longformer Base   |         +52%(1.5x)        |
 
-Spark NLP 4.3.1 is built with TensorFlow 2.7.1 and the following NVIDIA® software are only required for GPU support:
+Spark NLP 4.3.2 is built with TensorFlow 2.7.1 and the following NVIDIA® software are only required for GPU support:
 
 - NVIDIA® GPU drivers version 450.80.02 or higher
 - CUDA® Toolkit 11.2
