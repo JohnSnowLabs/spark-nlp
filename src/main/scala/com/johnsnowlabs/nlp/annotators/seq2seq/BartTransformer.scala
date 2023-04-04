@@ -30,7 +30,6 @@ import com.johnsnowlabs.ml.util.LoadExternalModel.{
 import com.johnsnowlabs.ml.util.ModelEngine
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.{BpeTokenizer, BartTokenizer}
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param._
@@ -432,21 +431,14 @@ class BartTransformer(override val uid: String)
   def setModelIfNotSet(spark: SparkSession, tfWrapper: TensorflowWrapper): this.type = {
     if (_tfModel.isEmpty) {
 
-      val bpeTokenizer = BpeTokenizer
-        .forModel(
-          "bart",
-          merges = $$(merges),
-          vocab = $$(vocabulary),
-          padWithSentenceTokens = false)
-        .asInstanceOf[BartTokenizer]
-
       _tfModel = Some(
         spark.sparkContext.broadcast(
           new Bart(
             tfWrapper,
-            bpeTokenizer,
             configProtoBytes = getConfigProtoBytes,
-            signatures = getSignatures)))
+            signatures = getSignatures,
+            $$(merges),
+            $$(vocabulary))))
     }
     this
   }
