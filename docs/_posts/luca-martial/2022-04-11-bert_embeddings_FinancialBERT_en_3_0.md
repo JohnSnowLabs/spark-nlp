@@ -1,6 +1,6 @@
 ---
 layout: model
-title: English Financial Bert Embeddings
+title: English Financial Bert Embeddings(Earnings Calls, Corporate reports, Bloomberg News, TRC2-financial)
 author: John Snow Labs
 name: bert_embeddings_FinancialBERT
 date: 2022-04-11
@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Bert Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. `FinancialBERT` is a English model orginally trained by `ahmedrachid`.
+Pretrained Bert Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. `FinancialBERT` is a English Financial model orginally trained on a very large corpus of financial texts including Earnings Calls, Corporate reports, Bloomberg News, TRC2-financial.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>

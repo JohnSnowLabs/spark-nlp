@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Chinese Financial BERT Sentence Embeddings (Distill)
+title: Chinese Financial BERT Sentence Embeddings (Distill, Financial Problem Matching)
 author: John Snow Labs
 name: sbert_chinese_qmc_finance_v1_distill
 date: 2022-12-07
@@ -18,7 +18,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Financial BERT Sentence Embeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `sbert-chinese-qmc-finance-v1-distill` is a Chinese model originally trained by `DMetaSoul`.
+Pretrained Financial BERT Sentence Embeddings model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `sbert-chinese-qmc-finance-v1-distill` is a Chinese Financial model originally trained upon Financial Problem Matching.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
