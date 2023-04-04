@@ -33,7 +33,12 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetectorModel
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentModel
 import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel
-import com.johnsnowlabs.nlp.annotators.seq2seq.{GPT2Transformer, MarianTransformer, T5Transformer}
+import com.johnsnowlabs.nlp.annotators.seq2seq.{
+  BartTransformer,
+  GPT2Transformer,
+  MarianTransformer,
+  T5Transformer
+}
 import com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel
@@ -713,7 +718,8 @@ object PythonResourceDownloader {
     "TapasForQuestionAnswering" -> TapasForQuestionAnswering,
     "CamemBertForSequenceClassification" -> CamemBertForSequenceClassification,
     "CamemBertForQuestionAnswering" -> CamemBertForQuestionAnswering,
-    "ZeroShotNerModel" -> ZeroShotNerModel)
+    "ZeroShotNerModel" -> ZeroShotNerModel,
+    "BartTransformer" -> BartTransformer)
 
   // List pairs of types such as the one with key type can load a pretrained model from the value type
   val typeMapper: Map[String, String] = Map("ZeroShotNerModel" -> "RoBertaForQuestionAnswering")
