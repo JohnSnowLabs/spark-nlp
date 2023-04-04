@@ -29,18 +29,15 @@ import com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitWarper.{
   TopPLogitWarper
 }
 import com.johnsnowlabs.ml.ai.util.Generation.Search.BeamSearchScorer
-import com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureManager
-import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
-import com.johnsnowlabs.nlp.annotators.common.SentenceSplit
-import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.BartTokenizer
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
-import com.johnsnowlabs.nlp.annotators.common.{Sentence, SentenceSplit}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
+import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
+import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.{BpeTokenizer, BartTokenizer}
+import com.johnsnowlabs.nlp.annotators.common.SentenceSplit
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import org.tensorflow.{Session, Tensor}
 
 import scala.collection.JavaConverters._
 import scala.collection.mutable
-import scala.math._
 
 /** This class is used to run Bart model for For Sequence Batches of WordpieceTokenizedSentence.
   * Input for this model must be tokenized with a SentencePieceModel,
@@ -55,14 +52,20 @@ import scala.math._
 
 private[johnsnowlabs] class Bart(
     val tensorflow: TensorflowWrapper,
-    val bpeTokenizer: BartTokenizer,
     configProtoBytes: Option[Array[Byte]] = None,
-    signatures: Option[Map[String, String]] = None)
+    signatures: Option[Map[String, String]] = None,
+    merges: Map[(String, String), Int],
+    vocabulary: Map[String, Int])
     extends Serializable
     with Generate {
 
   private val _tfBartSignatures: Map[String, String] =
     signatures.getOrElse(ModelSignatureManager.apply())
+
+  val bpeTokenizer: BartTokenizer = BpeTokenizer
+    .forModel("bart", merges = merges, vocab = vocabulary, padWithSentenceTokens = false)
+    .asInstanceOf[BartTokenizer]
+
   private val paddingTokenId = 1L
   private val eosTokenId = 2L
   private val vocab_size = 50264
@@ -99,7 +102,7 @@ private[johnsnowlabs] class Bart(
       randomSeed: Option[Long],
       ignoreTokenIds: Array[Int] = Array(),
       beamSize: Int): Array[Array[Long]] = {
-    var ignoreTokenIdsInt = ignoreTokenIds.map(_.toLong)
+    val ignoreTokenIdsInt = ignoreTokenIds.map(_.toLong)
     val expandedEncoderInputIdsVals = batch.flatMap(x => List.fill(beamSize)(x))
 //    val expandedEncoderInputIdsVals = batch
     val sequencesLength = expandedEncoderInputIdsVals.map(x => x.length).toArray
@@ -266,7 +269,7 @@ private[johnsnowlabs] class Bart(
 
     logitProcessorList.addProcess(new TopPLogitWarper(topP))
 
-    var beamSearchScorer = new BeamSearchScorer(
+    val beamSearchScorer = new BeamSearchScorer(
       beamSize = beamSize,
       batchSize = inputIds.length,
       lengthPenalty = repetitionPenalty.toFloat,
