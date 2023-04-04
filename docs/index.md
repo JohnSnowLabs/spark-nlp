@@ -9,12 +9,9 @@ permalink: /
 header: true
 article_header:
   actions:
-    - text: Spark NLP Get Started
+    - text: Getting Started
       type: active
       url: /docs/en/quickstart
-    - text: View Demo
-      type: trans
-      url: /demos
     - text: '<i class="fab fa-github"></i> GitHub'
       type: trans
       url: https://github.com/johnsnowlabs/spark-nlp
@@ -29,7 +26,7 @@ data:
         - title: 100% Open Source
           image:
             src: /assets/images/open_source.svg
-          excerpt: Including pre-trained <b>models</b> and <b>pipelines</b>
+          excerpt: The full code base is open under the <b>Apache 2.0</b> license, including pre-trained <b>models</b> and <b>pipelines</b>
         - title: Natively scalable
           image:
             src: /assets/images/one_node_to_many.svg

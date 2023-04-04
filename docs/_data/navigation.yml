@@ -13,10 +13,10 @@ header:
   - title: '<a href="https://www.johnsnowlabs.com/spark-nlp-blog/" target="_blank">Blog</a>'
     url: https://www.johnsnowlabs.com/spark-nlp-blog/
     key: blog
-  - title: '<span style="color: #FF8A00;"><i class = "fab fa-github fa-2x"></i></span>'
-    url: https://github.com/JohnSnowLabs/spark-nlp
-  - title: '<span style="color: #FF8A00;"><i class="fab fa-slack-hash fa-2x"></i></span>'
-    url: https://join.slack.com/t/spark-nlp/shared_invite/zt-198dipu77-L3UWNe_AJ8xqDk0ivmih5Q
+  # - title: '<span style="color: #FF8A00;"><i class = "fab fa-github fa-2x"></i></span>'
+  #   url: https://github.com/JohnSnowLabs/spark-nlp
+  # - title: '<span style="color: #FF8A00;"><i class="fab fa-slack-hash fa-2x"></i></span>'
+  #   url: https://join.slack.com/t/spark-nlp/shared_invite/zt-198dipu77-L3UWNe_AJ8xqDk0ivmih5Q
 
 extras:
   - title: Extras
