@@ -678,4 +678,12 @@ package object annotator {
   type Date2Chunk = com.johnsnowlabs.nlp.annotators.Date2Chunk
 
   object Date2Chunk extends DefaultParamsReadable[Date2Chunk]
+
+  type BartTransformer = com.johnsnowlabs.nlp.annotators.seq2seq.BartTransformer
+
+  object BartTransformer
+    extends ReadablePretrainedBartTransformerModel
+      with ReadBartTransformerDLModel
+      with ReadSentencePieceModel
+
 }
