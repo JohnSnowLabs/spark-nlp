@@ -19,11 +19,11 @@ sys.path.insert(0, os.path.abspath("../"))
 # -- Project information -----------------------------------------------------
 
 project = "Spark NLP"
-copyright = "2022, John Snow Labs"
+copyright = "2023, John Snow Labs"
 author = "John Snow Labs"
 
 # The full version, including alpha/beta/rc tags
-release = "4.3.1"
+release = "4.3.2"
 pyspark_version = "3.2.3"
 
 # -- General configuration ---------------------------------------------------

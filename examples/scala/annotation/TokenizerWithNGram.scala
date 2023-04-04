@@ -39,11 +39,7 @@ object TokenizerWithNGram extends App {
     .setInputCol("finished_normal")
     .setOutputCol("3-gram")
 
-  val gramAssembler = new DocumentAssembler()
-    .setInputCol("3-gram")
-    .setOutputCol("3-grams")
-
-  val pipeline = new Pipeline().setStages(Array(document, token, normalizer, finisher, ngram, gramAssembler))
+  val pipeline = new Pipeline().setStages(Array(document, token, normalizer, finisher, ngram))
 
   val testing = Seq(
     (1, "Google is a famous company"),

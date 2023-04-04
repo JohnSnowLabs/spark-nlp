@@ -41,13 +41,7 @@ import com.johnsnowlabs.nlp.annotators.ld.dl.{
   ReadablePretrainedLanguageDetectorDLModel
 }
 import com.johnsnowlabs.nlp.annotators.ner.crf.ReadablePretrainedNerCrf
-import com.johnsnowlabs.nlp.annotators.ner.dl.{
-  ReadZeroShotNerDLModel,
-  ReadablePretrainedNerDL,
-  ReadablePretrainedZeroShotNer,
-  ReadsNERGraph,
-  WithGraphResolver
-}
+import com.johnsnowlabs.nlp.annotators.ner.dl._
 import com.johnsnowlabs.nlp.annotators.parser.dep.ReadablePretrainedDependency
 import com.johnsnowlabs.nlp.annotators.parser.typdep.ReadablePretrainedTypedDependency
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.ReadablePretrainedPerceptron
@@ -678,6 +672,10 @@ package object annotator {
   type Date2Chunk = com.johnsnowlabs.nlp.annotators.Date2Chunk
 
   object Date2Chunk extends DefaultParamsReadable[Date2Chunk]
+  
+  type Chunk2Doc = com.johnsnowlabs.nlp.annotators.Chunk2Doc
+
+  object Chunk2Doc extends DefaultParamsReadable[Chunk2Doc]
 
   type BartTransformer = com.johnsnowlabs.nlp.annotators.seq2seq.BartTransformer
 

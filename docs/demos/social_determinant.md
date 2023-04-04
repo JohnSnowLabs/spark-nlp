@@ -69,4 +69,28 @@ data:
           - text: Colab
             type: blue_btn
             url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/SOCIAL_DETERMINANT_CLASSIFICATION.ipynb
+        - title: Extract Access to Healthcare Entities from Social Determinants of Health Texts
+          id: extract_access_healthcare_entities_social_determinants_health_texts         
+          image: 
+              src: /assets/images/Extract_Access_to_Healthcare_Entities_from_Social_Determinants_of_Health_Texts.svg
+          excerpt: This demo extracts access to healthcare information related to Social Determinants of Health from various kinds of clinical documents.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_SDOH_ACCESS/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/SOCIAL_DETERMINANT_NER.ipynb
+        - title: Extract Health and Behaviors Problems Entities from Social Determinants of Health Texts
+          id: extract_health_behaviors_problems_entities_social_determinants_health_texts         
+          image: 
+              src: /assets/images/Extract_Health_and_Behaviours_Problems_Entities_from_Social_Determinants_of_Health_Texts.svg
+          excerpt: This demo extracts health and behaviors problems related to Social Determinants of Health from various kinds of clinical documents.
+          actions:
+          - text: Live Demo
+            type: normal
+            url: https://demo.johnsnowlabs.com/healthcare/NER_SDOH_BEHAVIOURS_PROBLEMS/
+          - text: Colab
+            type: blue_btn
+            url: https://colab.research.google.com/github/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/streamlit_notebooks/healthcare/SOCIAL_DETERMINANT_NER.ipynb
 ---

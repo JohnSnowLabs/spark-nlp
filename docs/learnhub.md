@@ -1,12 +1,12 @@
 ---
 layout: page
 page:
-    aside: false      
+    aside: false
 mode: immersivebg
-pagetitle: John Snow Labs NLP - The Learning Hub
+pagetitle: Spark NLP - The Learning Hub
 title: The NLP Learning Hub
 excerpt: Enhance your knowledge of NLP by accessing various learning materials prepared by domain experts. Learn about the technology, technology in action, and industry trends in the field of Natural Language Processing.
-seotitle: John Snow Labs NLP - The Learning Hub
+seotitle: Spark NLP - The Learning Hub
 permalink: /learn
 show_subtitle: false
 key: videos
@@ -22,11 +22,7 @@ modify_date: "2019-05-16"
                 <h4>The Technology</h4>
                 <ul class="learn-hub-list">
                     <li><a target="_blank" href="https://www.johnsnowlabs.com/spark-nlp-blog/">Spark NLP</a></li>
-                    <li><a target="_blank" href="https://www.johnsnowlabs.com/healthcare-nlp-blog/">Healthcare NLP</a></li>
-                    <li><a target="_blank" href="https://www.johnsnowlabs.com/spark-ocr-blog/">Spark OCR</a></li>
-                    <li><a target="_blank" href="https://www.johnsnowlabs.com/annotation-lab-blog/">Annotation Lab</a></li>
                     <li><a target="_blank" href="https://www.johnsnowlabs.com/auto-nlp-blog/">Auto NLP</a></li>
-                    <li><a target="_blank" href="https://www.johnsnowlabs.com/multimodal-ai-blog/">Multimodal AI</a></li>
                 </ul>
             </div>
         </div>
@@ -34,10 +30,6 @@ modify_date: "2019-05-16"
             <div class="learn-hub-inner">
                 <h4>The Technology in Action</h4>
                 <ul class="learn-hub-list">
-                    <li><a target="_blank" href="https://www.johnsnowlabs.com/medical-ai-applications-blog/">Medical AI Applications</a></li>
-                    <li><a target="_blank" href="https://www.johnsnowlabs.com/finance-ai-applications-blog/">Finance AI Applications</a></li>
-                    <li><a target="_blank" href="https://www.johnsnowlabs.com/de-identification-blog/">De-Identification</a></li>
-                    <li><a target="_blank" href="https://www.johnsnowlabs.com/multilingual-nlp-blog/">Multilingual NLP</a></li>
                     <li><a target="_blank" href="https://www.johnsnowlabs.com/nlp-on-databricks-blog/">NLP on Databricks</a></li>
                 </ul>
             </div>
@@ -46,9 +38,8 @@ modify_date: "2019-05-16"
             <div class="learn-hub-inner">
                 <h4>Industry Trends</h4>
                 <ul class="learn-hub-list">
-                    <li><a target="_blank" href="https://www.johnsnowlabs.com/ai-in-healthcare-blog/">AI in Healthcare</a></li>
                     <li><a target="_blank" href="https://www.johnsnowlabs.com/no-code-ai-blog/">No-Code AI</a></li>
-                    <li><a target="_blank" href="https://www.johnsnowlabs.com/responsible-nlp-blog/">Responsible NL</a></li>
+                    <li><a target="_blank" href="https://www.johnsnowlabs.com/responsible-nlp-blog/">Responsible NLP</a></li>
                     <li><a target="_blank" href="https://www.johnsnowlabs.com/data-philanthropy-blog/">Data Philanthropy</a></li>
                     <li><a target="_blank" href="https://www.johnsnowlabs.com/announcements-blog/">Announcements</a></li>
                     <li><a target="_blank" href="https://www.johnsnowlabs.com/awards-blog/">Awards</a></li>
