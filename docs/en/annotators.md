@@ -1,7 +1,7 @@
 ---
 layout: docs
 header: true
-title: Annotators
+title: Spark NLP - Annotators
 permalink: /docs/en/annotators
 key: docs-annotators
 modify_date: "2021-04-17"

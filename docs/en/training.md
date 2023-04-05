@@ -1,8 +1,8 @@
 ---
 layout: docs
 header: true
-seotitle: Spark NLP
-title: Training
+seotitle: Spark NLP - Training
+title: Spark NLP -Training
 permalink: /docs/en/training
 key: docs-training
 modify_date: "2019-10-23"
