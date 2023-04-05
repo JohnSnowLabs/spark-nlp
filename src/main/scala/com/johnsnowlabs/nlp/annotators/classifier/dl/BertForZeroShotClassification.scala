@@ -50,7 +50,7 @@ import java.io.File
   *   .setInputCols("token", "document")
   *   .setOutputCol("label")
   * }}}
-  * The default model is `"bert_base_sequence_classifier_imdb"`, if no name is provided.
+  * The default model is `"bert_base_cased_zero_shot_classifier_xnli"`, if no name is provided.
   *
   * For available pretrained models please see the
   * [[https://nlp.johnsnowlabs.com/models?task=Text+Classification Models Hub]].
@@ -354,7 +354,7 @@ class BertForZeroShotClassification(override val uid: String)
 trait ReadablePretrainedBertForZeroShotModel
     extends ParamsAndFeaturesReadable[BertForZeroShotClassification]
     with HasPretrained[BertForZeroShotClassification] {
-  override val defaultModelName: Some[String] = Some("bert_base_sequence_classifier_imdb")
+  override val defaultModelName: Some[String] = Some("bert_base_cased_zero_shot_classifier_xnli")
 
   /** Java compliant-overrides */
   override def pretrained(): BertForZeroShotClassification = super.pretrained()
