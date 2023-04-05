@@ -32,7 +32,7 @@ class BertForZeroShotClassification(AnnotatorModel,
     ...     .setInputCols(["token", "document"]) \\
     ...     .setOutputCol("label")
 
-    The default model is ``"bert_base_sequence_classifier_imdb"``, if no name is
+    The default model is ``"bert_base_cased_zero_shot_classifier_xnli"``, if no name is
     provided.
 
     For available pretrained models please see the `Models Hub
@@ -193,14 +193,14 @@ class BertForZeroShotClassification(AnnotatorModel,
         return BertForZeroShotClassification(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="bert_base_sequence_classifier_imdb", lang="en", remote_loc=None):
+    def pretrained(name="bert_base_cased_zero_shot_classifier_xnli", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
             Name of the pretrained model, by default
-            "bert_base_sequence_classifier_imdb"
+            "bert_base_cased_zero_shot_classifier_xnli"
             lang : str, optional
             Language of the pretrained model, by default "en"
             remote_loc : str, optional
