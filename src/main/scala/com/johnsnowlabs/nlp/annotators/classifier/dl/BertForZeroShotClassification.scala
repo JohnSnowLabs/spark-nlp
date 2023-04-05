@@ -39,7 +39,7 @@ import java.io.File
 /** BertForZeroShotClassification using a `ModelForSequenceClassification` trained on NLI (natural
   * language inference) tasks. Equivalent of `BertForSequenceClassification` models, but these
   * models don't require a hardcoded number of potential classes, they can be chosen at runtime.
-  * It usually means it's slower but it is much** more flexible.
+  * It usually means it's slower but it is much more flexible.
   *
   * Any combination of sequences and labels can be passed and each combination will be posed as a
   * premise/hypothesis pair and passed to the pretrained model.
