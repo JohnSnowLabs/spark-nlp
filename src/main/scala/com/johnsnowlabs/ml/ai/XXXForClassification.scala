@@ -124,6 +124,96 @@ private[johnsnowlabs] trait XXXForClassification {
 
   }
 
+  def predictSequenceWithZeroShot(
+      tokenizedSentences: Seq[TokenizedSentence],
+      sentences: Seq[Sentence],
+      candidateLabels: Array[String],
+      entailmentId: Int,
+      contradictionId: Int,
+      batchSize: Int,
+      maxSentenceLength: Int,
+      caseSensitive: Boolean,
+      coalesceSentences: Boolean = false,
+      tags: Map[String, Int],
+      activation: String = ActivationFunction.softmax): Seq[Annotation] = {
+
+    val wordPieceTokenizedSentences =
+      tokenizeWithAlignment(tokenizedSentences, maxSentenceLength, caseSensitive)
+
+    val candidateLabelsKeyValue = candidateLabels.zipWithIndex.toMap
+    val contradiction_id: Int = if (entailmentId == 0) contradictionId else 0
+
+    val labelsTokenized =
+      tokenizeSeqString(candidateLabels, maxSentenceLength, caseSensitive)
+
+    /*Run calculation by batches*/
+    wordPieceTokenizedSentences
+      .zip(sentences)
+      .zipWithIndex
+      .grouped(batchSize)
+      .flatMap { batch =>
+        val tokensBatch = batch.map(x => (x._1._1, x._2))
+
+        /* Start internal batching for zero shot */
+        val encodedTokensLabels = tokensBatch.map { sent =>
+          labelsTokenized.flatMap(labels =>
+            encodeSequence(Seq(sent._1), Seq(labels), maxSentenceLength))
+        }
+
+        val logits = encodedTokensLabels.map { encodedSeq =>
+          tagZeroShotSequence(encodedSeq, entailmentId, contradictionId, activation)
+        }
+
+        val multiClassScores =
+          logits.map(scores => calculateSoftmax(scores.map(x => x(entailmentId)))).toArray
+        val multiLabelScores =
+          logits
+            .map(scores =>
+              scores
+                .map(x => calculateSoftmax(Array(x(contradiction_id), x(entailmentId))))
+                .map(_.last))
+            .toArray
+
+        activation match {
+          case ActivationFunction.softmax =>
+            if (coalesceSentences) {
+              val scores = multiClassScores.transpose.map(_.sum / multiClassScores.length)
+              val label = scoresToLabelForSequenceClassifier(candidateLabelsKeyValue, scores)
+              val meta = constructMetaForSequenceClassifier(candidateLabelsKeyValue, scores)
+              Array(constructAnnotationForSequenceClassifier(sentences.head, label, meta))
+            } else {
+              sentences.zip(multiClassScores).map { case (sentence, scores) =>
+                val label = scoresToLabelForSequenceClassifier(candidateLabelsKeyValue, scores)
+                val meta = constructMetaForSequenceClassifier(candidateLabelsKeyValue, scores)
+                constructAnnotationForSequenceClassifier(sentence, label, meta)
+              }
+            }
+
+          case ActivationFunction.sigmoid =>
+            if (coalesceSentences) {
+              val scores = multiLabelScores.transpose.map(_.sum / multiLabelScores.length)
+              val labels = scores.zipWithIndex
+                .filter(x => x._1 > 0.5)
+                .flatMap(x => candidateLabelsKeyValue.filter(_._2 == x._2))
+              val meta = constructMetaForSequenceClassifier(candidateLabelsKeyValue, scores)
+              labels.map(label =>
+                constructAnnotationForSequenceClassifier(sentences.head, label._1, meta))
+            } else {
+              sentences.zip(multiLabelScores).flatMap { case (sentence, scores) =>
+                val labels = scores.zipWithIndex
+                  .filter(x => x._1 > 0.5)
+                  .flatMap(x => candidateLabelsKeyValue.filter(_._2 == x._2))
+                val meta = constructMetaForSequenceClassifier(candidateLabelsKeyValue, scores)
+                labels.map(label =>
+                  constructAnnotationForSequenceClassifier(sentence, label._1, meta))
+              }
+            }
+        }
+      }
+      .toSeq
+
+  }
+
   def scoresToLabelForSequenceClassifier(tags: Map[String, Int], scores: Array[Float]): String = {
     tags.find(_._2 == scores.zipWithIndex.maxBy(_._1)._2).map(_._1).getOrElse("NA")
   }
@@ -212,6 +302,11 @@ private[johnsnowlabs] trait XXXForClassification {
       maxSeqLength: Int,
       caseSensitive: Boolean): Seq[WordpieceTokenizedSentence]
 
+  def tokenizeSeqString(
+      candidateLabels: Seq[String],
+      maxSeqLength: Int,
+      caseSensitive: Boolean): Seq[WordpieceTokenizedSentence]
+
   def tokenizeDocument(
       docs: Seq[Annotation],
       maxSeqLength: Int,
@@ -264,6 +359,12 @@ private[johnsnowlabs] trait XXXForClassification {
 
   def tagSequence(batch: Seq[Array[Int]], activation: String): Array[Array[Float]]
 
+  def tagZeroShotSequence(
+      batch: Seq[Array[Int]],
+      entailmentId: Int,
+      contradictionId: Int,
+      activation: String): Array[Array[Float]]
+
   def tagSpan(batch: Seq[Array[Int]]): (Array[Array[Float]], Array[Array[Float]])
 
   /** Calculate softmax from returned logits
@@ -276,7 +377,7 @@ private[johnsnowlabs] trait XXXForClassification {
     exp.map(x => x / exp.sum).map(_.toFloat)
   }
 
-  /** Calcuate sigmoid from returned logits
+  /** Calculate sigmoid from returned logits
     * @param scores
     *   logits output from output layer
     * @return

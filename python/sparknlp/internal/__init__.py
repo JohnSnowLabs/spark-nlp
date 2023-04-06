@@ -503,3 +503,9 @@ class _RobertaQAToZeroShotNerLoader(ExtendedJavaWrapper):
     def __init__(self, path):
         super(_RobertaQAToZeroShotNerLoader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.ner.dl.ZeroShotNerModel.load", path)
+
+
+class _BertZeroShotClassifierLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_BertZeroShotClassifierLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.BertForZeroShotClassification.loadSavedModel", path, jspark)
