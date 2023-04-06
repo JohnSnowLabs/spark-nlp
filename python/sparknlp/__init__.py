@@ -117,6 +117,11 @@ def start(gpu=False,
     output_level : int, optional
         Output level for logs, by default 1
 
+    Notes
+    -----
+    Since Spark version 3.2, Python 3.6 is deprecated. If you are using this
+    python version, consider sticking to lower versions of Spark.
+
     Returns
     -------
     :class:`SparkSession`

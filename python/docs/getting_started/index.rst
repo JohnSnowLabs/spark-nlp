@@ -54,10 +54,12 @@ Requirements
 Spark NLP is built on top of Apache Spark `3.x`. For using Spark NLP you need:
 
 * Java 8
-* Apache Spark ``3.1.x`` (or ``3.0.x``, or ``2.4.x``, or ``2.3.x``)
+* Apache Spark (from ``2.3.x`` to ``3.3.x``)
 * Python ``3.8.x`` if you are using PySpark ``3.x``
 
-  * Python ``3.6.x`` and ``3.7.x`` if you are using PySpark ``2.3.x`` or ``2.4.x``
+    * **NOTE**: Since Spark version 3.2, Python 3.6 is deprecated. If you are using this
+      python version, consider sticking to lower versions of Spark.
+    * For Python ``3.6.x`` and ``3.7.x`` we recommend PySpark ``2.3.x`` or ``2.4.x``
 
 It is recommended to have basic knowledge of the framework and a working environment before using Spark NLP.
 Please refer to `Spark documentation <https://spark.apache.org/docs/latest/api/python/index.html>`_ to get started with Spark.
