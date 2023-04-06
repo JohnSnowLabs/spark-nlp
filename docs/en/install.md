@@ -35,7 +35,11 @@ spark-shell --jars spark-nlp-assembly-4.3.2.jar
 
 ## Python
 
-Spark NLP supports Python 3.6.x and above depending on your major PySpark version.
+Spark NLP supports Python 3.7.x and above depending on your major PySpark version.
+
+**NOTE**: Since Spark version 3.2, Python 3.6 is deprecated. If you are using this
+python version, consider sticking to lower versions of Spark.
+
 #### Quick Install
 
 Let's create a new Conda environment to manage all the dependencies there. You can use Python Virtual Environment if you prefer or not have any environment.
