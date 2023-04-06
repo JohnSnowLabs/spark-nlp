@@ -27,9 +27,6 @@ class EntityRulerApproach(AnnotatorApproach, HasStorage):
     to be set as the "format" field in the ``option`` parameter map and
     depending on the file type, additional parameters might need to be set.
 
-    To enable regex extraction, ``setEnablePatternRegex(True)`` needs to be
-    called.
-
     If the file is in a JSON format, then the rule definitions need to be given
     in a list with the fields "id", "label" and "patterns"::
 
@@ -71,8 +68,6 @@ class EntityRulerApproach(AnnotatorApproach, HasStorage):
     ----------
     patternsResource
         Resource in JSON or CSV format to map entities to patterns
-    enablePatternRegex
-        Enables regex pattern match
     useStorage
         Whether to use RocksDB storage to serialize patterns
 
@@ -106,8 +101,7 @@ class EntityRulerApproach(AnnotatorApproach, HasStorage):
     ...       "patterns.csv",
     ...       ReadAs.TEXT,
     ...       {"format": "csv", "delimiter": "\\\\|"}
-    ...     ) \\
-    ...     .setEnablePatternRegex(True)
+    ...     )
     >>> pipeline = Pipeline().setStages([
     ...     documentAssembler,
     ...     tokenizer,
@@ -134,11 +128,6 @@ class EntityRulerApproach(AnnotatorApproach, HasStorage):
                              "patternsResource",
                              "Resource in JSON or CSV format to map entities to patterns",
                              typeConverter=TypeConverters.identity)
-
-    enablePatternRegex = Param(Params._dummy(),
-                               "enablePatternRegex",
-                               "Enables regex pattern match",
-                               typeConverter=TypeConverters.toBoolean)
 
     useStorage = Param(Params._dummy(),
                        "useStorage",
@@ -173,16 +162,6 @@ class EntityRulerApproach(AnnotatorApproach, HasStorage):
             Options for parsing the resource, by default {"format": "JSON"}
         """
         return self._set(patternsResource=ExternalResource(path, read_as, options))
-
-    def setEnablePatternRegex(self, value):
-        """Sets whether to enable regex pattern matching.
-
-        Parameters
-        ----------
-        value : bool
-            Whether to enable regex pattern matching.
-        """
-        return self._set(enablePatternRegex=value)
 
     def setUseStorage(self, value):
         """Sets whether to use RocksDB storage to serialize patterns.
