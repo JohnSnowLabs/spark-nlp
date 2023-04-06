@@ -230,10 +230,7 @@ class ViTForImageClassification(override val uid: String)
   def setModelIfNotSet(
       spark: SparkSession,
       tensorflow: TensorflowWrapper,
-      imageMean: Array[Double],
-      imageStd: Array[Double],
-      resample: Int,
-      size: Int): this.type = {
+      preprocessor: Preprocessor): this.type = {
     if (_model.isEmpty) {
 
       _model = Some(
@@ -242,10 +239,7 @@ class ViTForImageClassification(override val uid: String)
             tensorflow,
             configProtoBytes = getConfigProtoBytes,
             tags = $$(labels),
-            imageMean = imageMean,
-            imageStd = imageStd,
-            resample = resample,
-            size = size,
+            preprocessor = preprocessor,
             signatures = getSignatures)))
     }
     this
@@ -277,13 +271,13 @@ class ViTForImageClassification(override val uid: String)
           images = noneEmptyImages,
           batchSize = $(batchSize),
           preprocessor = Preprocessor(
-            getDoResize,
-            getDoNormalize,
-            getFeatureExtractorType,
-            getImageMean,
-            getImageStd,
-            getResample,
-            getSize))
+            do_normalize = getDoNormalize,
+            do_resize = getDoResize,
+            feature_extractor_type = getFeatureExtractorType,
+            image_mean = getImageMean,
+            image_std = getImageStd,
+            resample = getResample,
+            size = getSize))
       } else {
         Seq.empty[Annotation]
       }
@@ -346,13 +340,17 @@ trait ReadViTForImageDLModel extends ReadTensorflowModel {
   def readModel(instance: ViTForImageClassification, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_image_classification_tf", initAllTables = false)
-    instance.setModelIfNotSet(
-      spark,
-      tf,
+
+    val preprocessor = Preprocessor(
+      do_normalize = true,
+      do_resize = true,
+      "ViTFeatureExtractor",
       instance.getImageMean,
       instance.getImageStd,
       instance.getResample,
       instance.getSize)
+
+    instance.setModelIfNotSet(spark, tf, preprocessor)
   }
 
   addReader(readModel)
@@ -400,13 +398,7 @@ trait ReadViTForImageDLModel extends ReadTensorflowModel {
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(
-            spark,
-            wrapper,
-            preprocessorConfig.image_mean,
-            preprocessorConfig.image_std,
-            preprocessorConfig.resample,
-            preprocessorConfig.size)
+          .setModelIfNotSet(spark, wrapper, preprocessorConfig)
 
       case _ =>
         throw new Exception(notSupportedEngineError)

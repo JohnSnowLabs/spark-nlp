@@ -29,12 +29,7 @@ import com.johnsnowlabs.nlp.annotators.coref.{
   ReadSpanBertCorefTensorflowModel,
   ReadablePretrainedSpanBertCorefModel
 }
-import com.johnsnowlabs.nlp.annotators.cv.{
-  ReadSwinForImageDLModel,
-  ReadViTForImageDLModel,
-  ReadablePretrainedSwinForImageModel,
-  ReadablePretrainedViTForImageModel
-}
+import com.johnsnowlabs.nlp.annotators.cv._
 import com.johnsnowlabs.nlp.annotators.er.ReadablePretrainedEntityRuler
 import com.johnsnowlabs.nlp.annotators.ld.dl.{
   ReadLanguageDetectorDLTensorflowModel,
@@ -644,6 +639,13 @@ package object annotator {
   object SwinForImageClassification
       extends ReadablePretrainedSwinForImageModel
       with ReadSwinForImageDLModel
+
+  type ConvNextForImageClassification =
+    com.johnsnowlabs.nlp.annotators.cv.ConvNextForImageClassification
+
+  object ConvNextForImageClassification
+      extends ReadablePretrainedConvNextForImageModel
+      with ReadConvNextForImageDLModel
 
   type CamemBertForQuestionAnswering =
     com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForQuestionAnswering

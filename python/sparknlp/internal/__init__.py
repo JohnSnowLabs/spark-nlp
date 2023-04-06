@@ -452,6 +452,12 @@ class _SwinForImageClassification(ExtendedJavaWrapper):
             "com.johnsnowlabs.nlp.annotators.cv.SwinForImageClassification.loadSavedModel", path, jspark)
 
 
+class _ConvNextForImageClassification(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_ConvNextForImageClassification, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.cv.ConvNextForImageClassification.loadSavedModel", path, jspark)
+
+
 class _Wav2Vec2ForCTC(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_Wav2Vec2ForCTC, self).__init__(

@@ -187,9 +187,8 @@ class HasImageFeatureProperties:
                      TypeConverters.toListFloat)
 
     resample = Param(Params._dummy(), "resample",
-                     "An optional resampling filter. This can be one of PIL.Image.NEAREST, PIL.Image.BOX, "
-                     "PIL.Image.BILINEAR, PIL.Image.HAMMING, PIL.Image.BICUBIC or PIL.Image.LANCZOS. Only has an "
-                     "effect if do_resize is set to True",
+                     "An optional resampling filter. This can be one of PIL.Image.NEAREST, PIL.Image.BILINEAR or "
+                     "PIL.Image.BICUBIC. Only has an effect if do_resize is set to True.",
                      TypeConverters.toInt)
 
     size = Param(Params._dummy(), "size",
@@ -254,9 +253,8 @@ class HasImageFeatureProperties:
         Parameters
         ----------
         value : int
-            An optional resampling filter. This can be one of PIL.Image.NEAREST,
-        PIL.Image.BOX, PIL.Image.BILINEAR PIL.Image.HAMMING, PIL.Image.BICUBIC or PIL.Image.LANCZOS. Only has an
-        effect if do_resize is set to True
+            Resampling filter for resizing. This can be one of `PIL.Image.NEAREST`, `PIL.Image.BILINEAR` or
+            `PIL.Image.BICUBIC`. Only has an effect if `do_resize` is set to `True`.
         """
         return self._set(resample=value)
 
