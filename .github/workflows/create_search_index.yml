@@ -75,6 +75,7 @@ jobs:
         working-directory: docs/_frontend
         env:
           SEARCH_ORIGIN: ${{ secrets.SEARCH_ORIGIN }}
+          ORIGIN: ${{ secrets.ORIGIN }}
         run: |
           yarn
           yarn run build
