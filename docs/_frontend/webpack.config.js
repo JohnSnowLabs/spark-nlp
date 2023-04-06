@@ -111,6 +111,7 @@ module.exports = (env, argv) => {
         SEARCH_ORIGIN:
           process.env.SEARCH_ORIGIN ||
           'https://search.modelshub.johnsnowlabs.com',
+        ORIGIN: process.env.ORIGIN,
       }),
       isProduction &&
         new MiniCssExtractPlugin({
