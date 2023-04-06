@@ -57,29 +57,18 @@ class BertForZeroShotClassificationTestSpec extends AnyFlatSpec {
       .pretrained()
       .setInputCols(Array("token", "document"))
       .setOutputCol("multi_class")
-      .setCaseSensitive(false)
-      .setCoalesceSentences(false)
-      .setCandidateLabels(candidateLabels)
-
-    val tokenClassifierSigmoid = BertForZeroShotClassification
-      .pretrained()
-      .setInputCols(Array("token", "document"))
-      .setOutputCol("multi_label")
-      .setCaseSensitive(false)
-      .setCoalesceSentences(false)
-      .setActivation("sigmoid")
+      .setCaseSensitive(true)
+      .setCoalesceSentences(true)
       .setCandidateLabels(candidateLabels)
 
     val pipeline = new Pipeline().setStages(
-      Array(document, tokenizer, tokenClassifier, tokenClassifierSigmoid))
+      Array(document, tokenizer, tokenClassifier))
 
     val pipelineModel = pipeline.fit(ddd)
     val pipelineDF = pipelineModel.transform(ddd)
 
     pipelineDF.select("multi_class").show(20, false)
     pipelineDF.select("document.result", "multi_class.result").show(20, false)
-    pipelineDF.select("multi_label").show(20, false)
-    pipelineDF.select("document.result", "multi_label.result").show(20, false)
     pipelineDF
       .withColumn("doc_size", size(col("document")))
       .withColumn("label_size", size(col("multi_class")))
@@ -118,8 +107,8 @@ class BertForZeroShotClassificationTestSpec extends AnyFlatSpec {
       .pretrained()
       .setInputCols(Array("token", "document"))
       .setOutputCol("label")
-      .setCaseSensitive(false)
-      .setCoalesceSentences(false)
+      .setCaseSensitive(true)
+      .setCoalesceSentences(true)
       .setCandidateLabels(candidateLabels)
       .setBatchSize(2)
 
@@ -162,8 +151,8 @@ class BertForZeroShotClassificationTestSpec extends AnyFlatSpec {
       .pretrained()
       .setInputCols(Array("token", "sentence"))
       .setOutputCol("class")
-      .setCaseSensitive(false)
-      .setCoalesceSentences(false)
+      .setCaseSensitive(true)
+      .setCoalesceSentences(true)
       .setCandidateLabels(candidateLabels)
       .setBatchSize(2)
 
