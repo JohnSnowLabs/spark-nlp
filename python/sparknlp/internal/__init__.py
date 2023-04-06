@@ -220,6 +220,12 @@ class _T5Loader(ExtendedJavaWrapper):
             "com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer.loadSavedModel", path, jspark)
 
 
+class _BartLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_BartLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.seq2seq.BartTransformer.loadSavedModel", path, jspark)
+
+
 class _USELoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark, loadsp):
         super(_USELoader, self).__init__("com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder.loadSavedModel",
