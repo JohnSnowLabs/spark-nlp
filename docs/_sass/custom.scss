@@ -127,10 +127,6 @@ header.header {
 					i {
 						color: $color-orange;
 						font-size: 24px;
-						-webkit-transition: all 300ms ease;
-						-moz-transition: all 300ms ease;
-						-ms-transition: all 300ms ease;
-						-o-transition: all 300ms ease;
 						transition: all 300ms ease;
 						line-height: 26px;
 					}
@@ -141,6 +137,10 @@ header.header {
 			}
 		}
 	}
+}
+
+.f_inner span {
+	display: flex;
 }
 
 .header__title > .search-button {
@@ -1708,10 +1708,6 @@ a.btn1 {
 	text-align: center;
 	padding: 14px 15px;
 	color: #fff !important;
-	-webkit-transition: all 300ms ease;
-	-moz-transition: all 300ms ease;
-	-ms-transition: all 300ms ease;
-	-o-transition: all 300ms ease;
 	transition: all 300ms ease;
 	background: #FF8A00;
 	font-weight: bold;
@@ -2461,10 +2457,6 @@ code {
 			color: #fff !important;
 			text-decoration: underline;
 			background: #5334AE;
-			-webkit-transition: all 300ms ease;
-			-moz-transition: all 300ms ease;
-			-ms-transition: all 300ms ease;
-			-o-transition: all 300ms ease;
 			transition: all 300ms ease;
 			line-height: 55px;
 			&:hover {
@@ -3167,10 +3159,6 @@ code {
 	}
 	.has-aside .col-aside {
 		right: -200px;
-		-webkit-transition: all 300ms ease;
-		-moz-transition: all 300ms ease;
-		-ms-transition: all 300ms ease;
-		-o-transition: all 300ms ease;
 		transition: all 300ms ease;
 		z-index: 9;
 		background: #ffffff;

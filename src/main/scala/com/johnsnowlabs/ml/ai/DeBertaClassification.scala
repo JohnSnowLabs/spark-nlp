@@ -71,6 +71,11 @@ private[johnsnowlabs] class DeBertaClassification(
     sentenceTokenPieces
   }
 
+  def tokenizeSeqString(
+      candidateLabels: Seq[String],
+      maxSeqLength: Int,
+      caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = ???
+
   def tokenizeDocument(
       docs: Seq[Annotation],
       maxSeqLength: Int,
@@ -222,6 +227,12 @@ private[johnsnowlabs] class DeBertaClassification(
 
     batchScores
   }
+
+  def tagZeroShotSequence(
+      batch: Seq[Array[Int]],
+      entailmentId: Int,
+      contradictionId: Int,
+      activation: String): Array[Array[Float]] = ???
 
   def tagSpan(batch: Seq[Array[Int]]): (Array[Array[Float]], Array[Array[Float]]) = {
     val tensors = new TensorResources()

@@ -18,12 +18,13 @@ package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
+import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 /** Converts `DATE` type Annotations to `CHUNK` type.
   *
   * This can be useful if the following annotators after DateMatcher and MultiDateMatcher require
-  * `CHUNK` types.
+  * `CHUNK` types. The entity name in the metadata can be changed with `setEntityName`.
   *
   * ==Example==
   * {{{
@@ -104,6 +105,20 @@ class Date2Chunk(override val uid: String)
 
   def this() = this(Identifiable.randomUID("Date2Chunk"))
 
+  /** Entity name for metadata (Default: `DATE`)
+    *
+    * @group param
+    */
+  val entityName =
+    new Param[String](this, "entityName", "Entity name for the metadata")
+
+  /** Sets entity name for metadata (Default: `DATE`)
+    *
+    * @group setParam
+    */
+  def setEntityName(name: String): this.type = set(this.entityName, name)
+
+  setDefault(entityName -> "DATE")
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     annotations.map { date =>
       Annotation(
@@ -111,7 +126,7 @@ class Date2Chunk(override val uid: String)
         date.begin,
         date.end,
         date.result,
-        date.metadata ++ Map("entity" -> "DATE", "chunk" -> "0"))
+        date.metadata ++ Map("entity" -> $(entityName), "chunk" -> "0"))
     }
   }
 

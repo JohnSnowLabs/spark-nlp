@@ -25,18 +25,14 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class Date2ChunkTestSpec extends AnyFlatSpec {
 
-  "Date2Chunk" should "correctly converts DATE to CHUNK type" taggedAs FastTest in {
+  behavior of "Date2Chunk"
+
+  it should "correctly converts DATE to CHUNK type" taggedAs FastTest in {
 
     val data: Dataset[Row] = DataBuilder.multipleDataBuild(
       Array(
         """Omicron is a new variant of COVID-19, which the World Health Organization designated a variant of concern on Nov. 26, 2021/26/11.""",
         """Neighbouring Austria has already locked down its population this week for at until 2021/10/12, becoming the first to reimpose such restrictions."""))
-
-    val dateChunkAnswer = Array(
-      Seq[Annotation](
-        Annotation(AnnotatorType.CHUNK, 118, 121, "2021/01/01", Map("sentence" -> "0"))),
-      Seq[Annotation](
-        Annotation(AnnotatorType.CHUNK, 83, 86, "2021/01/01", Map("sentence" -> "0"))))
 
     val inputFormats = Array("yyyy", "yyyy/dd/MM", "MM/yyyy", "yyyy")
     val outputFormat = "yyyy/MM/dd"
@@ -90,7 +86,53 @@ class Date2ChunkTestSpec extends AnyFlatSpec {
       .transform(data)
       .select("multi_date_chunk.metadata")
       .show(false)
-
   }
 
+  it should "be able to accept different entity names" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.multipleDataBuild(
+      Array(
+        """Omicron is a new variant of COVID-19, which the World Health Organization designated a variant of concern on Nov. 26, 2021/26/11.""",
+        """Neighbouring Austria has already locked down its population this week for at until 2021/10/12, becoming the first to reimpose such restrictions."""))
+
+    val inputFormats = Array("yyyy", "yyyy/dd/MM", "MM/yyyy", "yyyy")
+    val outputFormat = "yyyy/MM/dd"
+
+    val date = new DateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setAnchorDateYear(1900)
+      .setInputFormats(inputFormats)
+      .setOutputFormat(outputFormat)
+
+    val multiDate = new MultiDateMatcher()
+      .setInputCols("document")
+      .setOutputCol("multi_date")
+      .setAnchorDateYear(1900)
+      .setInputFormats(inputFormats)
+      .setOutputFormat(outputFormat)
+
+    val entityName = "DATUM"
+    val date2Chunk = new Date2Chunk()
+      .setInputCols("date")
+      .setOutputCol("date_chunk")
+      .setEntityName(entityName)
+
+    val multiDate2Chunk = new Date2Chunk()
+      .setInputCols("multi_date")
+      .setOutputCol("multi_date_chunk")
+      .setEntityName(entityName)
+
+    val pipeline = new Pipeline().setStages(Array(date, multiDate, date2Chunk, multiDate2Chunk))
+
+    val result = pipeline.fit(data).transform(data)
+
+    val collected = Annotation.collect(result, "date_chunk", "multi_date_chunk")
+
+    collected.foreach { annotations =>
+      annotations.foreach { annotation =>
+        assert(annotation.metadata("entity") == entityName)
+      }
+    }
+  }
 }

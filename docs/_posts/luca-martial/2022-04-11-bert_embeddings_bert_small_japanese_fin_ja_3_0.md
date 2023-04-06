@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Japanese Bert Embeddings (Small, Financial)
+title: Japanese Bert Embeddings (Small, Financial, 12 layers, 256 dimensions)
 author: John Snow Labs
 name: bert_embeddings_bert_small_japanese_fin
 date: 2022-04-11
@@ -18,7 +18,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-Pretrained Bert Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. `bert-small-japanese-fin` is a Japanese model orginally trained by `izumi-lab`.
+Pretrained Bert Embeddings model, uploaded to Hugging Face, adapted and imported into Spark NLP. `bert-small-japanese-fin` is a Japanese model orginally trained upon Japanese Wikipedia dump and financial corpus.
 
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
