@@ -679,4 +679,11 @@ package object annotator {
 
   object Chunk2Doc extends DefaultParamsReadable[Chunk2Doc]
 
+  type BertForZeroShotClassification =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.BertForZeroShotClassification
+
+  object BertForZeroShotClassification
+      extends ReadablePretrainedBertForZeroShotModel
+      with ReadBertForZeroShotDLModel
+
 }

@@ -36,17 +36,21 @@ import org.apache.spark.sql.SparkSession
 
 import java.io.File
 
-/** BertForSequenceClassification can load Bert Models with sequence classification/regression
-  * head on top (a linear layer on top of the pooled output) e.g. for multi-class document
-  * classification tasks.
+/** BertForZeroShotClassification using a `ModelForSequenceClassification` trained on NLI (natural
+  * language inference) tasks. Equivalent of `BertForSequenceClassification` models, but these
+  * models don't require a hardcoded number of potential classes, they can be chosen at runtime.
+  * It usually means it's slower but it is much more flexible.
+  *
+  * Any combination of sequences and labels can be passed and each combination will be posed as a
+  * premise/hypothesis pair and passed to the pretrained model.
   *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{
-  * val sequenceClassifier = BertForSequenceClassification.pretrained()
+  * val sequenceClassifier = BertForZeroShotClassification.pretrained()
   *   .setInputCols("token", "document")
   *   .setOutputCol("label")
   * }}}
-  * The default model is `"bert_base_sequence_classifier_imdb"`, if no name is provided.
+  * The default model is `"bert_base_cased_zero_shot_classifier_xnli"`, if no name is provided.
   *
   * For available pretrained models please see the
   * [[https://nlp.johnsnowlabs.com/models?task=Text+Classification Models Hub]].
@@ -54,7 +58,7 @@ import java.io.File
   * To see which models are compatible and how to import them see
   * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]] and to see more extended
   * examples, see
-  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/BertForSequenceClassificationTestSpec.scala BertForSequenceClassificationTestSpec]].
+  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/BertForZeroShotClassification.scala BertForZeroShotClassification]].
   *
   * ==Example==
   * {{{
@@ -71,7 +75,7 @@ import java.io.File
   *   .setInputCols("document")
   *   .setOutputCol("token")
   *
-  * val sequenceClassifier = BertForSequenceClassification.pretrained()
+  * val sequenceClassifier = BertForZeroShotClassification.pretrained()
   *   .setInputCols("token", "document")
   *   .setOutputCol("label")
   *   .setCaseSensitive(true)
@@ -95,7 +99,7 @@ import java.io.File
   * }}}
   *
   * @see
-  *   [[BertForSequenceClassification]] for sequence-level classification
+  *   [[BertForZeroShotClassification]] for sequence-level classification
   * @see
   *   [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of
   *   transformer based classifiers
@@ -118,18 +122,19 @@ import java.io.File
   *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
   *   parameter values through setters and getters, respectively.
   */
-class BertForSequenceClassification(override val uid: String)
-    extends AnnotatorModel[BertForSequenceClassification]
-    with HasBatchedAnnotate[BertForSequenceClassification]
+class BertForZeroShotClassification(override val uid: String)
+    extends AnnotatorModel[BertForZeroShotClassification]
+    with HasBatchedAnnotate[BertForZeroShotClassification]
     with WriteTensorflowModel
     with HasCaseSensitiveProperties
     with HasClassifierActivationProperties
-    with HasEngine {
+    with HasEngine
+    with HasCandidateLabelsProperties {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
     */
-  def this() = this(Identifiable.randomUID("BERT_FOR_SEQUENCE_CLASSIFICATION"))
+  def this() = this(Identifiable.randomUID("BERT_FOR_ZERO_SHOT_CLASSIFICATION"))
 
   /** Input Annotator Types: DOCUMENT, TOKEN
     *
@@ -161,7 +166,11 @@ class BertForSequenceClassification(override val uid: String)
   val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary")
 
   /** @group setParam */
-  def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
+  def setVocabulary(value: Map[String, Int]): this.type = {
+    if (get(vocabulary).isEmpty)
+      set(vocabulary, value)
+    this
+  }
 
   /** Labels used to decode predicted IDs back to string tags
     *
@@ -170,7 +179,11 @@ class BertForSequenceClassification(override val uid: String)
   val labels: MapFeature[String, Int] = new MapFeature(this, "labels")
 
   /** @group setParam */
-  def setLabels(value: Map[String, Int]): this.type = set(labels, value)
+  def setLabels(value: Map[String, Int]): this.type = {
+    if (get(labels).isEmpty)
+      set(labels, value)
+    this
+  }
 
   /** Returns labels used to train this model */
   def getClasses: Array[String] = {
@@ -208,7 +221,7 @@ class BertForSequenceClassification(override val uid: String)
     "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
   /** @group setParam */
-  def setConfigProtoBytes(bytes: Array[Int]): BertForSequenceClassification.this.type =
+  def setConfigProtoBytes(bytes: Array[Int]): BertForZeroShotClassification.this.type =
     set(this.configProtoBytes, bytes)
 
   /** @group getParam */
@@ -255,7 +268,7 @@ class BertForSequenceClassification(override val uid: String)
   /** @group setParam */
   def setModelIfNotSet(
       spark: SparkSession,
-      tensorflowWrapper: TensorflowWrapper): BertForSequenceClassification = {
+      tensorflowWrapper: TensorflowWrapper): BertForZeroShotClassification = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
@@ -306,9 +319,12 @@ class BertForSequenceClassification(override val uid: String)
       val tokenizedSentences = TokenizedWithSentence.unpack(annotations).toArray
 
       if (tokenizedSentences.nonEmpty) {
-        getModelIfNotSet.predictSequence(
+        getModelIfNotSet.predictSequenceWithZeroShot(
           tokenizedSentences,
           sentences,
+          $(candidateLabels),
+          $(entailmentIdParam),
+          $(contradictionIdParam),
           $(batchSize),
           $(maxSentenceLength),
           $(caseSensitive),
@@ -329,38 +345,38 @@ class BertForSequenceClassification(override val uid: String)
       spark,
       getModelIfNotSet.tensorflowWrapper,
       "_bert_classification",
-      BertForSequenceClassification.tfFile,
+      BertForZeroShotClassification.tfFile,
       configProtoBytes = getConfigProtoBytes)
   }
 
 }
 
-trait ReadablePretrainedBertForSequenceModel
-    extends ParamsAndFeaturesReadable[BertForSequenceClassification]
-    with HasPretrained[BertForSequenceClassification] {
-  override val defaultModelName: Some[String] = Some("bert_base_sequence_classifier_imdb")
+trait ReadablePretrainedBertForZeroShotModel
+    extends ParamsAndFeaturesReadable[BertForZeroShotClassification]
+    with HasPretrained[BertForZeroShotClassification] {
+  override val defaultModelName: Some[String] = Some("bert_base_cased_zero_shot_classifier_xnli")
 
   /** Java compliant-overrides */
-  override def pretrained(): BertForSequenceClassification = super.pretrained()
+  override def pretrained(): BertForZeroShotClassification = super.pretrained()
 
-  override def pretrained(name: String): BertForSequenceClassification = super.pretrained(name)
+  override def pretrained(name: String): BertForZeroShotClassification = super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): BertForSequenceClassification =
+  override def pretrained(name: String, lang: String): BertForZeroShotClassification =
     super.pretrained(name, lang)
 
   override def pretrained(
       name: String,
       lang: String,
-      remoteLoc: String): BertForSequenceClassification = super.pretrained(name, lang, remoteLoc)
+      remoteLoc: String): BertForZeroShotClassification = super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadBertForSequenceDLModel extends ReadTensorflowModel {
-  this: ParamsAndFeaturesReadable[BertForSequenceClassification] =>
+trait ReadBertForZeroShotDLModel extends ReadTensorflowModel {
+  this: ParamsAndFeaturesReadable[BertForZeroShotClassification] =>
 
   override val tfFile: String = "bert_classification_tensorflow"
 
   def readModel(
-      instance: BertForSequenceClassification,
+      instance: BertForZeroShotClassification,
       path: String,
       spark: SparkSession): Unit = {
 
@@ -370,17 +386,39 @@ trait ReadBertForSequenceDLModel extends ReadTensorflowModel {
 
   addReader(readModel)
 
-  def loadSavedModel(modelPath: String, spark: SparkSession): BertForSequenceClassification = {
+  def loadSavedModel(modelPath: String, spark: SparkSession): BertForZeroShotClassification = {
 
     val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
     val vocabs = loadTextAsset(localModelPath, "vocab.txt").zipWithIndex.toMap
     val labels = loadTextAsset(localModelPath, "labels.txt").zipWithIndex.toMap
 
-    val annotatorModel = new BertForSequenceClassification()
+    val entailmentIds = labels.filter(x => x._1.toLowerCase().startsWith("entail")).values.toArray
+    val contradictionIds =
+      labels.filter(x => x._1.toLowerCase().startsWith("contradict")).values.toArray
+
+    require(
+      entailmentIds.length == 1 && contradictionIds.length == 1,
+      s"""This annotator supports classifiers trained on NLI datasets. You must have only at least 2 or maximum 3 labels in your dataset:
+         
+          example with 3 labels: 'contradict', 'neutral', 'entailment'
+          example with 2 labels: 'contradict', 'entailment'
+
+          You can modify assets/labels.txt file to match the above format.
+
+          Current labels: ${labels.keys.mkString(", ")}
+          """)
+
+    val annotatorModel = new BertForZeroShotClassification()
       .setVocabulary(vocabs)
       .setLabels(labels)
+      .setCandidateLabels(labels.keys.toArray)
 
+    /* set the entailment id */
+    annotatorModel.set(annotatorModel.entailmentIdParam, entailmentIds.head)
+    /* set the contradiction id */
+    annotatorModel.set(annotatorModel.contradictionIdParam, contradictionIds.head)
+    /* set the engine */
     annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
@@ -408,9 +446,9 @@ trait ReadBertForSequenceDLModel extends ReadTensorflowModel {
   }
 }
 
-/** This is the companion object of [[BertForSequenceClassification]]. Please refer to that class
+/** This is the companion object of [[BertForZeroShotClassification]]. Please refer to that class
   * for the documentation.
   */
-object BertForSequenceClassification
-    extends ReadablePretrainedBertForSequenceModel
-    with ReadBertForSequenceDLModel
+object BertForZeroShotClassification
+    extends ReadablePretrainedBertForZeroShotModel
+    with ReadBertForZeroShotDLModel
