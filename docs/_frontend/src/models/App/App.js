@@ -116,7 +116,7 @@ const useFilterQuery = () => {
     window.history.pushState(
       nextParams,
       window.title,
-      '/models' + toSearchString(nextParams)
+      '/models' + toSearchString(nextParams, false)
     );
     setParams(nextParams);
   };
