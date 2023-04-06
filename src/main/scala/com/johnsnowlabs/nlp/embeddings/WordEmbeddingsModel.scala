@@ -188,7 +188,15 @@ class WordEmbeddingsModel(override val uid: String)
 
   private var memoryStorage: Option[Broadcast[Map[BytesKey, Array[Byte]]]] = None
 
-  def getInMemoryStorage: Map[BytesKey, Array[Byte]] = memoryStorage.get.value
+  private def getInMemoryStorage: Map[BytesKey, Array[Byte]] = {
+    memoryStorage.map(_.value).getOrElse {
+      if ($(enableInMemoryStorage)) {
+        getReader(Database.EMBEDDINGS).exportStorageToMap()
+      } else {
+        Map.empty
+      }
+    }
+  }
 
   override def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
     if (this.memoryStorage.isEmpty && $(enableInMemoryStorage)) {
@@ -229,7 +237,7 @@ class WordEmbeddingsModel(override val uid: String)
     WordpieceEmbeddingsSentence.pack(withEmbeddings)
   }
 
-  def retrieveEmbeddings(token: String): (Option[Array[Float]], Array[Float]) = {
+  private def retrieveEmbeddings(token: String): (Option[Array[Float]], Array[Float]) = {
     if ($(enableInMemoryStorage)) {
       val zeroArray = Array.fill[Float]($(dimension))(0f)
       var embeddings: Option[Array[Float]] = None

@@ -12,35 +12,21 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-"""Contains classes concerning SwinForImageClassification."""
+"""Contains classes concerning ConvNextForImageClassification."""
 
 from sparknlp.common import *
 
 
-class SwinForImageClassification(AnnotatorModel,
-                                 HasBatchedAnnotateImage,
-                                 HasImageFeatureProperties,
-                                 HasEngine):
-    """SwinImageClassification is an image classifier based on Swin.
+class ConvNextForImageClassification(AnnotatorModel,
+                                     HasBatchedAnnotateImage,
+                                     HasImageFeatureProperties,
+                                     HasEngine):
+    """ConvNextForImageClassification is an image classifier based on ConvNet models.
 
-    The Swin Transformer was proposed in Swin Transformer: Hierarchical Vision
-    Transformer using Shifted Windows by Ze Liu, Yutong Lin, Yue Cao, Han Hu, Yixuan
-    Wei, Zheng Zhang, Stephen Lin, Baining Guo.
-
-    It is basically a hierarchical Transformer whose representation is computed with
-    shifted windows. The shifted windowing scheme brings greater efficiency by limiting
-    self-attention computation to non-overlapping local windows while also allowing for
-    cross-window connection.
-
-    .. code-block:: python
-
-        imageClassifier = SwinForImageClassification.pretrained() \\
-            .setInputCols(["image_assembler"]) \\
-            .setOutputCol("class")
-
-
-    The default model is ``"image_classifier_swin_base_patch4_window7_224"``, if no name is
-    provided.
+    The ConvNeXT model was proposed in A ConvNet for the 2020s by Zhuang Liu, Hanzi Mao, Chao-Yuan
+    Wu, Christoph Feichtenhofer, Trevor Darrell, Saining Xie. ConvNeXT is a pure convolutional
+    model (ConvNet), inspired by the design of Vision Transformers, that claims to outperform
+    them.
 
     For available pretrained models please see the
     `Models Hub <https://nlp.johnsnowlabs.com/models?task=Image+Classification>`__.
@@ -49,7 +35,7 @@ class SwinForImageClassification(AnnotatorModel,
     NLP 🚀. To see which models are compatible and how to import them see
     https://github.com/JohnSnowLabs/spark-nlp/discussions/5669 and to see more extended
     examples, see
-    `SwinForImageClassificationTest <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/cv/SwinForImageClassificationTest.scala>`__.
+    `ConvNextForImageClassificationTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/cv/ConvNextForImageClassificationTestSpec.scala>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -59,30 +45,24 @@ class SwinForImageClassification(AnnotatorModel,
 
     **Paper Abstract:**
 
-    *This paper presents a new vision Transformer, called Swin Transformer, that capably
-    serves as a general-purpose backbone for computer vision. Challenges in adapting
-    Transformer from language to vision arise from differences between the two domains,
-    such as large variations in the scale of visual entities and the high resolution of
-    pixels in images compared to words in text. To address these differences, we
-    propose a hierarchical Transformer whose representation is computed with Shifted
-    windows. The shifted windowing scheme brings greater efficiency by limiting
-    self-attention computation to non-overlapping local windows while also allowing for
-    cross-window connection. This hierarchical architecture has the flexibility to
-    model at various scales and has linear computational complexity with respect to
-    image size. These qualities of Swin Transformer make it compatible with a broad
-    range of vision tasks, including image classification (87.3 top-1 accuracy on
-    ImageNet-1K) and dense prediction tasks such as object detection (58.7 box AP and
-    51.1 mask AP on COCO test- dev) and semantic segmentation (53.5 mIoU on ADE20K
-    val). Its performance surpasses the previous state-of-the- art by a large margin of
-    +2.7 box AP and +2.6 mask AP on COCO, and +3.2 mIoU on ADE20K, demonstrating the
-    potential of Transformer-based models as vision backbones. The hierarchical design
-    and the shifted window approach also prove beneficial for all-MLP architectures.*
+    *The "Roaring 20s" of visual recognition began with the introduction of Vision Transformers (ViTs), which quickly
+    superseded ConvNets as the state-of-the-art image classification model. A vanilla ViT, on the other hand, faces
+    difficulties when applied to general computer vision tasks such as object detection and semantic segmentation. It is
+    the hierarchical Transformers (e.g., Swin Transformers) that reintroduced several ConvNet priors, making
+    Transformers practically viable as a generic vision backbone and demonstrating remarkable performance on a wide
+    variety of vision tasks. However, the effectiveness of such hybrid approaches is still largely credited to the
+    intrinsic superiority of Transformers, rather than the inherent inductive biases of convolutions. In this work, we
+    reexamine the design spaces and test the limits of what a pure ConvNet can achieve. We gradually "modernize" a
+    standard ResNet toward the design of a vision Transformer, and discover several key components that contribute to
+    the performance difference along the way. The outcome of this exploration is a family of pure ConvNet models dubbed
+    ConvNeXt. Constructed entirely from standard ConvNet modules, ConvNeXts compete favorably with Transformers in terms
+    of accuracy and scalability, achieving 87.8% ImageNet top-1 accuracy and outperforming Swin Transformers on COCO
+    detection and ADE20K segmentation, while maintaining the simplicity and efficiency of standard ConvNets. *
 
     References
     ----------
 
-    `Swin Transformer: Hierarchical Vision Transformer using Shifted Windows
-    <https://arxiv.org/pdf/2103.14030.pdf>`__
+    `A ConvNet for the 2020s <https://arxiv.org/abs/2201.03545>`__
 
     Parameters
     ----------
@@ -106,6 +86,8 @@ class SwinForImageClassification(AnnotatorModel,
         Whether to rescale the image values by rescaleFactor
     rescaleFactor
         Factor to scale the image values
+    cropPct
+        Percentage of the resized image to crop
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
 
@@ -122,7 +104,7 @@ class SwinForImageClassification(AnnotatorModel,
     >>> imageAssembler = ImageAssembler() \\
     ...     .setInputCol("image") \\
     ...     .setOutputCol("image_assembler")
-    >>> imageClassifier = SwinForImageClassification \\
+    >>> imageClassifier = ConvNextForImageClassification \\
     ...     .pretrained() \\
     ...     .setInputCols(["image_assembler"]) \\
     ...     .setOutputCol("class")
@@ -134,19 +116,19 @@ class SwinForImageClassification(AnnotatorModel,
     +-----------------+----------------------------------------------------------+
     |image_name       |result                                                    |
     +-----------------+----------------------------------------------------------+
-    |palace.JPEG      |[palace]                                                  |
-    |egyptian_cat.jpeg|[tabby, tabby cat]                                        |
-    |hippopotamus.JPEG|[hippopotamus, hippo, river horse, Hippopotamus amphibius]|
-    |hen.JPEG         |[hen]                                                     |
-    |ostrich.JPEG     |[ostrich, Struthio camelus]                               |
-    |junco.JPEG       |[junco, snowbird]                                         |
     |bluetick.jpg     |[bluetick]                                                |
     |chihuahua.jpg    |[Chihuahua]                                               |
-    |tractor.JPEG     |[tractor]                                                 |
+    |egyptian_cat.jpeg|[tabby, tabby cat]                                        |
+    |hen.JPEG         |[hen]                                                     |
+    |hippopotamus.JPEG|[hippopotamus, hippo, river horse, Hippopotamus amphibius]|
+    |junco.JPEG       |[junco, snowbird]                                         |
+    |ostrich.JPEG     |[ostrich, Struthio camelus]                               |
     |ox.JPEG          |[ox]                                                      |
+    |palace.JPEG      |[palace]                                                  |
+    |tractor.JPEG     |[thresher, thrasher, threshing machine                    |
     +-----------------+----------------------------------------------------------+
     """
-    name = "SwinForImageClassification"
+    name = "ConvNextForImageClassification"
 
     inputAnnotatorTypes = [AnnotatorType.IMAGE]
 
@@ -165,6 +147,10 @@ class SwinForImageClassification(AnnotatorModel,
     rescaleFactor = Param(Params._dummy(), "rescaleFactor",
                           "Factor to scale the image values",
                           TypeConverters.toFloat)
+
+    cropPct = Param(Params._dummy(), "cropPct",
+                    "Percentage of the resized image to crop",
+                    TypeConverters.toFloat)
 
     def setDoRescale(self, value):
         """Sets Whether to rescale the image values by rescaleFactor, by default `True`.
@@ -186,6 +172,19 @@ class SwinForImageClassification(AnnotatorModel,
         """
         return self._set(rescaleFactor=value)
 
+    def setCropPct(self, value):
+        """Determines rescale and crop percentage for images smaller than the configured size, by default `224 / 256`.
+
+        If the image size is smaller than the specified size, the smaller edge of the image will be
+        matched to `int(size / cropPct)`. Afterwards the image is cropped to `(size, size)`.
+
+        Parameters
+        ----------
+        value : Float
+            Percentage of the resized image to crop
+        """
+        return self._set(cropPct=value)
+
     def getClasses(self):
         """
         Returns labels used to train this model
@@ -204,9 +203,9 @@ class SwinForImageClassification(AnnotatorModel,
 
     @keyword_only
     def __init__(self,
-                 classname="com.johnsnowlabs.nlp.annotators.cv.SwinForImageClassification",
+                 classname="com.johnsnowlabs.nlp.annotators.cv.ConvNextForImageClassification",
                  java_model=None):
-        super(SwinForImageClassification, self).__init__(
+        super(ConvNextForImageClassification, self).__init__(
             classname=classname,
             java_model=java_model
         )
@@ -219,7 +218,8 @@ class SwinForImageClassification(AnnotatorModel,
             imageStd=[0.229, 0.224, 0.225],
             resample=3,
             size=224,
-            rescaleFactor=1 / 255.0
+            rescaleFactor=1 / 255.0,
+            cropPct=224 / 256.0
         )
 
     @staticmethod
@@ -235,16 +235,16 @@ class SwinForImageClassification(AnnotatorModel,
 
         Returns
         -------
-        SwinForImageClassification
+        ConvNextForImageClassification
             The restored model
         """
-        from sparknlp.internal import _SwinForImageClassification
-        jModel = _SwinForImageClassification(folder,
-                                             spark_session._jsparkSession)._java_obj
-        return SwinForImageClassification(java_model=jModel)
+        from sparknlp.internal import _ConvNextForImageClassification
+        jModel = _ConvNextForImageClassification(folder,
+                                                 spark_session._jsparkSession)._java_obj
+        return ConvNextForImageClassification(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="image_classifier_swin_base_patch4_window7_224", lang="en",
+    def pretrained(name="image_classifier_convnext_tiny_224_local", lang="en",
                    remote_loc=None):
         """Downloads and loads a pretrained model.
 
@@ -252,18 +252,18 @@ class SwinForImageClassification(AnnotatorModel,
         ----------
         name : str, optional
             Name of the pretrained model, by default
-            "image_classifier_swin_base_patch4_window7_224"
+            "image_classifier_convnext_tiny_224_local"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
-            Optional remote address of the resource, by default None. Will use
+            Remote address of the resource, by default None. Will use
             Spark NLPs repositories otherwise.
 
         Returns
         -------
-        SwinForImageClassification
+        ConvNextForImageClassification
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(SwinForImageClassification, name, lang,
+        return ResourceDownloader.downloadModel(ConvNextForImageClassification, name, lang,
                                                 remote_loc)

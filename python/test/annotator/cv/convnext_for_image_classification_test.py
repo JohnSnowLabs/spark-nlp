@@ -21,7 +21,7 @@ from sparknlp.base import *
 from test.util import SparkSessionForTest
 
 
-class SwinForImageClassificationTestSetUp(unittest.TestCase):
+class ConvNextForImageClassificationTestSetUp(unittest.TestCase):
     gold_standards = {
         "bluetick.jpg": "bluetick",
         "chihuahua.jpg": "Chihuahua",
@@ -32,8 +32,9 @@ class SwinForImageClassificationTestSetUp(unittest.TestCase):
         "ostrich.JPEG": "ostrich, Struthio camelus",
         "ox.JPEG": "ox",
         "palace.JPEG": "palace",
-        "tractor.JPEG": "tractor",
+        "tractor.JPEG": "thresher, thrasher, threshing machine",
     }
+
     def setUp(self):
         self.images_path = os.getcwd() + "/../src/test/resources/image/"
         self.data = SparkSessionForTest.spark.read.format("image") \
@@ -43,7 +44,7 @@ class SwinForImageClassificationTestSetUp(unittest.TestCase):
             .setInputCol("image") \
             .setOutputCol("image_assembler")
 
-        imageClassifier = SwinForImageClassification \
+        imageClassifier = ConvNextForImageClassification \
             .pretrained() \
             .setInputCols("image_assembler") \
             .setOutputCol("class")
@@ -57,7 +58,7 @@ class SwinForImageClassificationTestSetUp(unittest.TestCase):
 
 
 @pytest.mark.slow
-class SwinForImageClassificationTestSpec(SwinForImageClassificationTestSetUp, unittest.TestCase):
+class ConvNextForImageClassificationTestSpec(ConvNextForImageClassificationTestSetUp, unittest.TestCase):
     def setUp(self):
         super().setUp()
 
@@ -70,7 +71,7 @@ class SwinForImageClassificationTestSpec(SwinForImageClassificationTestSetUp, un
 
 
 @pytest.mark.slow
-class LightSwinForImageClassificationOneImageTestSpec(SwinForImageClassificationTestSetUp, unittest.TestCase):
+class LightConvNextForImageClassificationOneImageTestSpec(ConvNextForImageClassificationTestSetUp, unittest.TestCase):
 
     def setUp(self):
         super().setUp()
@@ -87,7 +88,7 @@ class LightSwinForImageClassificationOneImageTestSpec(SwinForImageClassification
 
 
 @pytest.mark.slow
-class LightSwinForImageClassificationTestSpec(SwinForImageClassificationTestSetUp, unittest.TestCase):
+class LightConvNextForImageClassificationTestSpec(ConvNextForImageClassificationTestSetUp, unittest.TestCase):
 
     def setUp(self):
         super().setUp()
