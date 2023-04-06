@@ -40,7 +40,6 @@ There are two types of Annotators:
 
 - `pretrained(name, language, extra_location)` -> by default, pre-trained will bring a default model, sometimes we offer more than one model, in this case, you may have to use name, language or extra location to download them.
 
-
 ## Available Annotators
 
 {:.table-model-big}
@@ -101,7 +100,8 @@ There are two types of Annotators:
 {% include templates/anno_table_entry.md path="" name="YakeKeywordExtraction" summary="Unsupervised, Corpus-Independent, Domain and Language-Independent and Single-Document keyword extraction."%}
 
 ## Available Transformers
-Additionally, these transformers are available to generate embeddings.
+
+Additionally, these transformers are available.
 
 {:.table-model-big}
 |Transformer|Description|Version|
@@ -118,6 +118,7 @@ Additionally, these transformers are available to generate embeddings.
 {% include templates/anno_table_entry.md path="./transformers" name="CamemBertEmbeddings" summary="CamemBert is based on Facebook’s RoBERTa model released in 2019."%}
 {% include templates/anno_table_entry.md path="./transformers" name="CamemBertForSequenceClassification" summary="amemBertForSequenceClassification can load CamemBERT Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks."%}
 {% include templates/anno_table_entry.md path="./transformers" name="CamemBertForTokenClassification" summary="CamemBertForTokenClassification can load CamemBERT Models with a token classification head on top"%}
+{% include templates/anno_table_entry.md path="./transformers" name="ConvNextForImageClassification" summary="ConvNextForImageClassification is an image classifier based on ConvNet models"%}
 {% include templates/anno_table_entry.md path="./transformers" name="DeBertaEmbeddings" summary="DeBERTa builds on RoBERTa with disentangled attention and enhanced mask decoder training with half of the data used in RoBERTa."%}
 {% include templates/anno_table_entry.md path="./transformers" name="DeBertaForQuestionAnswering" summary="DeBertaForQuestionAnswering can load DeBERTa Models with a span classification head on top for extractive question-answering tasks like SQuAD."%}
 {% include templates/anno_table_entry.md path="./transformers" name="DistilBertEmbeddings" summary="DistilBERT is a small, fast, cheap and light Transformer model trained by distilling BERT base."%}

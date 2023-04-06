@@ -38,8 +38,9 @@ trait ViTForImageClassificationBehaviors { this: AnyFlatSpec =>
     .setOutputCol("image_assembler")
 
   def behaviorsViTForImageClassification[M <: ViTForImageClassification](
-      vitClassifier: => ViTForImageClassification,
-      expectedPredictions: => Map[String, String]): Unit = {
+      loadModelFunction: String => M,
+      vitClassifier: ViTForImageClassification,
+      expectedPredictions: Map[String, String]): Unit = {
 
     def setUpImageClassifierPipeline(): Pipeline = {
       val imageClassifier: ViTForImageClassification = vitClassifier
@@ -55,20 +56,7 @@ trait ViTForImageClassificationBehaviors { this: AnyFlatSpec =>
       val pipeline = setUpImageClassifierPipeline()
       val pipelineDF = pipeline.fit(imageDF).transform(imageDF)
 
-      val predictedResults = pipelineDF
-        .select("class.result", "image.origin")
-        .rdd
-        .flatMap(row =>
-          Map(
-            row.getAs[mutable.WrappedArray[String]](0)(0) ->
-              row.getString(1).split("/").last))
-        .collect()
-
-      predictedResults.foreach { x =>
-        val goldValue = expectedPredictions(x._2)
-        val predictValue = x._1
-        assert(goldValue === predictValue)
-      }
+      assertPredictions(pipelineDF, expectedPredictions)
 
     }
 
@@ -79,28 +67,33 @@ trait ViTForImageClassificationBehaviors { this: AnyFlatSpec =>
       val pipelineDF = pipelineModel.transform(imageDF)
       pipelineDF.take(1)
 
+      val classifierClass = vitClassifier.getClass.toString.split("\\.").last
+      val tmpSavedFolder = s"./tmp_$classifierClass"
       pipelineModel.stages.last
         .asInstanceOf[M]
         .write
         .overwrite()
-        .save("./tmp_ViTModel")
+        .save(tmpSavedFolder)
 
       // load the saved ViTForImageClassification model
-      val loadedViTModel = ViTForImageClassification.load("./tmp_ViTModel")
+      val loadedViTModel = loadModelFunction(tmpSavedFolder)
 
       val loadedPipeline = new Pipeline().setStages(Array(imageAssembler, loadedViTModel))
       val loadedPipelineModel = loadedPipeline.fit(imageDF)
       val loadedPipelineModelDF = loadedPipelineModel.transform(imageDF)
+
+      assertPredictions(loadedPipelineModelDF, expectedPredictions)
 
       loadedPipelineModelDF
         .select("class.result", "image_assembler.origin")
         .show(3, truncate = 120)
 
       // save the whole pipeline
-      loadedPipelineModelDF.write.mode("overwrite").parquet("./tmp_vit_pipeline")
+      val tmpPipelinePath = tmpSavedFolder + "_pipeline"
+      loadedPipelineModelDF.write.mode("overwrite").parquet(tmpPipelinePath)
 
       // load the whole pipeline
-      val loadedProcessedPipelineDF = ResourceHelper.spark.read.parquet("./tmp_vit_pipeline")
+      val loadedProcessedPipelineDF = ResourceHelper.spark.read.parquet(tmpPipelinePath)
       loadedProcessedPipelineDF
         .select("class.result", "image_assembler.origin")
         .show(3, truncate = 120)
@@ -117,8 +110,7 @@ trait ViTForImageClassificationBehaviors { this: AnyFlatSpec =>
 
     it should "benchmark" taggedAs SlowTest in {
 
-      val imageClassifier: ViTForImageClassification = ViTForImageClassification
-        .pretrained()
+      val imageClassifier: ViTForImageClassification = vitClassifier
         .setInputCols("image_assembler")
         .setOutputCol("class")
 
@@ -202,13 +194,32 @@ trait ViTForImageClassificationBehaviors { this: AnyFlatSpec =>
     }
 
   }
+
+  private def assertPredictions[M <: ViTForImageClassification](
+      pipelineDF: DataFrame,
+      expectedPredictions: Map[String, String]): Unit = {
+    val predictedResults = pipelineDF
+      .select("class.result", "image.origin")
+      .rdd
+      .flatMap(row =>
+        Map(
+          row.getAs[mutable.WrappedArray[String]](0)(0) ->
+            row.getString(1).split("/").last))
+      .collect()
+
+    predictedResults.foreach { x =>
+      val goldValue = expectedPredictions(x._2)
+      val predictValue = x._1
+      assert(goldValue === predictValue)
+    }
+  }
 }
 
 class ViTImageClassificationTestSpec extends AnyFlatSpec with ViTForImageClassificationBehaviors {
 
   behavior of "ViTForImageClassification"
 
-  val goldStandards: Map[String, String] =
+  lazy val goldStandards: Map[String, String] =
     Map(
       "palace.JPEG" -> "palace",
       "egyptian_cat.jpeg" -> "Egyptian cat",
@@ -221,8 +232,11 @@ class ViTImageClassificationTestSpec extends AnyFlatSpec with ViTForImageClassif
       "tractor.JPEG" -> "tractor",
       "ox.JPEG" -> "ox")
 
+  private lazy val model: ViTForImageClassification = ViTForImageClassification.pretrained()
+
   it should behave like
     behaviorsViTForImageClassification[ViTForImageClassification](
-      ViTForImageClassification.pretrained(),
+      ViTForImageClassification.load,
+      model,
       goldStandards)
 }

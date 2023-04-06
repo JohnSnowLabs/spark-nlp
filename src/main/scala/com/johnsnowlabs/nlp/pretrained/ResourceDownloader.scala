@@ -21,7 +21,11 @@ import com.johnsnowlabs.nlp.annotators._
 import com.johnsnowlabs.nlp.annotators.audio.{HubertForCTC, Wav2Vec2ForCTC}
 import com.johnsnowlabs.nlp.annotators.classifier.dl._
 import com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel
-import com.johnsnowlabs.nlp.annotators.cv.{SwinForImageClassification, ViTForImageClassification}
+import com.johnsnowlabs.nlp.annotators.cv.{
+  ConvNextForImageClassification,
+  SwinForImageClassification,
+  ViTForImageClassification
+}
 import com.johnsnowlabs.nlp.annotators.er.EntityRulerModel
 import com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
@@ -708,6 +712,7 @@ object PythonResourceDownloader {
     "SpanBertCorefModel" -> SpanBertCorefModel,
     "ViTForImageClassification" -> ViTForImageClassification,
     "SwinForImageClassification" -> SwinForImageClassification,
+    "ConvNextForImageClassification" -> ConvNextForImageClassification,
     "Wav2Vec2ForCTC" -> Wav2Vec2ForCTC,
     "HubertForCTC" -> HubertForCTC,
     "CamemBertForTokenClassification" -> CamemBertForTokenClassification,
