@@ -50,7 +50,7 @@ class BartTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     ...     .setOutputCol("summaries")
 
 
-    The default model is ``"bart_large_cnn"``, if no name is provided. For available
+    The default model is ``"distilbart-xsum-12-6"``, if no name is provided. For available
     pretrained models please see the `Models Hub
     <https://nlp.johnsnowlabs.com/models?q=bart>`__.
 
@@ -131,7 +131,7 @@ class BartTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     >>> documentAssembler = DocumentAssembler() \\
     ...     .setInputCol("text") \\
     ...     .setOutputCol("documents")
-    >>> bart = BartTransformer.pretrained("bart_large_cnn") \\
+    >>> bart = BartTransformer.pretrained("distilbart-xsum-12-6") \\
     ...     .setTask("summarize:") \\
     ...     .setInputCols(["documents"]) \\
     ...     .setMaxOutputLength(200) \\
@@ -380,13 +380,13 @@ class BartTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         return BartTransformer(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="bart_large_cnn", lang="en", remote_loc=None):
+    def pretrained(name="distilbart-xsum-12-6", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "bart_large_cnn"
+            Name of the pretrained model, by default "distilbart-xsum-12-6"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
