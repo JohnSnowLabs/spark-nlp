@@ -522,7 +522,7 @@ class BartTransformer(override val uid: String)
 trait ReadablePretrainedBartTransformerModel
     extends ParamsAndFeaturesReadable[BartTransformer]
     with HasPretrained[BartTransformer] {
-  override val defaultModelName: Some[String] = Some("bart")
+  override val defaultModelName: Some[String] = Some("bart_large_cnn")
 
   /** Java compliant-overrides */
   override def pretrained(): BartTransformer = super.pretrained()
