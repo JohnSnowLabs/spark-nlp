@@ -38,9 +38,9 @@ trait ViTForImageClassificationBehaviors { this: AnyFlatSpec =>
     .setOutputCol("image_assembler")
 
   def behaviorsViTForImageClassification[M <: ViTForImageClassification](
-      loadModelFunction: String => M,
-      vitClassifier: ViTForImageClassification,
-      expectedPredictions: Map[String, String]): Unit = {
+      loadModelFunction: => String => M,
+      vitClassifier: => ViTForImageClassification,
+      expectedPredictions: => Map[String, String]): Unit = {
 
     def setUpImageClassifierPipeline(): Pipeline = {
       val imageClassifier: ViTForImageClassification = vitClassifier
