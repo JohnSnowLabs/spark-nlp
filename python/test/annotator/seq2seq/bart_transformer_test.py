@@ -37,7 +37,7 @@ class BartTransformerQATestSpec(unittest.TestCase):
             .setInputCol("text") \
             .setOutputCol("documents")
 
-        bart = BartTransformer.pretrained("bart_large_cnn") \
+        bart = BartTransformer.pretrained("distilbart_xsum_12_6") \
             .setInputCols(["documents"]) \
             .setOutputCol("answers")
 
@@ -77,7 +77,7 @@ class BartTransformerSummaryTestSpec(unittest.TestCase):
             .setInputCol("text") \
             .setOutputCol("documents")
 
-        bart = BartTransformer.pretrained("bart_large_cnn") \
+        bart = BartTransformer.pretrained("distilbart_xsum_12_6") \
             .setTask("summarize:") \
             .setMaxOutputLength(200) \
             .setInputCols(["documents"]) \
@@ -113,7 +113,7 @@ class BartTransformerSummaryWithRepetitionPenaltyTestSpec(unittest.TestCase):
             .setInputCol("text") \
             .setOutputCol("documents")
 
-        bart = BartTransformer.pretrained("bart_large_cnn") \
+        bart = BartTransformer.pretrained("distilbart_xsum_12_6") \
             .setTask("summarize:") \
             .setMaxOutputLength(50) \
             .setInputCols(["documents"]) \
@@ -150,7 +150,7 @@ class BartTransformerSummaryWithSamplingAndDeactivatedTopKTestSpec(unittest.Test
             .setInputCol("text") \
             .setOutputCol("documents")
 
-        bart = BartTransformer.pretrained("bart_large_cnn") \
+        bart = BartTransformer.pretrained("distilbart_xsum_12_6") \
             .setTask("summarize:") \
             .setMaxOutputLength(50) \
             .setDoSample(True) \
@@ -188,7 +188,7 @@ class BartTransformerSummaryWithSamplingAndTemperatureTestSpec(unittest.TestCase
             .setInputCol("text") \
             .setOutputCol("documents")
 
-        bart = BartTransformer.pretrained("bart_large_cnn") \
+        bart = BartTransformer.pretrained("distilbart_xsum_12_6") \
             .setTask("summarize:") \
             .setMaxOutputLength(50) \
             .setDoSample(True) \
@@ -227,7 +227,7 @@ class BartTransformerSummaryWithSamplingAndTopPTestSpec(unittest.TestCase):
             .setInputCol("text") \
             .setOutputCol("documents")
 
-        bart = BartTransformer.pretrained("bart_large_cnn")\
+        bart = BartTransformer.pretrained("distilbart_xsum_12_6")\
             .setTask("summarize:") \
             .setMaxOutputLength(50) \
             .setDoSample(True) \
@@ -266,7 +266,7 @@ class BartTransformerSummaryWithSamplingTestSpec(unittest.TestCase):
             .setInputCol("text") \
             .setOutputCol("documents")
 
-        bart = BartTransformer.pretrained("bart_large_cnn") \
+        bart = BartTransformer.pretrained("distilbart_xsum_12_6") \
             .setTask("summarize:") \
             .setMaxOutputLength(50) \
             .setDoSample(True) \
