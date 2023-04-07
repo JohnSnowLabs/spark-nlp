@@ -43,7 +43,7 @@ class BartTestSpec extends AnyFlatSpec {
       .setOutputCol("documents")
 
     val bart = BartTransformer
-      .pretrained("distilbart-xsum-12-6")
+      .pretrained("distilbart_xsum_12_6")
       .setTask("summarize:")
       .setInputCols(Array("documents"))
       .setDoSample(true)
@@ -84,7 +84,7 @@ class BartTestSpec extends AnyFlatSpec {
       .setOutputCol("documents")
 
     val bart = BartTransformer
-      .pretrained("distilbart-xsum-12-6")
+      .pretrained("distilbart_xsum_12_6")
       .setTask("summarize:")
       .setInputCols(Array("documents"))
       .setMaxOutputLength(70)
@@ -128,7 +128,7 @@ class BartTestSpec extends AnyFlatSpec {
       .setOutputCol("documents")
 
     val bart = BartTransformer
-      .pretrained("distilbart-xsum-12-6")
+      .pretrained("distilbart_xsum_12_6")
       .setTask("summarize:")
       .setInputCols(Array("documents"))
       .setMaxOutputLength(100)
@@ -170,7 +170,7 @@ class BartTestSpec extends AnyFlatSpec {
       .setOutputCol("documents")
 
     val bart = BartTransformer
-      .pretrained("distilbart-xsum-12-6")
+      .pretrained("distilbart_xsum_12_6")
       .setTask("summarize:")
       .setInputCols(Array("documents"))
       .setDoSample(true)
