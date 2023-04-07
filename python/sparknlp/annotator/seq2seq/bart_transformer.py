@@ -54,8 +54,8 @@ class BartTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     pretrained models please see the `Models Hub
     <https://nlp.johnsnowlabs.com/models?q=bart>`__.
 
-    For extended examples of usage, see the `Examples
-    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/question-answering/Question_Answering_and_Summarization_with_T5.ipynb>`__.
+    For extended examples of usage, see the `BartTestSpec
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/BartTestSpec.scala>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -65,34 +65,36 @@ class BartTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
 
     Parameters
     ----------
+    batchSize
+        Batch Size, by default `1`.
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
     task
-        Transformer's task, e.g. ``summarize:``
+        Transformer's task, e.g. ``summarize:``, by default `""`.
     minOutputLength
-        Minimum length of the sequence to be generated
+        Minimum length of the sequence to be generated, by default `0`.
     maxOutputLength
-        Maximum length of output text
+        Maximum length of output text, by default `20`.
     doSample
-        Whether or not to use sampling; use greedy decoding otherwise
+        Whether or not to use sampling; use greedy decoding otherwise, by default `False`.
     temperature
-        The value used to module the next token probabilities
+        The value used to module the next token probabilities, by default `1.0`.
     topK
         The number of highest probability vocabulary tokens to keep for
-        top-k-filtering
-    BeamSize
-        The number of beam size for beam search
+        top-k-filtering, by default `50`.
+    beamSize
+        The number of beam size for beam search, by default `1`.
     topP
-        Top cumulative probability for vocabulary tokens
+        Top cumulative probability for vocabulary tokens, by default `1.0`.
 
         If set to float < 1, only the most probable tokens with probabilities
         that add up to ``topP`` or higher are kept for generation.
     repetitionPenalty
-        The parameter for repetition penalty. 1.0 means no penalty.
+        The parameter for repetition penalty. 1.0 means no penalty, by default `1.0`.
     noRepeatNgramSize
-        If set to int > 0, all ngrams of that size can only occur once
+        If set to int > 0, all ngrams of that size can only occur once, by default `0`.
     ignoreTokenIds
-       A list of token ids which are ignored in the decoder's output
+       A list of token ids which are ignored in the decoder's output, by default `[]`.
 
     Notes
     -----
@@ -155,7 +157,7 @@ class BartTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     |result                                                                                                                                                                                                        |
     +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
     |[transfer learning has emerged as a powerful technique in natural language processing (NLP) the effectiveness of transfer learning has given rise to a diversity of approaches, methodologies, and practice .]|
-    --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+    +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
     """
 
     name = "BartTransformer"
@@ -204,11 +206,11 @@ class BartTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
                            typeConverter=TypeConverters.toListInt)
 
     beamSize = Param(Params._dummy(), "beamSize",
-                 "The Number of beams for beam search.",
-                 typeConverter=TypeConverters.toInt)
+                     "The Number of beams for beam search.",
+                     typeConverter=TypeConverters.toInt)
 
     def setIgnoreTokenIds(self, value):
-        """A list of token ids which are ignored in the decoder's output.
+        """A list of token ids which are ignored in the decoder's output, by default `[]`.
 
         Parameters
         ----------
@@ -228,7 +230,7 @@ class BartTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         return self._set(configProtoBytes=b)
 
     def setTask(self, value):
-        """Sets the transformer's task, e.g. ``summarize:``.
+        """Sets the transformer's task, e.g. ``summarize:``, by default `""`.
 
         Parameters
         ----------
@@ -238,7 +240,7 @@ class BartTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         return self._set(task=value)
 
     def setMinOutputLength(self, value):
-        """Sets minimum length of the sequence to be generated.
+        """Sets minimum length of the sequence to be generated, by default `0`.
 
         Parameters
         ----------
@@ -248,7 +250,7 @@ class BartTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         return self._set(minOutputLength=value)
 
     def setMaxOutputLength(self, value):
-        """Sets maximum length of output text.
+        """Sets maximum length of output text, by default `20`.
 
         Parameters
         ----------
@@ -258,7 +260,7 @@ class BartTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         return self._set(maxOutputLength=value)
 
     def setDoSample(self, value):
-        """Sets whether or not to use sampling, use greedy decoding otherwise.
+        """Sets whether or not to use sampling, use greedy decoding otherwise, by default `False`.
 
         Parameters
         ----------
@@ -268,7 +270,7 @@ class BartTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         return self._set(doSample=value)
 
     def setTemperature(self, value):
-        """Sets the value used to module the next token probabilities.
+        """Sets the value used to module the next token probabilities, by default `1.0`.
 
         Parameters
         ----------
@@ -279,7 +281,7 @@ class BartTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
 
     def setTopK(self, value):
         """Sets the number of highest probability vocabulary tokens to keep for
-        top-k-filtering.
+        top-k-filtering, by default `50`.
 
         Parameters
         ----------
@@ -289,7 +291,7 @@ class BartTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         return self._set(topK=value)
 
     def setTopP(self, value):
-        """Sets the top cumulative probability for vocabulary tokens.
+        """Sets the top cumulative probability for vocabulary tokens, by default `1.0`.
 
         If set to float < 1, only the most probable tokens with probabilities
         that add up to ``topP`` or higher are kept for generation.
@@ -302,7 +304,7 @@ class BartTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         return self._set(topP=value)
 
     def setRepetitionPenalty(self, value):
-        """Sets the parameter for repetition penalty. 1.0 means no penalty.
+        """Sets the parameter for repetition penalty. 1.0 means no penalty, by default `1.0`.
 
         Parameters
         ----------
@@ -317,7 +319,7 @@ class BartTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         return self._set(repetitionPenalty=value)
 
     def setNoRepeatNgramSize(self, value):
-        """Sets size of n-grams that can only occur once.
+        """Sets size of n-grams that can only occur once, by default `0`.
 
         If set to int > 0, all ngrams of that size can only occur once.
 
@@ -329,7 +331,7 @@ class BartTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         return self._set(noRepeatNgramSize=value)
 
     def setBeamSize(self, value):
-        """Sets the number of beam size for beam search
+        """Sets the number of beam size for beam search, by default `4`.
 
         Parameters
         ----------
