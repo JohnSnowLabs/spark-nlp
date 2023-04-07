@@ -37,6 +37,7 @@ object NerTagsEncoding {
       doc: Annotation,
       sentenceIndex: Int = 0,
       originalOffset: Boolean = true,
+      nerHasNoSchema: Boolean = false,
       includeNoneEntities: Boolean = false,
       format: String = "IOB2"): Seq[NamedEntity] = {
 
@@ -87,9 +88,9 @@ object NerTagsEncoding {
 
     }
 
-    def getTag(tag: String, startsWithSchema: Boolean = true): Option[String] = {
+    def getTag(tag: String): Option[String] = {
       try {
-        lastTag = Some(if (startsWithSchema) tag.substring(2) else tag)
+        lastTag = Some(if (nerHasNoSchema) tag else tag.substring(2))
       } catch {
         case e: StringIndexOutOfBoundsException =>
           require(
@@ -101,17 +102,16 @@ object NerTagsEncoding {
 
     for (i <- 0 until words) {
       val tag = sentence.tags(i)
-      val hasSchema = tag.startsWith(beginningTagChunk)
-      if (lastTag.isDefined && (hasSchema || tag == noChunk)) {
+      if (lastTag.isDefined && (tag.startsWith(beginningTagChunk) || tag == noChunk)) {
         flushEntity(lastTagStart, i - 1)
       }
 
       if (includeNoneEntities && lastTag.isEmpty) {
-        lastTag = if (tag == noChunk) Some(tag) else getTag(tag, hasSchema)
+        lastTag = if (tag == noChunk) Some(tag) else getTag(tag)
         lastTagStart = i
       } else {
         if (lastTag.isEmpty && tag != noChunk) {
-          lastTag = getTag(tag, hasSchema)
+          lastTag = getTag(tag)
           lastTagStart = i
         }
       }

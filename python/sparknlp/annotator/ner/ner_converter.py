@@ -98,6 +98,13 @@ class NerConverter(AnnotatorModel):
         typeConverter=TypeConverters.toBoolean
     )
 
+    nerHasNoSchema = Param(
+        Params._dummy(),
+        "nerHasNoSchema",
+        "set this to true if your NER tags coming from a model that does not have a IOB/IOB2 schema",
+        typeConverter=TypeConverters.toBoolean
+    )
+
     def setWhiteList(self, entities):
         """Sets list of entities to process. The rest will be ignored.
 
@@ -123,6 +130,17 @@ class NerConverter(AnnotatorModel):
             document or use the modified tokens
         """
         return self._set(preservePosition=value)
+
+    def setNerHasNoSchema(self, value):
+        """
+        set this to true if your NER tags coming from a model that does not have a IOB/IOB2 schema
+
+        Parameters
+        ----------
+        value : bool
+            set this to true if your NER tags coming from a model that does not have a IOB/IOB2 schema
+        """
+        return self._set(nerHasNoSchema=value)
 
     @keyword_only
     def __init__(self):
