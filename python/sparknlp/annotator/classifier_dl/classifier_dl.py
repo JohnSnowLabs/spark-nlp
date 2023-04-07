@@ -203,7 +203,7 @@ class ClassifierDLModel(AnnotatorModel, HasStorageRef, HasEngine):
     dataset.
 
     For available pretrained models please see the
-    `Models Hub <https://nlp.johnsnowlabs.com/models?task=Text+Classification>`__.
+    `Models Hub <https://sparknlp.org/models?task=Text+Classification>`__.
 
     For extended examples of usage, see the
     `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/ClassifierDL_Train_multi_class_news_category_classifier.ipynb>`__.

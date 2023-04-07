@@ -25,7 +25,7 @@ import org.apache.spark.sql.DataFrame
   * model can be retrieved with member `lightModel`.
   *
   * For more extended examples see the
-  * [[https://nlp.johnsnowlabs.com/docs/en/pipelines Pipelines page]] and our
+  * [[https://sparknlp.org/docs/en/pipelines Pipelines page]] and our
   * [[https://github.com/JohnSnowLabs/spark-nlp-models Github Model Repository]] for available
   * pipeline models.
   *

@@ -177,7 +177,7 @@ class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageMod
 
     The default model is ``"glove_100d"``, if no name is provided. For available
     pretrained models please see the `Models Hub
-    <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
+    <https://sparknlp.org/models?task=Embeddings>`__.
 
     For extended examples of usage, see the `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/quick_start_offline.ipynb>`__.
 

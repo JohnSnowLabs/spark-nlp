@@ -756,7 +756,7 @@ Either create a conda env for python 3.6, install *pyspark==3.3.1 spark-nlp nump
 Spark NLP library and all the pre-trained models/pipelines can be used entirely offline with no access to the Internet. If you are behind a proxy or a firewall with no access to the Maven repository (to download packages) or/and no access to S3 (to automatically download models and pipelines), you can simply follow the instructions to have Spark NLP without any limitations offline:
 
 - Instead of using the Maven package, you need to load our Fat JAR
-- Instead of using PretrainedPipeline for pretrained pipelines or the `.pretrained()` function to download pretrained models, you will need to manually download your pipeline/model from [Models Hub](https://nlp.johnsnowlabs.com/models), extract it, and load it.
+- Instead of using PretrainedPipeline for pretrained pipelines or the `.pretrained()` function to download pretrained models, you will need to manually download your pipeline/model from [Models Hub](https://sparknlp.org/models), extract it, and load it.
 
 Example of `SparkSession` with Fat JAR to have Spark NLP offline:
 

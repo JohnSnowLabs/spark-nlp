@@ -38,7 +38,7 @@ class SpanBertCorefModel(AnnotatorModel,
 
     The default model is ``"spanbert_base_coref"``, if no name is provided. For available
     pretrained models please see the `Models Hub
-    <https://nlp.johnsnowlabs.com/models?q=coref>`__.
+    <https://sparknlp.org/models?q=coref>`__.
 
     For extended examples of usage, see the
     `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/coreference-resolution/Coreference_Resolution_SpanBertCorefModel.ipynb>`__.

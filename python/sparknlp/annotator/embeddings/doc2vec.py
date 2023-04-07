@@ -31,7 +31,7 @@ class Doc2VecApproach(AnnotatorApproach, HasStorageRef, HasEnableCachingProperti
 
     For instantiated/pretrained models, see :class:`.Doc2VecModel`.
 
-    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models>`__.
+    For available pretrained models please see the `Models Hub <https://sparknlp.org/models>`__.
 
     ====================== =======================
     Input Annotation types Output Annotation type

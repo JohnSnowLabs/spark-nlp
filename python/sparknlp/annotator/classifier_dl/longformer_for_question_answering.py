@@ -34,7 +34,7 @@ class LongformerForQuestionAnswering(AnnotatorModel,
     provided.
 
     For available pretrained models please see the `Models Hub
-    <https://nlp.johnsnowlabs.com/models?task=Question+Answering>`__.
+    <https://sparknlp.org/models?task=Question+Answering>`__.
 
     To see which models are compatible and how to import them see
     `Import Transformers into Spark NLP 🚀

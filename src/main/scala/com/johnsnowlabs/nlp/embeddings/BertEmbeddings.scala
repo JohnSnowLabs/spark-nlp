@@ -48,7 +48,7 @@ import org.slf4j.{Logger, LoggerFactory}
   * The default model is `"small_bert_L2_768"`, if no name is provided.
   *
   * For available pretrained models please see the
-  * [[https://nlp.johnsnowlabs.com/models?task=Embeddings Models Hub]].
+  * [[https://sparknlp.org/models?task=Embeddings Models Hub]].
   *
   * For extended examples of usage, see the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dl-ner/ner_bert.ipynb Examples]]
@@ -132,7 +132,7 @@ import org.slf4j.{Logger, LoggerFactory}
   *   [[com.johnsnowlabs.nlp.annotators.classifier.dl.BertForTokenClassification BertForTokenClassification]]
   *   For BertEmbeddings with a token classification layer on top
   * @see
-  *   [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of
+  *   [[https://sparknlp.org/docs/en/annotators Annotators Main Page]] for a list of
   *   transformer based embeddings
   * @param uid
   *   required uid for storing annotator to disk

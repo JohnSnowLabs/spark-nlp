@@ -19,7 +19,7 @@ val sentiment = SentimentDLModel.pretrained()
 ```
 The default model is `"sentimentdl_use_imdb"`, if no name is provided. It is english sentiment analysis trained on
 the IMDB dataset.
-For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Sentiment+Analysis).
+For available pretrained models please see the [Models Hub](https://sparknlp.org/models?task=Sentiment+Analysis).
 
 For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/SentimentDL_train_multiclass_sentiment_classifier.ipynb)
 and the [SentimentDLTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/SentimentDLTestSpec.scala).

@@ -1100,7 +1100,7 @@ ResourceDownloader.showPublicPipelines(lang = "en", version = "3.1.0")
 */
 ```
 
-#### Please check out our Models Hub for the full list of [pre-trained pipelines](https://nlp.johnsnowlabs.com/models) with examples, demos, benchmarks, and more
+#### Please check out our Models Hub for the full list of [pre-trained pipelines](https://sparknlp.org/models) with examples, demos, benchmarks, and more
 
 ### Models
 
@@ -1190,7 +1190,7 @@ XlnetEmbeddings
 */
 ```
 
-#### Please check out our Models Hub for the full list of [pre-trained models](https://nlp.johnsnowlabs.com/models) with examples, demo, benchmark, and more
+#### Please check out our Models Hub for the full list of [pre-trained models](https://sparknlp.org/models) with examples, demo, benchmark, and more
 
 ## Offline
 
@@ -1201,7 +1201,7 @@ any limitations offline:
 
 - Instead of using the Maven package, you need to load our Fat JAR
 - Instead of using PretrainedPipeline for pretrained pipelines or the `.pretrained()` function to download pretrained
-  models, you will need to manually download your pipeline/model from [Models Hub](https://nlp.johnsnowlabs.com/models),
+  models, you will need to manually download your pipeline/model from [Models Hub](https://sparknlp.org/models),
   extract it, and load it.
 
 Example of `SparkSession` with Fat JAR to have Spark NLP offline:
@@ -1252,13 +1252,13 @@ PipelineModel.load("/tmp/explain_document_dl_en_2.0.2_2.4_1556530585689/")
 Need more **examples**? Check out our dedicated [Spark NLP Examples](https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples)
 repository to showcase all Spark NLP use cases!
 
-Also, don't forget to check [Spark NLP in Action](https://nlp.johnsnowlabs.com/demo) built by Streamlit.
+Also, don't forget to check [Spark NLP in Action](https://sparknlp.org/demo) built by Streamlit.
 
 ### All examples: [spark-nlp/examples](https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples)
 
 ## FAQ
 
-[Check our Articles and Videos page here](https://nlp.johnsnowlabs.com/learn)
+[Check our Articles and Videos page here](https://sparknlp.org/learn)
 
 ## Citation
 

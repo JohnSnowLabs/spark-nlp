@@ -62,7 +62,7 @@ We will also need MLFlow (this example was tested with version 1.21.0)
 
 `!pip install mlflow`
 
-Finally, make sure you follow the Spark NLP installation, available [here](https://nlp.johnsnowlabs.com/docs/en/install#python)
+Finally, make sure you follow the Spark NLP installation, available [here](https://sparknlp.org/docs/en/install#python)
 
 </div><div class="h3-box" markdown="1">
 

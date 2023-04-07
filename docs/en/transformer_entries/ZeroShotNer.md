@@ -23,7 +23,7 @@ val zeroShotNer = ZeroShotNerModel.pretrained()
 ```
 
 For available pretrained models please see the
-[Models Hub](https://nlp.johnsnowlabs.com/models?task=Zero-Shot-NER).
+[Models Hub](https://sparknlp.org/models?task=Zero-Shot-NER).
 {%- endcapture -%}
 
 {%- capture input_anno -%}

@@ -50,7 +50,7 @@ As a Spark NLP LightPipeline
 Available Pipelines
 ===================
 
-Please see the `Pipelines Page <https://nlp.johnsnowlabs.com/docs/en/pipelines>`_ for all available pipelines.
+Please see the `Pipelines Page <https://sparknlp.org/docs/en/pipelines>`_ for all available pipelines.
 
 Alternatively you can also check for pretrained
 pipelines using :meth:`.ResourceDownloader.showPublicPipelines`.

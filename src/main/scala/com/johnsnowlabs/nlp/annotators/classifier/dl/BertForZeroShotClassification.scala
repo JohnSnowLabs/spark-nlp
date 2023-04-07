@@ -53,7 +53,7 @@ import java.io.File
   * The default model is `"bert_base_cased_zero_shot_classifier_xnli"`, if no name is provided.
   *
   * For available pretrained models please see the
-  * [[https://nlp.johnsnowlabs.com/models?task=Text+Classification Models Hub]].
+  * [[https://sparknlp.org/models?task=Text+Classification Models Hub]].
   *
   * To see which models are compatible and how to import them see
   * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]] and to see more extended
@@ -101,7 +101,7 @@ import java.io.File
   * @see
   *   [[BertForZeroShotClassification]] for sequence-level classification
   * @see
-  *   [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of
+  *   [[https://sparknlp.org/docs/en/annotators Annotators Main Page]] for a list of
   *   transformer based classifiers
   * @param uid
   *   required uid for storing annotator to disk
@@ -400,7 +400,7 @@ trait ReadBertForZeroShotDLModel extends ReadTensorflowModel {
     require(
       entailmentIds.length == 1 && contradictionIds.length == 1,
       s"""This annotator supports classifiers trained on NLI datasets. You must have only at least 2 or maximum 3 labels in your dataset:
-         
+
           example with 3 labels: 'contradict', 'neutral', 'entailment'
           example with 2 labels: 'contradict', 'entailment'
 

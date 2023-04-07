@@ -63,7 +63,7 @@ import org.apache.spark.sql.SparkSession
   *   .setOutputCol("generation")
   * }}}
   * The default model is `"gpt2"`, if no name is provided. For available pretrained models please
-  * see the [[https://nlp.johnsnowlabs.com/models?q=gpt2 Models Hub]].
+  * see the [[https://sparknlp.org/models?q=gpt2 Models Hub]].
   *
   * For extended examples of usage, see
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/GPT2TestSpec.scala GPT2TestSpec]].

@@ -627,7 +627,7 @@ trait WithGraphResolver {
     require(
       embeddingsFiltered.exists(_.nonEmpty),
       s"Graph dimensions should be $embeddingsNDims: Could not find a suitable tensorflow graph for embeddings dim: $embeddingsNDims tags: $tags nChars: $nChars. " +
-        s"Check https://nlp.johnsnowlabs.com/docs/en/graph for instructions to generate the required graph.")
+        s"Check https://sparknlp.org/docs/en/graph for instructions to generate the required graph.")
 
     // 2. Filter by labels and nChars
     val tagsFiltered = embeddingsFiltered.map {
@@ -642,7 +642,7 @@ trait WithGraphResolver {
     require(
       tagsFiltered.exists(_.nonEmpty),
       s"Graph tags size should be $tags: Could not find a suitable tensorflow graph for embeddings dim: $embeddingsNDims tags: $tags nChars: $nChars. " +
-        s"Check https://nlp.johnsnowlabs.com/docs/en/graph for instructions to generate the required graph.")
+        s"Check https://sparknlp.org/docs/en/graph for instructions to generate the required graph.")
 
     // 3. Filter by labels and nChars
     val charsFiltered = tagsFiltered.map {
@@ -657,7 +657,7 @@ trait WithGraphResolver {
     require(
       charsFiltered.exists(_.nonEmpty),
       s"Graph chars size should be $nChars: Could not find a suitable tensorflow graph for embeddings dim: $embeddingsNDims tags: $tags nChars: $nChars. " +
-        s"Check https://nlp.johnsnowlabs.com/docs/en/graph for instructions to generate the required graph")
+        s"Check https://sparknlp.org/docs/en/graph for instructions to generate the required graph")
 
     for (i <- files.indices) {
       if (charsFiltered(i).nonEmpty)

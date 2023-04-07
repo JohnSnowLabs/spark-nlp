@@ -33,7 +33,7 @@ class TapasForQuestionAnswering(BertForQuestionAnswering):
     is provided.
 
     For available pretrained models please see the `Models Hub
-    <https://nlp.johnsnowlabs.com/models?task=Question+Answering+Tapas>`__.
+    <https://sparknlp.org/models?task=Question+Answering+Tapas>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type

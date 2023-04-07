@@ -29,7 +29,7 @@ class PretrainedPipeline:
     :attr:`.light_model`.
 
     For more extended examples see the `Pipelines page
-    <https://nlp.johnsnowlabs.com/docs/en/pipelines>`_ and our `Github Model
+    <https://sparknlp.org/docs/en/pipelines>`_ and our `Github Model
     Repository <https://github.com/JohnSnowLabs/spark-nlp-models>`_  for
     available pipeline models.
 

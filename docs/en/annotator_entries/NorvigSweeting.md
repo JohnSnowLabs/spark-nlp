@@ -21,7 +21,7 @@ val spellChecker = NorvigSweetingModel.pretrained()
   .setDoubleVariants(true)
 ```
 The default model is `"spellcheck_norvig"`, if no name is provided.
-For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Spell+Check).
+For available pretrained models please see the [Models Hub](https://sparknlp.org/models?task=Spell+Check).
 
 
 For extended examples of see the [NorvigSweetingTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingTestSpec.scala).

@@ -40,7 +40,7 @@ val wordSegmenter = WordSegmenterModel.pretrained()
 
 The default model is `"wordseg_pku"`, default language is `"zh"`, if no values are provided.
 For available pretrained models please see the
-[Models Hub](https://nlp.johnsnowlabs.com/models?task=Word+Segmentation).
+[Models Hub](https://sparknlp.org/models?task=Word+Segmentation).
 
 For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/jupyter/annotation/chinese/word_segmentation/words_segmenter_demo.ipynb)
 and the [WordSegmenterTest](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/WordSegmenterTest.scala).

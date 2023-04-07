@@ -438,7 +438,7 @@ class ContextSpellCheckerApproach(AnnotatorApproach):
             Folder path that contain external graph files.
         """
         return self._set(graphFolder=path)
-    
+
     def setMaxSentLen(self, sentlen):
         """Sets the maximum length of a sentence.
 
@@ -516,7 +516,7 @@ class ContextSpellCheckerModel(AnnotatorModel, HasEngine):
 
 
     The default model is ``"spellcheck_dl"``, if no name is provided.
-    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Spell+Check>`__.
+    For available pretrained models please see the `Models Hub <https://sparknlp.org/models?task=Spell+Check>`__.
 
     For extended examples of usage, see the `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/italian/Training_Context_Spell_Checker_Italian.ipynb>`__.
 
@@ -562,7 +562,7 @@ class ContextSpellCheckerModel(AnnotatorModel, HasEngine):
         Levenshtein weights.
     useNewLines
         When set to true new lines will be treated as any other character. When set to false correction is applied on paragraphs as defined by newline characters.
-    
+
 
     References
     -------------
@@ -796,7 +796,7 @@ class ContextSpellCheckerModel(AnnotatorModel, HasEngine):
             Mapping of ids to vocabulary.
         """
         return self._set(idsVocab=idsVocab)
-    
+
     def setVocabIds(self, vocabIds: dict):
         """Sets mapping of vocabulary to ids.
 

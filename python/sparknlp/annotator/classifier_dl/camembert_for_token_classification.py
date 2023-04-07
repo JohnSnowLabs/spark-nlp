@@ -34,7 +34,7 @@ class CamemBertForTokenClassification(AnnotatorModel,
     name is provided.
 
     For available pretrained models please see the `Models Hub
-    <https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition>`__.
+    <https://sparknlp.org/models?task=Named+Entity+Recognition>`__.
     To see which models are compatible and how to import them see
     `Import Transformers into Spark NLP 🚀
     <https://github.com/JohnSnowLabs/spark-nlp/discussions/5669>`_.

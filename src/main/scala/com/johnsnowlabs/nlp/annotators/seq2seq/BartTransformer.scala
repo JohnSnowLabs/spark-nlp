@@ -66,7 +66,7 @@ import org.apache.spark.sql.SparkSession
   *   .setOutputCol("generation")
   * }}}
   * The default model is `"distilbart_xsum_12_6"`, if no name is provided. For available
-  * pretrained models please see the [[https://nlp.johnsnowlabs.com/models?q=bart Models Hub]].
+  * pretrained models please see the [[https://sparknlp.org/models?q=bart Models Hub]].
   *
   * For extended examples of usage, see
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/BartTestSpec.scala BartTestSpec]].

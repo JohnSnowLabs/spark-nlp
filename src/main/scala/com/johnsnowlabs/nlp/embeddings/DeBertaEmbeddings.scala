@@ -135,7 +135,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   * }}}
   *
   * @see
-  *   [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of
+  *   [[https://sparknlp.org/docs/en/annotators Annotators Main Page]] for a list of
   *   transformer based embeddings
   * @param uid
   *   required uid for storing annotator to disk

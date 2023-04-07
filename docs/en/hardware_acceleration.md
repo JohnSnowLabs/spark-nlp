@@ -28,7 +28,7 @@ The following benchmarks have been done by using a single Dell Server with the f
 
 ### GPU
 
-Perhaps the best and the easiest way in Spark NLP to massively improve a DL-based task(s) is to use GPU. Spark NLP comes with a zero-code change feature to run seamlessly on both CPU and GPU by simply enabling GPU via `sparknlp.start(gpu=True)` or using directly the Maven package that is for GPU `spark-nlp-gpu`. ([more details](https://nlp.johnsnowlabs.com/docs/en/install))
+Perhaps the best and the easiest way in Spark NLP to massively improve a DL-based task(s) is to use GPU. Spark NLP comes with a zero-code change feature to run seamlessly on both CPU and GPU by simply enabling GPU via `sparknlp.start(gpu=True)` or using directly the Maven package that is for GPU `spark-nlp-gpu`. ([more details](https://sparknlp.org/docs/en/install))
 
 Since the new Transformer models such as BERT for Word and Sentence embeddings are the most computationally available downstream tasks in Spark NLP, we will show a benchmark for inference (prediction) to compare CPU (without any accelerations) to GPU:
 

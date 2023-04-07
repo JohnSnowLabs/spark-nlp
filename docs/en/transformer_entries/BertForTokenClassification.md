@@ -14,7 +14,7 @@ val labels = BertForTokenClassification.pretrained()
 ```
 The default model is `"bert_base_token_classifier_conll03"`, if no name is provided.
 
-For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Text+Classification).
+For available pretrained models please see the [Models Hub](https://sparknlp.org/models?task=Text+Classification).
 
 and the [BertForTokenClassificationTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/BertForTokenClassificationTestSpec.scala).
 Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are compatible and how to import them see [Import Transformers into Spark NLP 🚀](https://github.com/JohnSnowLabs/spark-nlp/discussions/5669).

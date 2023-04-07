@@ -13,7 +13,7 @@ sidebar:
 
 Pretrained Pipelines have moved to Models Hub.
 Please follow this link for the updated list of all models and pipelines:
-[Models Hub](https://nlp.johnsnowlabs.com/modelss)
+[Models Hub](https://sparknlp.org/modelss)
 {:.success}
 {:.success}
 

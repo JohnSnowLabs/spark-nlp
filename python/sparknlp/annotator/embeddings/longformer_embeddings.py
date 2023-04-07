@@ -38,7 +38,7 @@ class LongformerEmbeddings(AnnotatorModel,
 
     The default model is ``"longformer_base_4096"``, if no name is provided. For
     available pretrained models please see the `Models Hub
-    <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
+    <https://sparknlp.org/models?task=Embeddings>`__.
 
     To see which models are compatible and how to import them see
     `Import Transformers into Spark NLP 🚀
