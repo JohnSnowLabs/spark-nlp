@@ -380,13 +380,13 @@ class BartTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         return BartTransformer(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="t5_small", lang="en", remote_loc=None):
+    def pretrained(name="bart_large_cnn", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "t5_small"
+            Name of the pretrained model, by default "bart_large_cnn"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
