@@ -65,7 +65,7 @@ import org.apache.spark.sql.SparkSession
   *   .setInputCols("document")
   *   .setOutputCol("generation")
   * }}}
-  * The default model is `"bart_large_cnn"`, if no name is provided. For available pretrained
+  * The default model is `"distilbart-xsum-12-6"`, if no name is provided. For available pretrained
   * models please see the [[https://nlp.johnsnowlabs.com/models?q=bart Models Hub]].
   *
   * For extended examples of usage, see
@@ -108,7 +108,7 @@ import org.apache.spark.sql.SparkSession
   *   .setInputCol("text")
   *   .setOutputCol("documents")
   *
-  * val bart = BartTransformer.pretrained("bart_large_cnn")
+  * val bart = BartTransformer.pretrained("distilbart-xsum-12-6")
   *   .setInputCols(Array("documents"))
   *   .setMinOutputLength(10)
   *   .setMaxOutputLength(30)
@@ -522,7 +522,7 @@ class BartTransformer(override val uid: String)
 trait ReadablePretrainedBartTransformerModel
     extends ParamsAndFeaturesReadable[BartTransformer]
     with HasPretrained[BartTransformer] {
-  override val defaultModelName: Some[String] = Some("bart_large_cnn")
+  override val defaultModelName: Some[String] = Some("distilbart-xsum-12-6")
 
   /** Java compliant-overrides */
   override def pretrained(): BartTransformer = super.pretrained()
