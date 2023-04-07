@@ -47,7 +47,7 @@ import org.apache.spark.sql.DataFrame
   * The default model is `"doc2vec_gigaword_300"`, if no name is provided.
   *
   * For available pretrained models please see the
-  * [[https://nlp.johnsnowlabs.com/models Models Hub]].
+  * [[https://sparknlp.org/models Models Hub]].
   *
   * '''Sources''' :
   *

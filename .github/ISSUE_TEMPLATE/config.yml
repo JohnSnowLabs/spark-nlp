@@ -5,5 +5,5 @@ contact_links:
     url: https://github.com/JohnSnowLabs/spark-nlp/discussions/5669
     about: Discussion about importing models from other libraries
   - name: Want to contribute a model? Visit the NLP Models Hub to upload your model.
-    url: https://nlp.johnsnowlabs.com/models
-    about: A place for sharing and discovering Spark NLP models and pipelines 
+    url: https://sparknlp.org/models
+    about: A place for sharing and discovering Spark NLP models and pipelines

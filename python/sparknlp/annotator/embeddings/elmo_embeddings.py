@@ -38,7 +38,7 @@ class ElmoEmbeddings(AnnotatorModel,
 
     The default model is ``"elmo"``, if no name is provided.
 
-    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
+    For available pretrained models please see the `Models Hub <https://sparknlp.org/models?task=Embeddings>`__.
 
     The pooling layer can be set with :meth:`.setPoolingLayer` to the following
     values:

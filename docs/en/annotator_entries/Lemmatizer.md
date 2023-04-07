@@ -4,7 +4,7 @@ Lemmatizer
 
 {%- capture model_description -%}
 Instantiated Model of the Lemmatizer. For usage and examples, please see the documentation of that class.
-For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Lemmatization).
+For available pretrained models please see the [Models Hub](https://sparknlp.org/models?task=Lemmatization).
 {%- endcapture -%}
 
 {%- capture model_input_anno -%}
@@ -53,7 +53,7 @@ Retrieves the significant part of a word. A dictionary of predefined lemmas must
 The dictionary can be set as a delimited text file.
 Pretrained models can be loaded with `LemmatizerModel.pretrained`.
 
-For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Lemmatization).
+For available pretrained models please see the [Models Hub](https://sparknlp.org/models?task=Lemmatization).
 For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/italian/Train-Lemmatizer-Italian.ipynb).
 {%- endcapture -%}
 

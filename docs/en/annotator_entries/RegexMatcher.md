@@ -40,7 +40,7 @@ Rules must be provided by either `setRules` (followed by `setDelimiter`) or an e
 To use an external file, a dictionary of predefined regular expressions must be provided with
 `setExternalRules`. The dictionary can be set as a delimited text file.
 
-Pretrained pipelines are available for this module, see [Pipelines](https://nlp.johnsnowlabs.com/docs/en/pipelines).
+Pretrained pipelines are available for this module, see [Pipelines](https://sparknlp.org/docs/en/pipelines).
 
 For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/regex-matcher/Matching_Text_with_RegexMatcher.ipynb)
 and the [RegexMatcherTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/RegexMatcherTestSpec.scala).

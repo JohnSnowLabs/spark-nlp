@@ -48,7 +48,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   * }}}
   * The default model is `"longformer_base_4096"`, if no name is provided. For available
   * pretrained models please see the
-  * [[https://nlp.johnsnowlabs.com/models?task=Embeddings Models Hub]].
+  * [[https://sparknlp.org/models?task=Embeddings Models Hub]].
   *
   * For some examples of usage, see
   * [[https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/LongformerEmbeddingsTestSpec.scala LongformerEmbeddingsTestSpec]].
@@ -127,7 +127,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   *   [[com.johnsnowlabs.nlp.annotators.classifier.dl.LongformerForTokenClassification LongformerForTokenClassification]]
   *   for Longformer embeddings with a token classification layer on top
   * @see
-  *   [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of
+  *   [[https://sparknlp.org/docs/en/annotators Annotators Main Page]] for a list of
   *   transformer based embeddings
   * @groupname anno Annotator types
   * @groupdesc anno

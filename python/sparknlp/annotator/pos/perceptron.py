@@ -174,9 +174,9 @@ class PerceptronModel(AnnotatorModel):
     The default model is ``"pos_anc"``, if no name is provided.
 
     For available pretrained models please see the `Models Hub
-    <https://nlp.johnsnowlabs.com/models?task=Part+of+Speech+Tagging>`__.
+    <https://sparknlp.org/models?task=Part+of+Speech+Tagging>`__.
     Additionally, pretrained pipelines are available for this module, see
-    `Pipelines <https://nlp.johnsnowlabs.com/docs/en/pipelines>`__.
+    `Pipelines <https://sparknlp.org/docs/en/pipelines>`__.
 
     For extended examples of usage, see the `Examples
     <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/french/Train-Perceptron-French.ipynb>`__.

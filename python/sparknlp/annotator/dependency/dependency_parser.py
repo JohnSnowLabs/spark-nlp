@@ -187,7 +187,7 @@ class DependencyParserModel(AnnotatorModel):
 
     The default model is ``"dependency_conllu"``, if no name is provided.
     For available pretrained models please see the
-    `Models Hub <https://nlp.johnsnowlabs.com/models>`__.
+    `Models Hub <https://sparknlp.org/models>`__.
 
     For extended examples of usage, see the `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/graph-extraction/graph_extraction_intro.ipynb>`__.
 

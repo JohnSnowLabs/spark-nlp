@@ -55,7 +55,7 @@ import java.io.File
   * The default model is `"image_classifier_vit_base_patch16_224"`, if no name is provided.
   *
   * For available pretrained models please see the
-  * [[https://nlp.johnsnowlabs.com/models?task=Image+Classification Models Hub]].
+  * [[https://sparknlp.org/models?task=Image+Classification Models Hub]].
   *
   * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To
   * see which models are compatible and how to import them see

@@ -43,7 +43,7 @@ import org.apache.spark.sql.{DataFrame, Dataset, Row}
   *     .setOutputCol("embeddings")
   * }}}
   * The default model is `"glove_100d"`, if no name is provided. For available pretrained models
-  * please see the [[https://nlp.johnsnowlabs.com/models?task=Embeddings Models Hub]].
+  * please see the [[https://sparknlp.org/models?task=Embeddings Models Hub]].
   *
   * There are also two convenient functions to retrieve the embeddings coverage with respect to
   * the transformed dataset:
@@ -125,7 +125,7 @@ import org.apache.spark.sql.{DataFrame, Dataset, Row}
   * @see
   *   [[SentenceEmbeddings]] to combine embeddings into a sentence-level representation
   * @see
-  *   [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of
+  *   [[https://sparknlp.org/docs/en/annotators Annotators Main Page]] for a list of
   *   transformer based embeddings
   * @groupname anno Annotator types
   * @groupdesc anno

@@ -24,7 +24,7 @@ class Lemmatizer(AnnotatorApproach):
 
     For instantiated/pretrained models, see :class:`.LemmatizerModel`.
 
-    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Lemmatization>`__.
+    For available pretrained models please see the `Models Hub <https://sparknlp.org/models?task=Lemmatization>`__.
     For extended examples of usage, see the `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/italian/Train-Lemmatizer-Italian.ipynb>`__.
 
     ====================== ======================
@@ -194,7 +194,7 @@ class LemmatizerModel(AnnotatorModel):
     ...     .setInputCols(["token"]) \\
     ...     .setOutputCol("lemma")
 
-    For available pretrained models please see the `Models Hub <https://nlp.johnsnowlabs.com/models?task=Lemmatization>`__.
+    For available pretrained models please see the `Models Hub <https://sparknlp.org/models?task=Lemmatization>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type

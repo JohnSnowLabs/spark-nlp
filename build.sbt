@@ -54,7 +54,7 @@ publishTo := {
   else Some("releases" at nexus + "service/local/staging/deploy/maven2")
 }
 
-homepage := Some(url("https://nlp.johnsnowlabs.com"))
+homepage := Some(url("https://sparknlp.org"))
 
 scmInfo := Some(
   ScmInfo(

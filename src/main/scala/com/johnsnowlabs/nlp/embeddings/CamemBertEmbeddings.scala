@@ -36,7 +36,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   * The default model is `"camembert_base"`, if no name is provided.
   *
   * For available pretrained models please see the
-  * [[https://nlp.johnsnowlabs.com/models?task=Embeddings Models Hub]].
+  * [[https://sparknlp.org/models?task=Embeddings Models Hub]].
   *
   * For extended examples of usage, see the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dl-ner/ner_bert.ipynb Examples]]
@@ -113,7 +113,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   * }}}
   *
   * @see
-  *   [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of
+  *   [[https://sparknlp.org/docs/en/annotators Annotators Main Page]] for a list of
   *   transformer based embeddings
   * @param uid
   *   required uid for storing annotator to disk

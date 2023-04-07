@@ -154,7 +154,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   *   [[com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForTokenClassification AlbertForTokenClassification]]
   *   for AlbertEmbeddings with a token classification layer on top
   * @see
-  *   [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of
+  *   [[https://sparknlp.org/docs/en/annotators Annotators Main Page]] for a list of
   *   transformer based embeddings
   * @param uid
   *   required uid for storing annotator to disk

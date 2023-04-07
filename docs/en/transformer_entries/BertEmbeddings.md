@@ -14,7 +14,7 @@ val embeddings = BertEmbeddings.pretrained()
 ```
 The default model is `"small_bert_L2_768"`, if no name is provided.
 
-For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Embeddings).
+For available pretrained models please see the [Models Hub](https://sparknlp.org/models?task=Embeddings).
 
 For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dl-ner/ner_bert.ipynb)
 and the [BertEmbeddingsTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertEmbeddingsTestSpec.scala).

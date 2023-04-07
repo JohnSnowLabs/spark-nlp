@@ -41,7 +41,7 @@ class BertForZeroShotClassification(AnnotatorModel,
     provided.
 
     For available pretrained models please see the `Models Hub
-    <https://nlp.johnsnowlabs.com/models?task=Text+Classification>`__.
+    <https://sparknlp.orgtask=Text+Classification>`__.
 
     To see which models are compatible and how to import them see
     `Import Transformers into Spark NLP 🚀

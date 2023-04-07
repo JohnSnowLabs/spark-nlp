@@ -26,7 +26,7 @@ val gpt2 = GPT2Transformer.pretrained()
   .setOutputCol("generation")
 ```
 The default model is `"gpt2"`, if no name is provided.
-For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?q=gpt2).
+For available pretrained models please see the [Models Hub](https://sparknlp.org/models?q=gpt2).
 
 For extended examples of usage, see [GPT2TestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/GPT2TestSpec.scala).
 

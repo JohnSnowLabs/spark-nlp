@@ -17,7 +17,7 @@ val stopWords = StopWordsCleaner.pretrained()
   .setCaseSensitive(false)
 // will load the default pretrained model `"stopwords_en"`.
 ```
-For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Stop+Words+Removal).
+For available pretrained models please see the [Models Hub](https://sparknlp.org/models?task=Stop+Words+Removal).
 
 For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/stop-words/StopWordsCleaner.ipynb)
 and [StopWordsCleanerTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/StopWordsCleanerTestSpec.scala).
@@ -64,7 +64,7 @@ val stopWordsCleaner = new StopWordsCleaner()
 val stopWordsCleaner = StopWordsCleaner.pretrained()
       .setInputCols("token")
       .setOutputCol("cleanTokens")
-      .setCaseSensitive(false)      
+      .setCaseSensitive(false)
 ```
 
 {%- endcapture -%}

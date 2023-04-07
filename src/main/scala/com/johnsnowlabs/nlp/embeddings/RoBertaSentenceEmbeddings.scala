@@ -50,7 +50,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   *   .setOutputCol("sentence_embeddings")
   * }}}
   * The default model is `"sent_roberta_base"`, if no name is provided. For available pretrained
-  * models please see the [[https://nlp.johnsnowlabs.com/models?task=Embeddings Models Hub]].
+  * models please see the [[https://sparknlp.org/models?task=Embeddings Models Hub]].
   *
   * To see which models are compatible and how to import them see
   * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]] and to see more extended
@@ -136,7 +136,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   * @see
   *   [[RoBertaEmbeddings]] for token-level embeddings
   * @see
-  *   [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of
+  *   [[https://sparknlp.org/docs/en/annotators Annotators Main Page]] for a list of
   *   transformer based embeddings
   * @groupname anno Annotator types
   * @groupdesc anno

@@ -24,22 +24,22 @@ class BartTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     language generation model that was introduced by Facebook AI in 2019. It is based on the
     transformer architecture and is designed to handle a wide range of natural language processing
     tasks such as text generation, summarization, and machine translation.
-   
+
     BART is unique in that it is both bidirectional and auto-regressive, meaning that it can
     generate text both from left-to-right and from right-to-left. This allows it to capture
     contextual information from both past and future tokens in a sentence,resulting in more
     accurate and natural language generation.
-   
+
     The model was trained on a large corpus of text data using a combination of unsupervised and
     supervised learning techniques. It incorporates pretraining and fine-tuning phases, where the
     model is first trained on a large unlabeled corpus of text, and then fine-tuned on specific
     downstream tasks.
-   
+
     BART has achieved state-of-the-art performance on a wide range of NLP tasks, including
     summarization, question-answering, and language translation. Its ability to handle multiple
     tasks and its high performance on each of these tasks make it a versatile and valuable tool
     for natural language processing applications.
-   
+
 
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
@@ -52,7 +52,7 @@ class BartTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
 
     The default model is ``"distilbart_xsum_12_6"``, if no name is provided. For available
     pretrained models please see the `Models Hub
-    <https://nlp.johnsnowlabs.com/models?q=bart>`__.
+    <https://sparknlp.org/models?q=bart>`__.
 
     For extended examples of usage, see the `Examples
     <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/question-answering/Question_Answering_and_Summarization_with_T5.ipynb>`__.
