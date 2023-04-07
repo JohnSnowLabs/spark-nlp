@@ -61,8 +61,7 @@ class BertForZeroShotClassificationTestSpec extends AnyFlatSpec {
       .setCoalesceSentences(true)
       .setCandidateLabels(candidateLabels)
 
-    val pipeline = new Pipeline().setStages(
-      Array(document, tokenizer, tokenClassifier))
+    val pipeline = new Pipeline().setStages(Array(document, tokenizer, tokenClassifier))
 
     val pipelineModel = pipeline.fit(ddd)
     val pipelineDF = pipelineModel.transform(ddd)

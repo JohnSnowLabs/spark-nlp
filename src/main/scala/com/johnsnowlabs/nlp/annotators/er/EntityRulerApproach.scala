@@ -44,7 +44,6 @@ import scala.io.Source
   * `setPatternsResource`. The file format needs to be set as the "format" field in the `option`
   * parameter map and depending on the file type, additional parameters might need to be set.
   *
-  *
   * If the file is in a JSON format, then the rule definitions need to be given in a list with the
   * fields "id", "label" and "patterns":
   * {{{
