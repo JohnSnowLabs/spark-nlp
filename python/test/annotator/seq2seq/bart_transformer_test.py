@@ -39,12 +39,12 @@ class BartTransformerQATestSpec(unittest.TestCase):
 
         bart = BartTransformer.pretrained("bart_large_cnn") \
             .setInputCols(["documents"]) \
-            .setOutputCol("answers")
+            .setOutputCol("summaries")
 
         pipeline = Pipeline().setStages([document_assembler, bart])
         results = pipeline.fit(data).transform(data)
 
-        results.select("questions.result", "answers.result").show(truncate=False)
+        results.select("document.result", "summaries.result").show(truncate=False)
 
 
 @pytest.mark.slow
