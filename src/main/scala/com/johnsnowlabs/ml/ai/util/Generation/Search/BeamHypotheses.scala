@@ -21,14 +21,14 @@ class BeamHypotheses(
     var numBeams: Int,
     var earlyStopping: Boolean = false,
     var maxLength: Int) {
-  private var beams: Seq[(Double, Array[Long], Array[Long])] = Seq()
+  private var beams: Seq[(Double, Array[Int], Array[Int])] = Seq()
   private var worstScore: Double = 1e9
 
   def length(): Int = {
     beams.length
   }
 
-  def getBeams: Seq[(Double, Array[Long], Array[Long])] = {
+  def getBeams: Seq[(Double, Array[Int], Array[Int])] = {
     this.beams
   }
 
@@ -40,7 +40,7 @@ class BeamHypotheses(
     * @param beamIndices
     *   Beam Indices
     */
-  def add(hypotheses: Array[Long], sumLogProbs: Double, beamIndices: Array[Long]): Unit = {
+  def add(hypotheses: Array[Int], sumLogProbs: Double, beamIndices: Array[Int]): Unit = {
     val score = sumLogProbs / Math.pow(hypotheses.length, this.lengthPenalty)
     if (this.beams.length < this.numBeams || score > this.worstScore) {
       this.beams = beams :+ (score, hypotheses, beamIndices)
@@ -65,7 +65,7 @@ class BeamHypotheses(
     * @return
     *   Status of the sentence
     */
-  def isDone(bestSumLogProbs: Double, currentLength: Long): Boolean = {
+  def isDone(bestSumLogProbs: Double, currentLength: Int): Boolean = {
     if (this.beams.length < this.numBeams) {
       false
     } else if (this.earlyStopping) {
