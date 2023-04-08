@@ -18,7 +18,7 @@ package com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitProcess
 
 class RepetitionPenaltyLogitProcessor(val penalty: Double) extends LogitProcessor {
   override def call(
-      inputIds: Seq[Array[Long]],
+      inputIds: Seq[Array[Int]],
       scores: Array[Array[Float]],
       currentLength: Int): Array[Array[Float]] = {
     if (penalty != 1.0) {
