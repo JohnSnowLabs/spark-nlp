@@ -18,7 +18,7 @@ package com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitWarper
 
 class TemperatureLogitWarper(val temperature: Double) extends LogitWarper {
   override def call(
-      inputIds: Seq[Array[Long]],
+      inputIds: Seq[Array[Int]],
       scores: Array[Array[Float]],
       currentLength: Int): Array[Array[Float]] = {
     if (temperature > 0 && temperature <= 1) {

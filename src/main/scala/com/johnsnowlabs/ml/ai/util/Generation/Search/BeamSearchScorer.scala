@@ -44,26 +44,26 @@ class BeamSearchScorer(
   private val done: Array[Boolean] = Array.fill(batchSize)(false)
 
   override def process(
-      inputIds: Seq[Array[Long]],
+      inputIds: Seq[Array[Int]],
       nextScores: Seq[Array[Float]],
-      nextTokens: Seq[Array[Long]],
-      nextIndices: Seq[Array[Long]],
-      padTokenId: Long,
-      eosTokenId: Long,
-      beamIndices: Seq[Array[Long]],
-      currentLength: Long): (Array[Array[Float]], Array[Array[Long]], Array[Array[Long]]) = {
+      nextTokens: Seq[Array[Int]],
+      nextIndices: Seq[Array[Int]],
+      padTokenId: Int,
+      eosTokenId: Int,
+      beamIndices: Seq[Array[Int]],
+      currentLength: Int): (Array[Array[Float]], Array[Array[Int]], Array[Array[Int]]) = {
 //    val currentLength = inputIds.length
     val batchSize = this.beamHypothesesSeq.length
     val nextBeamScores = Array.ofDim[Float](batchSize, this.beamSize)
-    val nextBeamTokens = Array.ofDim[Long](batchSize, this.beamSize)
-    val nextBeamIndices = Array.ofDim[Long](batchSize, this.beamSize)
+    val nextBeamTokens = Array.ofDim[Int](batchSize, this.beamSize)
+    val nextBeamIndices = Array.ofDim[Int](batchSize, this.beamSize)
 
     this.beamHypothesesSeq.zipWithIndex.foreach { case (hypotheses, batchIdx) =>
       breakable {
         if (this.done(batchIdx)) {
           nextBeamScores(batchIdx) = nextBeamScores(batchIdx).map(_ => 0.0f)
           nextBeamTokens(batchIdx) = nextBeamTokens(batchIdx).map(_ => padTokenId)
-          nextBeamIndices(batchIdx) = nextBeamIndices(batchIdx).map(_ => 0L)
+          nextBeamIndices(batchIdx) = nextBeamIndices(batchIdx).map(_ => 0)
           break
         }
         var beamIdx = 0
@@ -79,13 +79,13 @@ class BeamSearchScorer(
             if (beamTokenRank >= this.beamSize) {
               break
             }
-            var beamIndex = Array[Long]()
+            var beamIndex = Array[Int]()
             if (beamIndices.nonEmpty) {
-              beamIndex = beamIndices(batchBeamIdx.toInt)
+              beamIndex = beamIndices(batchBeamIdx)
               beamIndex = beamIndex.map(i => i + batchBeamIdx)
             }
 
-            hypotheses.add(inputIds(batchBeamIdx.toInt), nextScore, beamIndex)
+            hypotheses.add(inputIds(batchBeamIdx), nextScore, beamIndex)
           } else {
             nextBeamScores(batchIdx)(beamIdx) = nextScore
             nextBeamTokens(batchIdx)(beamIdx) = nextToken
@@ -102,14 +102,14 @@ class BeamSearchScorer(
   }
 
   override def finalize(
-      inputIds: Seq[Array[Long]],
+      inputIds: Seq[Array[Int]],
       finalBeamScores: Array[Float],
-      finalBeamTokens: Array[Long],
-      finalBeamIndices: Array[Long],
-      maxLength: Long,
-      padTokenId: Long,
-      eosTokenId: Long,
-      beamIndices: Seq[Array[Long]]): (Array[Array[Long]], Array[Float], Array[Array[Long]]) = {
+      finalBeamTokens: Array[Int],
+      finalBeamIndices: Array[Int],
+      maxLength: Int,
+      padTokenId: Int,
+      eosTokenId: Int,
+      beamIndices: Seq[Array[Int]]): (Array[Array[Int]], Array[Float], Array[Array[Int]]) = {
     val batchSize = this.beamHypothesesSeq.length
     this.beamHypothesesSeq.zipWithIndex.foreach { case (hypotheses, batchIdx) =>
       breakable {
@@ -120,7 +120,7 @@ class BeamSearchScorer(
           var batchBeamIdx = batchIdx * this.beamSize + beamId
           var finalScore = finalBeamScores(batchBeamIdx)
           var finalTokens = inputIds(batchBeamIdx)
-          var beamIndex = Array[Long]()
+          var beamIndex = Array[Int]()
           if (beamIndices.nonEmpty) {
             beamIndex = beamIndices(batchBeamIdx)
           }
@@ -128,9 +128,9 @@ class BeamSearchScorer(
         }
       }
     }
-    val sentLengths = Array.ofDim[Long](batchSize * this.numBeamHypothesisToKeep)
-    var best = Seq[Array[Long]]()
-    var bestIndices = Seq[Array[Long]]()
+    val sentLengths = Array.ofDim[Int](batchSize * this.numBeamHypothesisToKeep)
+    var best = Seq[Array[Int]]()
+    var bestIndices = Seq[Array[Int]]()
     val bestScores = Array.ofDim[Float](batchSize * this.numBeamHypothesisToKeep)
     this.beamHypothesesSeq.zipWithIndex.foreach { case (hypotheses, i) =>
       breakable {
@@ -150,13 +150,13 @@ class BeamSearchScorer(
     }
     val sentLengthMax = sentLengths.max + 1
     val sentMaxLength = Math.min(sentLengthMax, maxLength) + 1
-    var decoded = Array.ofDim[Long](batchSize * this.numBeamHypothesisToKeep, sentMaxLength.toInt)
-    var indices = Array.ofDim[Long](batchSize * this.numBeamHypothesisToKeep, sentMaxLength.toInt)
+    var decoded = Array.ofDim[Int](batchSize * this.numBeamHypothesisToKeep, sentMaxLength.toInt)
+    var indices = Array.ofDim[Int](batchSize * this.numBeamHypothesisToKeep, sentMaxLength.toInt)
 
     if (sentLengths.min != sentLengths.max) {
       decoded = decoded.map(each => each.map(_ => padTokenId))
     }
-    indices = indices.map(each => each.map(_ => -1L))
+    indices = indices.map(each => each.map(_ => -1))
     for (i <- best.indices) {
       val hypo = best(i)
       val bestIdx = bestIndices(i)
