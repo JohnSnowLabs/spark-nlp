@@ -151,9 +151,10 @@ class BertForZeroShotClassification(AnnotatorModel,
         return self._set(maxSentenceLength=value)
 
     def setCoalesceSentences(self, value):
-        """Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging probabilities in all sentences.
-        Due to max sequence length limit in almost all transformer models such as BERT (512 tokens), this parameter helps feeding all the sentences
-        into the model and averaging all the probabilities for the entire document instead of probabilities per sentence. (Default: true)
+        """Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging
+        probabilities in all sentences. Due to max sequence length limit in almost all transformer models such as BERT
+        (512 tokens), this parameter helps to feed all the sentences into the model and averaging all the probabilities
+        for the entire document instead of probabilities per sentence. (Default: true)
 
         Parameters
         ----------
