@@ -227,6 +227,11 @@ private[johnsnowlabs] class Bart(
 
     tensorEncoder.clearTensors()
     tensorEncoder.clearSession(encoderOuts)
+    decoderEncoderStateTensorResources.clearTensors()
+    decoderEncoderStateTensors.close()
+    encoderAttentionMaskTensors.close()
+    encoderInputTensors.close()
+
     modelOutputs
 
   }
@@ -845,9 +850,11 @@ private[johnsnowlabs] class Bart(
       .grouped(decoderInputLength)
       .toArray
     val nextTokenLogits = for (decoderOutput <- decoderOutputs) yield decoderOutput.last
+    decoderOuts.foreach(_.close())
     tensorDecoder.clearTensors()
     tensorDecoder.clearSession(decoderOuts)
     decoderInputTensors.close()
+    decoderAttentionMaskTensors.close()
     nextTokenLogits
   }
 }
