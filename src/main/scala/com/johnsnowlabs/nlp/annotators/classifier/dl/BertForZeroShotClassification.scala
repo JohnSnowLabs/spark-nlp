@@ -202,7 +202,7 @@ class BertForZeroShotClassification(override val uid: String)
   val coalesceSentences = new BooleanParam(
     this,
     "coalesceSentences",
-    "If sets to true the output of all sentences will be averaged to one output instead of one output per sentence. Default to true.")
+    "If sets to true the output of  all sentences will be averaged to one output instead of one output per sentence. Defaults to false.")
 
   /** @group setParam */
   def setCoalesceSentences(value: Boolean): this.type = set(coalesceSentences, value)
