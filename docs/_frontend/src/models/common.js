@@ -1,6 +1,7 @@
 export const SEARCH_ORIGIN = process.env.SEARCH_ORIGIN;
+export const ORIGIN = process.env.ORIGIN;
 
-export const toSearchString = (params) => {
+export const toSearchString = (params, includeOrigin = true) => {
   const searchParams = Object.keys(params).reduce((acc, k) => {
     if (params[k]) {
       switch (k) {
@@ -34,6 +35,9 @@ export const toSearchString = (params) => {
     return acc;
   }, new URLSearchParams());
 
+  if (includeOrigin && ORIGIN) {
+    searchParams.append('origin', ORIGIN);
+  }
   const search = searchParams.toString();
   return search ? '?' + search : '';
 };
