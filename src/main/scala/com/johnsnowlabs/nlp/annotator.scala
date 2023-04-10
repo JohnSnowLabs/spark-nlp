@@ -29,12 +29,7 @@ import com.johnsnowlabs.nlp.annotators.coref.{
   ReadSpanBertCorefTensorflowModel,
   ReadablePretrainedSpanBertCorefModel
 }
-import com.johnsnowlabs.nlp.annotators.cv.{
-  ReadSwinForImageDLModel,
-  ReadViTForImageDLModel,
-  ReadablePretrainedSwinForImageModel,
-  ReadablePretrainedViTForImageModel
-}
+import com.johnsnowlabs.nlp.annotators.cv._
 import com.johnsnowlabs.nlp.annotators.er.ReadablePretrainedEntityRuler
 import com.johnsnowlabs.nlp.annotators.ld.dl.{
   ReadLanguageDetectorDLTensorflowModel,
@@ -645,6 +640,13 @@ package object annotator {
       extends ReadablePretrainedSwinForImageModel
       with ReadSwinForImageDLModel
 
+  type ConvNextForImageClassification =
+    com.johnsnowlabs.nlp.annotators.cv.ConvNextForImageClassification
+
+  object ConvNextForImageClassification
+      extends ReadablePretrainedConvNextForImageModel
+      with ReadConvNextForImageDLModel
+
   type CamemBertForQuestionAnswering =
     com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForQuestionAnswering
 
@@ -676,5 +678,18 @@ package object annotator {
   type Chunk2Doc = com.johnsnowlabs.nlp.annotators.Chunk2Doc
 
   object Chunk2Doc extends DefaultParamsReadable[Chunk2Doc]
+
+  type BartTransformer = com.johnsnowlabs.nlp.annotators.seq2seq.BartTransformer
+
+  object BartTransformer
+      extends ReadablePretrainedBartTransformerModel
+      with ReadBartTransformerDLModel
+
+  type BertForZeroShotClassification =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.BertForZeroShotClassification
+
+  object BertForZeroShotClassification
+      extends ReadablePretrainedBertForZeroShotModel
+      with ReadBertForZeroShotDLModel
 
 }

@@ -37,9 +37,9 @@ import org.apache.spark.ml.util.Identifiable
   * The default model is `"pos_anc"`, if no name is provided.
   *
   * For available pretrained models please see the
-  * [[https://nlp.johnsnowlabs.com/models?task=Part+of+Speech+Tagging Models Hub]]. Additionally,
+  * [[https://sparknlp.org/models?task=Part+of+Speech+Tagging Models Hub]]. Additionally,
   * pretrained pipelines are available for this module, see
-  * [[https://nlp.johnsnowlabs.com/docs/en/pipelines Pipelines]].
+  * [[https://sparknlp.org/docs/en/pipelines Pipelines]].
   *
   * For extended examples of usage, see the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/french/Train-Perceptron-French.ipynb Examples]].

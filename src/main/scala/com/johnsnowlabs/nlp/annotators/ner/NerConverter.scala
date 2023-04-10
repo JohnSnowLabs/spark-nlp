@@ -141,7 +141,19 @@ class NerConverter(override val uid: String)
     */
   def setPreservePosition(value: Boolean): this.type = set(preservePosition, value)
 
-  setDefault(preservePosition -> true)
+  /** set this to true if your NER tags coming from a model that does not have a IOB/IOB2 schema
+    *
+    * @group param
+    */
+  val nerHasNoSchema: BooleanParam = new BooleanParam(
+    this,
+    "nerHasNoSchema",
+    "set this to true if your NER tags coming from a model that does not have a IOB/IOB2 schema")
+
+  /** @group setParam */
+  def setNerHasNoSchema(value: Boolean): this.type = set(nerHasNoSchema, value)
+
+  setDefault(preservePosition -> true, nerHasNoSchema -> false)
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
     val sentences = NerTagged.unpack(annotations)
@@ -150,7 +162,12 @@ class NerConverter(override val uid: String)
         b.indexedTaggedWords.exists(c => c.begin >= a.begin && c.end <= a.end)))
 
     val entities = sentences.zip(docs.zipWithIndex).flatMap { case (sentence, doc) =>
-      NerTagsEncoding.fromIOB(sentence, doc._1, sentenceIndex = doc._2, $(preservePosition))
+      NerTagsEncoding.fromIOB(
+        sentence,
+        doc._1,
+        sentenceIndex = doc._2,
+        originalOffset = $(preservePosition),
+        nerHasNoSchema = $(nerHasNoSchema))
     }
 
     entities

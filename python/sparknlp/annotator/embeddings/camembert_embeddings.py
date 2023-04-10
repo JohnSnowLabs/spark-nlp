@@ -39,7 +39,7 @@ class CamemBertEmbeddings(AnnotatorModel,
         The default model is ``"camembert_base"``, if no name is provided.
 
         For available pretrained models please see the
-        `Models Hub <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
+        `Models Hub <https://sparknlp.org/models?task=Embeddings>`__.
 
         For extended examples of usage, see the
         `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dl-ner/ner_bert.ipynb>`__

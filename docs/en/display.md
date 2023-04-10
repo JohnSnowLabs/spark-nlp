@@ -43,7 +43,7 @@ A complete guideline on how to use the Spark NLP Display library is available <a
 
 ### Visualize a dependency tree
 
-For visualizing a dependency trees generated with <a href="https://nlp.johnsnowlabs.com/docs/en/annotators#dependency-parsers">DependencyParserApproach</a> you can use the following code.
+For visualizing a dependency trees generated with <a href="https://sparknlp.org/docs/en/annotators#dependency-parsers">DependencyParserApproach</a> you can use the following code.
 
 
 ```bash

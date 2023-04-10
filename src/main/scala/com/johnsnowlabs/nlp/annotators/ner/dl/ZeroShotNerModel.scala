@@ -51,7 +51,7 @@ import scala.collection.JavaConverters._
   * }}}
   *
   * For available pretrained models please see the
-  * [[https://nlp.johnsnowlabs.com/models?task=Zero-Shot-NER Models Hub]].
+  * [[https://sparknlp.org/models?task=Zero-Shot-NER Models Hub]].
   *
   * ==Example==
   * {{{

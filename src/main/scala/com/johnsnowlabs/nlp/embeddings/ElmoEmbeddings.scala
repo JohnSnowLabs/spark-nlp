@@ -43,7 +43,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   * The default model is `"elmo"`, if no name is provided.
   *
   * For available pretrained models please see the
-  * [[https://nlp.johnsnowlabs.com/models?task=Embeddings Models Hub]].
+  * [[https://sparknlp.org/models?task=Embeddings Models Hub]].
   *
   * The pooling layer can be set with `setPoolingLayer` to the following values:
   *   - `"word_emb"`: the character-based word representations with shape `[batch_size,
@@ -129,7 +129,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   * }}}
   *
   * @see
-  *   [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of other
+  *   [[https://sparknlp.org/docs/en/annotators Annotators Main Page]] for a list of other
   *   transformer based embeddings
   * @param uid
   *   required uid for storing annotator to disk

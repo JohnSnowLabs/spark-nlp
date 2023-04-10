@@ -63,7 +63,7 @@ import org.apache.spark.ml.util.Identifiable
   * }}}
   * The default model is `"wordseg_pku"`, default language is `"zh"`, if no values are provided.
   * For available pretrained models please see the
-  * [[https://nlp.johnsnowlabs.com/models?task=Word+Segmentation Models Hub]].
+  * [[https://sparknlp.org/models?task=Word+Segmentation Models Hub]].
   *
   * For extended examples of usage, see the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/jupyter/annotation/chinese/word_segmentation/words_segmenter_demo.ipynb Examples]]

@@ -24,7 +24,7 @@ The default model is `"multiclassifierdl_use_toxic"`, if no name is provided. It
 [UniversalSentenceEncoder](/docs/en/transformers#universalsentenceencoder) and classifies toxic comments.
 The data is based on the
 [Jigsaw Toxic Comment Classification Challenge](https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/overview).
-For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Text+Classification).
+For available pretrained models please see the [Models Hub](https://sparknlp.org/models?task=Text+Classification).
 
 In machine learning, multi-label classification and the strongly related problem of multi-output classification are
 variants of the classification problem where multiple labels may be assigned to each instance. Multi-label

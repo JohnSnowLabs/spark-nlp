@@ -51,7 +51,8 @@ class Date2ChunkTestSpec(unittest.TestCase):
 
         date_to_chunk = Date2Chunk() \
             .setInputCols(['date']) \
-            .setOutputCol("date_chunk")
+            .setOutputCol("date_chunk") \
+            .setEntityName("DATUM")
 
         pipeline = Pipeline(stages=[
             document_assembler,

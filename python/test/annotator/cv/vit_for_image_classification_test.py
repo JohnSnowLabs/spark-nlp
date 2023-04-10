@@ -22,6 +22,19 @@ from test.util import SparkSessionForTest
 
 
 class ViTForImageClassificationTestSetUp(unittest.TestCase):
+    gold_standards = {
+        "bluetick.jpg": "bluetick",
+        "chihuahua.jpg": "Chihuahua",
+        "egyptian_cat.jpeg": "Egyptian cat",
+        "hen.JPEG": "hen",
+        "hippopotamus.JPEG": "hippopotamus, hippo, river horse, Hippopotamus amphibius",
+        "junco.JPEG": "junco, snowbird",
+        "ostrich.JPEG": "ostrich, Struthio camelus",
+        "ox.JPEG": "ox",
+        "palace.JPEG": "palace",
+        "tractor.JPEG": "tractor",
+    }
+
     def setUp(self):
         self.images_path = os.getcwd() + "/../src/test/resources/image/"
         self.data = SparkSessionForTest.spark.read.format("image") \
@@ -50,10 +63,11 @@ class ViTForImageClassificationTestSpec(ViTForImageClassificationTestSetUp, unit
         super().setUp()
 
     def runTest(self):
+        result = self.model.transform(self.data).select("image.origin", "class.result").collect()
 
-        result_df = self.model.transform(self.data)
-
-        self.assertTrue(result_df.select("class").count() > 0)
+        for row in result:
+            file_name = row["origin"].rsplit("/", 1)[-1]
+            self.assertEqual(self.gold_standards[file_name], row["result"][0])
 
 
 @pytest.mark.slow

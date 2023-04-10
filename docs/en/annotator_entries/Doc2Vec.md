@@ -24,7 +24,7 @@ val embeddings = Doc2VecModel.pretrained()
 ```
 The default model is `"doc2vec_gigaword_300"`, if no name is provided.
 
-For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models).
+For available pretrained models please see the [Models Hub](https://sparknlp.org/models).
 
 **Sources** :
 

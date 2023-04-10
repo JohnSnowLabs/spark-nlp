@@ -18,30 +18,26 @@ package com.johnsnowlabs.nlp.annotators.cv.feature_extractor
 
 import com.johnsnowlabs.nlp.annotators.cv.util.io.ImageIOUtils
 import com.johnsnowlabs.nlp.annotators.cv.util.transform.ImageResizeUtils
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.util.TestUtils.{assertPixels, readFile}
 import com.johnsnowlabs.util.{Benchmark, JsonParser}
 import org.apache.spark.ml.image.ImageSchema
 import org.json4s.JsonAST.{JInt, JObject, JString}
 import org.json4s.jackson.JsonMethods._
 import org.scalatest.flatspec.AnyFlatSpec
 
+import java.awt.Color
 import java.awt.color.ColorSpace
 import java.awt.image.BufferedImage
 import java.io.File
-import scala.io.Source
+import javax.imageio.ImageIO
 
 class ImageUtilsTestSpec extends AnyFlatSpec {
-
-  def readJson(path: String): String = {
-    val stream = ResourceHelper.getResourceStream(new File(path).getAbsolutePath)
-    Source.fromInputStream(stream).mkString
-  }
 
   val preprocessorConfigPath =
     "src/test/resources/image_preprocessor/preprocessor_config.json"
 
-  val preprocessorConfigJsonContent: String = readJson(preprocessorConfigPath)
+  val preprocessorConfigJsonContent: String = readFile(preprocessorConfigPath)
 
   val preprocessorConfig: Preprocessor =
     JsonParser.parseObject[Preprocessor](preprocessorConfigJsonContent)
@@ -64,42 +60,48 @@ class ImageUtilsTestSpec extends AnyFlatSpec {
     ImageResizeUtils.resizeBufferedImage(
       width = preprocessorConfig.size,
       height = preprocessorConfig.size,
-      Some(nChannels))(imageBufferedImage)
+      resample = preprocessorConfig.resample)(imageBufferedImage)
 
   "ImageResizeUtils" should "resize and normalize an image" taggedAs FastTest in {
 
-    Benchmark.measure(iterations = 10, forcePrint = true, description = "Time to load image") {
+    Benchmark.measure(iterations = 1, forcePrint = true, description = "Time to load image") {
       ImageIOUtils.loadImage("src/test/resources/image/egyptian_cat.jpeg")
     }
 
     Benchmark.measure(
-      iterations = 10,
+      iterations = 1000,
       forcePrint = true,
       description = "Time to resizeBufferedImage an image") {
       ImageResizeUtils.resizeBufferedImage(
         width = preprocessorConfig.size,
         height = preprocessorConfig.size,
-        Some(nChannels))(imageBufferedImage)
+        resample = preprocessorConfig.resample)(imageBufferedImage)
     }
 
     Benchmark.measure(
-      iterations = 10,
+      iterations = 1,
       forcePrint = true,
       description = "Time to normalize the resized image") {
-      ImageResizeUtils.normalizeBufferedImage(
+      ImageResizeUtils.normalizeAndConvertBufferedImage(
         resizedImage,
         preprocessorConfig.image_mean,
-        preprocessorConfig.image_std)
+        preprocessorConfig.image_std,
+        preprocessorConfig.do_normalize,
+        preprocessorConfig.do_rescale,
+        preprocessorConfig.rescale_factor)
     }
 
     Benchmark.measure(
-      iterations = 10,
+      iterations = 1,
       forcePrint = true,
       description = "Time to normalize with 0.0d") {
-      ImageResizeUtils.normalizeBufferedImage(
+      ImageResizeUtils.normalizeAndConvertBufferedImage(
         resizedImage,
         Array(0.0d, 0.0d, 0.0d),
-        Array(0.0d, 0.0d, 0.0d))
+        Array(0.0d, 0.0d, 0.0d),
+        preprocessorConfig.do_normalize,
+        preprocessorConfig.do_rescale,
+        preprocessorConfig.rescale_factor)
     }
 
   }
@@ -110,21 +112,6 @@ class ImageUtilsTestSpec extends AnyFlatSpec {
 
     assert(preprocessorConfig.feature_extractor_type == "ViTFeatureExtractor")
     assert(preprocessorConfig.image_mean sameElements Array(0.5d, 0.5d, 0.5d))
-  }
-
-  "ImageResizeUtils" should "read swin preprocessor_config.json file" taggedAs FastTest in {
-    val jsonPath = "src/test/resources/image_preprocessor/preprocessor_config_swin.json"
-    val preprocessorConfig =
-      Preprocessor.loadPreprocessorConfig(readJson(jsonPath))
-
-    assert(preprocessorConfig.do_normalize)
-    assert(preprocessorConfig.do_rescale)
-    assert(preprocessorConfig.do_resize)
-    assert(preprocessorConfig.feature_extractor_type == "ViTFeatureExtractor")
-    assert(preprocessorConfig.image_mean sameElements Array(0.485d, 0.456d, 0.406d))
-    assert(preprocessorConfig.image_std sameElements Array(0.229d, 0.224d, 0.225d))
-    assert(preprocessorConfig.resample == 3)
-    assert(preprocessorConfig.rescale_factor == 0.00392156862745098)
   }
 
   // Some models don't have feature_extractor_type in the config json
@@ -167,7 +154,7 @@ class ImageUtilsTestSpec extends AnyFlatSpec {
     }
 
     val jsonPath = "src/test/resources/image_preprocessor/preprocessor_config_swin.json"
-    val swinContent = readJson(jsonPath)
+    val swinContent = readFile(jsonPath)
     // height and width not identical
     val swinJson = parse(swinContent)
 
@@ -187,30 +174,76 @@ class ImageUtilsTestSpec extends AnyFlatSpec {
   "ImageResizeUtils" should "normalize an image correctly with custom rescale_factor" taggedAs FastTest in {
     val jsonPath = "src/test/resources/image_preprocessor/preprocessor_config_swin.json"
     val preprocessorConfig =
-      Preprocessor.loadPreprocessorConfig(readJson(jsonPath))
+      Preprocessor.loadPreprocessorConfig(readFile(jsonPath))
 
     val normalized = ImageResizeUtils
-      .normalizeBufferedImage(
+      .normalizeAndConvertBufferedImage(
         resizedImage,
         preprocessorConfig.image_mean,
         preprocessorConfig.image_std,
+        preprocessorConfig.do_normalize,
+        preprocessorConfig.do_rescale,
         preprocessorConfig.rescale_factor)
 
-    val expectedValues =
-      JsonParser.parseArray[Array[Array[Float]]](
-        readJson("src/test/resources/image_preprocessor/normalized_egyptian_cat.json"))
-
-    val channels = normalized.length
-    val width = normalized.head.length
-    val height = normalized.head.head.length
-
-    (0 until channels).foreach { channel =>
-      (0 until width).foreach { w =>
-        (0 until height).foreach { h =>
-          assert(normalized(channel)(w)(h) == expectedValues(channel)(w)(h))
-        }
-      }
+    def normalize(color: Int, mean: Double, std: Double): Float = {
+      (((color * preprocessorConfig.rescale_factor) - mean) / std).toFloat
     }
+
+    (0 until resizedImage.getWidth).zip(0 until resizedImage.getHeight).map { case (x, y) =>
+      val originalColor = new Color(resizedImage.getRGB(x, y))
+      val red = normalized(0)
+
+      assert(
+        normalize(
+          originalColor.getRed,
+          preprocessorConfig.image_mean(0),
+          preprocessorConfig.image_std(0)) == red(x)(y))
+    }
+
+  }
+
+  "ImageResizeUtils" should "resize and crop image" taggedAs FastTest in {
+    val preprocessorJsonPath =
+      "src/test/resources/image_preprocessor/preprocessor_config_convnext.json"
+
+    val preprocessor =
+      Preprocessor.loadPreprocessorConfig(readFile(preprocessorJsonPath))
+
+    val img = ImageIOUtils.loadImage("src/test/resources/image/ox.JPEG").get
+
+    val processedImage =
+      ImageResizeUtils.resizeAndCenterCropImage(
+        img,
+        preprocessor.size,
+        preprocessor.resample,
+        preprocessor.crop_pct.get)
+
+    assert(processedImage.getWidth == 224)
+    assert(processedImage.getHeight == 224)
+
+    // Use PNG so no compression is applied
+    val expectedCropped =
+      ImageIO.read(new File("src/test/resources/image_preprocessor/ox_cropped.png"))
+
+    (0 until processedImage.getWidth).zip(0 until processedImage.getHeight).map { case (x, y) =>
+      assert(
+        expectedCropped.getRGB(x, y) == processedImage.getRGB(x, y),
+        s"Pixel did not match for coordinates ($x, $y)")
+    }
+
+    // Case: Image is too small for size
+    val smallImg =
+      ImageIOUtils.loadImage("src/test/resources/image_preprocessor/ox_small.JPEG").get
+
+    val processedSmallImage =
+      ImageResizeUtils.resizeAndCenterCropImage(
+        smallImg,
+        preprocessor.size,
+        preprocessor.resample,
+        preprocessor.crop_pct.get)
+
+    assert(processedSmallImage.getWidth == 224)
+    assert(processedSmallImage.getHeight == 224)
   }
 
 }

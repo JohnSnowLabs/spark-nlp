@@ -51,7 +51,7 @@ import org.json4s.jackson.JsonMethods._
   * provided.
   *
   * For available pretrained models please see the
-  * [[https://nlp.johnsnowlabs.com/models?task=Image+Classification Models Hub]].
+  * [[https://sparknlp.org/models?task=Image+Classification Models Hub]].
   *
   * Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To
   * see which models are compatible and how to import them see
@@ -169,13 +169,13 @@ class SwinForImageClassification(override val uid: String)
   def setDoRescale(value: Boolean): this.type = set(this.doRescale, value)
 
   /** @group getParam */
-  private def getDoRescale: Boolean = $(doRescale)
+  def getDoRescale: Boolean = $(doRescale)
 
   /** @group setParam */
   def setRescaleFactor(value: Double): this.type = set(this.rescaleFactor, value)
 
   /** @group getParam */
-  private def getRescaleFactor: Double = $(rescaleFactor)
+  def getRescaleFactor: Double = $(rescaleFactor)
 
   setDefault(
     batchSize -> 2,
@@ -212,15 +212,15 @@ class SwinForImageClassification(override val uid: String)
           images = noneEmptyImages,
           batchSize = $(batchSize),
           preprocessor = Preprocessor(
-            getDoResize,
-            getDoNormalize,
-            getFeatureExtractorType,
-            getImageMean,
-            getImageStd,
-            getResample,
-            getSize,
-            getDoRescale,
-            getRescaleFactor))
+            do_normalize = getDoNormalize,
+            do_resize = getDoResize,
+            feature_extractor_type = getFeatureExtractorType,
+            image_mean = getImageMean,
+            image_std = getImageStd,
+            resample = getResample,
+            size = getSize,
+            do_rescale = getDoRescale,
+            rescale_factor = getRescaleFactor))
       } else {
         Seq.empty[Annotation]
       }
@@ -244,7 +244,6 @@ class SwinForImageClassification(override val uid: String)
   }
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
-    super.onWrite(path, spark)
     writeTensorflowModelV2(
       path,
       spark,
@@ -287,13 +286,19 @@ trait ReadSwinForImageDLModel extends ReadTensorflowModel {
       spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_image_classification_tf")
-    instance.setModelIfNotSet(
-      spark,
-      tf,
-      instance.getImageMean,
-      instance.getImageStd,
-      instance.getResample,
-      instance.getSize)
+
+    val preprocessor = Preprocessor(
+      do_normalize = instance.getDoNormalize,
+      do_resize = instance.getDoRescale,
+      feature_extractor_type = "SwinFeatureExtractor",
+      image_mean = instance.getImageMean,
+      image_std = instance.getImageStd,
+      resample = instance.getResample,
+      do_rescale = instance.getDoRescale,
+      rescale_factor = instance.getRescaleFactor,
+      size = instance.getSize)
+
+    instance.setModelIfNotSet(spark, tf, preprocessor)
   }
 
   addReader(readTensorflow)
@@ -343,13 +348,7 @@ trait ReadSwinForImageDLModel extends ReadTensorflowModel {
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(
-            spark,
-            wrapper,
-            preprocessorConfig.image_mean,
-            preprocessorConfig.image_std,
-            preprocessorConfig.resample,
-            preprocessorConfig.size)
+          .setModelIfNotSet(spark, wrapper, preprocessorConfig)
 
       case _ =>
         throw new Exception(notSupportedEngineError)

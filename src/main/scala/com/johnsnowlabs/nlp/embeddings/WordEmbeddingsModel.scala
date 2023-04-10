@@ -43,7 +43,7 @@ import org.apache.spark.sql.{DataFrame, Dataset, Row}
   *     .setOutputCol("embeddings")
   * }}}
   * The default model is `"glove_100d"`, if no name is provided. For available pretrained models
-  * please see the [[https://nlp.johnsnowlabs.com/models?task=Embeddings Models Hub]].
+  * please see the [[https://sparknlp.org/models?task=Embeddings Models Hub]].
   *
   * There are also two convenient functions to retrieve the embeddings coverage with respect to
   * the transformed dataset:
@@ -125,8 +125,8 @@ import org.apache.spark.sql.{DataFrame, Dataset, Row}
   * @see
   *   [[SentenceEmbeddings]] to combine embeddings into a sentence-level representation
   * @see
-  *   [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of
-  *   transformer based embeddings
+  *   [[https://sparknlp.org/docs/en/annotators Annotators Main Page]] for a list of transformer
+  *   based embeddings
   * @groupname anno Annotator types
   * @groupdesc anno
   *   Required input and expected output annotator types
@@ -188,7 +188,15 @@ class WordEmbeddingsModel(override val uid: String)
 
   private var memoryStorage: Option[Broadcast[Map[BytesKey, Array[Byte]]]] = None
 
-  def getInMemoryStorage: Map[BytesKey, Array[Byte]] = memoryStorage.get.value
+  private def getInMemoryStorage: Map[BytesKey, Array[Byte]] = {
+    memoryStorage.map(_.value).getOrElse {
+      if ($(enableInMemoryStorage)) {
+        getReader(Database.EMBEDDINGS).exportStorageToMap()
+      } else {
+        Map.empty
+      }
+    }
+  }
 
   override def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
     if (this.memoryStorage.isEmpty && $(enableInMemoryStorage)) {
@@ -229,7 +237,7 @@ class WordEmbeddingsModel(override val uid: String)
     WordpieceEmbeddingsSentence.pack(withEmbeddings)
   }
 
-  def retrieveEmbeddings(token: String): (Option[Array[Float]], Array[Float]) = {
+  private def retrieveEmbeddings(token: String): (Option[Array[Float]], Array[Float]) = {
     if ($(enableInMemoryStorage)) {
       val zeroArray = Array.fill[Float]($(dimension))(0f)
       var embeddings: Option[Array[Float]] = None

@@ -43,7 +43,7 @@ class GPT2Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
 
     The default model is ``"gpt2"``, if no name is provided. For available
     pretrained models please see the `Models Hub
-    <https://nlp.johnsnowlabs.com/models?q=gpt2>`__.
+    <https://sparknlp.org/models?q=gpt2>`__.
 
     ====================== ======================
     Input Annotation types Output Annotation type

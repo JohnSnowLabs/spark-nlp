@@ -34,7 +34,7 @@ class DeBertaForSequenceClassification(AnnotatorModel,
     provided.
 
     For available pretrained models please see the `Models Hub
-    <https://nlp.johnsnowlabs.com/models?task=Text+Classification>`__.
+    <https://sparknlp.org/models?task=Text+Classification>`__.
 
     To see which models are compatible and how to import them see
     `Import Transformers into Spark NLP 🚀
@@ -60,7 +60,7 @@ class DeBertaForSequenceClassification(AnnotatorModel,
         Max sentence length to process, by default 128
     coalesceSentences
         Instead of 1 class per sentence (if inputCols is `sentence`) output
-        1 class per document by averaging probabilities in all sentences, by 
+        1 class per document by averaging probabilities in all sentences, by
         default False.
 
     Examples

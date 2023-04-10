@@ -187,9 +187,8 @@ class HasImageFeatureProperties:
                      TypeConverters.toListFloat)
 
     resample = Param(Params._dummy(), "resample",
-                     "An optional resampling filter. This can be one of PIL.Image.NEAREST, PIL.Image.BOX, "
-                     "PIL.Image.BILINEAR, PIL.Image.HAMMING, PIL.Image.BICUBIC or PIL.Image.LANCZOS. Only has an "
-                     "effect if do_resize is set to True",
+                     "An optional resampling filter. This can be one of PIL.Image.NEAREST, PIL.Image.BILINEAR or "
+                     "PIL.Image.BICUBIC. Only has an effect if do_resize is set to True.",
                      TypeConverters.toInt)
 
     size = Param(Params._dummy(), "size",
@@ -254,9 +253,8 @@ class HasImageFeatureProperties:
         Parameters
         ----------
         value : int
-            An optional resampling filter. This can be one of PIL.Image.NEAREST,
-        PIL.Image.BOX, PIL.Image.BILINEAR PIL.Image.HAMMING, PIL.Image.BICUBIC or PIL.Image.LANCZOS. Only has an
-        effect if do_resize is set to True
+            Resampling filter for resizing. This can be one of `PIL.Image.NEAREST`, `PIL.Image.BILINEAR` or
+            `PIL.Image.BICUBIC`. Only has an effect if `do_resize` is set to `True`.
         """
         return self._set(resample=value)
 
@@ -391,3 +389,47 @@ class HasEngine:
            Deep Learning engine used for this model"
         """
         return self.getOrDefault(self.engine)
+
+
+class HasCandidateLabelsProperties:
+    candidateLabels = Param(Params._dummy(), "candidateLabels",
+                            "Deep Learning engine used for this model",
+                            typeConverter=TypeConverters.toListString)
+
+    contradictionIdParam = Param(Params._dummy(), "contradictionIdParam",
+                                 "contradictionIdParam",
+                                 typeConverter=TypeConverters.toInt)
+
+    entailmentIdParam = Param(Params._dummy(), "entailmentIdParam",
+                              "contradictionIdParam",
+                              typeConverter=TypeConverters.toInt)
+
+    def setCandidateLabels(self, v):
+        """Sets candidateLabels.
+
+        Parameters
+        ----------
+        v : list[string]
+            candidateLabels
+        """
+        return self._set(candidateLabels=v)
+
+    def setContradictionIdParam(self, v):
+        """Sets contradictionIdParam.
+
+        Parameters
+        ----------
+        v : int
+            contradictionIdParam
+        """
+        return self._set(contradictionIdParam=v)
+
+    def setEntailmentIdParam(self, v):
+        """Sets entailmentIdParam.
+
+        Parameters
+        ----------
+        v : int
+            entailmentIdParam
+        """
+        return self._set(entailmentIdParam=v)

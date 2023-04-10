@@ -24,7 +24,7 @@ val spellChecker = ContextSpellCheckerModel.pretrained()
   .setOutputCol("checked")
 ```
 The default model is `"spellcheck_dl"`, if no name is provided.
-For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Spell+Check).
+For available pretrained models please see the [Models Hub](https://sparknlp.org/models?task=Spell+Check).
 
 For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/italian/Training_Context_Spell_Checker_Italian.ipynb)
 and the [ContextSpellCheckerTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerTestSpec.scala).

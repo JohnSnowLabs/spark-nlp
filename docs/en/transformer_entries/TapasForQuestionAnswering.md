@@ -17,7 +17,7 @@ val tapas = TapasForQuestionAnswering.pretrained()
 The default model is `"table_qa_tapas_base_finetuned_wtq"`, if no name is provided.
 
 For available pretrained models please see the
-[Models Hub](https://nlp.johnsnowlabs.com/models?task=Table+Question+Understanding).
+[Models Hub](https://sparknlp.org/models?task=Table+Question+Understanding).
 {%- endcapture -%}
 
 {%- capture input_anno -%}

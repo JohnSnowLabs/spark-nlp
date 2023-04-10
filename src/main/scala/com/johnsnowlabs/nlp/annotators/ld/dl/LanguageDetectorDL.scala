@@ -49,7 +49,7 @@ import scala.collection.immutable.ListMap
   * }}}
   * The default model is `"ld_wiki_tatoeba_cnn_21"`, default language is `"xx"` (meaning
   * multi-lingual), if no values are provided. For available pretrained models please see the
-  * [[https://nlp.johnsnowlabs.com/models?task=Language+Detection Models Hub]].
+  * [[https://sparknlp.org/models?task=Language+Detection Models Hub]].
   *
   * For extended examples of usage, see the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/language-detection/Language_Detection_and_Indentification.ipynb Examples]]

@@ -21,7 +21,7 @@ elmo = ElmoEmbeddings.load("/elmo_en_2.4.0_2.4_1580488815299") \
 ```
 The default model is `"elmo"`, if no name is provided.
 
-For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Embeddings).
+For available pretrained models please see the [Models Hub](https://sparknlp.org/models?task=Embeddings).
 
 The pooling layer can be set with `setPoolingLayer` to the following values:
   - `"word_emb"`: the character-based word representations with shape `[batch_size, max_length, 512]`.

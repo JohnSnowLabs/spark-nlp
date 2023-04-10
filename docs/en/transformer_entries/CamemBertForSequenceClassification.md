@@ -18,7 +18,7 @@ val sequenceClassifier = CamemBertForSequenceClassification.pretrained()
 The default model is `camembert_base_sequence_classifier_allocine"`, if no name is provided.
 
 For available pretrained models please see the
-[Models Hub](https://nlp.johnsnowlabs.com/models?task=Text+Classification).
+[Models Hub](https://sparknlp.org/models?task=Text+Classification).
 
 To see which models are compatible and how to import them see
 https://github.com/JohnSnowLabs/spark-nlp/discussions/5669 and to see more extended
