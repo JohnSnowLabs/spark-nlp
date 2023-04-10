@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.3.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.classifier.dl</title>
-          <meta name="description" content="Spark NLP 4.3.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.classifier.dl" />
-          <meta name="keywords" content="Spark NLP 4.3.2 ScalaDoc com.johnsnowlabs.nlp.annotators.classifier.dl" />
+          <title>Spark NLP 4.4.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.classifier.dl</title>
+          <meta name="description" content="Spark NLP 4.4.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.classifier.dl" />
+          <meta name="keywords" content="Spark NLP 4.4.0 ScalaDoc com.johnsnowlabs.nlp.annotators.classifier.dl" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.3.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.4.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -190,6 +190,10 @@
                         <a class="class" href="BertForTokenClassification.html" title="BertForTokenClassification can load Bert Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g."></a>
                         <a href="BertForTokenClassification.html" title="BertForTokenClassification can load Bert Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g.">BertForTokenClassification</a>
                       </li><li class="current-entities indented6">
+                        <a class="object" href="BertForZeroShotClassification$.html" title="This is the companion object of BertForZeroShotClassification."></a>
+                        <a class="class" href="BertForZeroShotClassification.html" title="BertForZeroShotClassification using a ModelForSequenceClassification trained on NLI (natural language inference) tasks."></a>
+                        <a href="BertForZeroShotClassification.html" title="BertForZeroShotClassification using a ModelForSequenceClassification trained on NLI (natural language inference) tasks.">BertForZeroShotClassification</a>
+                      </li><li class="current-entities indented6">
                         <a class="object" href="CamemBertForQuestionAnswering$.html" title="This is the companion object of CamemBertForQuestionAnswering."></a>
                         <a class="class" href="CamemBertForQuestionAnswering.html" title="CamemBertForQuestionAnswering can load CamemBERT Models with a span classification head on top for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start logits and span end logits)."></a>
                         <a href="CamemBertForQuestionAnswering.html" title="CamemBertForQuestionAnswering can load CamemBERT Models with a span classification head on top for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start logits and span end logits).">CamemBertForQuestionAnswering</a>
@@ -285,6 +289,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="ReadBertForTokenDLModel.html" title=""></a>
                         <a href="ReadBertForTokenDLModel.html" title="">ReadBertForTokenDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadBertForZeroShotDLModel.html" title=""></a>
+                        <a href="ReadBertForZeroShotDLModel.html" title="">ReadBertForZeroShotDLModel</a>
                       </li><li class="current-entities indented6">
                         <span class="separator"></span>
                         <a class="trait" href="ReadCamemBertForQADLModel.html" title=""></a>
@@ -405,6 +413,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedBertForTokenModel.html" title=""></a>
                         <a href="ReadablePretrainedBertForTokenModel.html" title="">ReadablePretrainedBertForTokenModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedBertForZeroShotModel.html" title=""></a>
+                        <a href="ReadablePretrainedBertForZeroShotModel.html" title="">ReadablePretrainedBertForZeroShotModel</a>
                       </li><li class="current-entities indented6">
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedCamemBertForQAModel.html" title=""></a>
@@ -634,7 +646,7 @@ extractive question-answering tasks like SQuAD (a linear layer on top of the hid
 output to compute span start logits and span end logits).</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> spanClassifier = AlbertForQuestionAnswering.pretrained()
   .setInputCols(<span class="std">Array</span>(<span class="lit">"document_question"</span>, <span class="lit">"document_context"</span>))
   .setOutputCol(<span class="lit">"answer"</span>)</pre><p>The default model is <code>&quot;albert_base_qa_squad2&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Question+Answering" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
+<a href="https://sparknlp.org/models?task=Question+Answering" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a> and to see more extended
 examples, see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/AlbertForQuestionAnsweringTestSpec.scala" target="_blank">AlbertForQuestionAnsweringTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
@@ -666,8 +678,8 @@ result.select(<span class="lit">"label.result"</span>).show(<span class="kw">fal
 |[Clara]              |
 ++--------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="AlbertForSequenceClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForSequenceClassification">AlbertForSequenceClassification</a> for sequence-level classification</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based classifiers</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based classifiers</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForSequenceClassification" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="AlbertForSequenceClassificationextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForSequenceClassification]withHasBatchedAnnotate[com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForSequenceClassification]withWriteTensorflowModelwithWriteSentencePieceModelwithHasCaseSensitivePropertieswithHasClassifierActivationPropertieswithHasEngine"></a><a id="AlbertForSequenceClassification:AlbertForSequenceClassification"></a>
       <span class="permalink">
@@ -689,7 +701,7 @@ head on top (a linear layer on top of the pooled output) e.g. for multi-class do
 classification tasks.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> sequenceClassifier = AlbertForSequenceClassification.pretrained()
   .setInputCols(<span class="lit">"token"</span>, <span class="lit">"document"</span>)
   .setOutputCol(<span class="lit">"label"</span>)</pre><p>The default model is <code>&quot;albert_base_sequence_classifier_imdb&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Text+Classification" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
+<a href="https://sparknlp.org/models?task=Text+Classification" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a> and to see more extended
 examples, see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/AlbertForSequenceClassificationTestSpec.scala" target="_blank">AlbertForSequenceClassification</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
@@ -727,8 +739,8 @@ result.select(<span class="lit">"label.result"</span>).show(<span class="kw">fal
 |[neg] |
 +------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="AlbertForSequenceClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForSequenceClassification">AlbertForSequenceClassification</a> for sequence-level classification</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based classifiers</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based classifiers</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForTokenClassification" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="AlbertForTokenClassificationextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForTokenClassification]withHasBatchedAnnotate[com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForTokenClassification]withWriteTensorflowModelwithWriteSentencePieceModelwithHasCaseSensitivePropertieswithHasEngine"></a><a id="AlbertForTokenClassification:AlbertForTokenClassification"></a>
       <span class="permalink">
@@ -750,7 +762,7 @@ linear layer on top of the hidden-states output) e.g. for Named-Entity-Recogniti
 tasks.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> tokenClassifier = AlbertForTokenClassification.pretrained()
   .setInputCols(<span class="lit">"token"</span>, <span class="lit">"document"</span>)
   .setOutputCol(<span class="lit">"label"</span>)</pre><p>The default model is <code>&quot;albert_base_token_classifier_conll03&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition" target="_blank">Models Hub</a>.</p><p>and the
+<a href="https://sparknlp.org/models?task=Named+Entity+Recognition" target="_blank">Models Hub</a>.</p><p>and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/AlbertForTokenClassificationTestSpec.scala" target="_blank">AlbertForTokenClassificationTestSpec</a>.
 To see which models are compatible and how to import them see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
@@ -787,8 +799,8 @@ result.select(<span class="lit">"label.result"</span>).show(<span class="kw">fal
 |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O, O, B-LOC]|
 +------------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="AlbertForTokenClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForTokenClassification">AlbertForTokenClassification</a> for token-level classification</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based classifiers</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based classifiers</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.BertForQuestionAnswering" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="BertForQuestionAnsweringextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.classifier.dl.BertForQuestionAnswering]withHasBatchedAnnotate[com.johnsnowlabs.nlp.annotators.classifier.dl.BertForQuestionAnswering]withWriteTensorflowModelwithHasCaseSensitivePropertieswithHasEngine"></a><a id="BertForQuestionAnswering:BertForQuestionAnswering"></a>
       <span class="permalink">
@@ -811,7 +823,7 @@ extractive question-answering tasks like SQuAD (a linear layer on top of the hid
 output to compute span start logits and span end logits).</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> spanClassifier = BertForQuestionAnswering.pretrained()
   .setInputCols(<span class="std">Array</span>(<span class="lit">"document_question"</span>, <span class="lit">"document_context"</span>))
   .setOutputCol(<span class="lit">"answer"</span>)</pre><p>The default model is <code>&quot;bert_base_cased_qa_squad2&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Question+Answering" target="_blank">Models Hub</a>.</p><p>Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To
+<a href="https://sparknlp.org/models?task=Question+Answering" target="_blank">Models Hub</a>.</p><p>Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To
 see which models are compatible and how to import them see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a> and to see more extended
 examples, see
@@ -844,8 +856,8 @@ result.select(<span class="lit">"label.result"</span>).show(<span class="kw">fal
 |[Clara]              |
 ++--------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="BertForSequenceClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.BertForSequenceClassification">BertForSequenceClassification</a> for span-level classification</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based classifiers</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based classifiers</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.BertForSequenceClassification" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="BertForSequenceClassificationextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.classifier.dl.BertForSequenceClassification]withHasBatchedAnnotate[com.johnsnowlabs.nlp.annotators.classifier.dl.BertForSequenceClassification]withWriteTensorflowModelwithHasCaseSensitivePropertieswithHasClassifierActivationPropertieswithHasEngine"></a><a id="BertForSequenceClassification:BertForSequenceClassification"></a>
       <span class="permalink">
@@ -867,7 +879,7 @@ head on top (a linear layer on top of the pooled output) e.g. for multi-class do
 classification tasks.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> sequenceClassifier = BertForSequenceClassification.pretrained()
   .setInputCols(<span class="lit">"token"</span>, <span class="lit">"document"</span>)
   .setOutputCol(<span class="lit">"label"</span>)</pre><p>The default model is <code>&quot;bert_base_sequence_classifier_imdb&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Text+Classification" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
+<a href="https://sparknlp.org/models?task=Text+Classification" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a> and to see more extended
 examples, see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/BertForSequenceClassificationTestSpec.scala" target="_blank">BertForSequenceClassificationTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
@@ -904,9 +916,9 @@ result.select(<span class="lit">"label.result"</span>).show(<span class="kw">fal
 |[pos] |
 |[neg] |
 +------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
-  <a href="BertForSequenceClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.BertForSequenceClassification">BertForSequenceClassification</a> for sequnece-level classification</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based classifiers</p></span></dd></dl></div>
+  <a href="BertForSequenceClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.BertForSequenceClassification">BertForSequenceClassification</a> for sequence-level classification</p></span><span class="cmt"><p>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based classifiers</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.BertForTokenClassification" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="BertForTokenClassificationextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.classifier.dl.BertForTokenClassification]withHasBatchedAnnotate[com.johnsnowlabs.nlp.annotators.classifier.dl.BertForTokenClassification]withWriteTensorflowModelwithHasCaseSensitivePropertieswithHasEngine"></a><a id="BertForTokenClassification:BertForTokenClassification"></a>
       <span class="permalink">
@@ -928,7 +940,7 @@ linear layer on top of the hidden-states output) e.g. for Named-Entity-Recogniti
 tasks.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> tokenClassifier = BertForTokenClassification.pretrained()
   .setInputCols(<span class="lit">"token"</span>, <span class="lit">"document"</span>)
   .setOutputCol(<span class="lit">"label"</span>)</pre><p>The default model is <code>&quot;bert_base_token_classifier_conll03&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
+<a href="https://sparknlp.org/models?task=Named+Entity+Recognition" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a> and to see more extended
 examples, see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/BertForTokenClassificationTestSpec.scala" target="_blank">BertForTokenClassificationTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
@@ -965,8 +977,71 @@ result.select(<span class="lit">"label.result"</span>).show(<span class="kw">fal
 |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O, O, B-LOC]|
 +------------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="BertForTokenClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.BertForTokenClassification">BertForTokenClassification</a> for token-level classification</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based classifiers</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based classifiers</p></span></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.BertForZeroShotClassification" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BertForZeroShotClassificationextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.classifier.dl.BertForZeroShotClassification]withHasBatchedAnnotate[com.johnsnowlabs.nlp.annotators.classifier.dl.BertForZeroShotClassification]withWriteTensorflowModelwithHasCaseSensitivePropertieswithHasClassifierActivationPropertieswithHasEnginewithHasCandidateLabelsProperties"></a><a id="BertForZeroShotClassification:BertForZeroShotClassification"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/BertForZeroShotClassification.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="BertForZeroShotClassification using a ModelForSequenceClassification trained on NLI (natural language inference) tasks." href="BertForZeroShotClassification.html"><span class="name">BertForZeroShotClassification</span></a><span class="result"> extends <a href="../../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="BertForZeroShotClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.BertForZeroShotClassification">BertForZeroShotClassification</a>] with <a href="../../../HasBatchedAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasBatchedAnnotate">HasBatchedAnnotate</a>[<a href="BertForZeroShotClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.BertForZeroShotClassification">BertForZeroShotClassification</a>] with <a href="../../../../ml/tensorflow/WriteTensorflowModel.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.WriteTensorflowModel">WriteTensorflowModel</a> with <a href="../../../HasCaseSensitiveProperties.html" class="extype" name="com.johnsnowlabs.nlp.HasCaseSensitiveProperties">HasCaseSensitiveProperties</a> with <a href="../../../HasClassifierActivationProperties.html" class="extype" name="com.johnsnowlabs.nlp.HasClassifierActivationProperties">HasClassifierActivationProperties</a> with <a href="../../../HasEngine.html" class="extype" name="com.johnsnowlabs.nlp.HasEngine">HasEngine</a> with <a href="../../../HasCandidateLabelsProperties.html" class="extype" name="com.johnsnowlabs.nlp.HasCandidateLabelsProperties">HasCandidateLabelsProperties</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">BertForZeroShotClassification using a <code>ModelForSequenceClassification</code> trained on NLI (natural
+language inference) tasks.</p><div class="fullcomment"><div class="comment cmt"><p>BertForZeroShotClassification using a <code>ModelForSequenceClassification</code> trained on NLI (natural
+language inference) tasks. Equivalent of <code>BertForSequenceClassification</code> models, but these
+models don't require a hardcoded number of potential classes, they can be chosen at runtime.
+It usually means it's slower but it is much more flexible.</p><p>Any combination of sequences and labels can be passed and each combination will be posed as a
+premise/hypothesis pair and passed to the pretrained model.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> sequenceClassifier = BertForZeroShotClassification.pretrained()
+  .setInputCols(<span class="lit">"token"</span>, <span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"label"</span>)</pre><p>The default model is <code>&quot;bert_base_cased_zero_shot_classifier_xnli&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
+<a href="https://sparknlp.org/models?task=Text+Classification" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
+<a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a> and to see more extended
+examples, see
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/BertForZeroShotClassification.scala" target="_blank">BertForZeroShotClassification</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+<span class="kw">import</span> com.johnsnowlabs.nlp.base._
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotator._
+<span class="kw">import</span> org.apache.spark.ml.Pipeline
+
+<span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+
+<span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"token"</span>)
+
+<span class="kw">val</span> sequenceClassifier = BertForZeroShotClassification.pretrained()
+  .setInputCols(<span class="lit">"token"</span>, <span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"label"</span>)
+  .setCaseSensitive(<span class="kw">true</span>)
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  documentAssembler,
+  tokenizer,
+  sequenceClassifier
+))
+
+<span class="kw">val</span> data = <span class="std">Seq</span>(<span class="lit">"I loved this movie when I was a child."</span>, <span class="lit">"It was pretty boring."</span>).toDF(<span class="lit">"text"</span>)
+<span class="kw">val</span> result = pipeline.fit(data).transform(data)
+
+result.select(<span class="lit">"label.result"</span>).show(<span class="kw">false</span>)
++------+
+|result|
++------+
+|[pos] |
+|[neg] |
++------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
+  <a href="BertForZeroShotClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.BertForZeroShotClassification">BertForZeroShotClassification</a> for sequence-level classification</p></span><span class="cmt"><p>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based classifiers</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForQuestionAnswering" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="CamemBertForQuestionAnsweringextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForQuestionAnswering]withHasBatchedAnnotate[com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForQuestionAnswering]withWriteTensorflowModelwithWriteSentencePieceModelwithHasCaseSensitivePropertieswithHasEngine"></a><a id="CamemBertForQuestionAnswering:CamemBertForQuestionAnswering"></a>
       <span class="permalink">
@@ -989,7 +1064,7 @@ for extractive question-answering tasks like SQuAD (a linear layer on top of the
 output to compute span start logits and span end logits).</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> spanClassifier = CamemBertForQuestionAnswering.pretrained()
   .setInputCols(<span class="std">Array</span>(<span class="lit">"document_question"</span>, <span class="lit">"document_context"</span>))
   .setOutputCol(<span class="lit">"answer"</span>)</pre><p>The default model is <code>&quot;camembert_base_qa_fquad&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Question+Answering" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
+<a href="https://sparknlp.org/models?task=Question+Answering" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a> and to see more extended
 examples, see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/CamemBertForQuestionAnsweringTestSpec.scala" target="_blank">CamemBertForQuestionAnsweringTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
@@ -1021,8 +1096,8 @@ result.select(<span class="lit">"label.result"</span>).show(<span class="kw">fal
 |[Clara]              |
 ++--------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="CamemBertForQuestionAnswering.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForQuestionAnswering">CamemBertForQuestionAnswering</a> for sequence-level classification</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based classifiers</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based classifiers</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForSequenceClassification" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="CamemBertForSequenceClassificationextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForSequenceClassification]withHasBatchedAnnotate[com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForSequenceClassification]withWriteTensorflowModelwithWriteSentencePieceModelwithHasCaseSensitivePropertieswithHasClassifierActivationPropertieswithHasEngine"></a><a id="CamemBertForSequenceClassification:CamemBertForSequenceClassification"></a>
       <span class="permalink">
@@ -1044,7 +1119,7 @@ classification/regression head on top (a linear layer on top of the pooled outpu
 multi-class document classification tasks.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> sequenceClassifier = CamemBertForSequenceClassification.pretrained()
   .setInputCols(<span class="lit">"token"</span>, <span class="lit">"document"</span>)
   .setOutputCol(<span class="lit">"label"</span>)</pre><p>The default model is <code>camembert_base_sequence_classifier_allocine&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Text+Classification" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
+<a href="https://sparknlp.org/models?task=Text+Classification" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a> and to see more extended
 examples, see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/CamemBertForSequenceClassificationTestSpec.scala" target="_blank">CamemBertForSequenceClassification</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
@@ -1082,8 +1157,8 @@ result.select(<span class="lit">"label.result"</span>).show(<span class="kw">fal
 |[neg] |
 +------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="CamemBertForSequenceClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForSequenceClassification">CamemBertForSequenceClassification</a> for sequence-level classification</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based classifiers</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based classifiers</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForTokenClassification" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="CamemBertForTokenClassificationextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForTokenClassification]withHasBatchedAnnotate[com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForTokenClassification]withWriteTensorflowModelwithWriteSentencePieceModelwithHasCaseSensitivePropertieswithHasEngine"></a><a id="CamemBertForTokenClassification:CamemBertForTokenClassification"></a>
       <span class="permalink">
@@ -1105,7 +1180,7 @@ top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Re
 (NER) tasks.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> tokenClassifier = CamemBertForTokenClassification.pretrained()
   .setInputCols(<span class="lit">"token"</span>, <span class="lit">"document"</span>)
   .setOutputCol(<span class="lit">"label"</span>)</pre><p>The default model is <code>&quot;camembert_base_token_classifier_wikiner&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition" target="_blank">Models Hub</a>.</p><p>and the
+<a href="https://sparknlp.org/models?task=Named+Entity+Recognition" target="_blank">Models Hub</a>.</p><p>and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/CamemBertForTokenClassificationTestSpec.scala" target="_blank">CamemBertForTokenClassificationTestSpec</a>.
 To see which models are compatible and how to import them see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
@@ -1142,8 +1217,8 @@ result.select(<span class="lit">"label.result"</span>).show(<span class="kw">fal
 |[I-PER, I-PER, O, O, O, I-LOC]|
 +------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="CamemBertForTokenClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForTokenClassification">CamemBertForTokenClassification</a> for token-level classification</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based classifiers</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based classifiers</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLApproach" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ClassifierDLApproachextendsAnnotatorApproach[com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLModel]withParamsAndFeaturesWritablewithClassifierEncoder"></a><a id="ClassifierDLApproach:ClassifierDLApproach"></a>
       <span class="permalink">
@@ -1258,7 +1333,7 @@ from the <a href="../../../embeddings/UniversalSentenceEncoder.html" class="exty
 and is trained on the
 <a href="https://deepai.org/dataset/trec-6#:~:text=The%20TREC%20dataset%20is%20dataset,50%20has%20finer%2Dgrained%20labels" target="_blank">TREC-6</a>
 dataset. For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Text+Classification" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
+<a href="https://sparknlp.org/models?task=Text+Classification" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/ClassifierDL_Train_multi_class_news_category_classifier.ipynb" target="_blank">Examples</a>
 and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/ClassifierDLTestSpec.scala" target="_blank">ClassifierDLTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
@@ -1363,7 +1438,7 @@ extractive question-answering tasks like SQuAD (a linear layer on top of the hid
 output to compute span start logits and span end logits).</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> spanClassifier = DeBertaForQuestionAnswering.pretrained()
   .setInputCols(<span class="std">Array</span>(<span class="lit">"document_question"</span>, <span class="lit">"document_context"</span>))
   .setOutputCol(<span class="lit">"answer"</span>)</pre><p>The default model is <code>&quot;deberta_v3_xsmall_qa_squad2&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Question+Answering" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
+<a href="https://sparknlp.org/models?task=Question+Answering" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a> and to see more extended
 examples, see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/DeBertaForQuestionAnsweringTestSpec.scala" target="_blank">DeBertaForQuestionAnsweringTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
@@ -1395,8 +1470,8 @@ result.select(<span class="lit">"label.result"</span>).show(<span class="kw">fal
 |[Clara]              |
 ++--------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="DeBertaForQuestionAnswering.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.DeBertaForQuestionAnswering">DeBertaForQuestionAnswering</a> for span-level classification</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based classifiers</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based classifiers</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.DeBertaForSequenceClassification" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="DeBertaForSequenceClassificationextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.classifier.dl.DeBertaForSequenceClassification]withHasBatchedAnnotate[com.johnsnowlabs.nlp.annotators.classifier.dl.DeBertaForSequenceClassification]withWriteTensorflowModelwithWriteSentencePieceModelwithHasCaseSensitivePropertieswithHasClassifierActivationPropertieswithHasEngine"></a><a id="DeBertaForSequenceClassification:DeBertaForSequenceClassification"></a>
       <span class="permalink">
@@ -1418,7 +1493,7 @@ classification/regression head on top (a linear layer on top of the pooled outpu
 multi-class document classification tasks.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> sequenceClassifier = DeBertaForSequenceClassification.pretrained()
   .setInputCols(<span class="lit">"token"</span>, <span class="lit">"document"</span>)
   .setOutputCol(<span class="lit">"label"</span>)</pre><p>The default model is <code>&quot;deberta_v3_xsmall_sequence_classifier_imdb&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Text+Classification" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
+<a href="https://sparknlp.org/models?task=Text+Classification" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a> and to see more extended
 examples, see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/DeBertaForSequenceClassificationTestSpec.scala" target="_blank">DeBertaForSequenceClassification</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
@@ -1456,8 +1531,8 @@ result.select(<span class="lit">"label.result"</span>).show(<span class="kw">fal
 |[neg] |
 +------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="DeBertaForSequenceClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.DeBertaForSequenceClassification">DeBertaForSequenceClassification</a> for sequence-level classification</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based classifiers</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based classifiers</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.DeBertaForTokenClassification" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="DeBertaForTokenClassificationextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.classifier.dl.DeBertaForTokenClassification]withHasBatchedAnnotate[com.johnsnowlabs.nlp.annotators.classifier.dl.DeBertaForTokenClassification]withWriteTensorflowModelwithWriteSentencePieceModelwithHasCaseSensitivePropertieswithHasEngine"></a><a id="DeBertaForTokenClassification:DeBertaForTokenClassification"></a>
       <span class="permalink">
@@ -1479,7 +1554,7 @@ head on top (a linear layer on top of the hidden-states output) e.g. for
 Named-Entity-Recognition (NER) tasks.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> tokenClassifier = DeBertaForTokenClassification.pretrained()
   .setInputCols(<span class="lit">"token"</span>, <span class="lit">"document"</span>)
   .setOutputCol(<span class="lit">"label"</span>)</pre><p>The default model is <code>&quot;deberta_v3_xsmall_token_classifier_conll03&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition" target="_blank">Models Hub</a>.</p><p>and the
+<a href="https://sparknlp.org/models?task=Named+Entity+Recognition" target="_blank">Models Hub</a>.</p><p>and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/DeBertaForTokenClassificationTestSpec.scala" target="_blank">DeBertaForTokenClassificationTestSpec</a>.
 Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To
 see which models are compatible and how to import them see
@@ -1517,8 +1592,8 @@ result.select(<span class="lit">"label.result"</span>).show(<span class="kw">fal
 |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O, O, B-LOC]|
 +------------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="DeBertaForTokenClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.DeBertaForTokenClassification">DeBertaForTokenClassification</a> for token-level classification</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based classifiers</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based classifiers</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForQuestionAnswering" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="DistilBertForQuestionAnsweringextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForQuestionAnswering]withHasBatchedAnnotate[com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForQuestionAnswering]withWriteTensorflowModelwithHasCaseSensitivePropertieswithHasEngine"></a><a id="DistilBertForQuestionAnswering:DistilBertForQuestionAnswering"></a>
       <span class="permalink">
@@ -1541,7 +1616,7 @@ top for extractive question-answering tasks like SQuAD (a linear layer on top of
 hidden-states output to compute span start logits and span end logits).</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> spanClassifier = DistilBertForQuestionAnswering.pretrained()
   .setInputCols(<span class="std">Array</span>(<span class="lit">"document_question"</span>, <span class="lit">"document_context"</span>))
   .setOutputCol(<span class="lit">"answer"</span>)</pre><p>The default model is <code>&quot;distilbert_base_cased_qa_squad2&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Question+Answering" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
+<a href="https://sparknlp.org/models?task=Question+Answering" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a> and to see more extended
 examples, see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/DistilBertForSequenceClassificationTestSpec.scala" target="_blank">DistilBertForSequenceClassificationTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
@@ -1573,8 +1648,8 @@ result.select(<span class="lit">"label.result"</span>).show(<span class="kw">fal
 |[Clara]              |
 ++--------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="DistilBertForSequenceClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForSequenceClassification">DistilBertForSequenceClassification</a> for sequence-level classification</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based classifiers</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based classifiers</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForSequenceClassification" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="DistilBertForSequenceClassificationextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForSequenceClassification]withHasBatchedAnnotate[com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForSequenceClassification]withWriteTensorflowModelwithHasCaseSensitivePropertieswithHasClassifierActivationPropertieswithHasEngine"></a><a id="DistilBertForSequenceClassification:DistilBertForSequenceClassification"></a>
       <span class="permalink">
@@ -1596,7 +1671,7 @@ classification/regression head on top (a linear layer on top of the pooled outpu
 multi-class document classification tasks.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> sequenceClassifier = DistilBertForSequenceClassification.pretrained()
   .setInputCols(<span class="lit">"token"</span>, <span class="lit">"document"</span>)
   .setOutputCol(<span class="lit">"label"</span>)</pre><p>The default model is <code>&quot;distilbert_base_sequence_classifier_imdb&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Text+Classification" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
+<a href="https://sparknlp.org/models?task=Text+Classification" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a> and to see more extended
 examples, see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/DistilBertForSequenceClassificationTestSpec.scala" target="_blank">DistilBertForSequenceClassificationTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
@@ -1634,8 +1709,8 @@ result.select(<span class="lit">"label.result"</span>).show(<span class="kw">fal
 |[neg] |
 +------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="DistilBertForSequenceClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForSequenceClassification">DistilBertForSequenceClassification</a> for sequence-level classification</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based classifiers</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based classifiers</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForTokenClassification" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="DistilBertForTokenClassificationextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForTokenClassification]withHasBatchedAnnotate[com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForTokenClassification]withWriteTensorflowModelwithHasCaseSensitivePropertieswithHasEngine"></a><a id="DistilBertForTokenClassification:DistilBertForTokenClassification"></a>
       <span class="permalink">
@@ -1657,7 +1732,7 @@ result.select(<span class="lit">"label.result"</span>).show(<span class="kw">fal
 tasks.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> tokenClassifier = DistilBertForTokenClassification.pretrained()
   .setInputCols(<span class="lit">"token"</span>, <span class="lit">"document"</span>)
   .setOutputCol(<span class="lit">"label"</span>)</pre><p>The default model is <code>&quot;distilbert_base_token_classifier_conll03&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
+<a href="https://sparknlp.org/models?task=Named+Entity+Recognition" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a> and to see more extended
 examples, see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/DistilBertForTokenClassificationTestSpec.scala" target="_blank">DistilBertForTokenClassificationTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
@@ -1694,8 +1769,8 @@ result.select(<span class="lit">"label.result"</span>).show(<span class="kw">fal
 |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O, O, B-LOC]|
 +------------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="DistilBertForTokenClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForTokenClassification">DistilBertForTokenClassification</a> for token-level classification</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based classifiers</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based classifiers</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.LongformerForQuestionAnswering" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="LongformerForQuestionAnsweringextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.classifier.dl.LongformerForQuestionAnswering]withHasBatchedAnnotate[com.johnsnowlabs.nlp.annotators.classifier.dl.LongformerForQuestionAnswering]withWriteTensorflowModelwithHasCaseSensitivePropertieswithHasEngine"></a><a id="LongformerForQuestionAnswering:LongformerForQuestionAnswering"></a>
       <span class="permalink">
@@ -1718,7 +1793,7 @@ top for extractive question-answering tasks like SQuAD (a linear layer on top of
 hidden-states output to compute span start logits and span end logits).</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> spanClassifier = LongformerForQuestionAnswering.pretrained()
   .setInputCols(<span class="std">Array</span>(<span class="lit">"document_question"</span>, <span class="lit">"document_context"</span>))
   .setOutputCol(<span class="lit">"answer"</span>)</pre><p>The default model is <code>&quot;longformer_base_base_qa_squad2&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Question+Answering" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
+<a href="https://sparknlp.org/models?task=Question+Answering" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a> and to see more extended
 examples, see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/LongformerForQuestionAnsweringTestSpec.scala" target="_blank">LongformerForQuestionAnsweringTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
@@ -1750,8 +1825,8 @@ result.select(<span class="lit">"label.result"</span>).show(<span class="kw">fal
 |[Clara]              |
 ++--------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="LongformerForSequenceClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.LongformerForSequenceClassification">LongformerForSequenceClassification</a> for sequence-level classification</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based classifiers</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based classifiers</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.LongformerForSequenceClassification" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="LongformerForSequenceClassificationextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.classifier.dl.LongformerForSequenceClassification]withHasBatchedAnnotate[com.johnsnowlabs.nlp.annotators.classifier.dl.LongformerForSequenceClassification]withWriteTensorflowModelwithHasCaseSensitivePropertieswithHasClassifierActivationPropertieswithHasEngine"></a><a id="LongformerForSequenceClassification:LongformerForSequenceClassification"></a>
       <span class="permalink">
@@ -1773,7 +1848,7 @@ classification/regression head on top (a linear layer on top of the pooled outpu
 multi-class document classification tasks.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> sequenceClassifier = LongformerForSequenceClassification.pretrained()
   .setInputCols(<span class="lit">"token"</span>, <span class="lit">"document"</span>)
   .setOutputCol(<span class="lit">"label"</span>)</pre><p>The default model is <code>&quot;longformer_base_sequence_classifier_imdb&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Text+Classification" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
+<a href="https://sparknlp.org/models?task=Text+Classification" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a> and to see more extended
 examples, see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/LongformerForSequenceClassificationTestSpec.scala" target="_blank">LongformerForSequenceClassification</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
@@ -1811,8 +1886,8 @@ result.select(<span class="lit">"label.result"</span>).show(<span class="kw">fal
 |[neg] |
 +------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="LongformerForSequenceClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.LongformerForSequenceClassification">LongformerForSequenceClassification</a> for sequence-level classification</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based classifiers</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based classifiers</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.LongformerForTokenClassification" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="LongformerForTokenClassificationextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.classifier.dl.LongformerForTokenClassification]withHasBatchedAnnotate[com.johnsnowlabs.nlp.annotators.classifier.dl.LongformerForTokenClassification]withWriteTensorflowModelwithHasCaseSensitivePropertieswithHasEngine"></a><a id="LongformerForTokenClassification:LongformerForTokenClassification"></a>
       <span class="permalink">
@@ -1834,7 +1909,7 @@ on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity
 (NER) tasks.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> tokenClassifier = LongformerForTokenClassification.pretrained()
   .setInputCols(<span class="lit">"token"</span>, <span class="lit">"document"</span>)
   .setOutputCol(<span class="lit">"label"</span>)</pre><p>The default model is <code>&quot;longformer_base_token_classifier_conll03&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition" target="_blank">Models Hub</a>.</p><p>and the
+<a href="https://sparknlp.org/models?task=Named+Entity+Recognition" target="_blank">Models Hub</a>.</p><p>and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/LongformerForTokenClassificationTestSpec.scala" target="_blank">LongformerForTokenClassificationTestSpec</a>.
 To see which models are compatible and how to import them see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
@@ -1871,8 +1946,8 @@ result.select(<span class="lit">"label.result"</span>).show(<span class="kw">fal
 |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O, O, B-LOC]|
 +------------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="LongformerForTokenClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.LongformerForTokenClassification">LongformerForTokenClassification</a> for token-level classification</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based classifiers</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based classifiers</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.MultiClassifierDLApproach" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="MultiClassifierDLApproachextendsAnnotatorApproach[com.johnsnowlabs.nlp.annotators.classifier.dl.MultiClassifierDLModel]withParamsAndFeaturesWritablewithClassifierEncoder"></a><a id="MultiClassifierDLApproach:MultiClassifierDLApproach"></a>
       <span class="permalink">
@@ -2023,7 +2098,7 @@ embeddings from the
 classifies toxic comments. The data is based on the
 <a href="https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/overview" target="_blank">Jigsaw Toxic Comment Classification Challenge</a>.
 For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Text+Classification" target="_blank">Models Hub</a>.</p><p>In machine learning, multi-label classification and the strongly related problem of
+<a href="https://sparknlp.org/models?task=Text+Classification" target="_blank">Models Hub</a>.</p><p>In machine learning, multi-label classification and the strongly related problem of
 multi-output classification are variants of the classification problem where multiple labels
 may be assigned to each instance. Multi-label classification is a generalization of multiclass
 classification, which is the single-label problem of categorizing instances into precisely one
@@ -2167,6 +2242,22 @@ result.select(<span class="lit">"text"</span>, <span class="lit">"classification
       </span>
       <span class="symbol">
         <a title="" href="ReadBertForTokenDLModel.html"><span class="name">ReadBertForTokenDLModel</span></a><span class="result"> extends <a href="../../../../ml/tensorflow/ReadTensorflowModel.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.ReadTensorflowModel">ReadTensorflowModel</a></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.ReadBertForZeroShotDLModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReadBertForZeroShotDLModelextendsReadTensorflowModel"></a><a id="ReadBertForZeroShotDLModel:ReadBertForZeroShotDLModel"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/ReadBertForZeroShotDLModel.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ReadBertForZeroShotDLModel.html"><span class="name">ReadBertForZeroShotDLModel</span></a><span class="result"> extends <a href="../../../../ml/tensorflow/ReadTensorflowModel.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.ReadTensorflowModel">ReadTensorflowModel</a></span>
       </span>
       
       
@@ -2650,6 +2741,22 @@ result.select(<span class="lit">"text"</span>, <span class="lit">"classification
       </span>
       
       
+    </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.ReadablePretrainedBertForZeroShotModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReadablePretrainedBertForZeroShotModelextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.annotators.classifier.dl.BertForZeroShotClassification]withHasPretrained[com.johnsnowlabs.nlp.annotators.classifier.dl.BertForZeroShotClassification]"></a><a id="ReadablePretrainedBertForZeroShotModel:ReadablePretrainedBertForZeroShotModel"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/ReadablePretrainedBertForZeroShotModel.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ReadablePretrainedBertForZeroShotModel.html"><span class="name">ReadablePretrainedBertForZeroShotModel</span></a><span class="result"> extends <a href="../../../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a>[<a href="BertForZeroShotClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.BertForZeroShotClassification">BertForZeroShotClassification</a>] with <a href="../../../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a>[<a href="BertForZeroShotClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.BertForZeroShotClassification">BertForZeroShotClassification</a>]</span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.ReadablePretrainedCamemBertForQAModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="ReadablePretrainedCamemBertForQAModelextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForQuestionAnswering]withHasPretrained[com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForQuestionAnswering]"></a><a id="ReadablePretrainedCamemBertForQAModel:ReadablePretrainedCamemBertForQAModel"></a>
       <span class="permalink">
@@ -3056,7 +3163,7 @@ extractive question-answering tasks like SQuAD (a linear layer on top of the hid
 output to compute span start logits and span end logits).</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> spanClassifier = RoBertaForQuestionAnswering.pretrained()
   .setInputCols(<span class="std">Array</span>(<span class="lit">"document_question"</span>, <span class="lit">"document_context"</span>))
   .setOutputCol(<span class="lit">"answer"</span>)</pre><p>The default model is <code>&quot;roberta_base_qa_squad2&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Question+Answering" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
+<a href="https://sparknlp.org/models?task=Question+Answering" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a> and to see more extended
 examples, see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/RoBertaForQuestionAnsweringTestSpec.scala" target="_blank">RoBertaForQuestionAnsweringTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
@@ -3088,8 +3195,8 @@ result.select(<span class="lit">"label.result"</span>).show(<span class="kw">fal
 |[Clara]              |
 ++--------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="RoBertaForSequenceClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForSequenceClassification">RoBertaForSequenceClassification</a> for sequence-level classification</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based classifiers</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based classifiers</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForSequenceClassification" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="RoBertaForSequenceClassificationextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForSequenceClassification]withHasBatchedAnnotate[com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForSequenceClassification]withWriteTensorflowModelwithHasCaseSensitivePropertieswithHasClassifierActivationPropertieswithHasEngine"></a><a id="RoBertaForSequenceClassification:RoBertaForSequenceClassification"></a>
       <span class="permalink">
@@ -3111,7 +3218,7 @@ classification/regression head on top (a linear layer on top of the pooled outpu
 multi-class document classification tasks.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> sequenceClassifier = RoBertaForSequenceClassification.pretrained()
   .setInputCols(<span class="lit">"token"</span>, <span class="lit">"document"</span>)
   .setOutputCol(<span class="lit">"label"</span>)</pre><p>The default model is <code>&quot;roberta_base_sequence_classifier_imdb&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Text+Classification" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
+<a href="https://sparknlp.org/models?task=Text+Classification" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a> and to see more extended
 examples, see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/RoBertaForSequenceClassificationTestSpec.scala" target="_blank">RoBertaForSequenceClassification</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
@@ -3149,8 +3256,8 @@ result.select(<span class="lit">"label.result"</span>).show(<span class="kw">fal
 |[neg] |
 +------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="RoBertaForSequenceClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForSequenceClassification">RoBertaForSequenceClassification</a> for sequence-level classification</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based classifiers</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based classifiers</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForTokenClassification" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="RoBertaForTokenClassificationextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForTokenClassification]withHasBatchedAnnotate[com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForTokenClassification]withWriteTensorflowModelwithHasCaseSensitivePropertieswithHasEngine"></a><a id="RoBertaForTokenClassification:RoBertaForTokenClassification"></a>
       <span class="permalink">
@@ -3172,7 +3279,7 @@ result.select(<span class="lit">"label.result"</span>).show(<span class="kw">fal
 tasks.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> tokenClassifier = RoBertaForTokenClassification.pretrained()
   .setInputCols(<span class="lit">"token"</span>, <span class="lit">"document"</span>)
   .setOutputCol(<span class="lit">"label"</span>)</pre><p>The default model is <code>&quot;roberta_base_token_classifier_conll03&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition" target="_blank">Models Hub</a>.</p><p>and the
+<a href="https://sparknlp.org/models?task=Named+Entity+Recognition" target="_blank">Models Hub</a>.</p><p>and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/RoBertaForTokenClassificationTestSpec.scala" target="_blank">RoBertaForTokenClassificationTestSpec</a>.
 To see which models are compatible and how to import them see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
@@ -3209,8 +3316,8 @@ result.select(<span class="lit">"label.result"</span>).show(<span class="kw">fal
 |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O, O, B-LOC]|
 +------------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="RoBertaForTokenClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForTokenClassification">RoBertaForTokenClassification</a> for token-level classification</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based classifiers</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based classifiers</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.SentimentDLApproach" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="SentimentDLApproachextendsAnnotatorApproach[com.johnsnowlabs.nlp.annotators.classifier.dl.SentimentDLModel]withParamsAndFeaturesWritablewithClassifierEncoder"></a><a id="SentimentDLApproach:SentimentDLApproach"></a>
       <span class="permalink">
@@ -3321,7 +3428,7 @@ please see the documentation of that class.</p><p>Pretrained models can be loade
   .setInputCols(<span class="lit">"sentence_embeddings"</span>)
   .setOutputCol(<span class="lit">"sentiment"</span>)</pre><p>The default model is <code>&quot;sentimentdl_use_imdb&quot;</code>, if no name is provided. It is english sentiment
 analysis trained on the IMDB dataset. For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Sentiment+Analysis" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
+<a href="https://sparknlp.org/models?task=Sentiment+Analysis" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/SentimentDL_train_multiclass_sentiment_classifier.ipynb" target="_blank">Examples</a>
 and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/SentimentDLTestSpec.scala" target="_blank">SentimentDLTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
@@ -3386,7 +3493,7 @@ as input and tries to answer the questions in the document by using the data fro
 The model is based in BertForQuestionAnswering and shares all its parameters with it.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> tapas = TapasForQuestionAnswering.pretrained()
   .setInputCols(<span class="std">Array</span>(<span class="lit">"document_question"</span>, <span class="lit">"table"</span>))
   .setOutputCol(<span class="lit">"answer"</span>)</pre><p>The default model is <code>&quot;table_qa_tapas_base_finetuned_wtq&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Table+Question+Understanding" target="_blank">Models Hub</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+<a href="https://sparknlp.org/models?task=Table+Question+Understanding" target="_blank">Models Hub</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.base._
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotator._
 <span class="kw">import</span> org.apache.spark.ml.Pipeline
@@ -3459,8 +3566,8 @@ result
 +-----------------------+----------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="https://aclanthology.org/2020.acl-main.398/" target="_blank">https://aclanthology.org/2020.acl-main.398/</a> for more details about the TaPas model</p></span><span class="cmt"><p>
   <a href="../../../TableAssembler.html" class="extype" name="com.johnsnowlabs.nlp.TableAssembler">TableAssembler</a> for loading tabular data</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based classifiers</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based classifiers</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForQuestionAnswering" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="XlmRoBertaForQuestionAnsweringextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForQuestionAnswering]withHasBatchedAnnotate[com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForQuestionAnswering]withWriteTensorflowModelwithWriteSentencePieceModelwithHasCaseSensitivePropertieswithHasEngine"></a><a id="XlmRoBertaForQuestionAnswering:XlmRoBertaForQuestionAnswering"></a>
       <span class="permalink">
@@ -3483,7 +3590,7 @@ top for extractive question-answering tasks like SQuAD (a linear layer on top of
 hidden-states output to compute span start logits and span end logits).</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> spanClassifier = XlmRoBertaForQuestionAnswering.pretrained()
   .setInputCols(<span class="std">Array</span>(<span class="lit">"document_question"</span>, <span class="lit">"document_context"</span>))
   .setOutputCol(<span class="lit">"answer"</span>)</pre><p>The default model is <code>&quot;xlm_roberta_base_qa_squad2&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Question+Answering" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
+<a href="https://sparknlp.org/models?task=Question+Answering" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a> and to see more extended
 examples, see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/XlmRoBertaForQuestionAnsweringTestSpec.scala" target="_blank">XlmRoBertaForQuestionAnsweringTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
@@ -3515,8 +3622,8 @@ result.select(<span class="lit">"label.result"</span>).show(<span class="kw">fal
 |[Clara]              |
 ++--------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="XlmRoBertaForSequenceClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForSequenceClassification">XlmRoBertaForSequenceClassification</a> for sequence-level classification</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based classifiers</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based classifiers</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForSequenceClassification" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="XlmRoBertaForSequenceClassificationextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForSequenceClassification]withHasBatchedAnnotate[com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForSequenceClassification]withWriteTensorflowModelwithWriteSentencePieceModelwithHasCaseSensitivePropertieswithHasClassifierActivationPropertieswithHasEngine"></a><a id="XlmRoBertaForSequenceClassification:XlmRoBertaForSequenceClassification"></a>
       <span class="permalink">
@@ -3538,7 +3645,7 @@ classification/regression head on top (a linear layer on top of the pooled outpu
 multi-class document classification tasks.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> sequenceClassifier = XlmRoBertaForSequenceClassification.pretrained()
   .setInputCols(<span class="lit">"token"</span>, <span class="lit">"document"</span>)
   .setOutputCol(<span class="lit">"label"</span>)</pre><p>The default model is <code>&quot;xlm_roberta_base_sequence_classifier_imdb&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Text+Classification" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
+<a href="https://sparknlp.org/models?task=Text+Classification" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a> and to see more extended
 examples, see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/XlmRoBertaForSequenceClassificationTestSpec.scala" target="_blank">XlmRoBertaForSequenceClassification</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
@@ -3576,8 +3683,8 @@ result.select(<span class="lit">"label.result"</span>).show(<span class="kw">fal
 |[neg] |
 +------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="XlmRoBertaForSequenceClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForSequenceClassification">XlmRoBertaForSequenceClassification</a> for sequence-level classification</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based classifiers</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based classifiers</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForTokenClassification" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="XlmRoBertaForTokenClassificationextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForTokenClassification]withHasBatchedAnnotate[com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForTokenClassification]withWriteTensorflowModelwithWriteSentencePieceModelwithHasCaseSensitivePropertieswithHasEngine"></a><a id="XlmRoBertaForTokenClassification:XlmRoBertaForTokenClassification"></a>
       <span class="permalink">
@@ -3599,7 +3706,7 @@ on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity
 (NER) tasks.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> tokenClassifier = XlmRoBertaForTokenClassification.pretrained()
   .setInputCols(<span class="lit">"token"</span>, <span class="lit">"document"</span>)
   .setOutputCol(<span class="lit">"label"</span>)</pre><p>The default model is <code>&quot;xlm_roberta_base_token_classifier_conll03&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition" target="_blank">Models Hub</a>.</p><p>and the
+<a href="https://sparknlp.org/models?task=Named+Entity+Recognition" target="_blank">Models Hub</a>.</p><p>and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/XlmRoBertaForTokenClassificationTestSpec.scala" target="_blank">XlmRoBertaForTokenClassificationTestSpec</a>.
 To see which models are compatible and how to import them see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
@@ -3636,8 +3743,8 @@ result.select(<span class="lit">"label.result"</span>).show(<span class="kw">fal
 |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O, O, B-LOC]|
 +------------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="XlmRoBertaForTokenClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForTokenClassification">XlmRoBertaForTokenClassification</a> for token-level classification</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based classifiers</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based classifiers</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForSequenceClassification" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="XlnetForSequenceClassificationextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForSequenceClassification]withHasBatchedAnnotate[com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForSequenceClassification]withWriteTensorflowModelwithWriteSentencePieceModelwithHasCaseSensitivePropertieswithHasClassifierActivationPropertieswithHasEngine"></a><a id="XlnetForSequenceClassification:XlnetForSequenceClassification"></a>
       <span class="permalink">
@@ -3659,7 +3766,7 @@ head on top (a linear layer on top of the pooled output) e.g. for multi-class do
 classification tasks.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> sequenceClassifier = XlnetForSequenceClassification.pretrained()
   .setInputCols(<span class="lit">"token"</span>, <span class="lit">"document"</span>)
   .setOutputCol(<span class="lit">"label"</span>)</pre><p>The default model is <code>&quot;xlnet_base_sequence_classifier_imdb&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Text+Classification" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
+<a href="https://sparknlp.org/models?task=Text+Classification" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a> and to see more extended
 examples, see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/XlnetForSequenceClassificationTestSpec.scala" target="_blank">XlnetForSequenceClassification</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
@@ -3697,8 +3804,8 @@ result.select(<span class="lit">"label.result"</span>).show(<span class="kw">fal
 |[neg] |
 +------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="XlnetForSequenceClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForSequenceClassification">XlnetForSequenceClassification</a> for sequence-level classification</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based classifiers</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based classifiers</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForTokenClassification" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="XlnetForTokenClassificationextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForTokenClassification]withHasBatchedAnnotate[com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForTokenClassification]withWriteTensorflowModelwithWriteSentencePieceModelwithHasCaseSensitivePropertieswithHasEngine"></a><a id="XlnetForTokenClassification:XlnetForTokenClassification"></a>
       <span class="permalink">
@@ -3720,7 +3827,7 @@ linear layer on top of the hidden-states output) e.g. for Named-Entity-Recogniti
 tasks.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> tokenClassifier = XlnetForTokenClassification.pretrained()
   .setInputCols(<span class="lit">"token"</span>, <span class="lit">"document"</span>)
   .setOutputCol(<span class="lit">"label"</span>)</pre><p>The default model is <code>&quot;xlnet_base_token_classifier_conll03&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition" target="_blank">Models Hub</a>.</p><p>and the
+<a href="https://sparknlp.org/models?task=Named+Entity+Recognition" target="_blank">Models Hub</a>.</p><p>and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/XlnetForTokenClassificationTestSpec.scala" target="_blank">XlnetForTokenClassificationTestSpec</a>.
 To see which models are compatible and how to import them see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
@@ -3757,8 +3864,8 @@ result.select(<span class="lit">"label.result"</span>).show(<span class="kw">fal
 |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O, O, B-LOC]|
 +------------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="XlnetForTokenClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForTokenClassification">XlnetForTokenClassification</a> for token-level classification</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based classifiers</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based classifiers</p></span></dd></dl></div>
     </li></ol>
             </div>
 
@@ -3874,6 +3981,24 @@ for the documentation.
       
       <p class="shortcomment cmt">This is the companion object of <a href="BertForTokenClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.BertForTokenClassification">BertForTokenClassification</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="BertForTokenClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.BertForTokenClassification">BertForTokenClassification</a>. Please refer to that class for
 the documentation.
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.BertForZeroShotClassification" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BertForZeroShotClassification"></a><a id="BertForZeroShotClassification:BertForZeroShotClassification"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/BertForZeroShotClassification$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="This is the companion object of BertForZeroShotClassification." href="BertForZeroShotClassification$.html"><span class="name">BertForZeroShotClassification</span></a><span class="result"> extends <a href="ReadablePretrainedBertForZeroShotModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.ReadablePretrainedBertForZeroShotModel">ReadablePretrainedBertForZeroShotModel</a> with <a href="ReadBertForZeroShotDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.ReadBertForZeroShotDLModel">ReadBertForZeroShotDLModel</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">This is the companion object of <a href="BertForZeroShotClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.BertForZeroShotClassification">BertForZeroShotClassification</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="BertForZeroShotClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.BertForZeroShotClassification">BertForZeroShotClassification</a>. Please refer to that class
+for the documentation.
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForQuestionAnswering" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="CamemBertForQuestionAnswering"></a><a id="CamemBertForQuestionAnswering:CamemBertForQuestionAnswering"></a>

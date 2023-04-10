@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.3.2 ScalaDoc  - com.johnsnowlabs.nlp.embeddings.ElmoEmbeddings</title>
-          <meta name="description" content="Spark NLP 4.3.2 ScalaDoc - com.johnsnowlabs.nlp.embeddings.ElmoEmbeddings" />
-          <meta name="keywords" content="Spark NLP 4.3.2 ScalaDoc com.johnsnowlabs.nlp.embeddings.ElmoEmbeddings" />
+          <title>Spark NLP 4.4.0 ScalaDoc  - com.johnsnowlabs.nlp.embeddings.ElmoEmbeddings</title>
+          <meta name="description" content="Spark NLP 4.4.0 ScalaDoc - com.johnsnowlabs.nlp.embeddings.ElmoEmbeddings" />
+          <meta name="keywords" content="Spark NLP 4.4.0 ScalaDoc com.johnsnowlabs.nlp.embeddings.ElmoEmbeddings" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.3.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.4.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -412,7 +412,7 @@ Billion Word Benchmark.</p><p>Note that this is a very computationally expensive
 that only perform embedding lookups. The use of an accelerator is recommended.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> embeddings = ElmoEmbeddings.pretrained()
   .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>)
   .setOutputCol(<span class="lit">"elmo_embeddings"</span>)</pre><p>The default model is <code>&quot;elmo&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>The pooling layer can be set with <code>setPoolingLayer</code> to the following values:</p><ul><li><code>&quot;word_emb&quot;</code>: the character-based word representations with shape <code>[batch_size,
+<a href="https://sparknlp.org/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>The pooling layer can be set with <code>setPoolingLayer</code> to the following values:</p><ul><li><code>&quot;word_emb&quot;</code>: the character-based word representations with shape <code>[batch_size,
     max_length, 512]</code>.</li><li><code>&quot;lstm_outputs1&quot;</code>: the first LSTM hidden state with shape <code>[batch_size, max_length,
     1024]</code>.</li><li><code>&quot;lstm_outputs2&quot;</code>: the second LSTM hidden state with shape <code>[batch_size, max_length,
     1024]</code>.</li><li><code>&quot;elmo&quot;</code>: the weighted sum of the 3 layers, where the weights are trainable. This tensor
@@ -473,7 +473,7 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
 |[<span class="num">0.49932169914245605</span>,-<span class="num">0.12706467509269714</span>,<span class="num">0.30969417095184326</span>,<span class="num">0.2643227577209</span>...|
 |[-<span class="num">0.8871506452560425</span>,-<span class="num">0.20039963722229004</span>,-<span class="num">1.0601330995559692</span>,<span class="num">0.0348707810044</span>...|
 +--------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of other
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of other
   transformer based embeddings</p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes

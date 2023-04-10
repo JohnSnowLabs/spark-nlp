@@ -24,10 +24,9 @@ import org.apache.spark.sql.DataFrame
   * whole pipeline can be defined in 1 line. Additionally, the [[LightPipeline]] version of the
   * model can be retrieved with member `lightModel`.
   *
-  * For more extended examples see the
-  * [[https://sparknlp.org/docs/en/pipelines Pipelines page]] and our
-  * [[https://github.com/JohnSnowLabs/spark-nlp-models Github Model Repository]] for available
-  * pipeline models.
+  * For more extended examples see the [[https://sparknlp.org/docs/en/pipelines Pipelines page]]
+  * and our [[https://github.com/JohnSnowLabs/spark-nlp-models Github Model Repository]] for
+  * available pipeline models.
   *
   * ==Example==
   * {{{

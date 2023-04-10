@@ -132,8 +132,8 @@ import org.slf4j.{Logger, LoggerFactory}
   *   [[com.johnsnowlabs.nlp.annotators.classifier.dl.BertForTokenClassification BertForTokenClassification]]
   *   For BertEmbeddings with a token classification layer on top
   * @see
-  *   [[https://sparknlp.org/docs/en/annotators Annotators Main Page]] for a list of
-  *   transformer based embeddings
+  *   [[https://sparknlp.org/docs/en/annotators Annotators Main Page]] for a list of transformer
+  *   based embeddings
   * @param uid
   *   required uid for storing annotator to disk
   * @groupname anno Annotator types

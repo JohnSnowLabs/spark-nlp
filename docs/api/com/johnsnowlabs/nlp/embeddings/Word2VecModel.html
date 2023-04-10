@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.3.2 ScalaDoc  - com.johnsnowlabs.nlp.embeddings.Word2VecModel</title>
-          <meta name="description" content="Spark NLP 4.3.2 ScalaDoc - com.johnsnowlabs.nlp.embeddings.Word2VecModel" />
-          <meta name="keywords" content="Spark NLP 4.3.2 ScalaDoc com.johnsnowlabs.nlp.embeddings.Word2VecModel" />
+          <title>Spark NLP 4.4.0 ScalaDoc  - com.johnsnowlabs.nlp.embeddings.Word2VecModel</title>
+          <meta name="description" content="Spark NLP 4.4.0 ScalaDoc - com.johnsnowlabs.nlp.embeddings.Word2VecModel" />
+          <meta name="keywords" content="Spark NLP 4.4.0 ScalaDoc com.johnsnowlabs.nlp.embeddings.Word2VecModel" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.3.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.4.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -414,8 +414,7 @@ hierarchical softmax method to train the model. The variable names in the implem
 the original C implementation.</p><p>This is the instantiated model of the <a href="Word2VecApproach.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.Word2VecApproach">Word2VecApproach</a>. For training your own model,
 please see the documentation of that class.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> embeddings = Word2VecModel.pretrained()
   .setInputCols(<span class="lit">"token"</span>)
-  .setOutputCol(<span class="lit">"embeddings"</span>)</pre><p>The default model is <code>&quot;word2vec_gigaword_300&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models" target="_blank">Models Hub</a>.</p><p><b>Sources</b> :</p><p>For the original C implementation, see https://code.google.com/p/word2vec/</p><p>For the research paper, see
+  .setOutputCol(<span class="lit">"embeddings"</span>)</pre><p>The default model is <code>&quot;word2vec_gigaword_300&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the <a href="https://sparknlp.org/models" target="_blank">Models Hub</a>.</p><p><b>Sources</b> :</p><p>For the original C implementation, see https://code.google.com/p/word2vec/</p><p>For the research paper, see
 <a href="https://arxiv.org/abs/1301.3781" target="_blank">Efficient Estimation of Word Representations in Vector Space</a>
 and
 <a href="https://arxiv.org/pdf/1310.4546v1.pdf" target="_blank">Distributed Representations of Words and Phrases and their Compositionality</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
