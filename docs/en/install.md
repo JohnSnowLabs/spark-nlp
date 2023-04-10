@@ -106,13 +106,13 @@ spark = SparkSession.builder \
 </dependency>
 ```
 
-**spark-nlp-m1:**
+**spark-nlp-silicon:**
 
 ```xml
-<!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-m1 -->
+<!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-silicon -->
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
-    <artifactId>spark-nlp-m1_2.12</artifactId>
+    <artifactId>spark-nlp-silicon_2.12</artifactId>
     <version>4.4.0</version>
 </dependency>
 ```
@@ -144,11 +144,11 @@ libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "4.4.0"
 libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu" % "4.4.0"
 ```
 
-**spark-nlp-m1:**
+**spark-nlp-silicon:**
 
 ```scala
-// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-m1
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-m1" % "4.4.0"
+// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-silicon
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-silicon" % "4.4.0"
 ```
 
 **spark-nlp-aarch64:**
@@ -220,7 +220,7 @@ as expected.
 
 Adding Spark NLP to your Scala or Java project is easy:
 
-Simply change to dependency coordinates to `spark-nlp-m1` and add the dependency to your
+Simply change to dependency coordinates to `spark-nlp-silicon` and add the dependency to your
 project.
 
 How to do this is mentioned above: [Scala And Java](#scala-and-java)
@@ -229,10 +229,10 @@ So for example for Spark NLP with Apache Spark 3.0.x and 3.1.x you will end up w
 maven coordinates like these:
 
 ```xml
-<!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-m1 -->
+<!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-silicon -->
 <dependency>
     <groupId>com.johnsnowlabs.nlp</groupId>
-    <artifactId>spark-nlp-m1_2.12</artifactId>
+    <artifactId>spark-nlp-silicon_2.12</artifactId>
     <version>4.4.0</version>
 </dependency>
 ```
@@ -241,7 +241,7 @@ or in case of sbt:
 
 ```scala
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-m1" % "4.4.0"
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-silicon" % "4.4.0"
 ```
 
 If everything went well, you can now start Spark NLP with the `m1` flag set to `true`:
@@ -269,7 +269,7 @@ If everything went well, you can now start Spark NLP with the `m1` flag set to `
 ```python
 import sparknlp
 
-spark = sparknlp.start(m1=True)
+spark = sparknlp.start(apple_silicon=True)
 ```
 
 ## Installation for Linux Aarch64 Systems
