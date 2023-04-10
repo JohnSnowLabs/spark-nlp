@@ -1015,7 +1015,7 @@ output to compute span start logits and span end logits).</p>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"albert_base_qa_squad2"</code>, if no name is provided.</p>
 
   <p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Question+Answering">Models Hub</a>.</p>
+<a href="https://sparknlp.org/models?task=Question+Answering">Models Hub</a>.</p>
 
   <p>To see which models are compatible and how to import them see
 https://github.com/JohnSnowLabs/spark-nlp/discussions/5669. and the
@@ -1124,9 +1124,9 @@ https://github.com/JohnSnowLabs/spark-nlp/discussions/5669. and the
 </code></pre></div>  </div>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"albert_base_sequence_classifier_imdb"</code>, if no name is provided.</p>
 
-  <p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Text+Classification">Models Hub</a>.</p>
+  <p>For available pretrained models please see the <a href="https://sparknlp.org/models?task=Text+Classification">Models Hub</a>.</p>
 
-  <p>Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are 
+  <p>Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are
 compatible and how to import them see https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/AlbertForSequenceClassificationTestSpec.scala">AlbertForSequenceClassification</a>.</p>
 
@@ -1242,7 +1242,7 @@ e.g. for Named-Entity-Recognition (NER) tasks.</p>
 </code></pre></div>  </div>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"albert_base_token_classifier_conll03"</code>, if no name is provided.</p>
 
-  <p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition">Models Hub</a>.</p>
+  <p>For available pretrained models please see the <a href="https://sparknlp.org/models?task=Named+Entity+Recognition">Models Hub</a>.</p>
 
   <p>and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/AlbertForTokenClassificationTestSpec.scala">AlbertForTokenClassificationTestSpec</a>.
 Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are compatible and how to import them see <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669">Import Transformers into Spark NLP 🚀</a>.</p>
@@ -1401,6 +1401,175 @@ Models from the HuggingFace 🤗 Transformers library are also compatible with S
 
 </div>
 
+<div class="h3-box tabs-python-scala-box">
+
+  <h2 id="barttransformer">BartTransformer</h2>
+
+  <p>BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation,
+Translation, and Comprehension Transformer</p>
+
+  <p>The Facebook BART (Bidirectional and Auto-Regressive Transformer) model is a state-of-the-art
+language generation model that was introduced by Facebook AI in 2019. It is based on the
+transformer architecture and is designed to handle a wide range of natural language processing
+tasks such as text generation, summarization, and machine translation.</p>
+
+  <p>BART is unique in that it is both bidirectional and auto-regressive, meaning that it can
+generate text both from left-to-right and from right-to-left. This allows it to capture
+contextual information from both past and future tokens in a sentence,resulting in more
+accurate and natural language generation.</p>
+
+  <p>The model was trained on a large corpus of text data using a combination of unsupervised and
+supervised learning techniques. It incorporates pretraining and fine-tuning phases, where the
+model is first trained on a large unlabeled corpus of text, and then fine-tuned on specific
+downstream tasks.</p>
+
+  <p>BART has achieved state-of-the-art performance on a wide range of NLP tasks, including
+summarization, question-answering, and language translation. Its ability to handle multiple
+tasks and its high performance on each of these tasks make it a versatile and valuable tool
+for natural language processing applications.</p>
+
+  <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">bart</span> <span class="k">=</span> <span class="nv">BartTransformer</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"generation"</span><span class="o">)</span>
+</code></pre></div>  </div>
+
+  <p>The default model is <code class="language-plaintext highlighter-rouge">"bart_large_cnn"</code>, if no name is provided. For available pretrained
+models please see the <a href="https://nlp.johnsnowlabs.com/models?q=bart">Models Hub</a>.</p>
+
+  <p>For extended examples of usage, see
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/BartTestSpec.scala">BartTestSpec</a>.</p>
+
+  <p><strong>References:</strong></p>
+
+  <ul>
+    <li><a href="https://aclanthology.org/2020.acl-main.703.pdf">BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension</a></li>
+    <li>https://github.com/pytorch/fairseq</li>
+  </ul>
+
+  <p><strong>Paper Abstract:</strong></p>
+
+  <p><em>We present BART, a denoising autoencoder for pretraining sequence-to-sequence models. BART
+is trained by (1) corrupting text with an arbitrary noising function, and (2) learning a model
+to reconstruct the original text. It uses a standard Tranformer-based neural machine
+translation architecture which, despite its simplicity, can be seen as generalizing BERT (due
+to the bidirectional encoder), GPT (with the left-to-right decoder), and other recent
+pretraining schemes. We evaluate a number of noising approaches, finding the best performance
+by both randomly shuffling the order of sentences and using a novel in-filling scheme, where
+spans of text are replaced with a single mask token. BART is particularly effective when fine
+tuned for text generation but also works well for comprehension tasks. It matches the
+performance of RoBERTa on GLUE and SQuAD, and achieves new stateof-the-art results on a range
+of abstractive dialogue, question answering, and summarization tasks, with gains of up to 3.5
+ROUGE. BART also provides a 1.1 BLEU increase over a back-translation system for machine
+translation, with only target language pretraining. We also replicate other pretraining
+schemes within the BART framework, to understand their effect on end-task performance</em></p>
+
+  <p><strong>Note:</strong></p>
+
+  <p>This is a very computationally expensive module especially on larger sequence. The use of an
+accelerator such as GPU is recommended.</p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/seq2seq/bart_transformer/index.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer">BartTransformer</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/annotators/seq2seq/BartTransformer">BartTransformer</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/seq2seq/BartTransformer.scala">BartTransformer</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"documents"</span><span class="p">)</span>
+<span class="n">bart</span> <span class="o">=</span> <span class="n">BartTransformer</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bart_large_cnn"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setTask</span><span class="p">(</span><span class="s">"summarize:"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"documents"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setMaxOutputLength</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"summaries"</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">bart</span><span class="p">])</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span>
+    <span class="s">"Transfer learning, where a model is first pre-trained on a data-rich task before being fine-tuned on a "</span> <span class="o">+</span>
+    <span class="s">"downstream task, has emerged as a powerful technique in natural language processing (NLP). The effectiveness"</span> <span class="o">+</span>
+    <span class="s">" of transfer learning has given rise to a diversity of approaches, methodology, and practice. In this "</span> <span class="o">+</span>
+    <span class="s">"paper, we explore the landscape of transfer learning techniques for NLP by introducing a unified framework "</span> <span class="o">+</span>
+    <span class="s">"that converts all text-based language problems into a text-to-text format. Our systematic study compares "</span> <span class="o">+</span>
+    <span class="s">"pre-training objectives, architectures, unlabeled data sets, transfer approaches, and other factors on dozens "</span> <span class="o">+</span>
+    <span class="s">"of language understanding tasks. By combining the insights from our exploration with scale and our new "</span> <span class="o">+</span>
+    <span class="s">"Colossal Clean Crawled Corpus, we achieve state-of-the-art results on many benchmarks covering "</span> <span class="o">+</span>
+    <span class="s">"summarization, question answering, text classification, and more. To facilitate future work on transfer "</span> <span class="o">+</span>
+    <span class="s">"learning for NLP, we release our data set, pre-trained models, and code."</span>
+<span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"summaries.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="o">+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="n">result</span>                                                                                                                                                                                                        <span class="o">|</span>
+<span class="o">+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="p">[</span><span class="n">transfer</span> <span class="n">learning</span> <span class="n">has</span> <span class="n">emerged</span> <span class="k">as</span> <span class="n">a</span> <span class="n">powerful</span> <span class="n">technique</span> <span class="ow">in</span> <span class="n">natural</span> <span class="n">language</span> <span class="n">processing</span> <span class="p">(</span><span class="n">NLP</span><span class="p">)</span> <span class="n">the</span> <span class="n">effectiveness</span> <span class="n">of</span> <span class="n">transfer</span> <span class="n">learning</span> <span class="n">has</span> <span class="n">given</span> <span class="n">rise</span> <span class="n">to</span> <span class="n">a</span> <span class="n">diversity</span> <span class="n">of</span> <span class="n">approaches</span><span class="p">,</span> <span class="n">methodologies</span><span class="p">,</span> <span class="ow">and</span> <span class="n">practice</span> <span class="p">.]</span><span class="o">|</span>
+<span class="o">+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base.DocumentAssembler</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.seq2seq.GPT2Transformer</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"documents"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">bart</span> <span class="k">=</span> <span class="nv">BartTransformer</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bart_large_cnn"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"documents"</span><span class="o">))</span>
+  <span class="o">.</span><span class="py">setMinOutputLength</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setMaxOutputLength</span><span class="o">(</span><span class="mi">30</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setDoSample</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setTopK</span><span class="o">(</span><span class="mi">50</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"generation"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">bart</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span>
+  <span class="s">"PG&amp;E stated it scheduled the blackouts in response to forecasts for high winds "</span> <span class="o">+</span>
+  <span class="s">"amid dry conditions. The aim is to reduce the risk of wildfires. Nearly 800 thousand customers were "</span> <span class="o">+</span>
+  <span class="s">"scheduled to be affected by the shutoffs which were expected to last through at least midday tomorrow."</span>
+<span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+
+<span class="nv">results</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"generation.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="n">truncate</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
+<span class="o">+--------------------------------------------------------------+</span>
+<span class="o">|</span><span class="n">result</span>                                                        <span class="o">|</span>
+<span class="o">+--------------------------------------------------------------+</span>
+<span class="o">|[</span><span class="kt">Nearly</span> <span class="err">800</span> <span class="kt">thousand</span> <span class="kt">customers</span> <span class="kt">were</span> <span class="kt">affected</span> <span class="kt">by</span> <span class="kt">the</span> <span class="kt">shutoffs.</span><span class="o">]|</span>
+<span class="o">+--------------------------------------------------------------+</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
 <div class="h3-box">
 
   <h2 id="bertembeddings">BertEmbeddings</h2>
@@ -1415,7 +1584,7 @@ vector representations for natural language by using a deep, pre-trained neural 
 </code></pre></div>  </div>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"small_bert_L2_768"</code>, if no name is provided.</p>
 
-  <p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Embeddings">Models Hub</a>.</p>
+  <p>For available pretrained models please see the <a href="https://sparknlp.org/models?task=Embeddings">Models Hub</a>.</p>
 
   <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dl-ner/ner_bert.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertEmbeddingsTestSpec.scala">BertEmbeddingsTestSpec</a>.</p>
@@ -1806,7 +1975,7 @@ output to compute span start logits and span end logits).</p>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"bert_base_cased_qa_squad2"</code>, if no name is provided.</p>
 
   <p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Question+Answering">Models Hub</a>.</p>
+<a href="https://sparknlp.org/models?task=Question+Answering">Models Hub</a>.</p>
 
   <p>Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are compatible and how to import them see
 https://github.com/JohnSnowLabs/spark-nlp/discussions/5669. and the
@@ -1914,9 +2083,9 @@ e.g. for multi-class document classification tasks.</p>
 </code></pre></div>  </div>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"bert_base_sequence_classifier_imdb"</code>, if no name is provided.</p>
 
-  <p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Text+Classification">Models Hub</a>.</p>
+  <p>For available pretrained models please see the <a href="https://sparknlp.org/models?task=Text+Classification">Models Hub</a>.</p>
 
-  <p>Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are 
+  <p>Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are
 compatible and how to import them see https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/BertForSequenceClassificationTestSpec.scala">BertForSequenceClassificationTestSpec</a>.</p>
 
@@ -2034,7 +2203,7 @@ e.g. for Named-Entity-Recognition (NER) tasks.</p>
 </code></pre></div>  </div>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"bert_base_token_classifier_conll03"</code>, if no name is provided.</p>
 
-  <p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Text+Classification">Models Hub</a>.</p>
+  <p>For available pretrained models please see the <a href="https://sparknlp.org/models?task=Text+Classification">Models Hub</a>.</p>
 
   <p>and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/BertForTokenClassificationTestSpec.scala">BertForTokenClassificationTestSpec</a>.
 Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are compatible and how to import them see <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669">Import Transformers into Spark NLP 🚀</a>.</p>
@@ -2193,6 +2362,132 @@ Models from the HuggingFace 🤗 Transformers library are also compatible with S
 
 </div>
 
+<div class="h3-box tabs-python-scala-box">
+
+  <h2 id="bertforzeroshotclassification">BertForZeroShotClassification</h2>
+
+  <p>BertForZeroShotClassification using a <code class="language-plaintext highlighter-rouge">ModelForSequenceClassification</code> trained on NLI (natural
+language inference) tasks. Equivalent of <code class="language-plaintext highlighter-rouge">BertForSequenceClassification</code> models, but these
+models don’t require a hardcoded number of potential classes, they can be chosen at runtime.
+It usually means it’s slower but it is much more flexible.</p>
+
+  <p>Any combination of sequences and labels can be passed and each combination will be posed as a
+premise/hypothesis pair and passed to the pretrained model.</p>
+
+  <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">sequenceClassifier</span> <span class="k">=</span> <span class="nv">BertForZeroShotClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"token"</span><span class="o">,</span> <span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"label"</span><span class="o">)</span>
+</code></pre></div>  </div>
+
+  <p>The default model is <code class="language-plaintext highlighter-rouge">"bert_base_cased_zero_shot_classifier_xnli"</code>, if no name is provided.</p>
+
+  <p>For available pretrained models please see the
+<a href="https://nlp.johnsnowlabs.com/models?task=Text+Classification">Models Hub</a>.</p>
+
+  <p>To see which models are compatible and how to import them see
+https://github.com/JohnSnowLabs/spark-nlp/discussions/5669 and to see more extended
+examples, see
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/BertForZeroShotClassification.scala">BertForZeroShotClassification</a>.</p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT, TOKEN</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">CATEGORY</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/bert_for_zero_shot_classification/index.html#sparknlp.annotator.classifier_dl.bert_for_zero_shot_classification.BertForZeroShotClassification">BertForZeroShotClassification</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/annotators/classifier/dl/BertForZeroShotClassification">BertForZeroShotClassification</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/BertForZeroShotClassification.scala">BertForZeroShotClassification</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+<span class="n">sequenceClassifier</span> <span class="o">=</span> <span class="n">BertForZeroShotClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"token"</span><span class="p">,</span> <span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"label"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+    <span class="n">documentAssembler</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="p">,</span>
+    <span class="n">sequenceClassifier</span>
+<span class="p">])</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"I loved this movie when I was a child."</span><span class="p">,</span> <span class="s">"It was pretty boring."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"label.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="o">+------+</span>
+<span class="o">|</span><span class="n">result</span><span class="o">|</span>
+<span class="o">+------+</span>
+<span class="o">|</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span> <span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="n">neg</span><span class="p">]</span> <span class="o">|</span>
+<span class="o">+------+</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">sequenceClassifier</span> <span class="k">=</span> <span class="nv">BertForZeroShotClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"token"</span><span class="o">,</span> <span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"label"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+  <span class="n">documentAssembler</span><span class="o">,</span>
+  <span class="n">tokenizer</span><span class="o">,</span>
+  <span class="n">sequenceClassifier</span>
+<span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"I loved this movie when I was a child."</span><span class="o">,</span> <span class="s">"It was pretty boring."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+
+<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"label.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+<span class="o">+------+</span>
+<span class="o">|</span><span class="n">result</span><span class="o">|</span>
+<span class="o">+------+</span>
+<span class="o">|[</span><span class="kt">pos</span><span class="o">]</span> <span class="o">|</span>
+<span class="o">|[</span><span class="kt">neg</span><span class="o">]</span> <span class="o">|</span>
+<span class="o">+------+</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
 <div class="h3-box">
 
   <h2 id="bertsentenceembeddings">BertSentenceEmbeddings</h2>
@@ -2207,7 +2502,7 @@ vector representations for natural language by using a deep, pre-trained neural 
 </code></pre></div>  </div>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"sent_small_bert_L2_768"</code>, if no name is provided.</p>
 
-  <p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Embeddings">Models Hub</a>.</p>
+  <p>For available pretrained models please see the <a href="https://sparknlp.org/models?task=Embeddings">Models Hub</a>.</p>
 
   <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BERT%20Sentence.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddingsTestSpec.scala">BertSentenceEmbeddingsTestSpec</a>.</p>
@@ -2550,7 +2845,7 @@ in 2019. It is a model trained on 138GB of French text.</p>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"camembert_base"</code>, if no name is provided.</p>
 
   <p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Embeddings">Models Hub</a>.</p>
+<a href="https://sparknlp.org/models?task=Embeddings">Models Hub</a>.</p>
 
   <p>For extended examples of usage, see the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dl-ner/ner_bert.ipynb">Examples</a>
@@ -2839,7 +3134,7 @@ multi-class document classification tasks.</p>
   <p>The default model is <code class="language-plaintext highlighter-rouge">camembert_base_sequence_classifier_allocine"</code>, if no name is provided.</p>
 
   <p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Text+Classification">Models Hub</a>.</p>
+<a href="https://sparknlp.org/models?task=Text+Classification">Models Hub</a>.</p>
 
   <p>To see which models are compatible and how to import them see
 https://github.com/JohnSnowLabs/spark-nlp/discussions/5669 and to see more extended
@@ -2956,7 +3251,7 @@ top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Re
   <p>The default model is <code class="language-plaintext highlighter-rouge">"camembert_base_token_classifier_wikiner"</code>, if no name is provided.</p>
 
   <p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition">Models Hub</a>.</p>
+<a href="https://sparknlp.org/models?task=Named+Entity+Recognition">Models Hub</a>.</p>
 
   <p>and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/CamemBertForTokenClassificationTestSpec.scala">CamemBertForTokenClassificationTestSpec</a>.
@@ -3000,7 +3295,7 @@ https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.</p>
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"token"</span><span class="p">,</span> <span class="s">"document"</span><span class="p">])</span> \\
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"label"</span><span class="p">)</span> \\
     <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
-  
+
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
     <span class="n">documentAssembler</span><span class="p">,</span>
     <span class="n">tokenizer</span><span class="p">,</span>
@@ -3050,6 +3345,162 @@ https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.</p>
 <span class="o">+------------------------------+</span>
 <span class="o">|[</span><span class="kt">I-PER</span>, <span class="kt">I-PER</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">O</span>, <span class="kt">I-LOC</span><span class="o">]|</span>
 <span class="o">+------------------------------+</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
+<div class="h3-box tabs-python-scala-box">
+
+  <h2 id="convnextforimageclassification">ConvNextForImageClassification</h2>
+
+  <p>ConvNextForImageClassification is an image classifier based on ConvNet models.</p>
+
+  <p>The ConvNeXT model was proposed in A ConvNet for the 2020s by Zhuang Liu, Hanzi Mao, Chao-Yuan
+Wu, Christoph Feichtenhofer, Trevor Darrell, Saining Xie. ConvNeXT is a pure convolutional
+model (ConvNet), inspired by the design of Vision Transformers, that claims to outperform
+them.</p>
+
+  <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">imageClassifier</span> <span class="k">=</span> <span class="nv">ConvNextForImageClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"class"</span><span class="o">)</span>
+</code></pre></div>  </div>
+
+  <p>The default model is <code class="language-plaintext highlighter-rouge">"image_classifier_convnext_tiny_224_local"</code>, if no name is provided.</p>
+
+  <p>For available pretrained models please see the
+<a href="https://sparknlp.org/models?task=Image+Classification">Models Hub</a>.</p>
+
+  <p>Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To
+see which models are compatible and how to import them see
+https://github.com/JohnSnowLabs/spark-nlp/discussions/5669 and to see more extended
+examples, see
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/cv/ConvNextForImageClassificationTestSpec.scala">ConvNextForImageClassificationTestSpec</a>.</p>
+
+  <p><strong>References:</strong></p>
+
+  <p><a href="https://arxiv.org/abs/2201.03545">A ConvNet for the 2020s</a></p>
+
+  <p><strong>Paper Abstract:</strong></p>
+
+  <p><em>The “Roaring 20s” of visual recognition began with the introduction of Vision Transformers
+(ViTs), which quickly superseded ConvNets as the state-of-the-art image classification model.
+A vanilla ViT, on the other hand, faces difficulties when applied to general computer vision
+tasks such as object detection and semantic segmentation. It is the hierarchical Transformers
+(e.g., Swin Transformers) that reintroduced several ConvNet priors, making Transformers
+practically viable as a generic vision backbone and demonstrating remarkable performance on a
+wide variety of vision tasks. However, the effectiveness of such hybrid approaches is still
+largely credited to the intrinsic superiority of Transformers, rather than the inherent
+inductive biases of convolutions. In this work, we reexamine the design spaces and test the
+limits of what a pure ConvNet can achieve. We gradually “modernize” a standard ResNet toward
+the design of a vision Transformer, and discover several key components that contribute to the
+performance difference along the way. The outcome of this exploration is a family of pure
+ConvNet models dubbed ConvNeXt. Constructed entirely from standard ConvNet modules, ConvNeXts
+compete favorably with Transformers in terms of accuracy and scalability, achieving 87.8%
+ImageNet top-1 accuracy and outperforming Swin Transformers on COCO detection and ADE20K
+segmentation, while maintaining the simplicity and efficiency of standard ConvNets.</em></p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">IMAGE</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">CATEGORY</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/cv/convnext_for_image_classification/index.html#sparknlp.annotator.cv.convnext_for_image_classification.ConvNextForImageClassification">ConvNextForImageClassification</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/annotators/cv/ConvNextForImageClassification">ConvNextForImageClassification</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/cv/ConvNextForImageClassification.scala">ConvNextForImageClassification</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="n">imageDF</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span> \
+    <span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">option</span><span class="p">(</span><span class="s">"dropInvalid"</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"src/test/resources/image/"</span><span class="p">)</span>
+<span class="n">imageAssembler</span> <span class="o">=</span> <span class="n">ImageAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image_assembler"</span><span class="p">)</span>
+<span class="n">imageClassifier</span> <span class="o">=</span> <span class="n">ConvNextForImageClassification</span> \
+    <span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"image_assembler"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"class"</span><span class="p">)</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">imageAssembler</span><span class="p">,</span> <span class="n">imageClassifier</span><span class="p">])</span>
+<span class="n">pipelineDF</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">imageDF</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">imageDF</span><span class="p">)</span>
+<span class="n">pipelineDF</span> \
+  <span class="p">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s">"reverse(split(image.origin, '/'))[0] as image_name"</span><span class="p">,</span> <span class="s">"class.result"</span><span class="p">)</span> \
+  <span class="p">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="o">+-----------------+----------------------------------------------------------+</span>
+<span class="o">|</span><span class="n">image_name</span>       <span class="o">|</span><span class="n">result</span>                                                    <span class="o">|</span>
+<span class="o">+-----------------+----------------------------------------------------------+</span>
+<span class="o">|</span><span class="n">bluetick</span><span class="p">.</span><span class="n">jpg</span>     <span class="o">|</span><span class="p">[</span><span class="n">bluetick</span><span class="p">]</span>                                                <span class="o">|</span>
+<span class="o">|</span><span class="n">chihuahua</span><span class="p">.</span><span class="n">jpg</span>    <span class="o">|</span><span class="p">[</span><span class="n">Chihuahua</span><span class="p">]</span>                                               <span class="o">|</span>
+<span class="o">|</span><span class="n">egyptian_cat</span><span class="p">.</span><span class="n">jpeg</span><span class="o">|</span><span class="p">[</span><span class="n">tabby</span><span class="p">,</span> <span class="n">tabby</span> <span class="n">cat</span><span class="p">]</span>                                        <span class="o">|</span>
+<span class="o">|</span><span class="n">hen</span><span class="p">.</span><span class="n">JPEG</span>         <span class="o">|</span><span class="p">[</span><span class="n">hen</span><span class="p">]</span>                                                     <span class="o">|</span>
+<span class="o">|</span><span class="n">hippopotamus</span><span class="p">.</span><span class="n">JPEG</span><span class="o">|</span><span class="p">[</span><span class="n">hippopotamus</span><span class="p">,</span> <span class="n">hippo</span><span class="p">,</span> <span class="n">river</span> <span class="n">horse</span><span class="p">,</span> <span class="n">Hippopotamus</span> <span class="n">amphibius</span><span class="p">]</span><span class="o">|</span>
+<span class="o">|</span><span class="n">junco</span><span class="p">.</span><span class="n">JPEG</span>       <span class="o">|</span><span class="p">[</span><span class="n">junco</span><span class="p">,</span> <span class="n">snowbird</span><span class="p">]</span>                                         <span class="o">|</span>
+<span class="o">|</span><span class="n">ostrich</span><span class="p">.</span><span class="n">JPEG</span>     <span class="o">|</span><span class="p">[</span><span class="n">ostrich</span><span class="p">,</span> <span class="n">Struthio</span> <span class="n">camelus</span><span class="p">]</span>                               <span class="o">|</span>
+<span class="o">|</span><span class="n">ox</span><span class="p">.</span><span class="n">JPEG</span>          <span class="o">|</span><span class="p">[</span><span class="n">ox</span><span class="p">]</span>                                                      <span class="o">|</span>
+<span class="o">|</span><span class="n">palace</span><span class="p">.</span><span class="n">JPEG</span>      <span class="o">|</span><span class="p">[</span><span class="n">palace</span><span class="p">]</span>                                                  <span class="o">|</span>
+<span class="o">|</span><span class="n">tractor</span><span class="p">.</span><span class="n">JPEG</span>     <span class="o">|</span><span class="p">[</span><span class="n">thresher</span><span class="p">,</span> <span class="n">thrasher</span><span class="p">,</span> <span class="n">threshing</span> <span class="n">machine</span>                    <span class="o">|</span>
+<span class="o">+-----------------+----------------------------------------------------------+</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.ImageAssembler</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="k">val</span> <span class="nv">imageDF</span><span class="k">:</span> <span class="kt">DataFrame</span> <span class="o">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span>
+  <span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">option</span><span class="o">(</span><span class="s">"dropInvalid"</span><span class="o">,</span> <span class="n">value</span> <span class="k">=</span> <span class="kc">true</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="s">"src/test/resources/image/"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">imageAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ImageAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">imageClassifier</span> <span class="k">=</span> <span class="nc">ConvNextForImageClassification</span>
+  <span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"class"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">imageAssembler</span><span class="o">,</span> <span class="n">imageClassifier</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">pipelineDF</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">imageDF</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">imageDF</span><span class="o">)</span>
+
+<span class="n">pipelineDF</span>
+  <span class="o">.</span><span class="py">selectExpr</span><span class="o">(</span><span class="s">"reverse(split(image.origin, '/'))[0] as image_name"</span><span class="o">,</span> <span class="s">"class.result"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">show</span><span class="o">(</span><span class="n">truncate</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
+<span class="o">+-----------------+----------------------------------------------------------+</span>
+<span class="o">|</span><span class="n">image_name</span>       <span class="o">|</span><span class="n">result</span>                                                    <span class="o">|</span>
+<span class="o">+-----------------+----------------------------------------------------------+</span>
+<span class="o">|</span><span class="nv">palace</span><span class="o">.</span><span class="py">JPEG</span>      <span class="o">|[</span><span class="kt">palace</span><span class="o">]</span>                                                  <span class="o">|</span>
+<span class="o">|</span><span class="nv">egyptian_cat</span><span class="o">.</span><span class="py">jpeg</span><span class="o">|[</span><span class="kt">tabby</span>, <span class="kt">tabby</span> <span class="kt">cat</span><span class="o">]</span>                                        <span class="o">|</span>
+<span class="o">|</span><span class="nv">hippopotamus</span><span class="o">.</span><span class="py">JPEG</span><span class="o">|[</span><span class="kt">hippopotamus</span>, <span class="kt">hippo</span>, <span class="kt">river</span> <span class="kt">horse</span>, <span class="kt">Hippopotamus</span> <span class="kt">amphibius</span><span class="o">]|</span>
+<span class="o">|</span><span class="nv">hen</span><span class="o">.</span><span class="py">JPEG</span>         <span class="o">|[</span><span class="kt">hen</span><span class="o">]</span>                                                     <span class="o">|</span>
+<span class="o">|</span><span class="nv">ostrich</span><span class="o">.</span><span class="py">JPEG</span>     <span class="o">|[</span><span class="kt">ostrich</span>, <span class="kt">Struthio</span> <span class="kt">camelus</span><span class="o">]</span>                               <span class="o">|</span>
+<span class="o">|</span><span class="nv">junco</span><span class="o">.</span><span class="py">JPEG</span>       <span class="o">|[</span><span class="kt">junco</span>, <span class="kt">snowbird</span><span class="o">]</span>                                         <span class="o">|</span>
+<span class="o">|</span><span class="nv">bluetick</span><span class="o">.</span><span class="py">jpg</span>     <span class="o">|[</span><span class="kt">bluetick</span><span class="o">]</span>                                                <span class="o">|</span>
+<span class="o">|</span><span class="nv">chihuahua</span><span class="o">.</span><span class="py">jpg</span>    <span class="o">|[</span><span class="kt">Chihuahua</span><span class="o">]</span>                                               <span class="o">|</span>
+<span class="o">|</span><span class="nv">tractor</span><span class="o">.</span><span class="py">JPEG</span>     <span class="o">|[</span><span class="kt">tractor</span><span class="o">]</span>                                                 <span class="o">|</span>
+<span class="o">|</span><span class="nv">ox</span><span class="o">.</span><span class="py">JPEG</span>          <span class="o">|[</span><span class="kt">ox</span><span class="o">]</span>                                                      <span class="o">|</span>
+<span class="o">+-----------------+----------------------------------------------------------+</span>
 </code></pre></div>      </div>
 
     </div>
@@ -3362,7 +3813,7 @@ output to compute span start logits and span end logits).</p>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"deverta_v3_xsmall_qa_squad2"</code>, if no name is provided.</p>
 
   <p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Question+Answering">Models Hub</a>.</p>
+<a href="https://sparknlp.org/models?task=Question+Answering">Models Hub</a>.</p>
 
   <p>To see which models are compatible and how to import them see
 https://github.com/JohnSnowLabs/spark-nlp/discussions/5669. and the
@@ -3470,7 +3921,7 @@ https://github.com/JohnSnowLabs/spark-nlp/discussions/5669. and the
   .setOutputCol("embeddings")
 </code></pre></div>  </div>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"distilbert_base_cased"</code>, if no name is provided.
-For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Embeddings">Models Hub</a>.</p>
+For available pretrained models please see the <a href="https://sparknlp.org/models?task=Embeddings">Models Hub</a>.</p>
 
   <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBERT.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/DistilBertEmbeddingsTestSpec.scala">DistilBertEmbeddingsTestSpec</a>.
@@ -3875,7 +4326,7 @@ hidden-states output to compute span start logits and span end logits).</p>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"distilbert_base_cased_qa_squad2"</code>, if no name is provided.</p>
 
   <p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Question+Answering">Models Hub</a>.</p>
+<a href="https://sparknlp.org/models?task=Question+Answering">Models Hub</a>.</p>
 
   <p>To see which models are compatible and how to import them see
 https://github.com/JohnSnowLabs/spark-nlp/discussions/5669. and the
@@ -3984,9 +4435,9 @@ https://github.com/JohnSnowLabs/spark-nlp/discussions/5669. and the
 </code></pre></div>  </div>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"distilbert_base_sequence_classifier_imdb"</code>, if no name is provided.</p>
 
-  <p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Text+Classification">Models Hub</a>.</p>
+  <p>For available pretrained models please see the <a href="https://sparknlp.org/models?task=Text+Classification">Models Hub</a>.</p>
 
-  <p>Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are 
+  <p>Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are
 compatible and how to import them see https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/DistilBertForSequenceClassificationTestSpec.scala">DistilBertForSequenceClassificationTestSpec</a>.</p>
 
@@ -4103,7 +4554,7 @@ e.g. for Named-Entity-Recognition (NER) tasks.</p>
 </code></pre></div>  </div>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"distilbert_base_token_classifier_conll03"</code>, if no name is provided.</p>
 
-  <p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Text+Classification">Models Hub</a>.</p>
+  <p>For available pretrained models please see the <a href="https://sparknlp.org/models?task=Text+Classification">Models Hub</a>.</p>
 
   <p>and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/DistilBertForTokenClassificationTestSpec.scala">DistilBertForTokenClassificationTestSpec</a>.
 Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are compatible and how to import them see <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669">Import Transformers into Spark NLP 🚀</a>.</p>
@@ -4311,7 +4762,7 @@ elmo = ElmoEmbeddings.load("/elmo_en_2.4.0_2.4_1580488815299") \
 </code></pre></div>  </div>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"elmo"</code>, if no name is provided.</p>
 
-  <p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Embeddings">Models Hub</a>.</p>
+  <p>For available pretrained models please see the <a href="https://sparknlp.org/models?task=Embeddings">Models Hub</a>.</p>
 
   <p>The pooling layer can be set with <code class="language-plaintext highlighter-rouge">setPoolingLayer</code> to the following values:</p>
   <ul>
@@ -4714,7 +5165,7 @@ that the tasks can benefit from unsupervised techniques, given sufficient (unlab
   .setOutputCol("generation")
 </code></pre></div>  </div>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"gpt2"</code>, if no name is provided.
-For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?q=gpt2">Models Hub</a>.</p>
+For available pretrained models please see the <a href="https://sparknlp.org/models?q=gpt2">Models Hub</a>.</p>
 
   <p>For extended examples of usage, see <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/GPT2TestSpec.scala">GPT2TestSpec</a>.</p>
 
@@ -4853,7 +5304,7 @@ M1. This is due to the processor not supporting instructions for XLA.</p>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"asr_hubert_large_ls960"</code>, if no name is provided.</p>
 
   <p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models">Models Hub</a>.</p>
+<a href="https://sparknlp.org/models">Models Hub</a>.</p>
 
   <p>To see which models are compatible and how to import them see
 https://github.com/JohnSnowLabs/spark-nlp/discussions/5669 and to see more extended
@@ -4988,7 +5439,7 @@ It supports sequences of length up to 4,096.</p>
   .setOutputCol("embeddings")
 </code></pre></div>  </div>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"longformer_base_4096"</code>, if no name is provided.
-For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Embeddings">Models Hub</a>.</p>
+For available pretrained models please see the <a href="https://sparknlp.org/models?task=Embeddings">Models Hub</a>.</p>
 
   <p>For some examples of usage, see <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/LongformerEmbeddingsTestSpec.scala">LongformerEmbeddingsTestSpec</a>.
 Models from the HuggingFace 🤗 Transformers library are compatible with Spark NLP 🚀. To see which models are compatible and how to import them see <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669">Import Transformers into Spark NLP 🚀</a>.</p>
@@ -5365,7 +5816,7 @@ hidden-states output to compute span start logits and span end logits).</p>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"longformer_base_base_qa_squad2"</code>, if no name is provided.</p>
 
   <p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Question+Answering">Models Hub</a>.</p>
+<a href="https://sparknlp.org/models?task=Question+Answering">Models Hub</a>.</p>
 
   <p>To see which models are compatible and how to import them see
 https://github.com/JohnSnowLabs/spark-nlp/discussions/5669. and the
@@ -5474,9 +5925,9 @@ https://github.com/JohnSnowLabs/spark-nlp/discussions/5669. and the
 </code></pre></div>  </div>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"longformer_base_sequence_classifier_imdb"</code>, if no name is provided.</p>
 
-  <p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Text+Classification">Models Hub</a>.</p>
+  <p>For available pretrained models please see the <a href="https://sparknlp.org/models?task=Text+Classification">Models Hub</a>.</p>
 
-  <p>Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are 
+  <p>Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are
 compatible and how to import them see https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/LongformerForSequenceClassificationTestSpec.scala">LongformerForSequenceClassification</a>.</p>
 
@@ -5592,7 +6043,7 @@ e.g. for Named-Entity-Recognition (NER) tasks.</p>
 </code></pre></div>  </div>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"longformer_base_token_classifier_conll03"</code>, if no name is provided.</p>
 
-  <p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition">Models Hub</a>.</p>
+  <p>For available pretrained models please see the <a href="https://sparknlp.org/models?task=Named+Entity+Recognition">Models Hub</a>.</p>
 
   <p>and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/LongformerForTokenClassificationTestSpec.scala">LongformerForTokenClassificationTestSpec</a>.
 Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are compatible and how to import them see <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669">Import Transformers into Spark NLP 🚀</a>.</p>
@@ -5771,7 +6222,7 @@ many companies, organizations and research projects.</p>
   .setOutputCol("translation")
 </code></pre></div>  </div>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"opus_mt_en_fr"</code>, default language is <code class="language-plaintext highlighter-rouge">"xx"</code> (meaning multi-lingual), if no values are provided.
-For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Translation">Models Hub</a>.</p>
+For available pretrained models please see the <a href="https://sparknlp.org/models?task=Translation">Models Hub</a>.</p>
 
   <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/multilingual/Translation_Marian.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/MarianTransformerTestSpec.scala">MarianTransformerTestSpec</a>.</p>
@@ -5915,7 +6366,7 @@ It is based on Google’s BERT model released in 2018.</p>
   .setOutputCol("embeddings")
 </code></pre></div>  </div>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"roberta_base"</code>, if no name is provided.
-For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Embeddings">Models Hub</a>.</p>
+For available pretrained models please see the <a href="https://sparknlp.org/models?task=Embeddings">Models Hub</a>.</p>
 
   <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBERTa.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/RoBertaEmbeddingsTestSpec.scala">RoBertaEmbeddingsTestSpec</a>.
@@ -6314,7 +6765,7 @@ output to compute span start logits and span end logits).</p>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"roberta_base_qa_squad2"</code>, if no name is provided.</p>
 
   <p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Question+Answering">Models Hub</a>.</p>
+<a href="https://sparknlp.org/models?task=Question+Answering">Models Hub</a>.</p>
 
   <p>To see which models are compatible and how to import them see
 https://github.com/JohnSnowLabs/spark-nlp/discussions/5669. and the
@@ -6423,7 +6874,7 @@ https://github.com/JohnSnowLabs/spark-nlp/discussions/5669. and the
 </code></pre></div>  </div>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"roberta_base_sequence_classifier_imdb"</code>, if no name is provided.</p>
 
-  <p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Text+Classification">Models Hub</a>.</p>
+  <p>For available pretrained models please see the <a href="https://sparknlp.org/models?task=Text+Classification">Models Hub</a>.</p>
 
   <p>Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are
 compatible and how to import them see https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
@@ -6537,7 +6988,7 @@ e.g. for Named-Entity-Recognition (NER) tasks.</p>
 </code></pre></div>  </div>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"roberta_base_token_classifier_conll03"</code>, if no name is provided.</p>
 
-  <p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition">Models Hub</a>.</p>
+  <p>For available pretrained models please see the <a href="https://sparknlp.org/models?task=Named+Entity+Recognition">Models Hub</a>.</p>
 
   <p>and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/RoBertaForTokenClassificationTestSpec.scala">RoBertaForTokenClassificationTestSpec</a>.
 Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are compatible and how to import them see <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669">Import Transformers into Spark NLP 🚀</a>.</p>
@@ -6712,7 +7163,7 @@ It is based on Google’s BERT model released in 2018.</p>
   .setOutputCol("sentence_embeddings")
 </code></pre></div>  </div>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"sent_roberta_base"</code>, if no name is provided.
-For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Embeddings">Models Hub</a>.</p>
+For available pretrained models please see the <a href="https://sparknlp.org/models?task=Embeddings">Models Hub</a>.</p>
 
   <p>Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are compatible and how to import them see <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669">Import Transformers into Spark NLP 🚀</a>.</p>
 
@@ -6998,7 +7449,7 @@ the model will link “he” to “John” and “her” to “Mary”.</p>
   .setOutputCol("corefs")
 </code></pre></div>  </div>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"spanbert_base_coref"</code>, if no name is provided. For available pretrained
-models please see the <a href="https://nlp.johnsnowlabs.com/models">Models Hub</a>.</p>
+models please see the <a href="https://sparknlp.org/models">Models Hub</a>.</p>
 
   <p><strong>References:</strong>
 https://github.com/mandarjoshi90/coref</p>
@@ -7149,7 +7600,7 @@ computation to non-overlapping local windows while also allowing for cross-windo
 provided.</p>
 
   <p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Image+Classification">Models Hub</a>.</p>
+<a href="https://sparknlp.org/models?task=Image+Classification">Models Hub</a>.</p>
 
   <p>Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are compatible and how to import them see
 https://github.com/JohnSnowLabs/spark-nlp/discussions/5669 and to see more extended
@@ -7308,7 +7759,7 @@ representation of a number instead of the number itself.</p>
   .setOutputCol("summaries")
 </code></pre></div>  </div>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"t5_small"</code>, if no name is provided.
-For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?q=t5">Models Hub</a>.</p>
+For available pretrained models please see the <a href="https://sparknlp.org/models?q=t5">Models Hub</a>.</p>
 
   <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/question-answering/Question_Answering_and_Summarization_with_T5.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/T5TestSpec.scala">T5TestSpec</a>.</p>
@@ -7462,7 +7913,7 @@ The model is based in BertForQuestionAnswering and shares all its parameters wit
   <p>The default model is <code class="language-plaintext highlighter-rouge">"table_qa_tapas_base_finetuned_wtq"</code>, if no name is provided.</p>
 
   <p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Table+Question+Understanding">Models Hub</a>.</p>
+<a href="https://sparknlp.org/models?task=Table+Question+Understanding">Models Hub</a>.</p>
 
   <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">TABLE, DOCUMENT</code></p>
 
@@ -7630,7 +8081,7 @@ model</span><span class="se">\
   .setOutputCol("sentence_embeddings")
 </code></pre></div>  </div>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"tfhub_use"</code>, if no name is provided.
-For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Embeddings">Models Hub</a>.</p>
+For available pretrained models please see the <a href="https://sparknlp.org/models?task=Embeddings">Models Hub</a>.</p>
 
   <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/ClassifierDL_Train_multi_class_news_category_classifier.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/UniversalSentenceEncoderTestSpec.scala">UniversalSentenceEncoderTestSpec</a>.</p>
@@ -7966,7 +8417,7 @@ image recognition tasks.</p>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"image_classifier_vit_base_patch16_224"</code>, if no name is provided.</p>
 
   <p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Image+Classification">Models Hub</a>.</p>
+<a href="https://sparknlp.org/models?task=Image+Classification">Models Hub</a>.</p>
 
   <p>Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are compatible and how to import them see
 https://github.com/JohnSnowLabs/spark-nlp/discussions/5669 and to see more extended
@@ -8119,7 +8570,7 @@ M1. This is due to the processor not supporting instructions for XLA.</p>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"asr_wav2vec2_base_960h"</code>, if no name is provided.</p>
 
   <p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models">Models Hub</a>.</p>
+<a href="https://sparknlp.org/models">Models Hub</a>.</p>
 
   <p>To see which models are compatible and how to import them see
 https://github.com/JohnSnowLabs/spark-nlp/discussions/5669 and to see more extended
@@ -8231,7 +8682,7 @@ data.</p>
   .setOutputCol("embeddings")
 </code></pre></div>  </div>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"xlm_roberta_base"</code>, default language is <code class="language-plaintext highlighter-rouge">"xx"</code> (meaning multi-lingual), if no values are provided.
-For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Embeddings">Models Hub</a>.</p>
+For available pretrained models please see the <a href="https://sparknlp.org/models?task=Embeddings">Models Hub</a>.</p>
 
   <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XLM-RoBERTa.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/XlmRoBertaEmbeddingsTestSpec.scala">XlmRoBertaEmbeddingsTestSpec</a>.
@@ -8636,7 +9087,7 @@ hidden-states output to compute span start logits and span end logits).</p>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"xlm_roberta_base_qa_squad2"</code>, if no name is provided.</p>
 
   <p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Question+Answering">Models Hub</a>.</p>
+<a href="https://sparknlp.org/models?task=Question+Answering">Models Hub</a>.</p>
 
   <p>To see which models are compatible and how to import them see
 https://github.com/JohnSnowLabs/spark-nlp/discussions/5669. and the
@@ -8745,9 +9196,9 @@ https://github.com/JohnSnowLabs/spark-nlp/discussions/5669. and the
 </code></pre></div>  </div>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"xlm_roberta_base_sequence_classifier_imdb"</code>, if no name is provided.</p>
 
-  <p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Text+Classification">Models Hub</a>.</p>
+  <p>For available pretrained models please see the <a href="https://sparknlp.org/models?task=Text+Classification">Models Hub</a>.</p>
 
-  <p>Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are 
+  <p>Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are
 compatible and how to import them see https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/XlmRoBertaForSequenceClassificationTestSpec.scala">XlmRoBertaForSequenceClassification</a>.</p>
 
@@ -8863,7 +9314,7 @@ e.g. for Named-Entity-Recognition (NER) tasks.</p>
 </code></pre></div>  </div>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"xlm_roberta_base_token_classifier_conll03"</code>, if no name is provided.</p>
 
-  <p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition">Models Hub</a>.</p>
+  <p>For available pretrained models please see the <a href="https://sparknlp.org/models?task=Named+Entity+Recognition">Models Hub</a>.</p>
 
   <p>and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/XlmRoBertaForTokenClassificationTestSpec.scala">XlmRoBertaForTokenClassificationTestSpec</a>.
 Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are compatible and how to import them see <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669">Import Transformers into Spark NLP 🚀</a>.</p>
@@ -9038,7 +9489,7 @@ data.</p>
   .setOutputCol("sentence_embeddings")
 </code></pre></div>  </div>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"sent_xlm_roberta_base"</code>, default language is <code class="language-plaintext highlighter-rouge">"xx"</code> (meaning multi-lingual), if no values are provided.
-For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Embeddings">Models Hub</a>.</p>
+For available pretrained models please see the <a href="https://sparknlp.org/models?task=Embeddings">Models Hub</a>.</p>
 
   <p>Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are compatible and how to import them see <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669">Import Transformers into Spark NLP 🚀</a>.</p>
 
@@ -9741,9 +10192,9 @@ answering, natural language inference, sentiment analysis, and document ranking.
 </code></pre></div>  </div>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"xlnet_base_sequence_classifier_imdb"</code>, if no name is provided.</p>
 
-  <p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Text+Classification">Models Hub</a>.</p>
+  <p>For available pretrained models please see the <a href="https://sparknlp.org/models?task=Text+Classification">Models Hub</a>.</p>
 
-  <p>Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are 
+  <p>Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are
 compatible and how to import them see https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/XlnetForSequenceClassificationTestSpec.scala">XlnetForSequenceClassification</a>.</p>
 
@@ -9859,7 +10310,7 @@ e.g. for Named-Entity-Recognition (NER) tasks.</p>
 </code></pre></div>  </div>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"xlnet_base_token_classifier_conll03"</code>, if no name is provided.</p>
 
-  <p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition">Models Hub</a>.</p>
+  <p>For available pretrained models please see the <a href="https://sparknlp.org/models?task=Named+Entity+Recognition">Models Hub</a>.</p>
 
   <p>and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/XlnetForTokenClassificationTestSpec.scala">XlnetForTokenClassificationTestSpec</a>.
 Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are compatible and how to import them see <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669">Import Transformers into Spark NLP 🚀</a>.</p>
@@ -10041,7 +10492,7 @@ RoBertaForQuestionAnswering.</p>
 </code></pre></div>  </div>
 
   <p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Zero-Shot-NER">Models Hub</a>.</p>
+<a href="https://sparknlp.org/models?task=Zero-Shot-NER">Models Hub</a>.</p>
 
   <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT, TOKEN</code></p>
 

@@ -16,7 +16,7 @@ val tokenClassifier = CamemBertForTokenClassification.pretrained()
 The default model is `"camembert_base_token_classifier_wikiner"`, if no name is provided.
 
 For available pretrained models please see the
-[Models Hub](https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition).
+[Models Hub](https://sparknlp.org/models?task=Named+Entity+Recognition).
 
 and the
 [CamemBertForTokenClassificationTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/CamemBertForTokenClassificationTestSpec.scala).
@@ -48,7 +48,7 @@ tokenClassifier = CamemBertForTokenClassification.pretrained() \\
     .setInputCols(["token", "document"]) \\
     .setOutputCol("label") \\
     .setCaseSensitive(True)
-  
+
 pipeline = Pipeline().setStages([
     documentAssembler,
     tokenizer,

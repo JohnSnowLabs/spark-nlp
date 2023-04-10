@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.annotator.cv.swin_for_image_classification &#8212; Spark NLP 4.3.2 documentation</title>
+    <title>sparknlp.annotator.cv.swin_for_image_classification &#8212; Spark NLP 4.4.0 documentation</title>
   
   
   
@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../../../../static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="../../../../../../static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="../../../../../../static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="../../../../../../static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../../../../static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../../../../static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
   
-  <link href="../../../../../../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="../../../../../../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -34,8 +34,8 @@
     <link rel="stylesheet" type="text/css" href="../../../../../../static/css/custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../../../../static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
-<link rel="preload" as="script" href="../../../../../../static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+  <link rel="preload" as="script" href="../../../../../../static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../../../../../static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="../../../../../../" id="documentation_options" src="../../../../../../static/documentation_options.js"></script>
     <script src="../../../../../../static/jquery.js"></script>
@@ -372,7 +372,7 @@ cross-window connection.</p>
 <p>The default model is <code class="docutils literal notranslate"><span class="pre">&quot;image_classifier_swin_base_patch4_window7_224&quot;</span></code>, if no name is
 provided.</p>
 <p>For available pretrained models please see the
-<a class="reference external" href="https://nlp.johnsnowlabs.com/models?task=Image+Classification">Models Hub</a>.</p>
+<a class="reference external" href="https://sparknlp.org/models?task=Image+Classification">Models Hub</a>.</p>
 <p>Models from the HuggingFace 🤗 Transformers library are also compatible with Spark
 NLP 🚀. To see which models are compatible and how to import them see
 <a class="github reference external" href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669">JohnSnowLabs/spark-nlp#5669</a> and to see more extended
@@ -412,6 +412,26 @@ and the shifted window approach also prove beneficial for all-MLP architectures.
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
+<dt><strong>doResize</strong></dt><dd><p>Whether to resize the input to a certain size</p>
+</dd>
+<dt><strong>doNormalize</strong></dt><dd><p>Whether to normalize the input with mean and standard deviation</p>
+</dd>
+<dt><strong>featureExtractorType</strong></dt><dd><p>Name of model’s architecture for feature extraction</p>
+</dd>
+<dt><strong>imageMean</strong></dt><dd><p>The sequence of means for each channel, to be used when normalizing images</p>
+</dd>
+<dt><strong>imageStd</strong></dt><dd><p>The sequence of standard deviations for each channel, to be used when normalizing images</p>
+</dd>
+<dt><strong>resample</strong></dt><dd><p>An optional resampling filter. This can be one of <cite>PIL.Image.NEAREST</cite>, <cite>PIL.Image.BILINEAR</cite> or
+<cite>PIL.Image.BICUBIC</cite>. Only has an effect if do_resize is set to True.</p>
+</dd>
+<dt><strong>size</strong></dt><dd><p>Resize the input to the given size. If a tuple is provided, it should be (width, height). If only an integer is
+provided, then the input will be resized to (size, size). Only has an effect if do_resize is set to True.</p>
+</dd>
+<dt><strong>doRescale</strong></dt><dd><p>Whether to rescale the image values by rescaleFactor</p>
+</dd>
+<dt><strong>rescaleFactor</strong></dt><dd><p>Factor to scale the image values</p>
+</dd>
 <dt><strong>configProtoBytes</strong></dt><dd><p>ConfigProto from tensorflow, serialized into byte array.</p>
 </dd>
 </dl>
@@ -564,9 +584,15 @@ Spark NLPs repositories otherwise.</p>
               
               
                 <footer class="bd-footer-article">
-                  <!-- Previous / next buttons -->
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
+</div></div>
+  
 </div>
+
                 </footer>
               
             </div>
@@ -592,15 +618,6 @@ Spark NLPs repositories otherwise.</p>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.cv.swin_for_image_classification.SwinForImageClassification.pretrained"><code class="docutils literal notranslate"><span class="pre">SwinForImageClassification.pretrained()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.cv.swin_for_image_classification.SwinForImageClassification">SwinForImageClassification</a><ul class="nav section-nav flex-column">
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.cv.swin_for_image_classification.SwinForImageClassification.setDoRescale">setDoRescale</a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.cv.swin_for_image_classification.SwinForImageClassification.setRescaleFactor">setRescaleFactor</a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.cv.swin_for_image_classification.SwinForImageClassification.getClasses">getClasses</a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.cv.swin_for_image_classification.SwinForImageClassification.setConfigProtoBytes">setConfigProtoBytes</a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.cv.swin_for_image_classification.SwinForImageClassification.loadSavedModel">loadSavedModel</a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.cv.swin_for_image_classification.SwinForImageClassification.pretrained">pretrained</a></li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>
@@ -621,7 +638,7 @@ Spark NLPs repositories otherwise.</p>
             
           </div>
           <footer class="bd-footer-content">
-            <div class="bd-footer-content__inner"></div>
+            
           </footer>
         
       </main>
@@ -629,8 +646,8 @@ Spark NLPs repositories otherwise.</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../../../../static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
-<script src="../../../../../../static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+  <script src="../../../../../../static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../../../../../static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -640,7 +657,7 @@ Spark NLPs repositories otherwise.</p>
         <div class="footer-item">
   <p class="copyright">
     
-      © Copyright 2022, John Snow Labs.
+      © Copyright 2023, John Snow Labs.
       <br/>
     
   </p>
@@ -648,7 +665,7 @@ Spark NLPs repositories otherwise.</p>
       
         <div class="footer-item">
   <p class="sphinx-version">
-    Created using <a href="https://sphinx-doc.org/">Sphinx</a> 5.3.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     <br/>
   </p>
 </div>
@@ -659,7 +676,7 @@ Spark NLPs repositories otherwise.</p>
     <div class="footer-items__end">
       
         <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.1.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
 </p></div>
       
     </div>

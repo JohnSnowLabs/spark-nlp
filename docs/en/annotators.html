@@ -848,7 +848,8 @@ in the DataFrames.</li>
   </table>
 
   <h2 id="available-transformers">Available Transformers</h2>
-  <p>Additionally, these transformers are available to generate embeddings.</p>
+
+  <p>Additionally, these transformers are available.</p>
 
   <table class="table-model-big">
     <thead>
@@ -880,8 +881,13 @@ in the DataFrames.</li>
         <td>Opensource</td>
       </tr>
       <tr>
-        <td><a href="./transformers#bertembeddings">BertEmbeddings</a></td>
-        <td>Token-level embeddings using BERT. BERT (Bidirectional Encoder Representations from Transformers) provides dense vector representations for natural language by using a deep, pre-trained neural network with the Transformer architecture.</td>
+        <td><a href="./transformers#albertforsequenceclassification">AlbertForSequenceClassification</a></td>
+        <td>AlbertForSequenceClassification can load ALBERT Models with sequence classification/regression head on top e.g. for multi-class document classification tasks.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#barttransformer">BartTransformer</a></td>
+        <td>BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension Transformer</td>
         <td>Opensource</td>
       </tr>
       <tr>
@@ -897,6 +903,11 @@ in the DataFrames.</li>
       <tr>
         <td><a href="./transformers#bertfortokenclassification">BertForTokenClassification</a></td>
         <td>BertForTokenClassification can load Bert Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#bertforzeroshotclassification">BertForZeroShotClassification</a></td>
+        <td>BertForZeroShotClassification using a <code class="language-plaintext highlighter-rouge">ModelForSequenceClassification</code> trained on NLI (natural language inference) tasks.</td>
         <td>Opensource</td>
       </tr>
       <tr>
@@ -917,6 +928,11 @@ in the DataFrames.</li>
       <tr>
         <td><a href="./transformers#camembertfortokenclassification">CamemBertForTokenClassification</a></td>
         <td>CamemBertForTokenClassification can load CamemBERT Models with a token classification head on top</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#convnextforimageclassification">ConvNextForImageClassification</a></td>
+        <td>ConvNextForImageClassification is an image classifier based on ConvNet models</td>
         <td>Opensource</td>
       </tr>
       <tr>
@@ -2029,7 +2045,7 @@ For training your own model, please see the documentation of that class.</p>
     <p>The default model is <code class="language-plaintext highlighter-rouge">"classifierdl_use_trec6"</code>, if no name is provided. It uses embeddings from the
 <a href="/docs/en/transformers#universalsentenceencoder">UniversalSentenceEncoder</a> and is trained on the
 <a href="https://deepai.org/dataset/trec-6#:~:text=The%20TREC%20dataset%20is%20dataset,50%20has%20finer%2Dgrained%20labels">TREC-6</a> dataset.
-For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Text+Classification">Models Hub</a>.</p>
+For available pretrained models please see the <a href="https://sparknlp.org/models?task=Text+Classification">Models Hub</a>.</p>
 
     <p>For extended examples of usage, see the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/ClassifierDL_Train_multi_class_news_category_classifier.ipynb">Examples</a>
@@ -2314,7 +2330,7 @@ For training your own model, please see the documentation of that class.</p>
   .setOutputCol("checked")
 </code></pre></div>    </div>
     <p>The default model is <code class="language-plaintext highlighter-rouge">"spellcheck_dl"</code>, if no name is provided.
-For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Spell+Check">Models Hub</a>.</p>
+For available pretrained models please see the <a href="https://sparknlp.org/models?task=Spell+Check">Models Hub</a>.</p>
 
     <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/italian/Training_Context_Spell_Checker_Italian.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/context/ContextSpellCheckerTestSpec.scala">ContextSpellCheckerTestSpec</a>.</p>
@@ -2358,7 +2374,7 @@ To extract multiple dates from a document, please use the MultiDateMatcher.</p>
 
   <p>For example <code class="language-plaintext highlighter-rouge">"The 31st of April in the year 2008"</code> will be converted into <code class="language-plaintext highlighter-rouge">2008/04/31</code>.</p>
 
-  <p>Pretrained pipelines are available for this module, see <a href="https://nlp.johnsnowlabs.com/docs/en/pipelines">Pipelines</a>.</p>
+  <p>Pretrained pipelines are available for this module, see <a href="https://sparknlp.org/docs/en/pipelines">Pipelines</a>.</p>
 
   <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/MultiDateMatcherMultiLanguage_en.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/DateMatcherTestSpec.scala">DateMatcherTestSpec</a>.</p>
@@ -2613,7 +2629,7 @@ For training your own model, please see the documentation of that class.</p>
   .setOutputCol("dependency")
 </code></pre></div>    </div>
     <p>The default model is <code class="language-plaintext highlighter-rouge">"dependency_conllu"</code>, if no name is provided.
-For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models">Models Hub</a>.</p>
+For available pretrained models please see the <a href="https://sparknlp.org/models">Models Hub</a>.</p>
 
     <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/graph-extraction/graph_extraction_intro.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/parser/dep/DependencyParserApproachTestSpec.scala">DependencyParserApproachTestSpec</a>.</p>
@@ -2864,7 +2880,7 @@ For training your own model, please see the documentation of that class.</p>
 </code></pre></div>    </div>
     <p>The default model is <code class="language-plaintext highlighter-rouge">"doc2vec_gigaword_300"</code>, if no name is provided.</p>
 
-    <p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models">Models Hub</a>.</p>
+    <p>For available pretrained models please see the <a href="https://sparknlp.org/models">Models Hub</a>.</p>
 
     <p><strong>Sources</strong> :</p>
 
@@ -4064,7 +4080,7 @@ The output is a language code in <a href="https://en.wikipedia.org/wiki/List_of_
 </code></pre></div>  </div>
   <p>The default model is <code class="language-plaintext highlighter-rouge">"ld_wiki_tatoeba_cnn_21"</code>, default language is <code class="language-plaintext highlighter-rouge">"xx"</code> (meaning multi-lingual),
 if no values are provided.
-For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Language+Detection">Models Hub</a>.</p>
+For available pretrained models please see the <a href="https://sparknlp.org/models?task=Language+Detection">Models Hub</a>.</p>
 
   <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/language-detection/Language_Detection_and_Indentification.ipynb">Examples</a>
 And the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ld/dl/LanguageDetectorDLTestSpec.scala">LanguageDetectorDLTestSpec</a>.</p>
@@ -4182,7 +4198,7 @@ Retrieves the significant part of a word. A dictionary of predefined lemmas must
 The dictionary can be set as a delimited text file.
 Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">LemmatizerModel.pretrained</code>.</p>
 
-    <p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Lemmatization">Models Hub</a>.
+    <p>For available pretrained models please see the <a href="https://sparknlp.org/models?task=Lemmatization">Models Hub</a>.
 For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/italian/Train-Lemmatizer-Italian.ipynb">Examples</a>.</p>
 
     <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">TOKEN</code></p>
@@ -4323,7 +4339,7 @@ For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs
   <div class="h3-box tabs-python-scala-box" style="display: none;">
 
     <p>Instantiated Model of the Lemmatizer. For usage and examples, please see the documentation of that class.
-For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Lemmatization">Models Hub</a>.</p>
+For available pretrained models please see the <a href="https://sparknlp.org/models?task=Lemmatization">Models Hub</a>.</p>
 
     <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">TOKEN</code></p>
 
@@ -4584,7 +4600,7 @@ For training your own model, please see the documentation of that class.</p>
 <a href="/docs/en/transformers#universalsentenceencoder">UniversalSentenceEncoder</a> and classifies toxic comments.
 The data is based on the
 <a href="https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/overview">Jigsaw Toxic Comment Classification Challenge</a>.
-For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Text+Classification">Models Hub</a>.</p>
+For available pretrained models please see the <a href="https://sparknlp.org/models?task=Text+Classification">Models Hub</a>.</p>
 
     <p>In machine learning, multi-label classification and the strongly related problem of multi-output classification are
 variants of the classification problem where multiple labels may be assigned to each instance. Multi-label
@@ -5332,7 +5348,7 @@ For training your own model, please see the documentation of that class.</p>
   .setOutputCol("ner"
 </code></pre></div>    </div>
     <p>The default model is <code class="language-plaintext highlighter-rouge">"ner_crf"</code>, if no name is provided.
-For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition">Models Hub</a>.</p>
+For available pretrained models please see the <a href="https://sparknlp.org/models?task=Named+Entity+Recognition">Models Hub</a>.</p>
 
     <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/crf-ner/ner_dl_crf.ipynb">Examples</a>.</p>
 
@@ -5559,8 +5575,8 @@ For training your own model, please see the documentation of that class.</p>
 </code></pre></div>    </div>
     <p>The default model is <code class="language-plaintext highlighter-rouge">"ner_dl"</code>, if no name is provided.</p>
 
-    <p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition">Models Hub</a>.
-Additionally, pretrained pipelines are available for this module, see <a href="https://nlp.johnsnowlabs.com/docs/en/pipelines">Pipelines</a>.</p>
+    <p>For available pretrained models please see the <a href="https://sparknlp.org/models?task=Named+Entity+Recognition">Models Hub</a>.
+Additionally, pretrained pipelines are available for this module, see <a href="https://sparknlp.org/docs/en/pipelines">Pipelines</a>.</p>
 
     <p>Note that some pretrained models require specific types of embeddings, depending on which they were trained on.
 For example, the default model <code class="language-plaintext highlighter-rouge">"ner_dl"</code> requires the
@@ -6074,7 +6090,7 @@ For training your own model, please see the documentation of that class.</p>
   .setDoubleVariants(true)
 </code></pre></div>    </div>
     <p>The default model is <code class="language-plaintext highlighter-rouge">"spellcheck_norvig"</code>, if no name is provided.
-For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Spell+Check">Models Hub</a>.</p>
+For available pretrained models please see the <a href="https://sparknlp.org/models?task=Spell+Check">Models Hub</a>.</p>
 
     <p>For extended examples of see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingTestSpec.scala">NorvigSweetingTestSpec</a>.</p>
 
@@ -6265,8 +6281,8 @@ For training your own model, please see the documentation of that class.</p>
 </code></pre></div>    </div>
     <p>The default model is <code class="language-plaintext highlighter-rouge">"pos_anc"</code>, if no name is provided.</p>
 
-    <p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Part+of+Speech+Tagging">Models Hub</a>.
-Additionally, pretrained pipelines are available for this module, see <a href="https://nlp.johnsnowlabs.com/docs/en/pipelines">Pipelines</a>.</p>
+    <p>For available pretrained models please see the <a href="https://sparknlp.org/models?task=Part+of+Speech+Tagging">Models Hub</a>.
+Additionally, pretrained pipelines are available for this module, see <a href="https://sparknlp.org/docs/en/pipelines">Pipelines</a>.</p>
 
     <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/french/Train-Perceptron-French.ipynb">Examples</a>.</p>
 
@@ -6438,7 +6454,7 @@ identifier <code class="language-plaintext highlighter-rouge">"date"</code>.</p>
     <p>To use an external file, a dictionary of predefined regular expressions must be provided with
 <code class="language-plaintext highlighter-rouge">setExternalRules</code>. The dictionary can be set as a delimited text file.</p>
 
-    <p>Pretrained pipelines are available for this module, see <a href="https://nlp.johnsnowlabs.com/docs/en/pipelines">Pipelines</a>.</p>
+    <p>Pretrained pipelines are available for this module, see <a href="https://sparknlp.org/docs/en/pipelines">Pipelines</a>.</p>
 
     <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/regex-matcher/Matching_Text_with_RegexMatcher.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/RegexMatcherTestSpec.scala">RegexMatcherTestSpec</a>.</p>
@@ -6927,7 +6943,7 @@ Detects sentence boundaries using a deep learning approach.</p>
   .setOutputCol("sentencesDL")
 </code></pre></div>    </div>
     <p>The default model is <code class="language-plaintext highlighter-rouge">"sentence_detector_dl"</code>, if no name is provided.
-For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Sentence+Detection">Models Hub</a>.</p>
+For available pretrained models please see the <a href="https://sparknlp.org/models?task=Sentence+Detection">Models Hub</a>.</p>
 
     <p>Each extracted sentence can be returned in an Array or exploded to separate rows,
 if <code class="language-plaintext highlighter-rouge">explodeSentences</code> is set to <code class="language-plaintext highlighter-rouge">true</code>.</p>
@@ -7320,7 +7336,7 @@ For training your own model, please see the documentation of that class.</p>
 </code></pre></div>    </div>
     <p>The default model is <code class="language-plaintext highlighter-rouge">"sentimentdl_use_imdb"</code>, if no name is provided. It is english sentiment analysis trained on
 the IMDB dataset.
-For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Sentiment+Analysis">Models Hub</a>.</p>
+For available pretrained models please see the <a href="https://sparknlp.org/models?task=Sentiment+Analysis">Models Hub</a>.</p>
 
     <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/SentimentDL_train_multiclass_sentiment_classifier.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/SentimentDLTestSpec.scala">SentimentDLTestSpec</a>.</p>
@@ -7663,7 +7679,7 @@ pretrained models using <code class="language-plaintext highlighter-rouge">pretr
   .setCaseSensitive(false)
 // will load the default pretrained model `"stopwords_en"`.
 </code></pre></div>  </div>
-  <p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Stop+Words+Removal">Models Hub</a>.</p>
+  <p>For available pretrained models please see the <a href="https://sparknlp.org/models?task=Stop+Words+Removal">Models Hub</a>.</p>
 
   <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/stop-words/StopWordsCleaner.ipynb">Examples</a>
 and <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/StopWordsCleanerTestSpec.scala">StopWordsCleanerTestSpec</a>.</p>
@@ -7709,7 +7725,7 @@ If you need to <code class="language-plaintext highlighter-rouge">setStopWords</
 <span class="k">val</span> <span class="nv">stopWordsCleaner</span> <span class="k">=</span> <span class="nv">StopWordsCleaner</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
       <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
       <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"cleanTokens"</span><span class="o">)</span>
-      <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>      
+      <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
 </code></pre></div>    </div>
 
     <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">TOKEN</code></p>
@@ -7967,7 +7983,7 @@ dictionary lookup for a given Damerau-Levenshtein distance. It is six orders of 
   .setOutputCol("spell")
 </code></pre></div>      </div>
       <p>The default model is <code class="language-plaintext highlighter-rouge">"spellcheck_sd"</code>, if no name is provided.
-For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Spell+Check">Models Hub</a>.</p>
+For available pretrained models please see the <a href="https://sparknlp.org/models?task=Spell+Check">Models Hub</a>.</p>
 
       <p>See <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/symmetric/SymmetricDeleteModelTestSpec.scala">SymmetricDeleteModelTestSpec</a> for further reference.</p>
 
@@ -8687,7 +8703,7 @@ you find precise answers to specific questions.</p>
   .setOutputCol("dependency_type")
 </code></pre></div>      </div>
       <p>The default model is <code class="language-plaintext highlighter-rouge">"dependency_typed_conllu"</code>, if no name is provided.
-For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models">Models Hub</a>.</p>
+For available pretrained models please see the <a href="https://sparknlp.org/models">Models Hub</a>.</p>
 
       <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/graph-extraction/graph_extraction_intro.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/parser/typdep/TypedDependencyModelTestSpec.scala">TypedDependencyModelTestSpec</a>.</p>
@@ -9039,7 +9055,7 @@ For training your own model, please see the documentation of that class.</p>
 </code></pre></div>      </div>
       <p>The default model is <code class="language-plaintext highlighter-rouge">"word2vec_gigaword_300"</code>, if no name is provided.</p>
 
-      <p>For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models">Models Hub</a>.</p>
+      <p>For available pretrained models please see the <a href="https://sparknlp.org/models">Models Hub</a>.</p>
 
       <p><strong>Sources</strong> :</p>
 
@@ -9333,7 +9349,7 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
     .setOutputCol("embeddings")
 </code></pre></div>      </div>
       <p>The default model is <code class="language-plaintext highlighter-rouge">"glove_100d"</code>, if no name is provided.
-For available pretrained models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Embeddings">Models Hub</a>.</p>
+For available pretrained models please see the <a href="https://sparknlp.org/models?task=Embeddings">Models Hub</a>.</p>
 
       <p>There are also two convenient functions to retrieve the embeddings coverage with respect to the transformed dataset:</p>
       <ul>
@@ -9572,7 +9588,7 @@ please see the documentation of that class.</p>
 
       <p>The default model is <code class="language-plaintext highlighter-rouge">"wordseg_pku"</code>, default language is <code class="language-plaintext highlighter-rouge">"zh"</code>, if no values are provided.
 For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Word+Segmentation">Models Hub</a>.</p>
+<a href="https://sparknlp.org/models?task=Word+Segmentation">Models Hub</a>.</p>
 
       <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/jupyter/annotation/chinese/word_segmentation/words_segmenter_demo.ipynb">Examples</a>
 and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/WordSegmenterTest.scala">WordSegmenterTest</a>.</p>

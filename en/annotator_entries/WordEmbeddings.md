@@ -14,7 +14,7 @@ val embeddings = WordEmbeddingsModel.pretrained()
     .setOutputCol("embeddings")
 ```
 The default model is `"glove_100d"`, if no name is provided.
-For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Embeddings).
+For available pretrained models please see the [Models Hub](https://sparknlp.org/models?task=Embeddings).
 
 There are also two convenient functions to retrieve the embeddings coverage with respect to the transformed dataset:
   - `withCoverageColumn(dataset, embeddingsCol, outputCol)`:

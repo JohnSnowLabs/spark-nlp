@@ -15,7 +15,7 @@ val sentenceDL = SentenceDetectorDLModel.pretrained()
   .setOutputCol("sentencesDL")
 ```
 The default model is `"sentence_detector_dl"`, if no name is provided.
-For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Sentence+Detection).
+For available pretrained models please see the [Models Hub](https://sparknlp.org/models?task=Sentence+Detection).
 
 Each extracted sentence can be returned in an Array or exploded to separate rows,
 if `explodeSentences` is set to `true`.

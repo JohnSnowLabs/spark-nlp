@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.3.2 ScalaDoc  - com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder</title>
-          <meta name="description" content="Spark NLP 4.3.2 ScalaDoc - com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder" />
-          <meta name="keywords" content="Spark NLP 4.3.2 ScalaDoc com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder" />
+          <title>Spark NLP 4.4.0 ScalaDoc  - com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder</title>
+          <meta name="description" content="Spark NLP 4.4.0 ScalaDoc - com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder" />
+          <meta name="keywords" content="Spark NLP 4.4.0 ScalaDoc com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.3.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.4.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -411,7 +411,7 @@
 text classification, semantic similarity, clustering and other natural language tasks.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> useEmbeddings = UniversalSentenceEncoder.pretrained()
   .setInputCols(<span class="lit">"sentence"</span>)
   .setOutputCol(<span class="lit">"sentence_embeddings"</span>)</pre><p>The default model is <code>&quot;tfhub_use&quot;</code>, if no name is provided. For available pretrained models
-please see the <a href="https://nlp.johnsnowlabs.com/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
+please see the <a href="https://sparknlp.org/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/ClassifierDL_Train_multi_class_news_category_classifier.ipynb" target="_blank">Examples</a>
 and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/UniversalSentenceEncoderTestSpec.scala" target="_blank">UniversalSentenceEncoderTestSpec</a>.</p><p><b>References:</b></p><p><a href="https://arxiv.org/abs/1803.11175" target="_blank">Universal Sentence Encoder</a></p><p><a href="https://tfhub.dev/google/universal-sentence-encoder/2" target="_blank">https://tfhub.dev/google/universal-sentence-encoder/2</a></p><p><b>Paper abstract:</b></p><p><i>We present models for encoding sentences into embedding vectors that specifically target
@@ -468,8 +468,8 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
 +--------------------------------------------------------------------------------+
 |[<span class="num">0.04616805538535118</span>,<span class="num">0.022307956591248512</span>,-<span class="num">0.044395286589860916</span>,-<span class="num">0.0016493503</span>...|
 +--------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based embeddings</p></span></dd></dl><div class="toggleContainer block">
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based embeddings</p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
