@@ -249,10 +249,10 @@ If everything went well, you can now start Spark NLP with the `m1` flag set to `
 ```scala
 import com.johnsnowlabs.nlp.SparkNLP
 
-val spark = SparkNLP.start(m1 = true)
+val spark = SparkNLP.start(apple_silicon = true)
 ```
 
-### Python for M1
+### Python for M1 & M2
 
 First, make sure you have a recent Python 3 installation.
 
