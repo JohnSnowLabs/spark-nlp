@@ -136,8 +136,8 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   * @see
   *   [[RoBertaEmbeddings]] for token-level embeddings
   * @see
-  *   [[https://sparknlp.org/docs/en/annotators Annotators Main Page]] for a list of
-  *   transformer based embeddings
+  *   [[https://sparknlp.org/docs/en/annotators Annotators Main Page]] for a list of transformer
+  *   based embeddings
   * @groupname anno Annotator types
   * @groupdesc anno
   *   Required input and expected output annotator types

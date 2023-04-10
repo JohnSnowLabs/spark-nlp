@@ -111,8 +111,8 @@ import org.apache.spark.sql.Dataset
   * @see
   *   [[SentenceEmbeddings]] to combine embeddings into a sentence-level representation
   * @see
-  *   [[https://sparknlp.org/docs/en/annotators Annotators Main Page]] for a list of
-  *   transformer based embeddings
+  *   [[https://sparknlp.org/docs/en/annotators Annotators Main Page]] for a list of transformer
+  *   based embeddings
   * @param uid
   *   required uid for storing annotator to disk
   * @groupname anno Annotator types

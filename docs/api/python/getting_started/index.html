@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Getting Started &#8212; Spark NLP 4.3.2 documentation</title>
+    <title>Getting Started &#8212; Spark NLP 4.4.0 documentation</title>
   
   
   
@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="../static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="../static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="../static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
   
-  <link href="../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -34,8 +34,8 @@
     <link rel="stylesheet" type="text/css" href="../static/css/custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
-<link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+  <link rel="preload" as="script" href="../static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js"></script>
     <script src="../static/jquery.js"></script>
@@ -347,35 +347,39 @@ document.write(`
 <h2>Spark NLP Cheat Sheet<a class="headerlink" href="#spark-nlp-cheat-sheet" title="Permalink to this heading">#</a></h2>
 <p>This cheat sheet can be used as a quick reference on how to set up your environment:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install Spark NLP from PyPI</span>
-pip<span class="w"> </span>install<span class="w"> </span>spark-nlp<span class="o">==</span><span class="m">4</span>.3.2
+pip<span class="w"> </span>install<span class="w"> </span>spark-nlp<span class="o">==</span><span class="m">4</span>.4.0
 
 <span class="c1"># Install Spark NLP from Anaconda/Conda</span>
-conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>johnsnowlabs<span class="w"> </span>spark-nlp<span class="o">==</span><span class="m">4</span>.3.2
+conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>johnsnowlabs<span class="w"> </span>spark-nlp<span class="o">==</span><span class="m">4</span>.4.0
 
 <span class="c1"># Load Spark NLP with Spark Shell</span>
-spark-shell<span class="w"> </span>--packages<span class="w"> </span>com.johnsnowlabs.nlp:spark-nlp_2.12:4.3.2
+spark-shell<span class="w"> </span>--packages<span class="w"> </span>com.johnsnowlabs.nlp:spark-nlp_2.12:4.4.0
 
 <span class="c1"># Load Spark NLP with PySpark</span>
-pyspark<span class="w"> </span>--packages<span class="w"> </span>com.johnsnowlabs.nlp:spark-nlp_2.12:4.3.2
+pyspark<span class="w"> </span>--packages<span class="w"> </span>com.johnsnowlabs.nlp:spark-nlp_2.12:4.4.0
 
 <span class="c1"># Load Spark NLP with Spark Submit</span>
-spark-submit<span class="w"> </span>--packages<span class="w"> </span>com.johnsnowlabs.nlp:spark-nlp_2.12:4.3.2
+spark-submit<span class="w"> </span>--packages<span class="w"> </span>com.johnsnowlabs.nlp:spark-nlp_2.12:4.4.0
 
 <span class="c1"># Load Spark NLP as external JAR after compiling and building Spark NLP by `sbt assembly`</span>
-spark-shell<span class="w"> </span>--jar<span class="w"> </span>spark-nlp-assembly-4.3.2
+spark-shell<span class="w"> </span>--jar<span class="w"> </span>spark-nlp-assembly-4.4.0
 </pre></div>
 </div>
 </section>
 <section id="requirements">
 <h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading">#</a></h2>
 <p>Spark NLP is built on top of Apache Spark <cite>3.x</cite>. For using Spark NLP you need:</p>
-<ul class="simple">
-<li><p>Java 8</p></li>
-<li><p>Apache Spark <code class="docutils literal notranslate"><span class="pre">3.1.x</span></code> (or <code class="docutils literal notranslate"><span class="pre">3.0.x</span></code>, or <code class="docutils literal notranslate"><span class="pre">2.4.x</span></code>, or <code class="docutils literal notranslate"><span class="pre">2.3.x</span></code>)</p></li>
-<li><p>Python <code class="docutils literal notranslate"><span class="pre">3.8.x</span></code> if you are using PySpark <code class="docutils literal notranslate"><span class="pre">3.x</span></code></p>
 <ul>
-<li><p>Python <code class="docutils literal notranslate"><span class="pre">3.6.x</span></code> and <code class="docutils literal notranslate"><span class="pre">3.7.x</span></code> if you are using PySpark <code class="docutils literal notranslate"><span class="pre">2.3.x</span></code> or <code class="docutils literal notranslate"><span class="pre">2.4.x</span></code></p></li>
+<li><p>Java 8</p></li>
+<li><p>Apache Spark (from <code class="docutils literal notranslate"><span class="pre">2.3.x</span></code> to <code class="docutils literal notranslate"><span class="pre">3.3.x</span></code>)</p></li>
+<li><p>Python <code class="docutils literal notranslate"><span class="pre">3.8.x</span></code> if you are using PySpark <code class="docutils literal notranslate"><span class="pre">3.x</span></code></p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>NOTE</strong>: Since Spark version 3.2, Python 3.6 is deprecated. If you are using this
+python version, consider sticking to lower versions of Spark.</p></li>
+<li><p>For Python <code class="docutils literal notranslate"><span class="pre">3.6.x</span></code> and <code class="docutils literal notranslate"><span class="pre">3.7.x</span></code> we recommend PySpark <code class="docutils literal notranslate"><span class="pre">2.3.x</span></code> or <code class="docutils literal notranslate"><span class="pre">2.4.x</span></code></p></li>
 </ul>
+</div></blockquote>
 </li>
 </ul>
 <p>It is recommended to have basic knowledge of the framework and a working environment before using Spark NLP.
@@ -394,7 +398,7 @@ Please refer to <a class="reference external" href="https://spark.apache.org/doc
 <p>Then we can create a new environment <code class="docutils literal notranslate"><span class="pre">sparknlp</span></code> and install the <code class="docutils literal notranslate"><span class="pre">spark-nlp</span></code> package with pip:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>sparknlp<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.8<span class="w"> </span>-y
 conda<span class="w"> </span>activate<span class="w"> </span>sparknlp
-conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>johnsnowlabs<span class="w"> </span>spark-nlp<span class="o">==</span><span class="m">4</span>.3.2<span class="w"> </span><span class="nv">pyspark</span><span class="o">==</span><span class="m">3</span>.2.3<span class="w"> </span>jupyter
+conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>johnsnowlabs<span class="w"> </span>spark-nlp<span class="o">==</span><span class="m">4</span>.4.0<span class="w"> </span><span class="nv">pyspark</span><span class="o">==</span><span class="m">3</span>.2.3<span class="w"> </span>jupyter
 </pre></div>
 </div>
 <p>Now you should be ready to create a jupyter notebook with Spark NLP running:</p>
@@ -407,7 +411,7 @@ conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> <
 <p>We can also create a Python <a class="reference external" href="https://virtualenv.pypa.io/en/latest/">Virtualenv</a>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>virtualenv<span class="w"> </span>sparknlp<span class="w"> </span>--python<span class="o">=</span>python3.8<span class="w"> </span><span class="c1"># depends on how your Python installation is set up</span>
 <span class="nb">source</span><span class="w"> </span>sparknlp/bin/activate
-pip<span class="w"> </span>install<span class="w"> </span>spark-nlp<span class="o">==</span><span class="m">4</span>.3.2<span class="w"> </span><span class="nv">pyspark</span><span class="o">==</span><span class="m">3</span>.2.3<span class="w"> </span>jupyter
+pip<span class="w"> </span>install<span class="w"> </span>spark-nlp<span class="o">==</span><span class="m">4</span>.4.0<span class="w"> </span><span class="nv">pyspark</span><span class="o">==</span><span class="m">3</span>.2.3<span class="w"> </span>jupyter
 </pre></div>
 </div>
 <p>Now you should be ready to create a jupyter notebook with Spark NLP running:</p>
@@ -431,7 +435,7 @@ you can manually start the SparkSession with:</p>
     <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.driver.memory&quot;</span><span class="p">,</span><span class="s2">&quot;16G&quot;</span><span class="p">)</span>\
     <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.driver.maxResultSize&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span> \
     <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.kryoserializer.buffer.max&quot;</span><span class="p">,</span> <span class="s2">&quot;2000M&quot;</span><span class="p">)</span>\
-    <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.jars.packages&quot;</span><span class="p">,</span> <span class="s2">&quot;com.johnsnowlabs.nlp:spark-nlp_2.12:4.3.2&quot;</span><span class="p">)</span>\
+    <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.jars.packages&quot;</span><span class="p">,</span> <span class="s2">&quot;com.johnsnowlabs.nlp:spark-nlp_2.12:4.4.0&quot;</span><span class="p">)</span>\
     <span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -444,7 +448,10 @@ you can manually start the SparkSession with:</p>
               
               
                 <footer class="bd-footer-article">
-                  <!-- Previous / next buttons -->
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="../index.html"
@@ -464,7 +471,10 @@ you can manually start the SparkSession with:</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
+</div></div>
+  
 </div>
+
                 </footer>
               
             </div>
@@ -503,7 +513,7 @@ you can manually start the SparkSession with:</p>
             
           </div>
           <footer class="bd-footer-content">
-            <div class="bd-footer-content__inner"></div>
+            
           </footer>
         
       </main>
@@ -511,8 +521,8 @@ you can manually start the SparkSession with:</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
-<script src="../static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+  <script src="../static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -522,7 +532,7 @@ you can manually start the SparkSession with:</p>
         <div class="footer-item">
   <p class="copyright">
     
-      © Copyright 2022, John Snow Labs.
+      © Copyright 2023, John Snow Labs.
       <br/>
     
   </p>
@@ -530,7 +540,7 @@ you can manually start the SparkSession with:</p>
       
         <div class="footer-item">
   <p class="sphinx-version">
-    Created using <a href="https://sphinx-doc.org/">Sphinx</a> 5.3.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     <br/>
   </p>
 </div>
@@ -541,7 +551,7 @@ you can manually start the SparkSession with:</p>
     <div class="footer-items__end">
       
         <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.1.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
 </p></div>
       
     </div>

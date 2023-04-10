@@ -36,8 +36,8 @@ import scala.collection.mutable
   * Pretrained models can be loaded with [[LemmatizerModel LemmatizerModel.pretrained]].
   *
   * For available pretrained models please see the
-  * [[https://sparknlp.org/models?task=Lemmatization Models Hub]]. For extended examples
-  * of usage, see the
+  * [[https://sparknlp.org/models?task=Lemmatization Models Hub]]. For extended examples of usage,
+  * see the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/italian/Train-Lemmatizer-Italian.ipynb Examples]]
   * and the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/LemmatizerTestSpec.scala LemmatizerTestSpec]].

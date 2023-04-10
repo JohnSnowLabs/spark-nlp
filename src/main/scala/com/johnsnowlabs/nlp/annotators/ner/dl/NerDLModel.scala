@@ -47,8 +47,8 @@ import org.apache.spark.sql.{Dataset, SparkSession}
   * The default model is `"ner_dl"`, if no name is provided.
   *
   * For available pretrained models please see the
-  * [[https://sparknlp.org/models?task=Named+Entity+Recognition Models Hub]].
-  * Additionally, pretrained pipelines are available for this module, see
+  * [[https://sparknlp.org/models?task=Named+Entity+Recognition Models Hub]]. Additionally,
+  * pretrained pipelines are available for this module, see
   * [[https://sparknlp.org/docs/en/pipelines Pipelines]].
   *
   * Note that some pretrained models require specific types of embeddings, depending on which they

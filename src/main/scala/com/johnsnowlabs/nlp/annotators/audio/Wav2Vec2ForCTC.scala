@@ -57,8 +57,7 @@ import org.json4s.jackson.JsonMethods._
   * }}}
   * The default model is `"asr_wav2vec2_base_960h"`, if no name is provided.
   *
-  * For available pretrained models please see the
-  * [[https://sparknlp.org/models Models Hub]].
+  * For available pretrained models please see the [[https://sparknlp.org/models Models Hub]].
   *
   * To see which models are compatible and how to import them see
   * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]] and to see more extended
