@@ -1,0 +1,109 @@
+---
+layout: model
+title: Doc2Vec Gigaword 5th Edition - 300 dimensions
+author: John Snow Labs
+name: doc2vec_gigaword_300
+date: 2021-11-21
+tags: [gigaword, doc2vec, sentence_embeddings, en, english, open_source]
+task: Embeddings
+language: en
+nav_key: models
+edition: Spark NLP 3.3.3
+spark_version: 3.0
+supported: true
+annotator: Doc2VecModel
+article_header:
+type: cover
+use_language_switcher: "Python-Scala-Java"
+---
+
+## Description
+
+We have trained this Doc2Vec model by using Gigaword 5th Edition over the window size of 5 and 300 dimensions. We used the `Doc2VecApproach` annotator that uses the Spark ML Word2Vec behind the scene to train a Word2Vec model.
+
+## Predicted Entities
+
+
+
+{:.btn-box}
+<button class="button button-orange" disabled>Live Demo</button>
+<button class="button button-orange" disabled>Open in Colab</button>
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/doc2vec_gigaword_300_en_3.3.3_3.0_1637493148715.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/doc2vec_gigaword_300_en_3.3.3_3.0_1637493148715.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+
+## How to use
+
+
+
+<div class="tabs-box" markdown="1">
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+document = DocumentAssembler()\
+.setInputCol("text")\
+.setOutputCol("document")
+
+token = Tokenizer()\
+.setInputCols("document")\
+.setOutputCol("token")
+
+norm = Normalizer()\
+.setInputCols(["token"])\
+.setOutputCol("normalized")\
+.setLowercase(True)
+
+stops = StopWordsCleaner.pretrained()\
+.setInputCols("normalized")\
+.setOutputCol("cleanedToken")
+
+doc2Vec = Doc2VecModel.pretrained("doc2vec_gigaword_300", "en")\
+.setInputCols("cleanedToken")\
+.setOutputCol("sentence_embeddings")
+```
+```scala
+val document = new DocumentAssembler()
+.setInputCol("text")
+.setOutputCol("document")
+
+val tokenizer = new Tokenizer()
+.setInputCols(Array("document"))
+.setOutputCol("token")
+
+val norm = new Normalizer()
+.setInputCols(Array("token"))
+.setOutputCol("normalized")
+.setLowercase(true)
+
+val stops = StopWordsCleaner.pretrained()
+.setInputCols("normalized")
+.setOutputCol("cleanedToken")
+
+val doc2Vec = Doc2VecModel.pretrained("doc2vec_gigaword_300", "en")
+.setInputCols("cleanedToken")
+.setOutputCol("sentence_embeddings")
+```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed_sentence.doc2vec").predict("""Put your text here.""")
+```
+
+</div>
+
+{:.model-param}
+## Model Information
+
+{:.table-model}
+|---|---|
+|Model Name:|doc2vec_gigaword_300|
+|Compatibility:|Spark NLP 3.3.3+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[cleanedToken]|
+|Output Labels:|[sentence_embeddings]|
+|Language:|en|
+
+## Data Source
+
+[https://catalog.ldc.upenn.edu/LDC2011T07](https://catalog.ldc.upenn.edu/LDC2011T07)
