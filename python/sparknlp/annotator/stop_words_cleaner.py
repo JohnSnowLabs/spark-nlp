@@ -34,7 +34,7 @@ class StopWordsCleaner(AnnotatorModel):
     This will load the default pretrained model ``"stopwords_en"``.
 
     For available pretrained models please see the `Models Hub
-    <https://nlp.johnsnowlabs.com/models?task=Stop+Words+Removal>`__.
+    <https://sparknlp.orgtask=Stop+Words+Removal>`__.
 
     For extended examples of usage, see the `Examples
     <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/stop-words/StopWordsCleaner.ipynb>`__.

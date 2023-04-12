@@ -40,7 +40,7 @@ class XlmRoBertaEmbeddings(AnnotatorModel,
     The default model is ``"xlm_roberta_base"``, default language is ``"xx"``
     (meaning multi-lingual), if no values are provided. For available pretrained
     models please see the `Models Hub
-    <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
+    <https://sparknlp.org/models?task=Embeddings>`__.
 
     For extended examples of usage, see the `Examples
     <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XLM-RoBERTa.ipynb>`__.

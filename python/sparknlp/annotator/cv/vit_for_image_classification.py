@@ -39,7 +39,7 @@ class ViTForImageClassification(AnnotatorModel,
     provided.
 
     For available pretrained models please see the
-    `Models Hub <https://nlp.johnsnowlabs.com/models?task=Image+Classification>`__.
+    `Models Hub <https://sparknlp.org/models?task=Image+Classification>`__.
 
     Models from the HuggingFace 🤗 Transformers library are also compatible with Spark
     NLP 🚀. To see which models are compatible and how to import them see
@@ -77,7 +77,22 @@ class ViTForImageClassification(AnnotatorModel,
 
     Parameters
     ----------
-
+    doResize
+        Whether to resize the input to a certain size
+    doNormalize
+        Whether to normalize the input with mean and standard deviation
+    featureExtractorType
+        Name of model's architecture for feature extraction
+    imageMean
+        The sequence of means for each channel, to be used when normalizing images
+    imageStd
+        The sequence of standard deviations for each channel, to be used when normalizing images
+    resample
+        An optional resampling filter. This can be one of `PIL.Image.NEAREST`, `PIL.Image.BILINEAR` or
+        `PIL.Image.BICUBIC`. Only has an effect if do_resize is set to True.
+    size
+        Resize the input to the given size. If a tuple is provided, it should be (width, height). If only an integer is
+        provided, then the input will be resized to (size, size). Only has an effect if do_resize is set to True.
     configProtoBytes
         ConfigProto from tensorflow, serialized into byte array.
 

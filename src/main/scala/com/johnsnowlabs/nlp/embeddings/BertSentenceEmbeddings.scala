@@ -47,7 +47,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   * The default model is `"sent_small_bert_L2_768"`, if no name is provided.
   *
   * For available pretrained models please see the
-  * [[https://nlp.johnsnowlabs.com/models?task=Embeddings Models Hub]].
+  * [[https://sparknlp.org/models?task=Embeddings Models Hub]].
   *
   * For extended examples of usage, see the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BERT%20Sentence.ipynb Examples]]
@@ -127,8 +127,8 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   *   [[com.johnsnowlabs.nlp.annotators.classifier.dl.BertForSequenceClassification BertForSequenceClassification]]
   *   for embeddings with a sequence classification layer on top
   * @see
-  *   [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of
-  *   transformer based embeddings
+  *   [[https://sparknlp.org/docs/en/annotators Annotators Main Page]] for a list of transformer
+  *   based embeddings
   * @param uid
   *   required uid for storing annotator to disk
   * @groupname anno Annotator types

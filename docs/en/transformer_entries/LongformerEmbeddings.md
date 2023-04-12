@@ -14,7 +14,7 @@ val embeddings = LongformerEmbeddings.pretrained()
   .setOutputCol("embeddings")
 ```
 The default model is `"longformer_base_4096"`, if no name is provided.
-For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Embeddings).
+For available pretrained models please see the [Models Hub](https://sparknlp.org/models?task=Embeddings).
 
 For some examples of usage, see [LongformerEmbeddingsTestSpec](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/LongformerEmbeddingsTestSpec.scala).
 Models from the HuggingFace 🤗 Transformers library are compatible with Spark NLP 🚀. To see which models are compatible and how to import them see [Import Transformers into Spark NLP 🚀](https://github.com/JohnSnowLabs/spark-nlp/discussions/5669).

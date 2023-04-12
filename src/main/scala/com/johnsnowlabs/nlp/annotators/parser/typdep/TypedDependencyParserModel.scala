@@ -46,7 +46,7 @@ import org.apache.spark.ml.util.Identifiable
   *   .setOutputCol("dependency_type")
   * }}}
   * The default model is `"dependency_typed_conllu"`, if no name is provided. For available
-  * pretrained models please see the [[https://nlp.johnsnowlabs.com/models Models Hub]].
+  * pretrained models please see the [[https://sparknlp.org/models Models Hub]].
   *
   * For extended examples of usage, see the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/graph-extraction/graph_extraction_intro.ipynb Examples]]

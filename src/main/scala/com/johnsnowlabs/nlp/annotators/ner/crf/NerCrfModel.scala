@@ -48,8 +48,7 @@ import scala.collection.Map
   *   .setOutputCol("ner"
   * }}}
   * The default model is `"ner_crf"`, if no name is provided. For available pretrained models
-  * please see the
-  * [[https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition Models Hub]].
+  * please see the [[https://sparknlp.org/models?task=Named+Entity+Recognition Models Hub]].
   *
   * For extended examples of usage, see the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/crf-ner/ner_dl_crf.ipynb Examples]].

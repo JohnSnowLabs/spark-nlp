@@ -18,7 +18,7 @@ val dependencyParserApproach = SpanBertCorefModel.pretrained()
   .setOutputCol("corefs")
 ```
 The default model is `"spanbert_base_coref"`, if no name is provided. For available pretrained
-models please see the [Models Hub](https://nlp.johnsnowlabs.com/models).
+models please see the [Models Hub](https://sparknlp.org/models).
 
 **References:**
 https://github.com/mandarjoshi90/coref

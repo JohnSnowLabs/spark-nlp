@@ -233,7 +233,7 @@ class SentimentDLModel(AnnotatorModel, HasStorageRef, HasEngine):
     The default model is ``"sentimentdl_use_imdb"``, if no name is provided. It
     is english sentiment analysis trained on the IMDB dataset. For available
     pretrained models please see the `Models Hub
-    <https://nlp.johnsnowlabs.com/models?task=Sentiment+Analysis>`__.
+    <https://sparknlp.org/models?task=Sentiment+Analysis>`__.
 
     For extended examples of usage, see the `Examples
     <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/SentimentDL_train_multiclass_sentiment_classifier.ipynb>`__.

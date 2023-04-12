@@ -50,7 +50,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   *   .setOutputCol("embeddings")
   * }}}
   * The default model is `"roberta_base"`, if no name is provided. For available pretrained models
-  * please see the [[https://nlp.johnsnowlabs.com/models?task=Embeddings Models Hub]].
+  * please see the [[https://sparknlp.org/models?task=Embeddings Models Hub]].
   *
   * For extended examples of usage, see the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBERTa.ipynb Examples]]
@@ -139,8 +139,8 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   *   [[com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForTokenClassification RoBertaForTokenClassification]]
   *   For RoBerta embeddings with a token classification layer on top
   * @see
-  *   [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of
-  *   transformer based embeddings
+  *   [[https://sparknlp.org/docs/en/annotators Annotators Main Page]] for a list of transformer
+  *   based embeddings
   * @groupname anno Annotator types
   * @groupdesc anno
   *   Required input and expected output annotator types

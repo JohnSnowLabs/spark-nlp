@@ -184,7 +184,7 @@ class DateMatcher(AnnotatorModel, DateMatcherUtils):
     ``2008/04/31``.
 
     Pretrained pipelines are available for this module, see
-    `Pipelines <https://nlp.johnsnowlabs.com/docs/en/pipelines>`__.
+    `Pipelines <https://sparknlp.org/docs/en/pipelines>`__.
 
     For extended examples of usage, see the
     `Examples <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/MultiDateMatcherMultiLanguage_en.ipynb>`__.

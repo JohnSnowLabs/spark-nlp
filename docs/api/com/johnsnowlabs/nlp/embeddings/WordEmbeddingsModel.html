@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.3.2 ScalaDoc  - com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel</title>
-          <meta name="description" content="Spark NLP 4.3.2 ScalaDoc - com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel" />
-          <meta name="keywords" content="Spark NLP 4.3.2 ScalaDoc com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel" />
+          <title>Spark NLP 4.4.0 ScalaDoc  - com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel</title>
+          <meta name="description" content="Spark NLP 4.4.0 ScalaDoc - com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel" />
+          <meta name="keywords" content="Spark NLP 4.4.0 ScalaDoc com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.3.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.4.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -410,7 +410,7 @@
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Word Embeddings lookup annotator that maps tokens to vectors</p><p>This is the instantiated model of <a href="WordEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddings">WordEmbeddings</a>.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> embeddings = WordEmbeddingsModel.pretrained()
     .setInputCols(<span class="lit">"document"</span>, <span class="lit">"token"</span>)
     .setOutputCol(<span class="lit">"embeddings"</span>)</pre><p>The default model is <code>&quot;glove_100d&quot;</code>, if no name is provided. For available pretrained models
-please see the <a href="https://nlp.johnsnowlabs.com/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>There are also two convenient functions to retrieve the embeddings coverage with respect to
+please see the <a href="https://sparknlp.org/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>There are also two convenient functions to retrieve the embeddings coverage with respect to
 the transformed dataset:</p><ul><li><code>withCoverageColumn(dataset, embeddingsCol, outputCol)</code>: Adds a custom column with word
     coverage stats for the embedded field: (<code>coveredWords</code>, <code>totalWords</code>,
     <code>coveragePercentage</code>). This creates a new column with statistics for each row.</li></ul><pre><span class="kw">val</span> wordsCoverage = WordEmbeddingsModel.withCoverageColumn(resultDF, <span class="lit">"embeddings"</span>, <span class="lit">"cov_embeddings"</span>)
@@ -472,8 +472,8 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
 |[-<span class="num">0.3397899866104126</span>,<span class="num">0.20940999686717987</span>,<span class="num">0.46347999572753906</span>,-<span class="num">0.6479200124740</span>...|
 +--------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="SentenceEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings">SentenceEmbeddings</a> to combine embeddings into a sentence-level representation</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based embeddings</p></span></dd></dl><div class="toggleContainer block">
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based embeddings</p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -1408,22 +1408,6 @@ type
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../storage/HasStorageOptions.html" class="extype" name="com.johnsnowlabs.storage.HasStorageOptions">HasStorageOptions</a></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel#getInMemoryStorage" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="getInMemoryStorage:Map[com.johnsnowlabs.storage.BytesKey,Array[Byte]]"></a><a id="getInMemoryStorage:Map[BytesKey,Array[Byte]]"></a>
-      <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/nlp/embeddings/WordEmbeddingsModel.html#getInMemoryStorage:Map[com.johnsnowlabs.storage.BytesKey,Array[Byte]]" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">getInMemoryStorage</span><span class="result">: <span class="extype" name="scala.Predef.Map">Map</span>[<a href="../../storage/BytesKey.html" class="extype" name="com.johnsnowlabs.storage.BytesKey">BytesKey</a>, <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>]]</span>
-      </span>
-      
-      
     </li><li name="com.johnsnowlabs.storage.HasStorageOptions#getIncludeStorage" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getIncludeStorage:Boolean"></a>
       <span class="permalink">
@@ -2182,22 +2166,6 @@ consumption
                 <span class="name">@transient</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel#retrieveEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="retrieveEmbeddings(token:String):(Option[Array[Float]],Array[Float])"></a><a id="retrieveEmbeddings(String):(Option[Array[Float]],Array[Float])"></a>
-      <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/nlp/embeddings/WordEmbeddingsModel.html#retrieveEmbeddings(token:String):(Option[Array[Float]],Array[Float])" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">retrieveEmbeddings</span><span class="params">(<span name="token">token: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: (<span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]], <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>])</span>
-      </span>
-      
-      
     </li><li name="org.apache.spark.ml.util.MLWritable#save" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="save(path:String):Unit"></a><a id="save(String):Unit"></a>
       <span class="permalink">

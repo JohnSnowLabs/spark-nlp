@@ -39,7 +39,7 @@ import org.apache.spark.sql.Dataset
   * or directly as an [[com.johnsnowlabs.nlp.util.io.ExternalResource ExternalResource]].
   *
   * Pretrained pipelines are available for this module, see
-  * [[https://nlp.johnsnowlabs.com/docs/en/pipelines Pipelines]].
+  * [[https://sparknlp.org/docs/en/pipelines Pipelines]].
   *
   * For extended examples of usage, see the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/regex-matcher/Matching_Text_with_RegexMatcher.ipynb Examples]]

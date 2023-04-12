@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.3.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.pos.perceptron</title>
-          <meta name="description" content="Spark NLP 4.3.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.pos.perceptron" />
-          <meta name="keywords" content="Spark NLP 4.3.2 ScalaDoc com.johnsnowlabs.nlp.annotators.pos.perceptron" />
+          <title>Spark NLP 4.4.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.pos.perceptron</title>
+          <meta name="description" content="Spark NLP 4.4.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.pos.perceptron" />
+          <meta name="keywords" content="Spark NLP 4.4.0 ScalaDoc com.johnsnowlabs.nlp.annotators.pos.perceptron" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.3.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.4.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -411,9 +411,9 @@ sentence.</p><p>This is the instantiated model of the
 training your own model, please see the documentation of that class.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> posTagger = PerceptronModel.pretrained()
   .setInputCols(<span class="lit">"document"</span>, <span class="lit">"token"</span>)
   .setOutputCol(<span class="lit">"pos"</span>)</pre><p>The default model is <code>&quot;pos_anc&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Part+of+Speech+Tagging" target="_blank">Models Hub</a>. Additionally,
+<a href="https://sparknlp.org/models?task=Part+of+Speech+Tagging" target="_blank">Models Hub</a>. Additionally,
 pretrained pipelines are available for this module, see
-<a href="https://nlp.johnsnowlabs.com/docs/en/pipelines" target="_blank">Pipelines</a>.</p><p>For extended examples of usage, see the
+<a href="https://sparknlp.org/docs/en/pipelines" target="_blank">Pipelines</a>.</p><p>For extended examples of usage, see the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/french/Train-Perceptron-French.ipynb" target="_blank">Examples</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
 <span class="kw">import</span> com.johnsnowlabs.nlp.annotators.Tokenizer

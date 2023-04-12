@@ -21,7 +21,7 @@ val classifierDL = ClassifierDLModel.pretrained()
 The default model is `"classifierdl_use_trec6"`, if no name is provided. It uses embeddings from the
 [UniversalSentenceEncoder](/docs/en/transformers#universalsentenceencoder) and is trained on the
 [TREC-6](https://deepai.org/dataset/trec-6#:~:text=The%20TREC%20dataset%20is%20dataset,50%20has%20finer%2Dgrained%20labels) dataset.
-For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Text+Classification).
+For available pretrained models please see the [Models Hub](https://sparknlp.org/models?task=Text+Classification).
 
 For extended examples of usage, see the
 [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/ClassifierDL_Train_multi_class_news_category_classifier.ipynb)

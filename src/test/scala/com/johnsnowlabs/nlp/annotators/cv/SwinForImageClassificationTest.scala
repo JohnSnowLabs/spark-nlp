@@ -1,13 +1,12 @@
 package com.johnsnowlabs.nlp.annotators.cv
 
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.scalatest.flatspec.AnyFlatSpec
 
 class SwinForImageClassificationTest extends AnyFlatSpec with ViTForImageClassificationBehaviors {
 
   behavior of "SwinForImageClassificationTest"
 
-  val goldStandards: Map[String, String] =
+  lazy val goldStandards: Map[String, String] =
     Map(
       "hen.JPEG" -> "hen",
       "chihuahua.jpg" -> "Chihuahua",
@@ -20,8 +19,10 @@ class SwinForImageClassificationTest extends AnyFlatSpec with ViTForImageClassif
       "bluetick.jpg" -> "bluetick",
       "palace.JPEG" -> "palace")
 
+  private lazy val model: SwinForImageClassification = SwinForImageClassification.pretrained()
   it should behave like
     behaviorsViTForImageClassification[SwinForImageClassification](
-      SwinForImageClassification.pretrained(),
+      SwinForImageClassification.load,
+      model,
       goldStandards)
 }

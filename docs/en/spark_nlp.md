@@ -25,7 +25,7 @@ Spark NLP is built on top of **Apache Spark 3.x**. For using Spark NLP you need:
 
 **GPU (optional):**
 
-Spark NLP 4.3.2 is built with TensorFlow 2.7.1 and the following NVIDIA® software are only required for GPU support:
+Spark NLP 4.4.0 is built with TensorFlow 2.7.1 and the following NVIDIA® software are only required for GPU support:
 
 - NVIDIA® GPU drivers version 450.80.02 or higher
 - CUDA® Toolkit 11.2
@@ -39,10 +39,10 @@ Please refer to Spark [documentation](http://spark.apache.org/docs/latest/index.
 Install Spark NLP in
 
 {:.btn-list}
-* [Python](https://nlp.johnsnowlabs.com/docs/en/install#python)
-* [Scala and Java](https://nlp.johnsnowlabs.com/docs/en/install#scala-and-java)
-* [Databricks](https://nlp.johnsnowlabs.com/docs/en/install#databricks-support)
-* [EMR](https://nlp.johnsnowlabs.com/docs/en/install#emr-support)
+* [Python](https://sparknlp.org/docs/en/install#python)
+* [Scala and Java](https://sparknlp.org/docs/en/install#scala-and-java)
+* [Databricks](https://sparknlp.org/docs/en/install#databricks-support)
+* [EMR](https://sparknlp.org/docs/en/install#emr-support)
 
 </div></div>
 

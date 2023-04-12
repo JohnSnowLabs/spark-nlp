@@ -117,13 +117,18 @@ def start(gpu=False,
     output_level : int, optional
         Output level for logs, by default 1
 
+    Notes
+    -----
+    Since Spark version 3.2, Python 3.6 is deprecated. If you are using this
+    python version, consider sticking to lower versions of Spark.
+
     Returns
     -------
     :class:`SparkSession`
         The initiated Spark session.
 
     """
-    current_version = "4.3.2"
+    current_version = "4.4.0"
 
     if params is None:
         params = {}
@@ -293,4 +298,4 @@ def version():
     str
         The current Spark NLP version.
     """
-    return '4.3.2'
+    return '4.4.0'

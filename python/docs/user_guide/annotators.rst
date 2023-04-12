@@ -146,7 +146,7 @@ Sometimes we offer more than one model, in which case, you may have to use name,
 location to download them.
 
 For a complete list of available pretrained models, head to the `Spark NLP Models
-<https://nlp.johnsnowlabs.com/models>`__. Alternatively you can also check for pretrained
+<https://sparknlp.org/models>`__. Alternatively you can also check for pretrained
 models of a particular annotator using :meth:`.ResourceDownloader.showPublicModels`.
 
 >>> ResourceDownloader.showPublicModels("ClassifierDLModel", "en")

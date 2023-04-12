@@ -14,7 +14,7 @@ val embeddings = BertSentenceEmbeddings.pretrained()
 ```
 The default model is `"sent_small_bert_L2_768"`, if no name is provided.
 
-For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Embeddings).
+For available pretrained models please see the [Models Hub](https://sparknlp.org/models?task=Embeddings).
 
 For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BERT%20Sentence.ipynb)
 and the [BertSentenceEmbeddingsTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddingsTestSpec.scala).

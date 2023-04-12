@@ -20,7 +20,7 @@ object CustomForNerDLPipeline{
 
         // The spark-nlp library has few defined configurations and if someone needs a different configuration
         // then one has to create a graph with required configuration
-        // Please go through this link for more details: https://nlp.johnsnowlabs.com/docs/en/graph
+        // Please go through this link for more details: https://sparknlp.org/docs/en/graph
         val PATH_TO_GRAPH_FOLDER="C:\\OpenSourceData\\GRAPH_FOLDER"
 
         // we have used glove word embeddings, one can learn word-embeddings related to it's data but it works fine.

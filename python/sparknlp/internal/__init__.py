@@ -220,6 +220,12 @@ class _T5Loader(ExtendedJavaWrapper):
             "com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer.loadSavedModel", path, jspark)
 
 
+class _BartLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_BartLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.seq2seq.BartTransformer.loadSavedModel", path, jspark)
+
+
 class _USELoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark, loadsp):
         super(_USELoader, self).__init__("com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder.loadSavedModel",
@@ -452,6 +458,12 @@ class _SwinForImageClassification(ExtendedJavaWrapper):
             "com.johnsnowlabs.nlp.annotators.cv.SwinForImageClassification.loadSavedModel", path, jspark)
 
 
+class _ConvNextForImageClassification(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_ConvNextForImageClassification, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.cv.ConvNextForImageClassification.loadSavedModel", path, jspark)
+
+
 class _Wav2Vec2ForCTC(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_Wav2Vec2ForCTC, self).__init__(
@@ -497,3 +509,9 @@ class _RobertaQAToZeroShotNerLoader(ExtendedJavaWrapper):
     def __init__(self, path):
         super(_RobertaQAToZeroShotNerLoader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.ner.dl.ZeroShotNerModel.load", path)
+
+
+class _BertZeroShotClassifierLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_BertZeroShotClassifierLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.BertForZeroShotClassification.loadSavedModel", path, jspark)

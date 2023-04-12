@@ -50,7 +50,7 @@ case class Metrics(accuracy: Double, recall: Double, precision: Double, f1: Doub
   * }}}
   * The default model is `"sentence_detector_dl"`, if no name is provided. For available
   * pretrained models please see the
-  * [[https://nlp.johnsnowlabs.com/models?task=Sentence+Detection Models Hub]].
+  * [[https://sparknlp.org/models?task=Sentence+Detection Models Hub]].
   *
   * Each extracted sentence can be returned in an Array or exploded to separate rows, if
   * `explodeSentences` is set to `true`.

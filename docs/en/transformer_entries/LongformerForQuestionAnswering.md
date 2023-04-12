@@ -16,7 +16,7 @@ val spanClassifier = LongformerForQuestionAnswering.pretrained()
 The default model is `"longformer_base_base_qa_squad2"`, if no name is provided.
 
 For available pretrained models please see the
-[Models Hub](https://nlp.johnsnowlabs.com/models?task=Question+Answering).
+[Models Hub](https://sparknlp.org/models?task=Question+Answering).
 
 To see which models are compatible and how to import them see
 https://github.com/JohnSnowLabs/spark-nlp/discussions/5669. and the

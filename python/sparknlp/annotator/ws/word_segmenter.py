@@ -307,7 +307,7 @@ class WordSegmenterModel(AnnotatorModel):
 
     The default model is ``"wordseg_pku"``, default language is ``"zh"``, if no
     values are provided. For available pretrained models please see the `Models
-    Hub <https://nlp.johnsnowlabs.com/models?task=Word+Segmentation>`__.
+    Hub <https://sparknlp.org/models?task=Word+Segmentation>`__.
 
     For extended examples of usage, see the `Examples
     <https://github.com/JohnSnowLabs/spark-nlp/blob/master/jupyter/annotation/chinese/word_segmentation/words_segmenter_demo.ipynb>`__.

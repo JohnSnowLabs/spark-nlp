@@ -13,3 +13,4 @@
 #  limitations under the License.
 from sparknlp.annotator.cv.vit_for_image_classification import *
 from sparknlp.annotator.cv.swin_for_image_classification import *
+from sparknlp.annotator.cv.convnext_for_image_classification import *

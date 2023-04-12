@@ -35,7 +35,7 @@ class UniversalSentenceEncoder(AnnotatorModel,
 
     The default model is ``"tfhub_use"``, if no name is provided. For available
     pretrained models please see the `Models Hub
-    <https://nlp.johnsnowlabs.com/models?task=Embeddings>`__.
+    <https://sparknlp.org/models?task=Embeddings>`__.
 
     For extended examples of usage, see the `Examples
     <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/ClassifierDL_Train_multi_class_news_category_classifier.ipynb>`__.

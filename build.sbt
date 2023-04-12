@@ -6,7 +6,7 @@ name := getPackageName(is_silicon, is_gpu, is_aarch64)
 
 organization := "com.johnsnowlabs.nlp"
 
-version := "4.3.2"
+version := "4.4.0"
 
 (ThisBuild / scalaVersion) := scalaVer
 
@@ -54,7 +54,7 @@ publishTo := {
   else Some("releases" at nexus + "service/local/staging/deploy/maven2")
 }
 
-homepage := Some(url("https://nlp.johnsnowlabs.com"))
+homepage := Some(url("https://sparknlp.org"))
 
 scmInfo := Some(
   ScmInfo(
