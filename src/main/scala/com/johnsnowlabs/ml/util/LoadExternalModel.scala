@@ -37,6 +37,20 @@ object LoadExternalModel {
        |    ├── variables.data-00000-of-00001
        |    └── variables.index
        |
+       |A typical imported ONNX model has the following structure:
+       |
+       |├── assets/
+       |    ├── your-assets-are-here (vocab, sp model, labels, etc.)
+       |├── model.onnx
+       |
+       |A typical imported ONNX model for Seq2Seq has the following structure:
+       |
+       |├── assets/
+       |    ├── your-assets-are-here (vocab, sp model, labels, etc.)
+       |├── encoder_model.onnx
+       |├── decoder_model.onnx
+       |├── decoder_with_past_model.onnx (not used in this release)
+       |
        |Please make sure you follow provided notebooks to import external models into Spark NLP:
        |https://github.com/JohnSnowLabs/spark-nlp/discussions/5669""".stripMargin
   }
