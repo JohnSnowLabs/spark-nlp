@@ -4,15 +4,11 @@ import com.johnsnowlabs.nlp.AnnotatorType.{DOC_SIMILARITY_RANKINGS, SENTENCE_EMB
 import com.johnsnowlabs.nlp.{AnnotatorApproach, HasEnableCachingProperties}
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.feature.{
-  BucketedRandomProjectionLSH,
-  BucketedRandomProjectionLSHModel,
-  MinHashLSH
-}
+import org.apache.spark.ml.feature.{BucketedRandomProjectionLSH, BucketedRandomProjectionLSHModel, MinHashLSH}
 import org.apache.spark.ml.functions.array_to_vector
 import org.apache.spark.ml.linalg.Vector
 import org.apache.spark.ml.param.{BooleanParam, Param}
-import org.apache.spark.ml.util.Identifiable
+import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.functions.{col, flatten, udf}
 import org.apache.spark.sql.{DataFrame, Dataset}
 
@@ -22,16 +18,18 @@ sealed trait NeighborAnnotation {
   def neighbors: Array[_]
 }
 
+
 case class IndexedNeighbors(neighbors: Array[Int]) extends NeighborAnnotation
 
-case class IndexedNeighborsWithDistance(neighbors: Array[(Int, Double)])
-    extends NeighborAnnotation
+
+case class IndexedNeighborsWithDistance(neighbors: Array[(Int, Double)]) extends NeighborAnnotation
+
 
 case class NeighborsResultSet(result: (Int, NeighborAnnotation))
 
+
 class DocumentSimilarityRankerApproach(override val uid: String)
     extends AnnotatorApproach[DocumentSimilarityRankerModel]
-    with HasStorageRef
     with HasEnableCachingProperties {
 
   override val description: AnnotatorType = "LSH based document similarity annotator"
@@ -216,3 +214,9 @@ class DocumentSimilarityRankerApproach(override val uid: String)
       .setSimilarityMappings(Map("similarityMappings" -> similarityMappings))
   }
 }
+
+
+/** This is the companion object of [[DocumentSimilarityRankerApproach]]. Please refer to that class for the
+ * documentation.
+ */
+object DocumentSimilarityRankerApproach extends DefaultParamsReadable[DocumentSimilarityRankerApproach]

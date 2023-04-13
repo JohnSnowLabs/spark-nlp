@@ -10,7 +10,7 @@ import com.johnsnowlabs.nlp.finisher.DocumentSimilarityRankerFinisher
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{AnnotatorBuilder, EmbeddingsFinisher}
 import com.johnsnowlabs.tags.SlowTest
-import org.apache.spark.ml.Pipeline
+import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions.col
 import org.scalatest.flatspec.AnyFlatSpec
@@ -89,7 +89,13 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
           docSimilarityRanker,
           documentSimilarityFinisher))
 
-    val transformed = pipeline.fit(smallCorpus).transform(smallCorpus)
+    val trainedPipelineModel = pipeline.fit(smallCorpus)
+
+    val pipelineModelLoc = "./tmp_doc_sim_ranker_brp_pipeline"
+    trainedPipelineModel.write.overwrite().save(pipelineModelLoc)
+    val pipelineModel = PipelineModel.load(pipelineModelLoc)
+
+    val transformed = pipelineModel.transform(smallCorpus)
 
     // transformed.printSchema
     transformed
@@ -176,7 +182,13 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
           docSimilarityRanker,
           documentSimilarityFinisher))
 
-    val transformed = pipeline.fit(smallCorpus).transform(smallCorpus)
+    val trainedPipelineModel = pipeline.fit(smallCorpus)
+
+    val pipelineModelLoc = "./tmp_doc_sim_ranker_mh_pipeline"
+    trainedPipelineModel.write.overwrite().save(pipelineModelLoc)
+    val pipelineModel = PipelineModel.load(pipelineModelLoc)
+
+    val transformed = pipelineModel.transform(smallCorpus)
 
     // transformed.printSchema
     transformed

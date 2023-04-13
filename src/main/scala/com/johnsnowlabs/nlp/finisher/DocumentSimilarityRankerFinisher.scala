@@ -4,7 +4,7 @@ import com.johnsnowlabs.nlp.AnnotatorType
 import com.johnsnowlabs.nlp.util.FinisherUtil
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.param.{BooleanParam, ParamMap, StringArrayParam}
-import org.apache.spark.ml.util.{DefaultParamsWritable, Identifiable}
+import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types.{IntegerType, StructType}
 import org.apache.spark.sql.{DataFrame, Dataset}
@@ -13,7 +13,7 @@ case class DocumentSimilarityRankerFinisher(override val uid: String)
     extends Transformer
     with DefaultParamsWritable {
 
-  def this() = this(Identifiable.randomUID("document_similarity_ranker_finisher"))
+  def this() = this(Identifiable.randomUID("DOCUMENT_SIMILARITY_RANKER_FINISHER"))
 
   val LSH_ID_COL_NAME = "lshId"
 
@@ -176,3 +176,5 @@ case class DocumentSimilarityRankerFinisher(override val uid: String)
     StructType(outputFields)
   }
 }
+
+object DocumentSimilarityRankerFinisher extends DefaultParamsReadable[DocumentSimilarityRankerFinisher]
