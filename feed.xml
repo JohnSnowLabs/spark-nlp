@@ -1,46 +1,51 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-04-13T12:31:02+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
-</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">Cyberbullying Detection</title><link href="/2023/04/13/CyberbullyingDetection_ClassifierDL_tfhub_en.html" rel="alternate" type="text/html" title="Cyberbullying Detection" /><published>2023-04-13T00:00:00+00:00</published><updated>2023-04-13T00:00:00+00:00</updated><id>/2023/04/13/CyberbullyingDetection_ClassifierDL_tfhub_en</id><content type="html" xml:base="/2023/04/13/CyberbullyingDetection_ClassifierDL_tfhub_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-04-16T12:44:30+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">Cyberbullying Detection</title><link href="/2023/04/13/CyberbullyingDetection_ClassifierDL_tfhub_en.html" rel="alternate" type="text/html" title="Cyberbullying Detection" /><published>2023-04-13T00:00:00+00:00</published><updated>2023-04-13T00:00:00+00:00</updated><id>/2023/04/13/CyberbullyingDetection_ClassifierDL_tfhub_en</id><content type="html" xml:base="/2023/04/13/CyberbullyingDetection_ClassifierDL_tfhub_en.html">## Description
 
-&lt;p&gt;Identify cyberbullying using a multi-class classification framework that distinguishes six different types of cyberbullying. We have used a Twitter dataset from Kaggle and applied various techniques such as text cleaning, data augmentation, document assembling, universal sentence encoding and tensorflow classification model to process and analyze the data. We have also used snscrape to retrieve tweet data for validating our model’s performance. Our results show that our model achieved an accuracy of 85% for testing data and 89% for training data.&lt;/p&gt;
+Identify cyberbullying using a multi-class classification framework that distinguishes six different types of cyberbullying. We have used a Twitter dataset from Kaggle and applied various techniques such as text cleaning, data augmentation, document assembling, universal sentence encoding and tensorflow classification model to process and analyze the data. We have also used snscrape to retrieve tweet data for validating our model’s performance. Our results show that our model achieved an accuracy of 85% for testing data and 89% for training data.
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;a href=&quot;https://colab.research.google.com/drive/1xaIlDtpiGzf14EA1umhJoOXI0FZaYtRc?authuser=4#scrollTo=os2C1v2WW1Hi&quot; class=&quot;button button-orange button-orange-trans co button-icon&quot;&gt;Open in Colab&lt;/a&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/community.johnsnowlabs.com/Naveen-004/CyberbullyingDetection_ClassifierDL_tfhub_en_4.4.0_3.0_1681363209630.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://community.johnsnowlabs.com/Naveen-004/CyberbullyingDetection_ClassifierDL_tfhub_en_4.4.0_3.0_1681363209630.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+[Open in Colab](https://colab.research.google.com/drive/1xaIlDtpiGzf14EA1umhJoOXI0FZaYtRc?authuser=4#scrollTo=os2C1v2WW1Hi){:.button.button-orange.button-orange-trans.co.button-icon}
+[Download](https://s3.amazonaws.com/community.johnsnowlabs.com/Naveen-004/CyberbullyingDetection_ClassifierDL_tfhub_en_4.4.0_3.0_1681363209630.zip){:.button.button-orange}
+[Copy S3 URI](s3://community.johnsnowlabs.com/Naveen-004/CyberbullyingDetection_ClassifierDL_tfhub_en_4.4.0_3.0_1681363209630.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cleaned_text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;use&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UniversalSentenceEncoder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;tfhub_use_lg&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
- &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
- &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence_embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
- &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setDimension&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;768&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;classifierdl&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ClassifierDLApproach&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence_embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;class&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setLabelColumn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cyberbullying_type&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setBatchSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;16&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setMaxEpochs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;42&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setDropout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setEnableOutputLogs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setLr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;4e-3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;use_clf_pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;use&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;classifierdl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+documentAssembler = DocumentAssembler()\
+    .setInputCol(&quot;cleaned_text&quot;)\
+    .setOutputCol(&quot;document&quot;)
+
+use = UniversalSentenceEncoder.pretrained(name=&quot;tfhub_use_lg&quot;, lang=&quot;en&quot;)\
+ .setInputCols(&quot;document&quot;)\
+ .setOutputCol(&quot;sentence_embeddings&quot;)\
+ .setDimension(768)
+
+classifierdl = ClassifierDLApproach()\
+  .setInputCols([&quot;sentence_embeddings&quot;])\
+  .setOutputCol(&quot;class&quot;)\
+  .setLabelColumn(&quot;cyberbullying_type&quot;)\
+  .setBatchSize(16)\
+  .setMaxEpochs(42)\
+  .setDropout(0.4) \
+  .setEnableOutputLogs(True)\
+  .setLr(4e-3)
+use_clf_pipeline = Pipeline(
+    stages = [documentAssembler,
+        use,
+        classifierdl])
+```
 
 &lt;/div&gt;
 
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+## Results
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;           precision    recall  f1-score   support
+```bash
+           precision    recall  f1-score   support
 
                 age       0.94      0.96      0.95       796
           ethnicity       0.94      0.94      0.94       810
@@ -53,50 +58,26 @@ other_cyberbullying       0.67      0.71      0.69       775
           macro avg       0.85      0.85      0.85      4694
        weighted avg       0.85      0.85      0.85      4694
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+```
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;CyberbullyingDetection_ClassifierDL_tfhub&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Type:&lt;/td&gt;
-      &lt;td&gt;pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.4.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Community&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;811.9 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|CyberbullyingDetection_ClassifierDL_tfhub|
+|Type:|pipeline|
+|Compatibility:|Spark NLP 4.4.0+|
+|License:|Open Source|
+|Edition:|Community|
+|Language:|en|
+|Size:|811.9 MB|
 
-&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
+## Included Models
 
-&lt;ul&gt;
-  &lt;li&gt;DocumentAssembler&lt;/li&gt;
-  &lt;li&gt;UniversalSentenceEncoder&lt;/li&gt;
-  &lt;li&gt;ClassifierDLModel&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Naveen-004</name></author><category term="en" /><category term="open_source" /><summary type="html">Description Identify cyberbullying using a multi-class classification framework that distinguishes six different types of cyberbullying. We have used a Twitter dataset from Kaggle and applied various techniques such as text cleaning, data augmentation, document assembling, universal sentence encoding and tensorflow classification model to process and analyze the data. We have also used snscrape to retrieve tweet data for validating our model’s performance. Our results show that our model achieved an accuracy of 85% for testing data and 89% for training data. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler()\ .setInputCol(&quot;cleaned_text&quot;)\ .setOutputCol(&quot;document&quot;) use = UniversalSentenceEncoder.pretrained(name=&quot;tfhub_use_lg&quot;, lang=&quot;en&quot;)\ .setInputCols(&quot;document&quot;)\ .setOutputCol(&quot;sentence_embeddings&quot;)\ .setDimension(768) classifierdl = ClassifierDLApproach()\ .setInputCols([&quot;sentence_embeddings&quot;])\ .setOutputCol(&quot;class&quot;)\ .setLabelColumn(&quot;cyberbullying_type&quot;)\ .setBatchSize(16)\ .setMaxEpochs(42)\ .setDropout(0.4) \ .setEnableOutputLogs(True)\ .setLr(4e-3) use_clf_pipeline = Pipeline( stages = [documentAssembler, use, classifierdl]) Results precision recall f1-score support age 0.94 0.96 0.95 796 ethnicity 0.94 0.94 0.94 810 gender 0.87 0.86 0.86 816 not_cyberbullying 0.74 0.67 0.70 766 other_cyberbullying 0.67 0.71 0.69 775 religion 0.94 0.96 0.95 731 accuracy 0.85 4694 macro avg 0.85 0.85 0.85 4694 weighted avg 0.85 0.85 0.85 4694 Model Information Model Name: CyberbullyingDetection_ClassifierDL_tfhub Type: pipeline Compatibility: Spark NLP 4.4.0+ License: Open Source Edition: Community Language: en Size: 811.9 MB Included Models DocumentAssembler UniversalSentenceEncoder ClassifierDLModel</summary></entry><entry><title type="html">BART (large-sized model), fine-tuned on CNN Daily Mail</title><link href="/2023/04/09/bart_large_cnn_en.html" rel="alternate" type="text/html" title="BART (large-sized model), fine-tuned on CNN Daily Mail" /><published>2023-04-09T00:00:00+00:00</published><updated>2023-04-09T00:00:00+00:00</updated><id>/2023/04/09/bart_large_cnn_en</id><content type="html" xml:base="/2023/04/09/bart_large_cnn_en.html">## Description
+- DocumentAssembler
+- UniversalSentenceEncoder
+- ClassifierDLModel</content><author><name>Naveen-004</name></author><category term="en" /><category term="open_source" /><summary type="html">Description Identify cyberbullying using a multi-class classification framework that distinguishes six different types of cyberbullying. We have used a Twitter dataset from Kaggle and applied various techniques such as text cleaning, data augmentation, document assembling, universal sentence encoding and tensorflow classification model to process and analyze the data. We have also used snscrape to retrieve tweet data for validating our model’s performance. Our results show that our model achieved an accuracy of 85% for testing data and 89% for training data. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler()\ .setInputCol(&quot;cleaned_text&quot;)\ .setOutputCol(&quot;document&quot;) use = UniversalSentenceEncoder.pretrained(name=&quot;tfhub_use_lg&quot;, lang=&quot;en&quot;)\ .setInputCols(&quot;document&quot;)\ .setOutputCol(&quot;sentence_embeddings&quot;)\ .setDimension(768) classifierdl = ClassifierDLApproach()\ .setInputCols([&quot;sentence_embeddings&quot;])\ .setOutputCol(&quot;class&quot;)\ .setLabelColumn(&quot;cyberbullying_type&quot;)\ .setBatchSize(16)\ .setMaxEpochs(42)\ .setDropout(0.4) \ .setEnableOutputLogs(True)\ .setLr(4e-3) use_clf_pipeline = Pipeline( stages = [documentAssembler, use, classifierdl]) Results precision recall f1-score support age 0.94 0.96 0.95 796 ethnicity 0.94 0.94 0.94 810 gender 0.87 0.86 0.86 816 not_cyberbullying 0.74 0.67 0.70 766 other_cyberbullying 0.67 0.71 0.69 775 religion 0.94 0.96 0.95 731 accuracy 0.85 4694 macro avg 0.85 0.85 0.85 4694 weighted avg 0.85 0.85 0.85 4694 Model Information Model Name: CyberbullyingDetection_ClassifierDL_tfhub Type: pipeline Compatibility: Spark NLP 4.4.0+ License: Open Source Edition: Community Language: en Size: 811.9 MB Included Models DocumentAssembler UniversalSentenceEncoder ClassifierDLModel</summary></entry><entry><title type="html">BART (large-sized model), fine-tuned on CNN Daily Mail</title><link href="/2023/04/09/bart_large_cnn_en.html" rel="alternate" type="text/html" title="BART (large-sized model), fine-tuned on CNN Daily Mail" /><published>2023-04-09T00:00:00+00:00</published><updated>2023-04-09T00:00:00+00:00</updated><id>/2023/04/09/bart_large_cnn_en</id><content type="html" xml:base="/2023/04/09/bart_large_cnn_en.html">## Description
 
 ### BART (large-sized model), fine-tuned on CNN Daily Mail 
 
