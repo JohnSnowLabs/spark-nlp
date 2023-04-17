@@ -18,6 +18,7 @@ package com.johnsnowlabs.nlp.util.io
 
 import com.amazonaws.AmazonServiceException
 import com.johnsnowlabs.client.aws.AWSGateway
+import com.johnsnowlabs.client.util.CloudHelper
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord}
 import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
@@ -122,7 +123,7 @@ object ResourceHelper {
     private def getPipe(fileSystem: FileSystem): Seq[InputStream] = {
       if (fileSystem.getScheme == "s3a") {
         val awsGateway = new AWSGateway()
-        val (bucket, s3Path) = parseS3URI(path.get.toString)
+        val (bucket, s3Path) = CloudHelper.parseS3URI(path.get.toString)
         val inputStreams = awsGateway.listS3Files(bucket, s3Path).map { summary =>
           val s3Object = awsGateway.getS3Object(bucket, summary.getKey)
           s3Object.getObjectContent
@@ -765,26 +766,6 @@ object ResourceHelper {
       }
     }
 
-  }
-
-  def parseS3URI(s3URI: String): (String, String) = {
-    val prefix = if (s3URI.startsWith("s3:")) "s3://" else "s3a://"
-    val bucketName = s3URI.substring(prefix.length).split("/").head
-    val key = s3URI.substring((prefix + bucketName).length + 1)
-
-    require(bucketName.nonEmpty, "S3 bucket name is empty!")
-
-    (bucketName, key)
-  }
-
-  def parseGCPStorageURI(gcpStorageURI: String): (String, String) = {
-    val prefix = "gs://"
-    val bucketName = gcpStorageURI.substring(prefix.length).split("/").head
-    val storagePath = gcpStorageURI.substring((prefix + bucketName).length + 1)
-
-    require(bucketName.nonEmpty, "GCP Storage bucket name is empty!")
-
-    (bucketName, storagePath)
   }
 
 }

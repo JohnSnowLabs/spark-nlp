@@ -17,6 +17,7 @@
 package com.johnsnowlabs.nlp.pretrained
 
 import com.johnsnowlabs.client.aws.AWSGateway
+import com.johnsnowlabs.client.util.CloudHelper
 import com.johnsnowlabs.nlp.annotators._
 import com.johnsnowlabs.nlp.annotators.audio.{HubertForCTC, Wav2Vec2ForCTC}
 import com.johnsnowlabs.nlp.annotators.classifier.dl._
@@ -588,7 +589,7 @@ object ResourceDownloader {
       tempLocalPath: String = "",
       isIndex: Boolean = false): URI = {
 
-    val (bucketName, keyPrefix) = ResourceHelper.parseS3URI(s3Path)
+    val (bucketName, keyPrefix) = CloudHelper.parseS3URI(s3Path)
     val (accessKey, secretKey, sessionToken) = ConfigHelper.getHadoopS3Config
     val region = ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalRegion)
     val privateS3Defined =
@@ -605,7 +606,7 @@ object ResourceDownloader {
       }
 
     val directory = if (tempLocalPath.isEmpty) SparkFiles.getRootDirectory() else tempLocalPath
-    awsGateway.downloadFilesFromDirectory(bucketName, keyPrefix, new File(directory), isIndex)
+    awsGateway.downloadFilesFromBucketToDirectory(bucketName, keyPrefix, directory, isIndex)
     Paths.get(directory, keyPrefix).toUri
 
   }
