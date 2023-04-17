@@ -197,7 +197,7 @@ object OutputHelper {
     val awsGateway = new AWSGateway(credentialsType = "proprietary")
     val s3FilePath = s"""${s3Path.substring("s3://".length)}${sourceFilePath.split("/").last}"""
 
-    awsGateway.copyInputStreamToS3(s3Bucket, s3FilePath, sourceFilePath)
+    awsGateway.copyInputStreamToBucket(s3Bucket, s3FilePath, sourceFilePath)
   }
 
 }

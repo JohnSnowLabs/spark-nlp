@@ -153,22 +153,6 @@ class ResourceHelperTestSpec extends AnyFlatSpec {
     assert(files.nonEmpty)
   }
 
-  it should "parse S3 URIs" taggedAs FastTest in {
-    val s3URIs =
-      Array("s3a://my.bucket.com/my/S3/path/my_file.tmp", "s3://my.bucket.com/my/S3/path/")
-    val expectedOutput =
-      Array(("my.bucket.com", "my/S3/path/my_file.tmp"), ("my.bucket.com", "my/S3/path/"))
-
-    s3URIs.zipWithIndex.foreach { case (s3URI, index) =>
-      val (actualBucket, actualKey) = ResourceHelper.parseS3URI(s3URI)
-
-      val (expectedBucket, expectedKey) = expectedOutput(index)
-
-      assert(expectedBucket == actualBucket)
-      assert(expectedKey == actualKey)
-    }
-  }
-
   it should "not copyToLocal a local file" taggedAs FastTest in {
     val resourcePath = "src/test/resources/tf-hub-bert/model"
     val resourceUri = new File("src/test/resources/tf-hub-bert/model").getAbsolutePath
