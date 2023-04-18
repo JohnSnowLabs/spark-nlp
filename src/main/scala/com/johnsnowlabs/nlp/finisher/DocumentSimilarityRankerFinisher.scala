@@ -177,4 +177,5 @@ case class DocumentSimilarityRankerFinisher(override val uid: String)
   }
 }
 
-object DocumentSimilarityRankerFinisher extends DefaultParamsReadable[DocumentSimilarityRankerFinisher]
+object DocumentSimilarityRankerFinisher
+    extends DefaultParamsReadable[DocumentSimilarityRankerFinisher]

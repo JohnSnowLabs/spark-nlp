@@ -16,7 +16,7 @@
 from sparknlp.common import *
 
 
-class DocumentSimilarityRankerApproach(AnnotatorApproach, HasStorageRef, HasEnableCachingProperties):
+class DocumentSimilarityRankerApproach(AnnotatorApproach, HasEnableCachingProperties):
     inputAnnotatorTypes = [AnnotatorType.SENTENCE_EMBEDDINGS]
 
     outputAnnotatorType = AnnotatorType.DOC_SIMILARITY_RANKINGS
@@ -136,7 +136,7 @@ class DocumentSimilarityRankerApproach(AnnotatorApproach, HasStorageRef, HasEnab
         return DocumentSimilarityRankerModel(java_model=java_model)
 
 
-class DocumentSimilarityRankerModel(AnnotatorModel, HasStorageRef, HasEmbeddingsProperties):
+class DocumentSimilarityRankerModel(AnnotatorModel, HasEmbeddingsProperties):
 
     name = "DocumentSimilarityRankerModel"
     inputAnnotatorTypes = [AnnotatorType.SENTENCE_EMBEDDINGS]

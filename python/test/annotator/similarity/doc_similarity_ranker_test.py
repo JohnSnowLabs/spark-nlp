@@ -22,21 +22,10 @@ from sparknlp.base import *
 # from test.util import SparkSessionForTest
 
 
-@pytest.mark.fast
+@pytest.mark.slow
 class DocumentSimilarityRankerTestSpec(unittest.TestCase):
-
     def setUp(self):
-        jars_path = "/Users/stefanolori/workspace/dev/oth/spark-nlp/python/sparknlp/lib/sparknlp.jar"
-        spark = SparkSession.builder \
-            .master("local[*]") \
-            .config("spark.jars", jars_path) \
-            .config("spark.driver.memory", "12G") \
-            .config("spark.driver.maxResultSize", "2G") \
-            .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
-            .config("spark.kryoserializer.buffer.max", "500m") \
-            .getOrCreate()
-
-        spark.sparkContext.setLogLevel("WARN")
+        self.spark = SparkContextForTest.spark
 
         # FIXME rollback the setting up from utility class for test
         # self.data = SparkSessionForTest.spark.createDataFrame([

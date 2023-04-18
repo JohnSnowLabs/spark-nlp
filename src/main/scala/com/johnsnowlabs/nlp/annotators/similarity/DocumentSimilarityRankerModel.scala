@@ -3,7 +3,13 @@ package com.johnsnowlabs.nlp.annotators.similarity
 import com.johnsnowlabs.nlp.AnnotatorType.{DOC_SIMILARITY_RANKINGS, SENTENCE_EMBEDDINGS}
 import com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties
 import com.johnsnowlabs.nlp.serialization.MapFeature
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate, ParamsAndFeaturesReadable, ParamsAndFeaturesWritable}
+import com.johnsnowlabs.nlp.{
+  Annotation,
+  AnnotatorModel,
+  HasSimpleAnnotate,
+  ParamsAndFeaturesReadable,
+  ParamsAndFeaturesWritable
+}
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.functions.col
@@ -66,6 +72,7 @@ class DocumentSimilarityRankerModel(override val uid: String)
     })
 }
 
-trait ReadableDocumentSimilarityRanker extends ParamsAndFeaturesReadable[DocumentSimilarityRankerModel]
+trait ReadableDocumentSimilarityRanker
+    extends ParamsAndFeaturesReadable[DocumentSimilarityRankerModel]
 
 object DocumentSimilarityRankerModel extends ReadableDocumentSimilarityRanker
