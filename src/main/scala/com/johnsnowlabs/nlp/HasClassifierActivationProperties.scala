@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.nlp
 
-import org.apache.spark.ml.param.Param
+import org.apache.spark.ml.param.{FloatParam, Param}
 
 trait HasClassifierActivationProperties extends ParamsAndFeaturesWritable {
 
@@ -29,7 +29,19 @@ trait HasClassifierActivationProperties extends ParamsAndFeaturesWritable {
     "activation",
     "Whether to calculate logits via Softmax or Sigmoid. Default is Softmax")
 
-  setDefault(activation, ActivationFunction.softmax)
+  /** Choose the threshold to determine which logits are considered to be positive or negative.
+    * (Default: `0.5f`). The value should be between 0.0 and 1.0. Changing the threshold value
+    * will affect the resulting labels and can be used to adjust the balance between precision and
+    * recall in the classification process.
+    *
+    * @group param
+    */
+  val threshold = new FloatParam(
+    this,
+    "threshold",
+    "Choose the threshold to determine which logits are considered to be positive or negative")
+
+  setDefault(activation -> ActivationFunction.softmax, threshold -> 0.5f)
 
   /** @group getParam */
   def getActivation: String = $(activation)
@@ -47,6 +59,17 @@ trait HasClassifierActivationProperties extends ParamsAndFeaturesWritable {
     }
 
   }
+
+  /** Choose the threshold to determine which logits are considered to be positive or negative.
+    * (Default: `0.5f`). The value should be between 0.0 and 1.0. Changing the threshold value
+    * will affect the resulting labels and can be used to adjust the balance between precision and
+    * recall in the classification process.
+    *
+    * @group param
+    */
+  def setThreshold(threshold: Float): this.type =
+    set(this.threshold, threshold)
+
 }
 
 object ActivationFunction {

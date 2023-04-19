@@ -41,7 +41,8 @@ private[johnsnowlabs] class XlmRoBertaClassification(
     val spp: SentencePieceWrapper,
     configProtoBytes: Option[Array[Byte]] = None,
     tags: Map[String, Int],
-    signatures: Option[Map[String, String]] = None)
+    signatures: Option[Map[String, String]] = None,
+    threshold: Float = 0.5f)
     extends Serializable
     with XXXForClassification {
 
@@ -53,6 +54,7 @@ private[johnsnowlabs] class XlmRoBertaClassification(
   protected val sentencePadTokenId: Int = 1
 
   private val sentencePieceDelimiterId = spp.getSppModel.pieceToId("▁")
+  protected val sigmoidThreshold: Float = threshold
 
   def tokenizeWithAlignment(
       sentences: Seq[TokenizedSentence],

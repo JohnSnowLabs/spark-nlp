@@ -45,7 +45,8 @@ private[johnsnowlabs] class DistilBertClassification(
     configProtoBytes: Option[Array[Byte]] = None,
     tags: Map[String, Int],
     signatures: Option[Map[String, String]] = None,
-    vocabulary: Map[String, Int])
+    vocabulary: Map[String, Int],
+    threshold: Float = 0.5f)
     extends Serializable
     with XXXForClassification {
 
@@ -53,6 +54,7 @@ private[johnsnowlabs] class DistilBertClassification(
     signatures.getOrElse(ModelSignatureManager.apply())
 
   protected val sentencePadTokenId = 0
+  protected val sigmoidThreshold: Float = threshold
 
   def tokenizeWithAlignment(
       sentences: Seq[TokenizedSentence],

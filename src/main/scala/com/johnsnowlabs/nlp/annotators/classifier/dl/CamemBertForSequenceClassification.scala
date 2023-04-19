@@ -249,7 +249,8 @@ class CamemBertForSequenceClassification(override val uid: String)
             spp,
             configProtoBytes = getConfigProtoBytes,
             tags = $$(labels),
-            signatures = getSignatures)))
+            signatures = getSignatures,
+            threshold = $(threshold))))
     }
 
     this
