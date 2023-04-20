@@ -1,8 +1,8 @@
 ---
 layout: model
-title: DistilBERTZero-Shot Classification Base - distilbert_base_turkish_cased_multinli
+title: DistilBERTZero-Shot Classification Base - distilbert_base_zero_shot_classifier_turkish_cased_multinli
 author: John Snow Labs
-name: distilbert_base_turkish_cased_multinli
+name: distilbert_base_zero_shot_classifier_turkish_cased_multinli
 date: 2023-04-20
 tags: [zero_shot, tr, turkish, distilbert, base, cased, open_source, tensorflow]
 task: Zero-Shot Classification
@@ -32,8 +32,8 @@ We used TFDistilBertForSequenceClassification to train this model and used Disti
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_base_turkish_cased_multinli_tr_4.4.1_3.2_1681952299918.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/distilbert_base_turkish_cased_multinli_tr_4.4.1_3.2_1681952299918.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_base_zero_shot_classifier_turkish_cased_multinli_tr_4.4.1_3.2_1681952299918.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/distilbert_base_zero_shot_classifier_turkish_cased_multinli_tr_4.4.1_3.2_1681952299918.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -51,7 +51,7 @@ tokenizer = Tokenizer() \
 .setOutputCol('token')
 
 zeroShotClassifier = DistilBertForZeroShotClassification \
-.pretrained('distilbert_base_turkish_cased_allnli', 'en') \
+.pretrained('distilbert_base_zero_shot_classifier_turkish_cased_multinli', 'en') \
 .setInputCols(['token', 'document']) \
 .setOutputCol('class') \
 .setCaseSensitive(True) \
@@ -77,7 +77,7 @@ val tokenizer = Tokenizer()
 .setInputCols("document")
 .setOutputCol("token")
 
-val zeroShotClassifier = DistilBertForZeroShotClassification.pretrained("distilbert_base_turkish_cased_allnli", "en")
+val zeroShotClassifier = DistilBertForZeroShotClassification.pretrained("distilbert_base_zero_shot_classifier_turkish_cased_multinli", "en")
 .setInputCols("document", "token")
 .setOutputCol("class")
 .setCaseSensitive(true)
@@ -97,7 +97,7 @@ val result = pipeline.fit(example).transform(example)
 
 {:.table-model}
 |---|---|
-|Model Name:|distilbert_base_turkish_cased_multinli|
+|Model Name:|distilbert_base_zero_shot_classifier_turkish_cased_multinli|
 |Compatibility:|Spark NLP 4.4.1+|
 |License:|Open Source|
 |Edition:|Official|
