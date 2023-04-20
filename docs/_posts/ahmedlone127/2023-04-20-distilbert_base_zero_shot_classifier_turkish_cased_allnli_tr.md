@@ -4,7 +4,7 @@ title: DistilBERTZero-Shot Classification Base - distilbert_base_zero_shot_class
 author: John Snow Labs
 name: distilbert_base_zero_shot_classifier_turkish_cased_allnli
 date: 2023-04-20
-tags: [zero_shot, distilbert, base, tr, turkish, cased, open_source, tensorflow]
+tags: [distilbert, zero_shot, turkish, tr, base, open_source, tensorflow]
 task: Zero-Shot Classification
 language: tr
 edition: Spark NLP 4.4.1
@@ -32,8 +32,8 @@ We used TFDistilBertForSequenceClassification to train this model and used Disti
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_base_zero_shot_classifier_turkish_cased_allnli_4.4.1_3.2_1681950583033.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/distilbert_base_zero_shot_classifier_turkish_cased_allnli_tr_4.4.1_3.2_1681950583033.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_base_zero_shot_classifier_turkish_cased_allnli_tr_4.4.1_3.2_1682016415236.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/distilbert_base_zero_shot_classifier_turkish_cased_allnli_tr_4.4.1_3.2_1682016415236.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -63,7 +63,6 @@ document_assembler,
 tokenizer,
 zeroShotClassifier
 ])
-
 example = spark.createDataFrame([['Senaryo çok saçmaydı, beğendim diyemem.']]).toDF("text")
 result = pipeline.fit(example).transform(example)
 ```
@@ -84,9 +83,7 @@ val zeroShotClassifier = DistilBertForZeroShotClassification.pretrained("distilb
 .setCandidateLabels(Array("olumsuz", "olumlu"))
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, zeroShotClassifier))
-
 val example = Seq("Senaryo çok saçmaydı, beğendim diyemem.").toDS.toDF("text")
-
 val result = pipeline.fit(example).transform(example)
 ```
 </div>
