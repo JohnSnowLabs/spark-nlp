@@ -139,9 +139,7 @@ case class DocumentSimilarityRankerFinisher(override val uid: String)
           .withColumn(
             s"split_$neighborsColName",
             split(col(s"no_rounded_$neighborsColName"), ","))
-          .withColumn(
-            "nearest_neighbor_id",
-            element_at(col(s"split_$neighborsColName"), 1).cast(IntegerType))
+          .withColumn("nearest_neighbor_id", element_at(col(s"split_$neighborsColName"), 1).cast(IntegerType))
           .withColumn("nearest_neighbor_distance", element_at(col(s"split_$neighborsColName"), 2))
       else
         formatted

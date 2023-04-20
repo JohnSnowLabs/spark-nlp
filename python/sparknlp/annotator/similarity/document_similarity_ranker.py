@@ -14,6 +14,9 @@
 """Contains classes for DocumentSimilarityRanker."""
 
 from sparknlp.common import *
+from pyspark import keyword_only
+from pyspark.ml.param import TypeConverters, Params, Param
+from sparknlp.internal import AnnotatorTransformer
 
 
 class DocumentSimilarityRankerApproach(AnnotatorApproach, HasEnableCachingProperties):
@@ -150,5 +153,80 @@ class DocumentSimilarityRankerModel(AnnotatorModel, HasEmbeddingsProperties):
         )
 
 
-class DocumentSimilarityRankerFinisher:
-    pass
+class DocumentSimilarityRankerFinisher(AnnotatorTransformer):
+
+    inputCols = Param(Params._dummy(),
+                      "inputCols",
+                      "name of input annotation cols containing document similarity ranker results",
+                      typeConverter=TypeConverters.toListString)
+    outputCols = Param(Params._dummy(),
+                       "outputCols",
+                       "output DocumentSimilarityRankerFinisher output cols",
+                       typeConverter=TypeConverters.toListString)
+    extractNearestNeighbor = Param(Params._dummy(), "extractNearestNeighbor",
+                             "whether to extract the nearest neighbor document",
+                             typeConverter=TypeConverters.toBoolean)
+
+    name = "DocumentSimilarityRankerFinisher"
+
+    @keyword_only
+    def __init__(self):
+        super(DocumentSimilarityRankerFinisher, self).__init__(classname="com.johnsnowlabs.nlp.finisher.DocumentSimilarityRankerFinisher")
+        self._setDefault(
+            extractNearestNeighbor=False
+        )
+
+    @keyword_only
+    def setParams(self):
+        kwargs = self._input_kwargs
+        return self._set(**kwargs)
+
+    def setInputCols(self, *value):
+        """Sets name of input annotation columns containing embeddings.
+
+        Parameters
+        ----------
+        *value : str
+            Input columns for the annotator
+        """
+
+        if len(value) == 1 and type(value[0]) == list:
+            return self._set(inputCols=value[0])
+        else:
+            return self._set(inputCols=list(value))
+
+    def setOutputCols(self, *value):
+        """Sets names of finished output columns.
+
+        Parameters
+        ----------
+        *value : List[str]
+            Input columns for the annotator
+        """
+
+        if len(value) == 1 and type(value[0]) == list:
+            return self._set(outputCols=value[0])
+        else:
+            return self._set(outputCols=list(value))
+
+    def setExtractNearestNeighbor(self, value):
+        """Sets whether to extract the nearest neighbor document, by default False.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to extract the nearest neighbor document
+        """
+
+        return self._set(extractNearestNeighbor=value)
+
+    def getInputCols(self):
+        """Gets input columns name of annotations."""
+        return self.getOrDefault(self.inputCols)
+
+    def getOutputCols(self):
+        """Gets output columns name of annotations."""
+        if len(self.getOrDefault(self.outputCols)) == 0:
+            return ["finished_" + input_col for input_col in self.getInputCols()]
+        else:
+            return self.getOrDefault(self.outputCols)

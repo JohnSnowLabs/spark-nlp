@@ -16,10 +16,10 @@ import unittest
 import pytest
 from pyspark.sql import SparkSession
 from sparknlp.annotator import *
-from sparknlp.annotator.similarity.document_similarity_ranker import DocumentSimilarityRankerApproach
+from sparknlp.annotator.similarity.document_similarity_ranker import *
 from sparknlp.base import *
 
-# from test.util import SparkSessionForTest
+from test.util import SparkSessionForTest
 
 
 @pytest.mark.slow
@@ -28,8 +28,7 @@ class DocumentSimilarityRankerTestSpec(unittest.TestCase):
         self.spark = SparkContextForTest.spark
 
         # FIXME rollback the setting up from utility class for test
-        # self.data = SparkSessionForTest.spark.createDataFrame([
-        self.data = spark.createDataFrame([
+        self.data = SparkSessionForTest.spark.createDataFrame([
             ["First document, this is my first sentence. This is my second sentence."],
             ["Second document, this is my second sentence. This is my second sentence."],
             ["Third document, climate change is arguably one of the most pressing problems of our time."],
@@ -94,27 +93,33 @@ class DocumentSimilarityRankerTestSpec(unittest.TestCase):
             .setInputCols(["document"]) \
             .setOutputCol("sentence_embeddings")
 
-        # TODO add document_similarity_ranker with input col embeddings too
         document_similarity_ranker = DocumentSimilarityRankerApproach() \
             .setInputCols("sentence_embeddings") \
             .setOutputCol("doc_similarity_rankings") \
-            .setSimilarityMethod("mh") \
+            .setSimilarityMethod("brp") \
             .setNumberOfNeighbours(10) \
+            .setBucketLength(2.0) \
             .setNumHashTables(3) \
             .setVisibleDistances(True) \
             .setIdentityRanking(False)
+
+        document_similarity_ranker_finisher = DocumentSimilarityRankerFinisher() \
+            .setInputCols("doc_similarity_rankings") \
+            .setOutputCols(
+            "finished_doc_similarity_rankings_id",
+            "finished_doc_similarity_rankings_neighbors") \
+            .setExtractNearestNeighbor(True)
 
         pipeline = Pipeline(stages=[
             document_assembler,
             sentence_detector,
             tokenizer,
             sentence_embeddings,
-            document_similarity_ranker
-            # TODO add document_similarity_ranker_finisher
+            document_similarity_ranker,
+            document_similarity_ranker_finisher
         ])
 
         model = pipeline.fit(self.data)
-        # TODO add write/read pipeline
         transformed = model.transform(self.data)
         transformed.show()
 
