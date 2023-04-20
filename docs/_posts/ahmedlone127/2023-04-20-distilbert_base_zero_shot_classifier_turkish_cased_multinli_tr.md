@@ -19,7 +19,7 @@ use_language_switcher: "Python-Scala-Java"
 
 ## Description
 
-This model is intended to be used for zero-shot text classification, especially in English. It is fine-tuned on MNLI by using DistilBERT Base Uncased model.
+This model is intended to be used for zero-shot text classification, especially in Trukish. It is fine-tuned on MNLI by using DistilBERT Base Uncased model.
 
 DistilBertForZeroShotClassification using a ModelForSequenceClassification trained on NLI (natural language inference) tasks. Equivalent of DistilBertForSequenceClassification models, but these models don’t require a hardcoded number of potential classes, they can be chosen at runtime. It usually means it’s slower but it is much more flexible.
 
