@@ -4,7 +4,7 @@ title: DistilBERTZero-Shot Classification Base - distilbert_base_zero_shot_class
 author: John Snow Labs
 name: distilbert_base_zero_shot_classifier_turkish_cased_multinli
 date: 2023-04-20
-tags: [tr, open_source, tensorflow]
+tags: [zero_shot, tr, turkish, distilbert, base, cased, open_source, tensorflow]
 task: Zero-Shot Classification
 language: tr
 edition: Spark NLP 4.4.1
