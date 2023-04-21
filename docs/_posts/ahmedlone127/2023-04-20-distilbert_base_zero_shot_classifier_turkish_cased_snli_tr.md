@@ -32,8 +32,8 @@ We used TFDistilBertForSequenceClassification to train this model and used Disti
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_base_zero_shot_classifier_turkish_cased_snli_tr_4.4.1_3.2_1681951486863.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/distilbert_base_zero_shot_classifier_turkish_cased_snli_tr_4.4.1_3.2_1681951486863.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_base_zero_shot_classifier_turkish_cased_snli_tr_4.4.1_3.2_1682015986268.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/distilbert_base_zero_shot_classifier_turkish_cased_snli_tr_4.4.1_3.2_1682015986268.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -63,7 +63,6 @@ document_assembler,
 tokenizer,
 zeroShotClassifier
 ])
-
 example = spark.createDataFrame([['Senaryo çok saçmaydı, beğendim diyemem.']]).toDF("text")
 result = pipeline.fit(example).transform(example)
 ```
@@ -75,8 +74,9 @@ val document_assembler = DocumentAssembler()
 val tokenizer = Tokenizer()
 .setInputCols("document")
 .setOutputCol("token")
+val zeroShotClassifier = 
 
-val zeroShotClassifier = DistilBertForZeroShotClassification.pretrained("distilbert_base_zero_shot_classifier_turkish_cased_snli", "en")
+DistilBertForZeroShotClassification.pretrained("distilbert_base_zero_shot_classifier_turkish_cased_snli", "en")
 .setInputCols("document", "token")
 .setOutputCol("class")
 .setCaseSensitive(true)
@@ -84,9 +84,7 @@ val zeroShotClassifier = DistilBertForZeroShotClassification.pretrained("distilb
 .setCandidateLabels(Array("olumsuz", "olumlu"))
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, zeroShotClassifier))
-
 val example = Seq("Senaryo çok saçmaydı, beğendim diyemem.").toDS.toDF("text")
-
 val result = pipeline.fit(example).transform(example)
 ```
 </div>
