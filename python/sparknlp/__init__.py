@@ -128,7 +128,7 @@ def start(gpu=False,
         The initiated Spark session.
 
     """
-    current_version = "4.4.0"
+    current_version = "4.4.1"
 
     if params is None:
         params = {}

@@ -515,3 +515,9 @@ class _BertZeroShotClassifierLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_BertZeroShotClassifierLoader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.classifier.dl.BertForZeroShotClassification.loadSavedModel", path, jspark)
+
+class _DistilBertForZeroShotClassification(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_DistilBertForZeroShotClassification, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.BertForZeroShotClassification.loadSavedModel", path, jspark)
+
