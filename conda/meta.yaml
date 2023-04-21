@@ -23,7 +23,7 @@ requirements:
 
 test:
   imports:
-    - com
+    - sparknlp
   commands:
     - pip check
   requires:
