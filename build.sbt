@@ -169,9 +169,9 @@ val onnxDependencies: Seq[sbt.ModuleID] =
   if (is_gpu.equals("true"))
     Seq(onnxGPU)
   else if (is_silicon.equals("true"))
-    Seq()
+    Seq(onnxCPU)
   else if (is_aarch64.equals("true"))
-    Seq()
+    Seq(onnxCPU)
   else
     Seq(onnxCPU)
 
