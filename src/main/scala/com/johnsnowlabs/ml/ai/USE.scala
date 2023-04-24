@@ -79,7 +79,7 @@ private[johnsnowlabs] class USE(
           .feed(inputKey, sentenceTensors)
           .fetch(outPutKey)
 
-        val outs = runner.run().asScala
+        val outs = TensorResources.resultToBuffer(runner.run())
         val allEmbeddings = TensorResources.extractFloats(outs.head)
 
         tensors.clearSession(outs)

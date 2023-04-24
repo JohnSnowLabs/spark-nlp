@@ -10,8 +10,6 @@ version := "4.4.0"
 
 (ThisBuild / scalaVersion) := scalaVer
 
-(ThisBuild / scalacOptions) += "-target:jvm-1.8"
-
 (ThisBuild / javaOptions) += "-Xmx4096m"
 
 (ThisBuild / javaOptions) += "-XX:+UseG1GC"
@@ -149,7 +147,8 @@ lazy val utilDependencies = Seq(
     exclude ("com.google.guava", "guava")
     exclude ("org.apache.commons", "commons-lang3")
     exclude ("com.google.code.findbugs", "annotations")
-    exclude ("org.slf4j", "slf4j-api"),
+    exclude ("org.slf4j", "slf4j-api")
+    exclude ("org.projectlombok", "lombok"),
   gcpStorage,
   greex)
 

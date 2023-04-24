@@ -21,8 +21,6 @@ import com.johnsnowlabs.nlp.annotators.ner.Verbose
 import com.johnsnowlabs.nlp.annotators.spell.context.LangModelSentence
 import org.tensorflow.Graph
 
-import scala.collection.JavaConverters._
-
 private[johnsnowlabs] class TensorflowSpell(
     val tensorflow: TensorflowWrapper,
     val verboseLevel: Verbose.Value)
@@ -156,32 +154,36 @@ private[johnsnowlabs] class TensorflowSpell(
         var trainLoss = 0.0
         var trainValidWords = 0
 
-        val tfResponse = session
-          .runner()
-          .fetch(lossKey)
-          .fetch(globalStepKey)
-          .fetch(learningRate)
-          .fetch(updatesKey)
-          .feed(dropoutRate, tensors.createTensor(.65f))
-          .feed(wordIds, tensors.createTensor(batch.map(_.ids)))
-          .feed(contextIds, tensors.createTensor(batch.map(_.cids)))
-          .feed(contextWordIds, tensors.createTensor(batch.map(_.cwids)))
-          .feed(inputLens, tensors.createTensor(batch.map(_.len)))
-          .feed(finalLearningRateKey, tensors.createTensor(finalRate))
-          .feed(initialLearningRateKey, tensors.createTensor(initialRate))
-          .run()
+        val tfResponse = {
+          val result = session
+            .runner()
+            .fetch(lossKey)
+            .fetch(globalStepKey)
+            .fetch(learningRate)
+            .fetch(updatesKey)
+            .feed(dropoutRate, tensors.createTensor(.65f))
+            .feed(wordIds, tensors.createTensor(batch.map(_.ids)))
+            .feed(contextIds, tensors.createTensor(batch.map(_.cids)))
+            .feed(contextWordIds, tensors.createTensor(batch.map(_.cwids)))
+            .feed(inputLens, tensors.createTensor(batch.map(_.len)))
+            .feed(finalLearningRateKey, tensors.createTensor(finalRate))
+            .feed(initialLearningRateKey, tensors.createTensor(initialRate))
+            .run()
 
-        val loss = tfResponse.asScala.headOption match {
+          TensorResources.resultToBuffer(result)
+        }
+
+        val loss = tfResponse.headOption match {
           case Some(e) => e
           case _ => throw new IllegalArgumentException("Error in TF loss extraction")
         }
 
-        val gs = tfResponse.asScala.lift(1) match {
+        val gs = tfResponse.lift(1) match {
           case Some(e) => e
           case _ => throw new IllegalArgumentException("Error in TF gs extraction")
         }
 
-        val clr = tfResponse.asScala.lift(2) match {
+        val clr = tfResponse.lift(2) match {
           case Some(e) => e
           case _ => throw new IllegalArgumentException("Error in TF clr extraction")
         }

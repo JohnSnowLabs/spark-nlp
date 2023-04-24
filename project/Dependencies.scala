@@ -56,14 +56,6 @@ object Dependencies {
     }
   }
 
-  def getJavaTarget(is_spark33: String): String = {
-    if (is_spark33.equals("true")) {
-      "-target:jvm-1.8"
-    } else {
-      ""
-    }
-  }
-
   /** ------- Scala version start ------- */
   lazy val scala212 = "2.12.15"
   lazy val scalaVer: String = scala212
@@ -96,7 +88,7 @@ object Dependencies {
   val junitVersion = "4.13.2"
   val junit = "junit" % "junit" % junitVersion % Test
 
-  val tensorflowVersion = "0.4.4"
+  val tensorflowVersion = "0.5.0-rc1"
 
   val tensorflowGPU = "com.johnsnowlabs.nlp" %% "tensorflow-gpu" % tensorflowVersion
   val tensorflowCPU = "com.johnsnowlabs.nlp" %% "tensorflow-cpu" % tensorflowVersion

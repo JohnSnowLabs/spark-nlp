@@ -119,7 +119,7 @@ private[johnsnowlabs] class XlmRoberta(
       .fetch(_tfRoBertaSignatures
         .getOrElse(ModelSignatureConstants.LastHiddenState.key, "missing_sequence_output_key"))
 
-    val outs = runner.run().asScala
+    val outs = TensorResources.resultToBuffer(runner.run())
     val embeddings = TensorResources.extractFloats(outs.head)
 
     tokenTensors.close()
@@ -168,7 +168,7 @@ private[johnsnowlabs] class XlmRoberta(
       .fetch(_tfRoBertaSignatures
         .getOrElse(ModelSignatureConstants.PoolerOutput.key, "missing_pooled_output_key"))
 
-    val outs = runner.run().asScala
+    val outs = TensorResources.resultToBuffer(runner.run())
     val embeddings = TensorResources.extractFloats(outs.head)
 
     tokenTensors.close()

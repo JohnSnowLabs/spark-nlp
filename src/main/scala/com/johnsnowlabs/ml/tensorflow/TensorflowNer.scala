@@ -23,7 +23,6 @@ import com.johnsnowlabs.nlp.util.io.OutputHelper
 import org.apache.spark.ml.util.Identifiable
 import org.tensorflow.Session
 
-import scala.collection.JavaConverters._
 import scala.collection.mutable.ArrayBuffer
 import scala.collection.{Map, mutable}
 
@@ -83,7 +82,7 @@ private[johnsnowlabs] class TensorflowNer(
 
         val calculatorInc = if (includeConfidence) calculator.fetch(scoresKey) else calculator
 
-        val calculated = calculatorInc.run().asScala
+        val calculated = TensorResources.resultToBuffer(calculatorInc.run())
 
         val allTags = encoder.tags
         val tagIds = TensorResources.extractInts(calculated.head)
@@ -256,20 +255,23 @@ private[johnsnowlabs] class TensorflowNer(
         val batchTags = encoder.encodeTags(tags)
 
         val tensors = new TensorResources()
-        val calculated = tensorflow
-          .getTFSession(configProtoBytes = configProtoBytes)
-          .runner
-          .feed(sentenceLengthsKey, tensors.createTensor(batchInput.sentenceLengths))
-          .feed(wordEmbeddingsKey, tensors.createTensor(batchInput.wordEmbeddings))
-          .feed(wordLengthsKey, tensors.createTensor(batchInput.wordLengths))
-          .feed(charIdsKey, tensors.createTensor(batchInput.charIds))
-          .feed(labelsKey, tensors.createTensor(batchTags))
-          .feed(dropoutKey, tensors.createTensor(dropout))
-          .feed(learningRateKey, tensors.createTensor(learningRate))
-          .fetch(lossKey)
-          .addTarget(trainingKey)
-          .run()
-          .asScala
+        val calculated = {
+          val result = tensorflow
+            .getTFSession(configProtoBytes = configProtoBytes)
+            .runner
+            .feed(sentenceLengthsKey, tensors.createTensor(batchInput.sentenceLengths))
+            .feed(wordEmbeddingsKey, tensors.createTensor(batchInput.wordEmbeddings))
+            .feed(wordLengthsKey, tensors.createTensor(batchInput.wordLengths))
+            .feed(charIdsKey, tensors.createTensor(batchInput.charIds))
+            .feed(labelsKey, tensors.createTensor(batchTags))
+            .feed(dropoutKey, tensors.createTensor(dropout))
+            .feed(learningRateKey, tensors.createTensor(learningRate))
+            .fetch(lossKey)
+            .addTarget(trainingKey)
+            .run()
+
+          TensorResources.resultToBuffer(result)
+        }
 
         loss += TensorResources.extractFloats(calculated.head).head
 

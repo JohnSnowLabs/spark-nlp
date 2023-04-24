@@ -16,13 +16,14 @@
 
 package com.johnsnowlabs.ml.tensorflow
 
-import org.tensorflow.Tensor
 import org.tensorflow.ndarray.buffer._
 import org.tensorflow.ndarray.{Shape, StdArrays}
 import org.tensorflow.types._
+import org.tensorflow.{Result, Tensor}
 
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
+import scala.jdk.CollectionConverters.iterableAsScalaIterableConverter
 import scala.language.existentials
 
 /** This class is being used to initialize Tensors of different types and shapes for Tensorflow
@@ -167,4 +168,7 @@ object TensorResources {
     source.asRawTensor.data.asFloats.read(buffer)
     buffer
   }
+
+  def resultToBuffer(result: Result): mutable.Buffer[Tensor] =
+    result.asScala.map { mapEntry => mapEntry.getValue }.toBuffer
 }

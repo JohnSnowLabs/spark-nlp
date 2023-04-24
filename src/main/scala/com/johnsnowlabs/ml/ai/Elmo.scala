@@ -158,7 +158,7 @@ private[johnsnowlabs] class Elmo(
       .feed(SequenceKey, tensors.createTensor(sequencesLength))
       .fetch(embeddingsKey)
 
-    val outs = runner.run().asScala
+    val outs = TensorResources.resultToBuffer(runner.run())
     val wordEmbeddings = TensorResources.extractFloats(outs.head)
     tensors.clearSession(outs)
     tensors.clearTensors()

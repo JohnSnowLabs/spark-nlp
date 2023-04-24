@@ -15,7 +15,6 @@
  */
 
 package com.johnsnowlabs.ml.ai
-
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{SentencePieceWrapper, SentencepieceEncoder}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
@@ -140,7 +139,7 @@ private[johnsnowlabs] class AlbertClassification(
       .fetch(_tfAlbertSignatures
         .getOrElse(ModelSignatureConstants.LogitsOutput.key, "missing_logits_key"))
 
-    val outs = runner.run().asScala
+    val outs = TensorResources.resultToBuffer(runner.run())
     val rawScores = TensorResources.extractFloats(outs.head)
 
     outs.foreach(_.close())
@@ -206,7 +205,7 @@ private[johnsnowlabs] class AlbertClassification(
       .fetch(_tfAlbertSignatures
         .getOrElse(ModelSignatureConstants.LogitsOutput.key, "missing_logits_key"))
 
-    val outs = runner.run().asScala
+    val outs = TensorResources.resultToBuffer(runner.run())
     val rawScores = TensorResources.extractFloats(outs.head)
 
     outs.foreach(_.close())
@@ -296,7 +295,7 @@ private[johnsnowlabs] class AlbertClassification(
       .fetch(_tfAlbertSignatures
         .getOrElse(ModelSignatureConstants.StartLogitsOutput.key, "missing_start_logits_key"))
 
-    val outs = runner.run().asScala
+    val outs = TensorResources.resultToBuffer(runner.run())
     val endLogits = TensorResources.extractFloats(outs.head)
     val startLogits = TensorResources.extractFloats(outs.last)
 

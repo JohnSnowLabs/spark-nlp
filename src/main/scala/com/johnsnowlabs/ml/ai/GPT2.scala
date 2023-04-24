@@ -218,7 +218,7 @@ private[johnsnowlabs] class GPT2(
         .feed(attentionMaskKey, attentionMaskTensors)
         .fetch(outputLogitsKey)
 
-      val decoderOuts = runner.run().asScala
+      val decoderOuts = TensorResources.resultToBuffer(runner.run())
       val decoderOutputs = TensorResources
         .extractFloats(decoderOuts.head)
         .grouped(vocab_size)

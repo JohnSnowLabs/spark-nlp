@@ -90,7 +90,7 @@ private[johnsnowlabs] class CamemBert(
       .fetch(_tfCamemBertSignatures
         .getOrElse(ModelSignatureConstants.LastHiddenStateV1.key, "missing_sequence_output_key"))
 
-    val outs = runner.run().asScala
+    val outs = TensorResources.resultToBuffer(runner.run())
     val embeddings = TensorResources.extractFloats(outs.head)
 
     tokenTensors.close()

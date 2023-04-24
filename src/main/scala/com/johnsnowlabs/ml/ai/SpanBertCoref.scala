@@ -20,7 +20,7 @@ import com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureManager
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import org.tensorflow.ndarray.buffer.IntDataBuffer
 
-import scala.collection.JavaConverters._
+import scala.collection.convert.ImplicitConversions.`buffer AsJavaList`
 
 private[johnsnowlabs] class SpanBertCoref(
     val tensorflowWrapper: TensorflowWrapper,
@@ -169,7 +169,7 @@ private[johnsnowlabs] class SpanBertCoref(
       .fetch(_tfSpanBertCorefSignatures.getOrElse("k_t", "missing_k_t_key"))
       .fetch(_tfSpanBertCorefSignatures.getOrElse("num_words_t", "missing_num_words_t_key"))
 
-    val t_results = runner.run()
+    val t_results = TensorResources.resultToBuffer(runner.run())
 
     val spanScoresRaw = TensorResources.extractFloats(t_results.get(0))
     val numCandidateSpans = spanScoresRaw.length / batchSize
@@ -202,7 +202,7 @@ private[johnsnowlabs] class SpanBertCoref(
       .fetch(_tfSpanBertCorefSignatures
         .getOrElse("top_antecedent_scores", "missing_top_antecedent_scores_key"))
 
-    val results = runner.run()
+    val results = TensorResources.resultToBuffer(runner.run())
     val topSpanStarts = TensorResources.extractInts(results.get(5))
     val topSpanEnds = TensorResources.extractInts(results.get(6))
     val topSpanAntecedents =
@@ -217,8 +217,8 @@ private[johnsnowlabs] class SpanBertCoref(
     val (predictedClusters, _) =
       getPredictedClusters(topSpanStarts, topSpanEnds, predictedAntecedents)
 
-    tensors.clearSession(t_results.asScala)
-    tensors.clearSession(results.asScala)
+    tensors.clearSession(t_results)
+    tensors.clearSession(results)
     tensors.clearTensors()
 
     predictedClusters

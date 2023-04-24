@@ -166,7 +166,7 @@ private[johnsnowlabs] class Bart(
       .fetch(_tfBartSignatures
         .getOrElse(ModelSignatureConstants.EncoderOutput.key, "missing_last_hidden_state"))
 
-    val encoderOuts = runner.run().asScala
+    val encoderOuts = TensorResources.resultToBuffer(runner.run())
     val encoderOutsFloats = TensorResources.extractFloats(encoderOuts.head)
     val dim = encoderOutsFloats.length / inputDim
     val encoderOutsBatch =
@@ -395,7 +395,7 @@ private[johnsnowlabs] class Bart(
         .fetch(_tfBartSignatures
           .getOrElse(ModelSignatureConstants.DecoderOutput.key, "missing_output_0"))
 
-      val decoderOuts = runner.run().asScala
+      val decoderOuts = TensorResources.resultToBuffer(runner.run())
       val decoderOutputs = TensorResources
         .extractFloats(decoderOuts.head)
         .grouped(vocab_size)
@@ -841,7 +841,7 @@ private[johnsnowlabs] class Bart(
       .fetch(_tfBartSignatures
         .getOrElse(ModelSignatureConstants.DecoderOutput.key, "missing_output_0"))
 
-    val decoderOuts = runner.run().asScala
+    val decoderOuts = TensorResources.resultToBuffer(runner.run())
     val decoderOutputs = TensorResources
       .extractFloats(decoderOuts.head)
       .grouped(vocab_size)

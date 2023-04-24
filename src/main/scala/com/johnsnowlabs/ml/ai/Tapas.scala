@@ -113,7 +113,7 @@ private[johnsnowlabs] class Tapas(
             ModelSignatureConstants.TapasLogitsAggregationOutput.key,
             "missing_start_logits_key"))
 
-    val outs = runner.run().asScala
+    val outs = TensorResources.resultToBuffer(runner.run())
     val logitsRaw = TensorResources.extractFloats(outs.head)
     val aggregationRaw = TensorResources.extractFloats(outs.last)
 

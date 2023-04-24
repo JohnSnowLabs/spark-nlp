@@ -19,7 +19,6 @@ package com.johnsnowlabs.ml.tensorflow
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 
-import scala.collection.JavaConverters._
 import scala.collection.immutable.ListMap
 import scala.collection.mutable
 
@@ -90,7 +89,7 @@ private[johnsnowlabs] class TensorflowLD(
       .feed(inputKey, tokenTensors)
       .fetch(outputKey)
 
-    val outs = runner.run().asScala
+    val outs = TensorResources.resultToBuffer(runner.run())
     val predictions = TensorResources.extractFloats(outs.head).grouped(outputSize).toArray
 
     tensors.clearSession(outs)
