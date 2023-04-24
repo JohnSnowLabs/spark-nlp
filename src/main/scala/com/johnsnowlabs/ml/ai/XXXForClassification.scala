@@ -24,6 +24,7 @@ private[johnsnowlabs] trait XXXForClassification {
   protected val sentencePadTokenId: Int
   protected val sentenceStartTokenId: Int
   protected val sentenceEndTokenId: Int
+  protected val sigmoidThreshold: Float
 
   def predict(
       tokenizedSentences: Seq[TokenizedSentence],
@@ -102,7 +103,7 @@ private[johnsnowlabs] trait XXXForClassification {
             if (coalesceSentences) {
               val scores = logits.transpose.map(_.sum / logits.length)
               val labels = scores.zipWithIndex
-                .filter(x => x._1 > 0.5)
+                .filter(x => x._1 > sigmoidThreshold)
                 .flatMap(x => tags.filter(_._2 == x._2))
               val meta = constructMetaForSequenceClassifier(tags, scores)
               labels.map(label =>
@@ -110,7 +111,7 @@ private[johnsnowlabs] trait XXXForClassification {
             } else {
               sentences.zip(logits).flatMap { case (sentence, scores) =>
                 val labels = scores.zipWithIndex
-                  .filter(x => x._1 > 0.5)
+                  .filter(x => x._1 > sigmoidThreshold)
                   .flatMap(x => tags.filter(_._2 == x._2))
                 val meta = constructMetaForSequenceClassifier(tags, scores)
                 labels.map(label =>

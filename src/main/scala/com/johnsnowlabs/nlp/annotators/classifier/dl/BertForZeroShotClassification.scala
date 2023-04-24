@@ -279,7 +279,8 @@ class BertForZeroShotClassification(override val uid: String)
             configProtoBytes = getConfigProtoBytes,
             tags = $$(labels),
             signatures = getSignatures,
-            $$(vocabulary))))
+            $$(vocabulary),
+            threshold = $(threshold))))
     }
 
     this
