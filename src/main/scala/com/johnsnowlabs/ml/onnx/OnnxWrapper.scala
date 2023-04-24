@@ -120,6 +120,7 @@ object OnnxWrapper {
       else
         modelPath
 
+    // TODO: simplify this logic of useBundle
     val (session, env, modelBytes) =
       if (useBundle) {
         val onnxFile = Paths.get(modelPath, s"$modelName.onnx").toString

@@ -451,10 +451,7 @@ trait ReadBertSentenceDLModel extends ReadTensorflowModel with ReadOnnxModel {
   override val tfFile: String = "bert_sentence_tensorflow"
   override val onnxFile: String = "bert_sentence_onnx"
 
-  def readModel(
-      instance: BertSentenceEmbeddings,
-      path: String,
-      spark: SparkSession): Unit = {
+  def readModel(instance: BertSentenceEmbeddings, path: String, spark: SparkSession): Unit = {
 
     instance.getEngine match {
       case ModelEngine.tensorflow =>
