@@ -1,4 +1,4 @@
-#  Copyright 2017-2022 John Snow Labs
+#  Copyright 2017-2023 John Snow Labs
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -50,4 +50,3 @@ class DistilBertForZeroShotClassificationTestSpec(unittest.TestCase):
         model.transform(self.inputDataset).show()
         light_pipeline = LightPipeline(model)
         annotations_result = light_pipeline.fullAnnotate(self.text)
-
