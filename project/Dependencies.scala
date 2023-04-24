@@ -103,10 +103,10 @@ object Dependencies {
   val tensorflowM1 = "com.johnsnowlabs.nlp" %% "tensorflow-m1" % tensorflowVersion
   val tensorflowLinuxAarch64 = "com.johnsnowlabs.nlp" %% "tensorflow-aarch64" % tensorflowVersion
 
-  val onnxRuntimeVersion = "1.13.1"
+  val onnxRuntimeVersion = "1.14.0"
   val onnxCPU = "com.microsoft.onnxruntime" % "onnxruntime" % onnxRuntimeVersion
   val onnxGPU = "com.microsoft.onnxruntime" % "onnxruntime_gpu" % onnxRuntimeVersion
-  val gcpStorageVersion = "2.16.0"
+  val gcpStorageVersion = "2.20.1"
   val gcpStorage = "com.google.cloud" % "google-cloud-storage" % gcpStorageVersion
 
   /** ------- Dependencies end  ------- */
