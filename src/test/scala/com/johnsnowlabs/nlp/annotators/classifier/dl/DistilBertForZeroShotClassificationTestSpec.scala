@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2022 John Snow Labs
+ * Copyright 2017-2023 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,14 +26,14 @@ import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, explode, size}
 import org.scalatest.flatspec.AnyFlatSpec
 
-class BertForZeroShotClassificationTestSpec extends AnyFlatSpec {
+class DistilBertForZeroShotClassificationTestSpec extends AnyFlatSpec {
 
   import ResourceHelper.spark.implicits._
 
   val candidateLabels =
     Array("urgent", "mobile", "travel", "movie", "music", "sport", "weather", "technology")
 
-  "BertForSBertForZeroShotClassification" should "correctly load custom model with extracted signatures" taggedAs SlowTest in {
+  "DistilBertForZeroShotClassification" should "correctly load custom model with extracted signatures" taggedAs SlowTest in {
 
     val ddd = Seq(
       "I have a problem with my iphone that needs to be resolved asap!!",
@@ -53,14 +53,13 @@ class BertForZeroShotClassificationTestSpec extends AnyFlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val tokenClassifier = BertForZeroShotClassification
+    val tokenClassifier = DistilBertForZeroShotClassification
       .pretrained()
       .setInputCols(Array("token", "document"))
       .setOutputCol("multi_class")
       .setCaseSensitive(true)
       .setCoalesceSentences(true)
       .setCandidateLabels(candidateLabels)
-
     val pipeline = new Pipeline().setStages(Array(document, tokenizer, tokenClassifier))
 
     val pipelineModel = pipeline.fit(ddd)
@@ -84,7 +83,7 @@ class BertForZeroShotClassificationTestSpec extends AnyFlatSpec {
     assert(totalDocs == totalLabels)
   }
 
-  "BertForZeroShotClassification" should "be saved and loaded correctly" taggedAs SlowTest in {
+  "DistilBertForZeroShotClassification" should "be saved and loaded correctly" taggedAs SlowTest in {
 
     import ResourceHelper.spark.implicits._
 
@@ -102,7 +101,7 @@ class BertForZeroShotClassificationTestSpec extends AnyFlatSpec {
       .setInputCols(Array("document"))
       .setOutputCol("token")
 
-    val tokenClassifier = BertForZeroShotClassification
+    val tokenClassifier = DistilBertForZeroShotClassification
       .pretrained()
       .setInputCols(Array("token", "document"))
       .setOutputCol("label")
@@ -118,27 +117,28 @@ class BertForZeroShotClassificationTestSpec extends AnyFlatSpec {
 
     pipelineDF.select("label.result").show(false)
 
-    Benchmark.time("Time to save BertForZeroShotClassification pipeline model") {
-      pipelineModel.write.overwrite().save("./tmp_bertfornli_pipeline")
+    Benchmark.time("Time to save DistilBertForZeroShotClassification pipeline model") {
+      pipelineModel.write.overwrite().save("./tmp_distilbertfornli_pipeline")
     }
 
-    Benchmark.time("Time to save BertForZeroShotClassification model") {
+    Benchmark.time("Time to save DistilBertForZeroShotClassification model") {
       pipelineModel.stages.last
-        .asInstanceOf[BertForZeroShotClassification]
+        .asInstanceOf[DistilBertForZeroShotClassification]
         .write
         .overwrite()
-        .save("./tmp_bertforsnli_model")
+        .save("./tmp_distilbertfornli_model")
     }
 
-    val loadedPipelineModel = PipelineModel.load("./tmp_bertfornli_pipeline")
+    val loadedPipelineModel = PipelineModel.load("./tmp_distilbertfornli_pipeline")
     loadedPipelineModel.transform(ddd).select("label.result").show(false)
 
-    val loadedSequenceModel = BertForZeroShotClassification.load("./tmp_bertforsnli_model")
+    val loadedSequenceModel =
+      DistilBertForZeroShotClassification.load("./tmp_distilbertfornli_model")
     println(loadedSequenceModel.getClasses.mkString("Array(", ", ", ")"))
 
   }
 
-  "BertForZeroShotClassification" should "benchmark test" taggedAs SlowTest in {
+  "DistilBertForZeroShotClassification" should "benchmark test" taggedAs SlowTest in {
 
     val conll = CoNLL(explodeSentences = false)
     val training_data =
@@ -146,7 +146,7 @@ class BertForZeroShotClassificationTestSpec extends AnyFlatSpec {
         .readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
         .repartition(12)
 
-    val tokenClassifier = BertForZeroShotClassification
+    val tokenClassifier = DistilBertForZeroShotClassification
       .pretrained()
       .setInputCols(Array("token", "sentence"))
       .setOutputCol("class")
