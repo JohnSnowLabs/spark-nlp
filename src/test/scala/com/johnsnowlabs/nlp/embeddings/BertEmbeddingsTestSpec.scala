@@ -1,4 +1,3 @@
-@@ -1,46 +1,46 @@
 /*
  * Copyright 2017-2022 John Snow Labs
  *
@@ -48,28 +47,27 @@ class BertEmbeddingsTestSpec extends AnyFlatSpec {
 
     val data3 = Seq(
       "Tyrion makes saddle modifications for Bran that will allow the paraplegic boy to ride.")
-@ -209,24 +209,367 @@
-    val pipelineModel = pipeline.fit(ddd)
-    val pipelineDF = pipelineModel.transform(ddd)
+      .toDF("text")
 
-    println("tokens: ")
-    pipelineDF.select("token.result").show(false)
-    println("embeddings: ")
-    pipelineDF.select("embeddings.result").show(false)
-    pipelineDF
-      .withColumn("token_size", size(col("token")))
-      .withColumn("embed_size", size(col("embeddings")))
-      .where(col("token_size") =!= col("embed_size"))
-      .select("token_size", "embed_size", "token.result", "embeddings.result")
-      .show(false)
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
 
-    val totalTokens = pipelineDF.select(explode($"token.result")).count.toInt
-    val totalEmbeddings = pipelineDF.select(explode($"embeddings.embeddings")).count.toInt
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
 
-    println(s"total tokens: $totalTokens")
-    println(s"total embeddings: $totalEmbeddings")
+    val embeddings = BertEmbeddings
+      .pretrained("small_bert_L2_128", "en")
+      .setInputCols(Array("token", "document"))
+      .setOutputCol("bert")
 
-    assert(totalTokens == totalEmbeddings)
+    val pipeline = new Pipeline().setStages(Array(document, tokenizer, embeddings))
+
+    pipeline.fit(ddd).transform(ddd)
+    pipeline.fit(data1).transform(data1)
+    pipeline.fit(data2).transform(data2)
+    pipeline.fit(data3).transform(data3)
 
   }
 
@@ -94,7 +92,7 @@ class BertEmbeddingsTestSpec extends AnyFlatSpec {
       .setOutputCol("token")
 
     val modelPath =
-      "/Users/maziyar/Downloads/onnx_export/bert_base_cased_onnxruntime_opt/"
+      "/home/maziyar/data/onnx_export/bert_base_cased_onnxruntime_opt/"
 
     val embeddings = BertEmbeddings
       //      .pretrained("small_bert_L2_128")
@@ -155,24 +153,27 @@ class BertEmbeddingsTestSpec extends AnyFlatSpec {
     val training_data =
       conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
 
-    //    val modelPath = "/Users/maziyar/Downloads/bert_onnx_export/transformer_cli_onnx/"
-    //    val modelPath = "/Users/maziyar/Downloads/bert_onnx_export/torch_onnx_export/"
+    //    val modelPath = "/home/maziyar/data/onnx_export/transformer_cli_onnx/"
+    //    val modelPath = "/home/maziyar/data/onnx_export/torch_onnx_export/"
     //    val modelPath =
-    //      "/Users/maziyar/Downloads/bert_onnx_export/optimum_ORTModelForFeatureExtraction_onnx/"
+    //      "/home/maziyar/data/onnx_export/optimum_ORTModelForFeatureExtraction_onnx/"
     //    val modelPath =
-    //      "/Users/maziyar/Downloads/bert_onnx_export/optimum_ORTModelForFeatureExtraction_ORTQuantizer_onnx"
-    //    val modelPath = "/Users/maziyar/Downloads/bert_onnx_export/optimum_optimize-gpu-false/"
-//    val modelPath = "/Users/maziyar/Downloads/bert_onnx_export/optimum_optimize-gpu-true/"
-    //    val modelPath = "/Users/maziyar/Downloads/bert_onnx_export/optimum_quantize-avx2/"
-    //    val modelPath = "/Users/maziyar/Downloads/bert_onnx_export/optimum_quantize-avx512/"
-    //    val modelPath = "/Users/maziyar/Downloads/bert_onnx_export/optimum_quantize-avx512_vnni/"
-//    val modelPath = "/Users/maziyar/Downloads/bert_onnx_export/bert_base_cased_onnxruntime_opt"
-    val modelPath =
-      "/Users/maziyar/Downloads/bert_onnx_export/bert_base_cased_convert_graph_to_onnx_quantize/"
+    //      "/home/maziyar/data/onnx_export/optimum_ORTModelForFeatureExtraction_ORTQuantizer_onnx"
+    //    val modelPath = "/home/maziyar/data/onnx_export/optimum_optimize-gpu-false/"
+//    val modelPath = "/home/maziyar/data/onnx_export/optimum_optimize-gpu-true/"
+    //    val modelPath = "/home/maziyar/data/onnx_export/optimum_quantize-avx2/"
+    //    val modelPath = "/home/maziyar/data/onnx_export/optimum_quantize-avx512/"
+    //    val modelPath = "/home/maziyar/data/onnx_export/optimum_quantize-avx512_vnni/"
+//    val modelPath = "/home/maziyar/data/onnx_export/bert_base_cased_onnxruntime_opt"
+//    val modelPath =
+//      "/home/maziyar/data/onnx_export/bert_base_cased_convert_graph_to_onnx_quantize/"
+
+//    val modelPath = "/home/maziyar/data/onnx_export/torch32/"
+    val modelPath = "/home/maziyar/data/onnx_export/ORTModelForFeatureExtraction/"
 
     val embeddings = BertEmbeddings
-      .pretrained("bert_base_cased")
-//      .loadSavedModel(modelPath, ResourceHelper.spark)
+//      .pretrained("bert_base_cased")
+      .loadSavedModel(modelPath, ResourceHelper.spark)
       .setInputCols("document", "token")
       .setOutputCol("embeddings")
       .setCaseSensitive(true)
@@ -218,6 +219,15 @@ class BertEmbeddingsTestSpec extends AnyFlatSpec {
         pipelineDF.write.mode("overwrite").parquet("./tmp_use_sentence_embeddings")
       }
     })
+    /*
+    ORTModelForFeatureExtraction
+    Time to warmup (Avg for 10 iterations): 1.1380769792 sec
+    batch size: 4
+    sequence length: 64
+    Time to process 1 string in LightPipeline (Avg for 5 iterations): 7.499462E-4 sec
+    Time to save pipeline (Avg for 2 iterations): 83.653844983 sec
+
+     */
 
   }
 
@@ -260,36 +270,36 @@ class BertEmbeddingsTestSpec extends AnyFlatSpec {
       .setInputCols(sentOutputCol, tokenOutputCol, nerOutputCol)
       .setOutputCol(nerConverterOutputCol)
 
-    //    val modelPath = "/Users/maziyar/Downloads/onnx_export/transformer_cli_onnx/"
-    //    val modelPath = "/Users/maziyar/Downloads/onnx_export/torch_onnx_export/"
+    //    val modelPath = "/home/maziyar/data/onnx_export/transformer_cli_onnx/"
+    //    val modelPath = "/home/maziyar/data/onnx_export/torch_onnx_export/"
     //    val modelPath =
-    //      "/Users/maziyar/Downloads/onnx_export/optimum_ORTModelForFeatureExtraction_onnx/"
+    //      "/home/maziyar/data/onnx_export/optimum_ORTModelForFeatureExtraction_onnx/"
     //    val modelPath =
-    //      "/Users/maziyar/Downloads/onnx_export/optimum_ORTModelForFeatureExtraction_ORTQuantizer_onnx"
-    val modelPath = "/Users/maziyar/Downloads/onnx_export/optimum_optimize-gpu-false/"
-    //    val modelPath = "/Users/maziyar/Downloads/onnx_export/optimum_optimize-gpu-true/"
-    //    val modelPath = "/Users/maziyar/Downloads/onnx_export/optimum_quantize-avx2/"
-    //    val modelPath = "/Users/maziyar/Downloads/onnx_export/optimum_quantize-avx512/"
-    //    val modelPath = "/Users/maziyar/Downloads/onnx_export/optimum_quantize-avx512_vnni/"
-    //    val modelPath = "/Users/maziyar/Downloads/onnx_export/bert_base_cased_onnxruntime_opt"
-//    val modelPath =
-//      "/Users/maziyar/Downloads/onnx_export/bert_base_cased_convert_graph_to_onnx_quantize/"
+    //      "/home/maziyar/data/onnx_export/optimum_ORTModelForFeatureExtraction_ORTQuantizer_onnx"
+//    val modelPath = "/home/maziyar/data/onnx_export/optimum_optimize-gpu-false/"
+    //    val modelPath = "/home/maziyar/data/onnx_export/optimum_optimize-gpu-true/"
+    //    val modelPath = "/home/maziyar/data/onnx_export/optimum_quantize-avx2/"
+    //    val modelPath = "/home/maziyar/data/onnx_export/optimum_quantize-avx512/"
+    //    val modelPath = "/home/maziyar/data/onnx_export/optimum_quantize-avx512_vnni/"
+    //    val modelPath = "/home/maziyar/data/onnx_export/bert_base_cased_onnxruntime_opt"
+    val modelPath =
+      "/home/maziyar/data/onnx_export/bert_base_cased_convert_graph_to_onnx_quantize/"
 
-    //    val modelPath = "/Users/maziyar/Downloads/onnx_export/bert_uncased_l2_h_128_a2"
-//    val modelPath = "/Users/maziyar/Downloads/onnx_export/bert_uncased_l2_h_128_a2_opt"
-//    val modelPath = "/Users/maziyar/Downloads/onnx_export/bert_uncased_l2_h_128_a2_opt-quantized"
+    //    val modelPath = "/home/maziyar/data/onnx_export/bert_uncased_l2_h_128_a2"
+//    val modelPath = "/home/maziyar/data/onnx_export/bert_uncased_l2_h_128_a2_opt"
+//    val modelPath = "/home/maziyar/data/onnx_export/bert_uncased_l2_h_128_a2_opt-quantized"
 
     val embeddings = BertEmbeddings
-      .pretrained("bert_base_cased")
+//      .pretrained("bert_base_cased")
 //      .load("/Users/maziyar/cache_pretrained/small_bert_L2_128_en_2.6.0_2.4_1598344320681")
-//      .loadSavedModel(modelPath, ResourceHelper.spark)
+      .loadSavedModel(modelPath, ResourceHelper.spark)
 //      .setStorageRef("small_bert_L2_128")
 //      .setStorageRef("bert_base_cased")
       .setInputCols("sentence", "token")
       .setOutputCol(embeddingsOutputCol)
       .setMaxSentenceLength(512)
       .setCaseSensitive(true)
-      .setBatchSize(10)
+      .setBatchSize(1)
 
     val nerOnto = NerDLModel
       .pretrained("onto_bert_base_cased", "en")
@@ -316,7 +326,7 @@ class BertEmbeddingsTestSpec extends AnyFlatSpec {
       val res = pipelineLightPipeline.annotate(testText)
       println(res("entities"))
 
-      Benchmark.measure(iterations = 20, forcePrint = true, description = "Time to warmup") {
+      Benchmark.measure(iterations = 30, forcePrint = true, description = "Time to warmup") {
         pipelineLightPipeline.fullAnnotate(Array(testText))
       }
 
@@ -410,6 +420,35 @@ class BertEmbeddingsTestSpec extends AnyFlatSpec {
       Time to warmup (Avg for 20 iterations): 0.23966487185 sec
       Time to process 1 string in LightPipeline (Avg for 5 iterations): 0.2463635468 sec
       Time to process 100 string in LightPipeline (Avg for 5 iterations): 16.5812129422 sec
+
+      bert-base-cased AMD:
+      batch size: 1
+      sequence length: 510
+      ArraySeq(William Henry Gates III, October 28, 1955, American, Microsoft Corporation, Microsoft, Gates, May 2014, one, the 1970s and 1980s)
+      Time to warmup (Avg for 20 iterations): 0.26150889755 sec
+      Time to process 1 string in LightPipeline (Avg for 5 iterations): 0.252887444 sec
+      Time to process 100 string in LightPipeline (Avg for 5 iterations): 7.106950422 sec
+      Time to process 1000 string in LightPipeline (Avg for 5 iterations): 56.6557830706 sec
+
+
+      optimum_optimize-gpu-false
+      batch size: 1
+      sequence length: 510
+      ArraySeq(William Henry Gates III, October 28, 1955, American, Microsoft Corporation, Microsoft, Gates, May 2014, one, the 1970s and 1980s)
+      Time to warmup (Avg for 20 iterations): 0.08651849975 sec
+      Time to process 1 string in LightPipeline (Avg for 5 iterations): 0.08021795579999999 sec
+      Time to process 100 string in LightPipeline (Avg for 5 iterations): 4.2544900956 sec
+      Time to process 1000 string in LightPipeline (Avg for 5 iterations): 40.2780014848 sec
+
+
+      bert_base_cased_convert_graph_to_onnx_quantize
+      batch size: 1
+      sequence length: 510
+      ArraySeq(William Henry Gates III, October 28, 1955, American, Microsoft Corporation, Microsoft, Gates, May 2014, one, the 1970s and 1980s)
+      Time to warmup (Avg for 30 iterations): 0.0890891555 sec
+      Time to process 1 string in LightPipeline (Avg for 5 iterations): 0.0862840258 sec
+      Time to process 100 string in LightPipeline (Avg for 5 iterations): 2.336687043 sec
+      Time to process 1000 string in LightPipeline (Avg for 5 iterations): 18.6741625948 sec
 
        */
     })
