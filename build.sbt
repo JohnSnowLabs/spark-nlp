@@ -6,7 +6,7 @@ name := getPackageName(is_silicon, is_gpu, is_aarch64)
 
 organization := "com.johnsnowlabs.nlp"
 
-version := "4.4.0"
+version := "4.4.0-tf5"
 
 (ThisBuild / scalaVersion) := scalaVer
 
@@ -148,8 +148,12 @@ lazy val utilDependencies = Seq(
     exclude ("org.apache.commons", "commons-lang3")
     exclude ("com.google.code.findbugs", "annotations")
     exclude ("org.slf4j", "slf4j-api")
-    exclude ("org.projectlombok", "lombok"),
-  gcpStorage,
+    exclude ("org.projectlombok", "lombok")
+    exclude ("com.google.protobuf", "protobuf-java") // TODO Test exclusion for annotators
+    exclude ("com.google.protobuf", "protobuf-java-util"),
+  gcpStorage
+    exclude ("com.google.protobuf", "protobuf-java")
+    exclude ("com.google.protobuf", "protobuf-java-util"),
   greex)
 
 lazy val typedDependencyParserDependencies = Seq(junit)
@@ -182,13 +186,16 @@ lazy val root = (project in file("."))
 
 (assembly / assemblyShadeRules) := Seq(
   ShadeRule.rename("org.apache.http.**" -> "org.apache.httpShaded@1").inAll,
-  ShadeRule.rename("com.amazonaws.**" -> "com.amazonaws.ShadedByJSL@1").inAll)
+  ShadeRule.rename("com.amazonaws.**" -> "com.amazonaws.ShadedByJSL@1").inAll,
+  ShadeRule.rename("com.google.protobuf.**" -> "com.google.protobuf.shaded.ShadedByJSL@1").inAll,
+  ShadeRule.rename("google.protobuf.**" -> "com.google.protobuf.shaded.ShadedByJSL@1").inAll)
 
 (assembly / assemblyOption) := (assembly / assemblyOption).value.withIncludeScala(includeScala =
   false)
 
 (assembly / assemblyMergeStrategy) := {
   case PathList("META-INF", "versions", "9", "module-info.class") => MergeStrategy.discard
+  case PathList("module-info.class") => MergeStrategy.discard
   case PathList("apache.commons.lang3", _ @_*) => MergeStrategy.discard
   case PathList("org.apache.hadoop", _ @_*) => MergeStrategy.first
   case PathList("com.amazonaws", _ @_*) => MergeStrategy.last
