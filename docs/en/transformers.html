@@ -10610,7 +10610,7 @@ RoBertaForQuestionAnswering.</p>
 
 <h3 id="overview">Overview</h3>
 
-<p>We have extended support for <code class="language-plaintext highlighter-rouge">HuggingFace</code> 🤗   and <code class="language-plaintext highlighter-rouge">TF Hub</code> exported models since <code class="language-plaintext highlighter-rouge">3.1.0</code> to equivalent Spark NLP 🚀 annotators. Starting this release, you can easily use the <code class="language-plaintext highlighter-rouge">saved_model</code> feature in HuggingFace within a few lines of codes and import any <code class="language-plaintext highlighter-rouge">BERT</code>, <code class="language-plaintext highlighter-rouge">DistilBERT</code>, <code class="language-plaintext highlighter-rouge">CamemBERT</code>, <code class="language-plaintext highlighter-rouge">RoBERTa</code>, <code class="language-plaintext highlighter-rouge">DeBERTa</code>, <code class="language-plaintext highlighter-rouge">XLM-RoBERTa</code>, <code class="language-plaintext highlighter-rouge">Longformer</code>, <code class="language-plaintext highlighter-rouge">BertForTokenClassification</code>, <code class="language-plaintext highlighter-rouge">DistilBertForTokenClassification</code>, <code class="language-plaintext highlighter-rouge">AlbertForTokenClassification</code>, <code class="language-plaintext highlighter-rouge">RoBertaForTokenClassification</code>, <code class="language-plaintext highlighter-rouge">DeBertaForTokenClassification</code>, <code class="language-plaintext highlighter-rouge">XlmRoBertaForTokenClassification</code>, <code class="language-plaintext highlighter-rouge">XlnetForTokenClassification</code>,  <code class="language-plaintext highlighter-rouge">LongformerForTokenClassification</code>, <code class="language-plaintext highlighter-rouge">CamemBertForTokenClassification</code>, <code class="language-plaintext highlighter-rouge">CamemBertForSequenceClassification</code>, <code class="language-plaintext highlighter-rouge">CamemBertForQuestionAnswering</code>, <code class="language-plaintext highlighter-rouge">BertForSequenceClassification</code>, <code class="language-plaintext highlighter-rouge">DistilBertForSequenceClassification</code>, <code class="language-plaintext highlighter-rouge">AlbertForSequenceClassification</code>, <code class="language-plaintext highlighter-rouge">RoBertaForSequenceClassification</code>, <code class="language-plaintext highlighter-rouge">DeBertaForSequenceClassification</code>, <code class="language-plaintext highlighter-rouge">XlmRoBertaForSequenceClassification</code>, <code class="language-plaintext highlighter-rouge">XlnetForSequenceClassification</code>,  <code class="language-plaintext highlighter-rouge">LongformerForSequenceClassification</code>, <code class="language-plaintext highlighter-rouge">AlbertForQuestionAnswering</code>, <code class="language-plaintext highlighter-rouge">BertForQuestionAnswering</code>,  <code class="language-plaintext highlighter-rouge">DeBertaForQuestionAnswering</code>, <code class="language-plaintext highlighter-rouge">DistilBertForQuestionAnswering</code>, <code class="language-plaintext highlighter-rouge">LongformerForQuestionAnswering</code>, <code class="language-plaintext highlighter-rouge">RoBertaForQuestionAnswering</code>, <code class="language-plaintext highlighter-rouge">XlmRoBertaForQuestionAnswering</code>, <code class="language-plaintext highlighter-rouge">TapasForQuestionAnswering</code>, <code class="language-plaintext highlighter-rouge">Vision Transformers (ViT)</code>, <code class="language-plaintext highlighter-rouge">HubertForCTC</code>, and <code class="language-plaintext highlighter-rouge">SwinForImageClassification</code> models to Spark NLP. We will work on the remaining annotators and extend this support to the rest with each release 😊</p>
+<p>We have extended support for <code class="language-plaintext highlighter-rouge">HuggingFace</code> 🤗   and <code class="language-plaintext highlighter-rouge">TF Hub</code> exported models since <code class="language-plaintext highlighter-rouge">3.1.0</code> to equivalent Spark NLP 🚀 annotators. Starting this release, you can easily use the <code class="language-plaintext highlighter-rouge">saved_model</code> feature in HuggingFace within a few lines of codes and import any <code class="language-plaintext highlighter-rouge">BERT</code>, <code class="language-plaintext highlighter-rouge">DistilBERT</code>, <code class="language-plaintext highlighter-rouge">CamemBERT</code>, <code class="language-plaintext highlighter-rouge">RoBERTa</code>, <code class="language-plaintext highlighter-rouge">DeBERTa</code>, <code class="language-plaintext highlighter-rouge">XLM-RoBERTa</code>, <code class="language-plaintext highlighter-rouge">Longformer</code>, <code class="language-plaintext highlighter-rouge">BertForTokenClassification</code>, <code class="language-plaintext highlighter-rouge">DistilBertForTokenClassification</code>, <code class="language-plaintext highlighter-rouge">AlbertForTokenClassification</code>, <code class="language-plaintext highlighter-rouge">RoBertaForTokenClassification</code>, <code class="language-plaintext highlighter-rouge">DeBertaForTokenClassification</code>, <code class="language-plaintext highlighter-rouge">XlmRoBertaForTokenClassification</code>, <code class="language-plaintext highlighter-rouge">XlnetForTokenClassification</code>,  <code class="language-plaintext highlighter-rouge">LongformerForTokenClassification</code>, <code class="language-plaintext highlighter-rouge">CamemBertForTokenClassification</code>, <code class="language-plaintext highlighter-rouge">CamemBertForSequenceClassification</code>, <code class="language-plaintext highlighter-rouge">CamemBertForQuestionAnswering</code>, <code class="language-plaintext highlighter-rouge">BertForSequenceClassification</code>, <code class="language-plaintext highlighter-rouge">DistilBertForSequenceClassification</code>, <code class="language-plaintext highlighter-rouge">AlbertForSequenceClassification</code>, <code class="language-plaintext highlighter-rouge">RoBertaForSequenceClassification</code>, <code class="language-plaintext highlighter-rouge">DeBertaForSequenceClassification</code>, <code class="language-plaintext highlighter-rouge">XlmRoBertaForSequenceClassification</code>, <code class="language-plaintext highlighter-rouge">XlnetForSequenceClassification</code>,  <code class="language-plaintext highlighter-rouge">LongformerForSequenceClassification</code>, <code class="language-plaintext highlighter-rouge">AlbertForQuestionAnswering</code>, <code class="language-plaintext highlighter-rouge">BertForQuestionAnswering</code>,  <code class="language-plaintext highlighter-rouge">DeBertaForQuestionAnswering</code>, <code class="language-plaintext highlighter-rouge">DistilBertForQuestionAnswering</code>, <code class="language-plaintext highlighter-rouge">LongformerForQuestionAnswering</code>, <code class="language-plaintext highlighter-rouge">RoBertaForQuestionAnswering</code>, <code class="language-plaintext highlighter-rouge">XlmRoBertaForQuestionAnswering</code>, <code class="language-plaintext highlighter-rouge">TapasForQuestionAnswering</code>, <code class="language-plaintext highlighter-rouge">Vision Transformers (ViT)</code>, <code class="language-plaintext highlighter-rouge">HubertForCTC</code>, <code class="language-plaintext highlighter-rouge">SwinForImageClassification</code>, and <code class="language-plaintext highlighter-rouge">ConvNextForImageClassification</code> models to Spark NLP. We will work on the remaining annotators and extend this support to the rest with each release 😊</p>
 
 <h3 id="compatibility">Compatibility</h3>
 
@@ -10896,22 +10896,33 @@ RoBertaForQuestionAnswering.</p>
       <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/hubert#transformers.TFHubertForCTC">TFHubertForCTC</a></td>
     </tr>
     <tr>
-      <td style="text-align: left">T5Transformer</td>
+      <td style="text-align: left">ConvNextForImageClassification</td>
       <td style="text-align: left"> </td>
-      <td style="text-align: left">❌</td>
-      <td style="text-align: left"> </td>
+      <td style="text-align: left">❎</td>
+      <td style="text-align: left"><a href="https://huggingface.co/docs/transformers/model_doc/convnext#transformers.TFConvNextForImageClassification">TFConvNextForImageClassification</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>T5Transformer</td>
+      <td> </td>
+      <td>❌</td>
+      <td> </td>
     </tr>
     <tr>
-      <td style="text-align: left">MarianTransformer</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">❌</td>
-      <td style="text-align: left"> </td>
+      <td>MarianTransformer</td>
+      <td> </td>
+      <td>❌</td>
+      <td> </td>
     </tr>
     <tr>
-      <td style="text-align: left">OpenAI GPT2</td>
-      <td style="text-align: left"> </td>
-      <td style="text-align: left">❌</td>
-      <td style="text-align: left"> </td>
+      <td>OpenAI GPT2</td>
+      <td> </td>
+      <td>❌</td>
+      <td> </td>
     </tr>
   </tbody>
 </table>
@@ -11094,6 +11105,16 @@ RoBertaForQuestionAnswering.</p>
       <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20ViTForImageClassification.ipynb">HuggingFace in Spark NLP - ViTForImageClassification</a></td>
       <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20ViTForImageClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
     </tr>
+    <tr>
+      <td style="text-align: left">ConvNextForImageClassification</td>
+      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20ConvNextForImageClassification.ipynb">HuggingFace in Spark NLP - ConvNextForImageClassification</a></td>
+      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20ConvNextForImageClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">SwinForImageClassification</td>
+      <td style="text-align: left"><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20SwinForImageClassification.ipynb">HuggingFace in Spark NLP - SwinForImageClassification</a></td>
+      <td style="text-align: left"><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20SwinForImageClassification.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></td>
+    </tr>
   </tbody>
 </table>
 
@@ -11126,7 +11147,7 @@ RoBertaForQuestionAnswering.</p>
   </tbody>
 </table>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
-      <time itemprop="dateModified" datetime="2022-09-27T00:00:00+00:00">Sep 27, 2022</time>
+      <time itemprop="dateModified" datetime="2023-04-25T00:00:00+00:00">Apr 25, 2023</time>
     </span><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
