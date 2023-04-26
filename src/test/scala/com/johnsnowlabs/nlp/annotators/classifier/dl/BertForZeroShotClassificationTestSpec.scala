@@ -166,7 +166,7 @@ class BertForZeroShotClassificationTestSpec extends AnyFlatSpec {
     pipelineDF.select("class").show(2, false)
     pipelineDF.select("sentence.result", "class.result").show(2, false)
 
-    // only works if it's softmax - one lable per row
+    // only works if it's softmax - one lablel per row
     pipelineDF
       .withColumn("doc_size", size(col("sentence")))
       .withColumn("label_size", size(col("class")))

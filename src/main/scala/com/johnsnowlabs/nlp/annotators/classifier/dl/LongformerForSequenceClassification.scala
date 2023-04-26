@@ -275,7 +275,8 @@ class LongformerForSequenceClassification(override val uid: String)
             tags = $$(labels),
             signatures = getSignatures,
             $$(merges),
-            $$(vocabulary))))
+            $$(vocabulary),
+            threshold = $(threshold))))
     }
 
     this

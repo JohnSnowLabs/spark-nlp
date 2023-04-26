@@ -1,4 +1,16 @@
 ========
+4.4.1
+========
+----------------
+New Features & Enhancements
+----------------
+
+* Implement a new Zero-Shot Text Classification for DistilBERT annotator called `DistilBertForZeroShotClassification`
+* Adding `threshold` param to `AlbertForSequenceClassification`, `BertForSequenceClassification`, `BertForZeroShotClassification`, `DistilBertForSequenceClassification`, `CamemBertForSequenceClassification`, `DeBertaForSequenceClassification`, LongformerForSequenceClassification`, RoBertaForQuestionAnswering`, `XlmRoBertaForSequenceClassification`, and `XlnetForSequenceClassification` annotators
+* Add new notebooks to import models for `SwinForImageClassification` and `ConvNextForImageClassification` annotators for Image Classification
+
+
+========
 4.4.0
 ========
 ----------------

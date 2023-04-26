@@ -47,12 +47,15 @@ private[johnsnowlabs] class RoBertaClassification(
     tags: Map[String, Int],
     signatures: Option[Map[String, String]] = None,
     merges: Map[(String, String), Int],
-    vocabulary: Map[String, Int])
+    vocabulary: Map[String, Int],
+    threshold: Float = 0.5f)
     extends Serializable
     with XXXForClassification {
 
   val _tfRoBertaSignatures: Map[String, String] =
     signatures.getOrElse(ModelSignatureManager.apply())
+
+  protected val sigmoidThreshold: Float = threshold
 
   def tokenizeWithAlignment(
       sentences: Seq[TokenizedSentence],

@@ -692,4 +692,11 @@ package object annotator {
       extends ReadablePretrainedBertForZeroShotModel
       with ReadBertForZeroShotDLModel
 
+  type DistilBertForZeroShotClassification =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForZeroShotClassification
+
+  object DistilBertForZeroShotClassification
+      extends ReadablePretrainedDistilBertForZeroShotModel
+      with ReadDistilBertForZeroShotDLModel
+
 }
