@@ -526,9 +526,10 @@ class TapasEncoder(
         columnIds = setMaxSentenceLimit(emptyTokenTypes ++ columnIds ++ padding),
         rowIds = setMaxSentenceLimit(emptyTokenTypes ++ rowIds ++ padding),
         prevLabels = setMaxSentenceLimit(emptyTokenTypes ++ prevLabels ++ padding),
-        columnRanks = setMaxSentenceLimit(emptyTokenTypes ++ columnRanks.map(x => scala.math.min(x, MAX_COLUMN_RANK)) ++ padding),
-        invertedColumnRanks =
-          setMaxSentenceLimit(emptyTokenTypes ++ invertedColumnRanks.map(x => scala.math.min(x, MAX_COLUMN_RANK)) ++ padding),
+        columnRanks = setMaxSentenceLimit(
+          emptyTokenTypes ++ columnRanks.map(x => scala.math.min(x, MAX_COLUMN_RANK)) ++ padding),
+        invertedColumnRanks = setMaxSentenceLimit(emptyTokenTypes ++ invertedColumnRanks.map(x =>
+          scala.math.min(x, MAX_COLUMN_RANK)) ++ padding),
         numericRelations = setMaxSentenceLimit(emptyTokenTypes ++ numericRelations ++ padding))
     }
 
