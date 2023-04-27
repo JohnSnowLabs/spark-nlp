@@ -22,7 +22,7 @@ object Dependencies {
   val is_spark31: String = System.getProperty("is_spark31", "false")
   val is_spark32: String = System.getProperty("is_spark32", "false")
   val is_spark33: String = System.getProperty("is_spark33", "false")
-  val is_spark34: String = System.getProperty("is_spark33", "true")
+  val is_spark34: String = System.getProperty("is_spark34", "true")
 
   val sparkVer: String = getSparkVersion(is_spark30, is_spark31, is_spark32, is_spark33, is_spark34)
 
@@ -53,7 +53,7 @@ object Dependencies {
       spark31Ver
     } else if (is_spark32.equals("true")) {
       spark32Ver
-    } else if (is_spark32.equals("true")) {
+    } else if (is_spark33.equals("true")) {
       spark33Ver
     } else {
       /* default spark version */
