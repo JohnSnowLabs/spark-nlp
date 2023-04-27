@@ -8,7 +8,7 @@ tags: [fr, french, question_answering, camembert, open_source, tensorflow]
 task: Question Answering
 language: fr
 edition: Spark NLP 4.3.0
-spark_version: [3.2, 3.0]
+spark_version: 3.0
 supported: true
 recommended: true
 engine: tensorflow
@@ -33,8 +33,8 @@ Pretrained CamemBertForQuestionAnswering model, adapted from Hugging Face and cu
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/camembert_base_qa_fquad_fr_4.3.0_3.2_1675865521345.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/camembert_base_qa_fquad_fr_4.3.0_3.2_1675865521345.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/camembert_base_qa_fquad_fr_4.3.0_3.0_1675865521345.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/camembert_base_qa_fquad_fr_4.3.0_3.0_1675865521345.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
