@@ -168,7 +168,7 @@ class CoNLLGeneratorTestSpec extends AnyFlatSpec {
     assert(fileContents == testNERText)
   }
 
-  "The generator" should "work even if token metadata has non-ints" in {
+  "The generator" should "work even if token metadata has non-ints" taggedAs SlowTest in {
     val df = ResourceHelper.spark.read.load(
       "src/test/resources/conllgenerator/conllgenerator_nonint_token_metadata.parquet")
 
