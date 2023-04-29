@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.base.table_assembler &#8212; Spark NLP 4.4.0 documentation</title>
+    <title>sparknlp.base.table_assembler &#8212; Spark NLP 4.4.1 documentation</title>
   
   
   
@@ -413,7 +413,7 @@ delimiters (e.g. tab), as well as escaping delimiters by surrounding cell values
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;table_csv&quot;</span><span class="p">)</span> \
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document_table&quot;</span><span class="p">)</span>
@@ -421,7 +421,7 @@ delimiters (e.g. tab), as well as escaping delimiters by surrounding cell values
 <span class="gp">&gt;&gt;&gt; </span>    <span class="o">.</span><span class="n">setInputFormat</span><span class="p">(</span><span class="s2">&quot;csv&quot;</span><span class="p">)</span>\
 <span class="gp">&gt;&gt;&gt; </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document_table&quot;</span><span class="p">])</span>\
 <span class="gp">&gt;&gt;&gt; </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;table&quot;</span><span class="p">)</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">csv_data</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;name, money, age&quot;</span><span class="p">,</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;Donald Trump, &quot;</span><span class="mi">100</span><span class="p">,</span><span class="mi">000</span><span class="p">,</span><span class="mi">000</span><span class="s2">&quot;, 75&quot;</span><span class="p">,</span>
@@ -431,7 +431,7 @@ delimiters (e.g. tab), as well as escaping delimiters by surrounding cell values
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
 <span class="gp">... </span>    <span class="n">document_assembler</span><span class="p">,</span>
 <span class="go"> ...     table_assembler</span>
-<span class="gp">... </span><span class="p">])</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="go">... ]).fit(data)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;table&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="go">+-----------------------------------------------+</span>
