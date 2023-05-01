@@ -69,6 +69,14 @@ val embeddings = LongformerEmbeddings.pretrained("legal_longformer_base", "en")
   .setCaseSensitive(true)
   .setMaxSentenceLength(4096)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed.longformer.base_legal").predict("""Put your text here.""")
+```
+
 </div>
 
 {:.model-param}

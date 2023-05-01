@@ -70,6 +70,14 @@ val data = Seq("Ma armastan s√§det nlp").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("et.embed.camembert").predict("""Ma armastan s‰det nlp""")
+```
+
 </div>
 
 {:.model-param}

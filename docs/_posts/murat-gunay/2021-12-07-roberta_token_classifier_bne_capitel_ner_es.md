@@ -94,6 +94,14 @@ val example = Seq.empty["Me llamo Antonio y trabajo en la f√°brica de Mercedes-B
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("es.ner.roberta").predict("""Me llamo Antonio y trabajo en la f·brica de Mercedes-Benz en Madrid.""")
+```
+
 </div>
 
 ## Results

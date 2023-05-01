@@ -71,6 +71,14 @@ val data = Seq("No place in my city has shelter space for us, and I won't put my
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed.bert.phs").predict("""No place in my city has shelter space for us, and I won't put my baby on the literal street. What cities have good shelter programs for homeless mothers and children?""")
+```
+
 </div>
 
 {:.model-param}

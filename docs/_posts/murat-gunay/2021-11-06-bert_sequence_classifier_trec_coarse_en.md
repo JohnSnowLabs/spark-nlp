@@ -79,6 +79,14 @@ val example = Seq.empty["Germany is the largest country in Europe economically."
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.bert.by_aychang").predict("""Germany is the largest country in Europe economically.""")
+```
+
 </div>
 
 ## Results

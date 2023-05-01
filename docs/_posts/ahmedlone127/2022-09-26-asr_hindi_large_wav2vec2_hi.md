@@ -72,7 +72,18 @@ val pipelineModel = pipeline.fit(audioDf)
 val pipelineDF = pipelineModel.transform(audioDf)
 
 ```
-</div>
+
+
+{:.nlu-block}
+```python
+import nlu
+import requests
+response = requests.get('https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/resources/en/audio/samples/wavs/ngm_12484_01067234848.wav')
+with open('ngm_12484_01067234848.wav', 'wb') as f:
+    f.write(response.content)
+nlu.load("hi.speech2text.wav2vec2.v2_large").predict("ngm_12484_01067234848.wav")
+```
+
 
 {:.model-param}
 ## Model Information

@@ -74,6 +74,14 @@ val example = Seq.empty["Protester over hele landet ledet af utilfredse civilsam
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("da.classify.bert.sentiment.").predict("""Protester over hele landet ledet af utilfredse civilsamfund på grund af den danske regerings COVID-19 lockdown-politik er kommet ud af kontrol.""")
+```
+
 </div>
 
 ## Results

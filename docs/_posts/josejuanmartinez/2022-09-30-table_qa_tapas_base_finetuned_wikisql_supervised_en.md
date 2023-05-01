@@ -95,6 +95,22 @@ model\
 
 ```
 
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.answer_question.tapas.wikisql.base_finetuned").predict("""
+{
+  "header": ["name", "money", "age"],
+  "rows": [
+    ["Donald Trump", "$100,000,000", "75"],
+    ["Elon Musk", "$20,000,000,000,000", "55"]
+  ]
+}
+""")
+```
+
 </div>
 
 ## Results

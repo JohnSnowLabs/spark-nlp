@@ -64,6 +64,14 @@ val data = Seq("Vad Ã¤r mitt namn?", "Jag heter Clara och jag bor i Berkeley.").
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("sv.answer_question.bert.squad.cased_base.by_KBLab").predict("""Vad är mitt namn?|||"Jag heter Clara och jag bor i Berkeley.""")
+```
+
 </div>
 
 {:.model-param}

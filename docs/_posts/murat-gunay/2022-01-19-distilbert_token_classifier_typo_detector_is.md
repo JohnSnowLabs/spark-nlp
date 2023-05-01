@@ -90,6 +90,14 @@ val example = Seq.empty["ÃaÃ° er miÃ¶g auÃ°velt aÃ° draga marktÃ¦kar Ã¡lykanir 
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("is.ner.distil_bert").predict("""Şağ er miög auğvelt ağ draga marktækar álykanir af texta meğ Spark NLP.""")
+```
+
 </div>
 
 ## Results

@@ -81,6 +81,14 @@ val data = Seq("PUT YOUR STRING HERE").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("xx.ner.xlmr_roberta.base_finetuned_panx.by_skr3178").predict("""PUT YOUR STRING HERE""")
+```
+
 </div>
 
 {:.model-param}

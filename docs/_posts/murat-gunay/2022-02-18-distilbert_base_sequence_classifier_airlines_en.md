@@ -75,6 +75,14 @@ val example = Seq("Jersey to London Gatwick with easyJet and another great fligh
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.distil_bert.base.by_datasets").predict("""Jersey to London Gatwick with easyJet and another great flight. Due to the flight time, airport check-in was not open, however I'd checked in a few days before with the easyJet app which was very quick and convenient. Boarding was quick and we left a few minutes early, which is a bonus. The cabin crew were friendly and the aircraft was clean and comfortable. We arrived at Gatwick 5-10 minutes early, and disembarking was as quick as boarding. On the way back, we were about half an hour early landing, which was fantastic. For the short flight from JER-LGW, easyJet are ideal and a bit better than British Airways in my opinion, and the fares are just unmissable. Both flights for two adults cost £180. easyJet can expect my business in the near future.""")
+```
+
 </div>
 
 ## Results
