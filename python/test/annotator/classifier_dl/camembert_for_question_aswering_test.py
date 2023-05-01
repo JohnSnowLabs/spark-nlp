@@ -16,11 +16,12 @@ import pytest
 
 from sparknlp.annotator import *
 from sparknlp.base import *
+from test.annotator.common.has_max_sentence_length_test import HasMaxSentenceLengthTests
 from test.util import SparkContextForTest
 
 
 @pytest.mark.slow
-class CamemBertForQuestionAnsweringTestSpec(unittest.TestCase):
+class CamemBertForQuestionAnsweringTestSpec(unittest.TestCase, HasMaxSentenceLengthTests):
     def setUp(self):
         self.spark = SparkContextForTest.spark
         self.question = "Où est-ce que je vis?"
@@ -28,16 +29,18 @@ class CamemBertForQuestionAnsweringTestSpec(unittest.TestCase):
         self.inputDataset = self.spark.createDataFrame([[self.question, self.context]]) \
             .toDF("question", "context")
 
-    def runTest(self):
-        document_assembler = MultiDocumentAssembler() \
-            .setInputCols("question", "context") \
-            .setOutputCols("document_question", "document_context")
-
-        qa_classifier = CamemBertForQuestionAnswering.pretrained() \
+        self.tested_annotator = CamemBertForQuestionAnswering.pretrained() \
             .setInputCols("document_question", "document_context") \
             .setOutputCol("answer") \
             .setCaseSensitive(True) \
             .setMaxSentenceLength(512)
+
+    def test_run(self):
+        document_assembler = MultiDocumentAssembler() \
+            .setInputCols("question", "context") \
+            .setOutputCols("document_question", "document_context")
+
+        qa_classifier = self.tested_annotator
 
         pipeline = Pipeline(stages=[
             document_assembler,

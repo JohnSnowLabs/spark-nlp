@@ -17,11 +17,12 @@ from sparknlp.common import *
 
 
 class XlmRoBertaSentenceEmbeddings(AnnotatorModel,
-                                   HasEmbeddingsProperties,
-                                   HasCaseSensitiveProperties,
-                                   HasStorageRef,
-                                   HasBatchedAnnotate,
-                                   HasEngine):
+                                        HasEmbeddingsProperties,
+                                        HasCaseSensitiveProperties,
+                                        HasStorageRef,
+                                        HasBatchedAnnotate,
+                                        HasEngine,
+                                        HasMaxSentenceLengthLimit):
     """Sentence-level embeddings using XLM-RoBERTa. The XLM-RoBERTa model was proposed in Unsupervised Cross-lingual
     Representation Learning at Scale  by Alexis Conneau, Kartikay Khandelwal, Naman Goyal, Vishrav Chaudhary,
     Guillaume Wenzek, Francisco GuzmÃ¡n, Edouard Grave, Myle Ott, Luke Zettlemoyer and Veselin Stoyanov. It is based
@@ -122,11 +123,6 @@ class XlmRoBertaSentenceEmbeddings(AnnotatorModel,
 
     outputAnnotatorType = AnnotatorType.SENTENCE_EMBEDDINGS
 
-    maxSentenceLength = Param(Params._dummy(),
-                              "maxSentenceLength",
-                              "Max sentence length to process",
-                              typeConverter=TypeConverters.toInt)
-
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
@@ -141,16 +137,6 @@ class XlmRoBertaSentenceEmbeddings(AnnotatorModel,
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
-
-    def setMaxSentenceLength(self, value):
-        """Sets max sentence length to process.
-
-        Parameters
-        ----------
-        value : int
-            Max sentence length to process
-        """
-        return self._set(maxSentenceLength=value)
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.XlmRoBertaSentenceEmbeddings", java_model=None):

@@ -20,7 +20,8 @@ class BertEmbeddings(AnnotatorModel,
                      HasEmbeddingsProperties,
                      HasCaseSensitiveProperties,
                      HasStorageRef,
-                     HasBatchedAnnotate):
+                     HasBatchedAnnotate,
+                     HasMaxSentenceLengthLimit):
     """Token-level embeddings using BERT.
 
     BERT (Bidirectional Encoder Representations from Transformers) provides
@@ -134,11 +135,6 @@ class BertEmbeddings(AnnotatorModel,
 
     outputAnnotatorType = AnnotatorType.WORD_EMBEDDINGS
 
-    maxSentenceLength = Param(Params._dummy(),
-                              "maxSentenceLength",
-                              "Max sentence length to process",
-                              typeConverter=TypeConverters.toInt)
-
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
@@ -153,16 +149,6 @@ class BertEmbeddings(AnnotatorModel,
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
-
-    def setMaxSentenceLength(self, value):
-        """Sets max sentence length to process.
-
-        Parameters
-        ----------
-        value : int
-            Max sentence length to process
-        """
-        return self._set(maxSentenceLength=value)
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.BertEmbeddings", java_model=None):

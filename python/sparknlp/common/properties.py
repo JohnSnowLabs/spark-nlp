@@ -433,3 +433,44 @@ class HasCandidateLabelsProperties:
             entailmentIdParam
         """
         return self._set(entailmentIdParam=v)
+
+
+class HasMaxSentenceLengthLimit:
+    # Default Value, can be overridden
+    max_length_limit = 512
+
+    maxSentenceLength = Param(Params._dummy(),
+                              "maxSentenceLength",
+                              "Max sentence length to process",
+                              typeConverter=TypeConverters.toInt)
+
+    def setMaxSentenceLength(self, value):
+        """Sets max sentence length to process.
+
+        Note that a maximum limit exists depending on the model. If you are working with long single
+        sequences, consider splitting up the input first with another annotator e.g. SentenceDetector.
+
+        Parameters
+        ----------
+        value : int
+            Max sentence length to process
+        """
+        if value > self.max_length_limit:
+            raise ValueError(
+                f"{self.__class__.__name__} models do not support token sequences longer than {self.max_length_limit}.\n"
+                f"Consider splitting up the input first with another annotator e.g. SentenceDetector.")
+        return self._set(maxSentenceLength=value)
+
+    def getMaxSentenceLength(self):
+        """Gets max sentence of the model.
+
+        Returns
+        -------
+        int
+            Max sentence length to process
+        """
+        return self.getOrDefault("maxSentenceLength")
+
+
+class HasLongMaxSentenceLengthLimit(HasMaxSentenceLengthLimit):
+    max_length_limit = 4096
