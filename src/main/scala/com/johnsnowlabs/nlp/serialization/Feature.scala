@@ -33,7 +33,7 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](
     extends Serializable {
   model.features.append(this)
 
-  private val spark = ResourceHelper.spark
+  private val spark: SparkSession = ResourceHelper.spark
 
   val serializationMode: String =
     ConfigLoader.getConfigStringValue(ConfigHelper.serializationMode)
@@ -44,6 +44,7 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](
   final protected var fallbackRawValue: Option[TComplete] = None
 
   final protected var fallbackLazyValue: Option[() => TComplete] = None
+  final protected var isProtected: Boolean = false
 
   final def serialize(
       spark: SparkSession,
@@ -117,6 +118,13 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](
   }
 
   final def setValue(value: Option[Any]): HasFeatures = {
+    if (isProtected && isSet)
+      throw new IllegalArgumentException(
+        "Trying to set a protected parameter, which was already set." +
+          " The parameter you are trying to set is protected and can only be set once." +
+          " For a pretrained model, this was done during the initialization process." +
+          " If you are trying to train your own model, please check the documentation.")
+
     if (useBroadcast) {
       if (isSet) broadcastValue.get.destroy()
       broadcastValue =
@@ -134,6 +142,16 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](
 
   final def isSet: Boolean = {
     broadcastValue.isDefined || rawValue.isDefined
+  }
+
+  /** Sets this feature to be protected and only settable once.
+    *
+    * @return
+    *   This Feature
+    */
+  final def setProtected(): this.type = {
+    isProtected = true
+    this
   }
 
 }
