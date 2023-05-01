@@ -73,32 +73,35 @@ class OnnxWrapper(var onnxModel: Array[Byte]) extends Serializable {
 object OnnxWrapper {
   private[OnnxWrapper] val logger: Logger = LoggerFactory.getLogger("OnnxWrapper")
 
+  // TODO: make sure this.synchronized is needed or it's not a bottleneck
   private def withSafeOnnxModelLoader(
       onnxModel: Array[Byte],
-      sessionOptions: Option[SessionOptions] = None): (OrtSession, OrtEnvironment) = {
-    val env = OrtEnvironment.getEnvironment()
+      sessionOptions: Option[SessionOptions] = None): (OrtSession, OrtEnvironment) =
+    this.synchronized {
+      val env = OrtEnvironment.getEnvironment()
 
-    val sessOptions =
-      if (sessionOptions.isDefined) sessionOptions.get else new OrtSession.SessionOptions()
+      val sessOptions =
+        if (sessionOptions.isDefined) sessionOptions.get else new OrtSession.SessionOptions()
 
-    val providers = OrtEnvironment.getAvailableProviders
+      val providers = OrtEnvironment.getAvailableProviders
 
-    if (providers.toArray.map(x => x.toString).contains("CUDA")) {
-      logger.info("using CUDA")
-      val gpuDeviceId = 0 // The GPU device ID to execute on
-      val cudaOpts = new OrtCUDAProviderOptions(gpuDeviceId)
-      // TODO: incorporate other cuda-related configs
-      //        cudaOpts.add("gpu_mem_limit", "" + (512 * 1024 * 1024))
-      //        sessOptions.addCUDA(gpuDeviceId)
-      sessOptions.addCUDA(cudaOpts)
-      //        sessOptions.addCUDA()
-    } else {
-      logger.info("using CPU")
+      if (providers.toArray.map(x => x.toString).contains("CUDA")) {
+        logger.info("using CUDA")
+        // it seems there is no easy way to use multiple GPUs
+        // at least not without using multiple threads
+        val gpuDeviceId = 0 // The GPU device ID to execute on
+        val cudaOpts = new OrtCUDAProviderOptions(gpuDeviceId)
+        // TODO: incorporate other cuda-related configs
+        //        cudaOpts.add("gpu_mem_limit", "" + (512 * 1024 * 1024))
+        //        sessOptions.addCUDA(gpuDeviceId)
+        sessOptions.addCUDA(cudaOpts)
+      } else {
+        logger.info("using CPU")
+      }
+      val session = env.createSession(onnxModel, sessOptions)
+
+      (session, env)
     }
-    val session = env.createSession(onnxModel, sessOptions)
-
-    (session, env)
-  }
 
   def read(
       modelPath: String,
