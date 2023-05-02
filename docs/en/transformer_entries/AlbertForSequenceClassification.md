@@ -4,7 +4,7 @@ AlbertForSequenceClassification
 
 {%- capture description -%}
 AlbertForSequenceClassification can load ALBERT Models with sequence classification/regression head on top
-(a linear layer on top of the pooled output), e.g. document classification tasks
+(a linear layer on top of the pooled output), e.g. for document classification tasks.
 
 For multi-class, use `setActivation("softmax")`. For multi-label, use `setActivation("sigmoid")`.
 
