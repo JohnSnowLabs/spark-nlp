@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-04-25T18:38:31+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-05-03T06:09:40+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
 </subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">DistilBERTZero-Shot Classification Base - distilbert_base_zero_shot_classifier_turkish_cased_allnli</title><link href="/2023/04/20/distilbert_base_zero_shot_classifier_turkish_cased_allnli_tr.html" rel="alternate" type="text/html" title="DistilBERTZero-Shot Classification Base - distilbert_base_zero_shot_classifier_turkish_cased_allnli" /><published>2023-04-20T00:00:00+00:00</published><updated>2023-04-20T00:00:00+00:00</updated><id>/2023/04/20/distilbert_base_zero_shot_classifier_turkish_cased_allnli_tr</id><content type="html" xml:base="/2023/04/20/distilbert_base_zero_shot_classifier_turkish_cased_allnli_tr.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
 &lt;p&gt;This model is intended to be used for zero-shot text classification, especially in Trukish. It is fine-tuned on MNLI by using DistilBERT Base Uncased model.&lt;/p&gt;
@@ -11,8 +11,8 @@
 
 &lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
 &lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_base_zero_shot_classifier_turkish_cased_allnli_tr_4.4.1_3.2_1682016415236.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/distilbert_base_zero_shot_classifier_turkish_cased_allnli_tr_4.4.1_3.2_1682016415236.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_base_zero_shot_classifier_turkish_cased_allnli_tr_4.4.1_3.0_1682016415236.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/distilbert_base_zero_shot_classifier_turkish_cased_allnli_tr_4.4.1_3.0_1682016415236.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
@@ -116,8 +116,8 @@
 
 &lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
 &lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_base_zero_shot_classifier_turkish_cased_multinli_tr_4.4.1_3.2_1682014879417.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/distilbert_base_zero_shot_classifier_turkish_cased_multinli_tr_4.4.1_3.2_1682014879417.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_base_zero_shot_classifier_turkish_cased_multinli_tr_4.4.1_3.0_1682014879417.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/distilbert_base_zero_shot_classifier_turkish_cased_multinli_tr_4.4.1_3.0_1682014879417.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
@@ -220,8 +220,8 @@
 
 &lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
 &lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_base_zero_shot_classifier_turkish_cased_snli_tr_4.4.1_3.2_1682015986268.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/distilbert_base_zero_shot_classifier_turkish_cased_snli_tr_4.4.1_3.2_1682015986268.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_base_zero_shot_classifier_turkish_cased_snli_tr_4.4.1_3.0_1682015986268.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/distilbert_base_zero_shot_classifier_turkish_cased_snli_tr_4.4.1_3.0_1682015986268.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
@@ -326,8 +326,8 @@
 
 &lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
 &lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_base_zero_shot_classifier_uncased_mnli_en_4.4.1_3.2_1682015669457.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/distilbert_base_zero_shot_classifier_uncased_mnli_en_4.4.1_3.2_1682015669457.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_base_zero_shot_classifier_uncased_mnli_en_4.4.1_3.0_1682015669457.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/distilbert_base_zero_shot_classifier_uncased_mnli_en_4.4.1_3.0_1682015669457.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
@@ -498,73 +498,91 @@ other_cyberbullying       0.67      0.71      0.69       775
 
 - DocumentAssembler
 - UniversalSentenceEncoder
-- ClassifierDLModel</content><author><name>Naveen-004</name></author><category term="en" /><category term="open_source" /><summary type="html">Description Identify cyberbullying using a multi-class classification framework that distinguishes six different types of cyberbullying. We have used a Twitter dataset from Kaggle and applied various techniques such as text cleaning, data augmentation, document assembling, universal sentence encoding and tensorflow classification model to process and analyze the data. We have also used snscrape to retrieve tweet data for validating our model’s performance. Our results show that our model achieved an accuracy of 85% for testing data and 89% for training data. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler()\ .setInputCol(&quot;cleaned_text&quot;)\ .setOutputCol(&quot;document&quot;) use = UniversalSentenceEncoder.pretrained(name=&quot;tfhub_use_lg&quot;, lang=&quot;en&quot;)\ .setInputCols(&quot;document&quot;)\ .setOutputCol(&quot;sentence_embeddings&quot;)\ .setDimension(768) classifierdl = ClassifierDLApproach()\ .setInputCols([&quot;sentence_embeddings&quot;])\ .setOutputCol(&quot;class&quot;)\ .setLabelColumn(&quot;cyberbullying_type&quot;)\ .setBatchSize(16)\ .setMaxEpochs(42)\ .setDropout(0.4) \ .setEnableOutputLogs(True)\ .setLr(4e-3) use_clf_pipeline = Pipeline( stages = [documentAssembler, use, classifierdl]) Results precision recall f1-score support age 0.94 0.96 0.95 796 ethnicity 0.94 0.94 0.94 810 gender 0.87 0.86 0.86 816 not_cyberbullying 0.74 0.67 0.70 766 other_cyberbullying 0.67 0.71 0.69 775 religion 0.94 0.96 0.95 731 accuracy 0.85 4694 macro avg 0.85 0.85 0.85 4694 weighted avg 0.85 0.85 0.85 4694 Model Information Model Name: CyberbullyingDetection_ClassifierDL_tfhub Type: pipeline Compatibility: Spark NLP 4.4.0+ License: Open Source Edition: Community Language: en Size: 811.9 MB Included Models DocumentAssembler UniversalSentenceEncoder ClassifierDLModel</summary></entry><entry><title type="html">BART (large-sized model), fine-tuned on CNN Daily Mail</title><link href="/2023/04/09/bart_large_cnn_en.html" rel="alternate" type="text/html" title="BART (large-sized model), fine-tuned on CNN Daily Mail" /><published>2023-04-09T00:00:00+00:00</published><updated>2023-04-09T00:00:00+00:00</updated><id>/2023/04/09/bart_large_cnn_en</id><content type="html" xml:base="/2023/04/09/bart_large_cnn_en.html">## Description
+- ClassifierDLModel</content><author><name>Naveen-004</name></author><category term="en" /><category term="open_source" /><summary type="html">Description Identify cyberbullying using a multi-class classification framework that distinguishes six different types of cyberbullying. We have used a Twitter dataset from Kaggle and applied various techniques such as text cleaning, data augmentation, document assembling, universal sentence encoding and tensorflow classification model to process and analyze the data. We have also used snscrape to retrieve tweet data for validating our model’s performance. Our results show that our model achieved an accuracy of 85% for testing data and 89% for training data. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler()\ .setInputCol(&quot;cleaned_text&quot;)\ .setOutputCol(&quot;document&quot;) use = UniversalSentenceEncoder.pretrained(name=&quot;tfhub_use_lg&quot;, lang=&quot;en&quot;)\ .setInputCols(&quot;document&quot;)\ .setOutputCol(&quot;sentence_embeddings&quot;)\ .setDimension(768) classifierdl = ClassifierDLApproach()\ .setInputCols([&quot;sentence_embeddings&quot;])\ .setOutputCol(&quot;class&quot;)\ .setLabelColumn(&quot;cyberbullying_type&quot;)\ .setBatchSize(16)\ .setMaxEpochs(42)\ .setDropout(0.4) \ .setEnableOutputLogs(True)\ .setLr(4e-3) use_clf_pipeline = Pipeline( stages = [documentAssembler, use, classifierdl]) Results precision recall f1-score support age 0.94 0.96 0.95 796 ethnicity 0.94 0.94 0.94 810 gender 0.87 0.86 0.86 816 not_cyberbullying 0.74 0.67 0.70 766 other_cyberbullying 0.67 0.71 0.69 775 religion 0.94 0.96 0.95 731 accuracy 0.85 4694 macro avg 0.85 0.85 0.85 4694 weighted avg 0.85 0.85 0.85 4694 Model Information Model Name: CyberbullyingDetection_ClassifierDL_tfhub Type: pipeline Compatibility: Spark NLP 4.4.0+ License: Open Source Edition: Community Language: en Size: 811.9 MB Included Models DocumentAssembler UniversalSentenceEncoder ClassifierDLModel</summary></entry><entry><title type="html">BART (large-sized model), fine-tuned on CNN Daily Mail</title><link href="/2023/04/09/bart_large_cnn_en.html" rel="alternate" type="text/html" title="BART (large-sized model), fine-tuned on CNN Daily Mail" /><published>2023-04-09T00:00:00+00:00</published><updated>2023-04-09T00:00:00+00:00</updated><id>/2023/04/09/bart_large_cnn_en</id><content type="html" xml:base="/2023/04/09/bart_large_cnn_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
-### BART (large-sized model), fine-tuned on CNN Daily Mail 
+&lt;h3 id=&quot;bart-large-sized-model-fine-tuned-on-cnn-daily-mail&quot;&gt;BART (large-sized model), fine-tuned on CNN Daily Mail&lt;/h3&gt;
 
-BART model pre-trained on English language, and fine-tuned on [CNN Daily Mail](https://huggingface.co/datasets/cnn_dailymail). It was introduced in the paper [BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension](https://arxiv.org/abs/1910.13461) by Lewis et al. and first released in [this repository (https://github.com/pytorch/fairseq/tree/master/examples/bart). 
+&lt;p&gt;BART model pre-trained on English language, and fine-tuned on &lt;a href=&quot;https://huggingface.co/datasets/cnn_dailymail&quot;&gt;CNN Daily Mail&lt;/a&gt;. It was introduced in the paper &lt;a href=&quot;https://arxiv.org/abs/1910.13461&quot;&gt;BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension&lt;/a&gt; by Lewis et al. and first released in [this repository (https://github.com/pytorch/fairseq/tree/master/examples/bart).&lt;/p&gt;
 
-Disclaimer: The team releasing BART did not write a model card for this model so this model card has been written by the Hugging Face team.
+&lt;p&gt;Disclaimer: The team releasing BART did not write a model card for this model so this model card has been written by the Hugging Face team.&lt;/p&gt;
 
-### Model description
+&lt;h3 id=&quot;model-description&quot;&gt;Model description&lt;/h3&gt;
 
-BART is a transformer encoder-encoder (seq2seq) model with a bidirectional (BERT-like) encoder and an autoregressive (GPT-like) decoder. BART is pre-trained by (1) corrupting text with an arbitrary noising function, and (2) learning a model to reconstruct the original text.
+&lt;p&gt;BART is a transformer encoder-encoder (seq2seq) model with a bidirectional (BERT-like) encoder and an autoregressive (GPT-like) decoder. BART is pre-trained by (1) corrupting text with an arbitrary noising function, and (2) learning a model to reconstruct the original text.&lt;/p&gt;
 
-BART is particularly effective when fine-tuned for text generation (e.g. summarization, translation) but also works well for comprehension tasks (e.g. text classification, question answering). This particular checkpoint has been fine-tuned on CNN Daily Mail, a large collection of text-summary pairs.
+&lt;p&gt;BART is particularly effective when fine-tuned for text generation (e.g. summarization, translation) but also works well for comprehension tasks (e.g. text classification, question answering). This particular checkpoint has been fine-tuned on CNN Daily Mail, a large collection of text-summary pairs.&lt;/p&gt;
 
-### Intended uses &amp; limitations
+&lt;h3 id=&quot;intended-uses--limitations&quot;&gt;Intended uses &amp;amp; limitations&lt;/h3&gt;
 
-You can use this model for text summarization.
+&lt;p&gt;You can use this model for text summarization.&lt;/p&gt;
 
-## Predicted Entities
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
 
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bart_large_cnn_en_4.4.0_3.0_1681068423111.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/bart_large_cnn_en_4.4.0_3.0_1681068423111.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bart_large_cnn_en_4.4.0_3.2_1681068423111.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bart_large_cnn_en_4.4.0_3.2_1681068423111.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
-
-## How to use
-
-
-
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-bart = BartTransformer.pretrained(&quot;bart_large_cnn&quot;) \
-            .setTask(&quot;summarize:&quot;) \
-            .setMaxOutputLength(200) \
-            .setInputCols([&quot;documents&quot;]) \
-            .setOutputCol(&quot;summaries&quot;)
-```
-```scala
-val bart = BartTransformer.pretrained(&quot;bart_large_cnn&quot;)
-            .setTask(&quot;summarize:&quot;)
-            .setMaxOutputLength(200)
-            .setInputCols(&quot;documents&quot;)
-            .setOutputCol(&quot;summaries&quot;)
-```
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;bart&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BartTransformer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bart_large_cnn&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setTask&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;summarize:&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setMaxOutputLength&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;summaries&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;bart&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;BartTransformer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bart_large_cnn&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setTask&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;summarize:&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setMaxOutputLength&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;summaries&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
 &lt;/div&gt;
 
-{:.model-param}
-## Model Information
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
 
-{:.table-model}
-|---|---|
-|Model Name:|bart_large_cnn|
-|Compatibility:|Spark NLP 4.4.0+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[documents]|
-|Output Labels:|[summaries]|
-|Language:|en|
-|Size:|1.1 GB|
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;bart_large_cnn&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 4.4.0+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[documents]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[summaries]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;1.1 GB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
-## References
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
 
-https://huggingface.co/datasets/cnn_dailymail</content><author><name>John Snow Labs</name></author><category term="bart" /><category term="summarization" /><category term="cnn" /><category term="text_to_text" /><category term="en" /><category term="english" /><category term="open_source" /><category term="tensorflow" /><summary type="html">Description BART (large-sized model), fine-tuned on CNN Daily Mail BART model pre-trained on English language, and fine-tuned on CNN Daily Mail. It was introduced in the paper BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension by Lewis et al. and first released in [this repository (https://github.com/pytorch/fairseq/tree/master/examples/bart). Disclaimer: The team releasing BART did not write a model card for this model so this model card has been written by the Hugging Face team. Model description BART is a transformer encoder-encoder (seq2seq) model with a bidirectional (BERT-like) encoder and an autoregressive (GPT-like) decoder. BART is pre-trained by (1) corrupting text with an arbitrary noising function, and (2) learning a model to reconstruct the original text. BART is particularly effective when fine-tuned for text generation (e.g. summarization, translation) but also works well for comprehension tasks (e.g. text classification, question answering). This particular checkpoint has been fine-tuned on CNN Daily Mail, a large collection of text-summary pairs. Intended uses &amp;amp; limitations You can use this model for text summarization. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU bart = BartTransformer.pretrained(&quot;bart_large_cnn&quot;) \ .setTask(&quot;summarize:&quot;) \ .setMaxOutputLength(200) \ .setInputCols([&quot;documents&quot;]) \ .setOutputCol(&quot;summaries&quot;) val bart = BartTransformer.pretrained(&quot;bart_large_cnn&quot;) .setTask(&quot;summarize:&quot;) .setMaxOutputLength(200) .setInputCols(&quot;documents&quot;) .setOutputCol(&quot;summaries&quot;) Model Information Model Name: bart_large_cnn Compatibility: Spark NLP 4.4.0+ License: Open Source Edition: Official Input Labels: [documents] Output Labels: [summaries] Language: en Size: 1.1 GB References https://huggingface.co/datasets/cnn_dailymail</summary></entry><entry><title type="html">Abstractive Summarization by BART - DistilBART CNN</title><link href="/2023/04/09/distilbart_cnn_6_6_en.html" rel="alternate" type="text/html" title="Abstractive Summarization by BART - DistilBART CNN" /><published>2023-04-09T00:00:00+00:00</published><updated>2023-04-09T00:00:00+00:00</updated><id>/2023/04/09/distilbart_cnn_6_6_en</id><content type="html" xml:base="/2023/04/09/distilbart_cnn_6_6_en.html">## Description
+&lt;p&gt;https://huggingface.co/datasets/cnn_dailymail&lt;/p&gt;</content><author><name>John Snow Labs</name></author><category term="bart" /><category term="summarization" /><category term="cnn" /><category term="text_to_text" /><category term="en" /><category term="english" /><category term="open_source" /><category term="tensorflow" /><summary type="html">Description BART (large-sized model), fine-tuned on CNN Daily Mail BART model pre-trained on English language, and fine-tuned on CNN Daily Mail. It was introduced in the paper BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension by Lewis et al. and first released in [this repository (https://github.com/pytorch/fairseq/tree/master/examples/bart). Disclaimer: The team releasing BART did not write a model card for this model so this model card has been written by the Hugging Face team. Model description BART is a transformer encoder-encoder (seq2seq) model with a bidirectional (BERT-like) encoder and an autoregressive (GPT-like) decoder. BART is pre-trained by (1) corrupting text with an arbitrary noising function, and (2) learning a model to reconstruct the original text. BART is particularly effective when fine-tuned for text generation (e.g. summarization, translation) but also works well for comprehension tasks (e.g. text classification, question answering). This particular checkpoint has been fine-tuned on CNN Daily Mail, a large collection of text-summary pairs. Intended uses &amp;amp; limitations You can use this model for text summarization. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU bart = BartTransformer.pretrained(&quot;bart_large_cnn&quot;) \ .setTask(&quot;summarize:&quot;) \ .setMaxOutputLength(200) \ .setInputCols([&quot;documents&quot;]) \ .setOutputCol(&quot;summaries&quot;) val bart = BartTransformer.pretrained(&quot;bart_large_cnn&quot;) .setTask(&quot;summarize:&quot;) .setMaxOutputLength(200) .setInputCols(&quot;documents&quot;) .setOutputCol(&quot;summaries&quot;) Model Information Model Name: bart_large_cnn Compatibility: Spark NLP 4.4.0+ License: Open Source Edition: Official Input Labels: [documents] Output Labels: [summaries] Language: en Size: 1.1 GB References https://huggingface.co/datasets/cnn_dailymail</summary></entry><entry><title type="html">Abstractive Summarization by BART - DistilBART CNN</title><link href="/2023/04/09/distilbart_cnn_6_6_en.html" rel="alternate" type="text/html" title="Abstractive Summarization by BART - DistilBART CNN" /><published>2023-04-09T00:00:00+00:00</published><updated>2023-04-09T00:00:00+00:00</updated><id>/2023/04/09/distilbart_cnn_6_6_en</id><content type="html" xml:base="/2023/04/09/distilbart_cnn_6_6_en.html">## Description
 
 &quot;BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension Transformer&quot; The Facebook BART (Bidirectional and Auto-Regressive Transformer) model is a state-of-the-art language generation model that was introduced by Facebook AI in 2019. It is based on the transformer architecture and is designed to handle a wide range of natural language processing tasks such as text generation, summarization, and machine translation.
 
