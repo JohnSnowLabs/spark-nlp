@@ -17,14 +17,13 @@ package com.johnsnowlabs.client.util
 
 object CloudHelper {
 
-  def parseS3URI(s3URI: String): (String, String) = {
+  def parseS3URI(s3URI: String, includePrefixInKey: Boolean = false): (String, String) = {
     val prefix = if (s3URI.startsWith("s3:")) "s3://" else "s3a://"
     val bucketName = s3URI.substring(prefix.length).split("/").head
     val key = s3URI.substring((prefix + bucketName).length + 1)
 
     require(bucketName.nonEmpty, "S3 bucket name is empty!")
-
-    (bucketName, key)
+    (bucketName, if (includePrefixInKey) prefix + key else key)
   }
 
   def parseGCPStorageURI(gcpStorageURI: String): (String, String) = {
@@ -35,6 +34,10 @@ object CloudHelper {
     require(bucketName.nonEmpty, "GCP Storage bucket name is empty!")
 
     (bucketName, storagePath)
+  }
+
+  def isCloudPath(path: String): Boolean = {
+    path.startsWith("s3") || path.startsWith("gs")
   }
 
 }
