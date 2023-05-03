@@ -18,6 +18,8 @@ package com.johnsnowlabs.nlp.pretrained
 
 import com.johnsnowlabs.client.CloudResources
 import com.johnsnowlabs.client.aws.AWSGateway
+import com.johnsnowlabs.client.util.CloudHelper
+import com.johnsnowlabs.nlp.util.io.OutputHelper
 import com.johnsnowlabs.util.FileHelper
 import org.apache.hadoop.fs.Path
 
@@ -89,9 +91,8 @@ class S3ResourceDownloader(
         val modelName = zipFile.substring(0, zipFile.indexOf(".zip"))
 
         cachePath.toString match {
-          case path if path.startsWith("s3") || path.startsWith("gs") => {
-            val cloudResources = new CloudResources
-            cloudResources.downloadFromCloud(
+          case path if CloudHelper.isCloudPath(path) => {
+            CloudResources.downloadFromCloud(
               awsGateway,
               cachePath.toString,
               modelName,

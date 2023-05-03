@@ -19,12 +19,14 @@ import com.amazonaws.services.s3.model.S3Object
 import com.johnsnowlabs.client.aws.{AWSClient, AWSGateway}
 import com.johnsnowlabs.client.gcp.GCPClient
 import com.johnsnowlabs.client.util.CloudHelper
+import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader}
 import org.apache.commons.io.IOUtils
 
 import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
+import java.nio.file.Paths
 import java.util.zip.ZipInputStream
 
-class CloudResources {
+object CloudResources {
 
   def downloadFromCloud(
       awsGateway: AWSGateway,
@@ -73,6 +75,7 @@ class CloudResources {
       modelName: String,
       destinationURI: String,
       cloudClient: CloudClient): Boolean = {
+
     cloudClient match {
       case awsDestinationClient: AWSClient => {
         val (destinationBucketName, destinationKey) = CloudHelper.parseS3URI(destinationURI)
@@ -149,6 +152,54 @@ class CloudResources {
 
     val (destinationBucketName, destinationKey) = CloudHelper.parseS3URI(destinationS3URI)
     (clientInstance.asInstanceOf[AWSClient], destinationBucketName, destinationKey)
+  }
+
+  def storeLogFileInCloudStorage(outputLogsPath: String, targetPath: String): Unit = {
+    val parameters = Map("credentialsType" -> "proprietary")
+    val cloudManager = new CloudManager(parameters)
+    val logsPath = if (outputLogsPath.nonEmpty) outputLogsPath else getLogsFolder
+    val clientInstance = cloudManager.getClientInstance(logsPath)
+
+    clientInstance match {
+      case awsClient: AWSClient => storeLogFileInS3(outputLogsPath, targetPath, awsClient)
+      case gcpClient: GCPClient => storeLogFileInGCPStorage(outputLogsPath, targetPath, gcpClient)
+    }
+  }
+
+  private def storeLogFileInS3(
+      outputLogsPath: String,
+      targetPath: String,
+      awsClient: AWSClient): Unit = {
+
+    def parseConfigS3Path(): (String, String) = {
+      val s3Bucket = ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalS3BucketKey)
+      val s3Path = ConfigLoader.getConfigStringValue(ConfigHelper.annotatorLogFolder) + "/"
+      (s3Bucket, s3Path)
+    }
+
+    val logsPathSuffix = outputLogsPath.takeWhile(_ != ':')
+    val (s3Bucket, s3Path) = logsPathSuffix match {
+      case "s3" | "s3a" => CloudHelper.parseS3URI(outputLogsPath, includePrefixInKey = true)
+      case _ if getLogsFolder.startsWith("s3") || getLogsFolder.startsWith("s3a") =>
+        parseConfigS3Path()
+      case _ => throw new IllegalArgumentException("Unsupported outputLogsPath")
+    }
+
+    val s3FilePath = s"""${s3Path.substring("s3://".length)}/${targetPath.split("/").last}"""
+    awsClient.copyInputStreamToBucket(s3Bucket, s3FilePath, targetPath)
+  }
+
+  private def getLogsFolder: String =
+    ConfigLoader.getConfigStringValue(ConfigHelper.annotatorLogFolder)
+
+  private def storeLogFileInGCPStorage(
+      outputLogsPath: String,
+      targetPath: String,
+      gcpClient: GCPClient): Unit = {
+    val (gcpBucket, storagePath) = CloudHelper.parseGCPStorageURI(outputLogsPath)
+    val fileName = Paths.get(targetPath).getFileName.toString
+    val destinationPath = s"$storagePath/$fileName"
+    gcpClient.copyInputStreamToBucket(gcpBucket, destinationPath, targetPath)
   }
 
 }

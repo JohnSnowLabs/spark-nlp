@@ -24,7 +24,9 @@ class CloudManager(parameters: Map[String, String] = Map.empty) {
     uri match {
       case s3Uri if s3Uri.startsWith("s3://") || s3Uri.startsWith("s3a://") =>
         new AWSClient(parameters)
-      case gcpUri if gcpUri.startsWith("gs://") => new GCPClient(parameters)
+      case gcpUri if gcpUri.startsWith("gs://") => {
+        new GCPClient(parameters)
+      }
       //      case azureUri
       //          if azureUri.startsWith("https://") && azureUri.contains(".blob.core.windows.net/") => "Azure"
       case _ =>
