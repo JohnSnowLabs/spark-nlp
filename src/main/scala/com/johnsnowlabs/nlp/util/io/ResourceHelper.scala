@@ -730,42 +730,4 @@ object ResourceHelper {
     getFileFromPath(path).exists()
   }
 
-  def moveFile(sourceFile: String, destinationFile: String): Unit = {
-
-    val sourceFileSystem = OutputHelper.getFileSystem(sourceFile)
-
-    if (destinationFile.startsWith("s3:")) {
-      val s3Bucket = destinationFile.replace("s3://", "").split("/").head
-      val s3Path = "s3:/" + destinationFile.substring(s"s3://$s3Bucket".length)
-
-      if (sourceFileSystem.getScheme.equals("dbfs") || sourceFileSystem.getScheme.equals(
-          "hdfs")) {
-        val inputStream = getResourceStream(sourceFile)
-
-        val destinationFile = sourceFile.split("/").last
-        val tmpPath =
-          if (sourceFileSystem.getScheme.equals("dbfs")) new Path("dbfs:/tmp")
-          else new Path("hdfs:/tmp")
-        if (!sourceFileSystem.exists(tmpPath)) sourceFileSystem.mkdirs(tmpPath)
-        val sourceFilePath = tmpPath + "/" + destinationFile
-        val outputStream = sourceFileSystem.create(new Path(sourceFilePath))
-
-        val inputBytes = IOUtils.toByteArray(inputStream)
-        outputStream.write(inputBytes)
-        outputStream.close()
-
-        OutputHelper.storeFileInS3(sourceFilePath, s3Bucket, s3Path)
-      }
-
-    } else {
-
-      if (!sourceFileSystem.getScheme.equals("dbfs")) {
-        val source = new Path(s"file:///$sourceFile")
-        val destination = new Path(destinationFile)
-        sourceFileSystem.copyFromLocalFile(source, destination)
-      }
-    }
-
-  }
-
 }
