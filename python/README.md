@@ -614,7 +614,7 @@ from [Maven Central](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp).
 To add JARs to spark programs use the `--jars` option:
 
 ```sh
-spark-shell --jars sparknlp.jar
+spark-shell --jars spark-nlp.jar
 ```
 
 The preferred way to use the library when running spark programs is using the `--packages` option as specified in
