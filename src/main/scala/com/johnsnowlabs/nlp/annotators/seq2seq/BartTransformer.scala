@@ -427,10 +427,27 @@ class BartTransformer(override val uid: String)
   /** @group setParam */
   def setMerges(value: Map[(String, String), Int]): this.type = set(merges, value)
 
-  /** @group setParam */
-  def setModelIfNotSet(spark: SparkSession, tfWrapper: TensorflowWrapper): this.type = {
-    if (_tfModel.isEmpty) {
+  /** Cache internal state of the model to improve performance
+    *
+    * @group param
+    */
+  val useCache =
+    new BooleanParam(parent = this, name = "useCache", doc = "Cache internal state of the model")
 
+  protected def setUseCache(value: Boolean): BartTransformer.this.type = {
+    set(useCache, value)
+    this
+  }
+
+  def getUseCache: Boolean = $(useCache)
+
+  /** @group setParam */
+  def setModelIfNotSet(
+      spark: SparkSession,
+      tfWrapper: TensorflowWrapper,
+      useCache: Boolean): this.type = {
+    if (_tfModel.isEmpty) {
+      setUseCache(useCache)
       _tfModel = Some(
         spark.sparkContext.broadcast(
           new Bart(
@@ -438,7 +455,8 @@ class BartTransformer(override val uid: String)
             configProtoBytes = getConfigProtoBytes,
             signatures = getSignatures,
             $$(merges),
-            $$(vocabulary))))
+            $$(vocabulary),
+            useCache = useCache)))
     }
     this
   }
@@ -458,7 +476,8 @@ class BartTransformer(override val uid: String)
     noRepeatNgramSize -> 0,
     ignoreTokenIds -> Array(),
     batchSize -> 1,
-    beamSize -> 4)
+    beamSize -> 4,
+    useCache -> true)
 
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
 
@@ -548,12 +567,15 @@ trait ReadBartTransformerDLModel extends ReadTensorflowModel {
       "_bart_tf",
       savedSignatures = instance.getSignatures,
       initAllTables = false)
-    instance.setModelIfNotSet(spark, tf)
+    instance.setModelIfNotSet(spark, tf, instance.getUseCache)
   }
 
   addReader(readModel)
 
-  def loadSavedModel(modelPath: String, spark: SparkSession): BartTransformer = {
+  def loadSavedModel(
+      modelPath: String,
+      spark: SparkSession,
+      useCache: Boolean = true): BartTransformer = {
 
     val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
 
@@ -592,7 +614,7 @@ trait ReadBartTransformerDLModel extends ReadTensorflowModel {
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, wrapper)
+          .setModelIfNotSet(spark, wrapper, useCache)
 
       case _ =>
         throw new Exception(notSupportedEngineError)
