@@ -8,7 +8,7 @@ tags: [en, open_source, tensorflow]
 task: Zero-Shot Classification
 language: en
 edition: Spark NLP 4.4.2
-spark_version: [3.2, 3.0]
+spark_version: [3.0]
 supported: true
 engine: tensorflow
 annotator: RoBertaForZeroShotClassification
@@ -32,8 +32,8 @@ We used TFRobertaForSequenceClassification to train this model and used RoBertaF
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/roberta_base_zero_shot_classifier_nli_en_4.4.2_3.2_1683228241365.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/roberta_base_zero_shot_classifier_nli_en_4.4.2_3.2_1683228241365.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/roberta_base_zero_shot_classifier_nli_en_4.4.2_3.0_1683228241365.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/roberta_base_zero_shot_classifier_nli_en_4.4.2_3.0_1683228241365.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
