@@ -247,7 +247,14 @@ class MultiDateMatcher(override val uid: String)
     }
 
   private def extractRelaxedDate(text: String): Seq[MatchedDateTime] = {
-    val possibleDates = relaxedFactory.findMatch(text)
+      val possibleDates = relaxedFactory.findMatch(text)
+      val possibleDatesByIndexMatch = possibleDates.groupBy(_.indexMatch)
+      possibleDatesByIndexMatch.flatMap{ case (_, possibleDates) =>
+        computePossibleDates(possibleDates)
+      }.toSeq
+  }
+
+  private def computePossibleDates(possibleDates: Seq[RuleFactory.RuleMatch]): Seq[MatchedDateTime] = {
     var dayMatch = $(defaultDayWhenMissing)
     var monthMatch = defaultMonthWhenMissing
     var yearMatch = defaultYearWhenMissing
@@ -256,7 +263,7 @@ class MultiDateMatcher(override val uid: String)
     possibleDates.foreach(possibleDate => {
 
       if (possibleDate.identifier == "relaxed days" && possibleDate.content.matched.exists(
-          _.isDigit)) {
+        _.isDigit)) {
         changes += 1
         dayMatch = possibleDate.content.matched.filter(_.isDigit).toInt
       }

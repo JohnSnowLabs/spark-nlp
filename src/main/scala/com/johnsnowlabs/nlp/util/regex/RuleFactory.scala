@@ -69,7 +69,9 @@ class RuleFactory(
     matchStrategy match {
       case MATCH_ALL =>
         rules.flatMap(rule =>
-          rule.regex.findAllMatchIn(text).map(m => RuleMatch(m, rule.identifier)))
+          rule.regex.findAllMatchIn(text).zipWithIndex.map{ case (currentMatch, index) =>
+            RuleMatch(currentMatch, rule.identifier, index)
+          })
       case MATCH_FIRST =>
         rules.flatMap(rule =>
           rule.regex.findFirstMatchIn(text).map(m => RuleMatch(m, rule.identifier)))
@@ -234,7 +236,7 @@ object RuleFactory {
     * @param identifier
     *   user provided identification of a rule
     */
-  case class RuleMatch(content: Regex.Match, identifier: String)
+  case class RuleMatch(content: Regex.Match, identifier: String, indexMatch: Int = -1)
 }
 
 /** Allowed strategies for [[RuleFactory]] applications regarding replacement */

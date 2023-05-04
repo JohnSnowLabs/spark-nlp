@@ -326,7 +326,7 @@ trait DateMatcherUtils extends Params {
     * first only. any other matches discarded Auto completes short versions of months. Any two
     * digit year is considered to be XX century
     */
-  protected val relaxedFactory: RuleFactory = new RuleFactory(MatchStrategy.MATCH_FIRST)
+  protected val relaxedFactory: RuleFactory = new RuleFactory(MatchStrategy.MATCH_ALL)
     .addRule(relaxedDayNumbered, "relaxed days")
     .addRule(relaxedMonths.r, "relaxed months exclusive")
     .addRule(relaxedYear, "relaxed year")
