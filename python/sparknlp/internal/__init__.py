@@ -522,3 +522,10 @@ class _DistilBertForZeroShotClassification(ExtendedJavaWrapper):
         super(_DistilBertForZeroShotClassification, self).__init__(
             "com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForZeroShotClassification.loadSavedModel", path,
             jspark)
+
+
+class _RoBertaForZeroShotClassification(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_RoBertaForZeroShotClassification, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForZeroShotClassification.loadSavedModel", path,
+            jspark)
