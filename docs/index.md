@@ -1,10 +1,9 @@
 ---
 layout: landing
 comment: no
-title: 'Spark NLP: <span>State of the Art Natural Language Processing</span>'
-excerpt: Spark NLP is an open source text processing library for Python, Java, and Scala. It provides production-grade, scalable, and trainable versions of the latest research in natural language processing
-
-seotitle: Spark NLP - State of the Art NLP Library
+title: 'Spark NLP 🚀 <span>State of the Art Natural Language Processing</span>'
+excerpt: Experience the power of Large Language Models like never before! Unleash the full potential of Natural Language Processing with Spark NLP, the open-source library that delivers scalable LLMs
+seotitle: Spark NLP - State of the Art NLP Library for Large Language Models
 permalink: /
 header: true
 article_header:
@@ -43,7 +42,7 @@ data:
 
     - title: Quick and Easy
       install: yes
-      excerpt: Spark NLP is available on <a href="https://pypi.org/project/spark-nlp" target="_blank">PyPI</a>, <a href="https://anaconda.org/JohnSnowLabs/spark-nlp" target="_blank">Conda</a>, and <a href="https://mvnrepository.com/artifact/com.johnsnowlabs.nlp" target="_blank">Maven</a>
+      excerpt: Spark NLP 🚀 is available on <a href="https://pypi.org/project/spark-nlp" target="_blank">PyPI</a>, <a href="https://anaconda.org/JohnSnowLabs/spark-nlp" target="_blank">Conda</a>, and <a href="https://mvnrepository.com/artifact/com.johnsnowlabs.nlp" target="_blank">Maven</a>
       actions:
         - text: Install Spark NLP
           type: big_btn
@@ -58,7 +57,7 @@ data:
       top: yes
       classmenu: three_a
       classtitle: grey big_h3
-      excerpt: Spark NLP ships with many <b>NLP features</b>, pre-trained <b>models</b> and <b>pipelines</b>
+      excerpt: Spark NLP 🚀 ships with many <b>NLP features</b>, pre-trained <b>models</b> and <b>pipelines</b>
       features: true
       # theme: dark
       # background_color: "#123"
@@ -68,7 +67,7 @@ data:
           url: /models
 
     - title: Benchmark
-      excerpt: Spark NLP 2.5.x obtained the best performing academic peer-reviewed results
+      excerpt: Spark NLP 🚀 4.4.x obtained the best performing academic peer-reviewed results
       benchmark: yes
       features: false
       # theme: dark
