@@ -376,7 +376,7 @@ class BartTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         )
 
     @staticmethod
-    def loadSavedModel(folder, spark_session, use_cache):
+    def loadSavedModel(folder, spark_session, use_cache=False):
         """Loads a locally saved model.
 
         Parameters
