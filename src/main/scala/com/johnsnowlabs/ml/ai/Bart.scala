@@ -234,6 +234,9 @@ private[johnsnowlabs] class Bart(
     encoderInputTensors.close()
     if (useCache) {
       tensorDecoder.clearTensors()
+      nextStateTensor1 = None
+      nextStateTensor2 = None
+
     }
     modelOutputs
   }
