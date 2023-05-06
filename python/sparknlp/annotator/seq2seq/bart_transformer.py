@@ -44,7 +44,7 @@ class BartTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
 
-    >>> t5 = BartTransformer.pretrained() \\
+    >>> bart = BartTransformer.pretrained() \\
     ...     .setTask("summarize:") \\
     ...     .setInputCols(["document"]) \\
     ...     .setOutputCol("summaries")
