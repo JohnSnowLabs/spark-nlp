@@ -8,7 +8,7 @@ tags: [beto, sentiment, bert, es, open_source]
 task: Text Classification
 language: es
 edition: Spark NLP 4.2.0
-spark_version: [3.2, 3.0]
+spark_version: 3.0
 supported: true
 annotator: BertForSequenceClassification
 article_header:
@@ -27,8 +27,8 @@ Model trained with TASS 2020 corpus (around ~5k tweets) of several dialects of S
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/beto_sentiment_es_4.2.0_3.2_1665504729919.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/beto_sentiment_es_4.2.0_3.2_1665504729919.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/beto_sentiment_es_4.2.0_3.0_1665504729919.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/beto_sentiment_es_4.2.0_3.0_1665504729919.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

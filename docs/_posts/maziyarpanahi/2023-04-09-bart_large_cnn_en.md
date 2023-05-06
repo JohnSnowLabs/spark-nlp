@@ -8,7 +8,7 @@ tags: [bart, summarization, cnn, text_to_text, en, english, open_source, tensorf
 task: Summarization
 language: en
 edition: Spark NLP 4.4.0
-spark_version: [3.2, 3.0]
+spark_version: 3.0
 supported: true
 engine: tensorflow
 annotator: BartTransformer
@@ -42,8 +42,8 @@ You can use this model for text summarization.
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bart_large_cnn_en_4.4.0_3.2_1681068423111.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bart_large_cnn_en_4.4.0_3.2_1681068423111.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bart_large_cnn_en_4.4.0_3.0_1681068423111.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bart_large_cnn_en_4.4.0_3.0_1681068423111.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

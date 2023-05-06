@@ -9,7 +9,7 @@ task: Named Entity Recognition
 language: en
 nav_key: models
 edition: Spark NLP 4.3.0
-spark_version: [3.2, 3.0]
+spark_version: 3.0
 supported: true
 engine: tensorflow
 annotator: ZeroShotNerModel
@@ -29,8 +29,8 @@ This model is trained with Zero-Shot Named Entity Recognition (NER) approach and
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/zero_shot_ner_roberta_en_4.3.0_3.2_1675890474068.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/zero_shot_ner_roberta_en_4.3.0_3.2_1675890474068.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/zero_shot_ner_roberta_en_4.3.0_3.0_1675890474068.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/zero_shot_ner_roberta_en_4.3.0_3.0_1675890474068.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
