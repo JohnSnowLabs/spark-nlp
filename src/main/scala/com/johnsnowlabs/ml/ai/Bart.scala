@@ -234,14 +234,6 @@ private[johnsnowlabs] class Bart(
     encoderInputTensors.close()
     if (useCache) {
       tensorDecoder.clearTensors()
-      nextStateTensor1 match {
-        case Some(t) => t.close()
-        case None =>
-      }
-      nextStateTensor2 match {
-        case Some(t) => t.close()
-        case None =>
-      }
     }
     modelOutputs
   }
