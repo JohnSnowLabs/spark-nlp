@@ -19,8 +19,8 @@ package com.johnsnowlabs.nlp.annotators
 import com.johnsnowlabs.nlp.AnnotatorApproach
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, TOKEN}
 import com.johnsnowlabs.nlp.annotators.param.ExternalResourceParam
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-import com.johnsnowlabs.nlp.util.regex.{MatchStrategy, RuleFactory}
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, MatchStrategy, ReadAs, ResourceHelper}
+import com.johnsnowlabs.nlp.util.regex.RuleFactory
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}

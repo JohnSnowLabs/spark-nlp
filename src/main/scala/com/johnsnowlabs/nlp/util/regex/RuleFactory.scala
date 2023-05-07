@@ -17,6 +17,7 @@
 package com.johnsnowlabs.nlp.util.regex
 
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.RuleSymbols
+import com.johnsnowlabs.nlp.util.io.MatchStrategy
 
 import scala.util.matching.Regex
 
@@ -27,7 +28,7 @@ import scala.util.matching.Regex
   *   How to decide when replacing or transforming content with Regex
   */
 class RuleFactory(
-    matchStrategy: MatchStrategy.MatchStrategy,
+    matchStrategy: MatchStrategy.Format,
     transformStrategy: TransformStrategy.TransformStrategy = TransformStrategy.NO_TRANSFORM)
     extends RuleSymbols
     with Serializable {
@@ -69,7 +70,7 @@ class RuleFactory(
     matchStrategy match {
       case MATCH_ALL =>
         rules.flatMap(rule =>
-          rule.regex.findAllMatchIn(text).zipWithIndex.map{ case (currentMatch, index) =>
+          rule.regex.findAllMatchIn(text).zipWithIndex.map { case (currentMatch, index) =>
             RuleMatch(currentMatch, rule.identifier, index)
           })
       case MATCH_FIRST =>
@@ -226,7 +227,7 @@ object RuleFactory {
   /** Specific partial constructor for [[RuleFactory]] where MatchStrategy might change on runtime
     */
   def lateMatching(transformStrategy: TransformStrategy.TransformStrategy)(
-      matchStrategy: MatchStrategy.MatchStrategy): RuleFactory =
+      matchStrategy: MatchStrategy.Format): RuleFactory =
     new RuleFactory(matchStrategy, transformStrategy)
 
   /** Internal representation of a regex match
@@ -245,10 +246,4 @@ object TransformStrategy extends Enumeration {
   val NO_TRANSFORM, APPEND_WITH_SYMBOL, PREPEND_WITH_SYMBOL, REPLACE_ALL_WITH_SYMBOL,
       REPLACE_WITH_SYMBOL_AND_BREAK, PROTECT_FROM_BREAK, BREAK_AND_PROTECT_FROM_BREAK,
       REPLACE_EACH_WITH_SYMBOL, REPLACE_EACH_WITH_SYMBOL_AND_BREAK = Value
-}
-
-/** Allowed strategies for [[RuleFactory]] applications regarding matching */
-object MatchStrategy extends Enumeration {
-  type MatchStrategy = Value
-  val MATCH_ALL, MATCH_FIRST, MATCH_COMPLETE = Value
 }

@@ -16,7 +16,8 @@
 
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.nlp.util.regex.{MatchStrategy, RuleFactory}
+import com.johnsnowlabs.nlp.util.io.MatchStrategy
+import com.johnsnowlabs.nlp.util.regex.RuleFactory
 import org.apache.spark.ml.param._
 
 import java.util.Calendar
@@ -249,6 +250,31 @@ trait DateMatcherUtils extends Params {
     */
   def setSourceLanguage(value: String): this.type = set(sourceLanguage, value)
 
+  /** Matched strategy to search relaxed dates by ordered rules by more exhaustive to less
+    * Strategy
+    *
+    * @group param
+    */
+  val relaxedFactoryStrategy: Param[String] =
+    new Param(this, "relaxedFactoryStrategy", "Matched Strategy to searches relaxed dates")
+
+  /** To set matched strategy to search relaxed dates by ordered rules by more exhaustive to less
+    * Strategy
+    *
+    * @group param
+    */
+  def setRelaxedFactoryStrategy(
+      matchStrategy: MatchStrategy.Format = MatchStrategy.MATCH_FIRST): this.type = {
+    set(relaxedFactoryStrategy, matchStrategy.toString)
+  }
+
+  /** To get matched strategy to search relaxed dates by ordered rules by more exhaustive to less
+    * Strategy
+    *
+    * @group param
+    */
+  def getRelaxedFactoryStrategy: String = $(relaxedFactoryStrategy)
+
   setDefault(
     inputFormats -> Array(""),
     outputFormat -> "yyyy/MM/dd",
@@ -257,7 +283,8 @@ trait DateMatcherUtils extends Params {
     anchorDateDay -> -1,
     readMonthFirst -> true,
     defaultDayWhenMissing -> 1,
-    sourceLanguage -> "en")
+    sourceLanguage -> "en",
+    relaxedFactoryStrategy -> MatchStrategy.MATCH_FIRST.toString)
 
   protected val formalFactoryInputFormats = new RuleFactory(MatchStrategy.MATCH_ALL)
 
@@ -322,11 +349,10 @@ trait DateMatcherUtils extends Params {
       .addRule(formalDateAlt2, "formal date with year at beginning")
       .addRule(formalDateShort, "formal date short version")
 
-  /** Searches relaxed dates by ordered rules by more exhaustive to less Strategy used is to match
-    * first only. any other matches discarded Auto completes short versions of months. Any two
-    * digit year is considered to be XX century
+  /** Searches relaxed dates by ordered rules by more exhaustive to less Strategy. Auto completes
+    * short versions of months. Any two digit year is considered to be XX century
     */
-  protected val relaxedFactory: RuleFactory = new RuleFactory(MatchStrategy.MATCH_ALL)
+  protected lazy val relaxedFactory: RuleFactory = new RuleFactory(getRelaxedFactoryStrategy)
     .addRule(relaxedDayNumbered, "relaxed days")
     .addRule(relaxedMonths.r, "relaxed months exclusive")
     .addRule(relaxedYear, "relaxed year")

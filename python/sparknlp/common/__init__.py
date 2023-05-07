@@ -22,3 +22,4 @@ from sparknlp.common.recursive_annotator_approach import *
 from sparknlp.common.storage import *
 from sparknlp.common.utils import *
 from sparknlp.common.annotator_type import *
+from sparknlp.common.match_strategy import *
