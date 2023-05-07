@@ -4,7 +4,7 @@ title: Abstractive Summarization by BART - DistilBART CNN
 author: John Snow Labs
 name: distilbart_cnn_12_6
 date: 2023-05-07
-tags: [en, open_source, tensorflow]
+tags: [bart, summarization, xsum, distil, text_to_text, en, open_source, tensorflow]
 task: Summarization
 language: en
 edition: Spark NLP 4.4.2
