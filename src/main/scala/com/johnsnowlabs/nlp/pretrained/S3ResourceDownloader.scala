@@ -307,7 +307,7 @@ class S3ResourceDownloader(
     }
   }
 
-  def downloadAndUnzipFile(s3FilePath: String): Option[String] = {
+  def downloadAndUnzipFile(s3FilePath: String, unzip: Boolean): Option[String] = {
 
     val s3File = s3FilePath.split("/").last
     val destinationFile = new Path(cachePath.toString + "/" + s3File)
@@ -326,32 +326,33 @@ class S3ResourceDownloader(
       // 4. Move tmp file to destination
       fileSystem.moveFromLocalFile(new Path(tmpFile.toString), destinationFile)
     }
+    if (unzip) {
+      if (!fileSystem.exists(new Path(splitPath))) {
+        val zis = new ZipInputStream(fileSystem.open(destinationFile))
+        val buf = Array.ofDim[Byte](1024)
+        var entry = zis.getNextEntry
+        require(
+          destinationFile.toString.substring(destinationFile.toString.length - 4) == ".zip",
+          "Not a zip file.")
 
-    if (!fileSystem.exists(new Path(splitPath))) {
-      val zis = new ZipInputStream(fileSystem.open(destinationFile))
-      val buf = Array.ofDim[Byte](1024)
-      var entry = zis.getNextEntry
-      require(
-        destinationFile.toString.substring(destinationFile.toString.length - 4) == ".zip",
-        "Not a zip file.")
-
-      while (entry != null) {
-        if (!entry.isDirectory) {
-          val entryName = new Path(splitPath, entry.getName)
-          val outputStream = fileSystem.create(entryName)
-          var bytesRead = zis.read(buf, 0, 1024)
-          while (bytesRead > -1) {
-            outputStream.write(buf, 0, bytesRead)
-            bytesRead = zis.read(buf, 0, 1024)
+        while (entry != null) {
+          if (!entry.isDirectory) {
+            val entryName = new Path(splitPath, entry.getName)
+            val outputStream = fileSystem.create(entryName)
+            var bytesRead = zis.read(buf, 0, 1024)
+            while (bytesRead > -1) {
+              outputStream.write(buf, 0, bytesRead)
+              bytesRead = zis.read(buf, 0, 1024)
+            }
+            outputStream.close()
           }
-          outputStream.close()
+          zis.closeEntry()
+          entry = zis.getNextEntry
         }
-        zis.closeEntry()
-        entry = zis.getNextEntry
+        zis.close()
+        // delete the zip file
+        fileSystem.delete(destinationFile, true)
       }
-      zis.close()
-      // delete the zip file
-      fileSystem.delete(destinationFile, true)
     }
     Some(splitPath)
 

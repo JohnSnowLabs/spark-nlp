@@ -117,6 +117,18 @@ class ResourceDownloader(object):
         _internal._DownloadModelDirectly(name, remote_loc).apply()
 
     @staticmethod
+    def downloadModelDirectlyAsZip(s3URI):
+        """Downloads a model directly as zip to the cache folder.
+        You can use to copy-paste the s3 URI from the model hub  and download the model.
+        For available s3 URI and models, please see the `Models Hub <https://sparknlp.org/models>`__.
+        Parameters
+        ----------
+        s3URI : str
+            s3URI link of the model
+        """
+        _internal._DownloadModelDirectlyAsZip(s3URI).apply()
+
+    @staticmethod
     def downloadPipeline(name, language, remote_loc=None):
         """Downloads and loads a pipeline with the default downloader.
 

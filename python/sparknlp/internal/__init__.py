@@ -333,6 +333,12 @@ class _DownloadModelDirectly(ExtendedJavaWrapper):
             "com.johnsnowlabs.nlp.pretrained.PythonResourceDownloader.downloadModelDirectly", name, remote_loc)
 
 
+class _DownloadModelDirectlyAsZip(ExtendedJavaWrapper):
+    def __init__(self, s3URI):
+        super(_DownloadModelDirectlyAsZip, self).__init__(
+            "com.johnsnowlabs.nlp.pretrained.PythonResourceDownloader.downloadModelDirectlyAsZip", s3URI)
+
+
 class _DownloadModel(ExtendedJavaWrapper):
     def __init__(self, reader, name, language, remote_loc, validator):
         super(_DownloadModel, self).__init__("com.johnsnowlabs.nlp.pretrained." + validator + ".downloadModel", reader,
