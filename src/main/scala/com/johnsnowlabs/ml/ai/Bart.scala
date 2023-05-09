@@ -17,35 +17,20 @@
 package com.johnsnowlabs.ml.ai
 
 import com.johnsnowlabs.ml.ai.util.Generation.Generate
-import com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitProcess.{
-  MinLengthLogitProcessor,
-  NoRepeatNgramsLogitProcessor,
-  RepetitionPenaltyLogitProcessor
-}
-import com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitProcessorList
-import com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitWarper.{
-  TemperatureLogitWarper,
-  TopKLogitWarper,
-  TopPLogitWarper
-}
-import com.johnsnowlabs.ml.ai.util.Generation.Search.BeamSearchScorer
-import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
+import com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureManager
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
-import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.{BpeTokenizer, BartTokenizer}
 import com.johnsnowlabs.nlp.annotators.common.SentenceSplit
+import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.{BartTokenizer, BpeTokenizer}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import org.tensorflow.{Session, Tensor}
 
-import scala.collection.JavaConverters._
-import scala.collection.mutable
+import scala.collection.JavaConverters.*
 
 /** This class is used to run Bart model for For Sequence Batches of WordpieceTokenizedSentence.
   * Input for this model must be tokenized with a SentencePieceModel,
   *
   * @param tensorflow
   *   BART Model wrapper with TensorFlowWrapper
-  * @param bpeTokenizer
-  *   BART Byte-Pair Encoder model with BPEWrapper
   * @param configProtoBytes
   *   Configuration for TensorFlow session
   */
@@ -60,16 +45,14 @@ private[johnsnowlabs] class Bart(
     extends Serializable
     with Generate {
 
-  private val _tfBartSignatures: Map[String, String] =
-    signatures.getOrElse(ModelSignatureManager.apply())
-
   val bpeTokenizer: BartTokenizer = BpeTokenizer
     .forModel("bart", merges = merges, vocab = vocabulary, padWithSentenceTokens = false)
     .asInstanceOf[BartTokenizer]
-
+  private val _tfBartSignatures: Map[String, String] =
+    signatures.getOrElse(ModelSignatureManager.apply())
   private val paddingTokenId = 1
   private val eosTokenId = 2
-  private val vocab_size = 50264
+  private val vocabSize = 50264
   private val encoderInputIdsKey = "encoder_encoder_input_ids:0"
   private val encoderAttentionMaskKey = "encoder_encoder_attention_mask:0"
   private val encoderOutputKey = "StatefulPartitionedCall_2:0"
@@ -91,235 +74,26 @@ private[johnsnowlabs] class Bart(
   private val decoderCachedOutputLogitsKey = "StatefulPartitionedCall:2"
   private val decoderCachedOutputCache1Key = "StatefulPartitionedCall:0"
   private val decoderCachedOutputCache2Key = "StatefulPartitionedCall:1"
+  var tensorDecoder = new TensorResources()
   private var nextStateTensor1: Option[org.tensorflow.Tensor] = None
   private var nextStateTensor2: Option[org.tensorflow.Tensor] = None
-  var tensorDecoder = new TensorResources()
 
-  private def sessionWarmup(): Unit = {
-    val dummyInput = Array.fill(1)(0) ++ Array(eosTokenId)
-    tag(
-      Seq(dummyInput),
-      minOutputLength = 0,
-      maxOutputLength = 1,
-      doSample = false,
-      temperature = 0f,
-      topK = 0,
-      topP = 0f,
-      repetitionPenalty = 0f,
-      noRepeatNgramSize = 0,
-      randomSeed = Option(0),
-      ignoreTokenIds = Array(0),
-      beamSize = 1)
-  }
-
-//  sessionWarmup()
-
-  def tag(
-      batch: Seq[Array[Int]],
-      minOutputLength: Int,
-      maxOutputLength: Int,
-      doSample: Boolean,
-      temperature: Double,
-      topK: Int,
-      topP: Double,
-      repetitionPenalty: Double,
-      noRepeatNgramSize: Int,
-      randomSeed: Option[Long],
-      ignoreTokenIds: Array[Int] = Array(),
-      beamSize: Int): Array[Array[Int]] = {
-    val ignoreTokenIdsInt = ignoreTokenIds
-    val expandedEncoderInputIdsVals = batch.flatMap(x => List.fill(beamSize)(x))
-//    val expandedEncoderInputIdsVals = batch
-    val sequencesLength = expandedEncoderInputIdsVals.map(x => x.length).toArray
-    val maxSentenceLength = sequencesLength.max // - curLen
-
-    val numReturn_sequences = 1
-    // from config
-
-    var effectiveBatch_size = 1
-    var effectiveBatch_mult = 1
-
-    // set effective batch size and effective batch multiplier according to do_sample
-    if (doSample) {
-      effectiveBatch_size = expandedEncoderInputIdsVals.length * numReturn_sequences
-      effectiveBatch_mult = numReturn_sequences
-    } else {
-      effectiveBatch_size = expandedEncoderInputIdsVals.length
-      effectiveBatch_mult = 1
-    }
-
-    // Run encoder
-    val tensorEncoder = new TensorResources()
-    val inputDim = expandedEncoderInputIdsVals.length * maxSentenceLength
-
-    val encoderInputBuffers = tensorEncoder.createIntBuffer(inputDim)
-    val encoderAttentionMaskBuffers = tensorEncoder.createIntBuffer(inputDim)
-
-    val shape = Array(expandedEncoderInputIdsVals.length.toLong, maxSentenceLength)
-
-    expandedEncoderInputIdsVals.zipWithIndex.foreach { case (tokenIds, idx) =>
-      val offset = idx * maxSentenceLength
-      val diff = maxSentenceLength - tokenIds.length
-
-      val s = tokenIds.take(maxSentenceLength) ++ Array.fill[Int](diff)(this.paddingTokenId)
-      encoderInputBuffers.offset(offset).write(s)
-      val mask = s.map(x => if (x != this.paddingTokenId) 1 else 0)
-      encoderAttentionMaskBuffers.offset(offset).write(mask)
-    }
-
-    val session = tensorflow.getTFSessionWithSignature(
-      configProtoBytes = configProtoBytes,
-      initAllTables = false,
-      savedSignatures = signatures)
-
-    val encoderInputTensors = tensorEncoder.createIntBufferTensor(shape, encoderInputBuffers)
-    val encoderAttentionMaskTensors =
-      tensorEncoder.createIntBufferTensor(shape, encoderAttentionMaskBuffers)
-
-    val runner = session.runner;
-
-    runner
-      .feed(encoderInputIdsKey, encoderInputTensors)
-      .feed(encoderAttentionMaskKey, encoderAttentionMaskTensors)
-      .fetch(encoderOutputKey)
-
-    val encoderOuts = runner.run().asScala
-    val encoderOutsFloats = TensorResources.extractFloats(encoderOuts.head)
-    val dim = encoderOutsFloats.length / inputDim
-    val encoderOutsBatch =
-      encoderOutsFloats.grouped(dim).toArray.grouped(maxSentenceLength).toArray
-
-    encoderOuts.foreach(_.close())
-
-    // Run decoder
-    val decoderEncoderStateTensorResources = new TensorResources()
-    val decoderEncoderStateBuffers =
-      decoderEncoderStateTensorResources.createFloatBuffer(
-        expandedEncoderInputIdsVals.length * maxSentenceLength * dim)
-    expandedEncoderInputIdsVals.zipWithIndex.foreach { case (_, index) =>
-      var offset = index * maxSentenceLength * dim
-      encoderOutsBatch(index).foreach(encoderOutput => {
-        decoderEncoderStateBuffers.offset(offset).write(encoderOutput)
-        offset += dim
-      })
-    }
-
-    val decoderEncoderStateTensors = tensorEncoder.createFloatBufferTensor(
-      Array(expandedEncoderInputIdsVals.length, maxSentenceLength, dim),
-      decoderEncoderStateBuffers)
-
-    val modelOutputs = generateBeamSearch(
-      batch,
-      decoderEncoderStateTensors,
-      encoderAttentionMaskTensors,
-      maxOutputLength,
-      minOutputLength,
-      doSample,
-      beamSize,
-      1,
-      temperature,
-      topK,
-      topP,
-      repetitionPenalty,
-      noRepeatNgramSize,
-      randomSeed,
-      ignoreTokenIdsInt,
-      session)
-
-    tensorEncoder.clearTensors()
-    tensorEncoder.clearSession(encoderOuts)
-    decoderEncoderStateTensorResources.clearTensors()
-    decoderEncoderStateTensors.close()
-    encoderAttentionMaskTensors.close()
-    encoderInputTensors.close()
-    if (useCache) {
-      tensorDecoder.clearTensors()
-      nextStateTensor1 = None
-      nextStateTensor2 = None
-
-    }
-    modelOutputs
-  }
-
-  def generateBeamSearch(
-      inputIds: Seq[Array[Int]],
-      decoderEncoderStateTensors: Tensor,
-      encoderAttentionMaskTensors: Tensor,
-      maxOutputLength: Int,
-      minOutputLength: Int,
-      doSample: Boolean,
-      beamSize: Int,
-      numReturnSequences: Int,
-      temperature: Double,
-      topK: Int,
-      topP: Double,
-      repetitionPenalty: Double,
-      noRepeatNgramSize: Int,
-      randomSeed: Option[Long],
-      ignoreTokenIds: Array[Int] = Array(),
-      session: Session): Array[Array[Int]] = {
-
-    var decoderInputs = inputIds.map(_ => Array(this.eosTokenId)).toArray
-
-    var logitProcessorList = new LogitProcessorList()
-
-    logitProcessorList.addProcess(new RepetitionPenaltyLogitProcessor(repetitionPenalty))
-
-    logitProcessorList.addProcess(
-      new NoRepeatNgramsLogitProcessor(
-        noRepeatNgramSize = noRepeatNgramSize,
-        vocabSize = this.vocab_size))
-
-    logitProcessorList.addProcess(
-      new MinLengthLogitProcessor(this.eosTokenId, minOutputLength, this.vocab_size))
-
-    logitProcessorList.addProcess(new TemperatureLogitWarper(temperature))
-
-    logitProcessorList.addProcess(new TopKLogitWarper(topK))
-
-    logitProcessorList.addProcess(new TopPLogitWarper(topP))
-
-    val beamSearchScorer = new BeamSearchScorer(
-      beamSize = beamSize,
-      batchSize = inputIds.length,
-      lengthPenalty = repetitionPenalty.toFloat,
-      doEarlyStopping = false,
-      numBeamHypothesisToKeep = numReturnSequences,
-      maxLength = maxOutputLength)
-
-    this.beamSearch(
-      inputIds,
-      decoderInputs,
-      decoderEncoderStateTensors,
-      encoderAttentionMaskTensors,
-      beamSearchScorer,
-      logitProcessorList,
-      maxOutputLength,
-      this.paddingTokenId,
-      this.eosTokenId,
-      doSample,
-      randomSeed,
-      session)
-  }
-
-  def decode(sentences: Array[Array[Int]]): Seq[String] = {
-    sentences.map(s => bpeTokenizer.decodeTokens(s.map(_.toInt)))
-  }
-
-  def encode(sentences: Seq[Annotation], task: String): Seq[Array[Int]] = {
-    SentenceSplit
-      .unpack(sentences)
-      .map(s => {
-        val sentWithTask =
-          if (task.nonEmpty) s
-          else s
-        bpeTokenizer
-          .tokenize(sentWithTask)
-          .map(bpeTokenizer.encode)
-          .flatMap(_.map(_.pieceId))
-      })
-  }
-
+  /** @param sentences
+    * @param batchSize
+    * @param minOutputLength
+    * @param maxOutputLength
+    * @param doSample
+    * @param temperature
+    * @param topK
+    * @param topP
+    * @param repetitionPenalty
+    * @param noRepeatNgramSize
+    * @param task
+    * @param randomSeed
+    * @param ignoreTokenIds
+    * @param beamSize
+    * @return
+    */
   def predict(
       sentences: Seq[Annotation],
       batchSize: Int,
@@ -370,6 +144,168 @@ private[johnsnowlabs] class Bart(
     }
   }
 
+  /** @param batch
+    * @param minOutputLength
+    * @param maxOutputLength
+    * @param doSample
+    * @param temperature
+    * @param topK
+    * @param topP
+    * @param repetitionPenalty
+    * @param noRepeatNgramSize
+    * @param randomSeed
+    * @param ignoreTokenIds
+    * @param beamSize
+    * @return
+    */
+  def tag(
+      batch: Seq[Array[Int]],
+      minOutputLength: Int,
+      maxOutputLength: Int,
+      doSample: Boolean,
+      temperature: Double,
+      topK: Int,
+      topP: Double,
+      repetitionPenalty: Double,
+      noRepeatNgramSize: Int,
+      randomSeed: Option[Long],
+      ignoreTokenIds: Array[Int] = Array(),
+      beamSize: Int): Array[Array[Int]] = {
+
+    val ignoreTokenIdsInt = ignoreTokenIds
+    val expandedEncoderInputIdsVals = batch.flatMap(x => List.fill(beamSize)(x))
+    val sequencesLength = expandedEncoderInputIdsVals.map(x => x.length).toArray
+    val maxSentenceLength = sequencesLength.max // - curLen
+
+    val numReturn_sequences = 1
+    // from config
+
+    var effectiveBatch_size = 1
+    var effectiveBatch_mult = 1
+
+    // set effective batch size and effective batch multiplier according to do_sample
+    if (doSample) {
+      effectiveBatch_size = expandedEncoderInputIdsVals.length * numReturn_sequences
+      effectiveBatch_mult = numReturn_sequences
+    } else {
+      effectiveBatch_size = expandedEncoderInputIdsVals.length
+      effectiveBatch_mult = 1
+    }
+
+    // Run encoder
+    val tensorEncoder = new TensorResources()
+    val inputDim = expandedEncoderInputIdsVals.length * maxSentenceLength
+
+    val encoderInputBuffers = tensorEncoder.createIntBuffer(inputDim)
+    val encoderAttentionMaskBuffers = tensorEncoder.createIntBuffer(inputDim)
+
+    val shape = Array(expandedEncoderInputIdsVals.length.toLong, maxSentenceLength)
+
+    expandedEncoderInputIdsVals.zipWithIndex.foreach { case (tokenIds, idx) =>
+      val offset = idx * maxSentenceLength
+      val diff = maxSentenceLength - tokenIds.length
+
+      val s = tokenIds.take(maxSentenceLength) ++ Array.fill[Int](diff)(this.paddingTokenId)
+      encoderInputBuffers.offset(offset).write(s)
+      val mask = s.map(x => if (x != this.paddingTokenId) 1 else 0)
+      encoderAttentionMaskBuffers.offset(offset).write(mask)
+    }
+
+    val session = tensorflow.getTFSessionWithSignature(
+      configProtoBytes = configProtoBytes,
+      initAllTables = false,
+      savedSignatures = signatures)
+
+    val encoderInputTensors = tensorEncoder.createIntBufferTensor(shape, encoderInputBuffers)
+    val encoderAttentionMaskTensors =
+      tensorEncoder.createIntBufferTensor(shape, encoderAttentionMaskBuffers)
+
+    val runner = session.runner
+
+    runner
+      .feed(encoderInputIdsKey, encoderInputTensors)
+      .feed(encoderAttentionMaskKey, encoderAttentionMaskTensors)
+      .fetch(encoderOutputKey)
+
+    val encoderOuts = runner.run().asScala
+    val encoderOutsFloats = TensorResources.extractFloats(encoderOuts.head)
+    val dim = encoderOutsFloats.length / inputDim
+    val encoderOutsBatch =
+      encoderOutsFloats.grouped(dim).toArray.grouped(maxSentenceLength).toArray
+
+    encoderOuts.foreach(_.close())
+
+    // Run decoder
+    val decoderEncoderStateTensorResources = new TensorResources()
+    val decoderEncoderStateBuffers =
+      decoderEncoderStateTensorResources.createFloatBuffer(
+        expandedEncoderInputIdsVals.length * maxSentenceLength * dim)
+    expandedEncoderInputIdsVals.zipWithIndex.foreach { case (_, index) =>
+      var offset = index * maxSentenceLength * dim
+      encoderOutsBatch(index).foreach(encoderOutput => {
+        decoderEncoderStateBuffers.offset(offset).write(encoderOutput)
+        offset += dim
+      })
+    }
+
+    val decoderEncoderStateTensors = tensorEncoder.createFloatBufferTensor(
+      Array(expandedEncoderInputIdsVals.length, maxSentenceLength, dim),
+      decoderEncoderStateBuffers)
+    val decoderInputs = batch.map(_ => Array(this.eosTokenId)).toArray
+    val modelOutputs = generate(
+      batch,
+      decoderEncoderStateTensors,
+      encoderAttentionMaskTensors,
+      decoderInputs,
+      maxOutputLength,
+      minOutputLength,
+      doSample,
+      beamSize,
+      1,
+      temperature,
+      topK,
+      topP,
+      repetitionPenalty,
+      noRepeatNgramSize,
+      this.vocabSize,
+      this.eosTokenId,
+      this.paddingTokenId,
+      randomSeed,
+      ignoreTokenIdsInt,
+      session)
+
+    tensorEncoder.clearTensors()
+    tensorEncoder.clearSession(encoderOuts)
+    decoderEncoderStateTensorResources.clearTensors()
+    decoderEncoderStateTensors.close()
+    encoderAttentionMaskTensors.close()
+    encoderInputTensors.close()
+    if (useCache) {
+      tensorDecoder.clearTensors()
+      nextStateTensor1 = None
+      nextStateTensor2 = None
+    }
+    modelOutputs
+  }
+
+  def decode(sentences: Array[Array[Int]]): Seq[String] = {
+    sentences.map(s => bpeTokenizer.decodeTokens(s.map(_.toInt)))
+  }
+
+  def encode(sentences: Seq[Annotation], task: String): Seq[Array[Int]] = {
+    SentenceSplit
+      .unpack(sentences)
+      .map(s => {
+        val sentWithTask =
+          if (task.nonEmpty) s
+          else s
+        bpeTokenizer
+          .tokenize(sentWithTask)
+          .map(bpeTokenizer.encode)
+          .flatMap(_.map(_.pieceId))
+      })
+  }
+
   override def getModelOutput(
       encoderInputIds: Seq[Array[Int]],
       decoderInputIds: Seq[Array[Int]],
@@ -381,7 +317,7 @@ private[johnsnowlabs] class Bart(
     val sequencesLength = encoderInputIds.map(x => x.length).toArray
     var maxSentenceLength = sequencesLength.max // - curLen
     maxSentenceLength = Math.max(maxSentenceLength, maxLength)
-    val vocabSize = this.vocab_size
+    val vocabSize = this.vocabSize
     val decoderInputLength = decoderInputIds.head.length
     val batchSize = encoderInputIds.length
 
@@ -457,5 +393,22 @@ private[johnsnowlabs] class Bart(
     }
     decoderInputTensors.close()
     nextTokenLogits
+  }
+
+  private def sessionWarmup(): Unit = {
+    val dummyInput = Array.fill(1)(0) ++ Array(eosTokenId)
+    tag(
+      Seq(dummyInput),
+      minOutputLength = 0,
+      maxOutputLength = 1,
+      doSample = false,
+      temperature = 0f,
+      topK = 0,
+      topP = 0f,
+      repetitionPenalty = 0f,
+      noRepeatNgramSize = 0,
+      randomSeed = Option(0),
+      ignoreTokenIds = Array(0),
+      beamSize = 1)
   }
 }

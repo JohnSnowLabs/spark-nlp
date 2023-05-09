@@ -16,13 +16,161 @@
 
 package com.johnsnowlabs.ml.ai.util.Generation
 import com.johnsnowlabs.ml.ai.util.Generation.Search.BeamScorer
-import com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitProcessorList
 import scala.math._
 import scala.util.control.Breaks._
-import scala.util.Random
+import com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitProcess.{
+  MinLengthLogitProcessor,
+  NoRepeatNgramsLogitProcessor,
+  RepetitionPenaltyLogitProcessor
+}
+import com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitProcessorList
+import com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitWarper.{
+  TemperatureLogitWarper,
+  TopKLogitWarper,
+  TopPLogitWarper
+}
+
+import com.johnsnowlabs.ml.ai.util.Generation.Search.BeamSearchScorer
 import org.tensorflow.{Session, Tensor}
 
 trait Generate {
+
+  /** Text Generation using Beam Search
+    * @param inputIds
+    *   input ids
+    * @param decoderEncoderStateTensors
+    *   decoder encoder state tensors
+    * @param encoderAttentionMaskTensors
+    *   encoder attention mask tensors
+    * @param decoderInputs
+    *   decoder inputs
+    * @param maxOutputLength
+    *   max output length
+    * @param minOutputLength
+    *   min output length
+    * @param doSample
+    *   do sample
+    * @param beamSize
+    *   beam size
+    * @param numReturnSequences
+    *   num return sequences
+    * @param temperature
+    *   temperature
+    * @param topK
+    *   top K
+    * @param topP
+    *   top P
+    * @param repetitionPenalty
+    *   repetition penalty
+    * @param noRepeatNgramSize
+    *   no repeat ngram size
+    * @param vocabSize
+    *   vocab size
+    * @param eosTokenId
+    *   eos token id
+    * @param paddingTokenId
+    *   padding token id
+    * @param randomSeed
+    *   random seed
+    * @param ignoreTokenIds
+    *   ignore token ids
+    * @param session
+    *   session
+    * @return
+    *   Array of generated sequences
+    */
+  def generate(
+      inputIds: Seq[Array[Int]],
+      decoderEncoderStateTensors: Tensor,
+      encoderAttentionMaskTensors: Tensor,
+      decoderInputs: Array[Array[Int]],
+      maxOutputLength: Int,
+      minOutputLength: Int,
+      doSample: Boolean,
+      beamSize: Int,
+      numReturnSequences: Int,
+      temperature: Double,
+      topK: Int,
+      topP: Double,
+      repetitionPenalty: Double,
+      noRepeatNgramSize: Int,
+      vocabSize: Int,
+      eosTokenId: Int,
+      paddingTokenId: Int,
+      randomSeed: Option[Long],
+      ignoreTokenIds: Array[Int] = Array(),
+      session: Session): Array[Array[Int]] = {
+
+    // TODO: Add support for ignoreTokenIds
+
+    val logitProcessorList = new LogitProcessorList()
+
+    logitProcessorList.addProcess(new RepetitionPenaltyLogitProcessor(repetitionPenalty))
+
+    logitProcessorList.addProcess(
+      new NoRepeatNgramsLogitProcessor(
+        noRepeatNgramSize = noRepeatNgramSize,
+        vocabSize = vocabSize))
+
+    logitProcessorList.addProcess(
+      new MinLengthLogitProcessor(eosTokenId, minOutputLength, vocabSize))
+
+    logitProcessorList.addProcess(new TemperatureLogitWarper(temperature))
+
+    logitProcessorList.addProcess(new TopKLogitWarper(topK))
+
+    logitProcessorList.addProcess(new TopPLogitWarper(topP))
+
+    val beamSearchScorer = new BeamSearchScorer(
+      beamSize = beamSize,
+      batchSize = inputIds.length,
+      lengthPenalty = repetitionPenalty.toFloat,
+      doEarlyStopping = false,
+      numBeamHypothesisToKeep = numReturnSequences,
+      maxLength = maxOutputLength)
+
+    this.beamSearch(
+      inputIds,
+      decoderInputs,
+      decoderEncoderStateTensors,
+      encoderAttentionMaskTensors,
+      beamSearchScorer,
+      logitProcessorList,
+      maxOutputLength,
+      paddingTokenId,
+      eosTokenId,
+      doSample,
+      randomSeed,
+      session)
+  }
+
+  /** Beam Search for text generation
+    * @param encoderInputIdsVals
+    *   encoder input ids vals
+    * @param inputIdsVal
+    *   input ids val
+    * @param decoderEncoderStateTensors
+    *   decoder encoder state tensors
+    * @param encoderAttentionMaskTensors
+    *   encoder attention mask tensors
+    * @param beamScorer
+    *   beam scorer
+    * @param logitProcessor
+    *   logit processor
+    * @param maxLength
+    *   max length
+    * @param padTokenId
+    *   pad token id
+    * @param eosTokenId
+    *   eos token id
+    * @param doSample
+    *   do sample
+    * @param randomSeed
+    *   random seed
+    * @param session
+    *   session
+    * @return
+    */
   def beamSearch(
       encoderInputIdsVals: Seq[Array[Int]],
       inputIdsVal: Seq[Array[Int]],
@@ -99,7 +247,7 @@ trait Generate {
           nextKTopTokenScores = Array.ofDim[Float](nextKIndices.length, nextKIndices.head.length)
           for (i <- nextKIndices.indices) {
             for (j <- nextKIndices(i).indices) {
-              nextKTopTokenScores(i)(j) = nextTokenScores(i)(nextKIndices(i)(j).toInt)
+              nextKTopTokenScores(i)(j) = nextTokenScores(i)(nextKIndices(i)(j))
             }
           }
           nextKTopTokenScores =
@@ -137,13 +285,13 @@ trait Generate {
         var newInputIds = Seq[Array[Int]]()
 
         for ((i, ind) <- beamIdx.zipWithIndex) {
-          val tempInput = expandedInputs(i.toInt) :+ beamNextTokens(ind)
-          newInputIds = newInputIds :+ (tempInput)
+          val tempInput = expandedInputs(i) :+ beamNextTokens(ind)
+          newInputIds = newInputIds :+ tempInput
         }
         expandedInputs = newInputIds
         beamScores = newBeamScores
         beamIndices = beamIndices.indices.map { elem =>
-          beamIndices(beamIdx(elem).toInt) :+ beamIdx(elem)
+          beamIndices(beamIdx(elem)) :+ beamIdx(elem)
         }
         currentLength = currentLength + 1
         if (beamScorer.isDone || (expandedInputs.head.length >= maxLength)) {
@@ -164,14 +312,6 @@ trait Generate {
       beamIndices = beamIndices)
     sequenceOutputs._1
   }
-
-  def getModelOutput(
-      encoderInputIds: Seq[Array[Int]],
-      decoderInputIds: Seq[Array[Int]],
-      decoderEncoderStateTensors: Tensor,
-      encoderAttentionMaskTensors: Tensor,
-      maxLength: Int,
-      session: Session): Array[Array[Float]]
 
   def logSoftmax(values: Array[Float]): Array[Float] = {
     val c = values.max
@@ -200,26 +340,6 @@ trait Generate {
     }
 
     outputArray // Return the reshaped array
-  }
-
-  def sample(logits: Seq[Float], k: Int, seed: Long = 42): Array[Int] = {
-    val maxLogit = logits.max
-    val logitsExp = logits.map(logit => math.exp(logit - maxLogit))
-    val sumExp = logitsExp.sum
-    val probs = logitsExp.map(exp => exp / sumExp)
-    val SeededRandom = new scala.util.Random(seed)
-    val randSeq = Seq.fill(k)(SeededRandom.nextDouble())
-    var cumProb = 0.0
-    var index = 0
-    var results = Seq[Int]()
-    for (rand <- randSeq) {
-      while (index < probs.length - 1 && cumProb + probs(index) < rand) {
-        cumProb += probs(index)
-        index += 1
-      }
-      results :+= index
-    }
-    results.toArray
   }
 
   def multinomialSampling(logitValues: Array[Float], k: Int, seed: Option[Long]): Array[Int] = {
@@ -257,6 +377,34 @@ trait Generate {
     }
 
     selectedIndices
+  }
+
+  def getModelOutput(
+      encoderInputIds: Seq[Array[Int]],
+      decoderInputIds: Seq[Array[Int]],
+      decoderEncoderStateTensors: Tensor,
+      encoderAttentionMaskTensors: Tensor,
+      maxLength: Int,
+      session: Session): Array[Array[Float]]
+
+  def sample(logits: Seq[Float], k: Int, seed: Long = 42): Array[Int] = {
+    val maxLogit = logits.max
+    val logitsExp = logits.map(logit => math.exp(logit - maxLogit))
+    val sumExp = logitsExp.sum
+    val probs = logitsExp.map(exp => exp / sumExp)
+    val SeededRandom = new scala.util.Random(seed)
+    val randSeq = Seq.fill(k)(SeededRandom.nextDouble())
+    var cumProb = 0.0
+    var index = 0
+    var results = Seq[Int]()
+    for (rand <- randSeq) {
+      while (index < probs.length - 1 && cumProb + probs(index) < rand) {
+        cumProb += probs(index)
+        index += 1
+      }
+      results :+= index
+    }
+    results.toArray
   }
 
   def softmax(logitValues: Array[Float]): Array[Float] = {
