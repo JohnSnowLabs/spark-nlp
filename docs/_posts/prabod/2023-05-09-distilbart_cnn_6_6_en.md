@@ -70,7 +70,6 @@ val bart = BartTransformer.pretrained("distilbart_cnn_6_6")
 ## Benchmarking
 
 ```bash
-```bash
 ### Metrics for DistilBART models
 
 | Model Name                 |   MM Params |   Inference Time (MS) |   Speedup |   Rouge 2 |   Rouge-L |
@@ -85,5 +84,4 @@ val bart = BartTransformer.pretrained("distilbart_cnn_6_6")
 | distilbart-12-3-cnn        |         255 |                   214 |      1.78 |     20.57 |     30.00 |
 | distilbart-12-6-cnn        |         306 |                   307 |      1.24 |     21.26 |     30.59 |
 | distilbart-6-6-cnn         |         230 |                   182 |      2.09 |     20.17 |     29.70 |
-```
 ```
