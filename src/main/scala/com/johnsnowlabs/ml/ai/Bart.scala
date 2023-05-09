@@ -24,7 +24,7 @@ import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.{BartTokenizer, BpeTokenize
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import org.tensorflow.{Session, Tensor}
 
-import scala.collection.JavaConverters.*
+import scala.collection.JavaConverters._
 
 /** This class is used to run Bart model for For Sequence Batches of WordpieceTokenizedSentence.
   * Input for this model must be tokenized with a SentencePieceModel,
@@ -78,20 +78,34 @@ private[johnsnowlabs] class Bart(
   private var nextStateTensor1: Option[org.tensorflow.Tensor] = None
   private var nextStateTensor2: Option[org.tensorflow.Tensor] = None
 
-  /** @param sentences Sequence of WordpieceTokenizedSentence
-    * @param batchSize Batch size
-    * @param minOutputLength Minimum length of output
-    * @param maxOutputLength Maximum length of output
-    * @param doSample Whether to sample or not
-    * @param temperature Temperature for sampling
-    * @param topK Top K for sampling
-    * @param topP Top P for sampling
-    * @param repetitionPenalty Repetition penalty for sampling
-    * @param noRepeatNgramSize No repeat ngram size for sampling
-    * @param task Task
-    * @param randomSeed Random seed
-    * @param ignoreTokenIds Ignore token ids
-    * @param beamSize Beam size
+  /** @param sentences
+    *   Sequence of WordpieceTokenizedSentence
+    * @param batchSize
+    *   Batch size
+    * @param minOutputLength
+    *   Minimum length of output
+    * @param maxOutputLength
+    *   Maximum length of output
+    * @param doSample
+    *   Whether to sample or not
+    * @param temperature
+    *   Temperature for sampling
+    * @param topK
+    *   Top K for sampling
+    * @param topP
+    *   Top P for sampling
+    * @param repetitionPenalty
+    *   Repetition penalty for sampling
+    * @param noRepeatNgramSize
+    *   No repeat ngram size for sampling
+    * @param task
+    *   Task
+    * @param randomSeed
+    *   Random seed
+    * @param ignoreTokenIds
+    *   Ignore token ids
+    * @param beamSize
+    *   Beam size
     * @return
     */
   def predict(
@@ -144,19 +158,32 @@ private[johnsnowlabs] class Bart(
     }
   }
 
-  /** @param batch Sequence of WordpieceTokenizedSentence
-    * @param minOutputLength Minimum length of output
-    * @param maxOutputLength Maximum length of output
-    * @param doSample Whether to sample or not
-    * @param temperature Temperature for sampling
-    * @param topK Top K for sampling
-    * @param topP Top P for sampling
-    * @param repetitionPenalty Repetition penalty for sampling
-    * @param noRepeatNgramSize No repeat ngram size for sampling
-    * @param randomSeed Random seed
-    * @param ignoreTokenIds Ignore token ids
-    * @param beamSize Beam size
-    * @return Sequence of WordpieceTokenizedSentence
+  /** @param batch
+    *   Sequence of WordpieceTokenizedSentence
+    * @param minOutputLength
+    *   Minimum length of output
+    * @param maxOutputLength
+    *   Maximum length of output
+    * @param doSample
+    *   Whether to sample or not
+    * @param temperature
+    *   Temperature for sampling
+    * @param topK
+    *   Top K for sampling
+    * @param topP
+    *   Top P for sampling
+    * @param repetitionPenalty
+    *   Repetition penalty for sampling
+    * @param noRepeatNgramSize
+    *   No repeat ngram size for sampling
+    * @param randomSeed
+    *   Random seed
+    * @param ignoreTokenIds
+    *   Ignore token ids
+    * @param beamSize
+    *   Beam size
+    * @return
+    *   Sequence of WordpieceTokenizedSentence
     */
   def tag(
       batch: Seq[Array[Int]],
@@ -288,21 +315,24 @@ private[johnsnowlabs] class Bart(
     modelOutputs
   }
 
-  /**
-   * Decode a sequence of sentences
-   * @param sentences Sequence of sentences
-   * @return Sequence of decoded sentences
-   */
+  /** Decode a sequence of sentences
+    * @param sentences
+    *   Sequence of sentences
+    * @return
+    *   Sequence of decoded sentences
+    */
   def decode(sentences: Array[Array[Int]]): Seq[String] = {
     sentences.map(s => bpeTokenizer.decodeTokens(s.map(_.toInt)))
   }
 
-  /**
-   * Encode a sequence of sentences
-   * @param sentences Sequence of sentences
-   * @param task Task
-   * @return Sequence of encoded sentences
-   */
+  /** Encode a sequence of sentences
+    * @param sentences
+    *   Sequence of sentences
+    * @param task
+    *   Task
+    * @return
+    *   Sequence of encoded sentences
+    */
   def encode(sentences: Seq[Annotation], task: String): Seq[Array[Int]] = {
     SentenceSplit
       .unpack(sentences)
@@ -317,17 +347,22 @@ private[johnsnowlabs] class Bart(
       })
   }
 
-
-  /**
-   *  Get model output for a batch of input sequences
-   * @param encoderInputIds input ids
-   * @param decoderInputIds decoder input ids
-   * @param decoderEncoderStateTensors encoder state
-   * @param encoderAttentionMaskTensors attention mask
-   * @param maxLength max length
-   * @param session tensorflow session
-   * @return model output
-   */
+  /** Get model output for a batch of input sequences
+    * @param encoderInputIds
+    *   input ids
+    * @param decoderInputIds
+    *   decoder input ids
+    * @param decoderEncoderStateTensors
+    *   encoder state
+    * @param encoderAttentionMaskTensors
+    *   attention mask
+    * @param maxLength
+    *   max length
+    * @param session
+    *   tensorflow session
+    * @return
+    *   model output
+    */
   override def getModelOutput(
       encoderInputIds: Seq[Array[Int]],
       decoderInputIds: Seq[Array[Int]],
