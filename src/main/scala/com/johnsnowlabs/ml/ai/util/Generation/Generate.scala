@@ -320,6 +320,17 @@ trait Generate {
     values.map(x => (x - c - logSumExp).toFloat)
   }
 
+  /** Reshapes a 1D array into a 2D array with the specified number of rows and columns.
+    *
+    * @param inputArray
+    *   The input array to reshape
+    * @param numRows
+    *   The number of rows in the output array
+    * @param numCols
+    *   The number of columns in the output array
+    * @return
+    *   The reshaped array
+    */
   def reshapeArray(
       inputArray: Array[Array[Float]],
       numRows: Int,
@@ -342,6 +353,17 @@ trait Generate {
     outputArray // Return the reshaped array
   }
 
+  /** Samples from a multinomial distribution using the provided logits.
+    *
+    * @param logitValues
+    *   The logits to sample from
+    * @param k
+    *   The number of samples to draw
+    * @param seed
+    *   The random seed to use
+    * @return
+    *   The sampled indices
+    */
   def multinomialSampling(logitValues: Array[Float], k: Int, seed: Option[Long]): Array[Int] = {
     val (distFiltered, indices) =
       logitValues.zipWithIndex.filter { case (elem, index) => !elem.isInfinite }.sorted.unzip
@@ -351,7 +373,6 @@ trait Generate {
     val sumExpLogitValues = expLogitValues.sum
     val probabilities = expLogitValues.map(_ / sumExpLogitValues)
 
-//    val indices = Array.range(0, logitValues.length)
     val selectedIndices = new Array[Int](k)
     var seededRandom = new scala.util.Random()
     if (seed.isDefined) {
@@ -387,6 +408,17 @@ trait Generate {
       maxLength: Int,
       session: Session): Array[Array[Float]]
 
+  /** Samples from a multinomial distribution using the provided logits.
+    *
+    * @param logits
+    *   The logits to sample from
+    * @param k
+    *   The number of samples to draw
+    * @param seed
+    *   The random seed to use
+    * @return
+    *   The sampled indices
+    */
   def sample(logits: Seq[Float], k: Int, seed: Long = 42): Array[Int] = {
     val maxLogit = logits.max
     val logitsExp = logits.map(logit => math.exp(logit - maxLogit))
