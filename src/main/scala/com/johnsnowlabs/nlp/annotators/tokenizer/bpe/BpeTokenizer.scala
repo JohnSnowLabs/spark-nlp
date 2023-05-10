@@ -17,7 +17,7 @@
 package com.johnsnowlabs.nlp.annotators.tokenizer.bpe
 
 import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, Sentence, TokenPiece}
-import org.apache.commons.lang.StringUtils
+import org.apache.commons.lang3.StringUtils
 
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer

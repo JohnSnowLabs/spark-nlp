@@ -18,7 +18,7 @@ package com.johnsnowlabs.nlp.annotators.sbd.pragmatic
 
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.PragmaticDictionaries._
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.PragmaticSymbols._
-import com.johnsnowlabs.nlp.util.regex.MatchStrategy._
+import com.johnsnowlabs.nlp.util.io.MatchStrategy.MATCH_ALL
 import com.johnsnowlabs.nlp.util.regex.TransformStrategy._
 import com.johnsnowlabs.nlp.util.regex.{RegexRule, RuleFactory}
 

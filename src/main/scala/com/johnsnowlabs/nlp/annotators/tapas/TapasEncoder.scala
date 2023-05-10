@@ -187,6 +187,7 @@ class TapasEncoder(
   protected val MAX_YEAR = 2120
 
   protected val MIN_NUMBER_OF_ROWS_WITH_VALUES_PROPORTION = 0.5f
+  protected val MAX_COLUMN_RANK = 255
 
   protected val ORDINAL_SUFFIXES: Array[String] = Array("st", "nd", "rd", "th")
   protected val NUMBER_WORDS: Array[String] = Array(
@@ -525,9 +526,10 @@ class TapasEncoder(
         columnIds = setMaxSentenceLimit(emptyTokenTypes ++ columnIds ++ padding),
         rowIds = setMaxSentenceLimit(emptyTokenTypes ++ rowIds ++ padding),
         prevLabels = setMaxSentenceLimit(emptyTokenTypes ++ prevLabels ++ padding),
-        columnRanks = setMaxSentenceLimit(emptyTokenTypes ++ columnRanks ++ padding),
-        invertedColumnRanks =
-          setMaxSentenceLimit(emptyTokenTypes ++ invertedColumnRanks ++ padding),
+        columnRanks = setMaxSentenceLimit(
+          emptyTokenTypes ++ columnRanks.map(x => scala.math.min(x, MAX_COLUMN_RANK)) ++ padding),
+        invertedColumnRanks = setMaxSentenceLimit(emptyTokenTypes ++ invertedColumnRanks.map(x =>
+          scala.math.min(x, MAX_COLUMN_RANK)) ++ padding),
         numericRelations = setMaxSentenceLimit(emptyTokenTypes ++ numericRelations ++ padding))
     }
 

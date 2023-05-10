@@ -380,7 +380,7 @@ class GPT2Transformer(override val uid: String)
     *
     * @group param
     */
-  val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary")
+  val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary").setProtected()
 
   /** @group setParam */
   def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
@@ -389,7 +389,7 @@ class GPT2Transformer(override val uid: String)
     *
     * @group param
     */
-  val merges: MapFeature[(String, String), Int] = new MapFeature(this, "merges")
+  val merges: MapFeature[(String, String), Int] = new MapFeature(this, "merges").setProtected()
 
   /** @group setParam */
   def setMerges(value: Map[(String, String), Int]): this.type = set(merges, value)

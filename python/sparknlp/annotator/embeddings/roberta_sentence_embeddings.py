@@ -17,11 +17,12 @@ from sparknlp.common import *
 
 
 class RoBertaSentenceEmbeddings(AnnotatorModel,
-                                HasEmbeddingsProperties,
-                                HasCaseSensitiveProperties,
-                                HasStorageRef,
-                                HasBatchedAnnotate,
-                                HasEngine):
+                                     HasEmbeddingsProperties,
+                                     HasCaseSensitiveProperties,
+                                     HasStorageRef,
+                                     HasBatchedAnnotate,
+                                     HasEngine,
+                                     HasMaxSentenceLengthLimit):
     """Sentence-level embeddings using RoBERTa. The RoBERTa model was proposed in RoBERTa: A Robustly Optimized BERT
     Pretraining Approach  by Yinhan Liu, Myle Ott, Naman Goyal, Jingfei Du, Mandar Joshi, Danqi Chen, Omer Levy,
     Mike Lewis, Luke Zettlemoyer, Veselin Stoyanov. It is based on Google's BERT model released in 2018. It builds on
@@ -119,11 +120,6 @@ class RoBertaSentenceEmbeddings(AnnotatorModel,
 
     outputAnnotatorType = AnnotatorType.SENTENCE_EMBEDDINGS
 
-    maxSentenceLength = Param(Params._dummy(),
-                              "maxSentenceLength",
-                              "Max sentence length to process",
-                              typeConverter=TypeConverters.toInt)
-
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
@@ -138,16 +134,6 @@ class RoBertaSentenceEmbeddings(AnnotatorModel,
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
-
-    def setMaxSentenceLength(self, value):
-        """Sets max sentence length to process.
-
-        Parameters
-        ----------
-        value : int
-            Max sentence length to process
-        """
-        return self._set(maxSentenceLength=value)
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.RoBertaSentenceEmbeddings", java_model=None):

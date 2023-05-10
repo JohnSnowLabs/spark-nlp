@@ -18,25 +18,29 @@ import pytest
 
 from sparknlp.annotator import *
 from sparknlp.base import *
+from test.annotator.common.has_max_sentence_length_test import HasMaxSentenceLengthTests
 from test.util import SparkContextForTest
 
 
 @pytest.mark.slow
-class DistilBertForSequenceClassificationTestSpec(unittest.TestCase):
+class DistilBertForSequenceClassificationTestSpec(unittest.TestCase, HasMaxSentenceLengthTests):
     def setUp(self):
         self.data = SparkContextForTest.spark.read.option("header", "true") \
             .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
 
-    def runTest(self):
+        self.tested_annotator = DistilBertForSequenceClassification \
+            .pretrained() \
+            .setInputCols(["document", "token"]) \
+            .setOutputCol("class")
+
+    def test_run(self):
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
 
         tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
 
-        doc_classifier = DistilBertForSequenceClassification.pretrained() \
-            .setInputCols(["document", "token"]) \
-            .setOutputCol("class")
+        doc_classifier = self.tested_annotator
 
         pipeline = Pipeline(stages=[
             document_assembler,
@@ -46,4 +50,3 @@ class DistilBertForSequenceClassificationTestSpec(unittest.TestCase):
 
         model = pipeline.fit(self.data)
         model.transform(self.data).show()
-

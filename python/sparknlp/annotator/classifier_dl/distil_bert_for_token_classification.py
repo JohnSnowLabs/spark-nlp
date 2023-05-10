@@ -19,7 +19,8 @@ from sparknlp.common import *
 class DistilBertForTokenClassification(AnnotatorModel,
                                        HasCaseSensitiveProperties,
                                        HasBatchedAnnotate,
-                                       HasEngine):
+                                       HasEngine,
+                                       HasMaxSentenceLengthLimit):
     """DistilBertForTokenClassification can load Bert Models with a token
     classification head on top (a linear layer on top of the hidden-states
     output) e.g. for Named-Entity-Recognition (NER) tasks.
@@ -96,11 +97,6 @@ class DistilBertForTokenClassification(AnnotatorModel,
 
     outputAnnotatorType = AnnotatorType.NAMED_ENTITY
 
-    maxSentenceLength = Param(Params._dummy(),
-                              "maxSentenceLength",
-                              "Max sentence length to process",
-                              typeConverter=TypeConverters.toInt)
-
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
@@ -121,16 +117,6 @@ class DistilBertForTokenClassification(AnnotatorModel,
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
-
-    def setMaxSentenceLength(self, value):
-        """Sets max sentence length to process, by default 128.
-
-        Parameters
-        ----------
-        value : int
-            Max sentence length to process
-        """
-        return self._set(maxSentenceLength=value)
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForTokenClassification",

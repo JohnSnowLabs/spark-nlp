@@ -44,7 +44,7 @@ class BartTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
 
-    >>> t5 = BartTransformer.pretrained() \\
+    >>> bart = BartTransformer.pretrained() \\
     ...     .setTask("summarize:") \\
     ...     .setInputCols(["document"]) \\
     ...     .setOutputCol("summaries")
@@ -95,7 +95,8 @@ class BartTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         If set to int > 0, all ngrams of that size can only occur once, by default `0`.
     ignoreTokenIds
        A list of token ids which are ignored in the decoder's output, by default `[]`.
-
+    useCache
+        Whether or not to use cache, by default `False`.
     Notes
     -----
     This is a very computationally expensive module especially on larger
@@ -208,6 +209,8 @@ class BartTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     beamSize = Param(Params._dummy(), "beamSize",
                      "The Number of beams for beam search.",
                      typeConverter=TypeConverters.toInt)
+
+    useCache = Param(Params._dummy(), "useCache", "Use caching to enhance performance", typeConverter=TypeConverters.toBoolean)
 
     def setIgnoreTokenIds(self, value):
         """A list of token ids which are ignored in the decoder's output, by default `[]`.
@@ -340,6 +343,16 @@ class BartTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         """
         return self._set(beamSize=value)
 
+    def setCache(self, value):
+        """Sets whether or not to use caching to enhance performance, by default `False`.
+
+        Parameters
+        ----------
+        value : bool
+            Whether or not to use caching to enhance performance
+        """
+        return self._set(useCache=value)
+
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.seq2seq.BartTransformer", java_model=None):
         super(BartTransformer, self).__init__(
@@ -358,11 +371,12 @@ class BartTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
             noRepeatNgramSize=0,
             ignoreTokenIds=[],
             batchSize=1,
-            beamSize=4
+            beamSize=4,
+            useCache=False,
         )
 
     @staticmethod
-    def loadSavedModel(folder, spark_session):
+    def loadSavedModel(folder, spark_session, use_cache=False):
         """Loads a locally saved model.
 
         Parameters
@@ -371,6 +385,8 @@ class BartTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
             Folder of the saved model
         spark_session : pyspark.sql.SparkSession
             The current SparkSession
+        use_cache: bool
+            The model uses caching to facilitate performance
 
         Returns
         -------
@@ -378,7 +394,7 @@ class BartTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
             The restored model
         """
         from sparknlp.internal import _BartLoader
-        jModel = _BartLoader(folder, spark_session._jsparkSession)._java_obj
+        jModel = _BartLoader(folder, spark_session._jsparkSession, use_cache)._java_obj
         return BartTransformer(java_model=jModel)
 
     @staticmethod

@@ -20,7 +20,8 @@ class DeBertaEmbeddings(AnnotatorModel,
                         HasCaseSensitiveProperties,
                         HasStorageRef,
                         HasBatchedAnnotate,
-                        HasEngine):
+                        HasEngine,
+                        HasMaxSentenceLengthLimit):
     """The DeBERTa model was proposed in DeBERTa: Decoding-enhanced BERT with
     Disentangled Attention by Pengcheng He, Xiaodong Liu, Jianfeng Gao, Weizhu
     Chen It is based on Google’s BERT model released in 2018 and Facebook’s
@@ -141,11 +142,6 @@ class DeBertaEmbeddings(AnnotatorModel,
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
                              TypeConverters.toListInt)
 
-    maxSentenceLength = Param(Params._dummy(),
-                              "maxSentenceLength",
-                              "Max sentence length to process",
-                              typeConverter=TypeConverters.toInt)
-
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
 
@@ -155,16 +151,6 @@ class DeBertaEmbeddings(AnnotatorModel,
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
-
-    def setMaxSentenceLength(self, value):
-        """Sets max sentence length to process.
-
-        Parameters
-        ----------
-        value : int
-            Max sentence length to process
-        """
-        return self._set(maxSentenceLength=value)
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.DeBertaEmbeddings", java_model=None):

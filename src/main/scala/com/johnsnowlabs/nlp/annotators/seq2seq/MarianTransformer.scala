@@ -48,6 +48,10 @@ import org.apache.spark.sql.SparkSession
   * It is currently the engine behind the Microsoft Translator Neural Machine Translation services
   * and being deployed by many companies, organizations and research projects.
   *
+  * Note that this model only supports inputs up to 512 tokens. If you are working with longer
+  * inputs, consider splitting them first. For example, you can use the SentenceDetectorDL
+  * annotator to split longer texts into sentences first.
+  *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{
   * val marian = MarianTransformer.pretrained()
@@ -277,7 +281,8 @@ class MarianTransformer(override val uid: String)
     *
     * @group param
     */
-  val signatures = new MapFeature[String, String](model = this, name = "signatures")
+  val signatures =
+    new MapFeature[String, String](model = this, name = "signatures").setProtected()
 
   /** @group setParam */
   def setSignatures(value: Map[String, String]): this.type = {

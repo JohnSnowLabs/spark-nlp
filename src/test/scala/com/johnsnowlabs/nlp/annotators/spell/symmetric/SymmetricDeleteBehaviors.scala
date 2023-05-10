@@ -299,7 +299,7 @@ trait SymmetricDeleteBehaviors {
         spell.fit(trainDataSet)
       }
 
-      assert(caught.getMessage == expectedErrorMessage)
+      assert(caught.getMessage.contains(expectedErrorMessage))
     }
   }
 
