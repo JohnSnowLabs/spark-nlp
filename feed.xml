@@ -1,5 +1,497 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-05-10T16:03:45+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
-</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">DistilBERTZero-Shot Classification Base - distilbert_base_zero_shot_classifier_turkish_cased_allnli</title><link href="/2023/04/20/distilbert_base_zero_shot_classifier_turkish_cased_allnli_tr.html" rel="alternate" type="text/html" title="DistilBERTZero-Shot Classification Base - distilbert_base_zero_shot_classifier_turkish_cased_allnli" /><published>2023-04-20T00:00:00+00:00</published><updated>2023-04-20T00:00:00+00:00</updated><id>/2023/04/20/distilbert_base_zero_shot_classifier_turkish_cased_allnli_tr</id><content type="html" xml:base="/2023/04/20/distilbert_base_zero_shot_classifier_turkish_cased_allnli_tr.html">## Description
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-05-10T19:24:22+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">BART (large-sized model), fine-tuned on CNN Daily Mail</title><link href="/2023/05/09/bart_large_cnn_en.html" rel="alternate" type="text/html" title="BART (large-sized model), fine-tuned on CNN Daily Mail" /><published>2023-05-09T00:00:00+00:00</published><updated>2023-05-09T00:00:00+00:00</updated><id>/2023/05/09/bart_large_cnn_en</id><content type="html" xml:base="/2023/05/09/bart_large_cnn_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;BART model pre-trained on English language, and fine-tuned on &lt;a href=&quot;https://huggingface.co/datasets/cnn_dailymail&quot;&gt;CNN Daily Mail&lt;/a&gt;. It was introduced in the paper &lt;a href=&quot;https://arxiv.org/abs/1910.13461&quot;&gt;BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension&lt;/a&gt; by Lewis et al. and first released in [this repository (https://github.com/pytorch/fairseq/tree/master/examples/bart).&lt;/p&gt;
+
+&lt;p&gt;Disclaimer: The team releasing BART did not write a model card for this model so this model card has been written by the Hugging Face team.&lt;/p&gt;
+
+&lt;h3 id=&quot;model-description&quot;&gt;Model description&lt;/h3&gt;
+
+&lt;p&gt;BART is a transformer encoder-encoder (seq2seq) model with a bidirectional (BERT-like) encoder and an autoregressive (GPT-like) decoder. BART is pre-trained by (1) corrupting text with an arbitrary noising function, and (2) learning a model to reconstruct the original text.&lt;/p&gt;
+
+&lt;p&gt;BART is particularly effective when fine-tuned for text generation (e.g. summarization, translation) but also works well for comprehension tasks (e.g. text classification, question answering). This particular checkpoint has been fine-tuned on CNN Daily Mail, a large collection of text-summary pairs.&lt;/p&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bart_large_cnn_en_4.4.2_3.0_1683645394389.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/bart_large_cnn_en_4.4.2_3.0_1683645394389.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;p&gt;You can use this model for text summarization.&lt;/p&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;bart&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BartTransformer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bart_large_cnn&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setTask&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;summarize:&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setMaxOutputLength&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;summaries&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;bart&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;BartTransformer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bart_large_cnn&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setTask&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;summarize:&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setMaxOutputLength&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;summaries&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;bart_large_cnn&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 4.4.2+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;975.3 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="bart" /><category term="summarization" /><category term="cnn" /><category term="text_to_text" /><category term="en" /><category term="open_source" /><category term="tensorflow" /><summary type="html">Description BART model pre-trained on English language, and fine-tuned on CNN Daily Mail. It was introduced in the paper BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension by Lewis et al. and first released in [this repository (https://github.com/pytorch/fairseq/tree/master/examples/bart). Disclaimer: The team releasing BART did not write a model card for this model so this model card has been written by the Hugging Face team. Model description BART is a transformer encoder-encoder (seq2seq) model with a bidirectional (BERT-like) encoder and an autoregressive (GPT-like) decoder. BART is pre-trained by (1) corrupting text with an arbitrary noising function, and (2) learning a model to reconstruct the original text. BART is particularly effective when fine-tuned for text generation (e.g. summarization, translation) but also works well for comprehension tasks (e.g. text classification, question answering). This particular checkpoint has been fine-tuned on CNN Daily Mail, a large collection of text-summary pairs. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use You can use this model for text summarization. PythonScalaNLU bart = BartTransformer.pretrained(&quot;bart_large_cnn&quot;) \ .setTask(&quot;summarize:&quot;) \ .setMaxOutputLength(200) \ .setInputCols([&quot;documents&quot;]) \ .setOutputCol(&quot;summaries&quot;) val bart = BartTransformer.pretrained(&quot;bart_large_cnn&quot;) .setTask(&quot;summarize:&quot;) .setMaxOutputLength(200) .setInputCols(&quot;documents&quot;) .setOutputCol(&quot;summaries&quot;) Model Information Model Name: bart_large_cnn Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: en Size: 975.3 MB</summary></entry><entry><title type="html">Abstractive Summarization by BART - DistilBART CNN</title><link href="/2023/05/09/distilbart_cnn_12_6_en.html" rel="alternate" type="text/html" title="Abstractive Summarization by BART - DistilBART CNN" /><published>2023-05-09T00:00:00+00:00</published><updated>2023-05-09T00:00:00+00:00</updated><id>/2023/05/09/distilbart_cnn_12_6_en</id><content type="html" xml:base="/2023/05/09/distilbart_cnn_12_6_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;“BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension Transformer” The Facebook BART (Bidirectional and Auto-Regressive Transformer) model is a state-of-the-art language generation model that was introduced by Facebook AI in 2019. It is based on the transformer architecture and is designed to handle a wide range of natural language processing tasks such as text generation, summarization, and machine translation.&lt;/p&gt;
+
+&lt;p&gt;This pre-trained model is DistilBART fine-tuned on the Extreme Summarization (CNN) Dataset.&lt;/p&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbart_cnn_12_6_en_4.4.2_3.0_1683644937231.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/distilbart_cnn_12_6_en_4.4.2_3.0_1683644937231.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;bart&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BartTransformer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;distilbart_cnn_12_6&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setTask&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;summarize:&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setMaxOutputLength&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;summaries&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;bart&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;BartTransformer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;distilbart_cnn_12_6&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setTask&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;summarize:&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setMaxOutputLength&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;summaries&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;distilbart_cnn_12_6&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 4.4.2+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;870.4 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;### Metrics for DistilBART models&lt;/span&gt;
+| Model Name                 |   MM Params |   Inference Time &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;MS&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; |   Speedup |   Rouge 2 |   Rouge-L |
+|:---------------------------|------------:|----------------------:|----------:|----------:|----------:|
+| distilbart-xsum-12-1       |         222 |                    90 |      2.54 |     18.31 |     33.37 |
+| distilbart-xsum-6-6        |         230 |                   132 |      1.73 |     20.92 |     35.73 |
+| distilbart-xsum-12-3       |         255 |                   106 |      2.16 |     21.37 |     36.39 |
+| distilbart-xsum-9-6        |         268 |                   136 |      1.68 |     21.72 |     36.61 |
+| bart-large-xsum &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;baseline&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; |         406 |                   229 |      1    |     21.85 |     36.50 |
+| distilbart-xsum-12-6       |         306 |                   137 |      1.68 |     22.12 |     36.99 |
+| bart-large-cnn &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;baseline&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;  |         406 |                   381 |      1    |     21.06 |     30.63 |
+| distilbart-12-3-cnn        |         255 |                   214 |      1.78 |     20.57 |     30.00 |
+| distilbart-12-6-cnn        |         306 |                   307 |      1.24 |     21.26 |     30.59 |
+| distilbart-6-6-cnn         |         230 |                   182 |      2.09 |     20.17 |     29.70 |
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="bart" /><category term="summarization" /><category term="cnn" /><category term="distill" /><category term="text_to_text" /><category term="en" /><category term="open_source" /><category term="tensorflow" /><summary type="html">Description “BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension Transformer” The Facebook BART (Bidirectional and Auto-Regressive Transformer) model is a state-of-the-art language generation model that was introduced by Facebook AI in 2019. It is based on the transformer architecture and is designed to handle a wide range of natural language processing tasks such as text generation, summarization, and machine translation. This pre-trained model is DistilBART fine-tuned on the Extreme Summarization (CNN) Dataset. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU bart = BartTransformer.pretrained(&quot;distilbart_cnn_12_6&quot;) \ .setTask(&quot;summarize:&quot;) \ .setMaxOutputLength(200) \ .setInputCols([&quot;documents&quot;]) \ .setOutputCol(&quot;summaries&quot;) val bart = BartTransformer.pretrained(&quot;distilbart_cnn_12_6&quot;) .setTask(&quot;summarize:&quot;) .setMaxOutputLength(200) .setInputCols(&quot;documents&quot;) .setOutputCol(&quot;summaries&quot;) Model Information Model Name: distilbart_cnn_12_6 Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: en Size: 870.4 MB Benchmarking ### Metrics for DistilBART models | Model Name | MM Params | Inference Time (MS) | Speedup | Rouge 2 | Rouge-L | |:---------------------------|------------:|----------------------:|----------:|----------:|----------:| | distilbart-xsum-12-1 | 222 | 90 | 2.54 | 18.31 | 33.37 | | distilbart-xsum-6-6 | 230 | 132 | 1.73 | 20.92 | 35.73 | | distilbart-xsum-12-3 | 255 | 106 | 2.16 | 21.37 | 36.39 | | distilbart-xsum-9-6 | 268 | 136 | 1.68 | 21.72 | 36.61 | | bart-large-xsum (baseline) | 406 | 229 | 1 | 21.85 | 36.50 | | distilbart-xsum-12-6 | 306 | 137 | 1.68 | 22.12 | 36.99 | | bart-large-cnn (baseline) | 406 | 381 | 1 | 21.06 | 30.63 | | distilbart-12-3-cnn | 255 | 214 | 1.78 | 20.57 | 30.00 | | distilbart-12-6-cnn | 306 | 307 | 1.24 | 21.26 | 30.59 | | distilbart-6-6-cnn | 230 | 182 | 2.09 | 20.17 | 29.70 |</summary></entry><entry><title type="html">Abstractive Summarization by BART - DistilBART CNN</title><link href="/2023/05/09/distilbart_cnn_6_6_en.html" rel="alternate" type="text/html" title="Abstractive Summarization by BART - DistilBART CNN" /><published>2023-05-09T00:00:00+00:00</published><updated>2023-05-09T00:00:00+00:00</updated><id>/2023/05/09/distilbart_cnn_6_6_en</id><content type="html" xml:base="/2023/05/09/distilbart_cnn_6_6_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;“BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension Transformer” The Facebook BART (Bidirectional and Auto-Regressive Transformer) model is a state-of-the-art language generation model that was introduced by Facebook AI in 2019. It is based on the transformer architecture and is designed to handle a wide range of natural language processing tasks such as text generation, summarization, and machine translation.&lt;/p&gt;
+
+&lt;p&gt;This pre-trained model is DistilBART fine-tuned on the Extreme Summarization (CNN) Dataset.&lt;/p&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbart_cnn_6_6_en_4.4.2_3.0_1683645206157.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/distilbart_cnn_6_6_en_4.4.2_3.0_1683645206157.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;bart&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BartTransformer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;distilbart_cnn_6_6&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setTask&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;summarize:&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setMaxOutputLength&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;summaries&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;bart&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;BartTransformer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;distilbart_cnn_6_6&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setTask&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;summarize:&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setMaxOutputLength&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;summaries&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;distilbart_cnn_6_6&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 4.4.2+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;551.9 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;### Metrics for DistilBART models&lt;/span&gt;
+| Model Name                 |   MM Params |   Inference Time &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;MS&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; |   Speedup |   Rouge 2 |   Rouge-L |
+|:---------------------------|------------:|----------------------:|----------:|----------:|----------:|
+| distilbart-xsum-12-1       |         222 |                    90 |      2.54 |     18.31 |     33.37 |
+| distilbart-xsum-6-6        |         230 |                   132 |      1.73 |     20.92 |     35.73 |
+| distilbart-xsum-12-3       |         255 |                   106 |      2.16 |     21.37 |     36.39 |
+| distilbart-xsum-9-6        |         268 |                   136 |      1.68 |     21.72 |     36.61 |
+| bart-large-xsum &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;baseline&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; |         406 |                   229 |      1    |     21.85 |     36.50 |
+| distilbart-xsum-12-6       |         306 |                   137 |      1.68 |     22.12 |     36.99 |
+| bart-large-cnn &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;baseline&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;  |         406 |                   381 |      1    |     21.06 |     30.63 |
+| distilbart-12-3-cnn        |         255 |                   214 |      1.78 |     20.57 |     30.00 |
+| distilbart-12-6-cnn        |         306 |                   307 |      1.24 |     21.26 |     30.59 |
+| distilbart-6-6-cnn         |         230 |                   182 |      2.09 |     20.17 |     29.70 |
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="bart" /><category term="summarization" /><category term="cnn" /><category term="distil" /><category term="text_to_text" /><category term="en" /><category term="open_source" /><category term="tensorflow" /><summary type="html">Description “BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension Transformer” The Facebook BART (Bidirectional and Auto-Regressive Transformer) model is a state-of-the-art language generation model that was introduced by Facebook AI in 2019. It is based on the transformer architecture and is designed to handle a wide range of natural language processing tasks such as text generation, summarization, and machine translation. This pre-trained model is DistilBART fine-tuned on the Extreme Summarization (CNN) Dataset. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU bart = BartTransformer.pretrained(&quot;distilbart_cnn_6_6&quot;) \ .setTask(&quot;summarize:&quot;) \ .setMaxOutputLength(200) \ .setInputCols([&quot;documents&quot;]) \ .setOutputCol(&quot;summaries&quot;) val bart = BartTransformer.pretrained(&quot;distilbart_cnn_6_6&quot;) .setTask(&quot;summarize:&quot;) .setMaxOutputLength(200) .setInputCols(&quot;documents&quot;) .setOutputCol(&quot;summaries&quot;) Model Information Model Name: distilbart_cnn_6_6 Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: en Size: 551.9 MB Benchmarking ### Metrics for DistilBART models | Model Name | MM Params | Inference Time (MS) | Speedup | Rouge 2 | Rouge-L | |:---------------------------|------------:|----------------------:|----------:|----------:|----------:| | distilbart-xsum-12-1 | 222 | 90 | 2.54 | 18.31 | 33.37 | | distilbart-xsum-6-6 | 230 | 132 | 1.73 | 20.92 | 35.73 | | distilbart-xsum-12-3 | 255 | 106 | 2.16 | 21.37 | 36.39 | | distilbart-xsum-9-6 | 268 | 136 | 1.68 | 21.72 | 36.61 | | bart-large-xsum (baseline) | 406 | 229 | 1 | 21.85 | 36.50 | | distilbart-xsum-12-6 | 306 | 137 | 1.68 | 22.12 | 36.99 | | bart-large-cnn (baseline) | 406 | 381 | 1 | 21.06 | 30.63 | | distilbart-12-3-cnn | 255 | 214 | 1.78 | 20.57 | 30.00 | | distilbart-12-6-cnn | 306 | 307 | 1.24 | 21.26 | 30.59 | | distilbart-6-6-cnn | 230 | 182 | 2.09 | 20.17 | 29.70 |</summary></entry><entry><title type="html">Abstractive Summarization by BART - DistilBART XSUM</title><link href="/2023/05/09/distilbart_xsum_12_6_en.html" rel="alternate" type="text/html" title="Abstractive Summarization by BART - DistilBART XSUM" /><published>2023-05-09T00:00:00+00:00</published><updated>2023-05-09T00:00:00+00:00</updated><id>/2023/05/09/distilbart_xsum_12_6_en</id><content type="html" xml:base="/2023/05/09/distilbart_xsum_12_6_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;“BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension Transformer” The Facebook BART (Bidirectional and Auto-Regressive Transformer) model is a state-of-the-art language generation model that was introduced by Facebook AI in 2019. It is based on the transformer architecture and is designed to handle a wide range of natural language processing tasks such as text generation, summarization, and machine translation.&lt;/p&gt;
+
+&lt;p&gt;This pre-trained model is DistilBART fine-tuned on the Extreme Summarization (XSum) Dataset.&lt;/p&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbart_xsum_12_6_en_4.4.2_3.0_1683644681912.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/distilbart_xsum_12_6_en_4.4.2_3.0_1683644681912.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;bart&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BartTransformer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;distilbart_xsum_12_6&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setTask&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;summarize:&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setMaxOutputLength&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;summaries&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;bart&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;BartTransformer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;distilbart_xsum_12_6&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setTask&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;summarize:&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setMaxOutputLength&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;summaries&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;distilbart_xsum_12_6&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 4.4.2+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;733.7 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+
+&lt;p&gt;https://huggingface.co/sshleifer/distilbart-xsum-12-6&lt;/p&gt;
+
+&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;### Metrics for DistilBART models&lt;/span&gt;
+
+| Model Name                 |   MM Params |   Inference Time &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;MS&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; |   Speedup |   Rouge 2 |   Rouge-L |
+|:---------------------------|------------:|----------------------:|----------:|----------:|----------:|
+| distilbart-xsum-12-1       |         222 |                    90 |      2.54 |     18.31 |     33.37 |
+| distilbart-xsum-6-6        |         230 |                   132 |      1.73 |     20.92 |     35.73 |
+| distilbart-xsum-12-3       |         255 |                   106 |      2.16 |     21.37 |     36.39 |
+| distilbart-xsum-9-6        |         268 |                   136 |      1.68 |     21.72 |     36.61 |
+| bart-large-xsum &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;baseline&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; |         406 |                   229 |      1    |     21.85 |     36.50 |
+| distilbart-xsum-12-6       |         306 |                   137 |      1.68 |     22.12 |     36.99 |
+| bart-large-cnn &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;baseline&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;  |         406 |                   381 |      1    |     21.06 |     30.63 |
+| distilbart-12-3-cnn        |         255 |                   214 |      1.78 |     20.57 |     30.00 |
+| distilbart-12-6-cnn        |         306 |                   307 |      1.24 |     21.26 |     30.59 |
+| distilbart-6-6-cnn         |         230 |                   182 |      2.09 |     20.17 |     29.70 |
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="bart" /><category term="summarization" /><category term="text_to_text" /><category term="xsum" /><category term="distil" /><category term="en" /><category term="open_source" /><category term="tensorflow" /><summary type="html">Description “BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension Transformer” The Facebook BART (Bidirectional and Auto-Regressive Transformer) model is a state-of-the-art language generation model that was introduced by Facebook AI in 2019. It is based on the transformer architecture and is designed to handle a wide range of natural language processing tasks such as text generation, summarization, and machine translation. This pre-trained model is DistilBART fine-tuned on the Extreme Summarization (XSum) Dataset. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU bart = BartTransformer.pretrained(&quot;distilbart_xsum_12_6&quot;) \ .setTask(&quot;summarize:&quot;) \ .setMaxOutputLength(200) \ .setInputCols([&quot;documents&quot;]) \ .setOutputCol(&quot;summaries&quot;) val bart = BartTransformer.pretrained(&quot;distilbart_xsum_12_6&quot;) .setTask(&quot;summarize:&quot;) .setMaxOutputLength(200) .setInputCols(&quot;documents&quot;) .setOutputCol(&quot;summaries&quot;) Model Information Model Name: distilbart_xsum_12_6 Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: en Size: 733.7 MB References https://huggingface.co/sshleifer/distilbart-xsum-12-6 Benchmarking ### Metrics for DistilBART models | Model Name | MM Params | Inference Time (MS) | Speedup | Rouge 2 | Rouge-L | |:---------------------------|------------:|----------------------:|----------:|----------:|----------:| | distilbart-xsum-12-1 | 222 | 90 | 2.54 | 18.31 | 33.37 | | distilbart-xsum-6-6 | 230 | 132 | 1.73 | 20.92 | 35.73 | | distilbart-xsum-12-3 | 255 | 106 | 2.16 | 21.37 | 36.39 | | distilbart-xsum-9-6 | 268 | 136 | 1.68 | 21.72 | 36.61 | | bart-large-xsum (baseline) | 406 | 229 | 1 | 21.85 | 36.50 | | distilbart-xsum-12-6 | 306 | 137 | 1.68 | 22.12 | 36.99 | | bart-large-cnn (baseline) | 406 | 381 | 1 | 21.06 | 30.63 | | distilbart-12-3-cnn | 255 | 214 | 1.78 | 20.57 | 30.00 | | distilbart-12-6-cnn | 306 | 307 | 1.24 | 21.26 | 30.59 | | distilbart-6-6-cnn | 230 | 182 | 2.09 | 20.17 | 29.70 |</summary></entry><entry><title type="html">Abstractive Summarization by BART - DistilBART XSUM</title><link href="/2023/05/09/distilbart_xsum_6_6_en.html" rel="alternate" type="text/html" title="Abstractive Summarization by BART - DistilBART XSUM" /><published>2023-05-09T00:00:00+00:00</published><updated>2023-05-09T00:00:00+00:00</updated><id>/2023/05/09/distilbart_xsum_6_6_en</id><content type="html" xml:base="/2023/05/09/distilbart_xsum_6_6_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;“BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension Transformer” The Facebook BART (Bidirectional and Auto-Regressive Transformer) model is a state-of-the-art language generation model that was introduced by Facebook AI in 2019. It is based on the transformer architecture and is designed to handle a wide range of natural language processing tasks such as text generation, summarization, and machine translation.&lt;/p&gt;
+
+&lt;p&gt;This pre-trained model is DistilBART fine-tuned on the Extreme Summarization (XSum) Dataset.&lt;/p&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbart_xsum_6_6_en_4.4.2_3.0_1683644259136.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/distilbart_xsum_6_6_en_4.4.2_3.0_1683644259136.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;bart&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BartTransformer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;distilbart_xsum_6_6&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setTask&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;summarize:&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setMaxOutputLength&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;summaries&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;bart&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;BartTransformer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;distilbart_xsum_6_6&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setTask&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;summarize:&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setMaxOutputLength&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;documents&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;summaries&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;distilbart_xsum_6_6&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 4.4.2+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;551.7 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+
+&lt;p&gt;https://huggingface.co/sshleifer/distilbart-xsum-6-6&lt;/p&gt;
+
+&lt;h2 id=&quot;benchmarking&quot;&gt;Benchmarking&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;### Metrics for DistilBART models&lt;/span&gt;
+
+| Model Name                 |   MM Params |   Inference Time &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;MS&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; |   Speedup |   Rouge 2 |   Rouge-L |
+|:---------------------------|------------:|----------------------:|----------:|----------:|----------:|
+| distilbart-xsum-12-1       |         222 |                    90 |      2.54 |     18.31 |     33.37 |
+| distilbart-xsum-6-6        |         230 |                   132 |      1.73 |     20.92 |     35.73 |
+| distilbart-xsum-12-3       |         255 |                   106 |      2.16 |     21.37 |     36.39 |
+| distilbart-xsum-9-6        |         268 |                   136 |      1.68 |     21.72 |     36.61 |
+| bart-large-xsum &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;baseline&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; |         406 |                   229 |      1    |     21.85 |     36.50 |
+| distilbart-xsum-12-6       |         306 |                   137 |      1.68 |     22.12 |     36.99 |
+| bart-large-cnn &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;baseline&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;  |         406 |                   381 |      1    |     21.06 |     30.63 |
+| distilbart-12-3-cnn        |         255 |                   214 |      1.78 |     20.57 |     30.00 |
+| distilbart-12-6-cnn        |         306 |                   307 |      1.24 |     21.26 |     30.59 |
+| distilbart-6-6-cnn         |         230 |                   182 |      2.09 |     20.17 |     29.70 |
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>John Snow Labs</name></author><category term="bart" /><category term="summarization" /><category term="xsum" /><category term="distil" /><category term="text_to_text" /><category term="en" /><category term="open_source" /><category term="tensorflow" /><summary type="html">Description “BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension Transformer” The Facebook BART (Bidirectional and Auto-Regressive Transformer) model is a state-of-the-art language generation model that was introduced by Facebook AI in 2019. It is based on the transformer architecture and is designed to handle a wide range of natural language processing tasks such as text generation, summarization, and machine translation. This pre-trained model is DistilBART fine-tuned on the Extreme Summarization (XSum) Dataset. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU bart = BartTransformer.pretrained(&quot;distilbart_xsum_6_6&quot;) \ .setTask(&quot;summarize:&quot;) \ .setMaxOutputLength(200) \ .setInputCols([&quot;documents&quot;]) \ .setOutputCol(&quot;summaries&quot;) val bart = BartTransformer.pretrained(&quot;distilbart_xsum_6_6&quot;) .setTask(&quot;summarize:&quot;) .setMaxOutputLength(200) .setInputCols(&quot;documents&quot;) .setOutputCol(&quot;summaries&quot;) Model Information Model Name: distilbart_xsum_6_6 Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: en Size: 551.7 MB References https://huggingface.co/sshleifer/distilbart-xsum-6-6 Benchmarking ### Metrics for DistilBART models | Model Name | MM Params | Inference Time (MS) | Speedup | Rouge 2 | Rouge-L | |:---------------------------|------------:|----------------------:|----------:|----------:|----------:| | distilbart-xsum-12-1 | 222 | 90 | 2.54 | 18.31 | 33.37 | | distilbart-xsum-6-6 | 230 | 132 | 1.73 | 20.92 | 35.73 | | distilbart-xsum-12-3 | 255 | 106 | 2.16 | 21.37 | 36.39 | | distilbart-xsum-9-6 | 268 | 136 | 1.68 | 21.72 | 36.61 | | bart-large-xsum (baseline) | 406 | 229 | 1 | 21.85 | 36.50 | | distilbart-xsum-12-6 | 306 | 137 | 1.68 | 22.12 | 36.99 | | bart-large-cnn (baseline) | 406 | 381 | 1 | 21.06 | 30.63 | | distilbart-12-3-cnn | 255 | 214 | 1.78 | 20.57 | 30.00 | | distilbart-12-6-cnn | 306 | 307 | 1.24 | 21.26 | 30.59 | | distilbart-6-6-cnn | 230 | 182 | 2.09 | 20.17 | 29.70 |</summary></entry><entry><title type="html">RoBertaZero-Shot Classification Base roberta_base_zero_shot_classifier_nli</title><link href="/2023/05/04/roberta_base_zero_shot_classifier_nli_en.html" rel="alternate" type="text/html" title="RoBertaZero-Shot Classification Base roberta_base_zero_shot_classifier_nli" /><published>2023-05-04T00:00:00+00:00</published><updated>2023-05-04T00:00:00+00:00</updated><id>/2023/05/04/roberta_base_zero_shot_classifier_nli_en</id><content type="html" xml:base="/2023/05/04/roberta_base_zero_shot_classifier_nli_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;This model is intended to be used for zero-shot text classification, especially in English. It is fine-tuned on NLI by using Roberta Base  model.&lt;/p&gt;
+
+&lt;p&gt;RoBertaForZeroShotClassificationusing a ModelForSequenceClassification trained on NLI (natural language inference) tasks. Equivalent of RoBertaForZeroShotClassification models, but these models don’t require a hardcoded number of potential classes, they can be chosen at runtime. It usually means it’s slower but it is much more flexible.&lt;/p&gt;
+
+&lt;p&gt;We used TFRobertaForSequenceClassification to train this model and used RoBertaForZeroShotClassification annotator in Spark NLP 🚀 for prediction at scale!&lt;/p&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/roberta_base_zero_shot_classifier_nli_en_4.4.2_3.0_1683228241365.zip&quot; class=&quot;button button-orange&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/roberta_base_zero_shot_classifier_nli_en_4.4.2_3.0_1683228241365.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'text'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'document'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'document'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'token'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;zeroShotClassifier&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;RobertaForSequenceClassification&lt;/span&gt; \
+&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'roberta_base_zero_shot_classifier_nli'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'en'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'token'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'document'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'class'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setCaseSensitive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setMaxSentenceLength&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;512&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setCandidateLabels&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;urgent&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;mobile&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;travel&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;movie&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;music&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;sport&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;weather&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;technology&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;zeroShotClassifier&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;example&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'I have a problem with my iphone that needs to be resolved asap!!'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;example&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;example&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;zeroShotClassifier&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;RobertaForSequenceClassification&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;roberta_base_zero_shot_classifier_nli&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;class&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setCaseSensitive&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setMaxSentenceLength&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;512&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setCandidateLabels&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;urgent&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;mobile&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;travel&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;movie&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;music&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;sport&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;weather&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;technology&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;zeroShotClassifier&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;example&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Seq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;I have a problem with my iphone that needs to be resolved asap!!&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;toDS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;example&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;example&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;roberta_base_zero_shot_classifier_nli&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 4.4.2+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[token, document]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[multi_class]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;466.4 MB&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Case sensitive:&lt;/td&gt;
+      &lt;td&gt;true&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="tensorflow" /><summary type="html">Description This model is intended to be used for zero-shot text classification, especially in English. It is fine-tuned on NLI by using Roberta Base model. RoBertaForZeroShotClassificationusing a ModelForSequenceClassification trained on NLI (natural language inference) tasks. Equivalent of RoBertaForZeroShotClassification models, but these models don’t require a hardcoded number of potential classes, they can be chosen at runtime. It usually means it’s slower but it is much more flexible. We used TFRobertaForSequenceClassification to train this model and used RoBertaForZeroShotClassification annotator in Spark NLP 🚀 for prediction at scale! Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU document_assembler = DocumentAssembler() \ .setInputCol('text') \ .setOutputCol('document') tokenizer = Tokenizer() \ .setInputCols(['document']) \ .setOutputCol('token') zeroShotClassifier = RobertaForSequenceClassification \ .pretrained('roberta_base_zero_shot_classifier_nli', 'en') \ .setInputCols(['token', 'document']) \ .setOutputCol('class') \ .setCaseSensitive(True) \ .setMaxSentenceLength(512) \ .setCandidateLabels([&quot;urgent&quot;, &quot;mobile&quot;, &quot;travel&quot;, &quot;movie&quot;, &quot;music&quot;, &quot;sport&quot;, &quot;weather&quot;, &quot;technology&quot;]) pipeline = Pipeline(stages=[ document_assembler, tokenizer, zeroShotClassifier ]) example = spark.createDataFrame([['I have a problem with my iphone that needs to be resolved asap!!']]).toDF(&quot;text&quot;) result = pipeline.fit(example).transform(example) val document_assembler = DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val tokenizer = Tokenizer() .setInputCols(&quot;document&quot;) .setOutputCol(&quot;token&quot;) val zeroShotClassifier = RobertaForSequenceClassification.pretrained(&quot;roberta_base_zero_shot_classifier_nli&quot;, &quot;en&quot;) .setInputCols(&quot;document&quot;, &quot;token&quot;) .setOutputCol(&quot;class&quot;) .setCaseSensitive(true) .setMaxSentenceLength(512) .setCandidateLabels(Array(&quot;urgent&quot;, &quot;mobile&quot;, &quot;travel&quot;, &quot;movie&quot;, &quot;music&quot;, &quot;sport&quot;, &quot;weather&quot;, &quot;technology&quot;)) val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, zeroShotClassifier)) val example = Seq(&quot;I have a problem with my iphone that needs to be resolved asap!!&quot;).toDS.toDF(&quot;text&quot;) val result = pipeline.fit(example).transform(example) Model Information Model Name: roberta_base_zero_shot_classifier_nli Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Input Labels: [token, document] Output Labels: [multi_class] Language: en Size: 466.4 MB Case sensitive: true</summary></entry><entry><title type="html">DistilBERTZero-Shot Classification Base - distilbert_base_zero_shot_classifier_turkish_cased_allnli</title><link href="/2023/04/20/distilbert_base_zero_shot_classifier_turkish_cased_allnli_tr.html" rel="alternate" type="text/html" title="DistilBERTZero-Shot Classification Base - distilbert_base_zero_shot_classifier_turkish_cased_allnli" /><published>2023-04-20T00:00:00+00:00</published><updated>2023-04-20T00:00:00+00:00</updated><id>/2023/04/20/distilbert_base_zero_shot_classifier_turkish_cased_allnli_tr</id><content type="html" xml:base="/2023/04/20/distilbert_base_zero_shot_classifier_turkish_cased_allnli_tr.html">## Description
 
 This model is intended to be used for zero-shot text classification, especially in Trukish. It is fine-tuned on MNLI by using DistilBERT Base Uncased model.
 
@@ -336,431 +828,4 @@ val result = pipeline.fit(example).transform(example)
 |Output Labels:|[multi_class]|
 |Language:|en|
 |Size:|249.7 MB|
-|Case sensitive:|true|</content><author><name>John Snow Labs</name></author><category term="zero_shot" /><category term="en" /><category term="mnli" /><category term="distilbert" /><category term="english" /><category term="base" /><category term="open_source" /><category term="tensorflow" /><summary type="html">Description This model is intended to be used for zero-shot text classification, especially in English. It is fine-tuned on MNLI by using DistilBERT Base Uncased model. DistilBertForZeroShotClassification using a ModelForSequenceClassification trained on NLI (natural language inference) tasks. Equivalent of DistilBertForSequenceClassification models, but these models don’t require a hardcoded number of potential classes, they can be chosen at runtime. It usually means it’s slower but it is much more flexible. We used TFDistilBertForSequenceClassification to train this model and used DistilBertForZeroShotClassification annotator in Spark NLP 🚀 for prediction at scale! Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU document_assembler = DocumentAssembler() \ .setInputCol('text') \ .setOutputCol('document') tokenizer = Tokenizer() \ .setInputCols(['document']) \ .setOutputCol('token') zeroShotClassifier = DistilBertForZeroShotClassification \ .pretrained('distilbert_base_zero_shot_classifier_uncased_mnli', 'en') \ .setInputCols(['token', 'document']) \ .setOutputCol('class') \ .setCaseSensitive(True) \ .setMaxSentenceLength(512) \ .setCandidateLabels([&quot;urgent&quot;, &quot;mobile&quot;, &quot;travel&quot;, &quot;movie&quot;, &quot;music&quot;, &quot;sport&quot;, &quot;weather&quot;, &quot;technology&quot;]) pipeline = Pipeline(stages=[ document_assembler, tokenizer, zeroShotClassifier ]) example = spark.createDataFrame([['I have a problem with my iphone that needs to be resolved asap!!']]).toDF(&quot;text&quot;) result = pipeline.fit(example).transform(example) val document_assembler = DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val tokenizer = Tokenizer() .setInputCols(&quot;document&quot;) .setOutputCol(&quot;token&quot;) val zeroShotClassifier = DistilBertForZeroShotClassification.pretrained(&quot;distilbert_base_zero_shot_classifier_uncased_mnli&quot;, &quot;en&quot;) .setInputCols(&quot;document&quot;, &quot;token&quot;) .setOutputCol(&quot;class&quot;) .setCaseSensitive(true) .setMaxSentenceLength(512) .setCandidateLabels(Array(&quot;urgent&quot;, &quot;mobile&quot;, &quot;travel&quot;, &quot;movie&quot;, &quot;music&quot;, &quot;sport&quot;, &quot;weather&quot;, &quot;technology&quot;)) val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, zeroShotClassifier)) val example = Seq(&quot;I have a problem with my iphone that needs to be resolved asap!!&quot;).toDS.toDF(&quot;text&quot;) val result = pipeline.fit(example).transform(example) Model Information Model Name: distilbert_base_zero_shot_classifier_uncased_mnli Compatibility: Spark NLP 4.4.1+ License: Open Source Edition: Official Input Labels: [token, document] Output Labels: [multi_class] Language: en Size: 249.7 MB Case sensitive: true</summary></entry><entry><title type="html">Cyberbullying Detection</title><link href="/2023/04/13/CyberbullyingDetection_ClassifierDL_tfhub_en.html" rel="alternate" type="text/html" title="Cyberbullying Detection" /><published>2023-04-13T00:00:00+00:00</published><updated>2023-04-13T00:00:00+00:00</updated><id>/2023/04/13/CyberbullyingDetection_ClassifierDL_tfhub_en</id><content type="html" xml:base="/2023/04/13/CyberbullyingDetection_ClassifierDL_tfhub_en.html">## Description
-
-Identify cyberbullying using a multi-class classification framework that distinguishes six different types of cyberbullying. We have used a Twitter dataset from Kaggle and applied various techniques such as text cleaning, data augmentation, document assembling, universal sentence encoding and tensorflow classification model to process and analyze the data. We have also used snscrape to retrieve tweet data for validating our model’s performance. Our results show that our model achieved an accuracy of 85% for testing data and 89% for training data.
-
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-[Open in Colab](https://colab.research.google.com/drive/1xaIlDtpiGzf14EA1umhJoOXI0FZaYtRc?authuser=4#scrollTo=os2C1v2WW1Hi){:.button.button-orange.button-orange-trans.co.button-icon}
-[Download](https://s3.amazonaws.com/community.johnsnowlabs.com/Naveen-004/CyberbullyingDetection_ClassifierDL_tfhub_en_4.4.0_3.0_1681363209630.zip){:.button.button-orange}
-[Copy S3 URI](s3://community.johnsnowlabs.com/Naveen-004/CyberbullyingDetection_ClassifierDL_tfhub_en_4.4.0_3.0_1681363209630.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
-
-## How to use
-
-
-
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-documentAssembler = DocumentAssembler()\
-    .setInputCol(&quot;cleaned_text&quot;)\
-    .setOutputCol(&quot;document&quot;)
-
-use = UniversalSentenceEncoder.pretrained(name=&quot;tfhub_use_lg&quot;, lang=&quot;en&quot;)\
- .setInputCols(&quot;document&quot;)\
- .setOutputCol(&quot;sentence_embeddings&quot;)\
- .setDimension(768)
-
-classifierdl = ClassifierDLApproach()\
-  .setInputCols([&quot;sentence_embeddings&quot;])\
-  .setOutputCol(&quot;class&quot;)\
-  .setLabelColumn(&quot;cyberbullying_type&quot;)\
-  .setBatchSize(16)\
-  .setMaxEpochs(42)\
-  .setDropout(0.4) \
-  .setEnableOutputLogs(True)\
-  .setLr(4e-3)
-use_clf_pipeline = Pipeline(
-    stages = [documentAssembler,
-        use,
-        classifierdl])
-```
-
-&lt;/div&gt;
-
-## Results
-
-```bash
-           precision    recall  f1-score   support
-
-                age       0.94      0.96      0.95       796
-          ethnicity       0.94      0.94      0.94       810
-             gender       0.87      0.86      0.86       816
-  not_cyberbullying       0.74      0.67      0.70       766
-other_cyberbullying       0.67      0.71      0.69       775
-           religion       0.94      0.96      0.95       731
-
-           accuracy                           0.85      4694
-          macro avg       0.85      0.85      0.85      4694
-       weighted avg       0.85      0.85      0.85      4694
-
-```
-
-{:.model-param}
-## Model Information
-
-{:.table-model}
-|---|---|
-|Model Name:|CyberbullyingDetection_ClassifierDL_tfhub|
-|Type:|pipeline|
-|Compatibility:|Spark NLP 4.4.0+|
-|License:|Open Source|
-|Edition:|Community|
-|Language:|en|
-|Size:|811.9 MB|
-
-## Included Models
-
-- DocumentAssembler
-- UniversalSentenceEncoder
-- ClassifierDLModel</content><author><name>Naveen-004</name></author><category term="en" /><category term="open_source" /><summary type="html">Description Identify cyberbullying using a multi-class classification framework that distinguishes six different types of cyberbullying. We have used a Twitter dataset from Kaggle and applied various techniques such as text cleaning, data augmentation, document assembling, universal sentence encoding and tensorflow classification model to process and analyze the data. We have also used snscrape to retrieve tweet data for validating our model’s performance. Our results show that our model achieved an accuracy of 85% for testing data and 89% for training data. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU documentAssembler = DocumentAssembler()\ .setInputCol(&quot;cleaned_text&quot;)\ .setOutputCol(&quot;document&quot;) use = UniversalSentenceEncoder.pretrained(name=&quot;tfhub_use_lg&quot;, lang=&quot;en&quot;)\ .setInputCols(&quot;document&quot;)\ .setOutputCol(&quot;sentence_embeddings&quot;)\ .setDimension(768) classifierdl = ClassifierDLApproach()\ .setInputCols([&quot;sentence_embeddings&quot;])\ .setOutputCol(&quot;class&quot;)\ .setLabelColumn(&quot;cyberbullying_type&quot;)\ .setBatchSize(16)\ .setMaxEpochs(42)\ .setDropout(0.4) \ .setEnableOutputLogs(True)\ .setLr(4e-3) use_clf_pipeline = Pipeline( stages = [documentAssembler, use, classifierdl]) Results precision recall f1-score support age 0.94 0.96 0.95 796 ethnicity 0.94 0.94 0.94 810 gender 0.87 0.86 0.86 816 not_cyberbullying 0.74 0.67 0.70 766 other_cyberbullying 0.67 0.71 0.69 775 religion 0.94 0.96 0.95 731 accuracy 0.85 4694 macro avg 0.85 0.85 0.85 4694 weighted avg 0.85 0.85 0.85 4694 Model Information Model Name: CyberbullyingDetection_ClassifierDL_tfhub Type: pipeline Compatibility: Spark NLP 4.4.0+ License: Open Source Edition: Community Language: en Size: 811.9 MB Included Models DocumentAssembler UniversalSentenceEncoder ClassifierDLModel</summary></entry><entry><title type="html">BART (large-sized model), fine-tuned on CNN Daily Mail</title><link href="/2023/04/09/bart_large_cnn_en.html" rel="alternate" type="text/html" title="BART (large-sized model), fine-tuned on CNN Daily Mail" /><published>2023-04-09T00:00:00+00:00</published><updated>2023-04-09T00:00:00+00:00</updated><id>/2023/04/09/bart_large_cnn_en</id><content type="html" xml:base="/2023/04/09/bart_large_cnn_en.html">## Description
-
-### BART (large-sized model), fine-tuned on CNN Daily Mail 
-
-BART model pre-trained on English language, and fine-tuned on [CNN Daily Mail](https://huggingface.co/datasets/cnn_dailymail). It was introduced in the paper [BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension](https://arxiv.org/abs/1910.13461) by Lewis et al. and first released in [this repository (https://github.com/pytorch/fairseq/tree/master/examples/bart). 
-
-Disclaimer: The team releasing BART did not write a model card for this model so this model card has been written by the Hugging Face team.
-
-### Model description
-
-BART is a transformer encoder-encoder (seq2seq) model with a bidirectional (BERT-like) encoder and an autoregressive (GPT-like) decoder. BART is pre-trained by (1) corrupting text with an arbitrary noising function, and (2) learning a model to reconstruct the original text.
-
-BART is particularly effective when fine-tuned for text generation (e.g. summarization, translation) but also works well for comprehension tasks (e.g. text classification, question answering). This particular checkpoint has been fine-tuned on CNN Daily Mail, a large collection of text-summary pairs.
-
-### Intended uses &amp; limitations
-
-You can use this model for text summarization.
-
-## Predicted Entities
-
-
-
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bart_large_cnn_en_4.4.0_3.0_1681068423111.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bart_large_cnn_en_4.4.0_3.0_1681068423111.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
-
-## How to use
-
-
-
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-bart = BartTransformer.pretrained(&quot;bart_large_cnn&quot;) \
-            .setTask(&quot;summarize:&quot;) \
-            .setMaxOutputLength(200) \
-            .setInputCols([&quot;documents&quot;]) \
-            .setOutputCol(&quot;summaries&quot;)
-```
-```scala
-val bart = BartTransformer.pretrained(&quot;bart_large_cnn&quot;)
-            .setTask(&quot;summarize:&quot;)
-            .setMaxOutputLength(200)
-            .setInputCols(&quot;documents&quot;)
-            .setOutputCol(&quot;summaries&quot;)
-```
-&lt;/div&gt;
-
-{:.model-param}
-## Model Information
-
-{:.table-model}
-|---|---|
-|Model Name:|bart_large_cnn|
-|Compatibility:|Spark NLP 4.4.0+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[documents]|
-|Output Labels:|[summaries]|
-|Language:|en|
-|Size:|1.1 GB|
-
-## References
-
-https://huggingface.co/datasets/cnn_dailymail</content><author><name>John Snow Labs</name></author><category term="bart" /><category term="summarization" /><category term="cnn" /><category term="text_to_text" /><category term="en" /><category term="english" /><category term="open_source" /><category term="tensorflow" /><summary type="html">Description BART (large-sized model), fine-tuned on CNN Daily Mail BART model pre-trained on English language, and fine-tuned on CNN Daily Mail. It was introduced in the paper BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension by Lewis et al. and first released in [this repository (https://github.com/pytorch/fairseq/tree/master/examples/bart). Disclaimer: The team releasing BART did not write a model card for this model so this model card has been written by the Hugging Face team. Model description BART is a transformer encoder-encoder (seq2seq) model with a bidirectional (BERT-like) encoder and an autoregressive (GPT-like) decoder. BART is pre-trained by (1) corrupting text with an arbitrary noising function, and (2) learning a model to reconstruct the original text. BART is particularly effective when fine-tuned for text generation (e.g. summarization, translation) but also works well for comprehension tasks (e.g. text classification, question answering). This particular checkpoint has been fine-tuned on CNN Daily Mail, a large collection of text-summary pairs. Intended uses &amp;amp; limitations You can use this model for text summarization. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU bart = BartTransformer.pretrained(&quot;bart_large_cnn&quot;) \ .setTask(&quot;summarize:&quot;) \ .setMaxOutputLength(200) \ .setInputCols([&quot;documents&quot;]) \ .setOutputCol(&quot;summaries&quot;) val bart = BartTransformer.pretrained(&quot;bart_large_cnn&quot;) .setTask(&quot;summarize:&quot;) .setMaxOutputLength(200) .setInputCols(&quot;documents&quot;) .setOutputCol(&quot;summaries&quot;) Model Information Model Name: bart_large_cnn Compatibility: Spark NLP 4.4.0+ License: Open Source Edition: Official Input Labels: [documents] Output Labels: [summaries] Language: en Size: 1.1 GB References https://huggingface.co/datasets/cnn_dailymail</summary></entry><entry><title type="html">Abstractive Summarization by BART - DistilBART CNN</title><link href="/2023/04/09/distilbart_cnn_6_6_en.html" rel="alternate" type="text/html" title="Abstractive Summarization by BART - DistilBART CNN" /><published>2023-04-09T00:00:00+00:00</published><updated>2023-04-09T00:00:00+00:00</updated><id>/2023/04/09/distilbart_cnn_6_6_en</id><content type="html" xml:base="/2023/04/09/distilbart_cnn_6_6_en.html">## Description
-
-&quot;BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension Transformer&quot; The Facebook BART (Bidirectional and Auto-Regressive Transformer) model is a state-of-the-art language generation model that was introduced by Facebook AI in 2019. It is based on the transformer architecture and is designed to handle a wide range of natural language processing tasks such as text generation, summarization, and machine translation.
-
-This pre-trained model is DistilBART fine-tuned on the Extreme Summarization (CNN) Dataset.
-
-## Predicted Entities
-
-
-
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbart_cnn_6_6_en_4.4.0_3.0_1681067201403.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/distilbart_cnn_6_6_en_4.4.0_3.0_1681067201403.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
-
-## How to use
-
-
-
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-bart = BartTransformer.pretrained(&quot;distilbart_cnn_6_6&quot;) \
-            .setTask(&quot;summarize:&quot;) \
-            .setMaxOutputLength(200) \
-            .setInputCols([&quot;documents&quot;]) \
-            .setOutputCol(&quot;summaries&quot;)
-```
-```scala
-val bart = BartTransformer.pretrained(&quot;distilbart_cnn_6_6&quot;)
-            .setTask(&quot;summarize:&quot;)
-            .setMaxOutputLength(200)
-            .setInputCols(&quot;documents&quot;)
-            .setOutputCol(&quot;summaries&quot;)
-```
-&lt;/div&gt;
-
-{:.model-param}
-## Model Information
-
-{:.table-model}
-|---|---|
-|Model Name:|distilbart_cnn_6_6|
-|Compatibility:|Spark NLP 4.4.0+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[documents]|
-|Output Labels:|[summaries]|
-|Language:|en|
-|Size:|673.2 MB|
-
-## References
-
-https://huggingface.co/datasets/cnn_dailymail
-
-## Benchmarking
-
-```bash
-### Metrics for DistilBART models
-
-| Model Name                 |   MM Params |   Inference Time (MS) |   Speedup |   Rouge 2 |   Rouge-L |
-|:---------------------------|------------:|----------------------:|----------:|----------:|----------:|
-| distilbart-xsum-12-1       |         222 |                    90 |      2.54 |     18.31 |     33.37 |
-| distilbart-xsum-6-6        |         230 |                   132 |      1.73 |     20.92 |     35.73 |
-| distilbart-xsum-12-3       |         255 |                   106 |      2.16 |     21.37 |     36.39 |
-| distilbart-xsum-9-6        |         268 |                   136 |      1.68 |     21.72 |     36.61 |
-| bart-large-xsum (baseline) |         406 |                   229 |      1    |     21.85 |     36.50 |
-| distilbart-xsum-12-6       |         306 |                   137 |      1.68 |     22.12 |     36.99 |
-| bart-large-cnn (baseline)  |         406 |                   381 |      1    |     21.06 |     30.63 |
-| distilbart-12-3-cnn        |         255 |                   214 |      1.78 |     20.57 |     30.00 |
-| distilbart-12-6-cnn        |         306 |                   307 |      1.24 |     21.26 |     30.59 |
-| distilbart-6-6-cnn         |         230 |                   182 |      2.09 |     20.17 |     29.70 |
-```</content><author><name>John Snow Labs</name></author><category term="bart" /><category term="summarization" /><category term="cnn" /><category term="distil" /><category term="text_to_text" /><category term="en" /><category term="english" /><category term="open_source" /><category term="tensorflow" /><summary type="html">Description “BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension Transformer” The Facebook BART (Bidirectional and Auto-Regressive Transformer) model is a state-of-the-art language generation model that was introduced by Facebook AI in 2019. It is based on the transformer architecture and is designed to handle a wide range of natural language processing tasks such as text generation, summarization, and machine translation. This pre-trained model is DistilBART fine-tuned on the Extreme Summarization (CNN) Dataset. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU bart = BartTransformer.pretrained(&quot;distilbart_cnn_6_6&quot;) \ .setTask(&quot;summarize:&quot;) \ .setMaxOutputLength(200) \ .setInputCols([&quot;documents&quot;]) \ .setOutputCol(&quot;summaries&quot;) val bart = BartTransformer.pretrained(&quot;distilbart_cnn_6_6&quot;) .setTask(&quot;summarize:&quot;) .setMaxOutputLength(200) .setInputCols(&quot;documents&quot;) .setOutputCol(&quot;summaries&quot;) Model Information Model Name: distilbart_cnn_6_6 Compatibility: Spark NLP 4.4.0+ License: Open Source Edition: Official Input Labels: [documents] Output Labels: [summaries] Language: en Size: 673.2 MB References https://huggingface.co/datasets/cnn_dailymail Benchmarking ### Metrics for DistilBART models | Model Name | MM Params | Inference Time (MS) | Speedup | Rouge 2 | Rouge-L | |:---------------------------|------------:|----------------------:|----------:|----------:|----------:| | distilbart-xsum-12-1 | 222 | 90 | 2.54 | 18.31 | 33.37 | | distilbart-xsum-6-6 | 230 | 132 | 1.73 | 20.92 | 35.73 | | distilbart-xsum-12-3 | 255 | 106 | 2.16 | 21.37 | 36.39 | | distilbart-xsum-9-6 | 268 | 136 | 1.68 | 21.72 | 36.61 | | bart-large-xsum (baseline) | 406 | 229 | 1 | 21.85 | 36.50 | | distilbart-xsum-12-6 | 306 | 137 | 1.68 | 22.12 | 36.99 | | bart-large-cnn (baseline) | 406 | 381 | 1 | 21.06 | 30.63 | | distilbart-12-3-cnn | 255 | 214 | 1.78 | 20.57 | 30.00 | | distilbart-12-6-cnn | 306 | 307 | 1.24 | 21.26 | 30.59 | | distilbart-6-6-cnn | 230 | 182 | 2.09 | 20.17 | 29.70 |</summary></entry><entry><title type="html">Abstractive Summarization by BART - DistilBART XSUM</title><link href="/2023/04/09/distilbart_xsum_12_6_en.html" rel="alternate" type="text/html" title="Abstractive Summarization by BART - DistilBART XSUM" /><published>2023-04-09T00:00:00+00:00</published><updated>2023-04-09T00:00:00+00:00</updated><id>/2023/04/09/distilbart_xsum_12_6_en</id><content type="html" xml:base="/2023/04/09/distilbart_xsum_12_6_en.html">## Description
-
-&quot;BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension Transformer&quot; The Facebook BART (Bidirectional and Auto-Regressive Transformer) model is a state-of-the-art language generation model that was introduced by Facebook AI in 2019. It is based on the transformer architecture and is designed to handle a wide range of natural language processing tasks such as text generation, summarization, and machine translation.
-
-This pre-trained model is DistilBART fine-tuned on the Extreme Summarization (XSum) Dataset.
-
-## Predicted Entities
-
-
-
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbart_xsum_12_6_en_4.4.0_3.0_1681064177975.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/distilbart_xsum_12_6_en_4.4.0_3.0_1681064177975.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
-
-## How to use
-
-
-
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-bart = BartTransformer.pretrained(&quot;distilbart_xsum_12_6&quot;) \
-            .setTask(&quot;summarize:&quot;) \
-            .setMaxOutputLength(200) \
-            .setInputCols([&quot;documents&quot;]) \
-            .setOutputCol(&quot;summaries&quot;)
-```
-```scala
-val bart = BartTransformer.pretrained(&quot;distilbart_xsum_12_6&quot;)
-            .setTask(&quot;summarize:&quot;)
-            .setMaxOutputLength(200)
-            .setInputCols(&quot;documents&quot;)
-            .setOutputCol(&quot;summaries&quot;)
-```
-&lt;/div&gt;
-
-{:.model-param}
-## Model Information
-
-{:.table-model}
-|---|---|
-|Model Name:|distilbart_xsum_12_6|
-|Compatibility:|Spark NLP 4.4.0+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[documents]|
-|Output Labels:|[summaries]|
-|Language:|en|
-|Size:|854.4 MB|
-
-## Benchmarking
-
-```bash
-### Metrics for DistilBART models
-
-| Model Name                 |   MM Params |   Inference Time (MS) |   Speedup |   Rouge 2 |   Rouge-L |
-|:---------------------------|------------:|----------------------:|----------:|----------:|----------:|
-| distilbart-xsum-12-1       |         222 |                    90 |      2.54 |     18.31 |     33.37 |
-| distilbart-xsum-6-6        |         230 |                   132 |      1.73 |     20.92 |     35.73 |
-| distilbart-xsum-12-3       |         255 |                   106 |      2.16 |     21.37 |     36.39 |
-| distilbart-xsum-9-6        |         268 |                   136 |      1.68 |     21.72 |     36.61 |
-| bart-large-xsum (baseline) |         406 |                   229 |      1    |     21.85 |     36.50 |
-| distilbart-xsum-12-6       |         306 |                   137 |      1.68 |     22.12 |     36.99 |
-| bart-large-cnn (baseline)  |         406 |                   381 |      1    |     21.06 |     30.63 |
-| distilbart-12-3-cnn        |         255 |                   214 |      1.78 |     20.57 |     30.00 |
-| distilbart-12-6-cnn        |         306 |                   307 |      1.24 |     21.26 |     30.59 |
-| distilbart-6-6-cnn         |         230 |                   182 |      2.09 |     20.17 |     29.70 |
-```</content><author><name>John Snow Labs</name></author><category term="bart" /><category term="summarization" /><category term="xsum" /><category term="distil" /><category term="text_to_text" /><category term="en" /><category term="english" /><category term="open_source" /><category term="tensorflow" /><summary type="html">Description “BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension Transformer” The Facebook BART (Bidirectional and Auto-Regressive Transformer) model is a state-of-the-art language generation model that was introduced by Facebook AI in 2019. It is based on the transformer architecture and is designed to handle a wide range of natural language processing tasks such as text generation, summarization, and machine translation. This pre-trained model is DistilBART fine-tuned on the Extreme Summarization (XSum) Dataset. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU bart = BartTransformer.pretrained(&quot;distilbart_xsum_12_6&quot;) \ .setTask(&quot;summarize:&quot;) \ .setMaxOutputLength(200) \ .setInputCols([&quot;documents&quot;]) \ .setOutputCol(&quot;summaries&quot;) val bart = BartTransformer.pretrained(&quot;distilbart_xsum_12_6&quot;) .setTask(&quot;summarize:&quot;) .setMaxOutputLength(200) .setInputCols(&quot;documents&quot;) .setOutputCol(&quot;summaries&quot;) Model Information Model Name: distilbart_xsum_12_6 Compatibility: Spark NLP 4.4.0+ License: Open Source Edition: Official Input Labels: [documents] Output Labels: [summaries] Language: en Size: 854.4 MB Benchmarking ### Metrics for DistilBART models | Model Name | MM Params | Inference Time (MS) | Speedup | Rouge 2 | Rouge-L | |:---------------------------|------------:|----------------------:|----------:|----------:|----------:| | distilbart-xsum-12-1 | 222 | 90 | 2.54 | 18.31 | 33.37 | | distilbart-xsum-6-6 | 230 | 132 | 1.73 | 20.92 | 35.73 | | distilbart-xsum-12-3 | 255 | 106 | 2.16 | 21.37 | 36.39 | | distilbart-xsum-9-6 | 268 | 136 | 1.68 | 21.72 | 36.61 | | bart-large-xsum (baseline) | 406 | 229 | 1 | 21.85 | 36.50 | | distilbart-xsum-12-6 | 306 | 137 | 1.68 | 22.12 | 36.99 | | bart-large-cnn (baseline) | 406 | 381 | 1 | 21.06 | 30.63 | | distilbart-12-3-cnn | 255 | 214 | 1.78 | 20.57 | 30.00 | | distilbart-12-6-cnn | 306 | 307 | 1.24 | 21.26 | 30.59 | | distilbart-6-6-cnn | 230 | 182 | 2.09 | 20.17 | 29.70 |</summary></entry><entry><title type="html">Abstractive Summarization by BART - DistilBART XSUM</title><link href="/2023/04/07/distilbart_xsum_12_6_en.html" rel="alternate" type="text/html" title="Abstractive Summarization by BART - DistilBART XSUM" /><published>2023-04-07T00:00:00+00:00</published><updated>2023-04-07T00:00:00+00:00</updated><id>/2023/04/07/distilbart_xsum_12_6_en</id><content type="html" xml:base="/2023/04/07/distilbart_xsum_12_6_en.html">## Description
-
-&quot;BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension Transformer&quot; The Facebook BART (Bidirectional and Auto-Regressive Transformer) model is a state-of-the-art language generation model that was introduced by Facebook AI in 2019. It is based on the transformer architecture and is designed to handle a wide range of natural language processing tasks such as text generation, summarization, and machine translation.
-
-This pre-trained model is DistilBART fine-tuned on the Extreme Summarization (XSum) Dataset.
-
-## Predicted Entities
-
-
-
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbart_xsum_12_6_en_4.4.0_3.0_1680873584987.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/distilbart_xsum_12_6_en_4.4.0_3.0_1680873584987.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
-
-## How to use
-
-
-
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-bart = BartTransformer.pretrained(&quot;distilbart_xsum_12_6&quot;) \
-            .setTask(&quot;summarize:&quot;) \
-            .setMaxOutputLength(200) \
-            .setInputCols([&quot;documents&quot;]) \
-            .setOutputCol(&quot;summaries&quot;)
-```
-```scala
-val bart = BartTransformer.pretrained(&quot;distilbart_xsum_12_6&quot;)
-            .setTask(&quot;summarize:&quot;)
-            .setMaxOutputLength(200)
-            .setInputCols(&quot;documents&quot;)
-            .setOutputCol(&quot;summaries&quot;)
-```
-&lt;/div&gt;
-
-{:.model-param}
-## Model Information
-
-{:.table-model}
-|---|---|
-|Model Name:|distilbart_xsum_12_6|
-|Compatibility:|Spark NLP 4.4.0+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[documents]|
-|Output Labels:|[summaries]|
-|Language:|en|
-|Size:|854.4 MB|
-
-## References
-
-https://huggingface.co/sshleifer/distilbart-xsum-12-6
-
-## Benchmarking
-
-```bash
-### Metrics for DistilBART models
-
-| Model Name                 |   MM Params |   Inference Time (MS) |   Speedup |   Rouge 2 |   Rouge-L |
-|:---------------------------|------------:|----------------------:|----------:|----------:|----------:|
-| distilbart-xsum-12-1       |         222 |                    90 |      2.54 |     18.31 |     33.37 |
-| distilbart-xsum-6-6        |         230 |                   132 |      1.73 |     20.92 |     35.73 |
-| distilbart-xsum-12-3       |         255 |                   106 |      2.16 |     21.37 |     36.39 |
-| distilbart-xsum-9-6        |         268 |                   136 |      1.68 |     21.72 |     36.61 |
-| bart-large-xsum (baseline) |         406 |                   229 |      1    |     21.85 |     36.50 |
-| distilbart-xsum-12-6       |         306 |                   137 |      1.68 |     22.12 |     36.99 |
-| bart-large-cnn (baseline)  |         406 |                   381 |      1    |     21.06 |     30.63 |
-| distilbart-12-3-cnn        |         255 |                   214 |      1.78 |     20.57 |     30.00 |
-| distilbart-12-6-cnn        |         306 |                   307 |      1.24 |     21.26 |     30.59 |
-| distilbart-6-6-cnn         |         230 |                   182 |      2.09 |     20.17 |     29.70 |
-```</content><author><name>John Snow Labs</name></author><category term="bart" /><category term="summarization" /><category term="xsum" /><category term="distil" /><category term="text_to_text" /><category term="en" /><category term="open_source" /><category term="tensorflow" /><summary type="html">Description “BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension Transformer” The Facebook BART (Bidirectional and Auto-Regressive Transformer) model is a state-of-the-art language generation model that was introduced by Facebook AI in 2019. It is based on the transformer architecture and is designed to handle a wide range of natural language processing tasks such as text generation, summarization, and machine translation. This pre-trained model is DistilBART fine-tuned on the Extreme Summarization (XSum) Dataset. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU bart = BartTransformer.pretrained(&quot;distilbart_xsum_12_6&quot;) \ .setTask(&quot;summarize:&quot;) \ .setMaxOutputLength(200) \ .setInputCols([&quot;documents&quot;]) \ .setOutputCol(&quot;summaries&quot;) val bart = BartTransformer.pretrained(&quot;distilbart_xsum_12_6&quot;) .setTask(&quot;summarize:&quot;) .setMaxOutputLength(200) .setInputCols(&quot;documents&quot;) .setOutputCol(&quot;summaries&quot;) Model Information Model Name: distilbart_xsum_12_6 Compatibility: Spark NLP 4.4.0+ License: Open Source Edition: Official Input Labels: [documents] Output Labels: [summaries] Language: en Size: 854.4 MB References https://huggingface.co/sshleifer/distilbart-xsum-12-6 Benchmarking ### Metrics for DistilBART models | Model Name | MM Params | Inference Time (MS) | Speedup | Rouge 2 | Rouge-L | |:---------------------------|------------:|----------------------:|----------:|----------:|----------:| | distilbart-xsum-12-1 | 222 | 90 | 2.54 | 18.31 | 33.37 | | distilbart-xsum-6-6 | 230 | 132 | 1.73 | 20.92 | 35.73 | | distilbart-xsum-12-3 | 255 | 106 | 2.16 | 21.37 | 36.39 | | distilbart-xsum-9-6 | 268 | 136 | 1.68 | 21.72 | 36.61 | | bart-large-xsum (baseline) | 406 | 229 | 1 | 21.85 | 36.50 | | distilbart-xsum-12-6 | 306 | 137 | 1.68 | 22.12 | 36.99 | | bart-large-cnn (baseline) | 406 | 381 | 1 | 21.06 | 30.63 | | distilbart-12-3-cnn | 255 | 214 | 1.78 | 20.57 | 30.00 | | distilbart-12-6-cnn | 306 | 307 | 1.24 | 21.26 | 30.59 | | distilbart-6-6-cnn | 230 | 182 | 2.09 | 20.17 | 29.70 |</summary></entry><entry><title type="html">Arabic BertForQuestionAnswering Cased model (from gfdgdfgdg)</title><link href="/2023/04/05/Bert_qa_arap_ar.html" rel="alternate" type="text/html" title="Arabic BertForQuestionAnswering Cased model (from gfdgdfgdg)" /><published>2023-04-05T00:00:00+00:00</published><updated>2023-04-05T00:00:00+00:00</updated><id>/2023/04/05/Bert_qa_arap_ar</id><content type="html" xml:base="/2023/04/05/Bert_qa_arap_ar.html">## Description
-
-Pretrained BertForQuestionAnswering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. `arap_qa_bert` is a Arabic model originally trained by `gfdgdfgdg`.
-
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/Bert_qa_arap_ar_4.4.0_3.0_1680696331852.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/Bert_qa_arap_ar_4.4.0_3.0_1680696331852.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
-
-## How to use
-
-
-
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-Document_Assembler = MultiDocumentAssembler()\
-     .setInputCols([&quot;question&quot;, &quot;context&quot;])\
-     .setOutputCols([&quot;document_question&quot;, &quot;document_context&quot;])
-
-Question_Answering = BertForQuestionAnswering.pretrained(&quot;Bert_qa_arap&quot;,&quot;ar&quot;)\
-     .setInputCols([&quot;document_question&quot;, &quot;document_context&quot;])\
-     .setOutputCol(&quot;answer&quot;)\
-     .setCaseSensitive(True)
-    
-pipeline = Pipeline(stages=[Document_Assembler, Question_Answering])
-
-data = spark.createDataFrame([[&quot;What's my name?&quot;,&quot;My name is Clara and I live in Berkeley.&quot;]]).toDF(&quot;question&quot;, &quot;context&quot;)
-
-result = pipeline.fit(data).transform(data)
-```
-```scala
-val Document_Assembler = new MultiDocumentAssembler()
-     .setInputCols(Array(&quot;question&quot;, &quot;context&quot;))
-     .setOutputCols(Array(&quot;document_question&quot;, &quot;document_context&quot;))
-
-val Question_Answering = BertForQuestionAnswering.pretrained(&quot;Bert_qa_arap&quot;,&quot;ar&quot;)
-     .setInputCols(Array(&quot;document_question&quot;, &quot;document_context&quot;))
-     .setOutputCol(&quot;answer&quot;)
-     .setCaseSensitive(true)
-    
-val pipeline = new Pipeline().setStages(Array(Document_Assembler, Question_Answering))
-
-val data = Seq(&quot;What's my name?&quot;,&quot;My name is Clara and I live in Berkeley.&quot;).toDS.toDF(&quot;question&quot;, &quot;context&quot;)
-
-val result = pipeline.fit(data).transform(data)
-```
-&lt;/div&gt;
-
-{:.model-param}
-## Model Information
-
-{:.table-model}
-|---|---|
-|Model Name:|Bert_qa_arap|
-|Compatibility:|Spark NLP 4.4.0+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[document_question, document_context]|
-|Output Labels:|[answer]|
-|Language:|ar|
-|Size:|404.2 MB|
-|Case sensitive:|true|
-|Max sentence length:|512|
-
-## References
-
-- https://huggingface.co/gfdgdfgdg/arap_qa_bert</content><author><name>John Snow Labs</name></author><category term="ar" /><category term="open_source" /><category term="bert" /><category term="question_answering" /><category term="tensorflow" /><summary type="html">Description Pretrained BertForQuestionAnswering model, adapted from Hugging Face and curated to provide scalability and production-readiness using Spark NLP. arap_qa_bert is a Arabic model originally trained by gfdgdfgdg. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU Document_Assembler = MultiDocumentAssembler()\ .setInputCols([&quot;question&quot;, &quot;context&quot;])\ .setOutputCols([&quot;document_question&quot;, &quot;document_context&quot;]) Question_Answering = BertForQuestionAnswering.pretrained(&quot;Bert_qa_arap&quot;,&quot;ar&quot;)\ .setInputCols([&quot;document_question&quot;, &quot;document_context&quot;])\ .setOutputCol(&quot;answer&quot;)\ .setCaseSensitive(True) pipeline = Pipeline(stages=[Document_Assembler, Question_Answering]) data = spark.createDataFrame([[&quot;What's my name?&quot;,&quot;My name is Clara and I live in Berkeley.&quot;]]).toDF(&quot;question&quot;, &quot;context&quot;) result = pipeline.fit(data).transform(data) val Document_Assembler = new MultiDocumentAssembler() .setInputCols(Array(&quot;question&quot;, &quot;context&quot;)) .setOutputCols(Array(&quot;document_question&quot;, &quot;document_context&quot;)) val Question_Answering = BertForQuestionAnswering.pretrained(&quot;Bert_qa_arap&quot;,&quot;ar&quot;) .setInputCols(Array(&quot;document_question&quot;, &quot;document_context&quot;)) .setOutputCol(&quot;answer&quot;) .setCaseSensitive(true) val pipeline = new Pipeline().setStages(Array(Document_Assembler, Question_Answering)) val data = Seq(&quot;What's my name?&quot;,&quot;My name is Clara and I live in Berkeley.&quot;).toDS.toDF(&quot;question&quot;, &quot;context&quot;) val result = pipeline.fit(data).transform(data) Model Information Model Name: Bert_qa_arap Compatibility: Spark NLP 4.4.0+ License: Open Source Edition: Official Input Labels: [document_question, document_context] Output Labels: [answer] Language: ar Size: 404.2 MB Case sensitive: true Max sentence length: 512 References https://huggingface.co/gfdgdfgdg/arap_qa_bert</summary></entry></feed>
+|Case sensitive:|true|</content><author><name>John Snow Labs</name></author><category term="zero_shot" /><category term="en" /><category term="mnli" /><category term="distilbert" /><category term="english" /><category term="base" /><category term="open_source" /><category term="tensorflow" /><summary type="html">Description This model is intended to be used for zero-shot text classification, especially in English. It is fine-tuned on MNLI by using DistilBERT Base Uncased model. DistilBertForZeroShotClassification using a ModelForSequenceClassification trained on NLI (natural language inference) tasks. Equivalent of DistilBertForSequenceClassification models, but these models don’t require a hardcoded number of potential classes, they can be chosen at runtime. It usually means it’s slower but it is much more flexible. We used TFDistilBertForSequenceClassification to train this model and used DistilBertForZeroShotClassification annotator in Spark NLP 🚀 for prediction at scale! Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU document_assembler = DocumentAssembler() \ .setInputCol('text') \ .setOutputCol('document') tokenizer = Tokenizer() \ .setInputCols(['document']) \ .setOutputCol('token') zeroShotClassifier = DistilBertForZeroShotClassification \ .pretrained('distilbert_base_zero_shot_classifier_uncased_mnli', 'en') \ .setInputCols(['token', 'document']) \ .setOutputCol('class') \ .setCaseSensitive(True) \ .setMaxSentenceLength(512) \ .setCandidateLabels([&quot;urgent&quot;, &quot;mobile&quot;, &quot;travel&quot;, &quot;movie&quot;, &quot;music&quot;, &quot;sport&quot;, &quot;weather&quot;, &quot;technology&quot;]) pipeline = Pipeline(stages=[ document_assembler, tokenizer, zeroShotClassifier ]) example = spark.createDataFrame([['I have a problem with my iphone that needs to be resolved asap!!']]).toDF(&quot;text&quot;) result = pipeline.fit(example).transform(example) val document_assembler = DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val tokenizer = Tokenizer() .setInputCols(&quot;document&quot;) .setOutputCol(&quot;token&quot;) val zeroShotClassifier = DistilBertForZeroShotClassification.pretrained(&quot;distilbert_base_zero_shot_classifier_uncased_mnli&quot;, &quot;en&quot;) .setInputCols(&quot;document&quot;, &quot;token&quot;) .setOutputCol(&quot;class&quot;) .setCaseSensitive(true) .setMaxSentenceLength(512) .setCandidateLabels(Array(&quot;urgent&quot;, &quot;mobile&quot;, &quot;travel&quot;, &quot;movie&quot;, &quot;music&quot;, &quot;sport&quot;, &quot;weather&quot;, &quot;technology&quot;)) val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, zeroShotClassifier)) val example = Seq(&quot;I have a problem with my iphone that needs to be resolved asap!!&quot;).toDS.toDF(&quot;text&quot;) val result = pipeline.fit(example).transform(example) Model Information Model Name: distilbert_base_zero_shot_classifier_uncased_mnli Compatibility: Spark NLP 4.4.1+ License: Open Source Edition: Official Input Labels: [token, document] Output Labels: [multi_class] Language: en Size: 249.7 MB Case sensitive: true</summary></entry></feed>
