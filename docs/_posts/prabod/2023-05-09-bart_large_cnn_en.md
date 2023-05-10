@@ -8,7 +8,7 @@ tags: [bart, summarization, cnn, text_to_text, en, open_source, tensorflow]
 task: Summarization
 language: en
 edition: Spark NLP 4.4.2
-spark_version: [3.2, 3.0]
+spark_version: 3.0
 supported: true
 engine: tensorflow
 annotator: BartTransformer
@@ -36,8 +36,8 @@ BART is particularly effective when fine-tuned for text generation (e.g. summari
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bart_large_cnn_en_4.4.2_3.2_1683645394389.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bart_large_cnn_en_4.4.2_3.2_1683645394389.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bart_large_cnn_en_4.4.2_3.0_1683645394389.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bart_large_cnn_en_4.4.2_3.0_1683645394389.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
