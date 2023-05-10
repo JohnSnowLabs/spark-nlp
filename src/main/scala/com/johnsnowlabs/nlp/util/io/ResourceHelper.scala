@@ -106,7 +106,7 @@ object ResourceHelper {
   case class SourceStream(resource: String) {
 
     var fileSystem: Option[FileSystem] = None
-    private val (pathExists, path) = OutputHelper.doesPathExists(resource)
+    private val (pathExists: Boolean, path: Option[Path]) = OutputHelper.doesPathExists(resource)
     if (!pathExists) {
       throw new FileNotFoundException(s"file or folder: $resource not found")
     } else {
@@ -156,7 +156,7 @@ object ResourceHelper {
             Paths.get(destination.toString, path.get.getName).toUri
           else destination.toUri
         case "dbfs" =>
-          val dbfsPath = path.toString.replace("dbfs:/", "/dbfs/")
+          val dbfsPath = path.get.toString.replace("dbfs:/", "/dbfs/")
           val sourceFile = new File(dbfsPath)
           val targetFile = new File(destination.toString)
           if (sourceFile.isFile) FileUtils.copyFileToDirectory(sourceFile, targetFile)
