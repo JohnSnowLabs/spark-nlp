@@ -56,12 +56,12 @@ example = spark.createDataFrame([['Protester over hele landet ledet af utilfreds
 result = pipeline.fit(example).transform(example)
 ```
 ```scala
-val document_assembler = DocumentAssembler() 
-    .setInputCol("text") 
+val document_assembler = DocumentAssembler()
+    .setInputCol("text")
     .setOutputCol("document")
 
-val tokenizer = Tokenizer() 
-    .setInputCols("document") 
+val tokenizer = Tokenizer()
+    .setInputCols("document")
     .setOutputCol("token")
 
 val tokenClassifier = BertForSequenceClassification.pretrained("bert_sequence_classifier_sentiment", "da")
@@ -79,7 +79,7 @@ val result = pipeline.fit(example).transform(example)
 {:.nlu-block}
 ```python
 import nlu
-nlu.load("da.classify.bert.sentiment.").predict("""Protester over hele landet ledet af utilfredse civilsamfund på grund af den danske regerings COVID-19 lockdown-politik er kommet ud af kontrol.""")
+nlu.load("da.classify.bert.sentiment.").predict("""Protester over hele landet ledet af utilfredse civilsamfund pÃ¥ grund af den danske regerings COVID-19 lockdown-politik er kommet ud af kontrol.""")
 ```
 
 </div>
