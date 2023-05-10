@@ -21,9 +21,12 @@ class HasFeaturesTestSpec extends AnyFlatSpec {
     model.setProtectedMockFeature("first")
     assert(model.getProtectedMockFeature == "first")
 
-    assertThrows[IllegalArgumentException] {
-      model.setProtectedMockFeature("second")
-    }
+//    assertThrows[IllegalArgumentException] {
+//      model.setProtectedMockFeature("second")
+//    }
+    model.setProtectedMockFeature("second")
+    // should stay the same as the first value
+    assert(model.getProtectedMockFeature == "first")
   }
 
 }
