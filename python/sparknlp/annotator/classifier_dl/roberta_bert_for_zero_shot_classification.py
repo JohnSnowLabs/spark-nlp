@@ -17,11 +17,11 @@ from sparknlp.common import *
 
 
 class RoBertaForZeroShotClassification(AnnotatorModel,
-                                          HasCaseSensitiveProperties,
-                                          HasBatchedAnnotate,
-                                          HasClassifierActivationProperties,
-                                          HasCandidateLabelsProperties,
-                                          HasEngine):
+                                       HasCaseSensitiveProperties,
+                                       HasBatchedAnnotate,
+                                       HasClassifierActivationProperties,
+                                       HasCandidateLabelsProperties,
+                                       HasEngine):
     """RoBertaForZeroShotClassification using a `ModelForSequenceClassification` trained on NLI (natural language
     inference) tasks. Equivalent of `RoBertaForSequenceClassification` models, but these models don't require a hardcoded
     number of potential classes, they can be chosen at runtime. It usually means it's slower but it is much more
