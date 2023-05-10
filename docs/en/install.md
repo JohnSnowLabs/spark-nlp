@@ -5,7 +5,7 @@ seotitle: Spark NLP - Installation
 title: Spark NLP - Installation
 permalink: /docs/en/install
 key: docs-install
-modify_date: "2022-12-21"
+modify_date: "2023-05-10"
 show_nav: true
 sidebar:
     nav: sparknlp
