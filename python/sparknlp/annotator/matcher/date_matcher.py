@@ -67,6 +67,11 @@ class DateMatcherUtils(Params):
                            "source language for explicit translation",
                            typeConverter=TypeConverters.toString)
 
+    relaxedFactoryStrategy = Param(Params._dummy(),
+                                   "relaxedFactoryStrategy",
+                                   "Matched Strategy to searches relaxed dates",
+                                   typeConverter=TypeConverters.toString)
+
     def setInputFormats(self, value):
         """Sets input formats patterns to match in the documents.
 
@@ -158,6 +163,19 @@ class DateMatcherUtils(Params):
             The anchor day for relative dates
         """
         return self._set(anchorDateDay=value)
+
+    def setRelaxedFactoryStrategy(self, matchStrategy=MatchStrategy.MATCH_FIRST):
+        """ Sets matched strategy to search relaxed dates by ordered rules by more exhaustive to less Strategy.
+
+        Not all of the date information needs to be included. For example
+        ``"YYYY"`` is also a valid input.
+
+        Parameters
+        ----------
+        matchStrategy : MatchStrategy
+            Matched strategy to search relaxed dates by ordered rules by more exhaustive to less Strategy
+        """
+        return self._set(relaxedFactoryStrategy=matchStrategy)
 
 
 class DateMatcher(AnnotatorModel, DateMatcherUtils):
