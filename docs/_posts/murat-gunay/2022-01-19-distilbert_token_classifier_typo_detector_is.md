@@ -56,7 +56,7 @@ tokenClassifier = DistilBertForTokenClassification.pretrained("distilbert_token_
 ner_converter = NerConverter()\
       .setInputCols(["sentence", "token", "ner"])\
       .setOutputCol("ner_chunk")
-      
+
 nlpPipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, tokenClassifier, ner_converter])
 text = """Það er miög auðvelt að draga marktækar álykanir af texta með Spark NLP."""
 data = spark.createDataFrame([[text]]).toDF("text")
@@ -83,7 +83,7 @@ val tokenClassifier = DistilBertForTokenClassification.pretrained("distilbert_to
 val ner_converter = NerConverter()
       .setInputCols(Array("sentence", "token", "ner"))
       .setOutputCol("ner_chunk")
-      
+
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, tokenClassifier, ner_converter))
 
 val example = Seq.empty["Það er miög auðvelt að draga marktækar álykanir af texta með Spark NLP."].toDS.toDF("text")
@@ -95,7 +95,7 @@ val result = pipeline.fit(example).transform(example)
 {:.nlu-block}
 ```python
 import nlu
-nlu.load("is.ner.distil_bert").predict("""�a� er mi�g au�velt a� draga markt�kar �lykanir af texta me� Spark NLP.""")
+nlu.load("is.ner.distil_bert").predict("""Það er miög auðvelt að draga marktækar álykanir af texta með Spark NLP.""")
 ```
 
 </div>

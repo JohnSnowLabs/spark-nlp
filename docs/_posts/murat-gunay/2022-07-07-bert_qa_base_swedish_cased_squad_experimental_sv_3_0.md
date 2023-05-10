@@ -41,7 +41,7 @@ spanClassifier = BertForQuestionAnswering.pretrained("bert_qa_base_swedish_cased
     .setInputCols(["document_question", "document_context"]) \
     .setOutputCol("answer")\
     .setCaseSensitive(True)
-    
+
 pipeline = Pipeline(stages=[documentAssembler, spanClassifier])
 
 data = spark.createDataFrame([["Vad är mitt namn?", "Jag heter Clara och jag bor i Berkeley."]]).toDF("question", "context")
@@ -49,12 +49,12 @@ data = spark.createDataFrame([["Vad är mitt namn?", "Jag heter Clara och jag bo
 result = pipeline.fit(data).transform(data)
 ```
 ```scala
-val documentAssembler = new MultiDocumentAssembler() 
-      .setInputCols(Array("question", "context")) 
+val documentAssembler = new MultiDocumentAssembler()
+      .setInputCols(Array("question", "context"))
       .setOutputCols(Array("document_question", "document_context"))
- 
-val spanClassifer = BertForQuestionAnswering.pretrained("bert_qa_base_swedish_cased_squad_experimental","sv") 
-    .setInputCols(Array("document", "token")) 
+
+val spanClassifer = BertForQuestionAnswering.pretrained("bert_qa_base_swedish_cased_squad_experimental","sv")
+    .setInputCols(Array("document", "token"))
     .setOutputCol("answer")
     .setCaseSensitive(true)
 
@@ -69,7 +69,7 @@ val result = pipeline.fit(data).transform(data)
 {:.nlu-block}
 ```python
 import nlu
-nlu.load("sv.answer_question.bert.squad.cased_base.by_KBLab").predict("""Vad �r mitt namn?|||"Jag heter Clara och jag bor i Berkeley.""")
+nlu.load("sv.answer_question.bert.squad.cased_base.by_KBLab").predict("""Vad är mitt namn?|||"Jag heter Clara och jag bor i Berkeley.""")
 ```
 
 </div>

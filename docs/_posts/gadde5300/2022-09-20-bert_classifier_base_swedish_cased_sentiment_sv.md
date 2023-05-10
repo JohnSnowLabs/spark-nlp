@@ -56,16 +56,16 @@ data = spark.createDataFrame([["Jag älskar Spark NLP"]]).toDF("text")
 result = pipeline.fit(data).transform(data)
 ```
 ```scala
-val documentAssembler = new DocumentAssembler() 
-          .setInputCol("text") 
+val documentAssembler = new DocumentAssembler()
+          .setInputCol("text")
           .setOutputCol("document")
 
-val tokenizer = new Tokenizer() 
+val tokenizer = new Tokenizer()
     .setInputCols(Array("document"))
     .setOutputCol("token")
 
-val sequenceClassifier_loaded = BertForSequenceClassification.pretrained("bert_classifier_base_swedish_cased_sentiment","sv") 
-    .setInputCols(Array("document", "token")) 
+val sequenceClassifier_loaded = BertForSequenceClassification.pretrained("bert_classifier_base_swedish_cased_sentiment","sv")
+    .setInputCols(Array("document", "token"))
     .setOutputCol("class")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer,sequenceClassifier_loaded))
@@ -79,7 +79,7 @@ val result = pipeline.fit(data).transform(data)
 {:.nlu-block}
 ```python
 import nlu
-nlu.load("sv.classify.bert.sentiment.cased_base").predict("""Jag �lskar Spark NLP""")
+nlu.load("sv.classify.bert.sentiment.cased_base").predict("""Jag älskar Spark NLP""")
 ```
 
 </div>

@@ -106,7 +106,7 @@ val result = pipeline.fit(example).transform(example)
 {:.nlu-block}
 ```python
 import nlu
-nlu.load("es.classify.beto_bert.sentiment_analysis").predict("""¡Me siento muy bien!!""")
+nlu.load("es.classify.beto_bert.sentiment_analysis").predict("""Â¡Me siento muy bien!!""")
 ```
 
 </div>

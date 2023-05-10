@@ -58,7 +58,7 @@ tokenClassifier = RoBertaForTokenClassification.pretrained("roberta_token_classi
 ner_converter = NerConverter()\
       .setInputCols(["sentence", "token", "ner"])\
       .setOutputCol("ner_chunk")
-      
+
 nlpPipeline = Pipeline(stages=[documentAssembler, sentenceDetector, tokenizer, tokenClassifier, ner_converter])
 
 empty_data = spark.createDataFrame([[""]]).toDF("text")
@@ -87,7 +87,7 @@ val tokenClassifier = RoBertaForTokenClassification.pretrained("roberta_token_cl
 ner_converter = NerConverter()
       .setInputCols(Array("sentence", "token", "ner"))
       .setOutputCol("ner_chunk")
-      
+
 val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer, tokenClassifier, ner_converter))
 
 val example = Seq.empty["Me llamo Antonio y trabajo en la fábrica de Mercedes-Benz en Madrid."].toDS.toDF("text")
@@ -99,7 +99,7 @@ val result = pipeline.fit(example).transform(example)
 {:.nlu-block}
 ```python
 import nlu
-nlu.load("es.ner.roberta").predict("""Me llamo Antonio y trabajo en la f�brica de Mercedes-Benz en Madrid.""")
+nlu.load("es.ner.roberta").predict("""Me llamo Antonio y trabajo en la fábrica de Mercedes-Benz en Madrid.""")
 ```
 
 </div>

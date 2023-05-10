@@ -102,7 +102,7 @@ val result = pipeline.fit(example).transform(example)
 {:.nlu-block}
 ```python
 import nlu
-nlu.load("es.classify.beto_bert").predict("""¡Me siento muy bien!!""")
+nlu.load("es.classify.beto_bert").predict("""Â¡Me siento muy bien!!""")
 ```
 
 </div>

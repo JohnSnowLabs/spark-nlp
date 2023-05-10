@@ -91,7 +91,7 @@ val result3 = light_pipeline.annotate("No estoy seguro de si mi salario mensual 
 {:.nlu-block}
 ```python
 import nlu
-nlu.load("es.classify.sentiment.").predict("""Soy una persona que intenta desayunar todas las mañanas sin falta.""")
+nlu.load("es.classify.sentiment.").predict("""No estoy seguro de si mi salario mensual es suficiente para vivir.""")
 ```
 
 </div>

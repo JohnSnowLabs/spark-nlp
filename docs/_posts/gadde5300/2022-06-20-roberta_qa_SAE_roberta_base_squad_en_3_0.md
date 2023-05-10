@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Saban� RobertaForQuestionAnswering (from jgammack)
+title: Saban RobertaForQuestionAnswering (from jgammack)
 author: John Snow Labs
 name: roberta_qa_SAE_roberta_base_squad
 date: 2022-06-20
