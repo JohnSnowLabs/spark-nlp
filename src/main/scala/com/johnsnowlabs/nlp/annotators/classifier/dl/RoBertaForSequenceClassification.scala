@@ -245,7 +245,8 @@ class RoBertaForSequenceClassification(override val uid: String)
     *
     * @group param
     */
-  val signatures = new MapFeature[String, String](model = this, name = "signatures").setProtected()
+  val signatures =
+    new MapFeature[String, String](model = this, name = "signatures").setProtected()
 
   /** @group setParam */
   def setSignatures(value: Map[String, String]): this.type = {
