@@ -17,7 +17,7 @@
 package com.johnsnowlabs.ml.ai
 
 import com.johnsnowlabs.ml.ai.util.Generation.Generate
-import com.johnsnowlabs.ml.tensorflow.sign.ModelSignatureManager
+import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.common.SentenceSplit
 import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.{BartTokenizer, BpeTokenizer}
@@ -53,27 +53,6 @@ private[johnsnowlabs] class Bart(
   private val paddingTokenId = 1
   private val eosTokenId = 2
   private val vocabSize = 50264
-  private val encoderInputIdsKey = "encoder_encoder_input_ids:0"
-  private val encoderAttentionMaskKey = "encoder_encoder_attention_mask:0"
-  private val encoderOutputKey = "StatefulPartitionedCall_2:0"
-
-  private val decoderInitInputIdsKey = "decoder_init_decoder_input_ids:0"
-  private val decoderInitEncoderAttentionMaskKey = "decoder_init_encoder_attention_mask:0"
-  private val decoderInitEncoderStateKey = "decoder_init_encoder_state:0"
-
-  private val decoderInitOutputLogitsKey = "StatefulPartitionedCall_1:2"
-  private val decoderInitOutputCache1Key = "StatefulPartitionedCall_1:0"
-  private val decoderInitOutputCache2Key = "StatefulPartitionedCall_1:1"
-
-  private val decoderCachedInputIdsKey = "decoder_cached_decoder_input_ids:0"
-  private val decoderCachedEncoderAttentionMaskKey = "decoder_cached_encoder_attention_mask:0"
-  private val decoderCachedEncoderStateKey = "decoder_cached_encoder_state:0"
-  private val decoderCachedCache1Key = "decoder_cached_cache1:0"
-  private val decoderCachedCache2Key = "decoder_cached_cache2:0"
-
-  private val decoderCachedOutputLogitsKey = "StatefulPartitionedCall:2"
-  private val decoderCachedOutputCache1Key = "StatefulPartitionedCall:0"
-  private val decoderCachedOutputCache2Key = "StatefulPartitionedCall:1"
   var tensorDecoder = new TensorResources()
   private var nextStateTensor1: Option[org.tensorflow.Tensor] = None
   private var nextStateTensor2: Option[org.tensorflow.Tensor] = None
@@ -250,9 +229,18 @@ private[johnsnowlabs] class Bart(
     val runner = session.runner
 
     runner
-      .feed(encoderInputIdsKey, encoderInputTensors)
-      .feed(encoderAttentionMaskKey, encoderAttentionMaskTensors)
-      .fetch(encoderOutputKey)
+      .feed(
+        _tfBartSignatures.getOrElse(
+          ModelSignatureConstants.EncoderInputIds.key,
+          "missing_encoder_input_ids"),
+        encoderInputTensors)
+      .feed(
+        _tfBartSignatures.getOrElse(
+          ModelSignatureConstants.EncoderAttentionMask.key,
+          "missing_encoder_attention_mask"),
+        encoderAttentionMaskTensors)
+      .fetch(_tfBartSignatures
+        .getOrElse(ModelSignatureConstants.CachedEncoderOutput.key, "missing_last_hidden_state"))
 
     val encoderOuts = runner.run().asScala
     val encoderOutsFloats = TensorResources.extractFloats(encoderOuts.head)
@@ -399,27 +387,65 @@ private[johnsnowlabs] class Bart(
 
     val runner = if (nextStateTensor1.isEmpty || nextStateTensor2.isEmpty) {
       val r = session.runner
-        .feed(decoderInitInputIdsKey, decoderInputTensors)
-        .feed(decoderInitEncoderStateKey, decoderEncoderStateTensors)
-        .feed(decoderInitEncoderAttentionMaskKey, encoderAttentionMaskTensors)
-        .fetch(decoderInitOutputLogitsKey)
+        .feed(
+          _tfBartSignatures.getOrElse(
+            ModelSignatureConstants.InitDecoderInputIds.key,
+            "missing_decoder_input_ids_init"),
+          decoderInputTensors)
+        .feed(
+          _tfBartSignatures.getOrElse(
+            ModelSignatureConstants.InitDecoderEncoderInputIds.key,
+            "missing_encoder_state_init"),
+          decoderEncoderStateTensors)
+        .feed(
+          _tfBartSignatures.getOrElse(
+            ModelSignatureConstants.InitDecoderEncoderAttentionMask.key,
+            "missing_decoder_encoder_attention_mask_init"),
+          encoderAttentionMaskTensors)
+        .fetch(_tfBartSignatures
+          .getOrElse(ModelSignatureConstants.InitLogitsOutput.key, "missing_logits_init"))
 
       if (!useCache)
         r
       else
         r
-          .fetch(decoderInitOutputCache1Key)
-          .fetch(decoderInitOutputCache2Key)
+          .fetch(_tfBartSignatures
+            .getOrElse(ModelSignatureConstants.InitCachedOutput1.key, "missing_cache1_out_init"))
+          .fetch(_tfBartSignatures
+            .getOrElse(ModelSignatureConstants.InitCachedOutPut2.key, "missing_cache2_out_init"))
     } else {
       session.runner
-        .feed(decoderCachedInputIdsKey, decoderInputTensors)
-        .feed(decoderCachedEncoderStateKey, decoderEncoderStateTensors)
-        .feed(decoderCachedEncoderAttentionMaskKey, encoderAttentionMaskTensors)
-        .feed(decoderCachedCache1Key, nextStateTensor1.get)
-        .feed(decoderCachedCache2Key, nextStateTensor2.get)
-        .fetch(decoderCachedOutputLogitsKey)
-        .fetch(decoderCachedOutputCache1Key)
-        .fetch(decoderCachedOutputCache2Key)
+        .feed(
+          _tfBartSignatures.getOrElse(
+            ModelSignatureConstants.CachedDecoderInputIds.key,
+            "missing_decoder_input_ids"),
+          decoderInputTensors)
+        .feed(
+          _tfBartSignatures.getOrElse(
+            ModelSignatureConstants.CachedDecoderEncoderInputIds.key,
+            "missing_encoder_state"),
+          decoderEncoderStateTensors)
+        .feed(
+          _tfBartSignatures.getOrElse(
+            ModelSignatureConstants.CachedDecoderEncoderAttentionMask.key,
+            "missing_decoder_encoder_attention_mask"),
+          encoderAttentionMaskTensors)
+        .feed(
+          _tfBartSignatures.getOrElse(
+            ModelSignatureConstants.CachedDecoderInputCache1.key,
+            "missing_decoder_input_cache1"),
+          nextStateTensor1.get)
+        .feed(
+          _tfBartSignatures.getOrElse(
+            ModelSignatureConstants.CachedDecoderInputCache2.key,
+            "missing_decoder_input_cache2"),
+          nextStateTensor2.get)
+        .fetch(_tfBartSignatures
+          .getOrElse(ModelSignatureConstants.CachedLogitsOutput.key, "missing_logits_out"))
+        .fetch(_tfBartSignatures
+          .getOrElse(ModelSignatureConstants.CachedOutput1.key, "missing_cache1_out"))
+        .fetch(_tfBartSignatures
+          .getOrElse(ModelSignatureConstants.CachedOutPut2.key, "missing_cache2_out"))
     }
 
     val decoderOuts = runner.run().asScala
