@@ -73,6 +73,11 @@ class HasClassifierActivationProperties:
                        "Whether to calculate logits via Softmax or Sigmoid. Default is Softmax",
                        typeConverter=TypeConverters.toString)
 
+    multilabel = Param(Params._dummy(),
+                       "multilabel",
+                       "Whether to calculate logits via Multiclass(softmax) or Multilabel(sigmoid). Default is False i.e. Multiclass",
+                       typeConverter=TypeConverters.toBoolean)
+
     def setActivation(self, value):
         """Sets whether to calculate logits via Softmax or Sigmoid. Default is Softmax
 
@@ -92,6 +97,30 @@ class HasClassifierActivationProperties:
             Whether to calculate logits via Softmax or Sigmoid. Default is Softmax
         """
         return self.getOrDefault(self.activation)
+
+    def setMultilabel(self, value):
+        """Sets whether to calculate logits via Multiclass(softmax) or Multilabel(sigmoid).
+         Default is False i.e. Multiclass
+
+        Parameters
+        ----------
+        value : bool
+            Whether to calculate logits via Multiclass(softmax) or Multilabel(sigmoid).
+            Default is False i.e. Multiclass
+        """
+        return self._set(multilabel=value)
+
+    def getMultilabel(self):
+        """Gets whether to calculate logits via Multiclass(softmax) or Multilabel(sigmoid).
+         Default is False i.e. Multiclass
+
+        Parameters
+        ----------
+        value : bool
+            Whether to calculate logits via Multiclass(softmax) or Multilabel(sigmoid).
+            Default is False i.e. Multiclass
+        """
+        return self.getOrDefault(self.multilabel)
 
 
 class HasEmbeddingsProperties(Params):
