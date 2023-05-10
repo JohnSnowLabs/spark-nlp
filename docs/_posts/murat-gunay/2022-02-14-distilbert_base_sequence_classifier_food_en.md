@@ -75,6 +75,14 @@ val tokenizer = Tokenizer()
 
 val result = pipeline.fit(example1).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.food.distil_bert.base").predict("""The first time I ever used them was about 9 months ago. The food that came was just left at my front doorstep all over the place. Bread was smashed, bananas nearly rotten, and containers crushed. Given the weather, I decided to give them another try. This time my order was cancelled 6 hours before delivery. When cancelled, they didn't even give an explanation as to why it was cancelled. Amazon just needs to close up this portion of their shop.""")
+```
+
 </div>
 
 ## Results

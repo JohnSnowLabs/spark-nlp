@@ -40,11 +40,11 @@ documentAssembler = DocumentAssembler() \
 tokenizer = Tokenizer() \
     .setInputCols("document") \
     .setOutputCol("token")
-  
+
 embeddings = CamemBertEmbeddings.pretrained("camembert_embeddings_est_roberta","et") \
     .setInputCols(["document", "token"]) \
     .setOutputCol("embeddings")
-    
+
 pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings])
 
 data = spark.createDataFrame([["Ma armastan sädet nlp"]]).toDF("text")
@@ -52,16 +52,16 @@ data = spark.createDataFrame([["Ma armastan sädet nlp"]]).toDF("text")
 result = pipeline.fit(data).transform(data)
 ```
 ```scala
-val documentAssembler = new DocumentAssembler() 
-      .setInputCol("text") 
+val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
       .setOutputCol("document")
- 
-val tokenizer = new Tokenizer() 
+
+val tokenizer = new Tokenizer()
     .setInputCols(Array("document"))
     .setOutputCol("token")
 
-val embeddings = CamemBertEmbeddings.pretrained("camembert_embeddings_est_roberta","et") 
-    .setInputCols(Array("document", "token")) 
+val embeddings = CamemBertEmbeddings.pretrained("camembert_embeddings_est_roberta","et")
+    .setInputCols(Array("document", "token"))
     .setOutputCol("embeddings")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, embeddings))
@@ -70,6 +70,14 @@ val data = Seq("Ma armastan sädet nlp").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("et.embed.camembert").predict("""Ma armastan sädet nlp""")
+```
+
 </div>
 
 {:.model-param}

@@ -101,6 +101,14 @@ val example = Seq("¡Me siento muy bien!!").toDS.toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("es.classify.beto_bert.sentiment_analysis").predict("""¡Me siento muy bien!!""")
+```
+
 </div>
 
 {:.model-param}

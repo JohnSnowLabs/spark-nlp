@@ -82,6 +82,14 @@ val example = Seq.empty["Camera - You are awarded a SiPix Digital Camera! call 0
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.bert.sms_spam.").predict("""Camera - You are awarded a SiPix Digital Camera! call 09061221066 from landline. Delivery within 28 days.""")
+```
+
 </div>
 
 ## Results

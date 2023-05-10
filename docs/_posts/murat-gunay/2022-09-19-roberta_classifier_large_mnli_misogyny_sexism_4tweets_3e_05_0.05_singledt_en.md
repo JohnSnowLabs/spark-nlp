@@ -75,6 +75,14 @@ val data = Seq("PUT YOUR STRING HERE").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.roberta.mnli_misogyny_sexism.tweet.large_4tweets_3e_05_0.05_singledt.by_annahaz").predict("""PUT YOUR STRING HERE""")
+```
+
 </div>
 
 {:.model-param}

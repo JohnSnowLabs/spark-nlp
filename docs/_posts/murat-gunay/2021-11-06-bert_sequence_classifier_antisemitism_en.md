@@ -77,6 +77,14 @@ val example = Seq.empty["The Jews have too much power!"].toDS.toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.bert").predict("""The Jews have too much power!""")
+```
+
 </div>
 
 ## Results

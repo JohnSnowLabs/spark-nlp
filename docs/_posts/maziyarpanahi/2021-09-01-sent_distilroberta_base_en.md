@@ -52,6 +52,14 @@ val embeddings = RoBertaSentenceEmbeddings.pretrained("sent_distilroberta_base",
       .setInputCols("sentence")
       .setOutputCol("embeddings")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed_sentence.distil_roberta.distilled_base").predict("""Put your text here.""")
+```
+
 </div>
 
 {:.model-param}

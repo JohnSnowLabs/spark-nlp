@@ -64,6 +64,14 @@ result = pipeline.fit(example).transform(example)
 result.select("text", "class.result").show()
 ```
 
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("es.classify.beto_bert.sentiment").predict("""Te quiero. Te amo.""")
+```
+
 </div>
 
 ## Results

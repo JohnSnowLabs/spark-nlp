@@ -150,6 +150,14 @@ val example = Seq.empty["My name is John!"].toDS.toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.ner.distil_bert.few_nerd.base").predict("""My name is John!""")
+```
+
 </div>
 
 {:.model-param}
