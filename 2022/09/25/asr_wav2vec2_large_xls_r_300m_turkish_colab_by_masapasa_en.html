@@ -468,46 +468,54 @@
 <span class="k">val</span> <span class="nv">pipelineDF</span> <span class="k">=</span> <span class="nv">pipelineModel</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">audioDf</span><span class="o">)</span>
 
 </code></pre></div>  </div>
+
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/resources/en/audio/samples/wavs/ngm_12484_01067234848.wav'</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">'ngm_12484_01067234848.wav'</span><span class="p">,</span> <span class="s">'wb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">content</span><span class="p">)</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"en.speech2text.wav2vec_xlsr.v2_large_300m_colab.by_masapasa"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"ngm_12484_01067234848.wav"</span><span class="p">)</span>
+</code></pre></div>  </div>
+
+  <h2 class="model-param" id="model-information">Model Information</h2>
+
+  <table class="table-model">
+    <tbody>
+      <tr>
+        <td>Model Name:</td>
+        <td>asr_wav2vec2_large_xls_r_300m_turkish_colab_by_masapasa</td>
+      </tr>
+      <tr>
+        <td>Compatibility:</td>
+        <td>Spark NLP 4.2.0+</td>
+      </tr>
+      <tr>
+        <td>License:</td>
+        <td>Open Source</td>
+      </tr>
+      <tr>
+        <td>Edition:</td>
+        <td>Official</td>
+      </tr>
+      <tr>
+        <td>Input Labels:</td>
+        <td>[audio_assembler]</td>
+      </tr>
+      <tr>
+        <td>Output Labels:</td>
+        <td>[text]</td>
+      </tr>
+      <tr>
+        <td>Language:</td>
+        <td>en</td>
+      </tr>
+      <tr>
+        <td>Size:</td>
+        <td>756.6 MB</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
-
-<h2 class="model-param" id="model-information">Model Information</h2>
-
-<table class="table-model">
-  <tbody>
-    <tr>
-      <td>Model Name:</td>
-      <td>asr_wav2vec2_large_xls_r_300m_turkish_colab_by_masapasa</td>
-    </tr>
-    <tr>
-      <td>Compatibility:</td>
-      <td>Spark NLP 4.2.0+</td>
-    </tr>
-    <tr>
-      <td>License:</td>
-      <td>Open Source</td>
-    </tr>
-    <tr>
-      <td>Edition:</td>
-      <td>Official</td>
-    </tr>
-    <tr>
-      <td>Input Labels:</td>
-      <td>[audio_assembler]</td>
-    </tr>
-    <tr>
-      <td>Output Labels:</td>
-      <td>[text]</td>
-    </tr>
-    <tr>
-      <td>Language:</td>
-      <td>en</td>
-    </tr>
-    <tr>
-      <td>Size:</td>
-      <td>756.6 MB</td>
-    </tr>
-  </tbody>
-</table>
 </div><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2022-09-25T00:00:00+00:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>

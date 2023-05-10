@@ -505,6 +505,11 @@
 
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 </code></pre></div>  </div>
+
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"en.zero_shot.ner_roberta"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""text|||"document|||"document|||"sentence|||"sentence|||"token|||"zero_shot_ner_roberta|||"en|||"clincial/models|||"sentence|||"token|||"zero_shot_ner|||"NAME|||"What is his name?|||"What is my name?|||"What is her name?|||"CITY|||"Which city?|||"Which is the city?|||"sentence|||"token|||"zero_shot_ner|||"ner_chunk|||"Hellen works in London, Paris and Berlin. My name is Clara, I live in New York and Hellen lives in Paris.|||"John is a man who works in London, London and London.|||"text"""</span><span class="p">)</span>
+</code></pre></div>  </div>
+
 </div>
 
 <h2 id="results">Results</h2>

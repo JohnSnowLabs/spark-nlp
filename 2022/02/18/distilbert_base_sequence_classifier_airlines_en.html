@@ -452,12 +452,12 @@
 <span class="n">example</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"Jersey to London Gatwick with easyJet and another great flight. Due to the flight time, airport check-in was not open, however I'd checked in a few days before with the easyJet app which was very quick and convenient. Boarding was quick and we left a few minutes early, which is a bonus. The cabin crew were friendly and the aircraft was clean and comfortable. We arrived at Gatwick 5-10 minutes early, and disembarking was as quick as boarding. On the way back, we were about half an hour early landing, which was fantastic. For the short flight from JER-LGW, easyJet are ideal and a bit better than British Airways in my opinion, and the fares are just unmissable. Both flights for two adults cost £180. easyJet can expect my business in the near future."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">example</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span> 
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">document_assembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span> 
-    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span> 
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+    <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nv">DistilBertForSequenceClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"distilbert_base_sequence_classifier_airlines"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
@@ -470,6 +470,11 @@
 
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">example</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">example</span><span class="o">)</span>
 </code></pre></div>  </div>
+
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"en.classify.distil_bert.base.by_datasets"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""Jersey to London Gatwick with easyJet and another great flight. Due to the flight time, airport check-in was not open, however I'd checked in a few days before with the easyJet app which was very quick and convenient. Boarding was quick and we left a few minutes early, which is a bonus. The cabin crew were friendly and the aircraft was clean and comfortable. We arrived at Gatwick 5-10 minutes early, and disembarking was as quick as boarding. On the way back, we were about half an hour early landing, which was fantastic. For the short flight from JER-LGW, easyJet are ideal and a bit better than British Airways in my opinion, and the fares are just unmissable. Both flights for two adults cost £180. easyJet can expect my business in the near future."""</span><span class="p">)</span>
+</code></pre></div>  </div>
+
 </div>
 
 <h2 id="results">Results</h2>

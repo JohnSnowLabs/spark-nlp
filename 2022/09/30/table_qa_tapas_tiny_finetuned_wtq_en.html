@@ -489,6 +489,18 @@ Has aggregation operations?: True</p>
 
 </code></pre></div>  </div>
 
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"en.answer_question.tapas.wtq.tiny_finetuned"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""
+{
+  "header": ["name", "money", "age"],
+  "rows": [
+    ["Donald Trump", "$100,000,000", "75"],
+    ["Elon Musk", "$20,000,000,000,000", "55"]
+  ]
+}
+"""</span><span class="p">)</span>
+</code></pre></div>  </div>
+
 </div>
 
 <h2 id="results">Results</h2>

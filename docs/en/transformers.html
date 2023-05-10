@@ -1115,7 +1115,9 @@ https://github.com/JohnSnowLabs/spark-nlp/discussions/5669. and the
   <h2 id="albertforsequenceclassification">AlbertForSequenceClassification</h2>
 
   <p>AlbertForSequenceClassification can load ALBERT Models with sequence classification/regression head on top
-(a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.</p>
+(a linear layer on top of the pooled output), e.g. for document classification tasks.</p>
+
+  <p>For multi-class, use <code class="language-plaintext highlighter-rouge">setActivation("softmax")</code>. For multi-label, use <code class="language-plaintext highlighter-rouge">setActivation("sigmoid")</code>.</p>
 
   <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
   <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>val sequenceClassifier = AlbertForSequenceClassification.pretrained()
@@ -2073,8 +2075,9 @@ https://github.com/JohnSnowLabs/spark-nlp/discussions/5669. and the
 
   <h2 id="bertforsequenceclassification">BertForSequenceClassification</h2>
 
-  <p>BertForSequenceClassification can load Bert Models with sequence classification/regression head on top (a linear layer on top of the pooled output)
-e.g. for multi-class document classification tasks.</p>
+  <p>BertForSequenceClassification can load Bert Models with sequence classification/regression head on top (a linear layer on top of the pooled output), e.g. for document classification tasks.</p>
+
+  <p>For multi-class, use <code class="language-plaintext highlighter-rouge">setActivation("softmax")</code>. For multi-label, use <code class="language-plaintext highlighter-rouge">setActivation("sigmoid")</code>.</p>
 
   <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
   <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>val sequenceClassifier = BertForSequenceClassification.pretrained()
@@ -3121,8 +3124,9 @@ state of the art in all four downstream tasks.</em></p>
   <h2 id="camembertforsequenceclassification">CamemBertForSequenceClassification</h2>
 
   <p>CamemBertForSequenceClassification can load CamemBERT Models with sequence
-classification/regression head on top (a linear layer on top of the pooled output) e.g. for
-multi-class document classification tasks.</p>
+classification/regression head on top (a linear layer on top of the pooled output), e.g. for document classification tasks.</p>
+
+  <p>For multi-class, use <code class="language-plaintext highlighter-rouge">setActivation("softmax")</code>. For multi-label, use <code class="language-plaintext highlighter-rouge">setActivation("sigmoid")</code>.</p>
 
   <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
 
@@ -4426,7 +4430,9 @@ https://github.com/JohnSnowLabs/spark-nlp/discussions/5669. and the
   <h2 id="distilbertforsequenceclassification">DistilBertForSequenceClassification</h2>
 
   <p>DistilBertForSequenceClassification can load DistilBERT Models with sequence classification/regression head on top
-(a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.</p>
+(a linear layer on top of the pooled output), e.g. for document classification tasks.</p>
+
+  <p>For multi-class, use <code class="language-plaintext highlighter-rouge">setActivation("softmax")</code>. For multi-label, use <code class="language-plaintext highlighter-rouge">setActivation("sigmoid")</code>.</p>
 
   <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
   <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>val sequenceClassifier = DistilBertForSequenceClassification.pretrained()
@@ -5916,7 +5922,9 @@ https://github.com/JohnSnowLabs/spark-nlp/discussions/5669. and the
   <h2 id="longformerforsequenceclassification">LongformerForSequenceClassification</h2>
 
   <p>LongformerForSequenceClassification can load Longformer Models with sequence classification/regression head on top
-(a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.</p>
+(a linear layer on top of the pooled output), e.g. for document classification tasks.</p>
+
+  <p>For multi-class, use <code class="language-plaintext highlighter-rouge">setActivation("softmax")</code>. For multi-label, use <code class="language-plaintext highlighter-rouge">setActivation("sigmoid")</code>.</p>
 
   <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
   <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>val sequenceClassifier = LongformerForSequenceClassification.pretrained()
@@ -6865,7 +6873,9 @@ https://github.com/JohnSnowLabs/spark-nlp/discussions/5669. and the
   <h2 id="robertaforsequenceclassification">RoBertaForSequenceClassification</h2>
 
   <p>RoBertaForSequenceClassification can load RoBERTa Models with sequence classification/regression head on top
-(a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.</p>
+(a linear layer on top of the pooled output), e.g. for document classification tasks.</p>
+
+  <p>For multi-class, use <code class="language-plaintext highlighter-rouge">setActivation("softmax")</code>. For multi-label, use <code class="language-plaintext highlighter-rouge">setActivation("sigmoid")</code>.</p>
 
   <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
   <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>val sequenceClassifier = RoBertaForSequenceClassification.pretrained()
@@ -9187,7 +9197,9 @@ https://github.com/JohnSnowLabs/spark-nlp/discussions/5669. and the
   <h2 id="xlmrobertaforsequenceclassification">XlmRoBertaForSequenceClassification</h2>
 
   <p>XlmRoBertaForSequenceClassification can load XLM-RoBERTa Models with sequence classification/regression head on top
-(a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.</p>
+(a linear layer on top of the pooled output), e.g. for document classification tasks.</p>
+
+  <p>For multi-class, use <code class="language-plaintext highlighter-rouge">setActivation("softmax")</code>. For multi-label, use <code class="language-plaintext highlighter-rouge">setActivation("sigmoid")</code>.</p>
 
   <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
   <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>val sequenceClassifier = XlmRoBertaForSequenceClassification.pretrained()

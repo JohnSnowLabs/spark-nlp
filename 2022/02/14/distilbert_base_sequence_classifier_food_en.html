@@ -470,6 +470,11 @@
 
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">example1</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">example</span><span class="o">)</span>
 </code></pre></div>  </div>
+
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"en.classify.food.distil_bert.base"</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""The first time I ever used them was about 9 months ago. The food that came was just left at my front doorstep all over the place. Bread was smashed, bananas nearly rotten, and containers crushed. Given the weather, I decided to give them another try. This time my order was cancelled 6 hours before delivery. When cancelled, they didn't even give an explanation as to why it was cancelled. Amazon just needs to close up this portion of their shop."""</span><span class="p">)</span>
+</code></pre></div>  </div>
+
 </div>
 
 <h2 id="results">Results</h2>

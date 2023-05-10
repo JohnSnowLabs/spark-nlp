@@ -482,6 +482,11 @@
 
 <span class="k">val</span> <span class="nv">result3</span> <span class="k">=</span> <span class="nv">light_pipeline</span><span class="o">.</span><span class="py">annotate</span><span class="o">(</span><span class="s">"No estoy seguro de si mi salario mensual es suficiente para vivir."</span><span class="o">)</span>
 </code></pre></div>  </div>
+
+  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
+<span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"es.classify.sentiment."</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="s">"""No estoy seguro de si mi salario mensual es suficiente para vivir."""</span><span class="p">)</span>
+</code></pre></div>  </div>
+
 </div>
 
 <h2 id="results">Results</h2>
