@@ -2,7 +2,7 @@
 layout: docs
 header: true
 seotitle:
-title: Tensorflow Graph
+title: Spark NLP - Tensorflow Graph
 permalink: /docs/en/graph
 key: docs-graph
 modify_date: "2020-02-03"
@@ -31,7 +31,7 @@ All of these graphs use an LSTM of size 128 and number of chars 100
 
 In case, your train dataset has a different number of tags, embeddings dimension, number of chars and LSTM size combinations shown in the table above, `NerDLApproach` will raise an **IllegalArgumentException** exception during runtime with the message below:
 
-*Graph [parameter] should be [value]: Could not find a suitable tensorflow graph for embeddings dim: [value] tags: [value] nChars: [value]. Check https://nlp.johnsnowlabs.com/docs/en/graph for instructions to generate the required graph.*
+*Graph [parameter] should be [value]: Could not find a suitable tensorflow graph for embeddings dim: [value] tags: [value] nChars: [value]. Check https://sparknlp.org/docs/en/graph for instructions to generate the required graph.*
 
 To overcome this exception message we have to follow these steps:
 

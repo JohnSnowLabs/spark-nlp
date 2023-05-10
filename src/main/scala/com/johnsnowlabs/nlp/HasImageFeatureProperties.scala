@@ -149,7 +149,15 @@ trait HasImageFeatureProperties extends ParamsAndFeaturesWritable {
   def getImageStd: Array[Double] = $(imageStd)
 
   /** @group getParam */
-  def getResample: Int = $(resample)
+  def getResample: Int = $(resample) match {
+    // Match to AffineTransformOp
+    case 0 => 1 // NEAREST
+    case 2 => 2 // BILINEAR
+    case 3 => 3 // BICUBIC
+    case otherValue: Int =>
+      throw new IllegalArgumentException(
+        s"Invalid value for resampling ($otherValue). Only Nearest Neighbour (0), Bilinear (2) or Bicubic (3) filters are currently supported.")
+  }
 
   /** @group getParam */
   def getSize: Int = $(size)

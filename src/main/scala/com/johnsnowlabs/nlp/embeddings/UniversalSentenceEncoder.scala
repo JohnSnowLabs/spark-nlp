@@ -43,7 +43,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   *   .setOutputCol("sentence_embeddings")
   * }}}
   * The default model is `"tfhub_use"`, if no name is provided. For available pretrained models
-  * please see the [[https://nlp.johnsnowlabs.com/models?task=Embeddings Models Hub]].
+  * please see the [[https://sparknlp.org/models?task=Embeddings Models Hub]].
   *
   * For extended examples of usage, see the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/ClassifierDL_Train_multi_class_news_category_classifier.ipynb Examples]]
@@ -119,8 +119,8 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   * }}}
   *
   * @see
-  *   [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of
-  *   transformer based embeddings
+  *   [[https://sparknlp.org/docs/en/annotators Annotators Main Page]] for a list of transformer
+  *   based embeddings
   * @groupname anno Annotator types
   * @groupdesc anno
   *   Required input and expected output annotator types

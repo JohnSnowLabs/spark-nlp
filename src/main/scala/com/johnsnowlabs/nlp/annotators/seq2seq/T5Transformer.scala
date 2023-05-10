@@ -59,7 +59,7 @@ import org.apache.spark.sql.SparkSession
   *   .setOutputCol("summaries")
   * }}}
   * The default model is `"t5_small"`, if no name is provided. For available pretrained models
-  * please see the [[https://nlp.johnsnowlabs.com/models?q=t5 Models Hub]].
+  * please see the [[https://sparknlp.org/models?q=t5 Models Hub]].
   *
   * For extended examples of usage, see the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/question-answering/Question_Answering_and_Summarization_with_T5.ipynb Examples]]

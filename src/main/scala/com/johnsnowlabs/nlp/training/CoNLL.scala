@@ -18,7 +18,7 @@ package com.johnsnowlabs.nlp.training
 
 import com.johnsnowlabs.nlp.annotators.common.Annotated.{NerTaggedSentence, PosTaggedSentence}
 import com.johnsnowlabs.nlp.annotators.common._
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, OutputHelper, ReadAs, ResourceHelper}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType, DocumentAssembler}
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{Dataset, SparkSession}
@@ -352,7 +352,7 @@ case class CoNLL(
       storageLevel: StorageLevel = StorageLevel.DISK_ONLY): Dataset[_] = {
     if (path.endsWith("*")) {
       val rdd = spark.sparkContext
-        .wholeTextFiles(path, minPartitions = parallelism)
+        .wholeTextFiles(OutputHelper.parsePath(path), minPartitions = parallelism)
         .flatMap { case (_, content) =>
           val lines = content.split(System.lineSeparator)
           readLines(lines)

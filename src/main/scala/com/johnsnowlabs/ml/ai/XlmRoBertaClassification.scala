@@ -41,7 +41,8 @@ private[johnsnowlabs] class XlmRoBertaClassification(
     val spp: SentencePieceWrapper,
     configProtoBytes: Option[Array[Byte]] = None,
     tags: Map[String, Int],
-    signatures: Option[Map[String, String]] = None)
+    signatures: Option[Map[String, String]] = None,
+    threshold: Float = 0.5f)
     extends Serializable
     with XXXForClassification {
 
@@ -53,6 +54,7 @@ private[johnsnowlabs] class XlmRoBertaClassification(
   protected val sentencePadTokenId: Int = 1
 
   private val sentencePieceDelimiterId = spp.getSppModel.pieceToId("▁")
+  protected val sigmoidThreshold: Float = threshold
 
   def tokenizeWithAlignment(
       sentences: Seq[TokenizedSentence],
@@ -70,6 +72,11 @@ private[johnsnowlabs] class XlmRoBertaClassification(
     }
     sentenceTokenPieces
   }
+
+  def tokenizeSeqString(
+      candidateLabels: Seq[String],
+      maxSeqLength: Int,
+      caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = ???
 
   def tokenizeDocument(
       docs: Seq[Annotation],
@@ -211,6 +218,12 @@ private[johnsnowlabs] class XlmRoBertaClassification(
 
     batchScores
   }
+
+  def tagZeroShotSequence(
+      batch: Seq[Array[Int]],
+      entailmentId: Int,
+      contradictionId: Int,
+      activation: String): Array[Array[Float]] = ???
 
   def tagSpan(batch: Seq[Array[Int]]): (Array[Array[Float]], Array[Array[Float]]) = {
     val tensors = new TensorResources()

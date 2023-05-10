@@ -53,7 +53,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   * }}}
   * The default model is `"sent_xlm_roberta_base"`, default language is `"xx"` (meaning
   * multi-lingual), if no values are provided. For available pretrained models please see the
-  * [[https://nlp.johnsnowlabs.com/models?task=Embeddings Models Hub]].
+  * [[https://sparknlp.org/models?task=Embeddings Models Hub]].
   *
   * To see which models are compatible and how to import them see
   * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]] and to see more extended
@@ -140,8 +140,8 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   * @see
   *   [[XlmRoBertaEmbeddings]] for token-level embeddings
   * @see
-  *   [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of
-  *   transformer based embeddings
+  *   [[https://sparknlp.org/docs/en/annotators Annotators Main Page]] for a list of transformer
+  *   based embeddings
   * @groupname anno Annotator types
   * @groupdesc anno
   *   Required input and expected output annotator types

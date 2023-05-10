@@ -29,25 +29,14 @@ import com.johnsnowlabs.nlp.annotators.coref.{
   ReadSpanBertCorefTensorflowModel,
   ReadablePretrainedSpanBertCorefModel
 }
-import com.johnsnowlabs.nlp.annotators.cv.{
-  ReadSwinForImageDLModel,
-  ReadViTForImageDLModel,
-  ReadablePretrainedSwinForImageModel,
-  ReadablePretrainedViTForImageModel
-}
+import com.johnsnowlabs.nlp.annotators.cv._
 import com.johnsnowlabs.nlp.annotators.er.ReadablePretrainedEntityRuler
 import com.johnsnowlabs.nlp.annotators.ld.dl.{
   ReadLanguageDetectorDLTensorflowModel,
   ReadablePretrainedLanguageDetectorDLModel
 }
 import com.johnsnowlabs.nlp.annotators.ner.crf.ReadablePretrainedNerCrf
-import com.johnsnowlabs.nlp.annotators.ner.dl.{
-  ReadZeroShotNerDLModel,
-  ReadablePretrainedNerDL,
-  ReadablePretrainedZeroShotNer,
-  ReadsNERGraph,
-  WithGraphResolver
-}
+import com.johnsnowlabs.nlp.annotators.ner.dl._
 import com.johnsnowlabs.nlp.annotators.parser.dep.ReadablePretrainedDependency
 import com.johnsnowlabs.nlp.annotators.parser.typdep.ReadablePretrainedTypedDependency
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.ReadablePretrainedPerceptron
@@ -651,6 +640,13 @@ package object annotator {
       extends ReadablePretrainedSwinForImageModel
       with ReadSwinForImageDLModel
 
+  type ConvNextForImageClassification =
+    com.johnsnowlabs.nlp.annotators.cv.ConvNextForImageClassification
+
+  object ConvNextForImageClassification
+      extends ReadablePretrainedConvNextForImageModel
+      with ReadConvNextForImageDLModel
+
   type CamemBertForQuestionAnswering =
     com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForQuestionAnswering
 
@@ -678,4 +674,29 @@ package object annotator {
   type Date2Chunk = com.johnsnowlabs.nlp.annotators.Date2Chunk
 
   object Date2Chunk extends DefaultParamsReadable[Date2Chunk]
+
+  type Chunk2Doc = com.johnsnowlabs.nlp.annotators.Chunk2Doc
+
+  object Chunk2Doc extends DefaultParamsReadable[Chunk2Doc]
+
+  type BartTransformer = com.johnsnowlabs.nlp.annotators.seq2seq.BartTransformer
+
+  object BartTransformer
+      extends ReadablePretrainedBartTransformerModel
+      with ReadBartTransformerDLModel
+
+  type BertForZeroShotClassification =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.BertForZeroShotClassification
+
+  object BertForZeroShotClassification
+      extends ReadablePretrainedBertForZeroShotModel
+      with ReadBertForZeroShotDLModel
+
+  type DistilBertForZeroShotClassification =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForZeroShotClassification
+
+  object DistilBertForZeroShotClassification
+      extends ReadablePretrainedDistilBertForZeroShotModel
+      with ReadDistilBertForZeroShotDLModel
+
 }

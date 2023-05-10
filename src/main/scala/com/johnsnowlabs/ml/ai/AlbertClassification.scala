@@ -41,7 +41,8 @@ private[johnsnowlabs] class AlbertClassification(
     val spp: SentencePieceWrapper,
     configProtoBytes: Option[Array[Byte]] = None,
     tags: Map[String, Int],
-    signatures: Option[Map[String, String]] = None)
+    signatures: Option[Map[String, String]] = None,
+    threshold: Float = 0.5f)
     extends Serializable
     with XXXForClassification {
 
@@ -54,6 +55,7 @@ private[johnsnowlabs] class AlbertClassification(
   protected val sentenceEndTokenId: Int = spp.getSppModel.pieceToId("[SEP]")
 
   private val sentencePieceDelimiterId: Int = spp.getSppModel.pieceToId("▁")
+  protected val sigmoidThreshold: Float = threshold
 
   def tokenizeWithAlignment(
       sentences: Seq[TokenizedSentence],
@@ -70,6 +72,11 @@ private[johnsnowlabs] class AlbertClassification(
     }
     sentenceTokenPieces
   }
+
+  def tokenizeSeqString(
+      candidateLabels: Seq[String],
+      maxSeqLength: Int,
+      caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = ???
 
   def tokenizeDocument(
       docs: Seq[Annotation],
@@ -222,6 +229,12 @@ private[johnsnowlabs] class AlbertClassification(
 
     batchScores
   }
+
+  def tagZeroShotSequence(
+      batch: Seq[Array[Int]],
+      entailmentId: Int,
+      contradictionId: Int,
+      activation: String): Array[Array[Float]] = ???
 
   def tagSpan(batch: Seq[Array[Int]]): (Array[Array[Float]], Array[Array[Float]]) = {
     val tensors = new TensorResources()

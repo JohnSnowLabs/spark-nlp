@@ -1,7 +1,7 @@
 ---
 layout: docs
 header: true
-title: Hardware Acceleration
+title: Spark NLP - Hardware Acceleration
 permalink: /docs/en/hardware_acceleration
 key: docs-concepts
 modify_date: "2022-12-21"
@@ -28,7 +28,7 @@ The following benchmarks have been done by using a single Dell Server with the f
 
 ### GPU
 
-Perhaps the best and the easiest way in Spark NLP to massively improve a DL-based task(s) is to use GPU. Spark NLP comes with a zero-code change feature to run seamlessly on both CPU and GPU by simply enabling GPU via `sparknlp.start(gpu=True)` or using directly the Maven package that is for GPU `spark-nlp-gpu`. ([more details](https://nlp.johnsnowlabs.com/docs/en/install))
+Perhaps the best and the easiest way in Spark NLP to massively improve a DL-based task(s) is to use GPU. Spark NLP comes with a zero-code change feature to run seamlessly on both CPU and GPU by simply enabling GPU via `sparknlp.start(gpu=True)` or using directly the Maven package that is for GPU `spark-nlp-gpu`. ([more details](https://sparknlp.org/docs/en/install))
 
 Since the new Transformer models such as BERT for Word and Sentence embeddings are the most computationally available downstream tasks in Spark NLP, we will show a benchmark for inference (prediction) to compare CPU (without any accelerations) to GPU:
 
@@ -49,7 +49,7 @@ Since the new Transformer models such as BERT for Word and Sentence embeddings a
 | DeBERTa Large     |        +477%(5.8x)        |
 | Longformer Base   |         +52%(1.5x)        |
 
-Spark NLP 4.3.1 is built with TensorFlow 2.7.1 and the following NVIDIA® software are only required for GPU support:
+Spark NLP 4.4.1 is built with TensorFlow 2.7.1 and the following NVIDIA® software are only required for GPU support:
 
 - NVIDIA® GPU drivers version 450.80.02 or higher
 - CUDA® Toolkit 11.2

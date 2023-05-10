@@ -22,7 +22,7 @@ val speechToText = Wav2Vec2ForCTC.pretrained()
 The default model is `"asr_wav2vec2_base_960h"`, if no name is provided.
 
 For available pretrained models please see the
-[Models Hub](https://nlp.johnsnowlabs.com/models).
+[Models Hub](https://sparknlp.org/models).
 
 To see which models are compatible and how to import them see
 https://github.com/JohnSnowLabs/spark-nlp/discussions/5669 and to see more extended

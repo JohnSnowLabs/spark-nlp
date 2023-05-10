@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.3.1 ScalaDoc  - com.johnsnowlabs.nlp.embeddings</title>
-          <meta name="description" content="Spark NLP 4.3.1 ScalaDoc - com.johnsnowlabs.nlp.embeddings" />
-          <meta name="keywords" content="Spark NLP 4.3.1 ScalaDoc com.johnsnowlabs.nlp.embeddings" />
+          <title>Spark NLP 4.4.1 ScalaDoc  - com.johnsnowlabs.nlp.embeddings</title>
+          <meta name="description" content="Spark NLP 4.4.1 ScalaDoc - com.johnsnowlabs.nlp.embeddings" />
+          <meta name="keywords" content="Spark NLP 4.4.1 ScalaDoc com.johnsnowlabs.nlp.embeddings" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.3.1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.4.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -624,8 +624,8 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
 +--------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="../annotators/classifier/dl/AlbertForTokenClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForTokenClassification">AlbertForTokenClassification</a>
   for AlbertEmbeddings with a token classification layer on top</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based embeddings</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based embeddings</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.embeddings.BertEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="BertEmbeddingsextendsAnnotatorModel[com.johnsnowlabs.nlp.embeddings.BertEmbeddings]withHasBatchedAnnotate[com.johnsnowlabs.nlp.embeddings.BertEmbeddings]withWriteTensorflowModelwithHasEmbeddingsPropertieswithHasStorageRefwithHasCaseSensitivePropertieswithHasEngine"></a><a id="BertEmbeddings:BertEmbeddings"></a>
       <span class="permalink">
@@ -646,7 +646,7 @@ Transformers) provides dense vector representations for natural language by usin
 pre-trained neural network with the Transformer architecture.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> embeddings = BertEmbeddings.pretrained()
   .setInputCols(<span class="lit">"token"</span>, <span class="lit">"document"</span>)
   .setOutputCol(<span class="lit">"bert_embeddings"</span>)</pre><p>The default model is <code>&quot;small_bert_L2_768&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
+<a href="https://sparknlp.org/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dl-ner/ner_bert.ipynb" target="_blank">Examples</a>
 and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertEmbeddingsTestSpec.scala" target="_blank">BertEmbeddingsTestSpec</a>.
@@ -709,8 +709,8 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
   <a href="BertSentenceEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings">BertSentenceEmbeddings</a> for sentence-level embeddings</p></span><span class="cmt"><p>
   <a href="../annotators/classifier/dl/BertForTokenClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.BertForTokenClassification">BertForTokenClassification</a>
   For BertEmbeddings with a token classification layer on top</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based embeddings</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based embeddings</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="BertSentenceEmbeddingsextendsAnnotatorModel[com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings]withHasBatchedAnnotate[com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings]withWriteTensorflowModelwithHasEmbeddingsPropertieswithHasStorageRefwithHasCaseSensitivePropertieswithHasEngine"></a><a id="BertSentenceEmbeddings:BertSentenceEmbeddings"></a>
       <span class="permalink">
@@ -731,7 +731,7 @@ Transformers) provides dense vector representations for natural language by usin
 pre-trained neural network with the Transformer architecture.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> embeddings = BertSentenceEmbeddings.pretrained()
   .setInputCols(<span class="lit">"sentence"</span>)
   .setOutputCol(<span class="lit">"sentence_bert_embeddings"</span>)</pre><p>The default model is <code>&quot;sent_small_bert_L2_768&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
+<a href="https://sparknlp.org/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BERT%20Sentence.ipynb" target="_blank">Examples</a>
 and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddingsTestSpec.scala" target="_blank">BertSentenceEmbeddingsTestSpec</a>.</p><p><b>Sources</b> :</p><p><a href="https://arxiv.org/abs/1810.04805" target="_blank">BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding</a></p><p><a href="https://github.com/google-research/bert" target="_blank">https://github.com/google-research/bert</a></p><p><b> Paper abstract </b></p><p><i>We introduce a new language representation model called BERT, which stands for Bidirectional
@@ -790,8 +790,8 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
   <a href="BertEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.BertEmbeddings">BertEmbeddings</a> for token-level embeddings</p></span><span class="cmt"><p>
   <a href="../annotators/classifier/dl/BertForSequenceClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.BertForSequenceClassification">BertForSequenceClassification</a>
   for embeddings with a sequence classification layer on top</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based embeddings</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based embeddings</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.embeddings.CamemBertEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="CamemBertEmbeddingsextendsAnnotatorModel[com.johnsnowlabs.nlp.embeddings.CamemBertEmbeddings]withHasBatchedAnnotate[com.johnsnowlabs.nlp.embeddings.CamemBertEmbeddings]withWriteTensorflowModelwithWriteSentencePieceModelwithHasEmbeddingsPropertieswithHasStorageRefwithHasCaseSensitivePropertieswithHasEngine"></a><a id="CamemBertEmbeddings:CamemBertEmbeddings"></a>
       <span class="permalink">
@@ -815,7 +815,7 @@ la Clergerie, Djamé Seddah, and Benoît Sagot. It is based on Facebook’s RoBE
 in 2019. It is a model trained on 138GB of French text.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> embeddings = CamemBertEmbeddings.pretrained()
   .setInputCols(<span class="lit">"token"</span>, <span class="lit">"document"</span>)
   .setOutputCol(<span class="lit">"camembert_embeddings"</span>)</pre><p>The default model is <code>&quot;camembert_base&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
+<a href="https://sparknlp.org/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dl-ner/ner_bert.ipynb" target="_blank">Examples</a>
 and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/CamemBertEmbeddingsTestSpec.scala" target="_blank">CamemBertEmbeddingsTestSpec</a>.
@@ -873,8 +873,8 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
 |[<span class="num">0.02690504491329193</span>,<span class="num">0.12104076147079468</span>,<span class="num">0.012526623904705048</span>,-<span class="num">0.031543646007</span>...|
 |[<span class="num">0.05877285450696945</span>,-<span class="num">0.08773420006036758</span>,-<span class="num">0.06381352990865707</span>,<span class="num">0.122621834278</span>...|
 +--------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based embeddings</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based embeddings</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.embeddings.ChunkEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ChunkEmbeddingsextendsAnnotatorModel[com.johnsnowlabs.nlp.embeddings.ChunkEmbeddings]withHasSimpleAnnotate[com.johnsnowlabs.nlp.embeddings.ChunkEmbeddings]"></a><a id="ChunkEmbeddings:ChunkEmbeddings"></a>
       <span class="permalink">
@@ -1043,8 +1043,8 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
 |[-<span class="num">0.04192575812339783</span>,-<span class="num">0.5764210224151611</span>,-<span class="num">0.3196685314178467</span>,-<span class="num">0.527840495109</span>...|
 |[<span class="num">0.15583214163780212</span>,-<span class="num">0.1614152491092682</span>,-<span class="num">0.28423872590065</span>,-<span class="num">0.135491415858268</span>...|
 +--------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based embeddings</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based embeddings</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.embeddings.DistilBertEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="DistilBertEmbeddingsextendsAnnotatorModel[com.johnsnowlabs.nlp.embeddings.DistilBertEmbeddings]withHasBatchedAnnotate[com.johnsnowlabs.nlp.embeddings.DistilBertEmbeddings]withWriteTensorflowModelwithHasEmbeddingsPropertieswithHasStorageRefwithHasCaseSensitivePropertieswithHasEngine"></a><a id="DistilBertEmbeddings:DistilBertEmbeddings"></a>
       <span class="permalink">
@@ -1066,8 +1066,7 @@ base. It has 40% less parameters than <code>bert-base-uncased</code>, runs 60% f
 over 95% of BERT's performances as measured on the GLUE language understanding benchmark.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> embeddings = DistilBertEmbeddings.pretrained()
   .setInputCols(<span class="lit">"document"</span>, <span class="lit">"token"</span>)
   .setOutputCol(<span class="lit">"embeddings"</span>)</pre><p>The default model is <code>&quot;distilbert_base_cased&quot;</code>, if no name is provided. For available
-pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
+pretrained models please see the <a href="https://sparknlp.org/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20DistilBERT.ipynb" target="_blank">Examples</a>
 and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/DistilBertEmbeddingsTestSpec.scala" target="_blank">DistilBertEmbeddingsTestSpec</a>.
@@ -1139,8 +1138,8 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
   for DistilBertEmbeddings with a token classification layer on top</p></span><span class="cmt"><p>
   <a href="../annotators/classifier/dl/DistilBertForSequenceClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForSequenceClassification">DistilBertForSequenceClassification</a>
   for DistilBertEmbeddings with a sequence classification layer on top</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based embeddings</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based embeddings</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.embeddings.Doc2VecApproach" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="Doc2VecApproachextendsAnnotatorApproach[com.johnsnowlabs.nlp.embeddings.Doc2VecModel]withHasStorageRefwithHasEnableCachingProperties"></a><a id="Doc2VecApproach:Doc2VecApproach"></a>
       <span class="permalink">
@@ -1213,8 +1212,7 @@ hierarchical softmax method to train the model. The variable names in the implem
 the original C implementation.</p><p>This is the instantiated model of the <a href="Doc2VecApproach.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.Doc2VecApproach">Doc2VecApproach</a>. For training your own model, please
 see the documentation of that class.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> embeddings = Doc2VecModel.pretrained()
   .setInputCols(<span class="lit">"token"</span>)
-  .setOutputCol(<span class="lit">"embeddings"</span>)</pre><p>The default model is <code>&quot;doc2vec_gigaword_300&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models" target="_blank">Models Hub</a>.</p><p><b>Sources</b> :</p><p>For the original C implementation, see https://code.google.com/p/word2vec/</p><p>For the research paper, see
+  .setOutputCol(<span class="lit">"embeddings"</span>)</pre><p>The default model is <code>&quot;doc2vec_gigaword_300&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the <a href="https://sparknlp.org/models" target="_blank">Models Hub</a>.</p><p><b>Sources</b> :</p><p>For the original C implementation, see https://code.google.com/p/word2vec/</p><p>For the research paper, see
 <a href="https://arxiv.org/abs/1301.3781" target="_blank">Efficient Estimation of Word Representations in Vector Space</a>
 and
 <a href="https://arxiv.org/pdf/1310.4546v1.pdf" target="_blank">Distributed Representations of Words and Phrases and their Compositionality</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
@@ -1278,7 +1276,7 @@ Billion Word Benchmark.</p><p>Note that this is a very computationally expensive
 that only perform embedding lookups. The use of an accelerator is recommended.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> embeddings = ElmoEmbeddings.pretrained()
   .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>)
   .setOutputCol(<span class="lit">"elmo_embeddings"</span>)</pre><p>The default model is <code>&quot;elmo&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>The pooling layer can be set with <code>setPoolingLayer</code> to the following values:</p><ul><li><code>&quot;word_emb&quot;</code>: the character-based word representations with shape <code>[batch_size,
+<a href="https://sparknlp.org/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>The pooling layer can be set with <code>setPoolingLayer</code> to the following values:</p><ul><li><code>&quot;word_emb&quot;</code>: the character-based word representations with shape <code>[batch_size,
     max_length, 512]</code>.</li><li><code>&quot;lstm_outputs1&quot;</code>: the first LSTM hidden state with shape <code>[batch_size, max_length,
     1024]</code>.</li><li><code>&quot;lstm_outputs2&quot;</code>: the second LSTM hidden state with shape <code>[batch_size, max_length,
     1024]</code>.</li><li><code>&quot;elmo&quot;</code>: the weighted sum of the 3 layers, where the weights are trainable. This tensor
@@ -1339,7 +1337,7 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
 |[<span class="num">0.49932169914245605</span>,-<span class="num">0.12706467509269714</span>,<span class="num">0.30969417095184326</span>,<span class="num">0.2643227577209</span>...|
 |[-<span class="num">0.8871506452560425</span>,-<span class="num">0.20039963722229004</span>,-<span class="num">1.0601330995559692</span>,<span class="num">0.0348707810044</span>...|
 +--------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of other
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of other
   transformer based embeddings</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.embeddings.EmbeddingsCoverage" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="EmbeddingsCoverageextendsAnyRef"></a><a id="EmbeddingsCoverage:EmbeddingsCoverage"></a>
@@ -1395,8 +1393,7 @@ from the RoBERTa checkpoint and pretrained for MLM on long documents. It support
 length up to 4,096.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> embeddings = LongformerEmbeddings.pretrained()
   .setInputCols(<span class="lit">"document"</span>, <span class="lit">"token"</span>)
   .setOutputCol(<span class="lit">"embeddings"</span>)</pre><p>The default model is <code>&quot;longformer_base_4096&quot;</code>, if no name is provided. For available
-pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>For some examples of usage, see
+pretrained models please see the <a href="https://sparknlp.org/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>For some examples of usage, see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/LongformerEmbeddingsTestSpec.scala" target="_blank">LongformerEmbeddingsTestSpec</a>.
 To see which models are compatible and how to import them see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a>.</p><p><b>Paper Abstract:</b></p><p><i>Transformer-based models are unable to process long sequences due to their self-attention
@@ -1459,8 +1456,8 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
 +--------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="../annotators/classifier/dl/LongformerForTokenClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.LongformerForTokenClassification">LongformerForTokenClassification</a>
   for Longformer embeddings with a token classification layer on top</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based embeddings</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based embeddings</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.embeddings.ReadAlbertDLModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="ReadAlbertDLModelextendsReadTensorflowModelwithReadSentencePieceModel"></a><a id="ReadAlbertDLModel:ReadAlbertDLModel"></a>
       <span class="permalink">
@@ -1999,7 +1996,7 @@ Lewis, Luke Zettlemoyer, Veselin Stoyanov. It is based on Google's BERT model re
 objective and training with much larger mini-batches and learning rates.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> embeddings = RoBertaEmbeddings.pretrained()
   .setInputCols(<span class="lit">"document"</span>, <span class="lit">"token"</span>)
   .setOutputCol(<span class="lit">"embeddings"</span>)</pre><p>The default model is <code>&quot;roberta_base&quot;</code>, if no name is provided. For available pretrained models
-please see the <a href="https://nlp.johnsnowlabs.com/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
+please see the <a href="https://sparknlp.org/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20RoBERTa.ipynb" target="_blank">Examples</a>
 and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/RoBertaEmbeddingsTestSpec.scala" target="_blank">RoBertaEmbeddingsTestSpec</a>.
@@ -2067,8 +2064,8 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
   <a href="RoBertaSentenceEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.RoBertaSentenceEmbeddings">RoBertaSentenceEmbeddings</a> for sentence-level embeddings</p></span><span class="cmt"><p>
   <a href="../annotators/classifier/dl/RoBertaForTokenClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForTokenClassification">RoBertaForTokenClassification</a>
   For RoBerta embeddings with a token classification layer on top</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based embeddings</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based embeddings</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.embeddings.RoBertaSentenceEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="RoBertaSentenceEmbeddingsextendsAnnotatorModel[com.johnsnowlabs.nlp.embeddings.RoBertaSentenceEmbeddings]withHasBatchedAnnotate[com.johnsnowlabs.nlp.embeddings.RoBertaSentenceEmbeddings]withWriteTensorflowModelwithHasEmbeddingsPropertieswithHasStorageRefwithHasCaseSensitivePropertieswithHasEngine"></a><a id="RoBertaSentenceEmbeddings:RoBertaSentenceEmbeddings"></a>
       <span class="permalink">
@@ -2092,7 +2089,7 @@ Lewis, Luke Zettlemoyer, Veselin Stoyanov. It is based on Google's BERT model re
 objective and training with much larger mini-batches and learning rates.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> embeddings = RoBertaSentenceEmbeddings.pretrained()
   .setInputCols(<span class="lit">"sentence"</span>)
   .setOutputCol(<span class="lit">"sentence_embeddings"</span>)</pre><p>The default model is <code>&quot;sent_roberta_base&quot;</code>, if no name is provided. For available pretrained
-models please see the <a href="https://nlp.johnsnowlabs.com/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
+models please see the <a href="https://sparknlp.org/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a> and to see more extended
 examples, see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/RoBertaEmbeddingsTestSpec.scala" target="_blank">RoBertaEmbeddingsTestSpec</a>.</p><p><b>Paper Abstract:</b></p><p><i>Language model pretraining has led to significant performance gains but careful comparison
@@ -2158,8 +2155,8 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
 |[<span class="num">0.22409197688102722</span>,-<span class="num">0.4312366545200348</span>,<span class="num">0.1401449590921402</span>,<span class="num">0.356410235166549</span>...|
 +--------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="RoBertaEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.RoBertaEmbeddings">RoBertaEmbeddings</a> for token-level embeddings</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based embeddings</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based embeddings</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="SentenceEmbeddingsextendsAnnotatorModel[com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings]withHasSimpleAnnotate[com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings]withHasEmbeddingsPropertieswithHasStorageRef"></a><a id="SentenceEmbeddings:SentenceEmbeddings"></a>
       <span class="permalink">
@@ -2251,7 +2248,7 @@ text classification, semantic similarity, clustering and other natural language 
 text classification, semantic similarity, clustering and other natural language tasks.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> useEmbeddings = UniversalSentenceEncoder.pretrained()
   .setInputCols(<span class="lit">"sentence"</span>)
   .setOutputCol(<span class="lit">"sentence_embeddings"</span>)</pre><p>The default model is <code>&quot;tfhub_use&quot;</code>, if no name is provided. For available pretrained models
-please see the <a href="https://nlp.johnsnowlabs.com/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
+please see the <a href="https://sparknlp.org/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/classification/ClassifierDL_Train_multi_class_news_category_classifier.ipynb" target="_blank">Examples</a>
 and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/UniversalSentenceEncoderTestSpec.scala" target="_blank">UniversalSentenceEncoderTestSpec</a>.</p><p><b>References:</b></p><p><a href="https://arxiv.org/abs/1803.11175" target="_blank">Universal Sentence Encoder</a></p><p><a href="https://tfhub.dev/google/universal-sentence-encoder/2" target="_blank">https://tfhub.dev/google/universal-sentence-encoder/2</a></p><p><b>Paper abstract:</b></p><p><i>We present models for encoding sentences into embedding vectors that specifically target
@@ -2308,8 +2305,8 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
 +--------------------------------------------------------------------------------+
 |[<span class="num">0.04616805538535118</span>,<span class="num">0.022307956591248512</span>,-<span class="num">0.044395286589860916</span>,-<span class="num">0.0016493503</span>...|
 +--------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based embeddings</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based embeddings</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.embeddings.Word2VecApproach" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="Word2VecApproachextendsAnnotatorApproach[com.johnsnowlabs.nlp.embeddings.Word2VecModel]withHasStorageRefwithHasEnableCachingProperties"></a><a id="Word2VecApproach:Word2VecApproach"></a>
       <span class="permalink">
@@ -2382,8 +2379,7 @@ hierarchical softmax method to train the model. The variable names in the implem
 the original C implementation.</p><p>This is the instantiated model of the <a href="Word2VecApproach.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.Word2VecApproach">Word2VecApproach</a>. For training your own model,
 please see the documentation of that class.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> embeddings = Word2VecModel.pretrained()
   .setInputCols(<span class="lit">"token"</span>)
-  .setOutputCol(<span class="lit">"embeddings"</span>)</pre><p>The default model is <code>&quot;word2vec_gigaword_300&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models" target="_blank">Models Hub</a>.</p><p><b>Sources</b> :</p><p>For the original C implementation, see https://code.google.com/p/word2vec/</p><p>For the research paper, see
+  .setOutputCol(<span class="lit">"embeddings"</span>)</pre><p>The default model is <code>&quot;word2vec_gigaword_300&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the <a href="https://sparknlp.org/models" target="_blank">Models Hub</a>.</p><p><b>Sources</b> :</p><p>For the original C implementation, see https://code.google.com/p/word2vec/</p><p>For the research paper, see
 <a href="https://arxiv.org/abs/1301.3781" target="_blank">Efficient Estimation of Word Representations in Vector Space</a>
 and
 <a href="https://arxiv.org/pdf/1310.4546v1.pdf" target="_blank">Distributed Representations of Words and Phrases and their Compositionality</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
@@ -2507,8 +2503,8 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
 |[<span class="num">0.9840458631515503</span>,<span class="num">0.7599489092826843</span>,<span class="num">0.9417727589607239</span>,<span class="num">0.8624503016471863</span>]     |
 +----------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="SentenceEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings">SentenceEmbeddings</a> to combine embeddings into a sentence-level representation</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based embeddings</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based embeddings</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="WordEmbeddingsModelextendsAnnotatorModel[com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel]withHasSimpleAnnotate[com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel]withHasEmbeddingsPropertieswithHasStorageModelwithParamsAndFeaturesWritablewithReadsFromBytes"></a><a id="WordEmbeddingsModel:WordEmbeddingsModel"></a>
       <span class="permalink">
@@ -2527,7 +2523,7 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
       <p class="shortcomment cmt">Word Embeddings lookup annotator that maps tokens to vectors</p><div class="fullcomment"><div class="comment cmt"><p>Word Embeddings lookup annotator that maps tokens to vectors</p><p>This is the instantiated model of <a href="WordEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddings">WordEmbeddings</a>.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> embeddings = WordEmbeddingsModel.pretrained()
     .setInputCols(<span class="lit">"document"</span>, <span class="lit">"token"</span>)
     .setOutputCol(<span class="lit">"embeddings"</span>)</pre><p>The default model is <code>&quot;glove_100d&quot;</code>, if no name is provided. For available pretrained models
-please see the <a href="https://nlp.johnsnowlabs.com/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>There are also two convenient functions to retrieve the embeddings coverage with respect to
+please see the <a href="https://sparknlp.org/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>There are also two convenient functions to retrieve the embeddings coverage with respect to
 the transformed dataset:</p><ul><li><code>withCoverageColumn(dataset, embeddingsCol, outputCol)</code>: Adds a custom column with word
     coverage stats for the embedded field: (<code>coveredWords</code>, <code>totalWords</code>,
     <code>coveragePercentage</code>). This creates a new column with statistics for each row.</li></ul><pre><span class="kw">val</span> wordsCoverage = WordEmbeddingsModel.withCoverageColumn(resultDF, <span class="lit">"embeddings"</span>, <span class="lit">"cov_embeddings"</span>)
@@ -2589,8 +2585,8 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
 |[-<span class="num">0.3397899866104126</span>,<span class="num">0.20940999686717987</span>,<span class="num">0.46347999572753906</span>,-<span class="num">0.6479200124740</span>...|
 +--------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="SentenceEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.SentenceEmbeddings">SentenceEmbeddings</a> to combine embeddings into a sentence-level representation</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based embeddings</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based embeddings</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="WordEmbeddingsReaderextendsStorageReader[Array[Float]]withReadsFromBytes"></a><a id="WordEmbeddingsReader:WordEmbeddingsReader"></a>
       <span class="permalink">
@@ -2650,7 +2646,7 @@ trained on 2.5TB of filtered CommonCrawl data.</p><p>Pretrained models can be lo
   .setInputCols(<span class="lit">"document"</span>, <span class="lit">"token"</span>)
   .setOutputCol(<span class="lit">"embeddings"</span>)</pre><p>The default model is <code>&quot;xlm_roberta_base&quot;</code>, default language is <code>&quot;xx&quot;</code> (meaning multi-lingual),
 if no values are provided. For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
+<a href="https://sparknlp.org/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20XLM-RoBERTa.ipynb" target="_blank">Examples</a>
 and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/XlmRoBertaEmbeddingsTestSpec.scala" target="_blank">XlmRoBertaEmbeddingsTestSpec</a>.
@@ -2721,8 +2717,8 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
   <a href="XlmRoBertaSentenceEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.XlmRoBertaSentenceEmbeddings">XlmRoBertaSentenceEmbeddings</a> for sentence-level embeddings</p></span><span class="cmt"><p>
   <a href="../annotators/classifier/dl/XlmRoBertaForTokenClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.XlmRoBertaForTokenClassification">XlmRoBertaForTokenClassification</a>
   For XlmRoBerta embeddings with a token classification layer on top</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based embeddings</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based embeddings</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.embeddings.XlmRoBertaSentenceEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="XlmRoBertaSentenceEmbeddingsextendsAnnotatorModel[com.johnsnowlabs.nlp.embeddings.XlmRoBertaSentenceEmbeddings]withHasBatchedAnnotate[com.johnsnowlabs.nlp.embeddings.XlmRoBertaSentenceEmbeddings]withWriteTensorflowModelwithWriteSentencePieceModelwithHasEmbeddingsPropertieswithHasStorageRefwithHasCaseSensitivePropertieswithHasEngine"></a><a id="XlmRoBertaSentenceEmbeddings:XlmRoBertaSentenceEmbeddings"></a>
       <span class="permalink">
@@ -2747,7 +2743,7 @@ trained on 2.5TB of filtered CommonCrawl data.</p><p>Pretrained models can be lo
   .setInputCols(<span class="lit">"document"</span>)
   .setOutputCol(<span class="lit">"sentence_embeddings"</span>)</pre><p>The default model is <code>&quot;sent_xlm_roberta_base&quot;</code>, default language is <code>&quot;xx&quot;</code> (meaning
 multi-lingual), if no values are provided. For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
+<a href="https://sparknlp.org/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>To see which models are compatible and how to import them see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a> and to see more extended
 examples, see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/XlmRoBertaSentenceEmbeddingsTestSpec.scala" target="_blank">XlmRoBertaSentenceEmbeddingsTestSpec</a>.</p><p><b>Paper Abstract:</b></p><p><i>This paper shows that pretraining multilingual language models at scale leads to significant
@@ -2816,8 +2812,8 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
 |[<span class="num">0.004710011184215546</span>,-<span class="num">0.022148698568344116</span>,<span class="num">0.011723337695002556</span>,-<span class="num">0.013356896</span>...|
 +--------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="XlmRoBertaEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.XlmRoBertaEmbeddings">XlmRoBertaEmbeddings</a> for token-level embeddings</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based embeddings</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based embeddings</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.embeddings.XlnetEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="XlnetEmbeddingsextendsAnnotatorModel[com.johnsnowlabs.nlp.embeddings.XlnetEmbeddings]withHasBatchedAnnotate[com.johnsnowlabs.nlp.embeddings.XlnetEmbeddings]withWriteTensorflowModelwithWriteSentencePieceModelwithHasEmbeddingsPropertieswithHasStorageRefwithHasCaseSensitivePropertieswithHasEngine"></a><a id="XlnetEmbeddings:XlnetEmbeddings"></a>
       <span class="permalink">
@@ -2909,8 +2905,8 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
 +--------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="../annotators/classifier/dl/XlnetForTokenClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForTokenClassification">XlnetForTokenClassification</a>
   For Xlnet embeddings with a token classification layer on top</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based embeddings</p></span></dd></dl></div>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based embeddings</p></span></dd></dl></div>
     </li></ol>
             </div>
 

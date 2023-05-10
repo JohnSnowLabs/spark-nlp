@@ -267,7 +267,7 @@ class NorvigSweetingModel(AnnotatorModel):
 
     The default model is ``"spellcheck_norvig"``, if no name is provided. For
     available pretrained models please see the `Models Hub
-    <https://nlp.johnsnowlabs.com/models?task=Spell+Check>`__.
+    <https://sparknlp.org/models?task=Spell+Check>`__.
 
 
     For extended examples of usage, see the `Examples

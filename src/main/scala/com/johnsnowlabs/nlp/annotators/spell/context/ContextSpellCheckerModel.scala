@@ -56,7 +56,7 @@ import scala.collection.mutable
   *   .setOutputCol("checked")
   * }}}
   * The default model is `"spellcheck_dl"`, if no name is provided. For available pretrained
-  * models please see the [[https://nlp.johnsnowlabs.com/models?task=Spell+Check Models Hub]].
+  * models please see the [[https://sparknlp.org/models?task=Spell+Check Models Hub]].
   *
   * For extended examples of usage, see the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/italian/Training_Context_Spell_Checker_Italian.ipynb Examples]]

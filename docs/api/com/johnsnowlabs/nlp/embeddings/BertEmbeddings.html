@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.3.1 ScalaDoc  - com.johnsnowlabs.nlp.embeddings.BertEmbeddings</title>
-          <meta name="description" content="Spark NLP 4.3.1 ScalaDoc - com.johnsnowlabs.nlp.embeddings.BertEmbeddings" />
-          <meta name="keywords" content="Spark NLP 4.3.1 ScalaDoc com.johnsnowlabs.nlp.embeddings.BertEmbeddings" />
+          <title>Spark NLP 4.4.1 ScalaDoc  - com.johnsnowlabs.nlp.embeddings.BertEmbeddings</title>
+          <meta name="description" content="Spark NLP 4.4.1 ScalaDoc - com.johnsnowlabs.nlp.embeddings.BertEmbeddings" />
+          <meta name="keywords" content="Spark NLP 4.4.1 ScalaDoc com.johnsnowlabs.nlp.embeddings.BertEmbeddings" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.3.1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.4.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -412,7 +412,7 @@ Transformers) provides dense vector representations for natural language by usin
 pre-trained neural network with the Transformer architecture.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> embeddings = BertEmbeddings.pretrained()
   .setInputCols(<span class="lit">"token"</span>, <span class="lit">"document"</span>)
   .setOutputCol(<span class="lit">"bert_embeddings"</span>)</pre><p>The default model is <code>&quot;small_bert_L2_768&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
+<a href="https://sparknlp.org/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dl-ner/ner_bert.ipynb" target="_blank">Examples</a>
 and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertEmbeddingsTestSpec.scala" target="_blank">BertEmbeddingsTestSpec</a>.
@@ -475,8 +475,8 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
   <a href="BertSentenceEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings">BertSentenceEmbeddings</a> for sentence-level embeddings</p></span><span class="cmt"><p>
   <a href="../annotators/classifier/dl/BertForTokenClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.BertForTokenClassification">BertForTokenClassification</a>
   For BertEmbeddings with a token classification layer on top</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based embeddings</p></span></dd></dl><div class="toggleContainer block">
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based embeddings</p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>

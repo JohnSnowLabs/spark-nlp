@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.3.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach</title>
-          <meta name="description" content="Spark NLP 4.3.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach" />
-          <meta name="keywords" content="Spark NLP 4.3.1 ScalaDoc com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach" />
+          <title>Spark NLP 4.4.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach</title>
+          <meta name="description" content="Spark NLP 4.4.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach" />
+          <meta name="keywords" content="Spark NLP 4.4.1 ScalaDoc com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.3.1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.4.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -230,7 +230,7 @@ Document and assigns them an named entity. The definitions can contain any numbe
 entities.</p><p>There are multiple ways and formats to set the extraction resource. It is possible to set it
 either as a &quot;JSON&quot;, &quot;JSONL&quot; or &quot;CSV&quot; file. A path to the file needs to be provided to
 <code>setPatternsResource</code>. The file format needs to be set as the &quot;format&quot; field in the <code>option</code>
-parameter map and depending on the file type, additional parameters might need to be set.</p><p>To enable regex extraction, <code>setEnablePatternRegex(true)</code> needs to be called.</p><p>If the file is in a JSON format, then the rule definitions need to be given in a list with the
+parameter map and depending on the file type, additional parameters might need to be set.</p><p>If the file is in a JSON format, then the rule definitions need to be given in a list with the
 fields &quot;id&quot;, &quot;label&quot; and &quot;patterns&quot;:</p><pre> [
   {
     <span class="lit">"id"</span>: <span class="lit">"person-regex"</span>,
@@ -276,7 +276,6 @@ LOCATION|Winterfell</pre><p>where each line represents an entity and the associa
     readAs = ReadAs.TEXT,
     options = <span class="std">Map</span>(<span class="lit">"format"</span> -&gt; <span class="lit">"csv"</span>, <span class="lit">"delimiter"</span> -&gt; <span class="lit">"\\|"</span>)
   )
-  .setEnablePatternRegex(<span class="kw">true</span>)
 
 <span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
   documentAssembler,
@@ -2682,49 +2681,7 @@ as input and output columns if not specified
 
         
 
-        <div class="values members">
-              <h3>Deprecated Value Members</h3>
-              <ol><li name="com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach#enablePatternRegex" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
-      <a id="enablePatternRegex:org.apache.spark.ml.param.BooleanParam"></a><a id="enablePatternRegex:BooleanParam"></a>
-      <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/er/EntityRulerApproach.html#enablePatternRegex:org.apache.spark.ml.param.BooleanParam" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name deprecated" title="Deprecated: (Since version Since 4.2.0) Enabling pattern regex now is define on each pattern">enablePatternRegex</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
-      </span>
-      
-      <p class="shortcomment cmt">Enables regex pattern match (Default: <code>false</code>).</p><div class="fullcomment"><div class="comment cmt"><p>Enables regex pattern match (Default: <code>false</code>).
-</p></div><dl class="attributes block"> <dt>Annotations</dt><dd>
-                <span class="name">@deprecated</span>
-              
-        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version Since 4.2.0)</i> Enabling pattern regex now is define on each pattern</p></dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach#setEnablePatternRegex" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="setParam">
-      <a id="setEnablePatternRegex(value:Boolean):EntityRulerApproach.this.type"></a><a id="setEnablePatternRegex(Boolean):EntityRulerApproach.this.type"></a>
-      <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/er/EntityRulerApproach.html#setEnablePatternRegex(value:Boolean):EntityRulerApproach.this.type" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name deprecated" title="Deprecated: (Since version 4.2.0) Enabling pattern regex now is define on each pattern">setEnablePatternRegex</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.er.EntityRulerApproach">EntityRulerApproach</a>.this.type</span>
-      </span>
-      
-      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="attributes block"> <dt>Annotations</dt><dd>
-                <span class="name">@deprecated</span>
-              
-        </dd><dt>Deprecated</dt><dd class="cmt"><p><i>(Since version 4.2.0)</i> Enabling pattern regex now is define on each pattern</p></dd></dl></div>
-    </li></ol>
-            </div>
+        
         </div>
 
         <div id="inheritedMembers">

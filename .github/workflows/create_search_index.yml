@@ -48,6 +48,7 @@ jobs:
           ELASTICSEARCH_ACCESS_TOKEN: ${{ secrets.ELASTICSEARCH_ACCESS_TOKEN }}
           ELASTICSEARCH_INDEX_NAME: ${{ secrets.ELASTICSEARCH_INDEX_NAME }}
           SEARCH_ORIGIN: ${{ secrets.SEARCH_ORIGIN }}
+          ORIGIN: ${{ secrets.ORIGIN }}
         working-directory: docs
         run: |
           bundle exec jekyll build --incremental
@@ -60,6 +61,7 @@ jobs:
           ELASTICSEARCH_ACCESS_TOKEN: ${{ secrets.ELASTICSEARCH_ACCESS_TOKEN }}
           ELASTICSEARCH_INDEX_NAME: ${{ secrets.ELASTICSEARCH_INDEX_NAME }}
           SEARCH_ORIGIN: ${{ secrets.SEARCH_ORIGIN }}
+          ORIGIN: ${{ secrets.ORIGIN }}
         working-directory: docs
         run: |
           rm -f .jekyll-metadata
@@ -73,6 +75,7 @@ jobs:
         working-directory: docs/_frontend
         env:
           SEARCH_ORIGIN: ${{ secrets.SEARCH_ORIGIN }}
+          ORIGIN: ${{ secrets.ORIGIN }}
         run: |
           yarn
           yarn run build

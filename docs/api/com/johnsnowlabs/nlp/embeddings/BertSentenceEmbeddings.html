@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.3.1 ScalaDoc  - com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings</title>
-          <meta name="description" content="Spark NLP 4.3.1 ScalaDoc - com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings" />
-          <meta name="keywords" content="Spark NLP 4.3.1 ScalaDoc com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings" />
+          <title>Spark NLP 4.4.1 ScalaDoc  - com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings</title>
+          <meta name="description" content="Spark NLP 4.4.1 ScalaDoc - com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings" />
+          <meta name="keywords" content="Spark NLP 4.4.1 ScalaDoc com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.3.1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.4.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -412,7 +412,7 @@ Transformers) provides dense vector representations for natural language by usin
 pre-trained neural network with the Transformer architecture.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> embeddings = BertSentenceEmbeddings.pretrained()
   .setInputCols(<span class="lit">"sentence"</span>)
   .setOutputCol(<span class="lit">"sentence_bert_embeddings"</span>)</pre><p>The default model is <code>&quot;sent_small_bert_L2_768&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
+<a href="https://sparknlp.org/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/HuggingFace%20in%20Spark%20NLP%20-%20BERT%20Sentence.ipynb" target="_blank">Examples</a>
 and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/BertSentenceEmbeddingsTestSpec.scala" target="_blank">BertSentenceEmbeddingsTestSpec</a>.</p><p><b>Sources</b> :</p><p><a href="https://arxiv.org/abs/1810.04805" target="_blank">BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding</a></p><p><a href="https://github.com/google-research/bert" target="_blank">https://github.com/google-research/bert</a></p><p><b> Paper abstract </b></p><p><i>We introduce a new language representation model called BERT, which stands for Bidirectional
@@ -471,8 +471,8 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
   <a href="BertEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.BertEmbeddings">BertEmbeddings</a> for token-level embeddings</p></span><span class="cmt"><p>
   <a href="../annotators/classifier/dl/BertForSequenceClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.BertForSequenceClassification">BertForSequenceClassification</a>
   for embeddings with a sequence classification layer on top</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based embeddings</p></span></dd></dl><div class="toggleContainer block">
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based embeddings</p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>

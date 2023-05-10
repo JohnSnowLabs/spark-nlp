@@ -29,10 +29,7 @@ private[johnsnowlabs] class ViTClassifier(
     val tensorflowWrapper: TensorflowWrapper,
     configProtoBytes: Option[Array[Byte]] = None,
     tags: Map[String, BigInt],
-    imageMean: Array[Double],
-    imageStd: Array[Double],
-    resample: Int,
-    size: Int,
+    preprocessor: Preprocessor,
     signatures: Option[Map[String, String]] = None)
     extends Serializable {
 
@@ -43,15 +40,6 @@ private[johnsnowlabs] class ViTClassifier(
     val image =
       ImageIOUtils.loadImage(getClass.getResourceAsStream("/image/ox.JPEG"))
     val bytes = ImageIOUtils.bufferedImageToByte(image.get)
-    val preprocessor =
-      Preprocessor(
-        do_normalize = true,
-        do_resize = true,
-        "ViTFeatureExtractor",
-        imageMean,
-        imageStd,
-        resample,
-        size)
     val images =
       Array(AnnotationImage("image", "ox.JPEG", 265, 360, 3, 16, bytes, Map("image" -> "0")))
     val encoded = encode(images, preprocessor)
@@ -171,17 +159,23 @@ private[johnsnowlabs] class ViTClassifier(
         h = annot.height,
         nChannels = annot.nChannels)
 
-      val resizedImage =
+      val resizedImage = if (preprocessor.do_resize) {
         ImageResizeUtils.resizeBufferedImage(
           width = preprocessor.size,
           height = preprocessor.size,
-          Some(annot.nChannels))(bufferedImage)
+          preprocessor.resample)(bufferedImage)
+      } else bufferedImage
 
-      ImageResizeUtils.normalizeBufferedImage(
-        img = resizedImage,
-        mean = preprocessor.image_mean,
-        std = preprocessor.image_std,
-        rescaleFactor = preprocessor.rescale_factor)
+      val normalizedImage =
+        ImageResizeUtils.normalizeAndConvertBufferedImage(
+          img = resizedImage,
+          mean = preprocessor.image_mean,
+          std = preprocessor.image_std,
+          doNormalize = preprocessor.do_normalize,
+          doRescale = preprocessor.do_rescale,
+          rescaleFactor = preprocessor.rescale_factor)
+
+      normalizedImage
     }
 
     batchProcessedImages

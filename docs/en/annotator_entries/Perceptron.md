@@ -17,8 +17,8 @@ val posTagger = PerceptronModel.pretrained()
 ```
 The default model is `"pos_anc"`, if no name is provided.
 
-For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Part+of+Speech+Tagging).
-Additionally, pretrained pipelines are available for this module, see [Pipelines](https://nlp.johnsnowlabs.com/docs/en/pipelines).
+For available pretrained models please see the [Models Hub](https://sparknlp.org/models?task=Part+of+Speech+Tagging).
+Additionally, pretrained pipelines are available for this module, see [Pipelines](https://sparknlp.org/docs/en/pipelines).
 
 For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/french/Train-Perceptron-French.ipynb).
 {%- endcapture -%}

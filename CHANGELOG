@@ -1,4 +1,55 @@
 ========
+4.4.1
+========
+----------------
+New Features & Enhancements
+----------------
+
+* Implement a new Zero-Shot Text Classification for DistilBERT annotator called `DistilBertForZeroShotClassification`
+* Adding `threshold` param to `AlbertForSequenceClassification`, `BertForSequenceClassification`, `BertForZeroShotClassification`, `DistilBertForSequenceClassification`, `CamemBertForSequenceClassification`, `DeBertaForSequenceClassification`, LongformerForSequenceClassification`, RoBertaForQuestionAnswering`, `XlmRoBertaForSequenceClassification`, and `XlnetForSequenceClassification` annotators
+* Add new notebooks to import models for `SwinForImageClassification` and `ConvNextForImageClassification` annotators for Image Classification
+
+
+========
+4.4.0
+========
+----------------
+New Features
+----------------
+* Implement a new Zero-Shot Text Classification for BERT annotator called `BertForZeroShotClassification`
+* Implement a new ConvNextForImageClassification annotator
+* Introducing BART Transformer for text-to-text generation tasks like translation and summarization
+* Set custom entity name in Data2Chunk via `setEntityName` param
+* Add a new `nerHasNoSchema` param for NerConverter when labels coming from NerDLMOdel and NerCrfModel don't have any schema
+----------------
+Bug Fixes & Enhancements
+----------------
+* Fix loading `WordEmbeddingsModel` bug when loading a model from S3 via `cache_folder` config
+* Fix `WordEmbeddingsModel` bug failing when it's used with `setEnableInMemoryStorage` set to `True` and LightPipeline
+* Remove deprecated parameter enablePatternRegex from EntityRulerApproach & EntityRulerModel
+* Deprecate Python 3.6
+
+
+========
+4.3.2
+========
+----------------
+New Features & Enhancements
+----------------
+* Add S3 support for CoNLL(), POS(), CoNLLU() training classes https://github.com/JohnSnowLabs/spark-nlp/pull/13596
+* Add support for non-schema NER (`I-` or `B-`) tags in NerConverter annotator https://github.com/JohnSnowLabs/spark-nlp/pull/13642
+* Improve self-hosted examples with better documentation, Docker examples, no broken links, and more https://github.com/JohnSnowLabs/spark-nlp/pull/13575
+* Improve error handling for validation evaluation in ClassifierDL and MultiClassifierDL trainable annotators https://github.com/JohnSnowLabs/spark-nlp/pull/13615
+
+----------------
+Bug Fixes
+----------------
+* Fix `Date2Chunk` and `Chunk2Doc` annotators compatibility with PipelineModel https://github.com/JohnSnowLabs/spark-nlp/pull/13609
+* Fix `DependencyParserModel` predicting all Chunks as `<no-type>` https://github.com/JohnSnowLabs/spark-nlp/pull/13620
+* Removed `calculationsCol` parameter from MultiDocumentAssembler in Python that doesn't actually exist https://github.com/JohnSnowLabs/spark-nlp/pull/13594
+
+
+========
 4.3.1
 ========
 ----------------
@@ -12,6 +63,7 @@ Bug Fixes & Enhancements
 ----------------
 * Add `entity` field to the metadata in Date2Chunk
 * Fix ViT models & pipelines examples in Models Hub
+
 
 ========
 4.3.0
@@ -39,6 +91,7 @@ Bug Fixes & Enhancements
 * Spark NLP supports M2 in addition to M1. Therefore, we are renaming `spark-nlp-m1` to `spark-nlp-silicon` on Maven
 * Fix calculating delimiter id in CamemBERT
 * Fix loadSavedModel for private buckets
+
 
 ========
 4.2.8
@@ -777,7 +830,7 @@ New Features
 Backward compatibility
 ----------------
 
-* We have updated our MarianTransformer annotator to be compatible with TF v2 models. This change is not compatible with previous models/pipelines. However, we have updated and uploaded all the models and pipelines for `3.1.x` release. You can either use `MarianTransformer.pretrained(MODEL_NAME)` and it will automatically download the compatible model or you can visit [Models Hub](https://nlp.johnsnowlabs.com/models) to download the compatible models for offline use via `MarianTransformer.load(PATH)`
+* We have updated our MarianTransformer annotator to be compatible with TF v2 models. This change is not compatible with previous models/pipelines. However, we have updated and uploaded all the models and pipelines for `3.1.x` release. You can either use `MarianTransformer.pretrained(MODEL_NAME)` and it will automatically download the compatible model or you can visit [Models Hub](https://sparknlp.org/models) to download the compatible models for offline use via `MarianTransformer.load(PATH)`
 
 ========
 3.0.3
@@ -1031,7 +1084,7 @@ Bugfixes
 ----------------
 Enhancements
 ----------------
-* Improve handeling exceptions in DocumentAssmbler when user uses a corrupted DataFrame
+* Improve handling exceptions in DocumentAssmbler when user uses a corrupted DataFrame
 
 ========
 2.6.4

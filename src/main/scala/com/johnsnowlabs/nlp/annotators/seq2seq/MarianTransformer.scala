@@ -56,7 +56,7 @@ import org.apache.spark.sql.SparkSession
   * }}}
   * The default model is `"opus_mt_en_fr"`, default language is `"xx"` (meaning multi-lingual), if
   * no values are provided. For available pretrained models please see the
-  * [[https://nlp.johnsnowlabs.com/models?task=Translation Models Hub]].
+  * [[https://sparknlp.org/models?task=Translation Models Hub]].
   *
   * For extended examples of usage, see the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/multilingual/Translation_Marian.ipynb Examples]]

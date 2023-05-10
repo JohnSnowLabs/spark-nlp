@@ -17,9 +17,35 @@
 package com.johnsnowlabs.nlp.annotators.cv.feature_extractor
 
 import com.johnsnowlabs.util.JsonParser
-import org.json4s.jackson.JsonMethods
 import org.json4s.{JNothing, JValue}
 
+/** Case class represting an image pre-processor. Instances should be initialized with
+  * loadPreprocessorConfig.
+  *
+  * @param do_normalize
+  *   Whether to normalize the image by subtracting `mean` and dividing by `std`
+  * @param do_resize
+  *   Whether to resize the image to `size`
+  * @param feature_extractor_type
+  *   Name of the feature extractor
+  * @param image_mean
+  *   Array of means, one value for each color channel
+  * @param image_std
+  *   Array of standard deviations, one value for each color channel
+  * @param resample
+  *   Integer representing an image filter to be used for resizing/resampling. Corresponds to
+  *   constants defined in PIL (either PIL.Image.NEAREST, PIL.Image.BILINEAR or PIL.Image.BICUBIC
+  *   supported).
+  * @param size
+  *   Size of the image after processing
+  * @param do_rescale
+  *   Whether to rescale color values to rescale_factor
+  * @param rescale_factor
+  *   Factor to rescale color values by
+  * @param crop_pct
+  *   Percentage to crop the image. If set, first scales the image, then crops it to arrive at
+  *   `size`
+  */
 private[johnsnowlabs] case class Preprocessor(
     do_normalize: Boolean = true,
     do_resize: Boolean = true,
@@ -29,7 +55,8 @@ private[johnsnowlabs] case class Preprocessor(
     resample: Int,
     size: Int,
     do_rescale: Boolean = true,
-    rescale_factor: Double = 1 / 255.0d)
+    rescale_factor: Double = 1 / 255.0d,
+    crop_pct: Option[Double] = None)
 
 private[johnsnowlabs] case class PreprocessorConfig(
     do_normalize: Boolean,
@@ -41,7 +68,8 @@ private[johnsnowlabs] case class PreprocessorConfig(
     resample: Int,
     size: Any,
     do_rescale: Option[Boolean],
-    rescale_factor: Option[Double])
+    rescale_factor: Option[Double],
+    crop_pct: Option[Double])
 
 private[johnsnowlabs] object Preprocessor {
   def apply(
@@ -70,6 +98,13 @@ private[johnsnowlabs] object Preprocessor {
     }
   }
 
+  /** Loads in initializes a Preprocessor from a json string.
+    *
+    * @param preprocessorConfigJsonContent
+    *   Json contents in a String
+    * @return
+    *   Loaded Preprocessor
+    */
   def loadPreprocessorConfig(preprocessorConfigJsonContent: String): Preprocessor = {
 
     val preprocessorJsonErrorMsg =
@@ -83,53 +118,71 @@ private[johnsnowlabs] object Preprocessor {
          |  "resample": int,
          |  "size": int,
          |  ["do_rescale": bool],
-         |  ["rescale_factor": double]
+         |  ["rescale_factor": double],
+         |  ["crop_pct": double]
          |}
          |""".stripMargin
+
+    def parseSize(config: PreprocessorConfig) = {
+      config.size match {
+        case sizeMap: Map[String, BigInt] if sizeMap.contains("width") =>
+          val width = sizeMap("width")
+          require(
+            width == sizeMap("height"),
+            "Different sizes for width and height are currently not supported.")
+          width.toInt
+        case sizeMap: Map[String, BigInt] if sizeMap.contains("shortest_edge") =>
+          // ConvNext case: Size of the output image after `resize` has been applied
+          sizeMap("shortest_edge").toInt
+        case sizeInt: BigInt => sizeInt.toInt
+        case _ =>
+          throw new IllegalArgumentException(
+            "Unsupported format for size. Should either be int or dict with entries \'width\' and \'height\' or \'shortest_edge\'")
+      }
+    }
+
+    def parseExtractorType(config: PreprocessorConfig) = {
+      config.feature_extractor_type.getOrElse({
+        config.image_processor_type
+          .getOrElse(throw new IllegalArgumentException(
+            "Either \'feature_extractor_type\' or \'image_processor_type\' should be set."))
+          .replace("ImageProcessor", "FeatureExtractor")
+      })
+    }
+
+    def parseRescaleFactor(config: PreprocessorConfig) = {
+      if (config.do_rescale.isDefined) config.rescale_factor.getOrElse {
+        throw new IllegalArgumentException(
+          "Value do_rescale is true but no rescale_factor found in config.")
+      }
+      else 1 / 255.0d
+    }
 
     val preprocessorConfig =
       try {
         val config = JsonParser.parseObject[PreprocessorConfig](preprocessorConfigJsonContent)
 
         // json4s parses BigInt by default
-        val size: Int = config.size match {
-          case sizeMap: Map[String, BigInt] =>
-            val width = sizeMap("width")
-            require(
-              width == sizeMap("height"),
-              "Different sizes for width and height are currently not supported.")
-            width.toInt
-          case sizeInt: BigInt => sizeInt.toInt
-          case _ =>
-            throw new IllegalArgumentException(
-              "Unsupported format for size. Should either be int or dict with entries \'width\' and \'height\'")
-        }
+        val size: Int = parseSize(config)
 
-        val extractorType = config.feature_extractor_type.getOrElse({
-          config.image_processor_type
-            .getOrElse(throw new IllegalArgumentException(
-              "Either \'feature_extractor_type\' or \'image_processor_type\' should be set."))
-            .replace("ImageProcessor", "FeatureExtractor")
-        })
+        val extractorType = parseExtractorType(config)
 
-        val doRescale = config.do_rescale.getOrElse(false)
+        val rescaleFactor: Double =
+          parseRescaleFactor(config) // Default value
 
-        val rescaleFactor: Double = if (doRescale) config.rescale_factor.getOrElse {
-          throw new IllegalArgumentException(
-            "Value do_rescale is true but no rescale_factor found in config.")
-        }
-        else 1 / 255.0d // Default value
+        val doRescale = config.do_rescale.getOrElse(true)
 
         Preprocessor(
           do_normalize = config.do_normalize,
           do_resize = config.do_resize,
-          extractorType,
-          config.image_mean,
-          config.image_std,
-          config.resample,
-          size,
-          doRescale,
-          rescaleFactor)
+          feature_extractor_type = extractorType,
+          image_mean = config.image_mean,
+          image_std = config.image_std,
+          resample = config.resample,
+          size = size,
+          do_rescale = doRescale,
+          rescale_factor = rescaleFactor,
+          crop_pct = config.crop_pct)
       } catch {
         case e: Exception =>
           println(s"$preprocessorJsonErrorMsg \n error: ${e.getMessage}")

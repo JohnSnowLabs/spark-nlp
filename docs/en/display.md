@@ -1,8 +1,8 @@
 ---
 layout: docs
 header: true
-seotitle: Spark NLP
-title: Spark NLP Display
+seotitle: Spark NLP - Spark NLP Display
+title: Spark NLP - Spark NLP Display
 permalink: /docs/en/display
 key: docs-display
 modify_date: "2020-11-17"
@@ -22,10 +22,10 @@ Spark NLP Display is an open-source python library for visualizing the annotatio
 - Relation Extraction
 - Assertion Status
 
-The ability to quickly visualize the entities/relations/assertion statuses, etc. generated using Spark NLP is a very useful feature for speeding up the development process as well as for understanding the obtained results. Getting all of this in a one liner is extremelly convenient especially when running Jupyter notebooks which offers full support for html visualizations. 
+The ability to quickly visualize the entities/relations/assertion statuses, etc. generated using Spark NLP is a very useful feature for speeding up the development process as well as for understanding the obtained results. Getting all of this in a one liner is extremelly convenient especially when running Jupyter notebooks which offers full support for html visualizations.
 
 
-The  visualisation classes work with the outputs returned by both Pipeline.transform() function and LightPipeline.fullAnnotate(). 
+The  visualisation classes work with the outputs returned by both Pipeline.transform() function and LightPipeline.fullAnnotate().
 
 
 <br/>
@@ -43,7 +43,7 @@ A complete guideline on how to use the Spark NLP Display library is available <a
 
 ### Visualize a dependency tree
 
-For visualizing a dependency trees generated with <a href="https://nlp.johnsnowlabs.com/docs/en/annotators#dependency-parsers">DependencyParserApproach</a> you can use the following code.
+For visualizing a dependency trees generated with <a href="https://sparknlp.org/docs/en/annotators#dependency-parsers">DependencyParserApproach</a> you can use the following code.
 
 
 ```bash
@@ -68,7 +68,7 @@ The following image gives an example of html output that is obtained for a test 
 
 ### Visualize extracted named entities
 
-The **NerVisualizer** highlights the named entities that are identified by Spark NLP and also displays their labels as decorations on top of the analyzed text. The colors assigned to the predicted labels can be configured to fit the particular needs of the application. 
+The **NerVisualizer** highlights the named entities that are identified by Spark NLP and also displays their labels as decorations on top of the analyzed text. The colors assigned to the predicted labels can be configured to fit the particular needs of the application.
 
 ```bash
 from sparknlp_display import NerVisualizer
@@ -94,7 +94,7 @@ The following image gives an example of html output that is obtained for a coupl
 
 ### Visualize relations
 
-The **RelationExtractionVisualizer** can be used to visualize the relations predicted by Spark NLP. The two entities involved in a relation will be highlighted and their label will be displayed. Also a directed and labeled arc(line) will be used to connect the two entities. 
+The **RelationExtractionVisualizer** can be used to visualize the relations predicted by Spark NLP. The two entities involved in a relation will be highlighted and their label will be displayed. Also a directed and labeled arc(line) will be used to connect the two entities.
 
 
 ```bash
@@ -119,7 +119,7 @@ The following image gives an example of html output that is obtained for a coupl
 
 ### Visualize assertion status
 
-The **AssertionVisualizer** is a special type of **NerVisualizer** that also displays on top of the labeled entities the assertion status that was infered  by a Spark NLP model. 
+The **AssertionVisualizer** is a special type of **NerVisualizer** that also displays on top of the labeled entities the assertion status that was infered  by a Spark NLP model.
 
 
 ```bash
@@ -127,12 +127,12 @@ from sparknlp_display import AssertionVisualizer
 
 assertion_vis = AssertionVisualizer()
 
-assertion_vis.display(pipeline_result[0], 
+assertion_vis.display(pipeline_result[0],
                       label_col = 'entities', #specify the ner result column
                       assertion_col = 'assertion' #specify assertion column
                       document_col = 'document' #specify the document column (default: 'document')
                       )
-                      
+
 ## To set custom label colors:
 assertion_vis.set_label_colors({'TREATMENT':'#008080', 'problem':'#800080'}) #set label colors by specifying hex codes
 
@@ -150,7 +150,7 @@ The following image gives an example of html output that is obtained for a coupl
 
 **Entity resolution** refers to the normalization of named entities predicted by Spark NLP with respect to standard terminologies such as ICD-10, SNOMED, RxNorm etc. You can read more about the available entity resolvers <a href="/en/licensed_annotators#chunkentityresolver">here.</a>
 
-The **EntityResolverVisualizer** will automatically display on top of the NER label the standard code (ICD10 CM, PCS, ICDO; CPT) that corresponds to that entity as well as the short description of the code. If no resolution code could be identified a regular NER-type of visualization will be displayed. 
+The **EntityResolverVisualizer** will automatically display on top of the NER label the standard code (ICD10 CM, PCS, ICDO; CPT) that corresponds to that entity as well as the short description of the code. If no resolution code could be identified a regular NER-type of visualization will be displayed.
 
 ```bash
 from sparknlp_display import EntityResolverVisualizer

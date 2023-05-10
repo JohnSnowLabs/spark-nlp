@@ -19,7 +19,7 @@ val dependencyParserApproach = DependencyParserModel.pretrained()
   .setOutputCol("dependency")
 ```
 The default model is `"dependency_conllu"`, if no name is provided.
-For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models).
+For available pretrained models please see the [Models Hub](https://sparknlp.org/models).
 
 For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/graph-extraction/graph_extraction_intro.ipynb)
 and the [DependencyParserApproachTestSpec](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/parser/dep/DependencyParserApproachTestSpec.scala).

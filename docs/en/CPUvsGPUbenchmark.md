@@ -4,7 +4,7 @@ header: true
 title: GPU vs CPU benchmark
 permalink: /docs/en/CPUvsGPUbenchmark
 key: docs-concepts
-modify_date: "2021-08-31"
+modify_date: "2023-04-06"
 use_language_switcher: "Python-Scala"
 show_nav: true
 sidebar:
@@ -51,7 +51,7 @@ Spark nodes: 1
 
 This experiment consisted of training a Deep Learning Binary Classifier (Question vs Statement classes) at sentence-level, using a fully connected CNN and Bert Sentence Embeddings. Only 1 Spark node was usd for the training.
 
-We used the Spark NLP class `ClassifierDL` and it's method `Approach()` as described in the [documentation](https://nlp.johnsnowlabs.com/docs/en/annotators#classifierdl).
+We used the Spark NLP class `ClassifierDL` and it's method `Approach()` as described in the [documentation](https://sparknlp.org/docs/en/annotators#classifierdl).
 
 The pipeline looks as follows:
 ![](/assets/images/gpu_v2_pic3.png)
@@ -125,7 +125,7 @@ A weighted F1-score of 0.88 was achieved, with a 0.90 score for question detecti
 
 This experiment consisted of training a Name Entity Recognition model (token-level), using our class NerDLApproach(), using Bert Word Embeddings and a Char-CNN-BiLSTM Neural Network. Only 1 Spark node was used for the training.
 
-We used the Spark NLP class `NerDL` and it's method `Approach()` as described in the [documentation](https://nlp.johnsnowlabs.com/docs/en/annotators#nerdl).
+We used the Spark NLP class `NerDL` and it's method `Approach()` as described in the [documentation](https://sparknlp.org/docs/en/annotators#nerdl).
 
 The pipeline looks as follows:
 ![](/assets/images/gpu_v2_pic4.png)
@@ -210,7 +210,7 @@ A macro F1-score of about `0.92` (`0.90` in micro) was achieved, with the follow
 
 This experiment consisted of benchmarking the improvement obtained in inference by using GPU on BertSentenceEmbeddings().
 
-We used the Spark NLP class `BertSentenceEmbeddings()` described in the Transformers [documentation](https://nlp.johnsnowlabs.com/docs/en/transformers#bertsentenceembeddings).
+We used the Spark NLP class `BertSentenceEmbeddings()` described in the Transformers [documentation](https://sparknlp.org/docs/en/transformers#bertsentenceembeddings).
 
 The pipeline contains only two components and looks as follows:
 ![](/assets/images/gpu_v2_pic9.png)
@@ -264,6 +264,6 @@ Right now, we don't support multigpu training (1 model in different GPUs in para
 <div class="h3-box" markdown="1">
 
 ### Where to look for more information about Training
-Please, take a look at the [Spark NLP](https://nlp.johnsnowlabs.com/docs/en/training) and [Spark NLP for Healthcare](https://nlp.johnsnowlabs.com/docs/en/licensed_training) Training sections, and feel free to reach us out in case you want to maximize the performance on your GPU.
+Please, take a look at the [Spark NLP](https://sparknlp.org/docs/en/training) and [Spark NLP for Healthcare](https://sparknlp.org/docs/en/licensed_training) Training sections, and feel free to reach us out in case you want to maximize the performance on your GPU.
 
 </div>

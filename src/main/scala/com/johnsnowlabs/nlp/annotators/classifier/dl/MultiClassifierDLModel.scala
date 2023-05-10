@@ -52,7 +52,7 @@ import org.apache.spark.sql.{Dataset, SparkSession}
   * classifies toxic comments. The data is based on the
   * [[https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/overview Jigsaw Toxic Comment Classification Challenge]].
   * For available pretrained models please see the
-  * [[https://nlp.johnsnowlabs.com/models?task=Text+Classification Models Hub]].
+  * [[https://sparknlp.org/models?task=Text+Classification Models Hub]].
   *
   * In machine learning, multi-label classification and the strongly related problem of
   * multi-output classification are variants of the classification problem where multiple labels

@@ -75,7 +75,7 @@ body:
     attributes:
       label: Type of Spark Application
       multiple: true
-      options: ["spark-shell", "spark-submit", "Scala Application", "Python Appliation", "Java Application"]
+      options: ["spark-shell", "spark-submit", "Scala Application", "Python Application", "Java Application"]
   - type: input
     attributes:
       label: Java Version
@@ -87,7 +87,7 @@ body:
   - type: input
     attributes:
       label: Setup and installation
-      description: How you set up Spark NLP, e.g. Pypi, Conda, Maven, sbt, etc.
+      description: How you set up Spark NLP, e.g. PyPi, Conda, Maven, sbt, etc.
   - type: input
     attributes:
       label: Operating System and Version

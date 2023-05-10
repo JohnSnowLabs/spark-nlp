@@ -51,7 +51,7 @@ import org.apache.spark.sql.SparkSession
   * The default model is `"xlm_roberta_base_sequence_classifier_imdb"`, if no name is provided.
   *
   * For available pretrained models please see the
-  * [[https://nlp.johnsnowlabs.com/models?task=Text+Classification Models Hub]].
+  * [[https://sparknlp.org/models?task=Text+Classification Models Hub]].
   *
   * To see which models are compatible and how to import them see
   * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]] and to see more extended
@@ -99,8 +99,8 @@ import org.apache.spark.sql.SparkSession
   * @see
   *   [[XlmRoBertaForSequenceClassification]] for sequence-level classification
   * @see
-  *   [[https://nlp.johnsnowlabs.com/docs/en/annotators Annotators Main Page]] for a list of
-  *   transformer based classifiers
+  *   [[https://sparknlp.org/docs/en/annotators Annotators Main Page]] for a list of transformer
+  *   based classifiers
   * @param uid
   *   required uid for storing annotator to disk
   * @groupname anno Annotator types
@@ -248,7 +248,8 @@ class XlmRoBertaForSequenceClassification(override val uid: String)
             spp,
             configProtoBytes = getConfigProtoBytes,
             tags = $$(labels),
-            signatures = getSignatures)))
+            signatures = getSignatures,
+            threshold = $(threshold))))
     }
 
     this

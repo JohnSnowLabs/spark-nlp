@@ -16,7 +16,7 @@ val embeddings = RoBertaSentenceEmbeddings.pretrained()
   .setOutputCol("sentence_embeddings")
 ```
 The default model is `"sent_roberta_base"`, if no name is provided.
-For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Embeddings).
+For available pretrained models please see the [Models Hub](https://sparknlp.org/models?task=Embeddings).
 
 Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are compatible and how to import them see [Import Transformers into Spark NLP 🚀](https://github.com/JohnSnowLabs/spark-nlp/discussions/5669).
 

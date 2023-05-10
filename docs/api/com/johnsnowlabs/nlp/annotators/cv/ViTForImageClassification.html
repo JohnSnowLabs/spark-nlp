@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.3.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.cv.ViTForImageClassification</title>
-          <meta name="description" content="Spark NLP 4.3.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.cv.ViTForImageClassification" />
-          <meta name="keywords" content="Spark NLP 4.3.1 ScalaDoc com.johnsnowlabs.nlp.annotators.cv.ViTForImageClassification" />
+          <title>Spark NLP 4.4.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.cv.ViTForImageClassification</title>
+          <meta name="description" content="Spark NLP 4.4.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.cv.ViTForImageClassification" />
+          <meta name="keywords" content="Spark NLP 4.4.1 ScalaDoc com.johnsnowlabs.nlp.annotators.cv.ViTForImageClassification" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.3.1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.4.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -150,6 +150,14 @@
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
     </li><li class="current-entities indented5">
+                        <a class="object" href="ConvNextForImageClassification$.html" title="This is the companion object of ConvNextForImageClassification."></a>
+                        <a class="class" href="ConvNextForImageClassification.html" title="ConvNextForImageClassification is an image classifier based on ConvNet models."></a>
+                        <a href="ConvNextForImageClassification.html" title="ConvNextForImageClassification is an image classifier based on ConvNet models.">ConvNextForImageClassification</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadConvNextForImageDLModel.html" title=""></a>
+                        <a href="ReadConvNextForImageDLModel.html" title="">ReadConvNextForImageDLModel</a>
+                      </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="trait" href="ReadSwinForImageDLModel.html" title=""></a>
                         <a href="ReadSwinForImageDLModel.html" title="">ReadSwinForImageDLModel</a>
@@ -157,6 +165,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="ReadViTForImageDLModel.html" title=""></a>
                         <a href="ReadViTForImageDLModel.html" title="">ReadViTForImageDLModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedConvNextForImageModel.html" title=""></a>
+                        <a href="ReadablePretrainedConvNextForImageModel.html" title="">ReadablePretrainedConvNextForImageModel</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedSwinForImageModel.html" title=""></a>
@@ -207,7 +219,7 @@
 image recognition tasks.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> imageClassifier = ViTForImageClassification.pretrained()
   .setInputCols(<span class="lit">"image_assembler"</span>)
   .setOutputCol(<span class="lit">"class"</span>)</pre><p>The default model is <code>&quot;image_classifier_vit_base_patch16_224&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Image+Classification" target="_blank">Models Hub</a>.</p><p>Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To
+<a href="https://sparknlp.org/models?task=Image+Classification" target="_blank">Models Hub</a>.</p><p>Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To
 see which models are compatible and how to import them see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a> and to see more extended
 examples, see
@@ -266,7 +278,7 @@ pipelineDF
             <span class="toggle">
               Known Subclasses
             </span>
-            <div class="subClasses hiddenContent"><a href="SwinForImageClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.cv.SwinForImageClassification">SwinForImageClassification</a></div>
+            <div class="subClasses hiddenContent"><a href="ConvNextForImageClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.cv.ConvNextForImageClassification">ConvNextForImageClassification</a>, <a href="SwinForImageClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.cv.SwinForImageClassification">SwinForImageClassification</a></div>
           </div></div>
         
 
@@ -2462,9 +2474,9 @@ config_proto.SerializeToString()
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.cv.ViTForImageClassification#setModelIfNotSet" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
-      <a id="setModelIfNotSet(spark:org.apache.spark.sql.SparkSession,tensorflow:com.johnsnowlabs.ml.tensorflow.TensorflowWrapper,imageMean:Array[Double],imageStd:Array[Double],resample:Int,size:Int):ViTForImageClassification.this.type"></a><a id="setModelIfNotSet(SparkSession,TensorflowWrapper,Array[Double],Array[Double],Int,Int):ViTForImageClassification.this.type"></a>
+      <a id="setModelIfNotSet(spark:org.apache.spark.sql.SparkSession,tensorflow:com.johnsnowlabs.ml.tensorflow.TensorflowWrapper,preprocessor:com.johnsnowlabs.nlp.annotators.cv.feature_extractor.Preprocessor):ViTForImageClassification.this.type"></a><a id="setModelIfNotSet(SparkSession,TensorflowWrapper,Preprocessor):ViTForImageClassification.this.type"></a>
       <span class="permalink">
-      <a href="../../../../../com/johnsnowlabs/nlp/annotators/cv/ViTForImageClassification.html#setModelIfNotSet(spark:org.apache.spark.sql.SparkSession,tensorflow:com.johnsnowlabs.ml.tensorflow.TensorflowWrapper,imageMean:Array[Double],imageStd:Array[Double],resample:Int,size:Int):ViTForImageClassification.this.type" title="Permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/cv/ViTForImageClassification.html#setModelIfNotSet(spark:org.apache.spark.sql.SparkSession,tensorflow:com.johnsnowlabs.ml.tensorflow.TensorflowWrapper,preprocessor:com.johnsnowlabs.nlp.annotators.cv.feature_extractor.Preprocessor):ViTForImageClassification.this.type" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -2473,7 +2485,7 @@ config_proto.SerializeToString()
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">setModelIfNotSet</span><span class="params">(<span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>, <span name="tensorflow">tensorflow: <a href="../../../ml/tensorflow/TensorflowWrapper.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowWrapper">TensorflowWrapper</a></span>, <span name="imageMean">imageMean: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="imageStd">imageStd: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="resample">resample: <span class="extype" name="scala.Int">Int</span></span>, <span name="size">size: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.cv.ViTForImageClassification">ViTForImageClassification</a>.this.type</span>
+        <span class="name">setModelIfNotSet</span><span class="params">(<span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>, <span name="tensorflow">tensorflow: <a href="../../../ml/tensorflow/TensorflowWrapper.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowWrapper">TensorflowWrapper</a></span>, <span name="preprocessor">preprocessor: <span class="extype" name="com.johnsnowlabs.nlp.annotators.cv.feature_extractor.Preprocessor">Preprocessor</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.cv.ViTForImageClassification">ViTForImageClassification</a>.this.type</span>
       </span>
       
       <p class="shortcomment cmt"></p>

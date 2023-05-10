@@ -23,7 +23,7 @@ val speechToText = HubertForCTC.pretrained()
 The default model is `"asr_hubert_large_ls960"`, if no name is provided.
 
 For available pretrained models please see the
-[Models Hub](https://nlp.johnsnowlabs.com/models).
+[Models Hub](https://sparknlp.org/models).
 
 To see which models are compatible and how to import them see
 https://github.com/JohnSnowLabs/spark-nlp/discussions/5669 and to see more extended

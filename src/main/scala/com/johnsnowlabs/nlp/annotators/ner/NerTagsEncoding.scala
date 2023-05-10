@@ -37,6 +37,7 @@ object NerTagsEncoding {
       doc: Annotation,
       sentenceIndex: Int = 0,
       originalOffset: Boolean = true,
+      nerHasNoSchema: Boolean = false,
       includeNoneEntities: Boolean = false,
       format: String = "IOB2"): Seq[NamedEntity] = {
 
@@ -89,7 +90,7 @@ object NerTagsEncoding {
 
     def getTag(tag: String): Option[String] = {
       try {
-        lastTag = Some(tag.substring(2))
+        lastTag = Some(if (nerHasNoSchema) tag else tag.substring(2))
       } catch {
         case e: StringIndexOutOfBoundsException =>
           require(

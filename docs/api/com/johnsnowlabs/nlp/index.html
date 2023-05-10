@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.3.1 ScalaDoc  - com.johnsnowlabs.nlp</title>
-          <meta name="description" content="Spark NLP 4.3.1 ScalaDoc - com.johnsnowlabs.nlp" />
-          <meta name="keywords" content="Spark NLP 4.3.1 ScalaDoc com.johnsnowlabs.nlp" />
+          <title>Spark NLP 4.4.1 ScalaDoc  - com.johnsnowlabs.nlp</title>
+          <meta name="description" content="Spark NLP 4.4.1 ScalaDoc - com.johnsnowlabs.nlp" />
+          <meta name="keywords" content="Spark NLP 4.4.1 ScalaDoc com.johnsnowlabs.nlp" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.3.1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.4.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -314,10 +314,6 @@
                         <a class="trait" href="CanBeLazy.html" title=""></a>
                         <a href="CanBeLazy.html" title="">CanBeLazy</a>
                       </li><li class="current-entities indented3">
-                        <a class="object" href="Chunk2Doc$.html" title="This is the companion object of Chunk2Doc."></a>
-                        <a class="class" href="Chunk2Doc.html" title="Converts a CHUNK type column back into DOCUMENT."></a>
-                        <a href="Chunk2Doc.html" title="Converts a CHUNK type column back into DOCUMENT.">Chunk2Doc</a>
-                      </li><li class="current-entities indented3">
                         <a class="object" href="Doc2Chunk$.html" title="This is the companion object of Doc2Chunk."></a>
                         <a class="class" href="Doc2Chunk.html" title="Converts DOCUMENT type annotations into CHUNK type with the contents of a chunkCol."></a>
                         <a href="Doc2Chunk.html" title="Converts DOCUMENT type annotations into CHUNK type with the contents of a chunkCol.">Doc2Chunk</a>
@@ -361,6 +357,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="HasBatchedAnnotateImage.html" title=""></a>
                         <a href="HasBatchedAnnotateImage.html" title="">HasBatchedAnnotateImage</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="trait" href="HasCandidateLabelsProperties.html" title=""></a>
+                        <a href="HasCandidateLabelsProperties.html" title="">HasCandidateLabelsProperties</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="trait" href="HasCaseSensitiveProperties.html" title=""></a>
@@ -712,45 +712,6 @@ root</pre></div></div>
       </span>
       
       
-    </li><li name="com.johnsnowlabs.nlp.Chunk2Doc" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="Chunk2DocextendsAnnotatorModel[com.johnsnowlabs.nlp.Chunk2Doc]withHasSimpleAnnotate[com.johnsnowlabs.nlp.Chunk2Doc]"></a><a id="Chunk2Doc:Chunk2Doc"></a>
-      <span class="permalink">
-      <a href="../../../com/johnsnowlabs/nlp/Chunk2Doc.html" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">class</span>
-      </span>
-      <span class="symbol">
-        <a title="Converts a CHUNK type column back into DOCUMENT." href="Chunk2Doc.html"><span class="name">Chunk2Doc</span></a><span class="result"> extends <a href="AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="Chunk2Doc.html" class="extype" name="com.johnsnowlabs.nlp.Chunk2Doc">Chunk2Doc</a>] with <a href="HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a>[<a href="Chunk2Doc.html" class="extype" name="com.johnsnowlabs.nlp.Chunk2Doc">Chunk2Doc</a>]</span>
-      </span>
-      
-      <p class="shortcomment cmt">Converts a <code>CHUNK</code> type column back into <code>DOCUMENT</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Converts a <code>CHUNK</code> type column back into <code>DOCUMENT</code>. Useful when trying to re-tokenize or do
-further analysis on a <code>CHUNK</code> result.</p><h4>Example</h4><p>Location entities are extracted and converted back into <code>DOCUMENT</code> type for further processing</p><pre><span class="kw">import</span> spark.implicits._
-<span class="kw">import</span> com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
-<span class="kw">import</span> com.johnsnowlabs.nlp.Chunk2Doc
-
-<span class="kw">val</span> data = <span class="std">Seq</span>((<span class="num">1</span>, <span class="lit">"New York and New Jersey aren't that far apart actually."</span>)).toDF(<span class="lit">"id"</span>, <span class="lit">"text"</span>)
-
-<span class="cmt">// Extracts Named Entities amongst other things</span>
-<span class="kw">val</span> pipeline = PretrainedPipeline(<span class="lit">"explain_document_dl"</span>)
-
-<span class="kw">val</span> chunkToDoc = <span class="kw">new</span> Chunk2Doc().setInputCols(<span class="lit">"entities"</span>).setOutputCol(<span class="lit">"chunkConverted"</span>)
-<span class="kw">val</span> explainResult = pipeline.transform(data)
-
-<span class="kw">val</span> result = chunkToDoc.transform(explainResult)
-result.selectExpr(<span class="lit">"explode(chunkConverted)"</span>).show(<span class="kw">false</span>)
-+------------------------------------------------------------------------------+
-|col                                                                           |
-+------------------------------------------------------------------------------+
-|[document, <span class="num">0</span>, <span class="num">7</span>, New York, [entity -&gt; LOC, sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">0</span>], []]    |
-|[document, <span class="num">13</span>, <span class="num">22</span>, New Jersey, [entity -&gt; LOC, sentence -&gt; <span class="num">0</span>, chunk -&gt; <span class="num">1</span>], []]|
-+------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
-  <a href="pretrained/PretrainedPipeline.html" class="extype" name="com.johnsnowlabs.nlp.pretrained.PretrainedPipeline">PretrainedPipeline</a> on how to use the
-  PretrainedPipeline</p></span><span class="cmt"><p>
-  <a href="Doc2Chunk.html" class="extype" name="com.johnsnowlabs.nlp.Doc2Chunk">Doc2Chunk</a> for converting <code>DOCUMENT</code> annotations to <code>CHUNK</code></p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.Doc2Chunk" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="Doc2ChunkextendsModel[com.johnsnowlabs.nlp.Doc2Chunk]withRawAnnotator[com.johnsnowlabs.nlp.Doc2Chunk]"></a><a id="Doc2Chunk:Doc2Chunk"></a>
       <span class="permalink">
@@ -794,7 +755,7 @@ result.selectExpr(<span class="lit">"chunk.result"</span>, <span class="lit">"ch
 +-----------------------------------------------------------------+---------------------+
 |[Spark NLP, text processing library, natural language processing]|[chunk, chunk, chunk]|
 +-----------------------------------------------------------------+---------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
-  <a href="Chunk2Doc.html" class="extype" name="com.johnsnowlabs.nlp.Chunk2Doc">Chunk2Doc</a> for converting <code>CHUNK</code> annotations to <code>DOCUMENT</code></p></span></dd></dl></div>
+  <span class="extype" name="Chunk2Doc">Chunk2Doc</span> for converting <code>CHUNK</code> annotations to <code>DOCUMENT</code></p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.DocumentAssembler" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="DocumentAssemblerextendsTransformerwithDefaultParamsWritablewithHasOutputAnnotatorTypewithHasOutputAnnotationCol"></a><a id="DocumentAssembler:DocumentAssembler"></a>
       <span class="permalink">
@@ -1103,6 +1064,22 @@ finishedResult.select(<span class="lit">"text"</span>, <span class="lit">"graph_
       </span>
       <span class="symbol">
         <a title="" href="HasBatchedAnnotateImage.html"><span class="name">HasBatchedAnnotateImage</span></a><span class="tparams">[<span name="M">M &lt;: <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<span class="extype" name="com.johnsnowlabs.nlp.HasBatchedAnnotateImage.M">M</span>]</span>]</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.HasCandidateLabelsProperties" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="HasCandidateLabelsPropertiesextendsParamsAndFeaturesWritable"></a><a id="HasCandidateLabelsProperties:HasCandidateLabelsProperties"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/nlp/HasCandidateLabelsProperties.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="HasCandidateLabelsProperties.html"><span class="name">HasCandidateLabelsProperties</span></a><span class="result"> extends <a href="ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a></span>
       </span>
       
       
@@ -1856,24 +1833,6 @@ result.select(<span class="lit">"cleanText"</span>).show(<span class="kw">false<
       </span>
       
       <p class="shortcomment cmt">This is the companion object of <a href="AudioAssembler.html" class="extype" name="com.johnsnowlabs.nlp.AudioAssembler">AudioAssembler</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="AudioAssembler.html" class="extype" name="com.johnsnowlabs.nlp.AudioAssembler">AudioAssembler</a>. Please refer to that class for the
-documentation.
-</p></div></div>
-    </li><li name="com.johnsnowlabs.nlp.Chunk2Doc" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="Chunk2Doc"></a><a id="Chunk2Doc:Chunk2Doc"></a>
-      <span class="permalink">
-      <a href="../../../com/johnsnowlabs/nlp/Chunk2Doc$.html" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">object</span>
-      </span>
-      <span class="symbol">
-        <a title="This is the companion object of Chunk2Doc." href="Chunk2Doc$.html"><span class="name">Chunk2Doc</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="Chunk2Doc.html" class="extype" name="com.johnsnowlabs.nlp.Chunk2Doc">Chunk2Doc</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
-      </span>
-      
-      <p class="shortcomment cmt">This is the companion object of <a href="Chunk2Doc.html" class="extype" name="com.johnsnowlabs.nlp.Chunk2Doc">Chunk2Doc</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="Chunk2Doc.html" class="extype" name="com.johnsnowlabs.nlp.Chunk2Doc">Chunk2Doc</a>. Please refer to that class for the
 documentation.
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.Doc2Chunk" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">

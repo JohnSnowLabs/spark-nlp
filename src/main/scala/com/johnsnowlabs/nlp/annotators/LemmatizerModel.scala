@@ -23,7 +23,7 @@ import org.apache.spark.ml.util.Identifiable
 
 /** Instantiated Model of the [[Lemmatizer]]. For usage and examples, please see the documentation
   * of that class. For available pretrained models please see the
-  * [[https://nlp.johnsnowlabs.com/models?task=Lemmatization Models Hub]].
+  * [[https://sparknlp.org/models?task=Lemmatization Models Hub]].
   *
   * ==Example==
   * The lemmatizer from the example of the [[Lemmatizer]] can be replaced with:

@@ -4,7 +4,9 @@ LongformerForSequenceClassification
 
 {%- capture description -%}
 LongformerForSequenceClassification can load Longformer Models with sequence classification/regression head on top
-(a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.
+(a linear layer on top of the pooled output), e.g. for document classification tasks.
+
+For multi-class, use `setActivation("softmax")`. For multi-label, use `setActivation("sigmoid")`.
 
 Pretrained models can be loaded with `pretrained` of the companion object:
 ```
@@ -14,9 +16,9 @@ val sequenceClassifier = LongformerForSequenceClassification.pretrained()
 ```
 The default model is `"longformer_base_sequence_classifier_imdb"`, if no name is provided.
 
-For available pretrained models please see the [Models Hub](https://nlp.johnsnowlabs.com/models?task=Text+Classification).
+For available pretrained models please see the [Models Hub](https://sparknlp.org/models?task=Text+Classification).
 
-Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are 
+Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To see which models are
 compatible and how to import them see https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
 and the [LongformerForSequenceClassification](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/LongformerForSequenceClassificationTestSpec.scala).
 {%- endcapture -%}

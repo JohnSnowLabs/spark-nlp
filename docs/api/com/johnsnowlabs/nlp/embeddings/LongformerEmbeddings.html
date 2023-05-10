@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.3.1 ScalaDoc  - com.johnsnowlabs.nlp.embeddings.LongformerEmbeddings</title>
-          <meta name="description" content="Spark NLP 4.3.1 ScalaDoc - com.johnsnowlabs.nlp.embeddings.LongformerEmbeddings" />
-          <meta name="keywords" content="Spark NLP 4.3.1 ScalaDoc com.johnsnowlabs.nlp.embeddings.LongformerEmbeddings" />
+          <title>Spark NLP 4.4.1 ScalaDoc  - com.johnsnowlabs.nlp.embeddings.LongformerEmbeddings</title>
+          <meta name="description" content="Spark NLP 4.4.1 ScalaDoc - com.johnsnowlabs.nlp.embeddings.LongformerEmbeddings" />
+          <meta name="keywords" content="Spark NLP 4.4.1 ScalaDoc com.johnsnowlabs.nlp.embeddings.LongformerEmbeddings" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.3.1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.4.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -414,8 +414,7 @@ from the RoBERTa checkpoint and pretrained for MLM on long documents. It support
 length up to 4,096.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> embeddings = LongformerEmbeddings.pretrained()
   .setInputCols(<span class="lit">"document"</span>, <span class="lit">"token"</span>)
   .setOutputCol(<span class="lit">"embeddings"</span>)</pre><p>The default model is <code>&quot;longformer_base_4096&quot;</code>, if no name is provided. For available
-pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>For some examples of usage, see
+pretrained models please see the <a href="https://sparknlp.org/models?task=Embeddings" target="_blank">Models Hub</a>.</p><p>For some examples of usage, see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/LongformerEmbeddingsTestSpec.scala" target="_blank">LongformerEmbeddingsTestSpec</a>.
 To see which models are compatible and how to import them see
 <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a>.</p><p><b>Paper Abstract:</b></p><p><i>Transformer-based models are unable to process long sequences due to their self-attention
@@ -478,8 +477,8 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
 +--------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="../annotators/classifier/dl/LongformerForTokenClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.LongformerForTokenClassification">LongformerForTokenClassification</a>
   for Longformer embeddings with a token classification layer on top</p></span><span class="cmt"><p>
-  <a href="https://nlp.johnsnowlabs.com/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of
-  transformer based embeddings</p></span></dd></dl><div class="toggleContainer block">
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based embeddings</p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>

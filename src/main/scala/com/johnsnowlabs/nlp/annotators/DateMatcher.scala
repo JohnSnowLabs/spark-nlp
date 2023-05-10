@@ -43,7 +43,7 @@ import scala.util.matching.Regex
   * For example `"The 31st of April in the year 2008"` will be converted into `2008/04/31`.
   *
   * Pretrained pipelines are available for this module, see
-  * [[https://nlp.johnsnowlabs.com/docs/en/pipelines Pipelines]].
+  * [[https://sparknlp.org/docs/en/pipelines Pipelines]].
   *
   * For extended examples of usage, see the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/MultiDateMatcherMultiLanguage_en.ipynb Examples]]

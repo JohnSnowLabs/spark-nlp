@@ -47,12 +47,15 @@ private[johnsnowlabs] class RoBertaClassification(
     tags: Map[String, Int],
     signatures: Option[Map[String, String]] = None,
     merges: Map[(String, String), Int],
-    vocabulary: Map[String, Int])
+    vocabulary: Map[String, Int],
+    threshold: Float = 0.5f)
     extends Serializable
     with XXXForClassification {
 
   val _tfRoBertaSignatures: Map[String, String] =
     signatures.getOrElse(ModelSignatureManager.apply())
+
+  protected val sigmoidThreshold: Float = threshold
 
   def tokenizeWithAlignment(
       sentences: Seq[TokenizedSentence],
@@ -79,6 +82,11 @@ private[johnsnowlabs] class RoBertaClassification(
       WordpieceTokenizedSentence(wordpieceTokens)
     }
   }
+
+  def tokenizeSeqString(
+      candidateLabels: Seq[String],
+      maxSeqLength: Int,
+      caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = ???
 
   def tokenizeDocument(
       docs: Seq[Annotation],
@@ -228,6 +236,12 @@ private[johnsnowlabs] class RoBertaClassification(
 
     batchScores
   }
+
+  def tagZeroShotSequence(
+      batch: Seq[Array[Int]],
+      entailmentId: Int,
+      contradictionId: Int,
+      activation: String): Array[Array[Float]] = ???
 
   def tagSpan(batch: Seq[Array[Int]]): (Array[Array[Float]], Array[Array[Float]]) = {
     val tensors = new TensorResources()

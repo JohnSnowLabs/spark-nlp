@@ -420,9 +420,9 @@ class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate, HasEngine):
     The default model is ``"ner_dl"``, if no name is provided.
 
     For available pretrained models please see the `Models Hub
-    <https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition>`__.
+    <https://sparknlp.org/models?task=Named+Entity+Recognition>`__.
     Additionally, pretrained pipelines are available for this module, see
-    `Pipelines <https://nlp.johnsnowlabs.com/docs/en/pipelines>`__.
+    `Pipelines <https://sparknlp.org/docs/en/pipelines>`__.
 
     Note that some pretrained models require specific types of embeddings,
     depending on which they were trained on. For example, the default model

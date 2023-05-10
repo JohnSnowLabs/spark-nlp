@@ -41,7 +41,8 @@ private[johnsnowlabs] class XlnetClassification(
     val spp: SentencePieceWrapper,
     configProtoBytes: Option[Array[Byte]] = None,
     tags: Map[String, Int],
-    signatures: Option[Map[String, String]] = None)
+    signatures: Option[Map[String, String]] = None,
+    threshold: Float = 0.5f)
     extends Serializable
     with XXXForClassification {
 
@@ -54,6 +55,7 @@ private[johnsnowlabs] class XlnetClassification(
   override protected val sentencePadTokenId: Int = spp.getSppModel.pieceToId("<pad>")
 
   private val sentencePieceDelimiterId = spp.getSppModel.pieceToId("▁")
+  protected val sigmoidThreshold: Float = threshold
 
   def tokenizeWithAlignment(
       sentences: Seq[TokenizedSentence],
@@ -71,6 +73,11 @@ private[johnsnowlabs] class XlnetClassification(
     }
     sentenceTokenPieces
   }
+
+  def tokenizeSeqString(
+      candidateLabels: Seq[String],
+      maxSeqLength: Int,
+      caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = ???
 
   def tokenizeDocument(
       docs: Seq[Annotation],
@@ -220,6 +227,12 @@ private[johnsnowlabs] class XlnetClassification(
 
     batchScores
   }
+
+  def tagZeroShotSequence(
+      batch: Seq[Array[Int]],
+      entailmentId: Int,
+      contradictionId: Int,
+      activation: String): Array[Array[Float]] = ???
 
   def tagSpan(batch: Seq[Array[Int]]): (Array[Array[Float]], Array[Array[Float]]) = {
     (Array.empty[Array[Float]], Array.empty[Array[Float]])

@@ -1,7 +1,7 @@
 ---
 layout: docs
 header: true
-title: Annotators
+title: Spark NLP - Annotators
 permalink: /docs/en/annotators
 key: docs-annotators
 modify_date: "2021-04-17"
@@ -39,7 +39,6 @@ There are two types of Annotators:
 `Model` annotators have a `pretrained()` on it's static object, to retrieve the public pre-trained version of a model.
 
 - `pretrained(name, language, extra_location)` -> by default, pre-trained will bring a default model, sometimes we offer more than one model, in this case, you may have to use name, language or extra location to download them.
-
 
 ## Available Annotators
 
@@ -101,7 +100,8 @@ There are two types of Annotators:
 {% include templates/anno_table_entry.md path="" name="YakeKeywordExtraction" summary="Unsupervised, Corpus-Independent, Domain and Language-Independent and Single-Document keyword extraction."%}
 
 ## Available Transformers
-Additionally, these transformers are available to generate embeddings.
+
+Additionally, these transformers are available.
 
 {:.table-model-big}
 |Transformer|Description|Version|
@@ -110,14 +110,17 @@ Additionally, these transformers are available to generate embeddings.
 {% include templates/anno_table_entry.md path="./transformers" name="AlbertForQuestionAnswering" summary="AlbertForQuestionAnswering can load ALBERT Models with a span classification head on top for extractive question-answering tasks like SQuAD."%}
 {% include templates/anno_table_entry.md path="./transformers" name="AlbertForTokenClassification" summary="AlbertForTokenClassification can load ALBERT Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks."%}
 {% include templates/anno_table_entry.md path="./transformers" name="AlbertForSequenceClassification" summary="AlbertForSequenceClassification can load ALBERT Models with sequence classification/regression head on top e.g. for multi-class document classification tasks."%}
-{% include templates/anno_table_entry.md path="./transformers" name="BertEmbeddings" summary="Token-level embeddings using BERT. BERT (Bidirectional Encoder Representations from Transformers) provides dense vector representations for natural language by using a deep, pre-trained neural network with the Transformer architecture."%}
+{% include templates/anno_table_entry.md path="./transformers" name="AlbertForSequenceClassification" summary="AlbertForSequenceClassification can load ALBERT Models with sequence classification/regression head on top e.g. for multi-class document classification tasks."%}
+{% include templates/anno_table_entry.md path="./transformers" name="BartTransformer" summary="BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension Transformer"%}
 {% include templates/anno_table_entry.md path="./transformers" name="BertForQuestionAnswering" summary="BertForQuestionAnswering can load Bert Models with a span classification head on top for extractive question-answering tasks like SQuAD."%}
 {% include templates/anno_table_entry.md path="./transformers" name="BertForSequenceClassification" summary="Bert Models with sequence classification/regression head on top."%}
 {% include templates/anno_table_entry.md path="./transformers" name="BertForTokenClassification" summary="BertForTokenClassification can load Bert Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks."%}
+{% include templates/anno_table_entry.md path="./transformers" name="BertForZeroShotClassification" summary="BertForZeroShotClassification using a `ModelForSequenceClassification` trained on NLI (natural language inference) tasks."%}
 {% include templates/anno_table_entry.md path="./transformers" name="BertSentenceEmbeddings" summary="Sentence-level embeddings using BERT. BERT (Bidirectional Encoder Representations from Transformers) provides dense vector representations for natural language by using a deep, pre-trained neural network with the Transformer architecture."%}
 {% include templates/anno_table_entry.md path="./transformers" name="CamemBertEmbeddings" summary="CamemBert is based on Facebook’s RoBERTa model released in 2019."%}
 {% include templates/anno_table_entry.md path="./transformers" name="CamemBertForSequenceClassification" summary="amemBertForSequenceClassification can load CamemBERT Models with sequence classification/regression head on top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks."%}
 {% include templates/anno_table_entry.md path="./transformers" name="CamemBertForTokenClassification" summary="CamemBertForTokenClassification can load CamemBERT Models with a token classification head on top"%}
+{% include templates/anno_table_entry.md path="./transformers" name="ConvNextForImageClassification" summary="ConvNextForImageClassification is an image classifier based on ConvNet models"%}
 {% include templates/anno_table_entry.md path="./transformers" name="DeBertaEmbeddings" summary="DeBERTa builds on RoBERTa with disentangled attention and enhanced mask decoder training with half of the data used in RoBERTa."%}
 {% include templates/anno_table_entry.md path="./transformers" name="DeBertaForQuestionAnswering" summary="DeBertaForQuestionAnswering can load DeBERTa Models with a span classification head on top for extractive question-answering tasks like SQuAD."%}
 {% include templates/anno_table_entry.md path="./transformers" name="DistilBertEmbeddings" summary="DistilBERT is a small, fast, cheap and light Transformer model trained by distilling BERT base."%}

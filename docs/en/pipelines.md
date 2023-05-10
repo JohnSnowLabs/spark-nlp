@@ -1,8 +1,8 @@
 ---
 layout: docs
 header: true
-seotitle: Spark NLP
-title: Pipelines
+seotitle: Spark NLP - Pipelines
+title: Spark NLP - Pipelines
 permalink: /docs/en/pipelines
 key: docs-pipelines
 modify_date: "2021-11-20"
@@ -13,7 +13,7 @@ sidebar:
 
 Pretrained Pipelines have moved to Models Hub.
 Please follow this link for the updated list of all models and pipelines:
-[Models Hub](https://nlp.johnsnowlabs.com/modelss)
+[Models Hub](https://sparknlp.org/modelss)
 {:.success}
 {:.success}
 

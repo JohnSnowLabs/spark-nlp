@@ -21,6 +21,8 @@ import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignat
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{ActivationFunction, Annotation}
+import org.apache.spark.ml.param.Params
+import org.apache.spark.ml.util.Identifiable
 import org.tensorflow.ndarray.buffer.{IntDataBuffer, LongDataBuffer}
 
 import scala.collection.JavaConverters._
@@ -41,7 +43,8 @@ private[johnsnowlabs] class CamemBertClassification(
     val spp: SentencePieceWrapper,
     configProtoBytes: Option[Array[Byte]] = None,
     tags: Map[String, Int],
-    signatures: Option[Map[String, String]] = None)
+    signatures: Option[Map[String, String]] = None,
+    threshold: Float = 0.5f)
     extends Serializable
     with XXXForClassification {
 
@@ -59,6 +62,7 @@ private[johnsnowlabs] class CamemBertClassification(
   // unlike other models the delimiter id is correct and does not need pieceIdOffset
   // subtracting pieceIdOffset here to make up for adding it later in SP class
   protected val sentencePieceDelimiterId: Int = spp.getSppModel.pieceToId("▁") - pieceIdOffset
+  protected val sigmoidThreshold: Float = threshold
 
   def tokenizeWithAlignment(
       sentences: Seq[TokenizedSentence],
@@ -80,6 +84,11 @@ private[johnsnowlabs] class CamemBertClassification(
     }
     sentenceTokenPieces
   }
+
+  def tokenizeSeqString(
+      candidateLabels: Seq[String],
+      maxSeqLength: Int,
+      caseSensitive: Boolean): Seq[WordpieceTokenizedSentence] = ???
 
   def tokenizeDocument(
       docs: Seq[Annotation],
@@ -222,6 +231,12 @@ private[johnsnowlabs] class CamemBertClassification(
 
     batchScores
   }
+
+  def tagZeroShotSequence(
+      batch: Seq[Array[Int]],
+      entailmentId: Int,
+      contradictionId: Int,
+      activation: String): Array[Array[Float]] = ???
 
   def tagSpan(batch: Seq[Array[Int]]): (Array[Array[Float]], Array[Array[Float]]) = {
     val tensors = new TensorResources()

@@ -21,7 +21,11 @@ import com.johnsnowlabs.nlp.annotators._
 import com.johnsnowlabs.nlp.annotators.audio.{HubertForCTC, Wav2Vec2ForCTC}
 import com.johnsnowlabs.nlp.annotators.classifier.dl._
 import com.johnsnowlabs.nlp.annotators.coref.SpanBertCorefModel
-import com.johnsnowlabs.nlp.annotators.cv.{SwinForImageClassification, ViTForImageClassification}
+import com.johnsnowlabs.nlp.annotators.cv.{
+  ConvNextForImageClassification,
+  SwinForImageClassification,
+  ViTForImageClassification
+}
 import com.johnsnowlabs.nlp.annotators.er.EntityRulerModel
 import com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
@@ -33,7 +37,12 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetectorModel
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentModel
 import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel
-import com.johnsnowlabs.nlp.annotators.seq2seq.{GPT2Transformer, MarianTransformer, T5Transformer}
+import com.johnsnowlabs.nlp.annotators.seq2seq.{
+  BartTransformer,
+  GPT2Transformer,
+  MarianTransformer,
+  T5Transformer
+}
 import com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel
@@ -581,15 +590,17 @@ object ResourceDownloader {
   /** Downloads the provided S3 path to a local temporary directory and returns the location of
     * the folder.
     *
-    * @param path
+    * @param s3Path
     *   S3 URL to the resource
     * @return
     *   URI of the local path to the temporary folder of the resource
     */
-  def downloadS3Directory(path: String): URI = {
+  def downloadS3Directory(
+      s3Path: String,
+      tempLocalPath: String = "",
+      isIndex: Boolean = false): URI = {
 
-    val (bucketName, keyPrefix) = ResourceHelper.parseS3URI(path)
-
+    val (bucketName, keyPrefix) = ResourceHelper.parseS3URI(s3Path)
     val (accessKey, secretKey, sessionToken) = ConfigHelper.getHadoopS3Config
     val region = ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalRegion)
     val privateS3Defined =
@@ -605,10 +616,10 @@ object ResourceDownloader {
         new AWSGateway(credentialsType = "public")
       }
 
-    val tmpDirectory = SparkFiles.getRootDirectory()
-    awsGateway.downloadFilesFromDirectory(bucketName, keyPrefix, new File(tmpDirectory))
+    val directory = if (tempLocalPath.isEmpty) SparkFiles.getRootDirectory() else tempLocalPath
+    awsGateway.downloadFilesFromDirectory(bucketName, keyPrefix, new File(directory), isIndex)
+    Paths.get(directory, keyPrefix).toUri
 
-    Paths.get(tmpDirectory, keyPrefix).toUri
   }
 
 }
@@ -706,6 +717,7 @@ object PythonResourceDownloader {
     "SpanBertCorefModel" -> SpanBertCorefModel,
     "ViTForImageClassification" -> ViTForImageClassification,
     "SwinForImageClassification" -> SwinForImageClassification,
+    "ConvNextForImageClassification" -> ConvNextForImageClassification,
     "Wav2Vec2ForCTC" -> Wav2Vec2ForCTC,
     "HubertForCTC" -> HubertForCTC,
     "CamemBertForTokenClassification" -> CamemBertForTokenClassification,
@@ -713,7 +725,10 @@ object PythonResourceDownloader {
     "TapasForQuestionAnswering" -> TapasForQuestionAnswering,
     "CamemBertForSequenceClassification" -> CamemBertForSequenceClassification,
     "CamemBertForQuestionAnswering" -> CamemBertForQuestionAnswering,
-    "ZeroShotNerModel" -> ZeroShotNerModel)
+    "ZeroShotNerModel" -> ZeroShotNerModel,
+    "BartTransformer" -> BartTransformer,
+    "BertForZeroShotClassification" -> BertForZeroShotClassification,
+    "DistilBertForZeroShotClassification" -> DistilBertForZeroShotClassification)
 
   // List pairs of types such as the one with key type can load a pretrained model from the value type
   val typeMapper: Map[String, String] = Map("ZeroShotNerModel" -> "RoBertaForQuestionAnswering")

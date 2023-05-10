@@ -43,7 +43,7 @@ import scala.collection.immutable.HashSet
   *   .setDoubleVariants(true)
   * }}}
   * The default model is `"spellcheck_norvig"`, if no name is provided. For available pretrained
-  * models please see the [[https://nlp.johnsnowlabs.com/models?task=Spell+Check Models Hub]].
+  * models please see the [[https://sparknlp.org/models?task=Spell+Check Models Hub]].
   *
   * For extended examples of usage, see the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/spell/norvig/NorvigSweetingTestSpec.scala NorvigSweetingTestSpec]].

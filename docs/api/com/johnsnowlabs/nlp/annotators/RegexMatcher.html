@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.3.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.RegexMatcher</title>
-          <meta name="description" content="Spark NLP 4.3.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.RegexMatcher" />
-          <meta name="keywords" content="Spark NLP 4.3.1 ScalaDoc com.johnsnowlabs.nlp.annotators.RegexMatcher" />
+          <title>Spark NLP 4.4.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.RegexMatcher</title>
+          <meta name="description" content="Spark NLP 4.4.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.RegexMatcher" />
+          <meta name="keywords" content="Spark NLP 4.4.1 ScalaDoc com.johnsnowlabs.nlp.annotators.RegexMatcher" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.3.1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.4.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -470,6 +470,10 @@
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
     </li><li class="current-entities indented4">
+                        <a class="object" href="Chunk2Doc$.html" title="This is the companion object of Chunk2Doc."></a>
+                        <a class="class" href="Chunk2Doc.html" title="Converts a CHUNK type column back into DOCUMENT."></a>
+                        <a href="Chunk2Doc.html" title="Converts a CHUNK type column back into DOCUMENT.">Chunk2Doc</a>
+                      </li><li class="current-entities indented4">
                         <a class="object" href="ChunkTokenizer$.html" title="This is the companion object of ChunkTokenizer."></a>
                         <a class="class" href="ChunkTokenizer.html" title="Tokenizes and flattens extracted NER chunks."></a>
                         <a href="ChunkTokenizer.html" title="Tokenizes and flattens extracted NER chunks.">ChunkTokenizer</a>
@@ -653,7 +657,7 @@ example could be <code>\d{4}\/\d\d\/\d\d,date</code> which will match strings li
 identifier <code>&quot;date&quot;</code>.</p><p>Rules must be provided by either <code>setRules</code> (followed by <code>setDelimiter</code>) or an external file.</p><p>To use an external file, a dictionary of predefined regular expressions must be provided with
 <code>setExternalRules</code>. The dictionary can be set in either in the form of a delimited text file
 or directly as an <a href="../util/io/ExternalResource.html" class="extype" name="com.johnsnowlabs.nlp.util.io.ExternalResource">ExternalResource</a>.</p><p>Pretrained pipelines are available for this module, see
-<a href="https://nlp.johnsnowlabs.com/docs/en/pipelines" target="_blank">Pipelines</a>.</p><p>For extended examples of usage, see the
+<a href="https://sparknlp.org/docs/en/pipelines" target="_blank">Pipelines</a>.</p><p>For extended examples of usage, see the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/regex-matcher/Matching_Text_with_RegexMatcher.ipynb" target="_blank">Examples</a>
 and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/RegexMatcherTestSpec.scala" target="_blank">RegexMatcherTestSpec</a>.</p><h4>Example</h4><p>In this example, the <code>rules.txt</code> has the form of</p><pre>the\s\w+, followed by <span class="lit">'the'</span>

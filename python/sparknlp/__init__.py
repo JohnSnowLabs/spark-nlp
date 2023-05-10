@@ -19,13 +19,13 @@ from pyspark.sql import SparkSession
 from sparknlp import annotator
 # Must be declared here one by one or else PretrainedPipeline will fail with AttributeError
 from sparknlp.base import DocumentAssembler, MultiDocumentAssembler, Finisher, EmbeddingsFinisher, TokenAssembler, \
-    Chunk2Doc, Doc2Chunk, AudioAssembler, GraphFinisher, ImageAssembler, TableAssembler
+    Doc2Chunk, AudioAssembler, GraphFinisher, ImageAssembler, TableAssembler
 from pyspark.conf import SparkConf
 from pyspark.context import SparkContext
 from pyspark.java_gateway import launch_gateway
 
 sys.modules['com.johnsnowlabs.nlp.annotators'] = annotator
-sys.modules['com.johnsnowlabs.nlp.annotators.tokenizer'] = annotator
+sys.modules['com.johnsnsowlabs.nlp.annotators.tokenizer'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.ner'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.ner.regex'] = annotator
@@ -117,13 +117,18 @@ def start(gpu=False,
     output_level : int, optional
         Output level for logs, by default 1
 
+    Notes
+    -----
+    Since Spark version 3.2, Python 3.6 is deprecated. If you are using this
+    python version, consider sticking to lower versions of Spark.
+
     Returns
     -------
     :class:`SparkSession`
         The initiated Spark session.
 
     """
-    current_version = "4.3.1"
+    current_version = "4.4.1"
 
     if params is None:
         params = {}
@@ -293,4 +298,4 @@ def version():
     str
         The current Spark NLP version.
     """
-    return '4.3.1'
+    return '4.4.1'

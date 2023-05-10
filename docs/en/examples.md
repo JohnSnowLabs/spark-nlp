@@ -1,7 +1,7 @@
 ---
 layout: docs
 header: true
-title: Examples
+title: Spark NLP - Examples
 key: docs-examples
 permalink: /docs/en/examples
 modify_date: "2022-12-21"
@@ -16,7 +16,7 @@ $ java -version
 # should be Java 8 (Oracle or OpenJDK)
 $ conda create -n sparknlp python=3.7 -y
 $ conda activate sparknlp
-$ pip install spark-nlp==4.3.1 pyspark==3.3.1
+$ pip install spark-nlp==4.4.1 pyspark==3.3.1
 ```
 
 ## Google Colab Notebook
@@ -36,7 +36,7 @@ This script comes with the two options to define `pyspark` and `spark-nlp` versi
 # -p is for pyspark
 # -s is for spark-nlp
 # by default they are set to the latest
-!bash colab.sh -p 3.2.3 -s 4.3.1
+!bash colab.sh -p 3.2.3 -s 4.4.1
 ```
 
 [Spark NLP quick start on Google Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/quick_start_google_colab.ipynb) is a live demo on Google Colab that performs named entity recognitions and sentiment analysis by using Spark NLP pretrained pipelines.

@@ -20,7 +20,7 @@ import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT, TOKEN}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, HasSimpleAnnotate}
-import com.johnsnowlabs.storage.Database.{ENTITY_PATTERNS, ENTITY_REGEX_PATTERNS, Name}
+import com.johnsnowlabs.storage.Database.{ENTITY_REGEX_PATTERNS, Name}
 import com.johnsnowlabs.storage._
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.PipelineModel
@@ -60,7 +60,7 @@ class EntityRulerModel(override val uid: String)
 
   private val logger: Logger = LoggerFactory.getLogger("Credentials")
 
-  @deprecated("Enabling pattern regex now is define on each pattern", "Since 4.2.0")
+  // Keeping this parameter for backward compatibility
   private[er] val enablePatternRegex =
     new BooleanParam(this, "enablePatternRegex", "Enables regex pattern match")
 
@@ -82,10 +82,6 @@ class EntityRulerModel(override val uid: String)
 
   private[er] val ahoCorasickAutomaton: StructFeature[Option[AhoCorasickAutomaton]] =
     new StructFeature[Option[AhoCorasickAutomaton]](this, "AhoCorasickAutomaton")
-
-  @deprecated("Enabling pattern regex now is define on each pattern", "Since 4.2.0")
-  private[er] def setEnablePatternRegex(value: Boolean): this.type =
-    set(enablePatternRegex, value)
 
   private[er] def setRegexEntities(value: Array[String]): this.type = set(regexEntities, value)
 
@@ -118,7 +114,7 @@ class EntityRulerModel(override val uid: String)
     }
   }
 
-  setDefault(useStorage -> false, caseSensitive -> true)
+  setDefault(useStorage -> false, caseSensitive -> true, enablePatternRegex -> false)
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -321,10 +317,7 @@ class EntityRulerModel(override val uid: String)
   protected val databases: Array[Name] = EntityRulerModel.databases
 
   protected def createReader(database: Name, connection: RocksDBConnection): StorageReader[_] = {
-    database match {
-      case Database.ENTITY_PATTERNS => new PatternsReader(connection)
-      case Database.ENTITY_REGEX_PATTERNS => new RegexPatternsReader(connection)
-    }
+    new RegexPatternsReader(connection)
   }
 }
 
@@ -332,7 +325,7 @@ trait ReadablePretrainedEntityRuler
     extends StorageReadable[EntityRulerModel]
     with HasPretrained[EntityRulerModel] {
 
-  override val databases: Array[Name] = Array(ENTITY_PATTERNS, ENTITY_REGEX_PATTERNS)
+  override val databases: Array[Name] = Array(ENTITY_REGEX_PATTERNS)
 
   override val defaultModelName: Option[String] = None
 

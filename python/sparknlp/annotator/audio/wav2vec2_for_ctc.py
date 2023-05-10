@@ -21,46 +21,46 @@ class Wav2Vec2ForCTC(AnnotatorModel,
                      HasBatchedAnnotateAudio,
                      HasAudioFeatureProperties,
                      HasEngine):
-    """Wav2Vec2 Model with a language modeling head on top for Connectionist Temporal 
+    """Wav2Vec2 Model with a language modeling head on top for Connectionist Temporal
     Classification (CTC). Wav2Vec2 was proposed in wav2vec 2.0: A Framework for
     Self-Supervised Learning of Speech Representations by Alexei Baevski, Henry Zhou,
     Abdelrahman Mohamed, Michael Auli.
-    
+
     The annotator takes audio files and transcribes it as text. The audio needs to be
     provided pre-processed an array of floats.
-    
+
     Note that this annotator is currently not supported on Apple Silicon processors such
     as the M1. This is due to the processor not supporting instructions for XLA.
-    
+
     Pretrained models can be loaded with ``pretrained`` of the companion object:
-    
+
     >>> speechToText = Wav2Vec2ForCTC.pretrained() \\
     ...     .setInputCols(["audio_assembler"]) \\
     ...     .setOutputCol("text")
-        
-    
+
+
     The default model is ``"asr_wav2vec2_base_960h"``, if no name is provided.
-    
+
     For available pretrained models please see the
-    `Models Hub <https://nlp.johnsnowlabs.com/models>`__.
-    
+    `Models Hub <https://sparknlp.org/models>`__.
+
     To see which models are compatible and how to import them see
     https://github.com/JohnSnowLabs/spark-nlp/discussions/5669 and to see more extended
     examples, see
     `Wav2Vec2ForCTCTestSpec <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/audio/Wav2Vec2ForCTCTestSpec.scala>`__.
-    
+
     ====================== ======================
     Input Annotation types Output Annotation type
     ====================== ======================
     ``AUDIO``              ``DOCUMENT``
     ====================== ======================
-    
+
     Parameters
     ----------
-    
+
     batchSize
         Size of each batch, by default 2
-    
+
     Examples
     --------
     >>> import sparknlp

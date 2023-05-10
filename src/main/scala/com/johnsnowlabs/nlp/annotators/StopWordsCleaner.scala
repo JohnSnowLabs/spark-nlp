@@ -40,7 +40,7 @@ import java.util.Locale
   * // will load the default pretrained model `"stopwords_en"`.
   * }}}
   * For available pretrained models please see the
-  * [[https://nlp.johnsnowlabs.com/models?task=Stop+Words+Removal Models Hub]].
+  * [[https://sparknlp.org/models?task=Stop+Words+Removal Models Hub]].
   *
   * For extended examples of usage, see the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/stop-words/StopWordsCleaner.ipynb Examples]]

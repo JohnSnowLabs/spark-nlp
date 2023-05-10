@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.3.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel</title>
-          <meta name="description" content="Spark NLP 4.3.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel" />
-          <meta name="keywords" content="Spark NLP 4.3.1 ScalaDoc com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel" />
+          <title>Spark NLP 4.4.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel</title>
+          <meta name="description" content="Spark NLP 4.4.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel" />
+          <meta name="keywords" content="Spark NLP 4.4.1 ScalaDoc com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.3.1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.4.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -240,9 +240,9 @@ datasets.</p><p>This is the instantiated model of the <a href="NerDLApproach.htm
 see the documentation of that class.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> nerModel = NerDLModel.pretrained()
   .setInputCols(<span class="lit">"sentence"</span>, <span class="lit">"token"</span>, <span class="lit">"embeddings"</span>)
   .setOutputCol(<span class="lit">"ner"</span>)</pre><p>The default model is <code>&quot;ner_dl&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
-<a href="https://nlp.johnsnowlabs.com/models?task=Named+Entity+Recognition" target="_blank">Models Hub</a>.
-Additionally, pretrained pipelines are available for this module, see
-<a href="https://nlp.johnsnowlabs.com/docs/en/pipelines" target="_blank">Pipelines</a>.</p><p>Note that some pretrained models require specific types of embeddings, depending on which they
+<a href="https://sparknlp.org/models?task=Named+Entity+Recognition" target="_blank">Models Hub</a>. Additionally,
+pretrained pipelines are available for this module, see
+<a href="https://sparknlp.org/docs/en/pipelines" target="_blank">Pipelines</a>.</p><p>Note that some pretrained models require specific types of embeddings, depending on which they
 were trained on. For example, the default model <code>&quot;ner_dl&quot;</code> requires the
 <a href="../../../embeddings/WordEmbeddingsModel.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddings</a> <code>&quot;glove_100d&quot;</code>.</p><p>For extended examples of usage, see the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/model-downloader/Create%20custom%20pipeline%20-%20NerDL.ipynb" target="_blank">Examples</a>

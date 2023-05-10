@@ -1,8 +1,8 @@
 ---
 layout: docs
 header: true
-seotitle: Spark NLP
-title: Serving Spark NLP&#58 MLFlow on Databricks
+seotitle: Spark NLP - Serving with MLFlow on Databricks
+title: Spark NLP - Serving with MLFlow on Databricks
 permalink: /docs/en/serving_spark_nlp_via_api_databricks_mlflow
 key: docs-experiment_tracking
 modify_date: "2022-02-18"
@@ -14,18 +14,18 @@ sidebar:
 <div class="h3-box" markdown="1">
 
 This is the first article of the “Serving Spark NLP via API” series, showcasing how to serve Spark NLP using [Databricks](https://databricks.com/) Jobs and [MLFlow](https://www.mlflow.org/) Serve APIs.
-You can find two more approaches (first, using FastAPI and second, using SynapseML) in the Spark NLP for Healthcare [documentation](https://nlp.johnsnowlabs.com/docs/en/licensed_install) page.
+You can find two more approaches (first, using FastAPI and second, using SynapseML) in the Spark NLP for Healthcare [documentation](https://sparknlp.org/docs/en/licensed_install) page.
 </div><div class="h3-box" markdown="1">
 
 ## Background
 
 [Spark NLP](https://towardsdatascience.com/introduction-to-spark-nlp-foundations-and-basic-components-part-i-c83b7629ed59) is a Natural Language Understanding Library built on top of Apache Spark, leveranging Spark MLLib pipelines, that allows you to run NLP models at scale, including SOTA Transformers. Therefore, it’s the only production-ready NLP platform that allows you to go from a simple PoC on 1 driver node, to scale to multiple nodes in a cluster, to process big amounts of data, in a matter of minutes.
 
-Before starting, if you want to know more about all the advantages of using Spark NLP (as the ability to work at scale on [air-gapped environments](https://nlp.johnsnowlabs.com/docs/en/install#offline), for instance) we recommend you to take a look at the following resources:
+Before starting, if you want to know more about all the advantages of using Spark NLP (as the ability to work at scale on [air-gapped environments](https://sparknlp.org/docs/en/install#offline), for instance) we recommend you to take a look at the following resources:
 
 * [John Snow Labs webpage](https://www.johnsnowlabs.com/);
 
-* The official [technical documentation of Spark NLP](https://nlp.johnsnowlabs.com/);
+* The official [technical documentation of Spark NLP](https://sparknlp.org/);
 
 * [Spark NLP channel on Medium](https://medium.com/spark-nlp);
 
@@ -448,9 +448,9 @@ Check the Jobs [API](https://docs.databricks.com/dev-tools/api/latest/jobs.html)
 
 ## Do you want to know more?
 
-* Check how to productionize Spark NLP in our official documentation [here](https://nlp.johnsnowlabs.com/docs/en/production-readiness)
+* Check how to productionize Spark NLP in our official documentation [here](https://sparknlp.org/docs/en/production-readiness)
 
-* Visit [John Snow Labs](https://www.johnsnowlabs.com/) and [Spark NLP Technical Documentation](https://nlp.johnsnowlabs.com/) websites
+* Visit [John Snow Labs](https://www.johnsnowlabs.com/) and [Spark NLP Technical Documentation](https://sparknlp.org/) websites
 
 * Follow us on Medium: [Spark NLP](https://medium.com/spark-nlp) and [Veysel Kocaman](https://vkocaman.medium.com/)
 

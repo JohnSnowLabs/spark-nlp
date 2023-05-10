@@ -1,7 +1,7 @@
 ---
 layout: docs
 header: true
-title: Quick Start
+title: Spark NLP - Quick Start
 seotitle: Spark NLP - Getting Started
 permalink: /docs/en/quickstart
 key: docs-quickstart
@@ -31,10 +31,10 @@ Please refer to Spark [documentation](http://spark.apache.org/docs/latest/index.
 Install Spark NLP in
 
 {:.btn-list}
-* [Python](https://nlp.johnsnowlabs.com/docs/en/install#python)
-* [Scala and Java](https://nlp.johnsnowlabs.com/docs/en/install#scala-and-java)
-* [Databricks](https://nlp.johnsnowlabs.com/docs/en/install#databricks-support)
-* [EMR](https://nlp.johnsnowlabs.com/docs/en/install#emr-support)
+* [Python](https://sparknlp.org/docs/en/install#python)
+* [Scala and Java](https://sparknlp.org/docs/en/install#scala-and-java)
+* [Databricks](https://sparknlp.org/docs/en/install#databricks-support)
+* [EMR](https://sparknlp.org/docs/en/install#emr-support)
 
 </div></div>
 
