@@ -163,7 +163,7 @@ class BertSentenceEmbeddings(override val uid: String)
     *
     * @group param
     */
-  val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary")
+  val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary").setProtected()
 
   /** ConfigProto from tensorflow, serialized into byte array. Get with
     * config_proto.SerializeToString()
@@ -291,7 +291,7 @@ class BertSentenceEmbeddings(override val uid: String)
     *
     * @group param
     */
-  val signatures = new MapFeature[String, String](model = this, name = "signatures")
+  val signatures = new MapFeature[String, String](model = this, name = "signatures").setProtected()
 
   /** @group setParam */
   def setSignatures(value: Map[String, String]): this.type = {
