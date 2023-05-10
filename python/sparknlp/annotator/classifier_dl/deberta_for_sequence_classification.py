@@ -19,7 +19,8 @@ class DeBertaForSequenceClassification(AnnotatorModel,
                                        HasCaseSensitiveProperties,
                                        HasBatchedAnnotate,
                                        HasClassifierActivationProperties,
-                                       HasEngine):
+                                       HasEngine,
+                                       HasMaxSentenceLengthLimit):
     """DeBertaForSequenceClassification can load DeBERTa v2 & v3 Models with sequence classification/regression head on
     top (a linear layer on top of the pooled output) e.g. for multi-class document classification tasks.
 
@@ -100,11 +101,6 @@ class DeBertaForSequenceClassification(AnnotatorModel,
 
     outputAnnotatorType = AnnotatorType.CATEGORY
 
-    maxSentenceLength = Param(Params._dummy(),
-                              "maxSentenceLength",
-                              "Max sentence length to process",
-                              typeConverter=TypeConverters.toInt)
-
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
@@ -129,16 +125,6 @@ class DeBertaForSequenceClassification(AnnotatorModel,
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
-
-    def setMaxSentenceLength(self, value):
-        """Sets max sentence length to process, by default 128.
-
-        Parameters
-        ----------
-        value : int
-            Max sentence length to process
-        """
-        return self._set(maxSentenceLength=value)
 
     def setCoalesceSentences(self, value):
         """Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging
@@ -210,4 +196,3 @@ class DeBertaForSequenceClassification(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(DeBertaForSequenceClassification, name, lang, remote_loc)
-

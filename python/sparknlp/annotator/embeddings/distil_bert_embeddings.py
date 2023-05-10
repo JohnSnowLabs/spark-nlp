@@ -21,7 +21,8 @@ class DistilBertEmbeddings(AnnotatorModel,
                            HasCaseSensitiveProperties,
                            HasStorageRef,
                            HasBatchedAnnotate,
-                           HasEngine):
+                           HasEngine,
+                           HasMaxSentenceLengthLimit):
     """DistilBERT is a small, fast, cheap and light Transformer model trained by
     distilling BERT base. It has 40% less parameters than ``bert-base-uncased``,
     runs 60% faster while preserving over 95% of BERT's performances as measured
@@ -149,11 +150,6 @@ class DistilBertEmbeddings(AnnotatorModel,
 
     outputAnnotatorType = AnnotatorType.WORD_EMBEDDINGS
 
-    maxSentenceLength = Param(Params._dummy(),
-                              "maxSentenceLength",
-                              "Max sentence length to process",
-                              typeConverter=TypeConverters.toInt)
-
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
@@ -168,16 +164,6 @@ class DistilBertEmbeddings(AnnotatorModel,
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
-
-    def setMaxSentenceLength(self, value):
-        """Sets max sentence length to process.
-
-        Parameters
-        ----------
-        value : int
-            Max sentence length to process
-        """
-        return self._set(maxSentenceLength=value)
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.DistilBertEmbeddings", java_model=None):

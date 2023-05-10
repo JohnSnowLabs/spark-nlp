@@ -18,7 +18,8 @@ from sparknlp.common import *
 class BertForQuestionAnswering(AnnotatorModel,
                                HasCaseSensitiveProperties,
                                HasBatchedAnnotate,
-                               HasEngine):
+                               HasEngine,
+                               HasMaxSentenceLengthLimit):
     """BertForQuestionAnswering can load BERT Models with a span classification head on top for extractive
     question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start
     logits and span end logits).
@@ -67,14 +68,14 @@ class BertForQuestionAnswering(AnnotatorModel,
     >>> from pyspark.ml import Pipeline
     >>> documentAssembler = MultiDocumentAssembler() \\
     ...     .setInputCols(["question", "context"]) \\
-    ...     .setOutputCol(["document_question", "document_context"])
-    >>> spanClassifier = BertForQuestionAnswering.pretrained() \\
+    ...     .setOutputCols(["document_question", "document_context"])
+    >>> questionAnswering = BertForQuestionAnswering.pretrained() \\
     ...     .setInputCols(["document_question", "document_context"]) \\
     ...     .setOutputCol("answer") \\
     ...     .setCaseSensitive(False)
     >>> pipeline = Pipeline().setStages([
     ...     documentAssembler,
-    ...     spanClassifier
+    ...     questionAnswering
     ... ])
     >>> data = spark.createDataFrame([["What's my name?", "My name is Clara and I live in Berkeley."]]).toDF("question", "context")
     >>> result = pipeline.fit(data).transform(data)
@@ -90,11 +91,6 @@ class BertForQuestionAnswering(AnnotatorModel,
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.DOCUMENT]
 
     outputAnnotatorType = AnnotatorType.CHUNK
-
-    maxSentenceLength = Param(Params._dummy(),
-                              "maxSentenceLength",
-                              "Max sentence length to process",
-                              typeConverter=TypeConverters.toInt)
 
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
@@ -114,16 +110,6 @@ class BertForQuestionAnswering(AnnotatorModel,
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
-
-    def setMaxSentenceLength(self, value):
-        """Sets max sentence length to process, by default 128.
-
-        Parameters
-        ----------
-        value : int
-            Max sentence length to process
-        """
-        return self._set(maxSentenceLength=value)
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.BertForQuestionAnswering",

@@ -21,7 +21,8 @@ class XlnetEmbeddings(AnnotatorModel,
                       HasCaseSensitiveProperties,
                       HasStorageRef,
                       HasBatchedAnnotate,
-                      HasEngine):
+                      HasEngine,
+                      HasMaxSentenceLengthLimit):
     """XlnetEmbeddings (XLNet): Generalized Autoregressive Pretraining for
     Language Understanding
 
@@ -160,11 +161,6 @@ class XlnetEmbeddings(AnnotatorModel,
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
                              TypeConverters.toListInt)
 
-    maxSentenceLength = Param(Params._dummy(),
-                              "maxSentenceLength",
-                              "Max sentence length to process",
-                              typeConverter=TypeConverters.toInt)
-
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
 
@@ -174,16 +170,6 @@ class XlnetEmbeddings(AnnotatorModel,
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
-
-    def setMaxSentenceLength(self, value):
-        """Sets max sentence length to process.
-
-        Parameters
-        ----------
-        value : int
-            Max sentence length to process
-        """
-        return self._set(maxSentenceLength=value)
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.XlnetEmbeddings", java_model=None):

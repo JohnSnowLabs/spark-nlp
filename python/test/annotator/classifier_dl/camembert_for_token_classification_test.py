@@ -27,17 +27,19 @@ class CamemBertForTokenClassificationTestSpec(unittest.TestCase):
         self.data = SparkContextForTest.spark.read.option("header", "true") \
             .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
 
-    def runTest(self):
+        self.tested_annotator = CamemBertForTokenClassification \
+            .pretrained() \
+            .setInputCols(["document", "token"]) \
+            .setOutputCol("ner")
+
+    def test_run(self):
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
 
         tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
 
-        token_classifier = CamemBertForTokenClassification \
-            .pretrained() \
-            .setInputCols(["document", "token"]) \
-            .setOutputCol("ner")
+        token_classifier = self.tested_annotator
 
         pipeline = Pipeline(stages=[
             document_assembler,
