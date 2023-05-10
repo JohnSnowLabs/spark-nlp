@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.4.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.seq2seq</title>
-          <meta name="description" content="Spark NLP 4.4.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.seq2seq" />
-          <meta name="keywords" content="Spark NLP 4.4.1 ScalaDoc com.johnsnowlabs.nlp.annotators.seq2seq" />
+          <title>Spark NLP 4.4.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.seq2seq</title>
+          <meta name="description" content="Spark NLP 4.4.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.seq2seq" />
+          <meta name="keywords" content="Spark NLP 4.4.2 ScalaDoc com.johnsnowlabs.nlp.annotators.seq2seq" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.4.1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.4.2 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -756,7 +756,9 @@ minimal dependencies. It is mainly being developed by the Microsoft Translator t
 academic (most notably the University of Edinburgh and in the past the Adam Mickiewicz
 University in Poznań) and commercial contributors help with its development. MarianTransformer
 uses the models trained by MarianNMT.</p><p>It is currently the engine behind the Microsoft Translator Neural Machine Translation services
-and being deployed by many companies, organizations and research projects.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> marian = MarianTransformer.pretrained()
+and being deployed by many companies, organizations and research projects.</p><p>Note that this model only supports inputs up to 512 tokens. If you are working with longer
+inputs, consider splitting them first. For example, you can use the SentenceDetectorDL
+annotator to split longer texts into sentences first.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> marian = MarianTransformer.pretrained()
   .setInputCols(<span class="lit">"sentence"</span>)
   .setOutputCol(<span class="lit">"translation"</span>)</pre><p>The default model is <code>&quot;opus_mt_en_fr&quot;</code>, default language is <code>&quot;xx&quot;</code> (meaning multi-lingual), if
 no values are provided. For available pretrained models please see the
