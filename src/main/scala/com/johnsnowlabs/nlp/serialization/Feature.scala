@@ -118,13 +118,8 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](
   }
 
   final def setValue(value: Option[Any]): HasFeatures = {
-    if (isProtected && isSet)
-      throw new IllegalArgumentException(
-        "Trying to set a protected parameter, which was already set." +
-          " The parameter you are trying to set is protected and can only be set once." +
-          " For a pretrained model, this was done during the initialization process." +
-          " If you are trying to train your own model, please check the documentation.")
-
+    //    TODO: make sure we log if there is any protected param is being set
+    //     if (isProtected && isSet)
     if (useBroadcast) {
       if (isSet) broadcastValue.get.destroy()
       broadcastValue =
