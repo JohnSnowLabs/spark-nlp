@@ -56,6 +56,14 @@ val sent_embeddings = BertSentenceEmbeddings.pretrained("sent_bert_base_uncased"
 
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, sent_embeddings ))
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("el.embed_sentence.bert.base_uncased").predict("""Put your text here.""")
+```
+
 </div>
 
 {:.model-param}

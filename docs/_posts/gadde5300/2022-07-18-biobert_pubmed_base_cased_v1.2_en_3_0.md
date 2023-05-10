@@ -71,6 +71,14 @@ val data = Seq("I hate cancer").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed.biobert.pubmed.cased_base").predict("""I hate cancer""")
+```
+
 </div>
 
 {:.model-param}

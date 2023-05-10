@@ -74,6 +74,14 @@ val data = Seq("OÃ¹ est-ce que je vis?","Mon nom est Wolfgang et je vis Ã  Berli
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("fr.answer_question.camembert.fquad").predict("""Où est-ce que je vis?|||"Mon nom est Wolfgang et je vis à Berlin.""")
+```
+
 </div>
 
 {:.model-param}

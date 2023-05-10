@@ -65,6 +65,14 @@ val data = Seq("PUT YOUR 'QUESTION' STRING HERE?", "PUT YOUR 'CONTEXT' STRING HE
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.answer_question.bert.squad.tiny_finetuned").predict("""PUT YOUR 'QUESTION' STRING HERE?|||"PUT YOUR 'CONTEXT' STRING HERE""")
+```
+
 </div>
 
 {:.model-param}

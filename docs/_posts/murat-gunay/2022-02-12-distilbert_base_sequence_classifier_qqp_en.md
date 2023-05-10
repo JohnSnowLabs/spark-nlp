@@ -77,6 +77,14 @@ val document_assembler = DocumentAssembler()
  val result1 = pipeline.fit(example1).transform(example1)
  val result2 = pipeline.fit(example2).transform(example2)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.qqp.distil_bert.base").predict("""Do you want to eat something? Are you hungry?""")
+```
+
 </div>
 
 ## Results

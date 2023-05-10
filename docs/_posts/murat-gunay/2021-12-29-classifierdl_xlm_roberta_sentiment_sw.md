@@ -116,6 +116,14 @@ val result1 = light_pipeline.annotate("Hadithi yenyewe ni ya kutabirika tu na ya
 
 val result2 = light_pipeline.annotate("Mtandao wa kushangaza wa 4G katika mji wa Mombasa pamoja na mipango nzuri sana na ya bei rahisi.")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("sw.classify.sentiment.").predict("""Mtandao wa kushangaza wa 4G katika mji wa Mombasa pamoja na mipango nzuri sana na ya bei rahisi.""")
+```
+
 </div>
 
 ## Results

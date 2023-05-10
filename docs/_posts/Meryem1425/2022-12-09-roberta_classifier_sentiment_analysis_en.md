@@ -74,6 +74,14 @@ val data = Seq("I love you!").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.roberta.sentiment.by_souvikcmsa").predict("""I feel lucky to be here.""")
+```
+
 </div>
 
 {:.model-param}

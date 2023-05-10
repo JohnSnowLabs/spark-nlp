@@ -74,6 +74,14 @@ val example = Seq("NatÃ¼rlich kann ich von zuwanderern mehr erwarten. muss ich s
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("de.classify.distil_bert.base").predict("""Natürlich kann ich von zuwanderern mehr erwarten. muss ich sogar. sie müssen die sprache lernen, sie müssen die gepflogenheiten lernen und sich in die gesellschaft einfügen. dass muss ich nicht weil ich mich schon in die gesellschaft eingefügt habe. egal wo du hin ziehst, nirgendwo wird dir soviel zucker in den arsch geblasen wie in deutschland.""")
+```
+
 </div>
 
 ## Results
