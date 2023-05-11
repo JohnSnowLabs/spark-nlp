@@ -41,14 +41,16 @@ trait HasClassifierActivationProperties extends ParamsAndFeaturesWritable {
     "threshold",
     "Choose the threshold to determine which logits are considered to be positive or negative")
 
-  /** Whether to enable caching DataFrames or RDDs during the training (Default depends on model).
-    *
-    * @group param
-    */
+  /** Whether or not the result should be multi-class (the sum of all probabilities is 1.0) or
+   *  multi-label (each label has a probability between 0.0 to 1.0).
+   *  Default is False i.e. multi-class
+   *
+   * @group param
+   */
   val multilabel: Param[Boolean] = new Param(
     this,
     "multilabel",
-    "Whether to calculate logits via Multiclass(softmax) or Multilabel(sigmoid). Default is False i.e. Multiclass")
+    "Whether or not the result should be multi-class (the sum of all probabilities is 1.0) or multi-label (each label has a probability between 0.0 to 1.0). Default is False i.e. multi-class")
 
   setDefault(activation -> ActivationFunction.softmax, threshold -> 0.5f, multilabel -> false)
 
@@ -79,11 +81,17 @@ trait HasClassifierActivationProperties extends ParamsAndFeaturesWritable {
   def setThreshold(threshold: Float): this.type =
     set(this.threshold, threshold)
 
-  /** @group setParam */
+  /** Set whether or not the result should be multi-class (the sum of all probabilities is 1.0) or
+   * multi-label (each label has a probability between 0.0 to 1.0).
+   * Default is False i.e. multi-class
+   *
+   * @group param
+   */
   def setMultilabel(value: Boolean): this.type = {
     if (value) {
       setActivation(ActivationFunction.sigmoid)
     } else setActivation(ActivationFunction.softmax)
+    set(this.multilabel, value)
   }
 
 }

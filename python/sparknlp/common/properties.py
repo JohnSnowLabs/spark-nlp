@@ -99,26 +99,30 @@ class HasClassifierActivationProperties:
         return self.getOrDefault(self.activation)
 
     def setMultilabel(self, value):
-        """Sets whether to calculate logits via Multiclass(softmax) or Multilabel(sigmoid).
-         Default is False i.e. Multiclass
+        """Set whether or not the result should be multi-class (the sum of all probabilities is 1.0) or
+         multi-label (each label has a probability between 0.0 to 1.0).
+         Default is False i.e. multi-class
 
         Parameters
         ----------
         value : bool
-            Whether to calculate logits via Multiclass(softmax) or Multilabel(sigmoid).
-            Default is False i.e. Multiclass
+            Whether or not the result should be multi-class (the sum of all probabilities is 1.0) or
+            multi-label (each label has a probability between 0.0 to 1.0).
+            Default is False i.e. multi-class
         """
         return self._set(multilabel=value)
 
     def getMultilabel(self):
-        """Gets whether to calculate logits via Multiclass(softmax) or Multilabel(sigmoid).
-         Default is False i.e. Multiclass
+        """Gets whether or not the result should be multi-class (the sum of all probabilities is 1.0) or
+         multi-label (each label has a probability between 0.0 to 1.0).
+         Default is False i.e. multi-class
 
         Parameters
         ----------
         value : bool
-            Whether to calculate logits via Multiclass(softmax) or Multilabel(sigmoid).
-            Default is False i.e. Multiclass
+            Whether or not the result should be multi-class (the sum of all probabilities is 1.0) or
+            multi-label (each label has a probability between 0.0 to 1.0).
+            Default is False i.e. multi-class
         """
         return self.getOrDefault(self.multilabel)
 
