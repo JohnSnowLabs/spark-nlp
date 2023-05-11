@@ -308,8 +308,16 @@ class S3ResourceDownloader(
   }
 
   def downloadAndUnzipFile(s3FilePath: String, unzip: Boolean): Option[String] = {
+    // handle s3FilePath options:
+    // 1--> s3://auxdata.johnsnowlabs.com/public/models/albert_base_sequence_classifier_ag_news_en_3.4.0_3.0_1639648298937.zip
+    // 2--> public/models/albert_base_sequence_classifier_ag_news_en_3.4.0_3.0_1639648298937.zip
 
-    val s3File = s3FilePath.split("/").last
+    val newS3FilePath = if (s3FilePath.startsWith("s3")) {
+      ResourceHelper.parseS3URI(s3FilePath)._2
+    } else s3FilePath
+
+    val s3File = newS3FilePath.split("/").last
+
     val destinationFile = new Path(cachePath.toString + "/" + s3File)
     val splitPath = destinationFile.toString.substring(0, destinationFile.toString.length - 4)
 
@@ -318,7 +326,7 @@ class S3ResourceDownloader(
       val tmpFileName = Files.createTempFile(s3File, "").toString
       val tmpFile = new File(tmpFileName)
 
-      val newStrfilePath: String = s3FilePath
+      val newStrfilePath: String = newS3FilePath
       val mybucket: String = bucket
       // 2. Download content to tmp file
       awsGateway.getS3Object(mybucket, newStrfilePath, tmpFile)

@@ -104,29 +104,21 @@ class ResourceDownloader(object):
             return reader(classname=None, java_model=j_obj)
 
     @staticmethod
-    def downloadModelDirectly(name, remote_loc="public/models"):
+    def downloadModelDirectly(name, remote_loc="public/models", unzip=True):
         """Downloads a model directly to the cache folder.
-
-        Parameters
-        ----------
-        name : str
-            Name of the model
-        remote_loc : str, optional
-            Directory of the remote Spark NLP Folder, by default "public/models"
-        """
-        _internal._DownloadModelDirectly(name, remote_loc).apply()
-
-    @staticmethod
-    def downloadModelDirectlyAsZip(s3URI):
-        """Downloads a model directly as zip to the cache folder.
         You can use to copy-paste the s3 URI from the model hub  and download the model.
         For available s3 URI and models, please see the `Models Hub <https://sparknlp.org/models>`__.
         Parameters
         ----------
-        s3URI : str
-            s3URI link of the model
+        name : str
+            Name of the model or s3 URI
+        remote_loc : str, optional
+            Directory of the remote Spark NLP Folder, by default "public/models"
+        unzip : Bool, optional
+            Used to unzip model, by default 'True'
         """
-        _internal._DownloadModelDirectlyAsZip(s3URI).apply()
+        _internal._DownloadModelDirectly(name, remote_loc, unzip).apply()
+
 
     @staticmethod
     def downloadPipeline(name, language, remote_loc=None):

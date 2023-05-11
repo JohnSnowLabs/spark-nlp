@@ -491,23 +491,19 @@ object ResourceDownloader {
     path.get
   }
 
-  /** Downloads a resource from the default S3 bucket in the cache pretrained folder.
+  /** Downloads a model from the default S3 bucket to the cache pretrained folder.
     * @param model
-    *   the name of the key in the S3 bucket
+    *   the name of the key in the S3 bucket or s3 URI
     * @param folder
-    *   the language of the model
-    * @return
-    *   the path to the downloaded file
+    *   the folder of the model
+    * @param unzip
+    *   used to unzip the model, by default true
     */
-  def downloadModelDirectly(model: String, folder: String = publicLoc): Unit = {
-    getResourceDownloader(folder).downloadAndUnzipFile(model)
-  }
-
-  def downloadModelDirectlyAsZip(s3URI: String): Unit = {
-    val s3FilePath = ResourceHelper.parseS3URI(s3URI)._2
-    val folder = s3FilePath.substring(0, s3FilePath.length - s3FilePath.split("/").last.length)
-    ResourceDownloader.getResourceDownloader(folder)
-      .downloadAndUnzipFile(s3FilePath, unzip = false)
+  def downloadModelDirectly(
+      model: String,
+      folder: String = publicLoc,
+      unzip: Boolean = true): Unit = {
+    getResourceDownloader(folder).downloadAndUnzipFile(model, unzip)
   }
 
   def downloadModel[TModel <: PipelineStage](
@@ -763,13 +759,12 @@ object PythonResourceDownloader {
     ResourceDownloader.clearCache(name, Option(language), correctedFolder)
   }
 
-  def downloadModelDirectly(model: String, remoteLoc: String = null): Unit = {
+  def downloadModelDirectly(
+      model: String,
+      remoteLoc: String = null,
+      unzip: Boolean = true): Unit = {
     val correctedFolder = Option(remoteLoc).getOrElse(ResourceDownloader.publicLoc)
-    ResourceDownloader.downloadModelDirectly(model, correctedFolder)
-  }
-
-  def downloadModelDirectlyAsZip(s3URI: String): Unit = {
-    ResourceDownloader.downloadModelDirectlyAsZip(s3URI)
+    ResourceDownloader.downloadModelDirectly(model, correctedFolder, unzip)
   }
 
   def showUnCategorizedResources(): String = {

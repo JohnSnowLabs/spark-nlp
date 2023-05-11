@@ -328,15 +328,9 @@ class _CoverageResult(ExtendedJavaWrapper):
 
 
 class _DownloadModelDirectly(ExtendedJavaWrapper):
-    def __init__(self, name, remote_loc="public/models"):
+    def __init__(self, name, remote_loc="public/models", unzip=True):
         super(_DownloadModelDirectly, self).__init__(
-            "com.johnsnowlabs.nlp.pretrained.PythonResourceDownloader.downloadModelDirectly", name, remote_loc)
-
-
-class _DownloadModelDirectlyAsZip(ExtendedJavaWrapper):
-    def __init__(self, s3URI):
-        super(_DownloadModelDirectlyAsZip, self).__init__(
-            "com.johnsnowlabs.nlp.pretrained.PythonResourceDownloader.downloadModelDirectlyAsZip", s3URI)
+            "com.johnsnowlabs.nlp.pretrained.PythonResourceDownloader.downloadModelDirectly", name, remote_loc, unzip)
 
 
 class _DownloadModel(ExtendedJavaWrapper):
