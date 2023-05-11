@@ -18,7 +18,7 @@ class HasFeaturesTestSpec extends AnyFlatSpec {
 
   behavior of "HasFeatures"
 
-  it should "set protected params only once" taggedAs FastTest in {
+  it should "set protected features only once" taggedAs FastTest in {
     model.setProtectedMockFeature("first")
     assert(model.getProtectedMockFeature == "first")
 
