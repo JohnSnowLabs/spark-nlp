@@ -4,7 +4,7 @@
 ----------------
 New Features & Enhancements
 ----------------
-* InImplement a new Zero-Shot Text Classification for RoBERTa annotator called `RobertaForZeroShotClassification`
+* Implement a new Zero-Shot Text Classification for RoBERTa annotator called `RobertaForZeroShotClassification`
 * Support Apache Spark 3.4
 * Omptize BART models for memory efficiency
 * Introducing `cache` feature in BartTransformer
