@@ -226,8 +226,7 @@ class XlmRoBertaForSequenceClassification(override val uid: String)
 
   /** @group setParam */
   def setSignatures(value: Map[String, String]): this.type = {
-    if (get(signatures).isEmpty)
-      set(signatures, value)
+    set(signatures, value)
     this
   }
 
