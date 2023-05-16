@@ -181,7 +181,7 @@ class BertSentenceEmbeddings(override val uid: String)
     * @group param
     */
   val maxSentenceLength =
-    new IntParam(this, "maxSentenceLength", "Max sentence length to process").setProtected()
+    new IntParam(this, "maxSentenceLength", "Max sentence length to process")
 
   /** Use Long type instead of Int type for inputs (Default: `false`)
     *
