@@ -217,7 +217,7 @@ class BertForTokenClassification(override val uid: String)
 
   /** @group setParam */
   def setSignatures(value: Map[String, String]): this.type = {
-      set(signatures, value)
+    set(signatures, value)
     this
   }
 

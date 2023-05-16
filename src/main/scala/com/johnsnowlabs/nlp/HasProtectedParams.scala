@@ -10,8 +10,8 @@ import org.apache.spark.ml.param.{Param, Params}
   */
 trait HasProtectedParams {
   this: Params =>
-  implicit class ProtectedParam[T](private val param: Param[T])
-      extends Param[T](param.parent, param.name, param.doc, param.isValid) {
+  implicit class ProtectedParam[T](baseParam: Param[T])
+      extends Param[T](baseParam.parent, baseParam.name, baseParam.doc, baseParam.isValid) {
 
     var isProtected = false
 
@@ -30,8 +30,8 @@ trait HasProtectedParams {
     def toParam: Param[T] = this.asInstanceOf[Param[T]]
 
     // Overrides needed for individual Param implementation
-    override def jsonEncode(value: T): String = param.jsonEncode(value)
-    override def jsonDecode(json: String): T = param.jsonDecode(json)
+    override def jsonEncode(value: T): String = baseParam.jsonEncode(value)
+    override def jsonDecode(json: String): T = baseParam.jsonDecode(json)
   }
 
   /** Sets the value for a protected Param.
@@ -53,7 +53,8 @@ trait HasProtectedParams {
       println(
         s"Warning: The parameter ${param.name} is protected and can only be set once." +
           " For a pretrained model, this was done during the initialization process." +
-          " If you are trying to train your own model, please check the documentation.")
+          " If you are trying to train your own model, please check the documentation." +
+          " If this is intentional, set the parameter directly with set(annotator.param, value).")
     else
       set(param.toParam, value)
     this

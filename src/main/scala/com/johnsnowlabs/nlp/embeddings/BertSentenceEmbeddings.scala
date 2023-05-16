@@ -224,7 +224,6 @@ class BertSentenceEmbeddings(override val uid: String)
     */
   override def setDimension(value: Int): this.type = {
     set(this.dimension, value)
-
   }
 
   /** Whether to lowercase tokens or not
