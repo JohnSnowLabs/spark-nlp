@@ -28,6 +28,10 @@ trait HasProtectedParams {
     }
 
     def toParam: Param[T] = this.asInstanceOf[Param[T]]
+
+    // Overrides needed for individual Param implementation
+    override def jsonEncode(value: T): String = param.jsonEncode(value)
+    override def jsonDecode(json: String): T = param.jsonDecode(json)
   }
 
   /** Sets the value for a protected Param.
