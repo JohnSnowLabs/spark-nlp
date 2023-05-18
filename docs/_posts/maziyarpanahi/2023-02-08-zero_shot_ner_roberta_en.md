@@ -9,7 +9,7 @@ task: Named Entity Recognition
 language: en
 nav_key: models
 edition: Spark NLP 4.3.0
-spark_version: [3.2, 3.0]
+spark_version: 3.0
 supported: true
 engine: tensorflow
 annotator: ZeroShotNerModel
@@ -29,8 +29,8 @@ This model is trained with Zero-Shot Named Entity Recognition (NER) approach and
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/zero_shot_ner_roberta_en_4.3.0_3.2_1675890474068.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/zero_shot_ner_roberta_en_4.3.0_3.2_1675890474068.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/zero_shot_ner_roberta_en_4.3.0_3.0_1675890474068.zip){:.button.button-orange}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/zero_shot_ner_roberta_en_4.3.0_3.0_1675890474068.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -113,6 +113,14 @@ val data = Seq(Array("Hellen works in London, Paris and Berlin. My name is Clara
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.zero_shot.ner_roberta").predict("""text|||"document|||"document|||"sentence|||"sentence|||"token|||"zero_shot_ner_roberta|||"en|||"clincial/models|||"sentence|||"token|||"zero_shot_ner|||"NAME|||"What is his name?|||"What is my name?|||"What is her name?|||"CITY|||"Which city?|||"Which is the city?|||"sentence|||"token|||"zero_shot_ner|||"ner_chunk|||"Hellen works in London, Paris and Berlin. My name is Clara, I live in New York and Hellen lives in Paris.|||"John is a man who works in London, London and London.|||"text""")
+```
+
 </div>
 
 ## Results

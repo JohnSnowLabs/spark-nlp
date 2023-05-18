@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.classifier_dl.bert_for_question_answering &#8212; Spark NLP 4.4.1 documentation</title>
+    <title>sparknlp.annotator.classifier_dl.bert_for_question_answering &#8212; Spark NLP 4.4.2 documentation</title>
   
   
   
@@ -361,7 +361,8 @@ document.write(`
 <div class="viewcode-block" id="BertForQuestionAnswering"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/bert_for_question_answering/index.html#sparknlp.annotator.classifier_dl.bert_for_question_answering.BertForQuestionAnswering">[docs]</a><span class="k">class</span> <span class="nc">BertForQuestionAnswering</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
                                <span class="n">HasCaseSensitiveProperties</span><span class="p">,</span>
                                <span class="n">HasBatchedAnnotate</span><span class="p">,</span>
-                               <span class="n">HasEngine</span><span class="p">):</span>
+                               <span class="n">HasEngine</span><span class="p">,</span>
+                               <span class="n">HasMaxSentenceLengthLimit</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;BertForQuestionAnswering can load BERT Models with a span classification head on top for extractive</span>
 <span class="sd">    question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start</span>
 <span class="sd">    logits and span end logits).</span>
@@ -410,14 +411,14 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
 <span class="sd">    &gt;&gt;&gt; documentAssembler = MultiDocumentAssembler() \\</span>
 <span class="sd">    ...     .setInputCols([&quot;question&quot;, &quot;context&quot;]) \\</span>
-<span class="sd">    ...     .setOutputCol([&quot;document_question&quot;, &quot;document_context&quot;])</span>
-<span class="sd">    &gt;&gt;&gt; spanClassifier = BertForQuestionAnswering.pretrained() \\</span>
+<span class="sd">    ...     .setOutputCols([&quot;document_question&quot;, &quot;document_context&quot;])</span>
+<span class="sd">    &gt;&gt;&gt; questionAnswering = BertForQuestionAnswering.pretrained() \\</span>
 <span class="sd">    ...     .setInputCols([&quot;document_question&quot;, &quot;document_context&quot;]) \\</span>
 <span class="sd">    ...     .setOutputCol(&quot;answer&quot;) \\</span>
 <span class="sd">    ...     .setCaseSensitive(False)</span>
 <span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([</span>
 <span class="sd">    ...     documentAssembler,</span>
-<span class="sd">    ...     spanClassifier</span>
+<span class="sd">    ...     questionAnswering</span>
 <span class="sd">    ... ])</span>
 <span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[&quot;What&#39;s my name?&quot;, &quot;My name is Clara and I live in Berkeley.&quot;]]).toDF(&quot;question&quot;, &quot;context&quot;)</span>
 <span class="sd">    &gt;&gt;&gt; result = pipeline.fit(data).transform(data)</span>
@@ -433,11 +434,6 @@ document.write(`
     <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">,</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span>
 
     <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CHUNK</span>
-
-    <span class="n">maxSentenceLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
-                              <span class="s2">&quot;maxSentenceLength&quot;</span><span class="p">,</span>
-                              <span class="s2">&quot;Max sentence length to process&quot;</span><span class="p">,</span>
-                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
 
     <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                              <span class="s2">&quot;configProtoBytes&quot;</span><span class="p">,</span>
@@ -457,16 +453,6 @@ document.write(`
 <span class="sd">            ConfigProto from tensorflow, serialized into byte array</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">configProtoBytes</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="BertForQuestionAnswering.setMaxSentenceLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/bert_for_question_answering/index.html#sparknlp.annotator.classifier_dl.bert_for_question_answering.BertForQuestionAnswering.setMaxSentenceLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets max sentence length to process, by default 128.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        value : int</span>
-<span class="sd">            Max sentence length to process</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSentenceLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.classifier.dl.BertForQuestionAnswering&quot;</span><span class="p">,</span>

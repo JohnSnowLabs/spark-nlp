@@ -175,7 +175,7 @@ class Wav2Vec2ForCTC(override val uid: String)
     *
     * @group param
     */
-  val vocabulary: MapFeature[String, BigInt] = new MapFeature(this, "vocabulary")
+  val vocabulary: MapFeature[String, BigInt] = new MapFeature(this, "vocabulary").setProtected()
 
   /** @group setParam */
   def setVocabulary(value: Map[String, BigInt]): this.type = set(vocabulary, value)
@@ -184,7 +184,8 @@ class Wav2Vec2ForCTC(override val uid: String)
     *
     * @group param
     */
-  val signatures = new MapFeature[String, String](model = this, name = "signatures")
+  val signatures =
+    new MapFeature[String, String](model = this, name = "signatures").setProtected()
 
   /** @group setParam */
   def setSignatures(value: Map[String, String]): this.type = {

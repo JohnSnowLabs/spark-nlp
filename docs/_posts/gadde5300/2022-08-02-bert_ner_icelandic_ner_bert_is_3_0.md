@@ -60,20 +60,20 @@ data = spark.createDataFrame([["Ég elska neista NLP"]]).toDF("text")
 result = pipeline.fit(data).transform(data)
 ```
 ```scala
-val documentAssembler = new DocumentAssembler() 
-          .setInputCol("text") 
+val documentAssembler = new DocumentAssembler()
+          .setInputCol("text")
           .setOutputCol("document")
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
        .setInputCols(Array("document"))
        .setOutputCol("sentence")
 
-val tokenizer = new Tokenizer() 
+val tokenizer = new Tokenizer()
     .setInputCols(Array("sentence"))
     .setOutputCol("token")
 
-val tokenClassifier = BertForTokenClassification.pretrained("bert_ner_icelandic_ner_bert","is") 
-    .setInputCols(Array("sentence", "token")) 
+val tokenClassifier = BertForTokenClassification.pretrained("bert_ner_icelandic_ner_bert","is")
+    .setInputCols(Array("sentence", "token"))
     .setOutputCol("ner")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler,sentenceDetector, tokenizer, tokenClassifier))
@@ -82,6 +82,14 @@ val data = Seq("Ég elska neista NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("is.ner.bert").predict("""Ég elska neista NLP""")
+```
+
 </div>
 
 {:.model-param}

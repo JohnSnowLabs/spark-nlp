@@ -107,6 +107,14 @@ val example = Seq("Mit keinem guten Ergebniss").toDS.toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("de.classify.bert.sentiment.").predict("""Mit keinem guten Ergebniss""")
+```
+
 </div>
 
 {:.model-param}

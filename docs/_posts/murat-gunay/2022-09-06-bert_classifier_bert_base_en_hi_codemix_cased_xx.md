@@ -74,6 +74,14 @@ val data = Seq("PUT YOUR STRING HERE").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("xx.classify.bert.cased_base.extra_support_hi_en").predict("""PUT YOUR STRING HERE""")
+```
+
 </div>
 
 {:.model-param}

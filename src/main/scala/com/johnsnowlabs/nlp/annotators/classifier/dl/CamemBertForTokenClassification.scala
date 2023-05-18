@@ -149,7 +149,7 @@ class CamemBertForTokenClassification(override val uid: String)
     *
     * @group param
     */
-  val labels: MapFeature[String, Int] = new MapFeature(this, "labels")
+  val labels: MapFeature[String, Int] = new MapFeature(this, "labels").setProtected()
 
   /** @group setParam */
   def setLabels(value: Map[String, Int]): this.type = set(labels, value)
@@ -200,7 +200,8 @@ class CamemBertForTokenClassification(override val uid: String)
     *
     * @group param
     */
-  val signatures = new MapFeature[String, String](model = this, name = "signatures")
+  val signatures =
+    new MapFeature[String, String](model = this, name = "signatures").setProtected()
 
   /** @group setParam */
   def setSignatures(value: Map[String, String]): this.type = {

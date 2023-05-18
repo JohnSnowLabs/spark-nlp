@@ -1,4 +1,24 @@
 ========
+4.4.2
+========
+----------------
+New Features & Enhancements
+----------------
+* Implement a new Zero-Shot Text Classification for RoBERTa annotator called `RobertaForZeroShotClassification`
+* Support Apache Spark 3.4
+* Omptize BART models for memory efficiency
+* Introducing `cache` feature in BartTransformer
+* Improve error handling for max sequence length for transformers in Python
+* Improve `MultiDateMatcher` annotator to return multiple dates
+
+----------------
+Bug Fixes
+----------------
+* Fix a bug in Tapas due to exceeding the maximum rank value
+* Fix loading Transformer models via loadSavedModel() method from DBFS on Databricks
+
+
+========
 4.4.1
 ========
 ----------------

@@ -53,6 +53,14 @@ val embeddings = RoBertaSentenceEmbeddings.pretrained("sent_roberta_large", "en"
       .setInputCols("sentence")
       .setOutputCol("embeddings")
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed_sentence.roberta.large").predict("""Put your text here.""")
+```
+
 </div>
 
 {:.model-param}

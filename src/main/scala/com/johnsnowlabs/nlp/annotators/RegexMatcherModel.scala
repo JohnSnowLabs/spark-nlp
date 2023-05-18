@@ -19,8 +19,8 @@ package com.johnsnowlabs.nlp.annotators
 import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.serialization.ArrayFeature
-import com.johnsnowlabs.nlp.util.regex.MatchStrategy.MatchStrategy
-import com.johnsnowlabs.nlp.util.regex.{MatchStrategy, RegexRule, RuleFactory, TransformStrategy}
+import com.johnsnowlabs.nlp.util.io.MatchStrategy
+import com.johnsnowlabs.nlp.util.regex.{RegexRule, RuleFactory, TransformStrategy}
 import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.Identifiable
 
@@ -104,7 +104,7 @@ class RegexMatcherModel(override val uid: String)
   def getExternalRules: Array[(String, String)] = $$(externalRules)
 
   /** MATCH_ALL|MATCH_FIRST|MATCH_COMPLETE */
-  private def getFactoryStrategy: MatchStrategy = $(strategy) match {
+  private def getFactoryStrategy: MatchStrategy.Format = $(strategy) match {
     case "MATCH_ALL" => MatchStrategy.MATCH_ALL
     case "MATCH_FIRST" => MatchStrategy.MATCH_FIRST
     case "MATCH_COMPLETE" => MatchStrategy.MATCH_COMPLETE

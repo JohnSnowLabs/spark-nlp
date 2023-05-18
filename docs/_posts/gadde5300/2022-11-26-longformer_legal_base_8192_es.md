@@ -47,6 +47,14 @@ val embeddings = LongformerEmbeddings.pretrained("longformer_legal_base_8192","e
 .setOutputCol("embeddings")
 
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("es.embed.longformer.base_legal").predict("""Put your text here.""")
+```
+
 </div>
 
 {:.model-param}

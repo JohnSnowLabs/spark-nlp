@@ -46,6 +46,14 @@ val model = WordEmbeddingsModel.pretrained("word2vec_skipgram_legal_d100_uncased
 	                .setOutputCol("word_embeddings")
 
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("es.embed.legal.skipgram.uncased_d100").predict("""Put your text here.""")
+```
+
 </div>
 
 {:.model-param}

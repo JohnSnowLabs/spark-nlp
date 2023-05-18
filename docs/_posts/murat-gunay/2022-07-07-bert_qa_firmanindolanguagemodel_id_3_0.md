@@ -64,6 +64,14 @@ val data = Seq("Siapa namaku?", "Nama saya Clara dan saya tinggal di Berkeley.")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("id.answer_question.bert.lang").predict("""Siapa namaku?|||"Nama saya Clara dan saya tinggal di Berkeley.""")
+```
+
 </div>
 
 {:.model-param}

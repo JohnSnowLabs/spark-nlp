@@ -75,6 +75,14 @@ val data = Seq("PUT YOUR STRING HERE").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.ner.stocks_ticker").predict("""text|||"document|||"document|||"token|||"roberta_token_classifier_ticker|||"en|||"document|||"token|||"ner|||"PUT YOUR STRING HERE|||"text""")
+```
+
 </div>
 
 {:.model-param}

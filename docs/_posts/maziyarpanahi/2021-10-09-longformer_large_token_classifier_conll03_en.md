@@ -98,6 +98,14 @@ val example = Seq.empty["My name is John!"].toDS.toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.ner.longformer.conll.large").predict("""My name is John!""")
+```
+
 </div>
 
 ## Results

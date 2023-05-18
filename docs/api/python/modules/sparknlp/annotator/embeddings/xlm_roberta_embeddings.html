@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.embeddings.xlm_roberta_embeddings &#8212; Spark NLP 4.4.1 documentation</title>
+    <title>sparknlp.annotator.embeddings.xlm_roberta_embeddings &#8212; Spark NLP 4.4.2 documentation</title>
   
   
   
@@ -364,7 +364,8 @@ document.write(`
                            <span class="n">HasCaseSensitiveProperties</span><span class="p">,</span>
                            <span class="n">HasStorageRef</span><span class="p">,</span>
                            <span class="n">HasBatchedAnnotate</span><span class="p">,</span>
-                           <span class="n">HasEngine</span><span class="p">):</span>
+                           <span class="n">HasEngine</span><span class="p">,</span>
+                           <span class="n">HasMaxSentenceLengthLimit</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The XLM-RoBERTa model was proposed in `Unsupervised Cross-lingual</span>
 <span class="sd">    Representation Learning at Scale` by Alexis Conneau, Kartikay Khandelwal,</span>
 <span class="sd">    Naman Goyal, Vishrav Chaudhary, Guillaume Wenzek, Francisco Guzman, Edouard</span>
@@ -494,11 +495,6 @@ document.write(`
 
     <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">WORD_EMBEDDINGS</span>
 
-    <span class="n">maxSentenceLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
-                              <span class="s2">&quot;maxSentenceLength&quot;</span><span class="p">,</span>
-                              <span class="s2">&quot;Max sentence length to process&quot;</span><span class="p">,</span>
-                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
-
     <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                              <span class="s2">&quot;configProtoBytes&quot;</span><span class="p">,</span>
                              <span class="s2">&quot;ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()&quot;</span><span class="p">,</span>
@@ -513,16 +509,6 @@ document.write(`
 <span class="sd">            ConfigProto from tensorflow, serialized into byte array</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">configProtoBytes</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="XlmRoBertaEmbeddings.setMaxSentenceLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/xlm_roberta_embeddings/index.html#sparknlp.annotator.embeddings.xlm_roberta_embeddings.XlmRoBertaEmbeddings.setMaxSentenceLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets max sentence length to process.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        value : int</span>
-<span class="sd">            Max sentence length to process</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSentenceLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.embeddings.XlmRoBertaEmbeddings&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>

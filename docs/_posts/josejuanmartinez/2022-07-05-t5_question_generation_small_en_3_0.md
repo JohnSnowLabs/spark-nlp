@@ -82,6 +82,14 @@ val result = pipeline.fit(data).transform(data)
 
 result.select("question.result").show(false)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.t5.small.generation").predict("""EMV will pay""")
+```
+
 </div>
 
 ## Results

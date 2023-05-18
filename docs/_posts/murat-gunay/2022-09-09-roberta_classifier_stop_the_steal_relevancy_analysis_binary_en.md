@@ -75,6 +75,14 @@ val data = Seq("PUT YOUR STRING HERE").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.roberta.stop_the_steal_relevancy_analysis_binary.by_sefaozalpadl").predict("""PUT YOUR STRING HERE""")
+```
+
 </div>
 
 {:.model-param}

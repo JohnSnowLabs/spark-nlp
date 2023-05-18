@@ -46,6 +46,14 @@ val model = WordEmbeddingsModel.pretrained("word2vec_cbow_legal_d300_cased","es"
 	                .setOutputCol("word_embeddings")
 
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("es.embed.legal.cbow.cased_d300").predict("""Put your text here.""")
+```
+
 </div>
 
 {:.model-param}

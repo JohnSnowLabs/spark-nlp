@@ -20,7 +20,8 @@ class SpanBertCorefModel(AnnotatorModel,
                          HasEmbeddingsProperties,
                          HasCaseSensitiveProperties,
                          HasStorageRef,
-                         HasEngine):
+                         HasEngine,
+                         HasMaxSentenceLengthLimit):
     """
     A coreference resolution model based on SpanBert.
 
@@ -114,11 +115,6 @@ class SpanBertCorefModel(AnnotatorModel,
 
     outputAnnotatorType = AnnotatorType.DEPENDENCY
 
-    maxSentenceLength = Param(Params._dummy(),
-                              "maxSentenceLength",
-                              "Max sentence length to process",
-                              typeConverter=TypeConverters.toInt)
-
     maxSegmentLength = Param(Params._dummy(),
                              "maxSegmentLength",
                              "Max segment length",
@@ -143,16 +139,6 @@ class SpanBertCorefModel(AnnotatorModel,
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
-
-    def setMaxSentenceLength(self, value):
-        """Sets max sentence length to process.
-
-        Parameters
-        ----------
-        value : int
-            Max sentence length to process
-        """
-        return self._set(maxSentenceLength=value)
 
     def setMaxSegmentLength(self, value):
         """Sets max segment length

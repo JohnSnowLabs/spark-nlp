@@ -64,6 +64,14 @@ val data = Seq("What's my name?","My name is Clara and I live in Berkeley.").toD
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ca.answer_question.roberta.cased_base").predict("""What's my name?|||"My name is Clara and I live in Berkeley.""")
+```
+
 </div>
 
 {:.model-param}

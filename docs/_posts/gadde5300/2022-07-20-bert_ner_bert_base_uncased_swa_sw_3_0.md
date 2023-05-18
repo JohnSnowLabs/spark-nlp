@@ -82,6 +82,14 @@ val data = Seq("Ninapenda cheche NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("sw.ner.bert.uncased_base").predict("""Ninapenda cheche NLP""")
+```
+
 </div>
 
 {:.model-param}

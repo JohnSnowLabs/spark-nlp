@@ -30,6 +30,11 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     Translation services and being deployed by many companies, organizations and
     research projects.
 
+    Note that this model only supports inputs up to 512 tokens. If you are
+    working with longer inputs, consider splitting them first. For example, you
+    can use the SentenceDetectorDL annotator to split longer texts into
+    sentences.
+
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
 
@@ -176,13 +181,16 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
 
     def setMaxInputLength(self, value):
         """Sets the maximum length for encoder inputs (source language texts),
-        by default 40.
+        by default 40. The value should be less than 512, as the Marian Transformer does not
+        support inputs longer than 512 tokens.
 
         Parameters
         ----------
         value : int
             The maximum length for encoder inputs (source language texts)
         """
+        if value > 512:
+            raise ValueError("MarianTransformer model does not support sequences longer than 512.")
         return self._set(maxInputLength=value)
 
     def setMaxOutputLength(self, value):

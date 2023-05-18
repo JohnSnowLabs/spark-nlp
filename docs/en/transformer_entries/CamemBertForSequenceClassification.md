@@ -4,8 +4,9 @@ CamemBertForSequenceClassification
 
 {%- capture description -%}
 CamemBertForSequenceClassification can load CamemBERT Models with sequence
-classification/regression head on top (a linear layer on top of the pooled output) e.g. for
-multi-class document classification tasks.
+classification/regression head on top (a linear layer on top of the pooled output), e.g. for document classification tasks.
+
+For multi-class, use `setActivation("softmax")`. For multi-label, use `setActivation("sigmoid")`.
 
 Pretrained models can be loaded with `pretrained` of the companion object:
 

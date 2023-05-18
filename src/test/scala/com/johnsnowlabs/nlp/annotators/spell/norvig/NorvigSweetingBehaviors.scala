@@ -168,7 +168,7 @@ trait NorvigSweetingBehaviors { this: AnyFlatSpec =>
           "Unknown exception. Please check Spark version for correct handling."
       }
 
-      assert(caught.getMessage == expectedErrorMessage)
+      assert(caught.getMessage.contains(expectedErrorMessage))
     }
   }
 

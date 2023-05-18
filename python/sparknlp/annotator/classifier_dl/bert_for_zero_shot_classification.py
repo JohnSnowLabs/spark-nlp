@@ -21,7 +21,8 @@ class BertForZeroShotClassification(AnnotatorModel,
                                     HasBatchedAnnotate,
                                     HasClassifierActivationProperties,
                                     HasCandidateLabelsProperties,
-                                    HasEngine):
+                                    HasEngine,
+                                    HasMaxSentenceLengthLimit):
     """BertForZeroShotClassification using a `ModelForSequenceClassification` trained on NLI (natural language
     inference) tasks. Equivalent of `BertForSequenceClassification` models, but these models don't require a hardcoded
     number of potential classes, they can be chosen at runtime. It usually means it's slower but it is much more
@@ -94,7 +95,7 @@ class BertForZeroShotClassification(AnnotatorModel,
     ...     tokenizer,
     ...     sequenceClassifier
     ... ])
-    >>> data = spark.createDataFrame([["I loved this movie when I was a child.", "It was pretty boring."]]).toDF("text")
+    >>> data = spark.createDataFrame([["I loved this movie when I was a child."], ["It was pretty boring."]]).toDF("text")
     >>> result = pipeline.fit(data).transform(data)
     >>> result.select("label.result").show(truncate=False)
     +------+
@@ -109,11 +110,6 @@ class BertForZeroShotClassification(AnnotatorModel,
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
 
     outputAnnotatorType = AnnotatorType.CATEGORY
-
-    maxSentenceLength = Param(Params._dummy(),
-                              "maxSentenceLength",
-                              "Max sentence length to process",
-                              typeConverter=TypeConverters.toInt)
 
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
@@ -139,16 +135,6 @@ class BertForZeroShotClassification(AnnotatorModel,
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
-
-    def setMaxSentenceLength(self, value):
-        """Sets max sentence length to process, by default 128.
-
-        Parameters
-        ----------
-        value : int
-            Max sentence length to process
-        """
-        return self._set(maxSentenceLength=value)
 
     def setCoalesceSentences(self, value):
         """Instead of 1 class per sentence (if inputCols is '''sentence''') output 1 class per document by averaging
@@ -207,9 +193,9 @@ class BertForZeroShotClassification(AnnotatorModel,
         name : str, optional
             Name of the pretrained model, by default
             "bert_base_cased_zero_shot_classifier_xnli"
-            lang : str, optional
+        lang : str, optional
             Language of the pretrained model, by default "en"
-            remote_loc : str, optional
+        remote_loc : str, optional
             Optional remote address of the resource, by default None. Will use
             Spark NLPs repositories otherwise.
 

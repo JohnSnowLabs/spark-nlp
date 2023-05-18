@@ -75,6 +75,14 @@ val data = Seq("PUT YOUR STRING HERE").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("is.ner.distil_bert").predict("""text|||"document|||"document|||"token|||"dtilbert_token_classifier_typo_detector|||"is|||"document|||"token|||"ner|||"PUT YOUR STRING HERE|||"text""")
+```
+
 </div>
 
 {:.model-param}
