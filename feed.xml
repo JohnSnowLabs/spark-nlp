@@ -1,752 +1,1036 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-05-11T08:17:48+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
-</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">BART (large-sized model), fine-tuned on CNN Daily Mail</title><link href="/2023/05/09/bart_large_cnn_en.html" rel="alternate" type="text/html" title="BART (large-sized model), fine-tuned on CNN Daily Mail" /><published>2023-05-09T00:00:00+00:00</published><updated>2023-05-09T00:00:00+00:00</updated><id>/2023/05/09/bart_large_cnn_en</id><content type="html" xml:base="/2023/05/09/bart_large_cnn_en.html">## Description
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-05-21T10:23:23+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">ALBERT Base CoNNL-03 NER Pipeline</title><link href="/2023/05/21/albert_base_token_classifier_conll03_pipeline_en.html" rel="alternate" type="text/html" title="ALBERT Base CoNNL-03 NER Pipeline" /><published>2023-05-21T00:00:00+00:00</published><updated>2023-05-21T00:00:00+00:00</updated><id>/2023/05/21/albert_base_token_classifier_conll03_pipeline_en</id><content type="html" xml:base="/2023/05/21/albert_base_token_classifier_conll03_pipeline_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
-BART model pre-trained on English language, and fine-tuned on [CNN Daily Mail](https://huggingface.co/datasets/cnn_dailymail). It was introduced in the paper [BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension](https://arxiv.org/abs/1910.13461) by Lewis et al. and first released in [this repository (https://github.com/pytorch/fairseq/tree/master/examples/bart). 
+&lt;p&gt;This pretrained pipeline is built on the top of &lt;a href=&quot;https://nlp.johnsnowlabs.com/2021/09/26/albert_base_token_classifier_conll03_en.html&quot;&gt;albert_base_token_classifier_conll03&lt;/a&gt; model.&lt;/p&gt;
 
-Disclaimer: The team releasing BART did not write a model card for this model so this model card has been written by the Hugging Face team.
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
 
-### Model description
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/albert_base_token_classifier_conll03_pipeline_en_4.4.2_3.0_1684653753684.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/albert_base_token_classifier_conll03_pipeline_en_4.4.2_3.0_1684653753684.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
-BART is a transformer encoder-encoder (seq2seq) model with a bidirectional (BERT-like) encoder and an autoregressive (GPT-like) decoder. BART is pre-trained by (1) corrupting text with an arbitrary noising function, and (2) learning a model to reconstruct the original text.
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
-BART is particularly effective when fine-tuned for text generation (e.g. summarization, translation) but also works well for comprehension tasks (e.g. text classification, question answering). This particular checkpoint has been fine-tuned on CNN Daily Mail, a large collection of text-summary pairs.
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
 
-## Predicted Entities
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_base_token_classifier_conll03_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;My name is John and I work at John Snow Labs.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
 
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_base_token_classifier_conll03_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bart_large_cnn_en_4.4.2_3.0_1683645394389.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bart_large_cnn_en_4.4.2_3.0_1683645394389.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
-
-## How to use
-
-You can use this model for text summarization.
-
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-bart = BartTransformer.pretrained(&quot;bart_large_cnn&quot;) \
-            .setTask(&quot;summarize:&quot;) \
-            .setMaxOutputLength(200) \
-            .setInputCols([&quot;documents&quot;]) \
-            .setOutputCol(&quot;summaries&quot;)
-```
-```scala
-val bart = BartTransformer.pretrained(&quot;bart_large_cnn&quot;)
-            .setTask(&quot;summarize:&quot;)
-            .setMaxOutputLength(200)
-            .setInputCols(&quot;documents&quot;)
-            .setOutputCol(&quot;summaries&quot;)
-```
+&lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;My name is John and I work at John Snow Labs.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
 &lt;/div&gt;
 
-{:.model-param}
-## Model Information
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_base_token_classifier_conll03_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-{:.table-model}
-|---|---|
-|Model Name:|bart_large_cnn|
-|Compatibility:|Spark NLP 4.4.2+|
-|License:|Open Source|
-|Edition:|Official|
-|Language:|en|
-|Size:|975.3 MB|</content><author><name>John Snow Labs</name></author><category term="bart" /><category term="summarization" /><category term="cnn" /><category term="text_to_text" /><category term="en" /><category term="open_source" /><category term="tensorflow" /><summary type="html">Description BART model pre-trained on English language, and fine-tuned on CNN Daily Mail. It was introduced in the paper BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension by Lewis et al. and first released in [this repository (https://github.com/pytorch/fairseq/tree/master/examples/bart). Disclaimer: The team releasing BART did not write a model card for this model so this model card has been written by the Hugging Face team. Model description BART is a transformer encoder-encoder (seq2seq) model with a bidirectional (BERT-like) encoder and an autoregressive (GPT-like) decoder. BART is pre-trained by (1) corrupting text with an arbitrary noising function, and (2) learning a model to reconstruct the original text. BART is particularly effective when fine-tuned for text generation (e.g. summarization, translation) but also works well for comprehension tasks (e.g. text classification, question answering). This particular checkpoint has been fine-tuned on CNN Daily Mail, a large collection of text-summary pairs. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use You can use this model for text summarization. PythonScalaNLU bart = BartTransformer.pretrained(&quot;bart_large_cnn&quot;) \ .setTask(&quot;summarize:&quot;) \ .setMaxOutputLength(200) \ .setInputCols([&quot;documents&quot;]) \ .setOutputCol(&quot;summaries&quot;) val bart = BartTransformer.pretrained(&quot;bart_large_cnn&quot;) .setTask(&quot;summarize:&quot;) .setMaxOutputLength(200) .setInputCols(&quot;documents&quot;) .setOutputCol(&quot;summaries&quot;) Model Information Model Name: bart_large_cnn Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: en Size: 975.3 MB</summary></entry><entry><title type="html">Abstractive Summarization by BART - DistilBART CNN</title><link href="/2023/05/09/distilbart_cnn_12_6_en.html" rel="alternate" type="text/html" title="Abstractive Summarization by BART - DistilBART CNN" /><published>2023-05-09T00:00:00+00:00</published><updated>2023-05-09T00:00:00+00:00</updated><id>/2023/05/09/distilbart_cnn_12_6_en</id><content type="html" xml:base="/2023/05/09/distilbart_cnn_12_6_en.html">## Description
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;My name is John and I work at John Snow Labs.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_base_token_classifier_conll03_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-&quot;BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension Transformer&quot; The Facebook BART (Bidirectional and Auto-Regressive Transformer) model is a state-of-the-art language generation model that was introduced by Facebook AI in 2019. It is based on the transformer architecture and is designed to handle a wide range of natural language processing tasks such as text generation, summarization, and machine translation.
-
-This pre-trained model is DistilBART fine-tuned on the Extreme Summarization (CNN) Dataset.
-
-## Predicted Entities
-
-
-
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbart_cnn_12_6_en_4.4.2_3.0_1683644937231.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/distilbart_cnn_12_6_en_4.4.2_3.0_1683644937231.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
-
-## How to use
-
-
-
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-bart = BartTransformer.pretrained(&quot;distilbart_cnn_12_6&quot;) \
-            .setTask(&quot;summarize:&quot;) \
-            .setMaxOutputLength(200) \
-            .setInputCols([&quot;documents&quot;]) \
-            .setOutputCol(&quot;summaries&quot;)
-```
-```scala
-val bart = BartTransformer.pretrained(&quot;distilbart_cnn_12_6&quot;)
-            .setTask(&quot;summarize:&quot;)
-            .setMaxOutputLength(200)
-            .setInputCols(&quot;documents&quot;)
-            .setOutputCol(&quot;summaries&quot;)
-```
+&lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;My name is John and I work at John Snow Labs.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
 &lt;/div&gt;
 
-{:.model-param}
-## Model Information
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
 
-{:.table-model}
-|---|---|
-|Model Name:|distilbart_cnn_12_6|
-|Compatibility:|Spark NLP 4.4.2+|
-|License:|Open Source|
-|Edition:|Official|
-|Language:|en|
-|Size:|870.4 MB|
-
-## Benchmarking
-
-```bash
-### Metrics for DistilBART models
-| Model Name                 |   MM Params |   Inference Time (MS) |   Speedup |   Rouge 2 |   Rouge-L |
-|:---------------------------|------------:|----------------------:|----------:|----------:|----------:|
-| distilbart-xsum-12-1       |         222 |                    90 |      2.54 |     18.31 |     33.37 |
-| distilbart-xsum-6-6        |         230 |                   132 |      1.73 |     20.92 |     35.73 |
-| distilbart-xsum-12-3       |         255 |                   106 |      2.16 |     21.37 |     36.39 |
-| distilbart-xsum-9-6        |         268 |                   136 |      1.68 |     21.72 |     36.61 |
-| bart-large-xsum (baseline) |         406 |                   229 |      1    |     21.85 |     36.50 |
-| distilbart-xsum-12-6       |         306 |                   137 |      1.68 |     22.12 |     36.99 |
-| bart-large-cnn (baseline)  |         406 |                   381 |      1    |     21.06 |     30.63 |
-| distilbart-12-3-cnn        |         255 |                   214 |      1.78 |     20.57 |     30.00 |
-| distilbart-12-6-cnn        |         306 |                   307 |      1.24 |     21.26 |     30.59 |
-| distilbart-6-6-cnn         |         230 |                   182 |      2.09 |     20.17 |     29.70 |
-```</content><author><name>John Snow Labs</name></author><category term="bart" /><category term="summarization" /><category term="cnn" /><category term="distill" /><category term="text_to_text" /><category term="en" /><category term="open_source" /><category term="tensorflow" /><summary type="html">Description “BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension Transformer” The Facebook BART (Bidirectional and Auto-Regressive Transformer) model is a state-of-the-art language generation model that was introduced by Facebook AI in 2019. It is based on the transformer architecture and is designed to handle a wide range of natural language processing tasks such as text generation, summarization, and machine translation. This pre-trained model is DistilBART fine-tuned on the Extreme Summarization (CNN) Dataset. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU bart = BartTransformer.pretrained(&quot;distilbart_cnn_12_6&quot;) \ .setTask(&quot;summarize:&quot;) \ .setMaxOutputLength(200) \ .setInputCols([&quot;documents&quot;]) \ .setOutputCol(&quot;summaries&quot;) val bart = BartTransformer.pretrained(&quot;distilbart_cnn_12_6&quot;) .setTask(&quot;summarize:&quot;) .setMaxOutputLength(200) .setInputCols(&quot;documents&quot;) .setOutputCol(&quot;summaries&quot;) Model Information Model Name: distilbart_cnn_12_6 Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: en Size: 870.4 MB Benchmarking ### Metrics for DistilBART models | Model Name | MM Params | Inference Time (MS) | Speedup | Rouge 2 | Rouge-L | |:---------------------------|------------:|----------------------:|----------:|----------:|----------:| | distilbart-xsum-12-1 | 222 | 90 | 2.54 | 18.31 | 33.37 | | distilbart-xsum-6-6 | 230 | 132 | 1.73 | 20.92 | 35.73 | | distilbart-xsum-12-3 | 255 | 106 | 2.16 | 21.37 | 36.39 | | distilbart-xsum-9-6 | 268 | 136 | 1.68 | 21.72 | 36.61 | | bart-large-xsum (baseline) | 406 | 229 | 1 | 21.85 | 36.50 | | distilbart-xsum-12-6 | 306 | 137 | 1.68 | 22.12 | 36.99 | | bart-large-cnn (baseline) | 406 | 381 | 1 | 21.06 | 30.63 | | distilbart-12-3-cnn | 255 | 214 | 1.78 | 20.57 | 30.00 | | distilbart-12-6-cnn | 306 | 307 | 1.24 | 21.26 | 30.59 | | distilbart-6-6-cnn | 230 | 182 | 2.09 | 20.17 | 29.70 |</summary></entry><entry><title type="html">Abstractive Summarization by BART - DistilBART CNN</title><link href="/2023/05/09/distilbart_cnn_6_6_en.html" rel="alternate" type="text/html" title="Abstractive Summarization by BART - DistilBART CNN" /><published>2023-05-09T00:00:00+00:00</published><updated>2023-05-09T00:00:00+00:00</updated><id>/2023/05/09/distilbart_cnn_6_6_en</id><content type="html" xml:base="/2023/05/09/distilbart_cnn_6_6_en.html">## Description
-
-&quot;BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension Transformer&quot; The Facebook BART (Bidirectional and Auto-Regressive Transformer) model is a state-of-the-art language generation model that was introduced by Facebook AI in 2019. It is based on the transformer architecture and is designed to handle a wide range of natural language processing tasks such as text generation, summarization, and machine translation.
-
-This pre-trained model is DistilBART fine-tuned on the Extreme Summarization (CNN) Dataset.
-
-## Predicted Entities
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Results
 
 
 
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbart_cnn_6_6_en_4.4.2_3.0_1683645206157.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/distilbart_cnn_6_6_en_4.4.2_3.0_1683645206157.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-## How to use
++--------------+---------+
+|chunk         |ner_label|
++--------------+---------+
+|John          |PER      |
+|John Snow Labs|ORG      |
++--------------+---------+
 
 
+&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;:.model-param&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-bart = BartTransformer.pretrained(&quot;distilbart_cnn_6_6&quot;) \
-            .setTask(&quot;summarize:&quot;) \
-            .setMaxOutputLength(200) \
-            .setInputCols([&quot;documents&quot;]) \
-            .setOutputCol(&quot;summaries&quot;)
-```
-```scala
-val bart = BartTransformer.pretrained(&quot;distilbart_cnn_6_6&quot;)
-            .setTask(&quot;summarize:&quot;)
-            .setMaxOutputLength(200)
-            .setInputCols(&quot;documents&quot;)
-            .setOutputCol(&quot;summaries&quot;)
-```
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;albert_base_token_classifier_conll03_pipeline&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Type:&lt;/td&gt;
+      &lt;td&gt;pipeline&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 4.4.2+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;43.1 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;DocumentAssembler&lt;/li&gt;
+  &lt;li&gt;SentenceDetectorDLModel&lt;/li&gt;
+  &lt;li&gt;TokenizerModel&lt;/li&gt;
+  &lt;li&gt;AlbertForTokenClassification&lt;/li&gt;
+  &lt;li&gt;NerConverter&lt;/li&gt;
+  &lt;li&gt;Finisher&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="ner" /><category term="token_classifier" /><category term="albert" /><category term="conll03" /><category term="en" /><summary type="html">Description This pretrained pipeline is built on the top of albert_base_token_classifier_conll03 model. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU pipeline = PretrainedPipeline(&quot;albert_base_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;) val pipeline = new PretrainedPipeline(&quot;albert_base_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;)) PythonScalaNLU pipeline = PretrainedPipeline(&quot;albert_base_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;) val pipeline = new PretrainedPipeline(&quot;albert_base_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;)) Results Results +--------------+---------+ |chunk |ner_label| +--------------+---------+ |John |PER | |John Snow Labs|ORG | +--------------+---------+ {:.model-param} Model Information Model Name: albert_base_token_classifier_conll03_pipeline Type: pipeline Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: en Size: 43.1 MB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel AlbertForTokenClassification NerConverter Finisher</summary></entry><entry><title type="html">ALBERT Large CoNNL-03 NER Pipeline</title><link href="/2023/05/21/albert_large_token_classifier_conll03_pipeline_en.html" rel="alternate" type="text/html" title="ALBERT Large CoNNL-03 NER Pipeline" /><published>2023-05-21T00:00:00+00:00</published><updated>2023-05-21T00:00:00+00:00</updated><id>/2023/05/21/albert_large_token_classifier_conll03_pipeline_en</id><content type="html" xml:base="/2023/05/21/albert_large_token_classifier_conll03_pipeline_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;This pretrained pipeline is built on the top of &lt;a href=&quot;https://nlp.johnsnowlabs.com/2021/09/26/albert_large_token_classifier_conll03_en.html&quot;&gt;albert_large_token_classifier_conll03&lt;/a&gt; model.&lt;/p&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/albert_large_token_classifier_conll03_pipeline_en_4.4.2_3.0_1684653839636.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/albert_large_token_classifier_conll03_pipeline_en_4.4.2_3.0_1684653839636.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_large_token_classifier_conll03_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;My name is John and I work at John Snow Labs.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_large_token_classifier_conll03_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;My name is John and I work at John Snow Labs.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
 &lt;/div&gt;
 
-{:.model-param}
-## Model Information
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_large_token_classifier_conll03_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-{:.table-model}
-|---|---|
-|Model Name:|distilbart_cnn_6_6|
-|Compatibility:|Spark NLP 4.4.2+|
-|License:|Open Source|
-|Edition:|Official|
-|Language:|en|
-|Size:|551.9 MB|
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;My name is John and I work at John Snow Labs.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_large_token_classifier_conll03_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-## Benchmarking
-
-```bash
-### Metrics for DistilBART models
-| Model Name                 |   MM Params |   Inference Time (MS) |   Speedup |   Rouge 2 |   Rouge-L |
-|:---------------------------|------------:|----------------------:|----------:|----------:|----------:|
-| distilbart-xsum-12-1       |         222 |                    90 |      2.54 |     18.31 |     33.37 |
-| distilbart-xsum-6-6        |         230 |                   132 |      1.73 |     20.92 |     35.73 |
-| distilbart-xsum-12-3       |         255 |                   106 |      2.16 |     21.37 |     36.39 |
-| distilbart-xsum-9-6        |         268 |                   136 |      1.68 |     21.72 |     36.61 |
-| bart-large-xsum (baseline) |         406 |                   229 |      1    |     21.85 |     36.50 |
-| distilbart-xsum-12-6       |         306 |                   137 |      1.68 |     22.12 |     36.99 |
-| bart-large-cnn (baseline)  |         406 |                   381 |      1    |     21.06 |     30.63 |
-| distilbart-12-3-cnn        |         255 |                   214 |      1.78 |     20.57 |     30.00 |
-| distilbart-12-6-cnn        |         306 |                   307 |      1.24 |     21.26 |     30.59 |
-| distilbart-6-6-cnn         |         230 |                   182 |      2.09 |     20.17 |     29.70 |
-```</content><author><name>John Snow Labs</name></author><category term="bart" /><category term="summarization" /><category term="cnn" /><category term="distil" /><category term="text_to_text" /><category term="en" /><category term="open_source" /><category term="tensorflow" /><summary type="html">Description “BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension Transformer” The Facebook BART (Bidirectional and Auto-Regressive Transformer) model is a state-of-the-art language generation model that was introduced by Facebook AI in 2019. It is based on the transformer architecture and is designed to handle a wide range of natural language processing tasks such as text generation, summarization, and machine translation. This pre-trained model is DistilBART fine-tuned on the Extreme Summarization (CNN) Dataset. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU bart = BartTransformer.pretrained(&quot;distilbart_cnn_6_6&quot;) \ .setTask(&quot;summarize:&quot;) \ .setMaxOutputLength(200) \ .setInputCols([&quot;documents&quot;]) \ .setOutputCol(&quot;summaries&quot;) val bart = BartTransformer.pretrained(&quot;distilbart_cnn_6_6&quot;) .setTask(&quot;summarize:&quot;) .setMaxOutputLength(200) .setInputCols(&quot;documents&quot;) .setOutputCol(&quot;summaries&quot;) Model Information Model Name: distilbart_cnn_6_6 Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: en Size: 551.9 MB Benchmarking ### Metrics for DistilBART models | Model Name | MM Params | Inference Time (MS) | Speedup | Rouge 2 | Rouge-L | |:---------------------------|------------:|----------------------:|----------:|----------:|----------:| | distilbart-xsum-12-1 | 222 | 90 | 2.54 | 18.31 | 33.37 | | distilbart-xsum-6-6 | 230 | 132 | 1.73 | 20.92 | 35.73 | | distilbart-xsum-12-3 | 255 | 106 | 2.16 | 21.37 | 36.39 | | distilbart-xsum-9-6 | 268 | 136 | 1.68 | 21.72 | 36.61 | | bart-large-xsum (baseline) | 406 | 229 | 1 | 21.85 | 36.50 | | distilbart-xsum-12-6 | 306 | 137 | 1.68 | 22.12 | 36.99 | | bart-large-cnn (baseline) | 406 | 381 | 1 | 21.06 | 30.63 | | distilbart-12-3-cnn | 255 | 214 | 1.78 | 20.57 | 30.00 | | distilbart-12-6-cnn | 306 | 307 | 1.24 | 21.26 | 30.59 | | distilbart-6-6-cnn | 230 | 182 | 2.09 | 20.17 | 29.70 |</summary></entry><entry><title type="html">Abstractive Summarization by BART - DistilBART XSUM</title><link href="/2023/05/09/distilbart_xsum_12_6_en.html" rel="alternate" type="text/html" title="Abstractive Summarization by BART - DistilBART XSUM" /><published>2023-05-09T00:00:00+00:00</published><updated>2023-05-09T00:00:00+00:00</updated><id>/2023/05/09/distilbart_xsum_12_6_en</id><content type="html" xml:base="/2023/05/09/distilbart_xsum_12_6_en.html">## Description
-
-&quot;BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension Transformer&quot; The Facebook BART (Bidirectional and Auto-Regressive Transformer) model is a state-of-the-art language generation model that was introduced by Facebook AI in 2019. It is based on the transformer architecture and is designed to handle a wide range of natural language processing tasks such as text generation, summarization, and machine translation.
-
-This pre-trained model is DistilBART fine-tuned on the Extreme Summarization (XSum) Dataset.
-
-## Predicted Entities
-
-
-
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbart_xsum_12_6_en_4.4.2_3.0_1683644681912.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/distilbart_xsum_12_6_en_4.4.2_3.0_1683644681912.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
-
-## How to use
-
-
-
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-bart = BartTransformer.pretrained(&quot;distilbart_xsum_12_6&quot;) \
-            .setTask(&quot;summarize:&quot;) \
-            .setMaxOutputLength(200) \
-            .setInputCols([&quot;documents&quot;]) \
-            .setOutputCol(&quot;summaries&quot;)
-```
-```scala
-val bart = BartTransformer.pretrained(&quot;distilbart_xsum_12_6&quot;)
-            .setTask(&quot;summarize:&quot;)
-            .setMaxOutputLength(200)
-            .setInputCols(&quot;documents&quot;)
-            .setOutputCol(&quot;summaries&quot;)
-```
+&lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;My name is John and I work at John Snow Labs.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
 &lt;/div&gt;
 
-{:.model-param}
-## Model Information
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
 
-{:.table-model}
-|---|---|
-|Model Name:|distilbart_xsum_12_6|
-|Compatibility:|Spark NLP 4.4.2+|
-|License:|Open Source|
-|Edition:|Official|
-|Language:|en|
-|Size:|733.7 MB|
-
-## References
-
-https://huggingface.co/sshleifer/distilbart-xsum-12-6
-
-## Benchmarking
-
-```bash
-### Metrics for DistilBART models
-
-| Model Name                 |   MM Params |   Inference Time (MS) |   Speedup |   Rouge 2 |   Rouge-L |
-|:---------------------------|------------:|----------------------:|----------:|----------:|----------:|
-| distilbart-xsum-12-1       |         222 |                    90 |      2.54 |     18.31 |     33.37 |
-| distilbart-xsum-6-6        |         230 |                   132 |      1.73 |     20.92 |     35.73 |
-| distilbart-xsum-12-3       |         255 |                   106 |      2.16 |     21.37 |     36.39 |
-| distilbart-xsum-9-6        |         268 |                   136 |      1.68 |     21.72 |     36.61 |
-| bart-large-xsum (baseline) |         406 |                   229 |      1    |     21.85 |     36.50 |
-| distilbart-xsum-12-6       |         306 |                   137 |      1.68 |     22.12 |     36.99 |
-| bart-large-cnn (baseline)  |         406 |                   381 |      1    |     21.06 |     30.63 |
-| distilbart-12-3-cnn        |         255 |                   214 |      1.78 |     20.57 |     30.00 |
-| distilbart-12-6-cnn        |         306 |                   307 |      1.24 |     21.26 |     30.59 |
-| distilbart-6-6-cnn         |         230 |                   182 |      2.09 |     20.17 |     29.70 |
-```</content><author><name>John Snow Labs</name></author><category term="bart" /><category term="summarization" /><category term="text_to_text" /><category term="xsum" /><category term="distil" /><category term="en" /><category term="open_source" /><category term="tensorflow" /><summary type="html">Description “BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension Transformer” The Facebook BART (Bidirectional and Auto-Regressive Transformer) model is a state-of-the-art language generation model that was introduced by Facebook AI in 2019. It is based on the transformer architecture and is designed to handle a wide range of natural language processing tasks such as text generation, summarization, and machine translation. This pre-trained model is DistilBART fine-tuned on the Extreme Summarization (XSum) Dataset. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU bart = BartTransformer.pretrained(&quot;distilbart_xsum_12_6&quot;) \ .setTask(&quot;summarize:&quot;) \ .setMaxOutputLength(200) \ .setInputCols([&quot;documents&quot;]) \ .setOutputCol(&quot;summaries&quot;) val bart = BartTransformer.pretrained(&quot;distilbart_xsum_12_6&quot;) .setTask(&quot;summarize:&quot;) .setMaxOutputLength(200) .setInputCols(&quot;documents&quot;) .setOutputCol(&quot;summaries&quot;) Model Information Model Name: distilbart_xsum_12_6 Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: en Size: 733.7 MB References https://huggingface.co/sshleifer/distilbart-xsum-12-6 Benchmarking ### Metrics for DistilBART models | Model Name | MM Params | Inference Time (MS) | Speedup | Rouge 2 | Rouge-L | |:---------------------------|------------:|----------------------:|----------:|----------:|----------:| | distilbart-xsum-12-1 | 222 | 90 | 2.54 | 18.31 | 33.37 | | distilbart-xsum-6-6 | 230 | 132 | 1.73 | 20.92 | 35.73 | | distilbart-xsum-12-3 | 255 | 106 | 2.16 | 21.37 | 36.39 | | distilbart-xsum-9-6 | 268 | 136 | 1.68 | 21.72 | 36.61 | | bart-large-xsum (baseline) | 406 | 229 | 1 | 21.85 | 36.50 | | distilbart-xsum-12-6 | 306 | 137 | 1.68 | 22.12 | 36.99 | | bart-large-cnn (baseline) | 406 | 381 | 1 | 21.06 | 30.63 | | distilbart-12-3-cnn | 255 | 214 | 1.78 | 20.57 | 30.00 | | distilbart-12-6-cnn | 306 | 307 | 1.24 | 21.26 | 30.59 | | distilbart-6-6-cnn | 230 | 182 | 2.09 | 20.17 | 29.70 |</summary></entry><entry><title type="html">Abstractive Summarization by BART - DistilBART XSUM</title><link href="/2023/05/09/distilbart_xsum_6_6_en.html" rel="alternate" type="text/html" title="Abstractive Summarization by BART - DistilBART XSUM" /><published>2023-05-09T00:00:00+00:00</published><updated>2023-05-09T00:00:00+00:00</updated><id>/2023/05/09/distilbart_xsum_6_6_en</id><content type="html" xml:base="/2023/05/09/distilbart_xsum_6_6_en.html">## Description
-
-&quot;BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension Transformer&quot; The Facebook BART (Bidirectional and Auto-Regressive Transformer) model is a state-of-the-art language generation model that was introduced by Facebook AI in 2019. It is based on the transformer architecture and is designed to handle a wide range of natural language processing tasks such as text generation, summarization, and machine translation.
-
-This pre-trained model is DistilBART fine-tuned on the Extreme Summarization (XSum) Dataset.
-
-## Predicted Entities
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Results
 
 
 
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbart_xsum_6_6_en_4.4.2_3.0_1683644259136.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/distilbart_xsum_6_6_en_4.4.2_3.0_1683644259136.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-## How to use
++--------------+---------+
+|chunk         |ner_label|
++--------------+---------+
+|John          |PER      |
+|John Snow Labs|ORG      |
++--------------+---------+
 
 
+&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;:.model-param&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-bart = BartTransformer.pretrained(&quot;distilbart_xsum_6_6&quot;) \
-            .setTask(&quot;summarize:&quot;) \
-            .setMaxOutputLength(200) \
-            .setInputCols([&quot;documents&quot;]) \
-            .setOutputCol(&quot;summaries&quot;)
-```
-```scala
-val bart = BartTransformer.pretrained(&quot;distilbart_xsum_6_6&quot;)
-            .setTask(&quot;summarize:&quot;)
-            .setMaxOutputLength(200)
-            .setInputCols(&quot;documents&quot;)
-            .setOutputCol(&quot;summaries&quot;)
-```
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;albert_large_token_classifier_conll03_pipeline&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Type:&lt;/td&gt;
+      &lt;td&gt;pipeline&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 4.4.2+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;64.5 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;DocumentAssembler&lt;/li&gt;
+  &lt;li&gt;SentenceDetectorDLModel&lt;/li&gt;
+  &lt;li&gt;TokenizerModel&lt;/li&gt;
+  &lt;li&gt;AlbertForTokenClassification&lt;/li&gt;
+  &lt;li&gt;NerConverter&lt;/li&gt;
+  &lt;li&gt;Finisher&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="ner" /><category term="token_classifier" /><category term="albert" /><category term="conll03" /><category term="en" /><summary type="html">Description This pretrained pipeline is built on the top of albert_large_token_classifier_conll03 model. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU pipeline = PretrainedPipeline(&quot;albert_large_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;) val pipeline = new PretrainedPipeline(&quot;albert_large_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;)) PythonScalaNLU pipeline = PretrainedPipeline(&quot;albert_large_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;) val pipeline = new PretrainedPipeline(&quot;albert_large_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;)) Results Results +--------------+---------+ |chunk |ner_label| +--------------+---------+ |John |PER | |John Snow Labs|ORG | +--------------+---------+ {:.model-param} Model Information Model Name: albert_large_token_classifier_conll03_pipeline Type: pipeline Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: en Size: 64.5 MB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel AlbertForTokenClassification NerConverter Finisher</summary></entry><entry><title type="html">ALBERT XLarge CoNNL-03 NER Pipeline</title><link href="/2023/05/21/albert_xlarge_token_classifier_conll03_pipeline_en.html" rel="alternate" type="text/html" title="ALBERT XLarge CoNNL-03 NER Pipeline" /><published>2023-05-21T00:00:00+00:00</published><updated>2023-05-21T00:00:00+00:00</updated><id>/2023/05/21/albert_xlarge_token_classifier_conll03_pipeline_en</id><content type="html" xml:base="/2023/05/21/albert_xlarge_token_classifier_conll03_pipeline_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;This pretrained pipeline is built on the top of &lt;a href=&quot;https://nlp.johnsnowlabs.com/2021/09/26/albert_xlarge_token_classifier_conll03_en.html&quot;&gt;albert_xlarge_token_classifier_conll03&lt;/a&gt; model.&lt;/p&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/albert_xlarge_token_classifier_conll03_pipeline_en_4.4.2_3.0_1684653940548.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/albert_xlarge_token_classifier_conll03_pipeline_en_4.4.2_3.0_1684653940548.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_xlarge_token_classifier_conll03_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;My name is John and I work at John Snow Labs.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_xlarge_token_classifier_conll03_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;My name is John and I work at John Snow Labs.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
 &lt;/div&gt;
 
-{:.model-param}
-## Model Information
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_xlarge_token_classifier_conll03_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-{:.table-model}
-|---|---|
-|Model Name:|distilbart_xsum_6_6|
-|Compatibility:|Spark NLP 4.4.2+|
-|License:|Open Source|
-|Edition:|Official|
-|Language:|en|
-|Size:|551.7 MB|
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;My name is John and I work at John Snow Labs.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_xlarge_token_classifier_conll03_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-## References
-
-https://huggingface.co/sshleifer/distilbart-xsum-6-6
-
-## Benchmarking
-
-```bash
-### Metrics for DistilBART models
-
-| Model Name                 |   MM Params |   Inference Time (MS) |   Speedup |   Rouge 2 |   Rouge-L |
-|:---------------------------|------------:|----------------------:|----------:|----------:|----------:|
-| distilbart-xsum-12-1       |         222 |                    90 |      2.54 |     18.31 |     33.37 |
-| distilbart-xsum-6-6        |         230 |                   132 |      1.73 |     20.92 |     35.73 |
-| distilbart-xsum-12-3       |         255 |                   106 |      2.16 |     21.37 |     36.39 |
-| distilbart-xsum-9-6        |         268 |                   136 |      1.68 |     21.72 |     36.61 |
-| bart-large-xsum (baseline) |         406 |                   229 |      1    |     21.85 |     36.50 |
-| distilbart-xsum-12-6       |         306 |                   137 |      1.68 |     22.12 |     36.99 |
-| bart-large-cnn (baseline)  |         406 |                   381 |      1    |     21.06 |     30.63 |
-| distilbart-12-3-cnn        |         255 |                   214 |      1.78 |     20.57 |     30.00 |
-| distilbart-12-6-cnn        |         306 |                   307 |      1.24 |     21.26 |     30.59 |
-| distilbart-6-6-cnn         |         230 |                   182 |      2.09 |     20.17 |     29.70 |
-```</content><author><name>John Snow Labs</name></author><category term="bart" /><category term="summarization" /><category term="xsum" /><category term="distil" /><category term="text_to_text" /><category term="en" /><category term="open_source" /><category term="tensorflow" /><summary type="html">Description “BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension Transformer” The Facebook BART (Bidirectional and Auto-Regressive Transformer) model is a state-of-the-art language generation model that was introduced by Facebook AI in 2019. It is based on the transformer architecture and is designed to handle a wide range of natural language processing tasks such as text generation, summarization, and machine translation. This pre-trained model is DistilBART fine-tuned on the Extreme Summarization (XSum) Dataset. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU bart = BartTransformer.pretrained(&quot;distilbart_xsum_6_6&quot;) \ .setTask(&quot;summarize:&quot;) \ .setMaxOutputLength(200) \ .setInputCols([&quot;documents&quot;]) \ .setOutputCol(&quot;summaries&quot;) val bart = BartTransformer.pretrained(&quot;distilbart_xsum_6_6&quot;) .setTask(&quot;summarize:&quot;) .setMaxOutputLength(200) .setInputCols(&quot;documents&quot;) .setOutputCol(&quot;summaries&quot;) Model Information Model Name: distilbart_xsum_6_6 Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: en Size: 551.7 MB References https://huggingface.co/sshleifer/distilbart-xsum-6-6 Benchmarking ### Metrics for DistilBART models | Model Name | MM Params | Inference Time (MS) | Speedup | Rouge 2 | Rouge-L | |:---------------------------|------------:|----------------------:|----------:|----------:|----------:| | distilbart-xsum-12-1 | 222 | 90 | 2.54 | 18.31 | 33.37 | | distilbart-xsum-6-6 | 230 | 132 | 1.73 | 20.92 | 35.73 | | distilbart-xsum-12-3 | 255 | 106 | 2.16 | 21.37 | 36.39 | | distilbart-xsum-9-6 | 268 | 136 | 1.68 | 21.72 | 36.61 | | bart-large-xsum (baseline) | 406 | 229 | 1 | 21.85 | 36.50 | | distilbart-xsum-12-6 | 306 | 137 | 1.68 | 22.12 | 36.99 | | bart-large-cnn (baseline) | 406 | 381 | 1 | 21.06 | 30.63 | | distilbart-12-3-cnn | 255 | 214 | 1.78 | 20.57 | 30.00 | | distilbart-12-6-cnn | 306 | 307 | 1.24 | 21.26 | 30.59 | | distilbart-6-6-cnn | 230 | 182 | 2.09 | 20.17 | 29.70 |</summary></entry><entry><title type="html">RoBertaZero-Shot Classification Base roberta_base_zero_shot_classifier_nli</title><link href="/2023/05/04/roberta_base_zero_shot_classifier_nli_en.html" rel="alternate" type="text/html" title="RoBertaZero-Shot Classification Base roberta_base_zero_shot_classifier_nli" /><published>2023-05-04T00:00:00+00:00</published><updated>2023-05-04T00:00:00+00:00</updated><id>/2023/05/04/roberta_base_zero_shot_classifier_nli_en</id><content type="html" xml:base="/2023/05/04/roberta_base_zero_shot_classifier_nli_en.html">## Description
-
-This model is intended to be used for zero-shot text classification, especially in English. It is fine-tuned on NLI by using Roberta Base  model.
-
-RoBertaForZeroShotClassificationusing a ModelForSequenceClassification trained on NLI (natural language inference) tasks. Equivalent of RoBertaForZeroShotClassification models, but these models don’t require a hardcoded number of potential classes, they can be chosen at runtime. It usually means it’s slower but it is much more flexible.
-
-We used TFRobertaForSequenceClassification to train this model and used RoBertaForZeroShotClassification annotator in Spark NLP 🚀 for prediction at scale!
-
-## Predicted Entities
-
-
-
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/roberta_base_zero_shot_classifier_nli_en_4.4.2_3.0_1683228241365.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/roberta_base_zero_shot_classifier_nli_en_4.4.2_3.0_1683228241365.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
-
-## How to use
-
-
-
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-document_assembler = DocumentAssembler() \
-.setInputCol('text') \
-.setOutputCol('document')
-
-tokenizer = Tokenizer() \
-.setInputCols(['document']) \
-.setOutputCol('token')
-
-zeroShotClassifier = RobertaForSequenceClassification \
-.pretrained('roberta_base_zero_shot_classifier_nli', 'en') \
-.setInputCols(['token', 'document']) \
-.setOutputCol('class') \
-.setCaseSensitive(True) \
-.setMaxSentenceLength(512) \
-.setCandidateLabels([&quot;urgent&quot;, &quot;mobile&quot;, &quot;travel&quot;, &quot;movie&quot;, &quot;music&quot;, &quot;sport&quot;, &quot;weather&quot;, &quot;technology&quot;])
-
-pipeline = Pipeline(stages=[
-document_assembler,
-tokenizer,
-zeroShotClassifier
-])
-
-example = spark.createDataFrame([['I have a problem with my iphone that needs to be resolved asap!!']]).toDF(&quot;text&quot;)
-result = pipeline.fit(example).transform(example)
-```
-```scala
-val document_assembler = DocumentAssembler()
-.setInputCol(&quot;text&quot;)
-.setOutputCol(&quot;document&quot;)
-
-val tokenizer = Tokenizer()
-.setInputCols(&quot;document&quot;)
-.setOutputCol(&quot;token&quot;)
-
-val zeroShotClassifier = RobertaForSequenceClassification.pretrained(&quot;roberta_base_zero_shot_classifier_nli&quot;, &quot;en&quot;)
-.setInputCols(&quot;document&quot;, &quot;token&quot;)
-.setOutputCol(&quot;class&quot;)
-.setCaseSensitive(true)
-.setMaxSentenceLength(512)
-.setCandidateLabels(Array(&quot;urgent&quot;, &quot;mobile&quot;, &quot;travel&quot;, &quot;movie&quot;, &quot;music&quot;, &quot;sport&quot;, &quot;weather&quot;, &quot;technology&quot;))
-
-val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, zeroShotClassifier))
-val example = Seq(&quot;I have a problem with my iphone that needs to be resolved asap!!&quot;).toDS.toDF(&quot;text&quot;)
-val result = pipeline.fit(example).transform(example)
-```
+&lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;My name is John and I work at John Snow Labs.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
 &lt;/div&gt;
 
-{:.model-param}
-## Model Information
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
 
-{:.table-model}
-|---|---|
-|Model Name:|roberta_base_zero_shot_classifier_nli|
-|Compatibility:|Spark NLP 4.4.2+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[token, document]|
-|Output Labels:|[multi_class]|
-|Language:|en|
-|Size:|466.4 MB|
-|Case sensitive:|true|</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="tensorflow" /><summary type="html">Description This model is intended to be used for zero-shot text classification, especially in English. It is fine-tuned on NLI by using Roberta Base model. RoBertaForZeroShotClassificationusing a ModelForSequenceClassification trained on NLI (natural language inference) tasks. Equivalent of RoBertaForZeroShotClassification models, but these models don’t require a hardcoded number of potential classes, they can be chosen at runtime. It usually means it’s slower but it is much more flexible. We used TFRobertaForSequenceClassification to train this model and used RoBertaForZeroShotClassification annotator in Spark NLP 🚀 for prediction at scale! Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU document_assembler = DocumentAssembler() \ .setInputCol('text') \ .setOutputCol('document') tokenizer = Tokenizer() \ .setInputCols(['document']) \ .setOutputCol('token') zeroShotClassifier = RobertaForSequenceClassification \ .pretrained('roberta_base_zero_shot_classifier_nli', 'en') \ .setInputCols(['token', 'document']) \ .setOutputCol('class') \ .setCaseSensitive(True) \ .setMaxSentenceLength(512) \ .setCandidateLabels([&quot;urgent&quot;, &quot;mobile&quot;, &quot;travel&quot;, &quot;movie&quot;, &quot;music&quot;, &quot;sport&quot;, &quot;weather&quot;, &quot;technology&quot;]) pipeline = Pipeline(stages=[ document_assembler, tokenizer, zeroShotClassifier ]) example = spark.createDataFrame([['I have a problem with my iphone that needs to be resolved asap!!']]).toDF(&quot;text&quot;) result = pipeline.fit(example).transform(example) val document_assembler = DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val tokenizer = Tokenizer() .setInputCols(&quot;document&quot;) .setOutputCol(&quot;token&quot;) val zeroShotClassifier = RobertaForSequenceClassification.pretrained(&quot;roberta_base_zero_shot_classifier_nli&quot;, &quot;en&quot;) .setInputCols(&quot;document&quot;, &quot;token&quot;) .setOutputCol(&quot;class&quot;) .setCaseSensitive(true) .setMaxSentenceLength(512) .setCandidateLabels(Array(&quot;urgent&quot;, &quot;mobile&quot;, &quot;travel&quot;, &quot;movie&quot;, &quot;music&quot;, &quot;sport&quot;, &quot;weather&quot;, &quot;technology&quot;)) val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, zeroShotClassifier)) val example = Seq(&quot;I have a problem with my iphone that needs to be resolved asap!!&quot;).toDS.toDF(&quot;text&quot;) val result = pipeline.fit(example).transform(example) Model Information Model Name: roberta_base_zero_shot_classifier_nli Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Input Labels: [token, document] Output Labels: [multi_class] Language: en Size: 466.4 MB Case sensitive: true</summary></entry><entry><title type="html">DistilBERTZero-Shot Classification Base - distilbert_base_zero_shot_classifier_turkish_cased_allnli</title><link href="/2023/04/20/distilbert_base_zero_shot_classifier_turkish_cased_allnli_tr.html" rel="alternate" type="text/html" title="DistilBERTZero-Shot Classification Base - distilbert_base_zero_shot_classifier_turkish_cased_allnli" /><published>2023-04-20T00:00:00+00:00</published><updated>2023-04-20T00:00:00+00:00</updated><id>/2023/04/20/distilbert_base_zero_shot_classifier_turkish_cased_allnli_tr</id><content type="html" xml:base="/2023/04/20/distilbert_base_zero_shot_classifier_turkish_cased_allnli_tr.html">## Description
-
-This model is intended to be used for zero-shot text classification, especially in Trukish. It is fine-tuned on MNLI by using DistilBERT Base Uncased model.
-
-DistilBertForZeroShotClassification using a ModelForSequenceClassification trained on NLI (natural language inference) tasks. Equivalent of DistilBertForSequenceClassification models, but these models don’t require a hardcoded number of potential classes, they can be chosen at runtime. It usually means it’s slower but it is much more flexible.
-
-We used TFDistilBertForSequenceClassification to train this model and used DistilBertForZeroShotClassification annotator in Spark NLP 🚀 for prediction at scale!
-
-## Predicted Entities
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Results
 
 
 
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_base_zero_shot_classifier_turkish_cased_allnli_tr_4.4.1_3.0_1682016415236.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/distilbert_base_zero_shot_classifier_turkish_cased_allnli_tr_4.4.1_3.0_1682016415236.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-## How to use
++--------------+---------+
+|chunk         |ner_label|
++--------------+---------+
+|John          |PER      |
+|John Snow Labs|ORG      |
++--------------+---------+
 
 
+&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;:.model-param&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-document_assembler = DocumentAssembler() \
-.setInputCol('text') \
-.setOutputCol('document')
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
 
-tokenizer = Tokenizer() \
-.setInputCols(['document']) \
-.setOutputCol('token')
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;albert_xlarge_token_classifier_conll03_pipeline&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Type:&lt;/td&gt;
+      &lt;td&gt;pipeline&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 4.4.2+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;206.5 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
-zeroShotClassifier = DistilBertForZeroShotClassification \
-.pretrained('distilbert_base_zero_shot_classifier_turkish_cased_allnli', 'en') \
-.setInputCols(['token', 'document']) \
-.setOutputCol('class') \
-.setCaseSensitive(True) \
-.setMaxSentenceLength(512) \
-.setCandidateLabels([&quot;olumsuz&quot;, &quot;olumlu&quot;])
+&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
 
-pipeline = Pipeline(stages=[
-document_assembler,
-tokenizer,
-zeroShotClassifier
-])
-example = spark.createDataFrame([['Senaryo çok saçmaydı, beğendim diyemem.']]).toDF(&quot;text&quot;)
-result = pipeline.fit(example).transform(example)
-```
-```scala
-val document_assembler = DocumentAssembler()
-.setInputCol(&quot;text&quot;)
-.setOutputCol(&quot;document&quot;)
+&lt;ul&gt;
+  &lt;li&gt;DocumentAssembler&lt;/li&gt;
+  &lt;li&gt;SentenceDetectorDLModel&lt;/li&gt;
+  &lt;li&gt;TokenizerModel&lt;/li&gt;
+  &lt;li&gt;AlbertForTokenClassification&lt;/li&gt;
+  &lt;li&gt;NerConverter&lt;/li&gt;
+  &lt;li&gt;Finisher&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="ner" /><category term="token_classifier" /><category term="albert" /><category term="conll03" /><category term="en" /><summary type="html">Description This pretrained pipeline is built on the top of albert_xlarge_token_classifier_conll03 model. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU pipeline = PretrainedPipeline(&quot;albert_xlarge_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;) val pipeline = new PretrainedPipeline(&quot;albert_xlarge_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;)) PythonScalaNLU pipeline = PretrainedPipeline(&quot;albert_xlarge_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;) val pipeline = new PretrainedPipeline(&quot;albert_xlarge_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;)) Results Results +--------------+---------+ |chunk |ner_label| +--------------+---------+ |John |PER | |John Snow Labs|ORG | +--------------+---------+ {:.model-param} Model Information Model Name: albert_xlarge_token_classifier_conll03_pipeline Type: pipeline Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: en Size: 206.5 MB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel AlbertForTokenClassification NerConverter Finisher</summary></entry><entry><title type="html">Sentiment Analysis pipeline for English (analyze_sentimentdl_glove_imdb)</title><link href="/2023/05/21/analyze_sentimentdl_glove_imdb_en.html" rel="alternate" type="text/html" title="Sentiment Analysis pipeline for English (analyze_sentimentdl_glove_imdb)" /><published>2023-05-21T00:00:00+00:00</published><updated>2023-05-21T00:00:00+00:00</updated><id>/2023/05/21/analyze_sentimentdl_glove_imdb_en</id><content type="html" xml:base="/2023/05/21/analyze_sentimentdl_glove_imdb_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
-val tokenizer = Tokenizer()
-.setInputCols(&quot;document&quot;)
-.setOutputCol(&quot;token&quot;)
+&lt;p&gt;The analyze_sentimentdl_glove_imdb is a pretrained pipeline that we can use to process text with a simple pipeline that performs basic processing steps 
+and recognizes entities .
+It performs most of the common text processing tasks on your dataframe&lt;/p&gt;
 
-val zeroShotClassifier = DistilBertForZeroShotClassification.pretrained(&quot;distilbert_base_zero_shot_classifier_turkish_cased_allnli&quot;, &quot;en&quot;)
-.setInputCols(&quot;document&quot;, &quot;token&quot;)
-.setOutputCol(&quot;class&quot;)
-.setCaseSensitive(true)
-.setMaxSentenceLength(512)
-.setCandidateLabels(Array(&quot;olumsuz&quot;, &quot;olumlu&quot;))
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
 
-val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, zeroShotClassifier))
-val example = Seq(&quot;Senaryo çok saçmaydı, beğendim diyemem.&quot;).toDS.toDF(&quot;text&quot;)
-val result = pipeline.fit(example).transform(example)
-```
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/analyze_sentimentdl_glove_imdb_en_4.4.2_3.0_1684638979985.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/analyze_sentimentdl_glove_imdb_en_4.4.2_3.0_1684638979985.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.pretrained&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipelinein&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'analyze_sentimentdl_glove_imdb'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'en'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;annotations&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fullAnnotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Hello&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;John&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Snow&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Labs&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;!&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;annotations&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;keys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;analyze_sentimentdl_glove_imdb&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fullAnnotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hello from John Snow Labs ! &quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+
+  &lt;div class=&quot;language-python nlu-block highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;nlu&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Hello&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;John&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Snow&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Labs&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;!&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;result_df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlu&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'en.sentiment.glove'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;predict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;result_df&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
 &lt;/div&gt;
 
-{:.model-param}
-## Model Information
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.pretrained&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipelinein&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'analyze_sentimentdl_glove_imdb'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'en'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;annotations&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fullAnnotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Hello&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;John&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Snow&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Labs&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;!&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;annotations&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;keys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;analyze_sentimentdl_glove_imdb&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fullAnnotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hello from John Snow Labs ! &quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
 
-{:.table-model}
-|---|---|
-|Model Name:|distilbert_base_zero_shot_classifier_turkish_cased_allnli|
-|Compatibility:|Spark NLP 4.4.1+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[token, document]|
-|Output Labels:|[multi_class]|
-|Language:|tr|
-|Size:|254.3 MB|
-|Case sensitive:|true|</content><author><name>John Snow Labs</name></author><category term="distilbert" /><category term="zero_shot" /><category term="turkish" /><category term="tr" /><category term="base" /><category term="open_source" /><category term="tensorflow" /><summary type="html">Description This model is intended to be used for zero-shot text classification, especially in Trukish. It is fine-tuned on MNLI by using DistilBERT Base Uncased model. DistilBertForZeroShotClassification using a ModelForSequenceClassification trained on NLI (natural language inference) tasks. Equivalent of DistilBertForSequenceClassification models, but these models don’t require a hardcoded number of potential classes, they can be chosen at runtime. It usually means it’s slower but it is much more flexible. We used TFDistilBertForSequenceClassification to train this model and used DistilBertForZeroShotClassification annotator in Spark NLP 🚀 for prediction at scale! Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU document_assembler = DocumentAssembler() \ .setInputCol('text') \ .setOutputCol('document') tokenizer = Tokenizer() \ .setInputCols(['document']) \ .setOutputCol('token') zeroShotClassifier = DistilBertForZeroShotClassification \ .pretrained('distilbert_base_zero_shot_classifier_turkish_cased_allnli', 'en') \ .setInputCols(['token', 'document']) \ .setOutputCol('class') \ .setCaseSensitive(True) \ .setMaxSentenceLength(512) \ .setCandidateLabels([&quot;olumsuz&quot;, &quot;olumlu&quot;]) pipeline = Pipeline(stages=[ document_assembler, tokenizer, zeroShotClassifier ]) example = spark.createDataFrame([['Senaryo çok saçmaydı, beğendim diyemem.']]).toDF(&quot;text&quot;) result = pipeline.fit(example).transform(example) val document_assembler = DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val tokenizer = Tokenizer() .setInputCols(&quot;document&quot;) .setOutputCol(&quot;token&quot;) val zeroShotClassifier = DistilBertForZeroShotClassification.pretrained(&quot;distilbert_base_zero_shot_classifier_turkish_cased_allnli&quot;, &quot;en&quot;) .setInputCols(&quot;document&quot;, &quot;token&quot;) .setOutputCol(&quot;class&quot;) .setCaseSensitive(true) .setMaxSentenceLength(512) .setCandidateLabels(Array(&quot;olumsuz&quot;, &quot;olumlu&quot;)) val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, zeroShotClassifier)) val example = Seq(&quot;Senaryo çok saçmaydı, beğendim diyemem.&quot;).toDS.toDF(&quot;text&quot;) val result = pipeline.fit(example).transform(example) Model Information Model Name: distilbert_base_zero_shot_classifier_turkish_cased_allnli Compatibility: Spark NLP 4.4.1+ License: Open Source Edition: Official Input Labels: [token, document] Output Labels: [multi_class] Language: tr Size: 254.3 MB Case sensitive: true</summary></entry><entry><title type="html">DistilBERTZero-Shot Classification Base - distilbert_base_zero_shot_classifier_turkish_cased_multinli</title><link href="/2023/04/20/distilbert_base_zero_shot_classifier_turkish_cased_multinli_tr.html" rel="alternate" type="text/html" title="DistilBERTZero-Shot Classification Base - distilbert_base_zero_shot_classifier_turkish_cased_multinli" /><published>2023-04-20T00:00:00+00:00</published><updated>2023-04-20T00:00:00+00:00</updated><id>/2023/04/20/distilbert_base_zero_shot_classifier_turkish_cased_multinli_tr</id><content type="html" xml:base="/2023/04/20/distilbert_base_zero_shot_classifier_turkish_cased_multinli_tr.html">## Description
-
-This model is intended to be used for zero-shot text classification, especially in Trukish. It is fine-tuned on MNLI by using DistilBERT Base Uncased model.
-
-DistilBertForZeroShotClassification using a ModelForSequenceClassification trained on NLI (natural language inference) tasks. Equivalent of DistilBertForSequenceClassification models, but these models don’t require a hardcoded number of potential classes, they can be chosen at runtime. It usually means it’s slower but it is much more flexible.
-
-We used TFDistilBertForSequenceClassification to train this model and used DistilBertForZeroShotClassification annotator in Spark NLP 🚀 for prediction at scale!
-
-## Predicted Entities
-
-
-
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_base_zero_shot_classifier_turkish_cased_multinli_tr_4.4.1_3.0_1682014879417.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/distilbert_base_zero_shot_classifier_turkish_cased_multinli_tr_4.4.1_3.0_1682014879417.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
-
-## How to use
-
-
-
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-document_assembler = DocumentAssembler() \
-.setInputCol('text') \
-.setOutputCol('document')
-tokenizer = Tokenizer() \
-.setInputCols(['document']) \
-.setOutputCol('token')
-
-zeroShotClassifier = DistilBertForZeroShotClassification \
-.pretrained('distilbert_base_zero_shot_classifier_turkish_cased_multinli', 'en') \
-.setInputCols(['token', 'document']) \
-.setOutputCol('class') \
-.setCaseSensitive(True) \
-.setMaxSentenceLength(512) \
-.setCandidateLabels([&quot;ekonomi&quot;, &quot;siyaset&quot;,&quot;spor&quot;])
-
-pipeline = Pipeline(stages=[
-document_assembler,
-tokenizer,
-zeroShotClassifier
-])
-example = spark.createDataFrame([['Dolar yükselmeye devam ediyor.']]).toDF(&quot;text&quot;)
-result = pipeline.fit(example).transform(example)
-```
-```scala
-val document_assembler = DocumentAssembler()
-.setInputCol(&quot;text&quot;)
-.setOutputCol(&quot;document&quot;)
-
-val tokenizer = Tokenizer()
-.setInputCols(&quot;document&quot;)
-.setOutputCol(&quot;token&quot;)
-
-val zeroShotClassifier = DistilBertForZeroShotClassification.pretrained(&quot;distilbert_base_zero_shot_classifier_turkish_cased_multinli&quot;, &quot;en&quot;)
-.setInputCols(&quot;document&quot;, &quot;token&quot;)
-.setOutputCol(&quot;class&quot;)
-.setCaseSensitive(true)
-.setMaxSentenceLength(512)
-.setCandidateLabels(Array(&quot;ekonomi&quot;, &quot;siyaset&quot;,&quot;spor&quot;))
-
-val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, zeroShotClassifier))
-val example = Seq(&quot;Dolar yükselmeye devam ediyor.&quot;).toDS.toDF(&quot;text&quot;)
-val result = pipeline.fit(example).transform(example)
-```
+  &lt;div class=&quot;language-python nlu-block highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;nlu&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Hello&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;John&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Snow&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Labs&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;!&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;result_df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlu&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'en.sentiment.glove'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;predict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;result_df&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
 &lt;/div&gt;
 
-{:.model-param}
-## Model Information
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
 
-{:.table-model}
-|---|---|
-|Model Name:|distilbert_base_zero_shot_classifier_turkish_cased_multinli|
-|Compatibility:|Spark NLP 4.4.1+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[token, document]|
-|Output Labels:|[multi_class]|
-|Language:|tr|
-|Size:|254.3 MB|
-|Case sensitive:|true|</content><author><name>John Snow Labs</name></author><category term="zero_shot" /><category term="tr" /><category term="turkish" /><category term="distilbert" /><category term="base" /><category term="cased" /><category term="open_source" /><category term="tensorflow" /><summary type="html">Description This model is intended to be used for zero-shot text classification, especially in Trukish. It is fine-tuned on MNLI by using DistilBERT Base Uncased model. DistilBertForZeroShotClassification using a ModelForSequenceClassification trained on NLI (natural language inference) tasks. Equivalent of DistilBertForSequenceClassification models, but these models don’t require a hardcoded number of potential classes, they can be chosen at runtime. It usually means it’s slower but it is much more flexible. We used TFDistilBertForSequenceClassification to train this model and used DistilBertForZeroShotClassification annotator in Spark NLP 🚀 for prediction at scale! Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU document_assembler = DocumentAssembler() \ .setInputCol('text') \ .setOutputCol('document') tokenizer = Tokenizer() \ .setInputCols(['document']) \ .setOutputCol('token') zeroShotClassifier = DistilBertForZeroShotClassification \ .pretrained('distilbert_base_zero_shot_classifier_turkish_cased_multinli', 'en') \ .setInputCols(['token', 'document']) \ .setOutputCol('class') \ .setCaseSensitive(True) \ .setMaxSentenceLength(512) \ .setCandidateLabels([&quot;ekonomi&quot;, &quot;siyaset&quot;,&quot;spor&quot;]) pipeline = Pipeline(stages=[ document_assembler, tokenizer, zeroShotClassifier ]) example = spark.createDataFrame([['Dolar yükselmeye devam ediyor.']]).toDF(&quot;text&quot;) result = pipeline.fit(example).transform(example) val document_assembler = DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val tokenizer = Tokenizer() .setInputCols(&quot;document&quot;) .setOutputCol(&quot;token&quot;) val zeroShotClassifier = DistilBertForZeroShotClassification.pretrained(&quot;distilbert_base_zero_shot_classifier_turkish_cased_multinli&quot;, &quot;en&quot;) .setInputCols(&quot;document&quot;, &quot;token&quot;) .setOutputCol(&quot;class&quot;) .setCaseSensitive(true) .setMaxSentenceLength(512) .setCandidateLabels(Array(&quot;ekonomi&quot;, &quot;siyaset&quot;,&quot;spor&quot;)) val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, zeroShotClassifier)) val example = Seq(&quot;Dolar yükselmeye devam ediyor.&quot;).toDS.toDF(&quot;text&quot;) val result = pipeline.fit(example).transform(example) Model Information Model Name: distilbert_base_zero_shot_classifier_turkish_cased_multinli Compatibility: Spark NLP 4.4.1+ License: Open Source Edition: Official Input Labels: [token, document] Output Labels: [multi_class] Language: tr Size: 254.3 MB Case sensitive: true</summary></entry><entry><title type="html">DistilBERTZero-Shot Classification Base - distilbert_base_zero_shot_classifier_turkish_cased_snli</title><link href="/2023/04/20/distilbert_base_zero_shot_classifier_turkish_cased_snli_tr.html" rel="alternate" type="text/html" title="DistilBERTZero-Shot Classification Base - distilbert_base_zero_shot_classifier_turkish_cased_snli" /><published>2023-04-20T00:00:00+00:00</published><updated>2023-04-20T00:00:00+00:00</updated><id>/2023/04/20/distilbert_base_zero_shot_classifier_turkish_cased_snli_tr</id><content type="html" xml:base="/2023/04/20/distilbert_base_zero_shot_classifier_turkish_cased_snli_tr.html">## Description
-
-This model is intended to be used for zero-shot text classification, especially in Trukish. It is fine-tuned on MNLI by using DistilBERT Base Uncased model.
-
-DistilBertForZeroShotClassification using a ModelForSequenceClassification trained on NLI (natural language inference) tasks. Equivalent of DistilBertForSequenceClassification models, but these models don’t require a hardcoded number of potential classes, they can be chosen at runtime. It usually means it’s slower but it is much more flexible.
-
-We used TFDistilBertForSequenceClassification to train this model and used DistilBertForZeroShotClassification annotator in Spark NLP 🚀 for prediction at scale!
-
-## Predicted Entities
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Results
 
 
-
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_base_zero_shot_classifier_turkish_cased_snli_tr_4.4.1_3.0_1682015986268.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/distilbert_base_zero_shot_classifier_turkish_cased_snli_tr_4.4.1_3.0_1682015986268.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
-
-## How to use
+|    | document                         | sentence                        | tokens                                         | word_embeddings              | sentence_embeddings          | sentiment   |
+|---:|:---------------------------------|:--------------------------------|:-----------------------------------------------|:-----------------------------|:-----------------------------|:------------|
+|  0 | &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Hello from John Snow Labs ! '&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; | &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Hello from John Snow Labs !'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; | &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Hello'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'from'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'John'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'Snow'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'Labs'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'!'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; | &lt;span class=&quot;o&quot;&gt;[[&lt;/span&gt;0.2668800055980682,.,...]] | &lt;span class=&quot;o&quot;&gt;[[&lt;/span&gt;0.0771183446049690,.,...]] | &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'neg'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;     |
 
 
+&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;:.model-param&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-document_assembler = DocumentAssembler() \
-.setInputCol('text') \
-.setOutputCol('document')
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
 
-tokenizer = Tokenizer() \
-.setInputCols(['document']) \
-.setOutputCol('token')
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;analyze_sentimentdl_glove_imdb&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Type:&lt;/td&gt;
+      &lt;td&gt;pipeline&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 4.4.2+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;161.6 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
-zeroShotClassifier = DistilBertForZeroShotClassification \
-.pretrained('distilbert_base_zero_shot_classifier_turkish_cased_snli', 'en') \
-.setInputCols(['token', 'document']) \
-.setOutputCol('class') \
-.setCaseSensitive(True) \
-.setMaxSentenceLength(512) \
-.setCandidateLabels([&quot;olumsuz&quot;, &quot;olumlu&quot;])
+&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
 
-pipeline = Pipeline(stages=[
-document_assembler,
-tokenizer,
-zeroShotClassifier
-])
-example = spark.createDataFrame([['Senaryo çok saçmaydı, beğendim diyemem.']]).toDF(&quot;text&quot;)
-result = pipeline.fit(example).transform(example)
-```
-```scala
-val document_assembler = DocumentAssembler()
-.setInputCol(&quot;text&quot;)
-.setOutputCol(&quot;document&quot;)
+&lt;ul&gt;
+  &lt;li&gt;DocumentAssembler&lt;/li&gt;
+  &lt;li&gt;SentenceDetector&lt;/li&gt;
+  &lt;li&gt;TokenizerModel&lt;/li&gt;
+  &lt;li&gt;WordEmbeddingsModel&lt;/li&gt;
+  &lt;li&gt;SentenceEmbeddings&lt;/li&gt;
+  &lt;li&gt;SentimentDLModel&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="english" /><category term="analyze_sentimentdl_glove_imdb" /><category term="pipeline" /><category term="en" /><summary type="html">Description The analyze_sentimentdl_glove_imdb is a pretrained pipeline that we can use to process text with a simple pipeline that performs basic processing steps and recognizes entities . It performs most of the common text processing tasks on your dataframe Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.pretrained import PretrainedPipelinein pipeline = PretrainedPipeline('analyze_sentimentdl_glove_imdb', lang = 'en') annotations = pipeline.fullAnnotate(&quot;&quot;Hello from John Snow Labs ! &quot;&quot;)[0] annotations.keys() val pipeline = new PretrainedPipeline(&quot;analyze_sentimentdl_glove_imdb&quot;, lang = &quot;en&quot;) val result = pipeline.fullAnnotate(&quot;Hello from John Snow Labs ! &quot;)(0) import nlu text = [&quot;&quot;Hello from John Snow Labs ! &quot;&quot;] result_df = nlu.load('en.sentiment.glove').predict(text) result_df PythonScalaNLU from sparknlp.pretrained import PretrainedPipelinein pipeline = PretrainedPipeline('analyze_sentimentdl_glove_imdb', lang = 'en') annotations = pipeline.fullAnnotate(&quot;&quot;Hello from John Snow Labs ! &quot;&quot;)[0] annotations.keys() val pipeline = new PretrainedPipeline(&quot;analyze_sentimentdl_glove_imdb&quot;, lang = &quot;en&quot;) val result = pipeline.fullAnnotate(&quot;Hello from John Snow Labs ! &quot;)(0) import nlu text = [&quot;&quot;Hello from John Snow Labs ! &quot;&quot;] result_df = nlu.load('en.sentiment.glove').predict(text) result_df Results Results | | document | sentence | tokens | word_embeddings | sentence_embeddings | sentiment | |---:|:---------------------------------|:--------------------------------|:-----------------------------------------------|:-----------------------------|:-----------------------------|:------------| | 0 | ['Hello from John Snow Labs ! '] | ['Hello from John Snow Labs !'] | ['Hello', 'from', 'John', 'Snow', 'Labs', '!'] | [[0.2668800055980682,.,...]] | [[0.0771183446049690,.,...]] | ['neg'] | {:.model-param} Model Information Model Name: analyze_sentimentdl_glove_imdb Type: pipeline Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: en Size: 161.6 MB Included Models DocumentAssembler SentenceDetector TokenizerModel WordEmbeddingsModel SentenceEmbeddings SentimentDLModel</summary></entry><entry><title type="html">Pipeline to Classify Texts into 4 News Categories</title><link href="/2023/05/21/bert_sequence_classifier_age_news_pipeline_en.html" rel="alternate" type="text/html" title="Pipeline to Classify Texts into 4 News Categories" /><published>2023-05-21T00:00:00+00:00</published><updated>2023-05-21T00:00:00+00:00</updated><id>/2023/05/21/bert_sequence_classifier_age_news_pipeline_en</id><content type="html" xml:base="/2023/05/21/bert_sequence_classifier_age_news_pipeline_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
 
-val tokenizer = Tokenizer()
-.setInputCols(&quot;document&quot;)
-.setOutputCol(&quot;token&quot;)
-val zeroShotClassifier = 
+&lt;p&gt;This pretrained pipeline is built on the top of &lt;a href=&quot;https://nlp.johnsnowlabs.com/2021/11/07/bert_sequence_classifier_age_news_en.html&quot;&gt;bert_sequence_classifier_age_news_en&lt;/a&gt; which is imported from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HuggingFace&lt;/code&gt;.&lt;/p&gt;
 
-DistilBertForZeroShotClassification.pretrained(&quot;distilbert_base_zero_shot_classifier_turkish_cased_snli&quot;, &quot;en&quot;)
-.setInputCols(&quot;document&quot;, &quot;token&quot;)
-.setOutputCol(&quot;class&quot;)
-.setCaseSensitive(true)
-.setMaxSentenceLength(512)
-.setCandidateLabels(Array(&quot;olumsuz&quot;, &quot;olumlu&quot;))
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
 
-val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, zeroShotClassifier))
-val example = Seq(&quot;Senaryo çok saçmaydı, beğendim diyemem.&quot;).toDS.toDF(&quot;text&quot;)
-val result = pipeline.fit(example).transform(example)
-```
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_sequence_classifier_age_news_pipeline_en_4.4.2_3.0_1684649894789.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/bert_sequence_classifier_age_news_pipeline_en_4.4.2_3.0_1684649894789.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+
+&lt;span class=&quot;n&quot;&gt;news_pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_sequence_classifier_age_news_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;news_pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Microsoft has taken its first step into the metaverse.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;news_pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_sequence_classifier_age_news_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;news_pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Microsoft has taken its first step into the metaverse.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
 &lt;/div&gt;
 
-{:.model-param}
-## Model Information
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;news_pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_sequence_classifier_age_news_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-{:.table-model}
-|---|---|
-|Model Name:|distilbert_base_zero_shot_classifier_turkish_cased_snli|
-|Compatibility:|Spark NLP 4.4.1+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[token, document]|
-|Output Labels:|[multi_class]|
-|Language:|tr|
-|Size:|254.3 MB|
-|Case sensitive:|true|</content><author><name>John Snow Labs</name></author><category term="zero_shot" /><category term="tr" /><category term="turkish" /><category term="distilbert" /><category term="base" /><category term="cased" /><category term="open_source" /><category term="tensorflow" /><summary type="html">Description This model is intended to be used for zero-shot text classification, especially in Trukish. It is fine-tuned on MNLI by using DistilBERT Base Uncased model. DistilBertForZeroShotClassification using a ModelForSequenceClassification trained on NLI (natural language inference) tasks. Equivalent of DistilBertForSequenceClassification models, but these models don’t require a hardcoded number of potential classes, they can be chosen at runtime. It usually means it’s slower but it is much more flexible. We used TFDistilBertForSequenceClassification to train this model and used DistilBertForZeroShotClassification annotator in Spark NLP 🚀 for prediction at scale! Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU document_assembler = DocumentAssembler() \ .setInputCol('text') \ .setOutputCol('document') tokenizer = Tokenizer() \ .setInputCols(['document']) \ .setOutputCol('token') zeroShotClassifier = DistilBertForZeroShotClassification \ .pretrained('distilbert_base_zero_shot_classifier_turkish_cased_snli', 'en') \ .setInputCols(['token', 'document']) \ .setOutputCol('class') \ .setCaseSensitive(True) \ .setMaxSentenceLength(512) \ .setCandidateLabels([&quot;olumsuz&quot;, &quot;olumlu&quot;]) pipeline = Pipeline(stages=[ document_assembler, tokenizer, zeroShotClassifier ]) example = spark.createDataFrame([['Senaryo çok saçmaydı, beğendim diyemem.']]).toDF(&quot;text&quot;) result = pipeline.fit(example).transform(example) val document_assembler = DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val tokenizer = Tokenizer() .setInputCols(&quot;document&quot;) .setOutputCol(&quot;token&quot;) val zeroShotClassifier = DistilBertForZeroShotClassification.pretrained(&quot;distilbert_base_zero_shot_classifier_turkish_cased_snli&quot;, &quot;en&quot;) .setInputCols(&quot;document&quot;, &quot;token&quot;) .setOutputCol(&quot;class&quot;) .setCaseSensitive(true) .setMaxSentenceLength(512) .setCandidateLabels(Array(&quot;olumsuz&quot;, &quot;olumlu&quot;)) val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, zeroShotClassifier)) val example = Seq(&quot;Senaryo çok saçmaydı, beğendim diyemem.&quot;).toDS.toDF(&quot;text&quot;) val result = pipeline.fit(example).transform(example) Model Information Model Name: distilbert_base_zero_shot_classifier_turkish_cased_snli Compatibility: Spark NLP 4.4.1+ License: Open Source Edition: Official Input Labels: [token, document] Output Labels: [multi_class] Language: tr Size: 254.3 MB Case sensitive: true</summary></entry><entry><title type="html">DistilBERTZero-Shot Classification Base - MNLI(distilbert_base_zero_shot_classifier_uncased_mnli)</title><link href="/2023/04/20/distilbert_base_zero_shot_classifier_uncased_mnli_en.html" rel="alternate" type="text/html" title="DistilBERTZero-Shot Classification Base - MNLI(distilbert_base_zero_shot_classifier_uncased_mnli)" /><published>2023-04-20T00:00:00+00:00</published><updated>2023-04-20T00:00:00+00:00</updated><id>/2023/04/20/distilbert_base_zero_shot_classifier_uncased_mnli_en</id><content type="html" xml:base="/2023/04/20/distilbert_base_zero_shot_classifier_uncased_mnli_en.html">## Description
+&lt;span class=&quot;n&quot;&gt;news_pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Microsoft has taken its first step into the metaverse.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;news_pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_sequence_classifier_age_news_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-This model is intended to be used for zero-shot text classification, especially in English. It is fine-tuned on MNLI by using DistilBERT Base Uncased model.
-
-DistilBertForZeroShotClassification using a ModelForSequenceClassification trained on NLI (natural language inference) tasks. Equivalent of DistilBertForSequenceClassification models, but these models don’t require a hardcoded number of potential classes, they can be chosen at runtime. It usually means it’s slower but it is much more flexible.
-
-We used TFDistilBertForSequenceClassification to train this model and used DistilBertForZeroShotClassification annotator in Spark NLP 🚀 for prediction at scale!
-
-## Predicted Entities
-
-
-
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_base_zero_shot_classifier_uncased_mnli_en_4.4.1_3.0_1682015669457.zip){:.button.button-orange}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/distilbert_base_zero_shot_classifier_uncased_mnli_en_4.4.1_3.0_1682015669457.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
-
-## How to use
-
-
-
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-document_assembler = DocumentAssembler() \
-.setInputCol('text') \
-.setOutputCol('document')
-
-tokenizer = Tokenizer() \
-.setInputCols(['document']) \
-.setOutputCol('token')
-
-zeroShotClassifier = DistilBertForZeroShotClassification \
-.pretrained('distilbert_base_zero_shot_classifier_uncased_mnli', 'en') \
-.setInputCols(['token', 'document']) \
-.setOutputCol('class') \
-.setCaseSensitive(True) \
-.setMaxSentenceLength(512) \
-.setCandidateLabels([&quot;urgent&quot;, &quot;mobile&quot;, &quot;travel&quot;, &quot;movie&quot;, &quot;music&quot;, &quot;sport&quot;, &quot;weather&quot;, &quot;technology&quot;])
-
-pipeline = Pipeline(stages=[
-document_assembler,
-tokenizer,
-zeroShotClassifier
-])
-
-example = spark.createDataFrame([['I have a problem with my iphone that needs to be resolved asap!!']]).toDF(&quot;text&quot;)
-result = pipeline.fit(example).transform(example)
-```
-```scala
-val document_assembler = DocumentAssembler()
-.setInputCol(&quot;text&quot;)
-.setOutputCol(&quot;document&quot;)
-
-val tokenizer = Tokenizer()
-.setInputCols(&quot;document&quot;)
-.setOutputCol(&quot;token&quot;)
-
-val zeroShotClassifier = DistilBertForZeroShotClassification.pretrained(&quot;distilbert_base_zero_shot_classifier_uncased_mnli&quot;, &quot;en&quot;)
-.setInputCols(&quot;document&quot;, &quot;token&quot;)
-.setOutputCol(&quot;class&quot;)
-.setCaseSensitive(true)
-.setMaxSentenceLength(512)
-.setCandidateLabels(Array(&quot;urgent&quot;, &quot;mobile&quot;, &quot;travel&quot;, &quot;movie&quot;, &quot;music&quot;, &quot;sport&quot;, &quot;weather&quot;, &quot;technology&quot;))
-
-val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, zeroShotClassifier))
-val example = Seq(&quot;I have a problem with my iphone that needs to be resolved asap!!&quot;).toDS.toDF(&quot;text&quot;)
-val result = pipeline.fit(example).transform(example)
-```
+&lt;span class=&quot;nv&quot;&gt;news_pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Microsoft has taken its first step into the metaverse.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
 &lt;/div&gt;
 
-{:.model-param}
-## Model Information
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
 
-{:.table-model}
-|---|---|
-|Model Name:|distilbert_base_zero_shot_classifier_uncased_mnli|
-|Compatibility:|Spark NLP 4.4.1+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[token, document]|
-|Output Labels:|[multi_class]|
-|Language:|en|
-|Size:|249.7 MB|
-|Case sensitive:|true|</content><author><name>John Snow Labs</name></author><category term="zero_shot" /><category term="en" /><category term="mnli" /><category term="distilbert" /><category term="english" /><category term="base" /><category term="open_source" /><category term="tensorflow" /><summary type="html">Description This model is intended to be used for zero-shot text classification, especially in English. It is fine-tuned on MNLI by using DistilBERT Base Uncased model. DistilBertForZeroShotClassification using a ModelForSequenceClassification trained on NLI (natural language inference) tasks. Equivalent of DistilBertForSequenceClassification models, but these models don’t require a hardcoded number of potential classes, they can be chosen at runtime. It usually means it’s slower but it is much more flexible. We used TFDistilBertForSequenceClassification to train this model and used DistilBertForZeroShotClassification annotator in Spark NLP 🚀 for prediction at scale! Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU document_assembler = DocumentAssembler() \ .setInputCol('text') \ .setOutputCol('document') tokenizer = Tokenizer() \ .setInputCols(['document']) \ .setOutputCol('token') zeroShotClassifier = DistilBertForZeroShotClassification \ .pretrained('distilbert_base_zero_shot_classifier_uncased_mnli', 'en') \ .setInputCols(['token', 'document']) \ .setOutputCol('class') \ .setCaseSensitive(True) \ .setMaxSentenceLength(512) \ .setCandidateLabels([&quot;urgent&quot;, &quot;mobile&quot;, &quot;travel&quot;, &quot;movie&quot;, &quot;music&quot;, &quot;sport&quot;, &quot;weather&quot;, &quot;technology&quot;]) pipeline = Pipeline(stages=[ document_assembler, tokenizer, zeroShotClassifier ]) example = spark.createDataFrame([['I have a problem with my iphone that needs to be resolved asap!!']]).toDF(&quot;text&quot;) result = pipeline.fit(example).transform(example) val document_assembler = DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val tokenizer = Tokenizer() .setInputCols(&quot;document&quot;) .setOutputCol(&quot;token&quot;) val zeroShotClassifier = DistilBertForZeroShotClassification.pretrained(&quot;distilbert_base_zero_shot_classifier_uncased_mnli&quot;, &quot;en&quot;) .setInputCols(&quot;document&quot;, &quot;token&quot;) .setOutputCol(&quot;class&quot;) .setCaseSensitive(true) .setMaxSentenceLength(512) .setCandidateLabels(Array(&quot;urgent&quot;, &quot;mobile&quot;, &quot;travel&quot;, &quot;movie&quot;, &quot;music&quot;, &quot;sport&quot;, &quot;weather&quot;, &quot;technology&quot;)) val pipeline = new Pipeline().setStages(Array(document_assembler, tokenizer, zeroShotClassifier)) val example = Seq(&quot;I have a problem with my iphone that needs to be resolved asap!!&quot;).toDS.toDF(&quot;text&quot;) val result = pipeline.fit(example).transform(example) Model Information Model Name: distilbert_base_zero_shot_classifier_uncased_mnli Compatibility: Spark NLP 4.4.1+ License: Open Source Edition: Official Input Labels: [token, document] Output Labels: [multi_class] Language: en Size: 249.7 MB Case sensitive: true</summary></entry></feed>
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Results
+
+
+
+
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Sci/Tech'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+
+
+&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;:.model-param&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;bert_sequence_classifier_age_news_pipeline&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Type:&lt;/td&gt;
+      &lt;td&gt;pipeline&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 4.4.2+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;42.4 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;DocumentAssembler&lt;/li&gt;
+  &lt;li&gt;TokenizerModel&lt;/li&gt;
+  &lt;li&gt;BertForSequenceClassification&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="ag_news" /><category term="news" /><category term="bert" /><category term="bert_sequence" /><category term="classification" /><category term="en" /><category term="open_source" /><summary type="html">Description This pretrained pipeline is built on the top of bert_sequence_classifier_age_news_en which is imported from HuggingFace. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU news_pipeline = PretrainedPipeline(&quot;bert_sequence_classifier_age_news_pipeline&quot;, lang = &quot;en&quot;) news_pipeline.annotate(&quot;Microsoft has taken its first step into the metaverse.&quot;) val news_pipeline = new PretrainedPipeline(&quot;bert_sequence_classifier_age_news_pipeline&quot;, lang = &quot;en&quot;) news_pipeline.annotate(&quot;Microsoft has taken its first step into the metaverse.&quot;) PythonScalaNLU news_pipeline = PretrainedPipeline(&quot;bert_sequence_classifier_age_news_pipeline&quot;, lang = &quot;en&quot;) news_pipeline.annotate(&quot;Microsoft has taken its first step into the metaverse.&quot;) val news_pipeline = new PretrainedPipeline(&quot;bert_sequence_classifier_age_news_pipeline&quot;, lang = &quot;en&quot;) news_pipeline.annotate(&quot;Microsoft has taken its first step into the metaverse.&quot;) Results Results ['Sci/Tech'] {:.model-param} Model Information Model Name: bert_sequence_classifier_age_news_pipeline Type: pipeline Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: en Size: 42.4 MB Included Models DocumentAssembler TokenizerModel BertForSequenceClassification</summary></entry><entry><title type="html">Pipeline to Classify Texts into TREC-6 Classes</title><link href="/2023/05/21/bert_sequence_classifier_trec_coarse_pipeline_en.html" rel="alternate" type="text/html" title="Pipeline to Classify Texts into TREC-6 Classes" /><published>2023-05-21T00:00:00+00:00</published><updated>2023-05-21T00:00:00+00:00</updated><id>/2023/05/21/bert_sequence_classifier_trec_coarse_pipeline_en</id><content type="html" xml:base="/2023/05/21/bert_sequence_classifier_trec_coarse_pipeline_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;This pretrained pipeline is built on the top of &lt;a href=&quot;https://nlp.johnsnowlabs.com/2021/11/06/bert_sequence_classifier_trec_coarse_en.html&quot;&gt;bert_sequence_classifier_trec_coarse_en&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The TREC dataset for question classification consists of open-domain, fact-based questions divided into broad semantic categories. You can check the official documentation of the dataset, entities, etc. &lt;a href=&quot;https://search.r-project.org/CRAN/refmans/textdata/html/dataset_trec.html&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_sequence_classifier_trec_coarse_pipeline_en_4.4.2_3.0_1684649817385.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/bert_sequence_classifier_trec_coarse_pipeline_en_4.4.2_3.0_1684649817385.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+
+&lt;span class=&quot;n&quot;&gt;trec_pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_sequence_classifier_trec_coarse_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;trec_pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Germany is the largest country in Europe economically.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;trec_pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_sequence_classifier_trec_coarse_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;trec_pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Germany is the largest country in Europe economically.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;trec_pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_sequence_classifier_trec_coarse_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;trec_pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Germany is the largest country in Europe economically.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;trec_pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_sequence_classifier_trec_coarse_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;trec_pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Germany is the largest country in Europe economically.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Results
+
+
+
+
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'LOC'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+
+
+&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;:.model-param&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;bert_sequence_classifier_trec_coarse_pipeline&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Type:&lt;/td&gt;
+      &lt;td&gt;pipeline&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 4.4.2+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;406.6 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;DocumentAssembler&lt;/li&gt;
+  &lt;li&gt;TokenizerModel&lt;/li&gt;
+  &lt;li&gt;BertForSequenceClassification&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="bert_sequence" /><category term="trec" /><category term="coarse" /><category term="bert" /><category term="en" /><category term="open_source" /><summary type="html">Description This pretrained pipeline is built on the top of bert_sequence_classifier_trec_coarse_en. The TREC dataset for question classification consists of open-domain, fact-based questions divided into broad semantic categories. You can check the official documentation of the dataset, entities, etc. here. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU trec_pipeline = PretrainedPipeline(&quot;bert_sequence_classifier_trec_coarse_pipeline&quot;, lang = &quot;en&quot;) trec_pipeline.annotate(&quot;Germany is the largest country in Europe economically.&quot;) val trec_pipeline = new PretrainedPipeline(&quot;bert_sequence_classifier_trec_coarse_pipeline&quot;, lang = &quot;en&quot;) trec_pipeline.annotate(&quot;Germany is the largest country in Europe economically.&quot;) PythonScalaNLU trec_pipeline = PretrainedPipeline(&quot;bert_sequence_classifier_trec_coarse_pipeline&quot;, lang = &quot;en&quot;) trec_pipeline.annotate(&quot;Germany is the largest country in Europe economically.&quot;) val trec_pipeline = new PretrainedPipeline(&quot;bert_sequence_classifier_trec_coarse_pipeline&quot;, lang = &quot;en&quot;) trec_pipeline.annotate(&quot;Germany is the largest country in Europe economically.&quot;) Results Results ['LOC'] {:.model-param} Model Information Model Name: bert_sequence_classifier_trec_coarse_pipeline Type: pipeline Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: en Size: 406.6 MB Included Models DocumentAssembler TokenizerModel BertForSequenceClassification</summary></entry><entry><title type="html">Dutch NER Pipeline</title><link href="/2023/05/21/bert_token_classifier_dutch_udlassy_ner_pipeline_nl.html" rel="alternate" type="text/html" title="Dutch NER Pipeline" /><published>2023-05-21T00:00:00+00:00</published><updated>2023-05-21T00:00:00+00:00</updated><id>/2023/05/21/bert_token_classifier_dutch_udlassy_ner_pipeline_nl</id><content type="html" xml:base="/2023/05/21/bert_token_classifier_dutch_udlassy_ner_pipeline_nl.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;This pretrained pipeline is built on the top of &lt;a href=&quot;https://nlp.johnsnowlabs.com/2021/12/08/bert_token_classifier_dutch_udlassy_ner_nl.html&quot;&gt;bert_token_classifier_dutch_udlassy_ner&lt;/a&gt; model.&lt;/p&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_token_classifier_dutch_udlassy_ner_pipeline_nl_4.4.2_3.0_1684651513743.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/bert_token_classifier_dutch_udlassy_ner_pipeline_nl_4.4.2_3.0_1684651513743.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_token_classifier_dutch_udlassy_ner_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;nl&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Mijn naam is Peter Fergusson. Ik woon sinds oktober 2011 in New York en werk 5 jaar bij Tesla Motor.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_token_classifier_dutch_udlassy_ner_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;nl&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Mijn naam is Peter Fergusson. Ik woon sinds oktober 2011 in New York en werk 5 jaar bij Tesla Motor.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_token_classifier_dutch_udlassy_ner_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;nl&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Mijn naam is Peter Fergusson. Ik woon sinds oktober 2011 in New York en werk 5 jaar bij Tesla Motor.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_token_classifier_dutch_udlassy_ner_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;nl&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Mijn naam is Peter Fergusson. Ik woon sinds oktober 2011 in New York en werk 5 jaar bij Tesla Motor.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Results
+
+
+
++---------------+---------+
+|chunk          |ner_label|
++---------------+---------+
+|Peter Fergusson|PERSON   |
+|oktober 2011   |DATE     |
+|New York       |GPE      |
+|5 jaar         |DATE     |
+|Tesla Motor    |ORG      |
++---------------+---------+
+
+
+&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;:.model-param&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;bert_token_classifier_dutch_udlassy_ner_pipeline&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Type:&lt;/td&gt;
+      &lt;td&gt;pipeline&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 4.4.2+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;nl&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;408.0 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;DocumentAssembler&lt;/li&gt;
+  &lt;li&gt;SentenceDetectorDLModel&lt;/li&gt;
+  &lt;li&gt;TokenizerModel&lt;/li&gt;
+  &lt;li&gt;BertForTokenClassification&lt;/li&gt;
+  &lt;li&gt;NerConverter&lt;/li&gt;
+  &lt;li&gt;Finisher&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="ner" /><category term="dutch" /><category term="token_classifier" /><category term="bert" /><category term="treatment" /><category term="nl" /><summary type="html">Description This pretrained pipeline is built on the top of bert_token_classifier_dutch_udlassy_ner model. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU pipeline = PretrainedPipeline(&quot;bert_token_classifier_dutch_udlassy_ner_pipeline&quot;, lang = &quot;nl&quot;) pipeline.annotate(&quot;Mijn naam is Peter Fergusson. Ik woon sinds oktober 2011 in New York en werk 5 jaar bij Tesla Motor.&quot;) val pipeline = new PretrainedPipeline(&quot;bert_token_classifier_dutch_udlassy_ner_pipeline&quot;, lang = &quot;nl&quot;) pipeline.annotate(&quot;Mijn naam is Peter Fergusson. Ik woon sinds oktober 2011 in New York en werk 5 jaar bij Tesla Motor.&quot;) PythonScalaNLU pipeline = PretrainedPipeline(&quot;bert_token_classifier_dutch_udlassy_ner_pipeline&quot;, lang = &quot;nl&quot;) pipeline.annotate(&quot;Mijn naam is Peter Fergusson. Ik woon sinds oktober 2011 in New York en werk 5 jaar bij Tesla Motor.&quot;) val pipeline = new PretrainedPipeline(&quot;bert_token_classifier_dutch_udlassy_ner_pipeline&quot;, lang = &quot;nl&quot;) pipeline.annotate(&quot;Mijn naam is Peter Fergusson. Ik woon sinds oktober 2011 in New York en werk 5 jaar bij Tesla Motor.&quot;) Results Results +---------------+---------+ |chunk |ner_label| +---------------+---------+ |Peter Fergusson|PERSON | |oktober 2011 |DATE | |New York |GPE | |5 jaar |DATE | |Tesla Motor |ORG | +---------------+---------+ {:.model-param} Model Information Model Name: bert_token_classifier_dutch_udlassy_ner_pipeline Type: pipeline Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: nl Size: 408.0 MB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel BertForTokenClassification NerConverter Finisher</summary></entry><entry><title type="html">NER Pipeline for Hindi+English</title><link href="/2023/05/21/bert_token_classifier_hi_en_ner_pipeline_hi.html" rel="alternate" type="text/html" title="NER Pipeline for Hindi+English" /><published>2023-05-21T00:00:00+00:00</published><updated>2023-05-21T00:00:00+00:00</updated><id>/2023/05/21/bert_token_classifier_hi_en_ner_pipeline_hi</id><content type="html" xml:base="/2023/05/21/bert_token_classifier_hi_en_ner_pipeline_hi.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;This pretrained pipeline is built on &lt;a href=&quot;https://nlp.johnsnowlabs.com/2021/12/27/bert_token_classifier_hi_en_ner_hi.html&quot;&gt;bert_token_classifier_hi_en_ner&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_token_classifier_hi_en_ner_pipeline_hi_4.4.2_3.0_1684650604589.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/bert_token_classifier_hi_en_ner_pipeline_hi_4.4.2_3.0_1684650604589.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_token_classifier_hi_en_ner_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;hi&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;रिलायंस इंडस्ट्रीज़ लिमिटेड (Reliance Industries Limited) एक भारतीय संगुटिका नियंत्रक कंपनी है, जिसका मुख्यालय मुंबई, महाराष्ट्र (Maharashtra) में स्थित है।रतन नवल टाटा (28 दिसंबर 1937, को मुम्बई (Mumbai), में जन्मे) टाटा समुह के वर्तमान अध्यक्ष, जो भारत की सबसे बड़ी व्यापारिक समूह है, जिसकी स्थापना जमशेदजी टाटा ने की और उनके परिवार की पीढियों ने इसका विस्तार किया और इसे दृढ़ बनाया।&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_token_classifier_hi_en_ner_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;hi&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;रिलायंस इंडस्ट्रीज़ लिमिटेड (Reliance Industries Limited) एक भारतीय संगुटिका नियंत्रक कंपनी है, जिसका मुख्यालय मुंबई, महाराष्ट्र (Maharashtra) में स्थित है।रतन नवल टाटा (28 दिसंबर 1937, को मुम्बई (Mumbai), में जन्मे) टाटा समुह के वर्तमान अध्यक्ष, जो भारत की सबसे बड़ी व्यापारिक समूह है, जिसकी स्थापना जमशेदजी टाटा ने की और उनके परिवार की पीढियों ने इसका विस्तार किया और इसे दृढ़ बनाया।&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_token_classifier_hi_en_ner_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;hi&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;रिलायंस इंडस्ट्रीज़ लिमिटेड (Reliance Industries Limited) एक भारतीय संगुटिका नियंत्रक कंपनी है, जिसका मुख्यालय मुंबई, महाराष्ट्र (Maharashtra) में स्थित है।रतन नवल टाटा (28 दिसंबर 1937, को मुम्बई (Mumbai), में जन्मे) टाटा समुह के वर्तमान अध्यक्ष, जो भारत की सबसे बड़ी व्यापारिक समूह है, जिसकी स्थापना जमशेदजी टाटा ने की और उनके परिवार की पीढियों ने इसका विस्तार किया और इसे दृढ़ बनाया।&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_token_classifier_hi_en_ner_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;hi&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;रिलायंस इंडस्ट्रीज़ लिमिटेड (Reliance Industries Limited) एक भारतीय संगुटिका नियंत्रक कंपनी है, जिसका मुख्यालय मुंबई, महाराष्ट्र (Maharashtra) में स्थित है।रतन नवल टाटा (28 दिसंबर 1937, को मुम्बई (Mumbai), में जन्मे) टाटा समुह के वर्तमान अध्यक्ष, जो भारत की सबसे बड़ी व्यापारिक समूह है, जिसकी स्थापना जमशेदजी टाटा ने की और उनके परिवार की पीढियों ने इसका विस्तार किया और इसे दृढ़ बनाया।&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Results
+
+
+
++---------------------------+------------+
+|chunk                      |ner_label   |
++---------------------------+------------+
+|रिलायंस इंडस्ट्रीज़ लिमिटेड          |ORGANISATION|
+|Reliance Industries Limited|ORGANISATION|
+|भारतीय                      |PLACE       |
+|मुंबई                        |PLACE       |
+|महाराष्ट्र                      |PLACE       |
+|Maharashtra&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;               |PLACE       |
+|नवल टाटा                    |PERSON      |
+|मुम्बई                       |PLACE       |
+|Mumbai                     |PLACE       |
+|टाटा समुह                    |ORGANISATION|
+|भारत                       |PLACE       |
+|जमशेदजी टाटा                 |PERSON      |
++---------------------------+------------+
+
+
+&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;:.model-param&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;bert_token_classifier_hi_en_ner_pipeline&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Type:&lt;/td&gt;
+      &lt;td&gt;pipeline&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 4.4.2+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;hi&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;665.8 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;DocumentAssembler&lt;/li&gt;
+  &lt;li&gt;SentenceDetector&lt;/li&gt;
+  &lt;li&gt;TokenizerModel&lt;/li&gt;
+  &lt;li&gt;BertForTokenClassification&lt;/li&gt;
+  &lt;li&gt;NerConverter&lt;/li&gt;
+  &lt;li&gt;Finisher&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="hindi" /><category term="bert_token" /><category term="hi" /><category term="open_source" /><summary type="html">Description This pretrained pipeline is built on bert_token_classifier_hi_en_ner. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU pipeline = PretrainedPipeline(&quot;bert_token_classifier_hi_en_ner_pipeline&quot;, lang = &quot;hi&quot;) pipeline.annotate(&quot;रिलायंस इंडस्ट्रीज़ लिमिटेड (Reliance Industries Limited) एक भारतीय संगुटिका नियंत्रक कंपनी है, जिसका मुख्यालय मुंबई, महाराष्ट्र (Maharashtra) में स्थित है।रतन नवल टाटा (28 दिसंबर 1937, को मुम्बई (Mumbai), में जन्मे) टाटा समुह के वर्तमान अध्यक्ष, जो भारत की सबसे बड़ी व्यापारिक समूह है, जिसकी स्थापना जमशेदजी टाटा ने की और उनके परिवार की पीढियों ने इसका विस्तार किया और इसे दृढ़ बनाया।&quot;) val pipeline = new PretrainedPipeline(&quot;bert_token_classifier_hi_en_ner_pipeline&quot;, lang = &quot;hi&quot;) val pipeline.annotate(&quot;रिलायंस इंडस्ट्रीज़ लिमिटेड (Reliance Industries Limited) एक भारतीय संगुटिका नियंत्रक कंपनी है, जिसका मुख्यालय मुंबई, महाराष्ट्र (Maharashtra) में स्थित है।रतन नवल टाटा (28 दिसंबर 1937, को मुम्बई (Mumbai), में जन्मे) टाटा समुह के वर्तमान अध्यक्ष, जो भारत की सबसे बड़ी व्यापारिक समूह है, जिसकी स्थापना जमशेदजी टाटा ने की और उनके परिवार की पीढियों ने इसका विस्तार किया और इसे दृढ़ बनाया।&quot;) PythonScalaNLU pipeline = PretrainedPipeline(&quot;bert_token_classifier_hi_en_ner_pipeline&quot;, lang = &quot;hi&quot;) pipeline.annotate(&quot;रिलायंस इंडस्ट्रीज़ लिमिटेड (Reliance Industries Limited) एक भारतीय संगुटिका नियंत्रक कंपनी है, जिसका मुख्यालय मुंबई, महाराष्ट्र (Maharashtra) में स्थित है।रतन नवल टाटा (28 दिसंबर 1937, को मुम्बई (Mumbai), में जन्मे) टाटा समुह के वर्तमान अध्यक्ष, जो भारत की सबसे बड़ी व्यापारिक समूह है, जिसकी स्थापना जमशेदजी टाटा ने की और उनके परिवार की पीढियों ने इसका विस्तार किया और इसे दृढ़ बनाया।&quot;) val pipeline = new PretrainedPipeline(&quot;bert_token_classifier_hi_en_ner_pipeline&quot;, lang = &quot;hi&quot;) val pipeline.annotate(&quot;रिलायंस इंडस्ट्रीज़ लिमिटेड (Reliance Industries Limited) एक भारतीय संगुटिका नियंत्रक कंपनी है, जिसका मुख्यालय मुंबई, महाराष्ट्र (Maharashtra) में स्थित है।रतन नवल टाटा (28 दिसंबर 1937, को मुम्बई (Mumbai), में जन्मे) टाटा समुह के वर्तमान अध्यक्ष, जो भारत की सबसे बड़ी व्यापारिक समूह है, जिसकी स्थापना जमशेदजी टाटा ने की और उनके परिवार की पीढियों ने इसका विस्तार किया और इसे दृढ़ बनाया।&quot;) Results Results +---------------------------+------------+ |chunk |ner_label | +---------------------------+------------+ |रिलायंस इंडस्ट्रीज़ लिमिटेड |ORGANISATION| |Reliance Industries Limited|ORGANISATION| |भारतीय |PLACE | |मुंबई |PLACE | |महाराष्ट्र |PLACE | |Maharashtra) |PLACE | |नवल टाटा |PERSON | |मुम्बई |PLACE | |Mumbai |PLACE | |टाटा समुह |ORGANISATION| |भारत |PLACE | |जमशेदजी टाटा |PERSON | +---------------------------+------------+ {:.model-param} Model Information Model Name: bert_token_classifier_hi_en_ner_pipeline Type: pipeline Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: hi Size: 665.8 MB Included Models DocumentAssembler SentenceDetector TokenizerModel BertForTokenClassification NerConverter Finisher</summary></entry><entry><title type="html">NER Pipeline for 6 Scandinavian Languages</title><link href="/2023/05/21/bert_token_classifier_scandi_ner_pipeline_xx.html" rel="alternate" type="text/html" title="NER Pipeline for 6 Scandinavian Languages" /><published>2023-05-21T00:00:00+00:00</published><updated>2023-05-21T00:00:00+00:00</updated><id>/2023/05/21/bert_token_classifier_scandi_ner_pipeline_xx</id><content type="html" xml:base="/2023/05/21/bert_token_classifier_scandi_ner_pipeline_xx.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;This pretrained pipeline is built on &lt;a href=&quot;https://nlp.johnsnowlabs.com/2021/12/09/bert_token_classifier_scandi_ner_xx.html&quot;&gt;bert_token_classifier_scandi_ner&lt;/a&gt; model which is imported from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HuggingFace&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_token_classifier_scandi_ner_pipeline_xx_4.4.2_3.0_1684649668401.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/bert_token_classifier_scandi_ner_pipeline_xx_4.4.2_3.0_1684649668401.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;n&quot;&gt;scandiner_pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_token_classifier_scandi_ner_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;xx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;scandiner_pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hans er professor ved Statens Universitet, som ligger i København, og han er en rigtig københavner.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;scandiner_pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_token_classifier_scandi_ner_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;xx&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;scandiner_pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hans er professor ved Statens Universitet, som ligger i København, og han er en rigtig københavner.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;scandiner_pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_token_classifier_scandi_ner_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;xx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;scandiner_pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hans er professor ved Statens Universitet, som ligger i København, og han er en rigtig københavner.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;scandiner_pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_token_classifier_scandi_ner_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;xx&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;scandiner_pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hans er professor ved Statens Universitet, som ligger i København, og han er en rigtig københavner.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Results
+
+
+
++-------------------+---------+
+|chunk              |ner_label|
++-------------------+---------+
+|Hans               |PER      |
+|Statens Universitet|ORG      |
+|København          |LOC      |
+|københavner        |MISC     |
++-------------------+---------+
+
+
+&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;:.model-param&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;bert_token_classifier_scandi_ner_pipeline&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Type:&lt;/td&gt;
+      &lt;td&gt;pipeline&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 4.4.2+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;xx&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;666.9 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;DocumentAssembler&lt;/li&gt;
+  &lt;li&gt;SentenceDetector&lt;/li&gt;
+  &lt;li&gt;TokenizerModel&lt;/li&gt;
+  &lt;li&gt;BertForTokenClassification&lt;/li&gt;
+  &lt;li&gt;NerConverter&lt;/li&gt;
+  &lt;li&gt;Finisher&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="danish" /><category term="norwegian" /><category term="swedish" /><category term="icelandic" /><category term="faroese" /><category term="bert" /><category term="xx" /><category term="open_source" /><summary type="html">Description This pretrained pipeline is built on bert_token_classifier_scandi_ner model which is imported from HuggingFace. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU scandiner_pipeline = PretrainedPipeline(&quot;bert_token_classifier_scandi_ner_pipeline&quot;, lang = &quot;xx&quot;) scandiner_pipeline.annotate(&quot;Hans er professor ved Statens Universitet, som ligger i København, og han er en rigtig københavner.&quot;) val scandiner_pipeline = new PretrainedPipeline(&quot;bert_token_classifier_scandi_ner_pipeline&quot;, lang = &quot;xx&quot;) val scandiner_pipeline.annotate(&quot;Hans er professor ved Statens Universitet, som ligger i København, og han er en rigtig københavner.&quot;) PythonScalaNLU scandiner_pipeline = PretrainedPipeline(&quot;bert_token_classifier_scandi_ner_pipeline&quot;, lang = &quot;xx&quot;) scandiner_pipeline.annotate(&quot;Hans er professor ved Statens Universitet, som ligger i København, og han er en rigtig københavner.&quot;) val scandiner_pipeline = new PretrainedPipeline(&quot;bert_token_classifier_scandi_ner_pipeline&quot;, lang = &quot;xx&quot;) val scandiner_pipeline.annotate(&quot;Hans er professor ved Statens Universitet, som ligger i København, og han er en rigtig københavner.&quot;) Results Results +-------------------+---------+ |chunk |ner_label| +-------------------+---------+ |Hans |PER | |Statens Universitet|ORG | |København |LOC | |københavner |MISC | +-------------------+---------+ {:.model-param} Model Information Model Name: bert_token_classifier_scandi_ner_pipeline Type: pipeline Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: xx Size: 666.9 MB Included Models DocumentAssembler SentenceDetector TokenizerModel BertForTokenClassification NerConverter Finisher</summary></entry><entry><title type="html">NER Pipeline for 9 African Languages</title><link href="/2023/05/21/distilbert_base_token_classifier_masakhaner_pipeline_xx.html" rel="alternate" type="text/html" title="NER Pipeline for 9 African Languages" /><published>2023-05-21T00:00:00+00:00</published><updated>2023-05-21T00:00:00+00:00</updated><id>/2023/05/21/distilbert_base_token_classifier_masakhaner_pipeline_xx</id><content type="html" xml:base="/2023/05/21/distilbert_base_token_classifier_masakhaner_pipeline_xx.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;This pretrained pipeline is built on the top of &lt;a href=&quot;https://nlp.johnsnowlabs.com/2022/01/18/distilbert_base_token_classifier_masakhaner_xx.html&quot;&gt;distilbert_base_token_classifier_masakhaner&lt;/a&gt; model.&lt;/p&gt;
+
+&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_base_token_classifier_masakhaner_pipeline_xx_4.4.2_3.0_1684650178459.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/distilbert_base_token_classifier_masakhaner_pipeline_xx_4.4.2_3.0_1684650178459.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;n&quot;&gt;masakhaner_pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;distilbert_base_token_classifier_masakhaner_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;xx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;masakhaner_pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Ilé-iṣẹ́ẹ Mohammed Sani Musa, Activate Technologies Limited, ni ó kó ẹ̀rọ Ìwé-pélébé Ìdìbò Alálòpẹ́ (PVCs) tí a lò fún ìbò ọdún-un 2019, ígbà tí ó jẹ́ òǹdíjedupò lábẹ́ ẹgbẹ́ olóṣèlúu tí ó ń tukọ̀ ètò ìṣèlú lọ́wọ́ All rogressives Congress (APC) fún Aṣojú Ìlà-Oòrùn Niger, ìyẹn gẹ́gẹ́ bí ilé iṣẹ́ aṣèwádìí, Premium Times ṣe tẹ̀ ẹ́ jáde.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;masakhaner_pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;distilbert_base_token_classifier_masakhaner_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;xx&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;masakhaner_pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Ilé-iṣẹ́ẹ Mohammed Sani Musa, Activate Technologies Limited, ni ó kó ẹ̀rọ Ìwé-pélébé Ìdìbò Alálòpẹ́ (PVCs) tí a lò fún ìbò ọdún-un 2019, ígbà tí ó jẹ́ òǹdíjedupò lábẹ́ ẹgbẹ́ olóṣèlúu tí ó ń tukọ̀ ètò ìṣèlú lọ́wọ́ All rogressives Congress (APC) fún Aṣojú Ìlà-Oòrùn Niger, ìyẹn gẹ́gẹ́ bí ilé iṣẹ́ aṣèwádìí, Premium Times ṣe tẹ̀ ẹ́ jáde.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;masakhaner_pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;distilbert_base_token_classifier_masakhaner_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;xx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;masakhaner_pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Ilé-iṣẹ́ẹ Mohammed Sani Musa, Activate Technologies Limited, ni ó kó ẹ̀rọ Ìwé-pélébé Ìdìbò Alálòpẹ́ (PVCs) tí a lò fún ìbò ọdún-un 2019, ígbà tí ó jẹ́ òǹdíjedupò lábẹ́ ẹgbẹ́ olóṣèlúu tí ó ń tukọ̀ ètò ìṣèlú lọ́wọ́ All rogressives Congress (APC) fún Aṣojú Ìlà-Oòrùn Niger, ìyẹn gẹ́gẹ́ bí ilé iṣẹ́ aṣèwádìí, Premium Times ṣe tẹ̀ ẹ́ jáde.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;masakhaner_pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;distilbert_base_token_classifier_masakhaner_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;xx&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;masakhaner_pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Ilé-iṣẹ́ẹ Mohammed Sani Musa, Activate Technologies Limited, ni ó kó ẹ̀rọ Ìwé-pélébé Ìdìbò Alálòpẹ́ (PVCs) tí a lò fún ìbò ọdún-un 2019, ígbà tí ó jẹ́ òǹdíjedupò lábẹ́ ẹgbẹ́ olóṣèlúu tí ó ń tukọ̀ ètò ìṣèlú lọ́wọ́ All rogressives Congress (APC) fún Aṣojú Ìlà-Oòrùn Niger, ìyẹn gẹ́gẹ́ bí ilé iṣẹ́ aṣèwádìí, Premium Times ṣe tẹ̀ ẹ́ jáde.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Results
+
+
+
++-----------------------------+---------+
+|chunk                        |ner_label|
++-----------------------------+---------+
+|Mohammed Sani Musa           |PER      |
+|Activate Technologies Limited|ORG      |
+|ọdún-un 2019                 |DATE     |
+|All rogressives Congress     |ORG      |
+|APC                          |ORG      |
+|Aṣojú Ìlà-Oòrùn Niger        |LOC      |
+|Premium Times                |ORG      |
++-----------------------------+---------+
+
+
+&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;:.model-param&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;distilbert_base_token_classifier_masakhaner_pipeline&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Type:&lt;/td&gt;
+      &lt;td&gt;pipeline&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 4.4.2+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;xx&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;505.8 MB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;DocumentAssembler&lt;/li&gt;
+  &lt;li&gt;SentenceDetector&lt;/li&gt;
+  &lt;li&gt;TokenizerModel&lt;/li&gt;
+  &lt;li&gt;DistilBertForTokenClassification&lt;/li&gt;
+  &lt;li&gt;NerConverter&lt;/li&gt;
+  &lt;li&gt;Finisher&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="hausa" /><category term="igbo" /><category term="kinyarwanda" /><category term="luganda" /><category term="nigerian" /><category term="pidgin" /><category term="swahilu" /><category term="wolof" /><category term="yoruba" /><category term="xx" /><category term="open_source" /><summary type="html">Description This pretrained pipeline is built on the top of distilbert_base_token_classifier_masakhaner model. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU masakhaner_pipeline = PretrainedPipeline(&quot;distilbert_base_token_classifier_masakhaner_pipeline&quot;, lang = &quot;xx&quot;) masakhaner_pipeline.annotate(&quot;Ilé-iṣẹ́ẹ Mohammed Sani Musa, Activate Technologies Limited, ni ó kó ẹ̀rọ Ìwé-pélébé Ìdìbò Alálòpẹ́ (PVCs) tí a lò fún ìbò ọdún-un 2019, ígbà tí ó jẹ́ òǹdíjedupò lábẹ́ ẹgbẹ́ olóṣèlúu tí ó ń tukọ̀ ètò ìṣèlú lọ́wọ́ All rogressives Congress (APC) fún Aṣojú Ìlà-Oòrùn Niger, ìyẹn gẹ́gẹ́ bí ilé iṣẹ́ aṣèwádìí, Premium Times ṣe tẹ̀ ẹ́ jáde.&quot;) val masakhaner_pipeline = new PretrainedPipeline(&quot;distilbert_base_token_classifier_masakhaner_pipeline&quot;, lang = &quot;xx&quot;) masakhaner_pipeline.annotate(&quot;Ilé-iṣẹ́ẹ Mohammed Sani Musa, Activate Technologies Limited, ni ó kó ẹ̀rọ Ìwé-pélébé Ìdìbò Alálòpẹ́ (PVCs) tí a lò fún ìbò ọdún-un 2019, ígbà tí ó jẹ́ òǹdíjedupò lábẹ́ ẹgbẹ́ olóṣèlúu tí ó ń tukọ̀ ètò ìṣèlú lọ́wọ́ All rogressives Congress (APC) fún Aṣojú Ìlà-Oòrùn Niger, ìyẹn gẹ́gẹ́ bí ilé iṣẹ́ aṣèwádìí, Premium Times ṣe tẹ̀ ẹ́ jáde.&quot;) PythonScalaNLU masakhaner_pipeline = PretrainedPipeline(&quot;distilbert_base_token_classifier_masakhaner_pipeline&quot;, lang = &quot;xx&quot;) masakhaner_pipeline.annotate(&quot;Ilé-iṣẹ́ẹ Mohammed Sani Musa, Activate Technologies Limited, ni ó kó ẹ̀rọ Ìwé-pélébé Ìdìbò Alálòpẹ́ (PVCs) tí a lò fún ìbò ọdún-un 2019, ígbà tí ó jẹ́ òǹdíjedupò lábẹ́ ẹgbẹ́ olóṣèlúu tí ó ń tukọ̀ ètò ìṣèlú lọ́wọ́ All rogressives Congress (APC) fún Aṣojú Ìlà-Oòrùn Niger, ìyẹn gẹ́gẹ́ bí ilé iṣẹ́ aṣèwádìí, Premium Times ṣe tẹ̀ ẹ́ jáde.&quot;) val masakhaner_pipeline = new PretrainedPipeline(&quot;distilbert_base_token_classifier_masakhaner_pipeline&quot;, lang = &quot;xx&quot;) masakhaner_pipeline.annotate(&quot;Ilé-iṣẹ́ẹ Mohammed Sani Musa, Activate Technologies Limited, ni ó kó ẹ̀rọ Ìwé-pélébé Ìdìbò Alálòpẹ́ (PVCs) tí a lò fún ìbò ọdún-un 2019, ígbà tí ó jẹ́ òǹdíjedupò lábẹ́ ẹgbẹ́ olóṣèlúu tí ó ń tukọ̀ ètò ìṣèlú lọ́wọ́ All rogressives Congress (APC) fún Aṣojú Ìlà-Oòrùn Niger, ìyẹn gẹ́gẹ́ bí ilé iṣẹ́ aṣèwádìí, Premium Times ṣe tẹ̀ ẹ́ jáde.&quot;) Results Results +-----------------------------+---------+ |chunk |ner_label| +-----------------------------+---------+ |Mohammed Sani Musa |PER | |Activate Technologies Limited|ORG | |ọdún-un 2019 |DATE | |All rogressives Congress |ORG | |APC |ORG | |Aṣojú Ìlà-Oòrùn Niger |LOC | |Premium Times |ORG | +-----------------------------+---------+ {:.model-param} Model Information Model Name: distilbert_base_token_classifier_masakhaner_pipeline Type: pipeline Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: xx Size: 505.8 MB Included Models DocumentAssembler SentenceDetector TokenizerModel DistilBertForTokenClassification NerConverter Finisher</summary></entry></feed>
