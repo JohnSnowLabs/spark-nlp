@@ -1,7 +1,10 @@
 ---
 layout: docs
 header: true
-title: Spark NLP - Annotators
+title: Text Annotators
+seotitle: Data Annotators - Spark NLP
+pagetitle: Data Annotators - Spark NLP
+excerpt: Try Spark NLP free data annotators to annotate your projects efficiently and accurately. High-Performance NLP with Apache Spark.
 permalink: /docs/en/annotators
 key: docs-annotators
 modify_date: "2021-04-17"
