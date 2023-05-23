@@ -15,40 +15,11 @@
 
 import re
 
+from pyspark.ml.linalg import DenseVector, Matrix
 from pyspark.ml.param import Params
-from sparknlp.internal.converters import (
-    type_converter_to_type_string,
-    list_to_java_array,
-)
 
-
-class DocStringGenerator:
-    @staticmethod
-    def generate_numpydoc_getter(description):
-        description = description[0].lower() + description[1:]
-        doc_string = f"Gets {description}."
-        return doc_string
-
-    @staticmethod
-    def generate_numpydoc_setter(param, default_value=None):
-        description = param.doc
-        description = description[0].lower() + description[1:]
-        description = (
-            description
-            if not default_value
-            else description + f", by default {default_value}"
-        )
-        param_type = type_converter_to_type_string(param.typeConverter)
-        param_type = f" : {param_type}" if param_type else ""
-        doc_string = (
-            f"Sets {description}.\n"
-            f"\n"
-            f"Parameters\n"
-            f"----------\n"
-            f"value{param_type}\n"
-            f"    {description}"
-        )  # TODO: Default value
-        return doc_string
+from sparknlp.internal.converters import list_to_java_array
+from sparknlp.internal.doc_string_generator import DocStringGenerator
 
 
 class ParamsGettersSetters(Params):
@@ -79,7 +50,7 @@ class ParamsGettersSetters(Params):
 
             if not hasattr(self, setter_function_name):
                 setter_function = self._get_setter_java(
-                    setter_function_name, param.typeConverter
+                    setter_function_name, param
                 )
                 setter_function.__doc__ = DocStringGenerator.generate_numpydoc_setter(
                     param
@@ -127,7 +98,7 @@ class ParamsGettersSetters(Params):
 
         return setter
 
-    def _get_setter_java(self, setter_name, type_converter):
+    def _get_setter_java(self, setter_name, param):
         """Returns a setter function, which calls the equivalent on the java side.
 
         Parameters
@@ -141,6 +112,7 @@ class ParamsGettersSetters(Params):
         -------
         Setter Function for the java side setter
         """
+        type_converter = param.typeConverter
 
         def setter(value):
             """
@@ -157,10 +129,15 @@ class ParamsGettersSetters(Params):
             -------
             self
             """
-            if type(value) == list:
+            value = type_converter(value)
+
+            if type(value) is list:
                 value = list_to_java_array(value, type_converter)
 
-            self._call_java(setter_name, value)
+            if type(value) is DenseVector or type(value) is Matrix:
+                self.set(param, value)  # Set directly
+            else:
+                self._call_java(setter_name, value)
             return self
 
         return setter

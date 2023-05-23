@@ -1,12 +1,8 @@
 import unittest
-from contextlib import redirect_stdout
-import io
 
 import pytest
-from py4j.protocol import Py4JError
 from pyspark.ml.param import Param, Params, TypeConverters
 
-from sparknlp.annotator import Tokenizer
 from sparknlp.internal import ParamsGettersSetters
 from test.util import SparkSessionForTest
 
@@ -20,6 +16,13 @@ class ParamGettersSettersTestSpec(unittest.TestCase):
             "testStrParam",
             "Str Parameter for Test",
             typeConverter=TypeConverters.toString,
+        )
+
+        testFloatParam = Param(
+            Params._dummy(),
+            "testFloatParam",
+            "Float Parameter for Test",
+            typeConverter=TypeConverters.toFloat,
         )
 
         testListIntParam = Param(
@@ -99,10 +102,11 @@ class ParamGettersSettersTestSpec(unittest.TestCase):
         with pytest.raises(ValueError):
             self.annotator.setTestListNoTypeParam([])
 
-    def test_set_wrong_types_warning(self):
-        tokenizer = Tokenizer()
-        with redirect_stdout(io.StringIO()) as f:
-            with pytest.raises(Py4JError):
-                tokenizer.setInfixPatterns([0.5, 0.3])
-            captured_output = f.getvalue()
-        assert "Warning: " in captured_output
+    def test_type_conversion(self):
+        with pytest.raises(TypeError):
+            self.annotator.setTestStrParam(1)
+
+        self.annotator.setTestFloatParam(5)
+        get_val = self.annotator.getTestFloatParam()
+        assert type(get_val) is float
+        assert get_val == 5.0

@@ -1,4 +1,5 @@
 from pyspark import SparkContext
+from pyspark.ml.linalg import DenseVector, Matrix
 from pyspark.ml.param import TypeConverters
 from pyspark.ml.wrapper import JavaWrapper
 
@@ -20,31 +21,6 @@ def base_type_to_java_class(spark_context, value_type):
                 f" to equivalent Java Class not implemented."
             )
         )
-
-
-def type_converter_to_type_string(type_converter):
-    if type_converter == TypeConverters.toListInt:
-        return "List[int]"
-    elif type_converter == TypeConverters.toList:
-        return "List"
-    elif type_converter == TypeConverters.toListFloat:
-        return "List[float]"
-    elif type_converter == TypeConverters.toListString:
-        return "List[str]"
-    elif type_converter == TypeConverters.toVector:
-        return "Vector"
-    elif type_converter == TypeConverters.toMatrix:
-        return "Matrix"
-    elif type_converter == TypeConverters.toFloat:
-        return "float"
-    elif type_converter == TypeConverters.toInt:
-        return "int"
-    elif type_converter == TypeConverters.toString:
-        return "str"
-    elif type_converter == TypeConverters.toBoolean:
-        return "bool"
-    else:
-        return None
 
 
 def list_elem_type(type_converter):
@@ -77,8 +53,8 @@ def list_to_java_array(value, type_converter):
     if len(value) > 0:
         elem_type = type(value[0])
         if (
-                type_converter_elem_type is not None
-                and elem_type != type_converter_elem_type
+            type_converter_elem_type is not None
+            and elem_type != type_converter_elem_type
         ):
             print(
                 "Warning: Conversion received a list with type that does not correspond the parameters type converter."

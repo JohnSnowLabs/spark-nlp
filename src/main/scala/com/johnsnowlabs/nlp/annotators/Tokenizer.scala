@@ -27,6 +27,7 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.Dataset
 
 import java.util.regex.Pattern
+import scala.collection.JavaConverters._
 import scala.collection.mutable.ArrayBuffer
 
 /** Tokenizes raw text in document type columns into TokenizedSentence .
@@ -314,6 +315,14 @@ class Tokenizer(override val uid: String) extends AnnotatorApproach[TokenizerMod
     * @group setParam
     */
   def setInfixPatterns(value: Array[String]): this.type = set(infixPatterns, value)
+
+//  implicit def arrayListToArray(arrayList: java.util.ArrayList[String]): Array[String] =
+//    arrayList.asScala.toArray
+//
+//  def setInfixPatterns(value: java.util.ArrayList[String]): this.type = {
+//    val valueScala: Array[String] = value
+//    setInfixPatterns(valueScala)
+//  }
 
   /** Add an extension pattern regex with groups to the top of thsetExceptionse rules (will target
     * first, from more specific to the more general).
