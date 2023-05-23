@@ -4,7 +4,7 @@ DocumentAssembler
 
 {%- capture description -%}
 Prepares data into a format that is processable by Spark NLP. This is the entry point for every Spark NLP pipeline.
-The `DocumentAssembler` can read either a `String` column or an `Array[String]`. Additionally, setCleanupMode
+The `DocumentAssembler` reads `String` columns. Additionally, setCleanupMode
 can be used to pre-process the text (Default: `disabled`). For possible options please refer the parameters section.
 
 For more extended examples on document pre-processing see the
