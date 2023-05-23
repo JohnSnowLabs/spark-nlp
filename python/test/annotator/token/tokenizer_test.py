@@ -14,6 +14,7 @@
 import os
 import unittest
 
+from pyspark.sql.utils import IllegalArgumentException
 import pytest
 
 from sparknlp.annotator import *
@@ -27,7 +28,7 @@ class TokenizerTestSpec(unittest.TestCase):
     def setUp(self):
         self.session = SparkContextForTest.spark
 
-    def runTest(self):
+    def test_run(self):
         data = self.session.createDataFrame([("this is some/text I wrote",)], ["text"])
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
@@ -48,6 +49,17 @@ class TokenizerTestSpec(unittest.TestCase):
         print(finished.first()['token_out'])
         self.assertEqual(len(finished.first()['token_out']), 4)
 
+    def test_setters(self):
+        tokenizer = Tokenizer() \
+            .setInputCols(["document"]) \
+            .setOutputCol("token") \
+            .setInfixPatterns([])
+
+        with pytest.raises(IllegalArgumentException):
+            tokenizer.setMinLength(-1)
+
+        with pytest.raises(IllegalArgumentException):
+            tokenizer.setMaxLength(-2)
 
 @pytest.mark.fast
 class TokenizerWithExceptionsTestSpec(unittest.TestCase):
@@ -64,7 +76,7 @@ class TokenizerWithExceptionsTestSpec(unittest.TestCase):
         tokenizer = Tokenizer() \
             .setInputCols(["document"]) \
             .setOutputCol("token") \
-            .setExceptionsPath(path="file:///" + os.getcwd() + "/../src/test/resources/token_exception_list.txt")
+            .setExceptionsPath("file:///" + os.getcwd() + "/../src/test/resources/token_exception_list.txt")
         finisher = Finisher() \
             .setInputCols(["token"]) \
             .setOutputCols(["token_out"]) \
@@ -75,4 +87,3 @@ class TokenizerWithExceptionsTestSpec(unittest.TestCase):
         # print(finished.first()['token_out'])
         self.assertEqual((finished.first()['token_out']).index("New York."), 4)
         self.assertEqual((finished.first()['token_out']).index("New York,"), 11)
-
