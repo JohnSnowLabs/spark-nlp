@@ -881,11 +881,6 @@ in the DataFrames.</li>
         <td>Opensource</td>
       </tr>
       <tr>
-        <td><a href="./transformers#albertforsequenceclassification">AlbertForSequenceClassification</a></td>
-        <td>AlbertForSequenceClassification can load ALBERT Models with sequence classification/regression head on top e.g. for multi-class document classification tasks.</td>
-        <td>Opensource</td>
-      </tr>
-      <tr>
         <td><a href="./transformers#barttransformer">BartTransformer</a></td>
         <td>BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension Transformer</td>
         <td>Opensource</td>
@@ -907,7 +902,7 @@ in the DataFrames.</li>
       </tr>
       <tr>
         <td><a href="./transformers#bertforzeroshotclassification">BertForZeroShotClassification</a></td>
-        <td>BertForZeroShotClassification using a <code class="language-plaintext highlighter-rouge">ModelForSequenceClassification</code> trained on NLI (natural language inference) tasks.</td>
+        <td>BertForZeroShotClassification using a ModelForSequenceClassification trained on NLI (natural language inference) tasks.</td>
         <td>Opensource</td>
       </tr>
       <tr>
@@ -963,6 +958,11 @@ in the DataFrames.</li>
       <tr>
         <td><a href="./transformers#distilbertfortokenclassification">DistilBertForTokenClassification</a></td>
         <td>DistilBertForTokenClassification can load DistilBERT Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#distilbertforzeroshotclassification">DistilBertForZeroShotClassification</a></td>
+        <td>DistilBertForZeroShotClassification using a ModelForSequenceClassification trained on NLI (natural language inference) tasks.</td>
         <td>Opensource</td>
       </tr>
       <tr>
@@ -1023,6 +1023,11 @@ in the DataFrames.</li>
       <tr>
         <td><a href="./transformers#robertafortokenclassification">RoBertaForTokenClassification</a></td>
         <td>RoBertaForTokenClassification can load RoBERTa Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#robertaforzeroshotclassification">RoBertaForZeroShotClassification</a></td>
+        <td>RoBertaForZeroShotClassification using a ModelForSequenceClassification trained on NLI (natural language inference) tasks.</td>
         <td>Opensource</td>
       </tr>
       <tr>
@@ -3006,7 +3011,7 @@ and <a href="https://arxiv.org/pdf/1310.4546v1.pdf">Distributed Representations 
   <h2 id="documentassembler">DocumentAssembler</h2>
 
   <p>Prepares data into a format that is processable by Spark NLP. This is the entry point for every Spark NLP pipeline.
-The <code class="language-plaintext highlighter-rouge">DocumentAssembler</code> can read either a <code class="language-plaintext highlighter-rouge">String</code> column or an <code class="language-plaintext highlighter-rouge">Array[String]</code>. Additionally, setCleanupMode
+The <code class="language-plaintext highlighter-rouge">DocumentAssembler</code> reads <code class="language-plaintext highlighter-rouge">String</code> columns. Additionally, setCleanupMode
 can be used to pre-process the text (Default: <code class="language-plaintext highlighter-rouge">disabled</code>). For possible options please refer the parameters section.</p>
 
   <p>For more extended examples on document pre-processing see the

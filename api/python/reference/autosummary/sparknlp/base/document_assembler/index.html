@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.base.document_assembler &#8212; Spark NLP 4.4.2 documentation</title>
+    <title>sparknlp.base.document_assembler &#8212; Spark NLP 4.4.3 documentation</title>
   
   
   
@@ -382,10 +382,10 @@ document.write(`
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DocumentAssembler</span></span><a class="reference internal" href="../../../../../modules/sparknlp/base/document_assembler.html#DocumentAssembler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.document_assembler.DocumentAssembler" title="Permalink to this definition">#</a></dt>
 <dd><p>Prepares data into a format that is processable by Spark NLP.</p>
 <p>This is the entry point for every Spark NLP pipeline. The
-<cite>DocumentAssembler</cite> can read either a <code class="docutils literal notranslate"><span class="pre">String</span></code> column or an
-<code class="docutils literal notranslate"><span class="pre">Array[String]</span></code>. Additionally, <a class="reference internal" href="#sparknlp.base.document_assembler.DocumentAssembler.setCleanupMode" title="sparknlp.base.document_assembler.DocumentAssembler.setCleanupMode"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setCleanupMode()</span></code></a> can be used to
-pre-process the text (Default: <code class="docutils literal notranslate"><span class="pre">disabled</span></code>). For possible options please
-refer the parameters section.</p>
+<cite>DocumentAssembler</cite> reads <code class="docutils literal notranslate"><span class="pre">String</span></code> columns. Additionally,
+<a class="reference internal" href="#sparknlp.base.document_assembler.DocumentAssembler.setCleanupMode" title="sparknlp.base.document_assembler.DocumentAssembler.setCleanupMode"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setCleanupMode()</span></code></a> can be used to pre-process the
+text (Default: <code class="docutils literal notranslate"><span class="pre">disabled</span></code>). For possible options please refer the
+parameters section.</p>
 <p>For more extended examples on document pre-processing see the
 <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/document-assembler/Loading_Documents_With_DocumentAssembler.ipynb">Examples</a>.</p>
 <table class="table">
