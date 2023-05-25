@@ -1,12 +1,12 @@
 {%- capture title -%}
-BertForZeroShotClassification
+RoBertaForZeroShotClassification
 {%- endcapture -%}
 
 {%- capture description -%}
-BertForZeroShotClassification using a `ModelForSequenceClassification` trained on NLI (natural
-language inference) tasks. Equivalent of `BertForSequenceClassification` models, but these
-models don't require a hardcoded number of potential classes, they can be chosen at runtime.
-It usually means it's slower but it is much more flexible.
+RoBertaForZeroShotClassification using a `ModelForSequenceClassification` trained on NLI
+(natural language inference) tasks. Equivalent of `RoBertaForZeroShotClassification ` models,
+but these models don't require a hardcoded number of potential classes, they can be chosen at
+runtime. It usually means it's slower but it is much more flexible.
 
 Note that the model will loop through all provided labels. So the more labels you have, the
 longer this process will take.
@@ -17,20 +17,19 @@ premise/hypothesis pair and passed to the pretrained model.
 Pretrained models can be loaded with `pretrained` of the companion object:
 
 ```scala
-val sequenceClassifier = BertForZeroShotClassification.pretrained()
+val sequenceClassifier = RoBertaForZeroShotClassification .pretrained()
   .setInputCols("token", "document")
   .setOutputCol("label")
 ```
 
-The default model is `"bert_base_cased_zero_shot_classifier_xnli"`, if no name is provided.
+The default model is `"roberta_base_zero_shot_classifier_nli"`, if no name is provided.
 
 For available pretrained models please see the
-[Models Hub](https://nlp.johnsnowlabs.com/models?task=Text+Classification).
+[Models Hub](https://sparknlp.org/models?task=Text+Classification).
 
 To see which models are compatible and how to import them see
-https://github.com/JohnSnowLabs/spark-nlp/discussions/5669 and to see more extended
-examples, see
-[BertForZeroShotClassification](https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/BertForZeroShotClassification.scala).
+https://github.com/JohnSnowLabs/spark-nlp/discussions/5669.
+
 {%- endcapture -%}
 
 {%- capture input_anno -%}
@@ -50,10 +49,12 @@ from pyspark.ml import Pipeline
 documentAssembler = DocumentAssembler() \
     .setInputCol("text") \
     .setOutputCol("document")
+
 tokenizer = Tokenizer() \
     .setInputCols(["document"]) \
     .setOutputCol("token")
-sequenceClassifier = BertForZeroShotClassification.pretrained() \
+
+sequenceClassifier = RoBertaForZeroShotClassification.pretrained() \
     .setInputCols(["token", "document"]) \
     .setOutputCol("label") \
     .setCaseSensitive(True)
@@ -64,7 +65,7 @@ pipeline = Pipeline().setStages([
     sequenceClassifier
 ])
 
-data = spark.createDataFrame([["I loved this movie when I was a child.", "It was pretty boring."]]).toDF("text")
+data = spark.createDataFrame([["I loved this movie when I was a child."], ["It was pretty boring."]]).toDF("text")
 result = pipeline.fit(data).transform(data)
 result.select("label.result").show(truncate=False)
 +------+
@@ -89,7 +90,7 @@ val tokenizer = new Tokenizer()
   .setInputCols("document")
   .setOutputCol("token")
 
-val sequenceClassifier = BertForZeroShotClassification.pretrained()
+val sequenceClassifier = RoBertaForZeroShotClassification .pretrained()
   .setInputCols("token", "document")
   .setOutputCol("label")
   .setCaseSensitive(true)
@@ -114,15 +115,15 @@ result.select("label.result").show(false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[BertForZeroShotClassification](/api/com/johnsnowlabs/nlp/annotators/classifier/dl/BertForZeroShotClassification)
+[RoBertaForZeroShotClassification](/api/com/johnsnowlabs/nlp/annotators/classifier/dl/RoBertaForZeroShotClassification)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[BertForZeroShotClassification](/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/bert_for_zero_shot_classification/index.html#sparknlp.annotator.classifier_dl.bert_for_zero_shot_classification.BertForZeroShotClassification)
+[RoBertaForZeroShotClassification](/api/python/reference/autosummary/sparknlp/annotator/classifier_dl/roberta_bert_for_zero_shot_classification/index.html#sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification.RoBertaForZeroShotClassification)
 {%- endcapture -%}
 
 {%- capture source_link -%}
-[BertForZeroShotClassification](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/BertForZeroShotClassification.scala)
+[RoBertaForZeroShotClassification](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/RoBertaForZeroShotClassification.scala)
 {%- endcapture -%}
 
 {% include templates/anno_template.md

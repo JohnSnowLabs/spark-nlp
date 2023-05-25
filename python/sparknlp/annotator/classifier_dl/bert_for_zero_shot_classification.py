@@ -28,6 +28,9 @@ class BertForZeroShotClassification(AnnotatorModel,
     number of potential classes, they can be chosen at runtime. It usually means it's slower but it is much more
     flexible.
 
+    Note that the model will loop through all provided labels. So the more labels you have, the
+    longer this process will take.
+
     Any combination of sequences and labels can be passed and each combination will be posed as a premise/hypothesis
     pair and passed to the pretrained model.
 
