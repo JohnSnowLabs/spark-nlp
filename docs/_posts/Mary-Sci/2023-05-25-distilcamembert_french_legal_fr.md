@@ -7,13 +7,13 @@ date: 2023-05-25
 tags: [open_source, camembert_embeddings, camembertformaskedlm, fr, tensorflow]
 task: Embeddings
 language: fr
-edition: Spark NLP 4.3.0
+edition: Spark NLP 4.4.2
 spark_version: 3.0
 supported: true
 engine: tensorflow
 annotator: CamemBertEmbeddings
 article_header:
-  type: cover
+type: cover
 use_language_switcher: "Python-Scala-Java"
 ---
 
@@ -33,6 +33,7 @@ Pretrained CamemBertEmbeddings model, adapted from Hugging Face and curated to p
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
+
 ```python
 documentAssembler = DocumentAssembler() \
     .setInputCols(["text"]) \
