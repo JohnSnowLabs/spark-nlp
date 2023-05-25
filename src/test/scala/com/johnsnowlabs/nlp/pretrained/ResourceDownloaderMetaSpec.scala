@@ -17,6 +17,7 @@
 package com.johnsnowlabs.nlp.pretrained
 
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.util.TestUtils.captureOutput
 import com.johnsnowlabs.util.Version
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.BeforeAndAfter
@@ -40,14 +41,6 @@ class ResourceDownloaderMetaSpec extends AnyFlatSpec with BeforeAndAfter {
     ResourceDownloader.privateDownloader = realPrivateDownloader
     ResourceDownloader.publicDownloader = realPublicDownloader
     ResourceDownloader.communityDownloader = realCommunityDownloader
-  }
-
-  def captureOutput(thunk: => Unit): String = {
-    val stream = new java.io.ByteArrayOutputStream()
-    Console.withOut(stream) {
-      thunk
-    }
-    stream.toString
   }
 
   def extractTableContent(string: String): Array[String] = {
