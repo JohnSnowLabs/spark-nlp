@@ -16,18 +16,18 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
-import com.johnsnowlabs.nlp.AnnotatorType
+import com.johnsnowlabs.nlp.{AnnotatorType, HasProtectedParams}
 import org.apache.spark.ml.param.{IntParam, Params}
 import org.apache.spark.sql.Column
 import org.apache.spark.sql.types.MetadataBuilder
 
-trait HasEmbeddingsProperties extends Params {
+trait HasEmbeddingsProperties extends Params with HasProtectedParams {
 
   /** Number of embedding dimensions (Default depends on model)
     *
     * @group param
     */
-  val dimension = new IntParam(this, "dimension", "Number of embedding dimensions")
+  val dimension = new IntParam(this, "dimension", "Number of embedding dimensions").setProtected()
 
   /** @group setParam */
   def setDimension(value: Int): this.type = set(this.dimension, value)

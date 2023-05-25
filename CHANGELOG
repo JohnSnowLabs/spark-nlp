@@ -1,4 +1,23 @@
 ========
+4.4.3
+========
+----------------
+New Features & Enhancements
+----------------
+* New `multilabel` parameter to swtich from multi-class to multi-label on all Classifiers in Spark NLP: AlbertForSequenceClassification, BertForSequenceClassification, DeBertaForSequenceClassification, DistilBertForSequenceClassification, LongformerForSequenceClassification, RoBertaForSequenceClassification, XlmRoBertaForSequenceClassification, XlnetForSequenceClassification, BertForZeroShotClassification, DistilBertForZeroShotClassification, and RobertaForZeroShotClassification
+* Refactor protected Params and Features to avoid unwanted exceptions during runtime https://github.com/JohnSnowLabs/spark-nlp/pull/13797
+* Add proper documentation and instructions for ZeroShot classifiers: BertForZeroShotClassification, DistilBertForZeroShotClassification, and RobertaForZeroShotClassification https://github.com/JohnSnowLabs/spark-nlp/pull/13798
+* Extend support for downloading models/pipelines directly by given name or S3 path in ResourceDownloader https://github.com/JohnSnowLabs/spark-nlp/pull/13796
+
+----------------
+Bug Fixes
+----------------
+* Fix pretrained pipelines that stopped working since 4.4.2 release on PySpark 3.0 and 3.1 versions (adding 123 new pipelines were added) https://github.com/JohnSnowLabs/spark-nlp/pull/13805
+* Fix pretrained pipelines that stopped working since 4.4.2 release on PySpark 3.2 and 3.3 versions (adding 120 new pipelines) https://github.com/JohnSnowLabs/spark-nlp/pull/13811
+* Fix Java compatibility issue caused by SystemUtils dependecy https://github.com/JohnSnowLabs/spark-nlp/pull/13806
+
+
+========
 4.4.2
 ========
 ----------------

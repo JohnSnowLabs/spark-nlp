@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.classifier_dl.distil_bert_for_zero_shot_classification &#8212; Spark NLP 4.4.2 documentation</title>
+    <title>sparknlp.annotator.classifier_dl.distil_bert_for_zero_shot_classification &#8212; Spark NLP 4.4.3 documentation</title>
   
   
   
@@ -370,6 +370,9 @@ document.write(`
 <span class="sd">    inference) tasks. Equivalent of `DistilBertForSequenceClassification` models, but these models don&#39;t require a hardcoded</span>
 <span class="sd">    number of potential classes, they can be chosen at runtime. It usually means it&#39;s slower but it is much more</span>
 <span class="sd">    flexible.</span>
+
+<span class="sd">    Note that the model will loop through all provided labels. So the more labels you have, the</span>
+<span class="sd">    longer this process will take.</span>
 
 <span class="sd">    Any combination of sequences and labels can be passed and each combination will be posed as a premise/hypothesis</span>
 <span class="sd">    pair and passed to the pretrained model.</span>

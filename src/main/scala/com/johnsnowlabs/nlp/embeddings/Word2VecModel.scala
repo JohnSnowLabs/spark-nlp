@@ -148,16 +148,14 @@ class Word2VecModel(override val uid: String)
     this,
     "vectorSize",
     "the dimension of codes after transforming from words (> 0)",
-    ParamValidators.gt(0))
+    ParamValidators.gt(0)).setProtected()
 
   /** @group getParam */
   def getVectorSize: Int = $(vectorSize)
 
   /** @group setParam */
   def setVectorSize(value: Int): this.type = {
-    if (get(vectorSize).isEmpty)
-      set(vectorSize, value)
-    this
+    set(vectorSize, value)
   }
 
   /** Dictionary of words with their vectors
