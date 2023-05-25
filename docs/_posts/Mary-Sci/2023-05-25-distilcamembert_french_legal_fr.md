@@ -1,6 +1,6 @@
 ---
 layout: model
-title: French CamemBert Embeddings model (from maastrichtlawtech)
+title: French Legal CamemBert Embeddings model (from maastrichtlawtech)
 author: John Snow Labs
 name: distilcamembert_french_legal
 date: 2023-05-25
