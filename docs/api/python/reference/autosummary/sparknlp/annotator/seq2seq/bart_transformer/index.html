@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.annotator.seq2seq.bart_transformer &#8212; Spark NLP 4.4.1 documentation</title>
+    <title>sparknlp.annotator.seq2seq.bart_transformer &#8212; Spark NLP 4.4.3 documentation</title>
   
   
   
@@ -312,6 +312,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/longformer_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.longformer_for_sequence_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/longformer_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.longformer_for_token_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/multi_classifier_dl/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.multi_classifier_dl</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/roberta_bert_for_zero_shot_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/roberta_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.roberta_for_sequence_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/roberta_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.roberta_for_token_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/sentiment_dl/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.sentiment_dl</span></code></a></li>
@@ -518,7 +519,7 @@ tasks and its high performance on each of these tasks make it a versatile and va
 for natural language processing applications.</p>
 <p>Pretrained models can be loaded with <a class="reference internal" href="#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.pretrained" title="sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
 object:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">t5</span> <span class="o">=</span> <span class="n">BartTransformer</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bart</span> <span class="o">=</span> <span class="n">BartTransformer</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setTask</span><span class="p">(</span><span class="s2">&quot;summarize:&quot;</span><span class="p">)</span> \
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;summaries&quot;</span><span class="p">)</span>
@@ -571,12 +572,15 @@ that add up to <code class="docutils literal notranslate"><span class="pre">topP
 </dd>
 <dt><strong>ignoreTokenIds</strong></dt><dd><p>A list of token ids which are ignored in the decoder’s output, by default <cite>[]</cite>.</p>
 </dd>
+<dt><strong>useCache</strong></dt><dd><p>Whether or not to use cache, by default <cite>False</cite>.</p>
+</dd>
+<dt><strong>Notes</strong></dt><dd></dd>
+<dt><strong>—–</strong></dt><dd></dd>
+<dt><strong>This is a very computationally expensive module especially on larger</strong></dt><dd></dd>
+<dt><strong>sequence. The use of an accelerator such as GPU is recommended.</strong></dt><dd></dd>
 </dl>
 </dd>
 </dl>
-<p class="rubric">Notes</p>
-<p>This is a very computationally expensive module especially on larger
-sequence. The use of an accelerator such as GPU is recommended.</p>
 <p class="rubric">References</p>
 <ul class="simple">
 <li><p><a href="#id1"><span class="problematic" id="id2">`</span></a>Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension</p></li>
@@ -814,8 +818,22 @@ Generation</a> for more details.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.setCache">
+<span class="sig-name descname"><span class="pre">setCache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/bart_transformer.html#BartTransformer.setCache"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.setCache" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether or not to use caching to enhance performance, by default <cite>False</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether or not to use caching to enhance performance</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.loadSavedModel">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">loadSavedModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark_session</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/bart_transformer.html#BartTransformer.loadSavedModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.loadSavedModel" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">loadSavedModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark_session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/bart_transformer.html#BartTransformer.loadSavedModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.loadSavedModel" title="Permalink to this definition">#</a></dt>
 <dd><p>Loads a locally saved model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -823,6 +841,8 @@ Generation</a> for more details.</p>
 <dt><strong>folder</strong><span class="classifier">str</span></dt><dd><p>Folder of the saved model</p>
 </dd>
 <dt><strong>spark_session</strong><span class="classifier">pyspark.sql.SparkSession</span></dt><dd><p>The current SparkSession</p>
+</dd>
+<dt><strong>use_cache: bool</strong></dt><dd><p>The model uses caching to facilitate performance</p>
 </dd>
 </dl>
 </dd>
@@ -910,6 +930,7 @@ Spark NLPs repositories otherwise.</p>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.setRepetitionPenalty"><code class="docutils literal notranslate"><span class="pre">BartTransformer.setRepetitionPenalty()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.setNoRepeatNgramSize"><code class="docutils literal notranslate"><span class="pre">BartTransformer.setNoRepeatNgramSize()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.setBeamSize"><code class="docutils literal notranslate"><span class="pre">BartTransformer.setBeamSize()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.setCache"><code class="docutils literal notranslate"><span class="pre">BartTransformer.setCache()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.loadSavedModel"><code class="docutils literal notranslate"><span class="pre">BartTransformer.loadSavedModel()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.pretrained"><code class="docutils literal notranslate"><span class="pre">BartTransformer.pretrained()</span></code></a></li>
 </ul>

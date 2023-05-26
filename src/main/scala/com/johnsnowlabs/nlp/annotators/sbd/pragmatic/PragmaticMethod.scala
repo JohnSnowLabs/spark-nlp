@@ -17,7 +17,7 @@
 package com.johnsnowlabs.nlp.annotators.sbd.pragmatic
 
 import com.johnsnowlabs.nlp.annotators.common.Sentence
-import com.johnsnowlabs.nlp.util.regex.MatchStrategy.MATCH_ALL
+import com.johnsnowlabs.nlp.util.io.MatchStrategy.MATCH_ALL
 import com.johnsnowlabs.nlp.util.regex.RuleFactory
 import com.johnsnowlabs.nlp.util.regex.TransformStrategy.{
   REPLACE_ALL_WITH_SYMBOL,

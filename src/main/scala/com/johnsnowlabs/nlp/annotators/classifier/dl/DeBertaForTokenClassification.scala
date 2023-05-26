@@ -150,7 +150,7 @@ class DeBertaForTokenClassification(override val uid: String)
     *
     * @group param
     */
-  val labels: MapFeature[String, Int] = new MapFeature(this, "labels")
+  val labels: MapFeature[String, Int] = new MapFeature(this, "labels").setProtected()
 
   /** @group setParam */
   def setLabels(value: Map[String, Int]): this.type = set(labels, value)
@@ -201,12 +201,12 @@ class DeBertaForTokenClassification(override val uid: String)
     *
     * @group param
     */
-  val signatures = new MapFeature[String, String](model = this, name = "signatures")
+  val signatures =
+    new MapFeature[String, String](model = this, name = "signatures").setProtected()
 
   /** @group setParam */
   def setSignatures(value: Map[String, String]): this.type = {
-    if (get(signatures).isEmpty)
-      set(signatures, value)
+    set(signatures, value)
     this
   }
 
@@ -242,9 +242,7 @@ class DeBertaForTokenClassification(override val uid: String)
     * @group setParam
     */
   override def setCaseSensitive(value: Boolean): this.type = {
-    if (get(caseSensitive).isEmpty)
-      set(this.caseSensitive, value)
-    this
+    set(this.caseSensitive, value)
   }
 
   setDefault(batchSize -> 8, maxSentenceLength -> 128, caseSensitive -> true)

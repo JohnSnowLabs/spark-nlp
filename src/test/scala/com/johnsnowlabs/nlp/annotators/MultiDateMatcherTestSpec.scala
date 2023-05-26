@@ -17,6 +17,7 @@
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.AnnotatorType.DATE
+import com.johnsnowlabs.nlp.util.io.MatchStrategy
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType, DataBuilder}
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.sql.{Dataset, Row}
@@ -307,4 +308,31 @@ class MultiDateMatcherTestSpec extends AnyFlatSpec with DateMatcherBehaviors {
 
     assert(results == expectedDates)
   }
+
+  "a MultiDateMatcher" should "correctly find all possible dates in a text" taggedAs FastTest in {
+
+    val data: Dataset[Row] = DataBuilder.multipleDataBuild(Array("""
+          Lease Period	Monthly Installment of Base Rent
+          January 1, 2021 –December 31, 2021	$20,304.85*
+          January 1, 2022 –December 31, 2022	$20,914.00
+      """))
+
+    val dateMatcher = new MultiDateMatcher()
+      .setInputCols(Array("document"))
+      .setOutputCol("date")
+      .setOutputFormat("yyyy/MM/dd")
+      .setRelaxedFactoryStrategy(MatchStrategy.MATCH_ALL)
+      .transform(data)
+
+    val results = Annotation.collect(dateMatcher, "date").flatten.toSeq.sortBy(_.end)
+
+    val expectedDates = Seq(
+      Annotation(DATE, 67, 81, "2021/01/01", Map("sentence" -> "0")),
+      Annotation(DATE, 84, 100, "2021/12/31", Map("sentence" -> "0")),
+      Annotation(DATE, 103, 138, "2022/01/20", Map("sentence" -> "0")),
+      Annotation(DATE, 132, 157, "2022/12/01", Map("sentence" -> "0")))
+
+    assert(results == expectedDates)
+  }
+
 }

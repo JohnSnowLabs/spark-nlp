@@ -17,7 +17,7 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.nlp.AnnotatorType.{SENTENCE_EMBEDDINGS, TOKEN}
-import com.johnsnowlabs.nlp.{AnnotatorApproach, HasEnableCachingProperties}
+import com.johnsnowlabs.nlp.{AnnotatorApproach, HasEnableCachingProperties, HasProtectedParams}
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{DoubleParam, IntParam}
@@ -98,7 +98,8 @@ import org.apache.spark.sql.{Dataset, SparkSession}
 class Doc2VecApproach(override val uid: String)
     extends AnnotatorApproach[Doc2VecModel]
     with HasStorageRef
-    with HasEnableCachingProperties {
+    with HasEnableCachingProperties
+    with HasProtectedParams {
 
   def this() = this(Identifiable.randomUID("Doc2VecApproach"))
 
@@ -123,12 +124,12 @@ class Doc2VecApproach(override val uid: String)
     */
   val vectorSize =
     new IntParam(this, "vectorSize", "the dimension of codes after transforming from words (> 0)")
+      .setProtected()
 
   /** @group setParam */
   def setVectorSize(value: Int): this.type = {
     require(value > 0, s"vector size must be positive but got $value")
     set(vectorSize, value)
-    this
   }
 
   /** @group getParam */

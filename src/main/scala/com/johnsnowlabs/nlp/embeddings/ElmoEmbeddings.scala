@@ -223,9 +223,7 @@ class ElmoEmbeddings(override val uid: String)
     * @group setParam
     */
   def setBatchSize(size: Int): this.type = {
-    if (get(batchSize).isEmpty)
-      set(batchSize, size)
-    this
+    set(batchSize, size)
   }
 
   /** Set Dimension of pooling layer. This is meta for the annotation and will not affect the
@@ -234,9 +232,7 @@ class ElmoEmbeddings(override val uid: String)
     * @group setParam
     */
   override def setDimension(value: Int): this.type = {
-    if (get(dimension).isEmpty)
-      set(this.dimension, value)
-    this
+    set(this.dimension, value)
 
   }
 

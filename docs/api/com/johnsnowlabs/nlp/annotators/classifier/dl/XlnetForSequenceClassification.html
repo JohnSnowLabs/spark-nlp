@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.4.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForSequenceClassification</title>
-          <meta name="description" content="Spark NLP 4.4.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForSequenceClassification" />
-          <meta name="keywords" content="Spark NLP 4.4.1 ScalaDoc com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForSequenceClassification" />
+          <title>Spark NLP 4.4.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForSequenceClassification</title>
+          <meta name="description" content="Spark NLP 4.4.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForSequenceClassification" />
+          <meta name="keywords" content="Spark NLP 4.4.3 ScalaDoc com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForSequenceClassification" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.4.1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.4.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -371,6 +371,10 @@
                         <a href="ReadRoBertaForTokenDLModel.html" title="">ReadRoBertaForTokenDLModel</a>
                       </li><li class="current-entities indented6">
                         <span class="separator"></span>
+                        <a class="trait" href="ReadRoBertaForZeroShotDLModel.html" title=""></a>
+                        <a href="ReadRoBertaForZeroShotDLModel.html" title="">ReadRoBertaForZeroShotDLModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
                         <a class="trait" href="ReadSentimentDLTensorflowModel.html" title=""></a>
                         <a href="ReadSentimentDLTensorflowModel.html" title="">ReadSentimentDLTensorflowModel</a>
                       </li><li class="current-entities indented6">
@@ -499,6 +503,10 @@
                         <a href="ReadablePretrainedRoBertaForTokenModel.html" title="">ReadablePretrainedRoBertaForTokenModel</a>
                       </li><li class="current-entities indented6">
                         <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedRoBertaForZeroShotModel.html" title=""></a>
+                        <a href="ReadablePretrainedRoBertaForZeroShotModel.html" title="">ReadablePretrainedRoBertaForZeroShotModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedSentimentDL.html" title=""></a>
                         <a href="ReadablePretrainedSentimentDL.html" title="">ReadablePretrainedSentimentDL</a>
                       </li><li class="current-entities indented6">
@@ -537,6 +545,10 @@
                         <a class="object" href="RoBertaForTokenClassification$.html" title="This is the companion object of RoBertaForTokenClassification."></a>
                         <a class="class" href="RoBertaForTokenClassification.html" title="RoBertaForTokenClassification can load RoBERTa Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g."></a>
                         <a href="RoBertaForTokenClassification.html" title="RoBertaForTokenClassification can load RoBERTa Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g.">RoBertaForTokenClassification</a>
+                      </li><li class="current-entities indented6">
+                        <a class="object" href="RoBertaForZeroShotClassification$.html" title="This is the companion object of RoBertaForZeroShotClassification."></a>
+                        <a class="class" href="RoBertaForZeroShotClassification.html" title="RoBertaForZeroShotClassification using a ModelForSequenceClassification trained on NLI (natural language inference) tasks."></a>
+                        <a href="RoBertaForZeroShotClassification.html" title="RoBertaForZeroShotClassification using a ModelForSequenceClassification trained on NLI (natural language inference) tasks.">RoBertaForZeroShotClassification</a>
                       </li><li class="current-entities indented6">
                         <span class="separator"></span>
                         <a class="object" href="SentimentApproach$.html" title="This is the companion object of SentimentApproach."></a>
@@ -2205,6 +2217,26 @@ as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasClassifierActivationProperties#multilabel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
+      <a id="multilabel:org.apache.spark.ml.param.Param[Boolean]"></a><a id="multilabel:Param[Boolean]"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/XlnetForSequenceClassification.html#multilabel:org.apache.spark.ml.param.Param[Boolean]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">multilabel</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Boolean">Boolean</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Whether or not the result should be multi-class (the sum of all probabilities is 1.0) or
+multi-label (each label has a probability between 0.0 to 1.0).</p><div class="fullcomment"><div class="comment cmt"><p>Whether or not the result should be multi-class (the sum of all probabilities is 1.0) or
+multi-label (each label has a probability between 0.0 to 1.0). Default is False i.e.
+multi-class
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../HasClassifierActivationProperties.html" class="extype" name="com.johnsnowlabs.nlp.HasClassifierActivationProperties">HasClassifierActivationProperties</a></dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
       <span class="permalink">
@@ -2674,7 +2706,7 @@ as input and output columns if not specified
         <span class="name">setDefault</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="param">param: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="org.apache.spark.ml.param.Params.setDefault.T">T</span>]</span>, <span name="value">value: <span class="extype" name="org.apache.spark.ml.param.Params.setDefault.T">T</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForSequenceClassification">XlnetForSequenceClassification</a>.this.type</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="org.apache.spark.ml">org.apache.spark.ml</span>] </dd><dt>Definition Classes</dt><dd>Params</dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#setInputCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setInputCols(value:String*):HasInputAnnotationCols.this.type"></a><a id="setInputCols(String*):XlnetForSequenceClassification.this.type"></a>
       <span class="permalink">
@@ -2771,6 +2803,26 @@ as input and output columns if not specified
       </span>
       
       <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.HasClassifierActivationProperties#setMultilabel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
+      <a id="setMultilabel(value:Boolean):HasClassifierActivationProperties.this.type"></a><a id="setMultilabel(Boolean):XlnetForSequenceClassification.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/XlnetForSequenceClassification.html#setMultilabel(value:Boolean):HasClassifierActivationProperties.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setMultilabel</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.XlnetForSequenceClassification">XlnetForSequenceClassification</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt">Set whether or not the result should be multi-class (the sum of all probabilities is 1.0) or
+multi-label (each label has a probability between 0.0 to 1.0).</p><div class="fullcomment"><div class="comment cmt"><p>Set whether or not the result should be multi-class (the sum of all probabilities is 1.0) or
+multi-label (each label has a probability between 0.0 to 1.0). Default is False i.e.
+multi-class
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../HasClassifierActivationProperties.html" class="extype" name="com.johnsnowlabs.nlp.HasClassifierActivationProperties">HasClassifierActivationProperties</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#setOutputCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setOutputCol(value:String):HasOutputAnnotationCol.this.type"></a><a id="setOutputCol(String):XlnetForSequenceClassification.this.type"></a>
       <span class="permalink">

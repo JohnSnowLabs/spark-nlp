@@ -20,7 +20,7 @@ import org.apache.spark.ml.PipelineModel
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
 
-import org.apache.commons.lang.StringEscapeUtils.escapeJava
+import org.apache.commons.text.StringEscapeUtils.escapeJava
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Try
 
@@ -89,6 +89,7 @@ object CoNLLGenerator {
     CoNLLDataset
       .coalesce(1)
       .write
+      .mode("overwrite")
       .format("com.databricks.spark.csv")
       .options(scala.collection.Map("delimiter" -> " ", "emptyValue" -> ""))
       .save(outputPath)
