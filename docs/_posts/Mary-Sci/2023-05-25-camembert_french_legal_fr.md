@@ -1,6 +1,6 @@
 ---
 layout: model
-title: French Legal CamemBert Embeddings model (from maastrichtlawtech)
+title: French Legal CamemBert Embeddings Model
 author: John Snow Labs
 name: camembert_french_legal
 date: 2023-05-25
