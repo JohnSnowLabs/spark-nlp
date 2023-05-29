@@ -1,48 +1,56 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-05-27T19:55:17+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
-</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">ALBERT Base CoNNL-03 NER Pipeline</title><link href="/2023/05/27/albert_base_token_classifier_conll03_pipeline_en.html" rel="alternate" type="text/html" title="ALBERT Base CoNNL-03 NER Pipeline" /><published>2023-05-27T00:00:00+00:00</published><updated>2023-05-27T00:00:00+00:00</updated><id>/2023/05/27/albert_base_token_classifier_conll03_pipeline_en</id><content type="html" xml:base="/2023/05/27/albert_base_token_classifier_conll03_pipeline_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-05-29T12:05:47+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">ALBERT Base CoNNL-03 NER Pipeline</title><link href="/2023/05/27/albert_base_token_classifier_conll03_pipeline_en.html" rel="alternate" type="text/html" title="ALBERT Base CoNNL-03 NER Pipeline" /><published>2023-05-27T00:00:00+00:00</published><updated>2023-05-27T00:00:00+00:00</updated><id>/2023/05/27/albert_base_token_classifier_conll03_pipeline_en</id><content type="html" xml:base="/2023/05/27/albert_base_token_classifier_conll03_pipeline_en.html">## Description
 
-&lt;p&gt;This pretrained pipeline is built on the top of &lt;a href=&quot;https://nlp.johnsnowlabs.com/2021/09/26/albert_base_token_classifier_conll03_en.html&quot;&gt;albert_base_token_classifier_conll03&lt;/a&gt; model.&lt;/p&gt;
+This pretrained pipeline is built on the top of [albert_base_token_classifier_conll03](https://nlp.johnsnowlabs.com/2021/09/26/albert_base_token_classifier_conll03_en.html) model.
 
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+## Predicted Entities
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/albert_base_token_classifier_conll03_pipeline_en_4.4.2_3.2_1685210192233.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/albert_base_token_classifier_conll03_pipeline_en_4.4.2_3.2_1685210192233.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/albert_base_token_classifier_conll03_pipeline_en_4.4.2_3.2_1685210192233.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/albert_base_token_classifier_conll03_pipeline_en_4.4.2_3.2_1685210192233.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_base_token_classifier_conll03_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+## How to use
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;My name is John and I work at John Snow Labs.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_base_token_classifier_conll03_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;My name is John and I work at John Snow Labs.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+pipeline = PretrainedPipeline(&quot;albert_base_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;)
+
+pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;)
+```
+```scala
+
+
+val pipeline = new PretrainedPipeline(&quot;albert_base_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;)
+
+pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;))
+```
 &lt;/div&gt;
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_base_token_classifier_conll03_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+pipeline = PretrainedPipeline(&quot;albert_base_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;)
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;My name is John and I work at John Snow Labs.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_base_token_classifier_conll03_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;)
+```
+```scala
+val pipeline = new PretrainedPipeline(&quot;albert_base_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;)
 
-&lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;My name is John and I work at John Snow Labs.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;))
+```
 &lt;/div&gt;
 
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+## Results
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Results
+```bash
+Results
 
 
 
@@ -55,97 +63,81 @@
 +--------------+---------+
 
 
-&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;:.model-param&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+{:.model-param}
+```
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;albert_base_token_classifier_conll03_pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Type:&lt;/td&gt;
-      &lt;td&gt;pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.4.2+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;43.1 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|albert_base_token_classifier_conll03_pipeline|
+|Type:|pipeline|
+|Compatibility:|Spark NLP 4.4.2+|
+|License:|Open Source|
+|Edition:|Official|
+|Language:|en|
+|Size:|43.1 MB|
 
-&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
+## Included Models
 
-&lt;ul&gt;
-  &lt;li&gt;DocumentAssembler&lt;/li&gt;
-  &lt;li&gt;SentenceDetectorDLModel&lt;/li&gt;
-  &lt;li&gt;TokenizerModel&lt;/li&gt;
-  &lt;li&gt;AlbertForTokenClassification&lt;/li&gt;
-  &lt;li&gt;NerConverter&lt;/li&gt;
-  &lt;li&gt;Finisher&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="ner" /><category term="token_classifier" /><category term="albert" /><category term="conll03" /><category term="en" /><summary type="html">Description This pretrained pipeline is built on the top of albert_base_token_classifier_conll03 model. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU pipeline = PretrainedPipeline(&quot;albert_base_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;) val pipeline = new PretrainedPipeline(&quot;albert_base_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;)) PythonScalaNLU pipeline = PretrainedPipeline(&quot;albert_base_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;) val pipeline = new PretrainedPipeline(&quot;albert_base_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;)) Results Results +--------------+---------+ |chunk |ner_label| +--------------+---------+ |John |PER | |John Snow Labs|ORG | +--------------+---------+ {:.model-param} Model Information Model Name: albert_base_token_classifier_conll03_pipeline Type: pipeline Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: en Size: 43.1 MB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel AlbertForTokenClassification NerConverter Finisher</summary></entry><entry><title type="html">ALBERT Large CoNNL-03 NER Pipeline</title><link href="/2023/05/27/albert_large_token_classifier_conll03_pipeline_en.html" rel="alternate" type="text/html" title="ALBERT Large CoNNL-03 NER Pipeline" /><published>2023-05-27T00:00:00+00:00</published><updated>2023-05-27T00:00:00+00:00</updated><id>/2023/05/27/albert_large_token_classifier_conll03_pipeline_en</id><content type="html" xml:base="/2023/05/27/albert_large_token_classifier_conll03_pipeline_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+- DocumentAssembler
+- SentenceDetectorDLModel
+- TokenizerModel
+- AlbertForTokenClassification
+- NerConverter
+- Finisher</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="ner" /><category term="token_classifier" /><category term="albert" /><category term="conll03" /><category term="en" /><summary type="html">Description This pretrained pipeline is built on the top of albert_base_token_classifier_conll03 model. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU pipeline = PretrainedPipeline(&quot;albert_base_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;) val pipeline = new PretrainedPipeline(&quot;albert_base_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;)) PythonScalaNLU pipeline = PretrainedPipeline(&quot;albert_base_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;) val pipeline = new PretrainedPipeline(&quot;albert_base_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;)) Results Results +--------------+---------+ |chunk |ner_label| +--------------+---------+ |John |PER | |John Snow Labs|ORG | +--------------+---------+ {:.model-param} Model Information Model Name: albert_base_token_classifier_conll03_pipeline Type: pipeline Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: en Size: 43.1 MB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel AlbertForTokenClassification NerConverter Finisher</summary></entry><entry><title type="html">ALBERT Large CoNNL-03 NER Pipeline</title><link href="/2023/05/27/albert_large_token_classifier_conll03_pipeline_en.html" rel="alternate" type="text/html" title="ALBERT Large CoNNL-03 NER Pipeline" /><published>2023-05-27T00:00:00+00:00</published><updated>2023-05-27T00:00:00+00:00</updated><id>/2023/05/27/albert_large_token_classifier_conll03_pipeline_en</id><content type="html" xml:base="/2023/05/27/albert_large_token_classifier_conll03_pipeline_en.html">## Description
 
-&lt;p&gt;This pretrained pipeline is built on the top of &lt;a href=&quot;https://nlp.johnsnowlabs.com/2021/09/26/albert_large_token_classifier_conll03_en.html&quot;&gt;albert_large_token_classifier_conll03&lt;/a&gt; model.&lt;/p&gt;
+This pretrained pipeline is built on the top of [albert_large_token_classifier_conll03](https://nlp.johnsnowlabs.com/2021/09/26/albert_large_token_classifier_conll03_en.html) model.
 
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+## Predicted Entities
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/albert_large_token_classifier_conll03_pipeline_en_4.4.2_3.2_1685210265440.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/albert_large_token_classifier_conll03_pipeline_en_4.4.2_3.2_1685210265440.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/albert_large_token_classifier_conll03_pipeline_en_4.4.2_3.2_1685210265440.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/albert_large_token_classifier_conll03_pipeline_en_4.4.2_3.2_1685210265440.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_large_token_classifier_conll03_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+## How to use
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;My name is John and I work at John Snow Labs.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_large_token_classifier_conll03_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;My name is John and I work at John Snow Labs.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+pipeline = PretrainedPipeline(&quot;albert_large_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;)
+
+pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;)
+```
+```scala
+
+
+val pipeline = new PretrainedPipeline(&quot;albert_large_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;)
+
+pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;))
+```
 &lt;/div&gt;
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_large_token_classifier_conll03_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+pipeline = PretrainedPipeline(&quot;albert_large_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;)
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;My name is John and I work at John Snow Labs.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_large_token_classifier_conll03_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;)
+```
+```scala
+val pipeline = new PretrainedPipeline(&quot;albert_large_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;)
 
-&lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;My name is John and I work at John Snow Labs.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;))
+```
 &lt;/div&gt;
 
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+## Results
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Results
+```bash
+Results
 
 
 
@@ -158,97 +150,81 @@
 +--------------+---------+
 
 
-&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;:.model-param&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+{:.model-param}
+```
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;albert_large_token_classifier_conll03_pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Type:&lt;/td&gt;
-      &lt;td&gt;pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.4.2+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;64.5 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|albert_large_token_classifier_conll03_pipeline|
+|Type:|pipeline|
+|Compatibility:|Spark NLP 4.4.2+|
+|License:|Open Source|
+|Edition:|Official|
+|Language:|en|
+|Size:|64.5 MB|
 
-&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
+## Included Models
 
-&lt;ul&gt;
-  &lt;li&gt;DocumentAssembler&lt;/li&gt;
-  &lt;li&gt;SentenceDetectorDLModel&lt;/li&gt;
-  &lt;li&gt;TokenizerModel&lt;/li&gt;
-  &lt;li&gt;AlbertForTokenClassification&lt;/li&gt;
-  &lt;li&gt;NerConverter&lt;/li&gt;
-  &lt;li&gt;Finisher&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="ner" /><category term="token_classifier" /><category term="albert" /><category term="conll03" /><category term="en" /><summary type="html">Description This pretrained pipeline is built on the top of albert_large_token_classifier_conll03 model. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU pipeline = PretrainedPipeline(&quot;albert_large_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;) val pipeline = new PretrainedPipeline(&quot;albert_large_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;)) PythonScalaNLU pipeline = PretrainedPipeline(&quot;albert_large_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;) val pipeline = new PretrainedPipeline(&quot;albert_large_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;)) Results Results +--------------+---------+ |chunk |ner_label| +--------------+---------+ |John |PER | |John Snow Labs|ORG | +--------------+---------+ {:.model-param} Model Information Model Name: albert_large_token_classifier_conll03_pipeline Type: pipeline Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: en Size: 64.5 MB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel AlbertForTokenClassification NerConverter Finisher</summary></entry><entry><title type="html">ALBERT XLarge CoNNL-03 NER Pipeline</title><link href="/2023/05/27/albert_xlarge_token_classifier_conll03_pipeline_en.html" rel="alternate" type="text/html" title="ALBERT XLarge CoNNL-03 NER Pipeline" /><published>2023-05-27T00:00:00+00:00</published><updated>2023-05-27T00:00:00+00:00</updated><id>/2023/05/27/albert_xlarge_token_classifier_conll03_pipeline_en</id><content type="html" xml:base="/2023/05/27/albert_xlarge_token_classifier_conll03_pipeline_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+- DocumentAssembler
+- SentenceDetectorDLModel
+- TokenizerModel
+- AlbertForTokenClassification
+- NerConverter
+- Finisher</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="ner" /><category term="token_classifier" /><category term="albert" /><category term="conll03" /><category term="en" /><summary type="html">Description This pretrained pipeline is built on the top of albert_large_token_classifier_conll03 model. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU pipeline = PretrainedPipeline(&quot;albert_large_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;) val pipeline = new PretrainedPipeline(&quot;albert_large_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;)) PythonScalaNLU pipeline = PretrainedPipeline(&quot;albert_large_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;) val pipeline = new PretrainedPipeline(&quot;albert_large_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;)) Results Results +--------------+---------+ |chunk |ner_label| +--------------+---------+ |John |PER | |John Snow Labs|ORG | +--------------+---------+ {:.model-param} Model Information Model Name: albert_large_token_classifier_conll03_pipeline Type: pipeline Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: en Size: 64.5 MB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel AlbertForTokenClassification NerConverter Finisher</summary></entry><entry><title type="html">ALBERT XLarge CoNNL-03 NER Pipeline</title><link href="/2023/05/27/albert_xlarge_token_classifier_conll03_pipeline_en.html" rel="alternate" type="text/html" title="ALBERT XLarge CoNNL-03 NER Pipeline" /><published>2023-05-27T00:00:00+00:00</published><updated>2023-05-27T00:00:00+00:00</updated><id>/2023/05/27/albert_xlarge_token_classifier_conll03_pipeline_en</id><content type="html" xml:base="/2023/05/27/albert_xlarge_token_classifier_conll03_pipeline_en.html">## Description
 
-&lt;p&gt;This pretrained pipeline is built on the top of &lt;a href=&quot;https://nlp.johnsnowlabs.com/2021/09/26/albert_xlarge_token_classifier_conll03_en.html&quot;&gt;albert_xlarge_token_classifier_conll03&lt;/a&gt; model.&lt;/p&gt;
+This pretrained pipeline is built on the top of [albert_xlarge_token_classifier_conll03](https://nlp.johnsnowlabs.com/2021/09/26/albert_xlarge_token_classifier_conll03_en.html) model.
 
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+## Predicted Entities
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/albert_xlarge_token_classifier_conll03_pipeline_en_4.4.2_3.2_1685210363132.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/albert_xlarge_token_classifier_conll03_pipeline_en_4.4.2_3.2_1685210363132.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/albert_xlarge_token_classifier_conll03_pipeline_en_4.4.2_3.2_1685210363132.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/albert_xlarge_token_classifier_conll03_pipeline_en_4.4.2_3.2_1685210363132.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_xlarge_token_classifier_conll03_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+## How to use
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;My name is John and I work at John Snow Labs.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_xlarge_token_classifier_conll03_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;My name is John and I work at John Snow Labs.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+pipeline = PretrainedPipeline(&quot;albert_xlarge_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;)
+
+pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;)
+```
+```scala
+
+
+val pipeline = new PretrainedPipeline(&quot;albert_xlarge_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;)
+
+pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;))
+```
 &lt;/div&gt;
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_xlarge_token_classifier_conll03_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+pipeline = PretrainedPipeline(&quot;albert_xlarge_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;)
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;My name is John and I work at John Snow Labs.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;albert_xlarge_token_classifier_conll03_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;)
+```
+```scala
+val pipeline = new PretrainedPipeline(&quot;albert_xlarge_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;)
 
-&lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;My name is John and I work at John Snow Labs.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;))
+```
 &lt;/div&gt;
 
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+## Results
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Results
+```bash
+Results
 
 
 
@@ -261,525 +237,453 @@
 +--------------+---------+
 
 
-&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;:.model-param&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+{:.model-param}
+```
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;albert_xlarge_token_classifier_conll03_pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Type:&lt;/td&gt;
-      &lt;td&gt;pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.4.2+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;206.5 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|albert_xlarge_token_classifier_conll03_pipeline|
+|Type:|pipeline|
+|Compatibility:|Spark NLP 4.4.2+|
+|License:|Open Source|
+|Edition:|Official|
+|Language:|en|
+|Size:|206.5 MB|
 
-&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
+## Included Models
 
-&lt;ul&gt;
-  &lt;li&gt;DocumentAssembler&lt;/li&gt;
-  &lt;li&gt;SentenceDetectorDLModel&lt;/li&gt;
-  &lt;li&gt;TokenizerModel&lt;/li&gt;
-  &lt;li&gt;AlbertForTokenClassification&lt;/li&gt;
-  &lt;li&gt;NerConverter&lt;/li&gt;
-  &lt;li&gt;Finisher&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="ner" /><category term="token_classifier" /><category term="albert" /><category term="conll03" /><category term="en" /><summary type="html">Description This pretrained pipeline is built on the top of albert_xlarge_token_classifier_conll03 model. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU pipeline = PretrainedPipeline(&quot;albert_xlarge_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;) val pipeline = new PretrainedPipeline(&quot;albert_xlarge_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;)) PythonScalaNLU pipeline = PretrainedPipeline(&quot;albert_xlarge_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;) val pipeline = new PretrainedPipeline(&quot;albert_xlarge_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;)) Results Results +--------------+---------+ |chunk |ner_label| +--------------+---------+ |John |PER | |John Snow Labs|ORG | +--------------+---------+ {:.model-param} Model Information Model Name: albert_xlarge_token_classifier_conll03_pipeline Type: pipeline Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: en Size: 206.5 MB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel AlbertForTokenClassification NerConverter Finisher</summary></entry><entry><title type="html">Sentiment Analysis pipeline for English</title><link href="/2023/05/27/analyze_sentiment_en.html" rel="alternate" type="text/html" title="Sentiment Analysis pipeline for English" /><published>2023-05-27T00:00:00+00:00</published><updated>2023-05-27T00:00:00+00:00</updated><id>/2023/05/27/analyze_sentiment_en</id><content type="html" xml:base="/2023/05/27/analyze_sentiment_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+- DocumentAssembler
+- SentenceDetectorDLModel
+- TokenizerModel
+- AlbertForTokenClassification
+- NerConverter
+- Finisher</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="ner" /><category term="token_classifier" /><category term="albert" /><category term="conll03" /><category term="en" /><summary type="html">Description This pretrained pipeline is built on the top of albert_xlarge_token_classifier_conll03 model. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU pipeline = PretrainedPipeline(&quot;albert_xlarge_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;) val pipeline = new PretrainedPipeline(&quot;albert_xlarge_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;)) PythonScalaNLU pipeline = PretrainedPipeline(&quot;albert_xlarge_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;) val pipeline = new PretrainedPipeline(&quot;albert_xlarge_token_classifier_conll03_pipeline&quot;, lang = &quot;en&quot;) pipeline.annotate(&quot;My name is John and I work at John Snow Labs.&quot;)) Results Results +--------------+---------+ |chunk |ner_label| +--------------+---------+ |John |PER | |John Snow Labs|ORG | +--------------+---------+ {:.model-param} Model Information Model Name: albert_xlarge_token_classifier_conll03_pipeline Type: pipeline Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: en Size: 206.5 MB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel AlbertForTokenClassification NerConverter Finisher</summary></entry><entry><title type="html">Sentiment Analysis pipeline for English</title><link href="/2023/05/27/analyze_sentiment_en.html" rel="alternate" type="text/html" title="Sentiment Analysis pipeline for English" /><published>2023-05-27T00:00:00+00:00</published><updated>2023-05-27T00:00:00+00:00</updated><id>/2023/05/27/analyze_sentiment_en</id><content type="html" xml:base="/2023/05/27/analyze_sentiment_en.html">## Description
 
-&lt;p&gt;The analyze_sentiment is a pretrained pipeline that we can use to process text with a simple pipeline that performs basic processing steps 
+The analyze_sentiment is a pretrained pipeline that we can use to process text with a simple pipeline that performs basic processing steps 
 and recognizes entities .
-It performs most of the common text processing tasks on your dataframe&lt;/p&gt;
+It performs most of the common text processing tasks on your dataframe
 
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
-
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/analyze_sentiment_en_4.4.2_3.2_1685186425752.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/analyze_sentiment_en_4.4.2_3.2_1685186425752.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
-
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.pretrained&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'analyze_sentiment'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'en'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fullAnnotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+## Predicted Entities
 
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.pretrained.PretrainedPipeline&lt;/span&gt;
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;analyze_sentiment&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/analyze_sentiment_en_4.4.2_3.2_1685186425752.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/analyze_sentiment_en_4.4.2_3.2_1685186425752.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fullAnnotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+## How to use
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
 
-  &lt;div class=&quot;language-python nlu-block highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;nlu&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;result_df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlu&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'en.classify'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;predict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;result_df&lt;/span&gt;
+```python
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+from sparknlp.pretrained import PretrainedPipeline
+
+pipeline = PretrainedPipeline('analyze_sentiment', lang = 'en')
+
+result = pipeline.fullAnnotate(&quot;&quot;&quot;Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!&quot;&quot;&quot;)
+
+
+```
+```scala
+
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+
+val pipeline = new PretrainedPipeline(&quot;analyze_sentiment&quot;, lang = &quot;en&quot;)
+
+val result = pipeline.fullAnnotate(&quot;&quot;&quot;Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!&quot;&quot;&quot;)
+
+```
+
+{:.nlu-block}
+```python
+
+import nlu
+text = [&quot;&quot;&quot;Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!&quot;&quot;&quot;]
+result_df = nlu.load('en.classify').predict(text)
+result_df
+
+```
 &lt;/div&gt;
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.pretrained&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+from sparknlp.pretrained import PretrainedPipeline
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'analyze_sentiment'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'en'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+pipeline = PretrainedPipeline('analyze_sentiment', lang = 'en')
 
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fullAnnotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.pretrained.PretrainedPipeline&lt;/span&gt;
+result = pipeline.fullAnnotate(&quot;&quot;&quot;Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!&quot;&quot;&quot;)
+```
+```scala
+import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;analyze_sentiment&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val pipeline = new PretrainedPipeline(&quot;analyze_sentiment&quot;, lang = &quot;en&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fullAnnotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+val result = pipeline.fullAnnotate(&quot;&quot;&quot;Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!&quot;&quot;&quot;)
+```
 
-  &lt;div class=&quot;language-python nlu-block highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;nlu&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!&quot;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;result_df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlu&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'en.classify'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;predict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;result_df&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+{:.nlu-block}
+```python
+import nlu
+text = [&quot;&quot;&quot;Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!&quot;&quot;&quot;]
+result_df = nlu.load('en.classify').predict(text)
+result_df
+```
 &lt;/div&gt;
 
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+## Results
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Results
+```bash
+Results
 
 
 |    | text                                                                                                                                                                                                                                                                      | sentiment   |
 |---:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------|
-|  0 | Demonicus is a movie turned into a video game! I just love the story and the things that goes on &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;the film.It is a B-film ofcourse but that doesn&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now! | positive    |
+|  0 | Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now! | positive    |
 
 
-&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;:.model-param&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+{:.model-param}
+```
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;analyze_sentiment&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Type:&lt;/td&gt;
-      &lt;td&gt;pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.4.2+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;5.1 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|analyze_sentiment|
+|Type:|pipeline|
+|Compatibility:|Spark NLP 4.4.2+|
+|License:|Open Source|
+|Edition:|Official|
+|Language:|en|
+|Size:|5.1 MB|
 
-&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
+## Included Models
 
-&lt;ul&gt;
-  &lt;li&gt;DocumentAssembler&lt;/li&gt;
-  &lt;li&gt;SentenceDetector&lt;/li&gt;
-  &lt;li&gt;TokenizerModel&lt;/li&gt;
-  &lt;li&gt;NorvigSweetingModel&lt;/li&gt;
-  &lt;li&gt;ViveknSentimentModel&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="english" /><category term="analyze_sentiment" /><category term="pipeline" /><category term="en" /><summary type="html">Description The analyze_sentiment is a pretrained pipeline that we can use to process text with a simple pipeline that performs basic processing steps and recognizes entities . It performs most of the common text processing tasks on your dataframe Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.pretrained import PretrainedPipeline pipeline = PretrainedPipeline('analyze_sentiment', lang = 'en') result = pipeline.fullAnnotate(&quot;&quot;&quot;Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!&quot;&quot;&quot;) import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline val pipeline = new PretrainedPipeline(&quot;analyze_sentiment&quot;, lang = &quot;en&quot;) val result = pipeline.fullAnnotate(&quot;&quot;&quot;Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!&quot;&quot;&quot;) import nlu text = [&quot;&quot;&quot;Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!&quot;&quot;&quot;] result_df = nlu.load('en.classify').predict(text) result_df PythonScalaNLU from sparknlp.pretrained import PretrainedPipeline pipeline = PretrainedPipeline('analyze_sentiment', lang = 'en') result = pipeline.fullAnnotate(&quot;&quot;&quot;Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!&quot;&quot;&quot;) import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline val pipeline = new PretrainedPipeline(&quot;analyze_sentiment&quot;, lang = &quot;en&quot;) val result = pipeline.fullAnnotate(&quot;&quot;&quot;Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!&quot;&quot;&quot;) import nlu text = [&quot;&quot;&quot;Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!&quot;&quot;&quot;] result_df = nlu.load('en.classify').predict(text) result_df Results Results | | text | sentiment | |---:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------| | 0 | Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now! | positive | {:.model-param} Model Information Model Name: analyze_sentiment Type: pipeline Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: en Size: 5.1 MB Included Models DocumentAssembler SentenceDetector TokenizerModel NorvigSweetingModel ViveknSentimentModel</summary></entry><entry><title type="html">Sentiment Analysis pipeline for English (analyze_sentimentdl_glove_imdb)</title><link href="/2023/05/27/analyze_sentimentdl_glove_imdb_en.html" rel="alternate" type="text/html" title="Sentiment Analysis pipeline for English (analyze_sentimentdl_glove_imdb)" /><published>2023-05-27T00:00:00+00:00</published><updated>2023-05-27T00:00:00+00:00</updated><id>/2023/05/27/analyze_sentimentdl_glove_imdb_en</id><content type="html" xml:base="/2023/05/27/analyze_sentimentdl_glove_imdb_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+- DocumentAssembler
+- SentenceDetector
+- TokenizerModel
+- NorvigSweetingModel
+- ViveknSentimentModel</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="english" /><category term="analyze_sentiment" /><category term="pipeline" /><category term="en" /><summary type="html">Description The analyze_sentiment is a pretrained pipeline that we can use to process text with a simple pipeline that performs basic processing steps and recognizes entities . It performs most of the common text processing tasks on your dataframe Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.pretrained import PretrainedPipeline pipeline = PretrainedPipeline('analyze_sentiment', lang = 'en') result = pipeline.fullAnnotate(&quot;&quot;&quot;Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!&quot;&quot;&quot;) import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline val pipeline = new PretrainedPipeline(&quot;analyze_sentiment&quot;, lang = &quot;en&quot;) val result = pipeline.fullAnnotate(&quot;&quot;&quot;Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!&quot;&quot;&quot;) import nlu text = [&quot;&quot;&quot;Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!&quot;&quot;&quot;] result_df = nlu.load('en.classify').predict(text) result_df PythonScalaNLU from sparknlp.pretrained import PretrainedPipeline pipeline = PretrainedPipeline('analyze_sentiment', lang = 'en') result = pipeline.fullAnnotate(&quot;&quot;&quot;Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!&quot;&quot;&quot;) import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline val pipeline = new PretrainedPipeline(&quot;analyze_sentiment&quot;, lang = &quot;en&quot;) val result = pipeline.fullAnnotate(&quot;&quot;&quot;Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!&quot;&quot;&quot;) import nlu text = [&quot;&quot;&quot;Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now!&quot;&quot;&quot;] result_df = nlu.load('en.classify').predict(text) result_df Results Results | | text | sentiment | |---:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------| | 0 | Demonicus is a movie turned into a video game! I just love the story and the things that goes on in the film.It is a B-film ofcourse but that doesn`t bother one bit because its made just right and the music was rad! Horror and sword fight freaks,buy this movie now! | positive | {:.model-param} Model Information Model Name: analyze_sentiment Type: pipeline Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: en Size: 5.1 MB Included Models DocumentAssembler SentenceDetector TokenizerModel NorvigSweetingModel ViveknSentimentModel</summary></entry><entry><title type="html">Sentiment Analysis pipeline for English (analyze_sentimentdl_glove_imdb)</title><link href="/2023/05/27/analyze_sentimentdl_glove_imdb_en.html" rel="alternate" type="text/html" title="Sentiment Analysis pipeline for English (analyze_sentimentdl_glove_imdb)" /><published>2023-05-27T00:00:00+00:00</published><updated>2023-05-27T00:00:00+00:00</updated><id>/2023/05/27/analyze_sentimentdl_glove_imdb_en</id><content type="html" xml:base="/2023/05/27/analyze_sentimentdl_glove_imdb_en.html">## Description
 
-&lt;p&gt;The analyze_sentimentdl_glove_imdb is a pretrained pipeline that we can use to process text with a simple pipeline that performs basic processing steps 
+The analyze_sentimentdl_glove_imdb is a pretrained pipeline that we can use to process text with a simple pipeline that performs basic processing steps 
 and recognizes entities .
-It performs most of the common text processing tasks on your dataframe&lt;/p&gt;
+It performs most of the common text processing tasks on your dataframe
 
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
-
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/analyze_sentimentdl_glove_imdb_en_4.4.2_3.2_1685196050596.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/analyze_sentimentdl_glove_imdb_en_4.4.2_3.2_1685196050596.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
-
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.pretrained&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipelinein&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'analyze_sentimentdl_glove_imdb'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'en'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;annotations&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fullAnnotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Hello&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;John&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Snow&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Labs&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;!&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;annotations&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;keys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;analyze_sentimentdl_glove_imdb&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fullAnnotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hello from John Snow Labs ! &quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+## Predicted Entities
 
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
 
-  &lt;div class=&quot;language-python nlu-block highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;nlu&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Hello&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;John&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Snow&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Labs&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;!&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;result_df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlu&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'en.sentiment.glove'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;predict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;result_df&lt;/span&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/analyze_sentimentdl_glove_imdb_en_4.4.2_3.2_1685196050596.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/analyze_sentimentdl_glove_imdb_en_4.4.2_3.2_1685196050596.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+## How to use
+
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+
+from sparknlp.pretrained import PretrainedPipelinein
+pipeline = PretrainedPipeline('analyze_sentimentdl_glove_imdb', lang = 'en')
+annotations =  pipeline.fullAnnotate(&quot;&quot;Hello from John Snow Labs ! &quot;&quot;)[0]
+annotations.keys()
+
+```
+```scala
+
+val pipeline = new PretrainedPipeline(&quot;analyze_sentimentdl_glove_imdb&quot;, lang = &quot;en&quot;)
+val result = pipeline.fullAnnotate(&quot;Hello from John Snow Labs ! &quot;)(0)
+
+
+```
+
+{:.nlu-block}
+```python
+
+import nlu
+text = [&quot;&quot;Hello from John Snow Labs ! &quot;&quot;]
+result_df = nlu.load('en.sentiment.glove').predict(text)
+result_df
+
+```
 &lt;/div&gt;
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.pretrained&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipelinein&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'analyze_sentimentdl_glove_imdb'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'en'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;annotations&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fullAnnotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Hello&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;John&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Snow&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Labs&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;!&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;annotations&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;keys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;analyze_sentimentdl_glove_imdb&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fullAnnotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hello from John Snow Labs ! &quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+from sparknlp.pretrained import PretrainedPipelinein
+pipeline = PretrainedPipeline('analyze_sentimentdl_glove_imdb', lang = 'en')
+annotations =  pipeline.fullAnnotate(&quot;&quot;Hello from John Snow Labs ! &quot;&quot;)[0]
+annotations.keys()
+```
+```scala
+val pipeline = new PretrainedPipeline(&quot;analyze_sentimentdl_glove_imdb&quot;, lang = &quot;en&quot;)
+val result = pipeline.fullAnnotate(&quot;Hello from John Snow Labs ! &quot;)(0)
+```
 
-  &lt;div class=&quot;language-python nlu-block highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;nlu&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Hello&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;John&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Snow&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Labs&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;!&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;result_df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlu&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'en.sentiment.glove'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;predict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;result_df&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+{:.nlu-block}
+```python
+import nlu
+text = [&quot;&quot;Hello from John Snow Labs ! &quot;&quot;]
+result_df = nlu.load('en.sentiment.glove').predict(text)
+result_df
+```
 &lt;/div&gt;
 
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+## Results
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Results
+```bash
+Results
 
 
 |    | document                         | sentence                        | tokens                                         | word_embeddings              | sentence_embeddings          | sentiment   |
 |---:|:---------------------------------|:--------------------------------|:-----------------------------------------------|:-----------------------------|:-----------------------------|:------------|
-|  0 | &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Hello from John Snow Labs ! '&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; | &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Hello from John Snow Labs !'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; | &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Hello'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'from'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'John'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'Snow'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'Labs'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'!'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; | &lt;span class=&quot;o&quot;&gt;[[&lt;/span&gt;0.2668800055980682,.,...]] | &lt;span class=&quot;o&quot;&gt;[[&lt;/span&gt;0.0771183446049690,.,...]] | &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'neg'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;     |
+|  0 | ['Hello from John Snow Labs ! '] | ['Hello from John Snow Labs !'] | ['Hello', 'from', 'John', 'Snow', 'Labs', '!'] | [[0.2668800055980682,.,...]] | [[0.0771183446049690,.,...]] | ['neg']     |
 
 
-&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;:.model-param&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+{:.model-param}
+```
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;analyze_sentimentdl_glove_imdb&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Type:&lt;/td&gt;
-      &lt;td&gt;pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.4.2+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;161.6 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|analyze_sentimentdl_glove_imdb|
+|Type:|pipeline|
+|Compatibility:|Spark NLP 4.4.2+|
+|License:|Open Source|
+|Edition:|Official|
+|Language:|en|
+|Size:|161.6 MB|
 
-&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
+## Included Models
 
-&lt;ul&gt;
-  &lt;li&gt;DocumentAssembler&lt;/li&gt;
-  &lt;li&gt;SentenceDetector&lt;/li&gt;
-  &lt;li&gt;TokenizerModel&lt;/li&gt;
-  &lt;li&gt;WordEmbeddingsModel&lt;/li&gt;
-  &lt;li&gt;SentenceEmbeddings&lt;/li&gt;
-  &lt;li&gt;SentimentDLModel&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="english" /><category term="analyze_sentimentdl_glove_imdb" /><category term="pipeline" /><category term="en" /><summary type="html">Description The analyze_sentimentdl_glove_imdb is a pretrained pipeline that we can use to process text with a simple pipeline that performs basic processing steps and recognizes entities . It performs most of the common text processing tasks on your dataframe Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.pretrained import PretrainedPipelinein pipeline = PretrainedPipeline('analyze_sentimentdl_glove_imdb', lang = 'en') annotations = pipeline.fullAnnotate(&quot;&quot;Hello from John Snow Labs ! &quot;&quot;)[0] annotations.keys() val pipeline = new PretrainedPipeline(&quot;analyze_sentimentdl_glove_imdb&quot;, lang = &quot;en&quot;) val result = pipeline.fullAnnotate(&quot;Hello from John Snow Labs ! &quot;)(0) import nlu text = [&quot;&quot;Hello from John Snow Labs ! &quot;&quot;] result_df = nlu.load('en.sentiment.glove').predict(text) result_df PythonScalaNLU from sparknlp.pretrained import PretrainedPipelinein pipeline = PretrainedPipeline('analyze_sentimentdl_glove_imdb', lang = 'en') annotations = pipeline.fullAnnotate(&quot;&quot;Hello from John Snow Labs ! &quot;&quot;)[0] annotations.keys() val pipeline = new PretrainedPipeline(&quot;analyze_sentimentdl_glove_imdb&quot;, lang = &quot;en&quot;) val result = pipeline.fullAnnotate(&quot;Hello from John Snow Labs ! &quot;)(0) import nlu text = [&quot;&quot;Hello from John Snow Labs ! &quot;&quot;] result_df = nlu.load('en.sentiment.glove').predict(text) result_df Results Results | | document | sentence | tokens | word_embeddings | sentence_embeddings | sentiment | |---:|:---------------------------------|:--------------------------------|:-----------------------------------------------|:-----------------------------|:-----------------------------|:------------| | 0 | ['Hello from John Snow Labs ! '] | ['Hello from John Snow Labs !'] | ['Hello', 'from', 'John', 'Snow', 'Labs', '!'] | [[0.2668800055980682,.,...]] | [[0.0771183446049690,.,...]] | ['neg'] | {:.model-param} Model Information Model Name: analyze_sentimentdl_glove_imdb Type: pipeline Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: en Size: 161.6 MB Included Models DocumentAssembler SentenceDetector TokenizerModel WordEmbeddingsModel SentenceEmbeddings SentimentDLModel</summary></entry><entry><title type="html">Pipeline to Classify Texts into 4 News Categories</title><link href="/2023/05/27/bert_sequence_classifier_age_news_pipeline_en.html" rel="alternate" type="text/html" title="Pipeline to Classify Texts into 4 News Categories" /><published>2023-05-27T00:00:00+00:00</published><updated>2023-05-27T00:00:00+00:00</updated><id>/2023/05/27/bert_sequence_classifier_age_news_pipeline_en</id><content type="html" xml:base="/2023/05/27/bert_sequence_classifier_age_news_pipeline_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+- DocumentAssembler
+- SentenceDetector
+- TokenizerModel
+- WordEmbeddingsModel
+- SentenceEmbeddings
+- SentimentDLModel</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="english" /><category term="analyze_sentimentdl_glove_imdb" /><category term="pipeline" /><category term="en" /><summary type="html">Description The analyze_sentimentdl_glove_imdb is a pretrained pipeline that we can use to process text with a simple pipeline that performs basic processing steps and recognizes entities . It performs most of the common text processing tasks on your dataframe Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.pretrained import PretrainedPipelinein pipeline = PretrainedPipeline('analyze_sentimentdl_glove_imdb', lang = 'en') annotations = pipeline.fullAnnotate(&quot;&quot;Hello from John Snow Labs ! &quot;&quot;)[0] annotations.keys() val pipeline = new PretrainedPipeline(&quot;analyze_sentimentdl_glove_imdb&quot;, lang = &quot;en&quot;) val result = pipeline.fullAnnotate(&quot;Hello from John Snow Labs ! &quot;)(0) import nlu text = [&quot;&quot;Hello from John Snow Labs ! &quot;&quot;] result_df = nlu.load('en.sentiment.glove').predict(text) result_df PythonScalaNLU from sparknlp.pretrained import PretrainedPipelinein pipeline = PretrainedPipeline('analyze_sentimentdl_glove_imdb', lang = 'en') annotations = pipeline.fullAnnotate(&quot;&quot;Hello from John Snow Labs ! &quot;&quot;)[0] annotations.keys() val pipeline = new PretrainedPipeline(&quot;analyze_sentimentdl_glove_imdb&quot;, lang = &quot;en&quot;) val result = pipeline.fullAnnotate(&quot;Hello from John Snow Labs ! &quot;)(0) import nlu text = [&quot;&quot;Hello from John Snow Labs ! &quot;&quot;] result_df = nlu.load('en.sentiment.glove').predict(text) result_df Results Results | | document | sentence | tokens | word_embeddings | sentence_embeddings | sentiment | |---:|:---------------------------------|:--------------------------------|:-----------------------------------------------|:-----------------------------|:-----------------------------|:------------| | 0 | ['Hello from John Snow Labs ! '] | ['Hello from John Snow Labs !'] | ['Hello', 'from', 'John', 'Snow', 'Labs', '!'] | [[0.2668800055980682,.,...]] | [[0.0771183446049690,.,...]] | ['neg'] | {:.model-param} Model Information Model Name: analyze_sentimentdl_glove_imdb Type: pipeline Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: en Size: 161.6 MB Included Models DocumentAssembler SentenceDetector TokenizerModel WordEmbeddingsModel SentenceEmbeddings SentimentDLModel</summary></entry><entry><title type="html">Pipeline to Classify Texts into 4 News Categories</title><link href="/2023/05/27/bert_sequence_classifier_age_news_pipeline_en.html" rel="alternate" type="text/html" title="Pipeline to Classify Texts into 4 News Categories" /><published>2023-05-27T00:00:00+00:00</published><updated>2023-05-27T00:00:00+00:00</updated><id>/2023/05/27/bert_sequence_classifier_age_news_pipeline_en</id><content type="html" xml:base="/2023/05/27/bert_sequence_classifier_age_news_pipeline_en.html">## Description
 
-&lt;p&gt;This pretrained pipeline is built on the top of &lt;a href=&quot;https://nlp.johnsnowlabs.com/2021/11/07/bert_sequence_classifier_age_news_en.html&quot;&gt;bert_sequence_classifier_age_news_en&lt;/a&gt; which is imported from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HuggingFace&lt;/code&gt;.&lt;/p&gt;
+This pretrained pipeline is built on the top of [bert_sequence_classifier_age_news_en](https://nlp.johnsnowlabs.com/2021/11/07/bert_sequence_classifier_age_news_en.html) which is imported from `HuggingFace`.
 
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+## Predicted Entities
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_sequence_classifier_age_news_pipeline_en_4.4.2_3.2_1685206343556.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/bert_sequence_classifier_age_news_pipeline_en_4.4.2_3.2_1685206343556.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_sequence_classifier_age_news_pipeline_en_4.4.2_3.2_1685206343556.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bert_sequence_classifier_age_news_pipeline_en_4.4.2_3.2_1685206343556.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;span class=&quot;n&quot;&gt;news_pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_sequence_classifier_age_news_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+## How to use
 
-&lt;span class=&quot;n&quot;&gt;news_pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Microsoft has taken its first step into the metaverse.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;news_pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_sequence_classifier_age_news_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;nv&quot;&gt;news_pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Microsoft has taken its first step into the metaverse.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+news_pipeline = PretrainedPipeline(&quot;bert_sequence_classifier_age_news_pipeline&quot;, lang = &quot;en&quot;)
+
+news_pipeline.annotate(&quot;Microsoft has taken its first step into the metaverse.&quot;)
+```
+```scala
+
+
+val news_pipeline = new PretrainedPipeline(&quot;bert_sequence_classifier_age_news_pipeline&quot;, lang = &quot;en&quot;)
+
+news_pipeline.annotate(&quot;Microsoft has taken its first step into the metaverse.&quot;)
+```
 &lt;/div&gt;
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;news_pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_sequence_classifier_age_news_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+news_pipeline = PretrainedPipeline(&quot;bert_sequence_classifier_age_news_pipeline&quot;, lang = &quot;en&quot;)
 
-&lt;span class=&quot;n&quot;&gt;news_pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Microsoft has taken its first step into the metaverse.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;news_pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_sequence_classifier_age_news_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+news_pipeline.annotate(&quot;Microsoft has taken its first step into the metaverse.&quot;)
+```
+```scala
+val news_pipeline = new PretrainedPipeline(&quot;bert_sequence_classifier_age_news_pipeline&quot;, lang = &quot;en&quot;)
 
-&lt;span class=&quot;nv&quot;&gt;news_pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Microsoft has taken its first step into the metaverse.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+news_pipeline.annotate(&quot;Microsoft has taken its first step into the metaverse.&quot;)
+```
 &lt;/div&gt;
 
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+## Results
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Results
-
-
-
-
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Sci/Tech'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+```bash
+Results
 
 
-&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;:.model-param&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;bert_sequence_classifier_age_news_pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Type:&lt;/td&gt;
-      &lt;td&gt;pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.4.2+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;42.4 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+['Sci/Tech']
 
-&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
 
-&lt;ul&gt;
-  &lt;li&gt;DocumentAssembler&lt;/li&gt;
-  &lt;li&gt;TokenizerModel&lt;/li&gt;
-  &lt;li&gt;BertForSequenceClassification&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="ag_news" /><category term="news" /><category term="bert" /><category term="bert_sequence" /><category term="classification" /><category term="en" /><category term="open_source" /><summary type="html">Description This pretrained pipeline is built on the top of bert_sequence_classifier_age_news_en which is imported from HuggingFace. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU news_pipeline = PretrainedPipeline(&quot;bert_sequence_classifier_age_news_pipeline&quot;, lang = &quot;en&quot;) news_pipeline.annotate(&quot;Microsoft has taken its first step into the metaverse.&quot;) val news_pipeline = new PretrainedPipeline(&quot;bert_sequence_classifier_age_news_pipeline&quot;, lang = &quot;en&quot;) news_pipeline.annotate(&quot;Microsoft has taken its first step into the metaverse.&quot;) PythonScalaNLU news_pipeline = PretrainedPipeline(&quot;bert_sequence_classifier_age_news_pipeline&quot;, lang = &quot;en&quot;) news_pipeline.annotate(&quot;Microsoft has taken its first step into the metaverse.&quot;) val news_pipeline = new PretrainedPipeline(&quot;bert_sequence_classifier_age_news_pipeline&quot;, lang = &quot;en&quot;) news_pipeline.annotate(&quot;Microsoft has taken its first step into the metaverse.&quot;) Results Results ['Sci/Tech'] {:.model-param} Model Information Model Name: bert_sequence_classifier_age_news_pipeline Type: pipeline Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: en Size: 42.4 MB Included Models DocumentAssembler TokenizerModel BertForSequenceClassification</summary></entry><entry><title type="html">Pipeline to Classify Texts into TREC-6 Classes</title><link href="/2023/05/27/bert_sequence_classifier_trec_coarse_pipeline_en.html" rel="alternate" type="text/html" title="Pipeline to Classify Texts into TREC-6 Classes" /><published>2023-05-27T00:00:00+00:00</published><updated>2023-05-27T00:00:00+00:00</updated><id>/2023/05/27/bert_sequence_classifier_trec_coarse_pipeline_en</id><content type="html" xml:base="/2023/05/27/bert_sequence_classifier_trec_coarse_pipeline_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+{:.model-param}
+```
 
-&lt;p&gt;This pretrained pipeline is built on the top of &lt;a href=&quot;https://nlp.johnsnowlabs.com/2021/11/06/bert_sequence_classifier_trec_coarse_en.html&quot;&gt;bert_sequence_classifier_trec_coarse_en&lt;/a&gt;.&lt;/p&gt;
+{:.model-param}
+## Model Information
 
-&lt;p&gt;The TREC dataset for question classification consists of open-domain, fact-based questions divided into broad semantic categories. You can check the official documentation of the dataset, entities, etc. &lt;a href=&quot;https://search.r-project.org/CRAN/refmans/textdata/html/dataset_trec.html&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+{:.table-model}
+|---|---|
+|Model Name:|bert_sequence_classifier_age_news_pipeline|
+|Type:|pipeline|
+|Compatibility:|Spark NLP 4.4.2+|
+|License:|Open Source|
+|Edition:|Official|
+|Language:|en|
+|Size:|42.4 MB|
 
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+## Included Models
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_sequence_classifier_trec_coarse_pipeline_en_4.4.2_3.2_1685206267809.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/bert_sequence_classifier_trec_coarse_pipeline_en_4.4.2_3.2_1685206267809.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+- DocumentAssembler
+- TokenizerModel
+- BertForSequenceClassification</content><author><name>John Snow Labs</name></author><category term="ag_news" /><category term="news" /><category term="bert" /><category term="bert_sequence" /><category term="classification" /><category term="en" /><category term="open_source" /><summary type="html">Description This pretrained pipeline is built on the top of bert_sequence_classifier_age_news_en which is imported from HuggingFace. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU news_pipeline = PretrainedPipeline(&quot;bert_sequence_classifier_age_news_pipeline&quot;, lang = &quot;en&quot;) news_pipeline.annotate(&quot;Microsoft has taken its first step into the metaverse.&quot;) val news_pipeline = new PretrainedPipeline(&quot;bert_sequence_classifier_age_news_pipeline&quot;, lang = &quot;en&quot;) news_pipeline.annotate(&quot;Microsoft has taken its first step into the metaverse.&quot;) PythonScalaNLU news_pipeline = PretrainedPipeline(&quot;bert_sequence_classifier_age_news_pipeline&quot;, lang = &quot;en&quot;) news_pipeline.annotate(&quot;Microsoft has taken its first step into the metaverse.&quot;) val news_pipeline = new PretrainedPipeline(&quot;bert_sequence_classifier_age_news_pipeline&quot;, lang = &quot;en&quot;) news_pipeline.annotate(&quot;Microsoft has taken its first step into the metaverse.&quot;) Results Results ['Sci/Tech'] {:.model-param} Model Information Model Name: bert_sequence_classifier_age_news_pipeline Type: pipeline Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: en Size: 42.4 MB Included Models DocumentAssembler TokenizerModel BertForSequenceClassification</summary></entry><entry><title type="html">Pipeline to Classify Texts into TREC-6 Classes</title><link href="/2023/05/27/bert_sequence_classifier_trec_coarse_pipeline_en.html" rel="alternate" type="text/html" title="Pipeline to Classify Texts into TREC-6 Classes" /><published>2023-05-27T00:00:00+00:00</published><updated>2023-05-27T00:00:00+00:00</updated><id>/2023/05/27/bert_sequence_classifier_trec_coarse_pipeline_en</id><content type="html" xml:base="/2023/05/27/bert_sequence_classifier_trec_coarse_pipeline_en.html">## Description
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+This pretrained pipeline is built on the top of [bert_sequence_classifier_trec_coarse_en](https://nlp.johnsnowlabs.com/2021/11/06/bert_sequence_classifier_trec_coarse_en.html).
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+The TREC dataset for question classification consists of open-domain, fact-based questions divided into broad semantic categories. You can check the official documentation of the dataset, entities, etc. [here](https://search.r-project.org/CRAN/refmans/textdata/html/dataset_trec.html).
 
-&lt;span class=&quot;n&quot;&gt;trec_pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_sequence_classifier_trec_coarse_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+## Predicted Entities
 
-&lt;span class=&quot;n&quot;&gt;trec_pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Germany is the largest country in Europe economically.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;trec_pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_sequence_classifier_trec_coarse_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;nv&quot;&gt;trec_pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Germany is the largest country in Europe economically.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_sequence_classifier_trec_coarse_pipeline_en_4.4.2_3.2_1685206267809.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bert_sequence_classifier_trec_coarse_pipeline_en_4.4.2_3.2_1685206267809.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+
+## How to use
+
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+
+
+trec_pipeline = PretrainedPipeline(&quot;bert_sequence_classifier_trec_coarse_pipeline&quot;, lang = &quot;en&quot;)
+
+trec_pipeline.annotate(&quot;Germany is the largest country in Europe economically.&quot;)
+```
+```scala
+
+
+val trec_pipeline = new PretrainedPipeline(&quot;bert_sequence_classifier_trec_coarse_pipeline&quot;, lang = &quot;en&quot;)
+
+trec_pipeline.annotate(&quot;Germany is the largest country in Europe economically.&quot;)
+```
 &lt;/div&gt;
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;trec_pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_sequence_classifier_trec_coarse_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+trec_pipeline = PretrainedPipeline(&quot;bert_sequence_classifier_trec_coarse_pipeline&quot;, lang = &quot;en&quot;)
 
-&lt;span class=&quot;n&quot;&gt;trec_pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Germany is the largest country in Europe economically.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;trec_pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_sequence_classifier_trec_coarse_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+trec_pipeline.annotate(&quot;Germany is the largest country in Europe economically.&quot;)
+```
+```scala
+val trec_pipeline = new PretrainedPipeline(&quot;bert_sequence_classifier_trec_coarse_pipeline&quot;, lang = &quot;en&quot;)
 
-&lt;span class=&quot;nv&quot;&gt;trec_pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Germany is the largest country in Europe economically.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+trec_pipeline.annotate(&quot;Germany is the largest country in Europe economically.&quot;)
+```
 &lt;/div&gt;
 
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+## Results
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Results
-
-
-
-
-&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'LOC'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+```bash
+Results
 
 
-&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;:.model-param&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;bert_sequence_classifier_trec_coarse_pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Type:&lt;/td&gt;
-      &lt;td&gt;pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.4.2+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;406.6 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+['LOC']
 
-&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
 
-&lt;ul&gt;
-  &lt;li&gt;DocumentAssembler&lt;/li&gt;
-  &lt;li&gt;TokenizerModel&lt;/li&gt;
-  &lt;li&gt;BertForSequenceClassification&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="bert_sequence" /><category term="trec" /><category term="coarse" /><category term="bert" /><category term="en" /><category term="open_source" /><summary type="html">Description This pretrained pipeline is built on the top of bert_sequence_classifier_trec_coarse_en. The TREC dataset for question classification consists of open-domain, fact-based questions divided into broad semantic categories. You can check the official documentation of the dataset, entities, etc. here. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU trec_pipeline = PretrainedPipeline(&quot;bert_sequence_classifier_trec_coarse_pipeline&quot;, lang = &quot;en&quot;) trec_pipeline.annotate(&quot;Germany is the largest country in Europe economically.&quot;) val trec_pipeline = new PretrainedPipeline(&quot;bert_sequence_classifier_trec_coarse_pipeline&quot;, lang = &quot;en&quot;) trec_pipeline.annotate(&quot;Germany is the largest country in Europe economically.&quot;) PythonScalaNLU trec_pipeline = PretrainedPipeline(&quot;bert_sequence_classifier_trec_coarse_pipeline&quot;, lang = &quot;en&quot;) trec_pipeline.annotate(&quot;Germany is the largest country in Europe economically.&quot;) val trec_pipeline = new PretrainedPipeline(&quot;bert_sequence_classifier_trec_coarse_pipeline&quot;, lang = &quot;en&quot;) trec_pipeline.annotate(&quot;Germany is the largest country in Europe economically.&quot;) Results Results ['LOC'] {:.model-param} Model Information Model Name: bert_sequence_classifier_trec_coarse_pipeline Type: pipeline Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: en Size: 406.6 MB Included Models DocumentAssembler TokenizerModel BertForSequenceClassification</summary></entry><entry><title type="html">Dutch NER Pipeline</title><link href="/2023/05/27/bert_token_classifier_dutch_udlassy_ner_pipeline_nl.html" rel="alternate" type="text/html" title="Dutch NER Pipeline" /><published>2023-05-27T00:00:00+00:00</published><updated>2023-05-27T00:00:00+00:00</updated><id>/2023/05/27/bert_token_classifier_dutch_udlassy_ner_pipeline_nl</id><content type="html" xml:base="/2023/05/27/bert_token_classifier_dutch_udlassy_ner_pipeline_nl.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+{:.model-param}
+```
 
-&lt;p&gt;This pretrained pipeline is built on the top of &lt;a href=&quot;https://nlp.johnsnowlabs.com/2021/12/08/bert_token_classifier_dutch_udlassy_ner_nl.html&quot;&gt;bert_token_classifier_dutch_udlassy_ner&lt;/a&gt; model.&lt;/p&gt;
+{:.model-param}
+## Model Information
 
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+{:.table-model}
+|---|---|
+|Model Name:|bert_sequence_classifier_trec_coarse_pipeline|
+|Type:|pipeline|
+|Compatibility:|Spark NLP 4.4.2+|
+|License:|Open Source|
+|Edition:|Official|
+|Language:|en|
+|Size:|406.6 MB|
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_token_classifier_dutch_udlassy_ner_pipeline_nl_4.4.2_3.2_1685207938259.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/bert_token_classifier_dutch_udlassy_ner_pipeline_nl_4.4.2_3.2_1685207938259.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+## Included Models
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+- DocumentAssembler
+- TokenizerModel
+- BertForSequenceClassification</content><author><name>John Snow Labs</name></author><category term="bert_sequence" /><category term="trec" /><category term="coarse" /><category term="bert" /><category term="en" /><category term="open_source" /><summary type="html">Description This pretrained pipeline is built on the top of bert_sequence_classifier_trec_coarse_en. The TREC dataset for question classification consists of open-domain, fact-based questions divided into broad semantic categories. You can check the official documentation of the dataset, entities, etc. here. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU trec_pipeline = PretrainedPipeline(&quot;bert_sequence_classifier_trec_coarse_pipeline&quot;, lang = &quot;en&quot;) trec_pipeline.annotate(&quot;Germany is the largest country in Europe economically.&quot;) val trec_pipeline = new PretrainedPipeline(&quot;bert_sequence_classifier_trec_coarse_pipeline&quot;, lang = &quot;en&quot;) trec_pipeline.annotate(&quot;Germany is the largest country in Europe economically.&quot;) PythonScalaNLU trec_pipeline = PretrainedPipeline(&quot;bert_sequence_classifier_trec_coarse_pipeline&quot;, lang = &quot;en&quot;) trec_pipeline.annotate(&quot;Germany is the largest country in Europe economically.&quot;) val trec_pipeline = new PretrainedPipeline(&quot;bert_sequence_classifier_trec_coarse_pipeline&quot;, lang = &quot;en&quot;) trec_pipeline.annotate(&quot;Germany is the largest country in Europe economically.&quot;) Results Results ['LOC'] {:.model-param} Model Information Model Name: bert_sequence_classifier_trec_coarse_pipeline Type: pipeline Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: en Size: 406.6 MB Included Models DocumentAssembler TokenizerModel BertForSequenceClassification</summary></entry><entry><title type="html">Dutch NER Pipeline</title><link href="/2023/05/27/bert_token_classifier_dutch_udlassy_ner_pipeline_nl.html" rel="alternate" type="text/html" title="Dutch NER Pipeline" /><published>2023-05-27T00:00:00+00:00</published><updated>2023-05-27T00:00:00+00:00</updated><id>/2023/05/27/bert_token_classifier_dutch_udlassy_ner_pipeline_nl</id><content type="html" xml:base="/2023/05/27/bert_token_classifier_dutch_udlassy_ner_pipeline_nl.html">## Description
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_token_classifier_dutch_udlassy_ner_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;nl&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+This pretrained pipeline is built on the top of [bert_token_classifier_dutch_udlassy_ner](https://nlp.johnsnowlabs.com/2021/12/08/bert_token_classifier_dutch_udlassy_ner_nl.html) model.
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Mijn naam is Peter Fergusson. Ik woon sinds oktober 2011 in New York en werk 5 jaar bij Tesla Motor.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_token_classifier_dutch_udlassy_ner_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;nl&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+## Predicted Entities
 
-&lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Mijn naam is Peter Fergusson. Ik woon sinds oktober 2011 in New York en werk 5 jaar bij Tesla Motor.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+
+
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_token_classifier_dutch_udlassy_ner_pipeline_nl_4.4.2_3.2_1685207938259.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bert_token_classifier_dutch_udlassy_ner_pipeline_nl_4.4.2_3.2_1685207938259.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+
+## How to use
+
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+
+pipeline = PretrainedPipeline(&quot;bert_token_classifier_dutch_udlassy_ner_pipeline&quot;, lang = &quot;nl&quot;)
+
+pipeline.annotate(&quot;Mijn naam is Peter Fergusson. Ik woon sinds oktober 2011 in New York en werk 5 jaar bij Tesla Motor.&quot;)
+```
+```scala
+
+val pipeline = new PretrainedPipeline(&quot;bert_token_classifier_dutch_udlassy_ner_pipeline&quot;, lang = &quot;nl&quot;)
+
+pipeline.annotate(&quot;Mijn naam is Peter Fergusson. Ik woon sinds oktober 2011 in New York en werk 5 jaar bij Tesla Motor.&quot;)
+```
 &lt;/div&gt;
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_token_classifier_dutch_udlassy_ner_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;nl&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+pipeline = PretrainedPipeline(&quot;bert_token_classifier_dutch_udlassy_ner_pipeline&quot;, lang = &quot;nl&quot;)
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Mijn naam is Peter Fergusson. Ik woon sinds oktober 2011 in New York en werk 5 jaar bij Tesla Motor.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_token_classifier_dutch_udlassy_ner_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;nl&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+pipeline.annotate(&quot;Mijn naam is Peter Fergusson. Ik woon sinds oktober 2011 in New York en werk 5 jaar bij Tesla Motor.&quot;)
+```
+```scala
+val pipeline = new PretrainedPipeline(&quot;bert_token_classifier_dutch_udlassy_ner_pipeline&quot;, lang = &quot;nl&quot;)
 
-&lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Mijn naam is Peter Fergusson. Ik woon sinds oktober 2011 in New York en werk 5 jaar bij Tesla Motor.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+pipeline.annotate(&quot;Mijn naam is Peter Fergusson. Ik woon sinds oktober 2011 in New York en werk 5 jaar bij Tesla Motor.&quot;)
+```
 &lt;/div&gt;
 
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+## Results
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Results
+```bash
+Results
 
 
 
@@ -794,95 +698,79 @@ It performs most of the common text processing tasks on your dataframe&lt;/p&gt;
 +---------------+---------+
 
 
-&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;:.model-param&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+{:.model-param}
+```
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;bert_token_classifier_dutch_udlassy_ner_pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Type:&lt;/td&gt;
-      &lt;td&gt;pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.4.2+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;nl&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;408.0 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|bert_token_classifier_dutch_udlassy_ner_pipeline|
+|Type:|pipeline|
+|Compatibility:|Spark NLP 4.4.2+|
+|License:|Open Source|
+|Edition:|Official|
+|Language:|nl|
+|Size:|408.0 MB|
 
-&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
+## Included Models
 
-&lt;ul&gt;
-  &lt;li&gt;DocumentAssembler&lt;/li&gt;
-  &lt;li&gt;SentenceDetectorDLModel&lt;/li&gt;
-  &lt;li&gt;TokenizerModel&lt;/li&gt;
-  &lt;li&gt;BertForTokenClassification&lt;/li&gt;
-  &lt;li&gt;NerConverter&lt;/li&gt;
-  &lt;li&gt;Finisher&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="ner" /><category term="dutch" /><category term="token_classifier" /><category term="bert" /><category term="treatment" /><category term="nl" /><summary type="html">Description This pretrained pipeline is built on the top of bert_token_classifier_dutch_udlassy_ner model. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU pipeline = PretrainedPipeline(&quot;bert_token_classifier_dutch_udlassy_ner_pipeline&quot;, lang = &quot;nl&quot;) pipeline.annotate(&quot;Mijn naam is Peter Fergusson. Ik woon sinds oktober 2011 in New York en werk 5 jaar bij Tesla Motor.&quot;) val pipeline = new PretrainedPipeline(&quot;bert_token_classifier_dutch_udlassy_ner_pipeline&quot;, lang = &quot;nl&quot;) pipeline.annotate(&quot;Mijn naam is Peter Fergusson. Ik woon sinds oktober 2011 in New York en werk 5 jaar bij Tesla Motor.&quot;) PythonScalaNLU pipeline = PretrainedPipeline(&quot;bert_token_classifier_dutch_udlassy_ner_pipeline&quot;, lang = &quot;nl&quot;) pipeline.annotate(&quot;Mijn naam is Peter Fergusson. Ik woon sinds oktober 2011 in New York en werk 5 jaar bij Tesla Motor.&quot;) val pipeline = new PretrainedPipeline(&quot;bert_token_classifier_dutch_udlassy_ner_pipeline&quot;, lang = &quot;nl&quot;) pipeline.annotate(&quot;Mijn naam is Peter Fergusson. Ik woon sinds oktober 2011 in New York en werk 5 jaar bij Tesla Motor.&quot;) Results Results +---------------+---------+ |chunk |ner_label| +---------------+---------+ |Peter Fergusson|PERSON | |oktober 2011 |DATE | |New York |GPE | |5 jaar |DATE | |Tesla Motor |ORG | +---------------+---------+ {:.model-param} Model Information Model Name: bert_token_classifier_dutch_udlassy_ner_pipeline Type: pipeline Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: nl Size: 408.0 MB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel BertForTokenClassification NerConverter Finisher</summary></entry><entry><title type="html">NER Pipeline for Hindi+English</title><link href="/2023/05/27/bert_token_classifier_hi_en_ner_pipeline_hi.html" rel="alternate" type="text/html" title="NER Pipeline for Hindi+English" /><published>2023-05-27T00:00:00+00:00</published><updated>2023-05-27T00:00:00+00:00</updated><id>/2023/05/27/bert_token_classifier_hi_en_ner_pipeline_hi</id><content type="html" xml:base="/2023/05/27/bert_token_classifier_hi_en_ner_pipeline_hi.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+- DocumentAssembler
+- SentenceDetectorDLModel
+- TokenizerModel
+- BertForTokenClassification
+- NerConverter
+- Finisher</content><author><name>John Snow Labs</name></author><category term="open_source" /><category term="ner" /><category term="dutch" /><category term="token_classifier" /><category term="bert" /><category term="treatment" /><category term="nl" /><summary type="html">Description This pretrained pipeline is built on the top of bert_token_classifier_dutch_udlassy_ner model. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU pipeline = PretrainedPipeline(&quot;bert_token_classifier_dutch_udlassy_ner_pipeline&quot;, lang = &quot;nl&quot;) pipeline.annotate(&quot;Mijn naam is Peter Fergusson. Ik woon sinds oktober 2011 in New York en werk 5 jaar bij Tesla Motor.&quot;) val pipeline = new PretrainedPipeline(&quot;bert_token_classifier_dutch_udlassy_ner_pipeline&quot;, lang = &quot;nl&quot;) pipeline.annotate(&quot;Mijn naam is Peter Fergusson. Ik woon sinds oktober 2011 in New York en werk 5 jaar bij Tesla Motor.&quot;) PythonScalaNLU pipeline = PretrainedPipeline(&quot;bert_token_classifier_dutch_udlassy_ner_pipeline&quot;, lang = &quot;nl&quot;) pipeline.annotate(&quot;Mijn naam is Peter Fergusson. Ik woon sinds oktober 2011 in New York en werk 5 jaar bij Tesla Motor.&quot;) val pipeline = new PretrainedPipeline(&quot;bert_token_classifier_dutch_udlassy_ner_pipeline&quot;, lang = &quot;nl&quot;) pipeline.annotate(&quot;Mijn naam is Peter Fergusson. Ik woon sinds oktober 2011 in New York en werk 5 jaar bij Tesla Motor.&quot;) Results Results +---------------+---------+ |chunk |ner_label| +---------------+---------+ |Peter Fergusson|PERSON | |oktober 2011 |DATE | |New York |GPE | |5 jaar |DATE | |Tesla Motor |ORG | +---------------+---------+ {:.model-param} Model Information Model Name: bert_token_classifier_dutch_udlassy_ner_pipeline Type: pipeline Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: nl Size: 408.0 MB Included Models DocumentAssembler SentenceDetectorDLModel TokenizerModel BertForTokenClassification NerConverter Finisher</summary></entry><entry><title type="html">NER Pipeline for Hindi+English</title><link href="/2023/05/27/bert_token_classifier_hi_en_ner_pipeline_hi.html" rel="alternate" type="text/html" title="NER Pipeline for Hindi+English" /><published>2023-05-27T00:00:00+00:00</published><updated>2023-05-27T00:00:00+00:00</updated><id>/2023/05/27/bert_token_classifier_hi_en_ner_pipeline_hi</id><content type="html" xml:base="/2023/05/27/bert_token_classifier_hi_en_ner_pipeline_hi.html">## Description
 
-&lt;p&gt;This pretrained pipeline is built on &lt;a href=&quot;https://nlp.johnsnowlabs.com/2021/12/27/bert_token_classifier_hi_en_ner_hi.html&quot;&gt;bert_token_classifier_hi_en_ner&lt;/a&gt;.&lt;/p&gt;
+This pretrained pipeline is built on [bert_token_classifier_hi_en_ner](https://nlp.johnsnowlabs.com/2021/12/27/bert_token_classifier_hi_en_ner_hi.html).
 
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+## Predicted Entities
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_token_classifier_hi_en_ner_pipeline_hi_4.4.2_3.2_1685207050403.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/bert_token_classifier_hi_en_ner_pipeline_hi_4.4.2_3.2_1685207050403.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_token_classifier_hi_en_ner_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;hi&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_token_classifier_hi_en_ner_pipeline_hi_4.4.2_3.2_1685207050403.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bert_token_classifier_hi_en_ner_pipeline_hi_4.4.2_3.2_1685207050403.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;रिलायंस इंडस्ट्रीज़ लिमिटेड (Reliance Industries Limited) एक भारतीय संगुटिका नियंत्रक कंपनी है, जिसका मुख्यालय मुंबई, महाराष्ट्र (Maharashtra) में स्थित है।रतन नवल टाटा (28 दिसंबर 1937, को मुम्बई (Mumbai), में जन्मे) टाटा समुह के वर्तमान अध्यक्ष, जो भारत की सबसे बड़ी व्यापारिक समूह है, जिसकी स्थापना जमशेदजी टाटा ने की और उनके परिवार की पीढियों ने इसका विस्तार किया और इसे दृढ़ बनाया।&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_token_classifier_hi_en_ner_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;hi&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+## How to use
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;रिलायंस इंडस्ट्रीज़ लिमिटेड (Reliance Industries Limited) एक भारतीय संगुटिका नियंत्रक कंपनी है, जिसका मुख्यालय मुंबई, महाराष्ट्र (Maharashtra) में स्थित है।रतन नवल टाटा (28 दिसंबर 1937, को मुम्बई (Mumbai), में जन्मे) टाटा समुह के वर्तमान अध्यक्ष, जो भारत की सबसे बड़ी व्यापारिक समूह है, जिसकी स्थापना जमशेदजी टाटा ने की और उनके परिवार की पीढियों ने इसका विस्तार किया और इसे दृढ़ बनाया।&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+
+pipeline = PretrainedPipeline(&quot;bert_token_classifier_hi_en_ner_pipeline&quot;, lang = &quot;hi&quot;)
+
+pipeline.annotate(&quot;रिलायंस इंडस्ट्रीज़ लिमिटेड (Reliance Industries Limited) एक भारतीय संगुटिका नियंत्रक कंपनी है, जिसका मुख्यालय मुंबई, महाराष्ट्र (Maharashtra) में स्थित है।रतन नवल टाटा (28 दिसंबर 1937, को मुम्बई (Mumbai), में जन्मे) टाटा समुह के वर्तमान अध्यक्ष, जो भारत की सबसे बड़ी व्यापारिक समूह है, जिसकी स्थापना जमशेदजी टाटा ने की और उनके परिवार की पीढियों ने इसका विस्तार किया और इसे दृढ़ बनाया।&quot;)
+```
+```scala
+
+val pipeline = new PretrainedPipeline(&quot;bert_token_classifier_hi_en_ner_pipeline&quot;, lang = &quot;hi&quot;)
+
+val pipeline.annotate(&quot;रिलायंस इंडस्ट्रीज़ लिमिटेड (Reliance Industries Limited) एक भारतीय संगुटिका नियंत्रक कंपनी है, जिसका मुख्यालय मुंबई, महाराष्ट्र (Maharashtra) में स्थित है।रतन नवल टाटा (28 दिसंबर 1937, को मुम्बई (Mumbai), में जन्मे) टाटा समुह के वर्तमान अध्यक्ष, जो भारत की सबसे बड़ी व्यापारिक समूह है, जिसकी स्थापना जमशेदजी टाटा ने की और उनके परिवार की पीढियों ने इसका विस्तार किया और इसे दृढ़ बनाया।&quot;)
+```
 &lt;/div&gt;
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_token_classifier_hi_en_ner_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;hi&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+pipeline = PretrainedPipeline(&quot;bert_token_classifier_hi_en_ner_pipeline&quot;, lang = &quot;hi&quot;)
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;रिलायंस इंडस्ट्रीज़ लिमिटेड (Reliance Industries Limited) एक भारतीय संगुटिका नियंत्रक कंपनी है, जिसका मुख्यालय मुंबई, महाराष्ट्र (Maharashtra) में स्थित है।रतन नवल टाटा (28 दिसंबर 1937, को मुम्बई (Mumbai), में जन्मे) टाटा समुह के वर्तमान अध्यक्ष, जो भारत की सबसे बड़ी व्यापारिक समूह है, जिसकी स्थापना जमशेदजी टाटा ने की और उनके परिवार की पीढियों ने इसका विस्तार किया और इसे दृढ़ बनाया।&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_token_classifier_hi_en_ner_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;hi&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+pipeline.annotate(&quot;रिलायंस इंडस्ट्रीज़ लिमिटेड (Reliance Industries Limited) एक भारतीय संगुटिका नियंत्रक कंपनी है, जिसका मुख्यालय मुंबई, महाराष्ट्र (Maharashtra) में स्थित है।रतन नवल टाटा (28 दिसंबर 1937, को मुम्बई (Mumbai), में जन्मे) टाटा समुह के वर्तमान अध्यक्ष, जो भारत की सबसे बड़ी व्यापारिक समूह है, जिसकी स्थापना जमशेदजी टाटा ने की और उनके परिवार की पीढियों ने इसका विस्तार किया और इसे दृढ़ बनाया।&quot;)
+```
+```scala
+val pipeline = new PretrainedPipeline(&quot;bert_token_classifier_hi_en_ner_pipeline&quot;, lang = &quot;hi&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;रिलायंस इंडस्ट्रीज़ लिमिटेड (Reliance Industries Limited) एक भारतीय संगुटिका नियंत्रक कंपनी है, जिसका मुख्यालय मुंबई, महाराष्ट्र (Maharashtra) में स्थित है।रतन नवल टाटा (28 दिसंबर 1937, को मुम्बई (Mumbai), में जन्मे) टाटा समुह के वर्तमान अध्यक्ष, जो भारत की सबसे बड़ी व्यापारिक समूह है, जिसकी स्थापना जमशेदजी टाटा ने की और उनके परिवार की पीढियों ने इसका विस्तार किया और इसे दृढ़ बनाया।&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+val pipeline.annotate(&quot;रिलायंस इंडस्ट्रीज़ लिमिटेड (Reliance Industries Limited) एक भारतीय संगुटिका नियंत्रक कंपनी है, जिसका मुख्यालय मुंबई, महाराष्ट्र (Maharashtra) में स्थित है।रतन नवल टाटा (28 दिसंबर 1937, को मुम्बई (Mumbai), में जन्मे) टाटा समुह के वर्तमान अध्यक्ष, जो भारत की सबसे बड़ी व्यापारिक समूह है, जिसकी स्थापना जमशेदजी टाटा ने की और उनके परिवार की पीढियों ने इसका विस्तार किया और इसे दृढ़ बनाया।&quot;)
+```
 &lt;/div&gt;
 
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+## Results
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Results
+```bash
+Results
 
 
 
@@ -894,7 +782,7 @@ It performs most of the common text processing tasks on your dataframe&lt;/p&gt;
 |भारतीय                      |PLACE       |
 |मुंबई                        |PLACE       |
 |महाराष्ट्र                      |PLACE       |
-|Maharashtra&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;               |PLACE       |
+|Maharashtra)               |PLACE       |
 |नवल टाटा                    |PERSON      |
 |मुम्बई                       |PLACE       |
 |Mumbai                     |PLACE       |
@@ -904,93 +792,77 @@ It performs most of the common text processing tasks on your dataframe&lt;/p&gt;
 +---------------------------+------------+
 
 
-&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;:.model-param&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+{:.model-param}
+```
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;bert_token_classifier_hi_en_ner_pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Type:&lt;/td&gt;
-      &lt;td&gt;pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.4.2+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;hi&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;665.8 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|bert_token_classifier_hi_en_ner_pipeline|
+|Type:|pipeline|
+|Compatibility:|Spark NLP 4.4.2+|
+|License:|Open Source|
+|Edition:|Official|
+|Language:|hi|
+|Size:|665.8 MB|
 
-&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
+## Included Models
 
-&lt;ul&gt;
-  &lt;li&gt;DocumentAssembler&lt;/li&gt;
-  &lt;li&gt;SentenceDetector&lt;/li&gt;
-  &lt;li&gt;TokenizerModel&lt;/li&gt;
-  &lt;li&gt;BertForTokenClassification&lt;/li&gt;
-  &lt;li&gt;NerConverter&lt;/li&gt;
-  &lt;li&gt;Finisher&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="hindi" /><category term="bert_token" /><category term="hi" /><category term="open_source" /><summary type="html">Description This pretrained pipeline is built on bert_token_classifier_hi_en_ner. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU pipeline = PretrainedPipeline(&quot;bert_token_classifier_hi_en_ner_pipeline&quot;, lang = &quot;hi&quot;) pipeline.annotate(&quot;रिलायंस इंडस्ट्रीज़ लिमिटेड (Reliance Industries Limited) एक भारतीय संगुटिका नियंत्रक कंपनी है, जिसका मुख्यालय मुंबई, महाराष्ट्र (Maharashtra) में स्थित है।रतन नवल टाटा (28 दिसंबर 1937, को मुम्बई (Mumbai), में जन्मे) टाटा समुह के वर्तमान अध्यक्ष, जो भारत की सबसे बड़ी व्यापारिक समूह है, जिसकी स्थापना जमशेदजी टाटा ने की और उनके परिवार की पीढियों ने इसका विस्तार किया और इसे दृढ़ बनाया।&quot;) val pipeline = new PretrainedPipeline(&quot;bert_token_classifier_hi_en_ner_pipeline&quot;, lang = &quot;hi&quot;) val pipeline.annotate(&quot;रिलायंस इंडस्ट्रीज़ लिमिटेड (Reliance Industries Limited) एक भारतीय संगुटिका नियंत्रक कंपनी है, जिसका मुख्यालय मुंबई, महाराष्ट्र (Maharashtra) में स्थित है।रतन नवल टाटा (28 दिसंबर 1937, को मुम्बई (Mumbai), में जन्मे) टाटा समुह के वर्तमान अध्यक्ष, जो भारत की सबसे बड़ी व्यापारिक समूह है, जिसकी स्थापना जमशेदजी टाटा ने की और उनके परिवार की पीढियों ने इसका विस्तार किया और इसे दृढ़ बनाया।&quot;) PythonScalaNLU pipeline = PretrainedPipeline(&quot;bert_token_classifier_hi_en_ner_pipeline&quot;, lang = &quot;hi&quot;) pipeline.annotate(&quot;रिलायंस इंडस्ट्रीज़ लिमिटेड (Reliance Industries Limited) एक भारतीय संगुटिका नियंत्रक कंपनी है, जिसका मुख्यालय मुंबई, महाराष्ट्र (Maharashtra) में स्थित है।रतन नवल टाटा (28 दिसंबर 1937, को मुम्बई (Mumbai), में जन्मे) टाटा समुह के वर्तमान अध्यक्ष, जो भारत की सबसे बड़ी व्यापारिक समूह है, जिसकी स्थापना जमशेदजी टाटा ने की और उनके परिवार की पीढियों ने इसका विस्तार किया और इसे दृढ़ बनाया।&quot;) val pipeline = new PretrainedPipeline(&quot;bert_token_classifier_hi_en_ner_pipeline&quot;, lang = &quot;hi&quot;) val pipeline.annotate(&quot;रिलायंस इंडस्ट्रीज़ लिमिटेड (Reliance Industries Limited) एक भारतीय संगुटिका नियंत्रक कंपनी है, जिसका मुख्यालय मुंबई, महाराष्ट्र (Maharashtra) में स्थित है।रतन नवल टाटा (28 दिसंबर 1937, को मुम्बई (Mumbai), में जन्मे) टाटा समुह के वर्तमान अध्यक्ष, जो भारत की सबसे बड़ी व्यापारिक समूह है, जिसकी स्थापना जमशेदजी टाटा ने की और उनके परिवार की पीढियों ने इसका विस्तार किया और इसे दृढ़ बनाया।&quot;) Results Results +---------------------------+------------+ |chunk |ner_label | +---------------------------+------------+ |रिलायंस इंडस्ट्रीज़ लिमिटेड |ORGANISATION| |Reliance Industries Limited|ORGANISATION| |भारतीय |PLACE | |मुंबई |PLACE | |महाराष्ट्र |PLACE | |Maharashtra) |PLACE | |नवल टाटा |PERSON | |मुम्बई |PLACE | |Mumbai |PLACE | |टाटा समुह |ORGANISATION| |भारत |PLACE | |जमशेदजी टाटा |PERSON | +---------------------------+------------+ {:.model-param} Model Information Model Name: bert_token_classifier_hi_en_ner_pipeline Type: pipeline Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: hi Size: 665.8 MB Included Models DocumentAssembler SentenceDetector TokenizerModel BertForTokenClassification NerConverter Finisher</summary></entry><entry><title type="html">NER Pipeline for 6 Scandinavian Languages</title><link href="/2023/05/27/bert_token_classifier_scandi_ner_pipeline_xx.html" rel="alternate" type="text/html" title="NER Pipeline for 6 Scandinavian Languages" /><published>2023-05-27T00:00:00+00:00</published><updated>2023-05-27T00:00:00+00:00</updated><id>/2023/05/27/bert_token_classifier_scandi_ner_pipeline_xx</id><content type="html" xml:base="/2023/05/27/bert_token_classifier_scandi_ner_pipeline_xx.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+- DocumentAssembler
+- SentenceDetector
+- TokenizerModel
+- BertForTokenClassification
+- NerConverter
+- Finisher</content><author><name>John Snow Labs</name></author><category term="hindi" /><category term="bert_token" /><category term="hi" /><category term="open_source" /><summary type="html">Description This pretrained pipeline is built on bert_token_classifier_hi_en_ner. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU pipeline = PretrainedPipeline(&quot;bert_token_classifier_hi_en_ner_pipeline&quot;, lang = &quot;hi&quot;) pipeline.annotate(&quot;रिलायंस इंडस्ट्रीज़ लिमिटेड (Reliance Industries Limited) एक भारतीय संगुटिका नियंत्रक कंपनी है, जिसका मुख्यालय मुंबई, महाराष्ट्र (Maharashtra) में स्थित है।रतन नवल टाटा (28 दिसंबर 1937, को मुम्बई (Mumbai), में जन्मे) टाटा समुह के वर्तमान अध्यक्ष, जो भारत की सबसे बड़ी व्यापारिक समूह है, जिसकी स्थापना जमशेदजी टाटा ने की और उनके परिवार की पीढियों ने इसका विस्तार किया और इसे दृढ़ बनाया।&quot;) val pipeline = new PretrainedPipeline(&quot;bert_token_classifier_hi_en_ner_pipeline&quot;, lang = &quot;hi&quot;) val pipeline.annotate(&quot;रिलायंस इंडस्ट्रीज़ लिमिटेड (Reliance Industries Limited) एक भारतीय संगुटिका नियंत्रक कंपनी है, जिसका मुख्यालय मुंबई, महाराष्ट्र (Maharashtra) में स्थित है।रतन नवल टाटा (28 दिसंबर 1937, को मुम्बई (Mumbai), में जन्मे) टाटा समुह के वर्तमान अध्यक्ष, जो भारत की सबसे बड़ी व्यापारिक समूह है, जिसकी स्थापना जमशेदजी टाटा ने की और उनके परिवार की पीढियों ने इसका विस्तार किया और इसे दृढ़ बनाया।&quot;) PythonScalaNLU pipeline = PretrainedPipeline(&quot;bert_token_classifier_hi_en_ner_pipeline&quot;, lang = &quot;hi&quot;) pipeline.annotate(&quot;रिलायंस इंडस्ट्रीज़ लिमिटेड (Reliance Industries Limited) एक भारतीय संगुटिका नियंत्रक कंपनी है, जिसका मुख्यालय मुंबई, महाराष्ट्र (Maharashtra) में स्थित है।रतन नवल टाटा (28 दिसंबर 1937, को मुम्बई (Mumbai), में जन्मे) टाटा समुह के वर्तमान अध्यक्ष, जो भारत की सबसे बड़ी व्यापारिक समूह है, जिसकी स्थापना जमशेदजी टाटा ने की और उनके परिवार की पीढियों ने इसका विस्तार किया और इसे दृढ़ बनाया।&quot;) val pipeline = new PretrainedPipeline(&quot;bert_token_classifier_hi_en_ner_pipeline&quot;, lang = &quot;hi&quot;) val pipeline.annotate(&quot;रिलायंस इंडस्ट्रीज़ लिमिटेड (Reliance Industries Limited) एक भारतीय संगुटिका नियंत्रक कंपनी है, जिसका मुख्यालय मुंबई, महाराष्ट्र (Maharashtra) में स्थित है।रतन नवल टाटा (28 दिसंबर 1937, को मुम्बई (Mumbai), में जन्मे) टाटा समुह के वर्तमान अध्यक्ष, जो भारत की सबसे बड़ी व्यापारिक समूह है, जिसकी स्थापना जमशेदजी टाटा ने की और उनके परिवार की पीढियों ने इसका विस्तार किया और इसे दृढ़ बनाया।&quot;) Results Results +---------------------------+------------+ |chunk |ner_label | +---------------------------+------------+ |रिलायंस इंडस्ट्रीज़ लिमिटेड |ORGANISATION| |Reliance Industries Limited|ORGANISATION| |भारतीय |PLACE | |मुंबई |PLACE | |महाराष्ट्र |PLACE | |Maharashtra) |PLACE | |नवल टाटा |PERSON | |मुम्बई |PLACE | |Mumbai |PLACE | |टाटा समुह |ORGANISATION| |भारत |PLACE | |जमशेदजी टाटा |PERSON | +---------------------------+------------+ {:.model-param} Model Information Model Name: bert_token_classifier_hi_en_ner_pipeline Type: pipeline Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: hi Size: 665.8 MB Included Models DocumentAssembler SentenceDetector TokenizerModel BertForTokenClassification NerConverter Finisher</summary></entry><entry><title type="html">NER Pipeline for 6 Scandinavian Languages</title><link href="/2023/05/27/bert_token_classifier_scandi_ner_pipeline_xx.html" rel="alternate" type="text/html" title="NER Pipeline for 6 Scandinavian Languages" /><published>2023-05-27T00:00:00+00:00</published><updated>2023-05-27T00:00:00+00:00</updated><id>/2023/05/27/bert_token_classifier_scandi_ner_pipeline_xx</id><content type="html" xml:base="/2023/05/27/bert_token_classifier_scandi_ner_pipeline_xx.html">## Description
 
-&lt;p&gt;This pretrained pipeline is built on &lt;a href=&quot;https://nlp.johnsnowlabs.com/2021/12/09/bert_token_classifier_scandi_ner_xx.html&quot;&gt;bert_token_classifier_scandi_ner&lt;/a&gt; model which is imported from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HuggingFace&lt;/code&gt;.&lt;/p&gt;
+This pretrained pipeline is built on [bert_token_classifier_scandi_ner](https://nlp.johnsnowlabs.com/2021/12/09/bert_token_classifier_scandi_ner_xx.html) model which is imported from `HuggingFace`.
 
-&lt;h2 id=&quot;predicted-entities&quot;&gt;Predicted Entities&lt;/h2&gt;
+## Predicted Entities
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_token_classifier_scandi_ner_pipeline_xx_4.4.2_3.2_1685206123763.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/bert_token_classifier_scandi_ner_pipeline_xx_4.4.2_3.2_1685206123763.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;n&quot;&gt;scandiner_pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_token_classifier_scandi_ner_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;xx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;scandiner_pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hans er professor ved Statens Universitet, som ligger i København, og han er en rigtig københavner.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;scandiner_pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_token_classifier_scandi_ner_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;xx&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_token_classifier_scandi_ner_pipeline_xx_4.4.2_3.2_1685206123763.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bert_token_classifier_scandi_ner_pipeline_xx_4.4.2_3.2_1685206123763.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;scandiner_pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hans er professor ved Statens Universitet, som ligger i København, og han er en rigtig københavner.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+## How to use
+
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+
+scandiner_pipeline = PretrainedPipeline(&quot;bert_token_classifier_scandi_ner_pipeline&quot;, lang = &quot;xx&quot;)
+scandiner_pipeline.annotate(&quot;Hans er professor ved Statens Universitet, som ligger i København, og han er en rigtig københavner.&quot;)
+```
+```scala
+
+val scandiner_pipeline = new PretrainedPipeline(&quot;bert_token_classifier_scandi_ner_pipeline&quot;, lang = &quot;xx&quot;)
+
+val scandiner_pipeline.annotate(&quot;Hans er professor ved Statens Universitet, som ligger i København, og han er en rigtig københavner.&quot;)
+```
 &lt;/div&gt;
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;scandiner_pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_token_classifier_scandi_ner_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;xx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;scandiner_pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hans er professor ved Statens Universitet, som ligger i København, og han er en rigtig københavner.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;scandiner_pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PretrainedPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_token_classifier_scandi_ner_pipeline&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lang&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;xx&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+scandiner_pipeline = PretrainedPipeline(&quot;bert_token_classifier_scandi_ner_pipeline&quot;, lang = &quot;xx&quot;)
+scandiner_pipeline.annotate(&quot;Hans er professor ved Statens Universitet, som ligger i København, og han er en rigtig københavner.&quot;)
+```
+```scala
+val scandiner_pipeline = new PretrainedPipeline(&quot;bert_token_classifier_scandi_ner_pipeline&quot;, lang = &quot;xx&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;scandiner_pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;annotate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hans er professor ved Statens Universitet, som ligger i København, og han er en rigtig københavner.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+val scandiner_pipeline.annotate(&quot;Hans er professor ved Statens Universitet, som ligger i København, og han er en rigtig københavner.&quot;)
+```
 &lt;/div&gt;
 
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+## Results
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Results
+```bash
+Results
 
 
 
@@ -1004,51 +876,27 @@ It performs most of the common text processing tasks on your dataframe&lt;/p&gt;
 +-------------------+---------+
 
 
-&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;:.model-param&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+{:.model-param}
+```
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;bert_token_classifier_scandi_ner_pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Type:&lt;/td&gt;
-      &lt;td&gt;pipeline&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 4.4.2+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;xx&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;666.9 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+{:.table-model}
+|---|---|
+|Model Name:|bert_token_classifier_scandi_ner_pipeline|
+|Type:|pipeline|
+|Compatibility:|Spark NLP 4.4.2+|
+|License:|Open Source|
+|Edition:|Official|
+|Language:|xx|
+|Size:|666.9 MB|
 
-&lt;h2 id=&quot;included-models&quot;&gt;Included Models&lt;/h2&gt;
+## Included Models
 
-&lt;ul&gt;
-  &lt;li&gt;DocumentAssembler&lt;/li&gt;
-  &lt;li&gt;SentenceDetector&lt;/li&gt;
-  &lt;li&gt;TokenizerModel&lt;/li&gt;
-  &lt;li&gt;BertForTokenClassification&lt;/li&gt;
-  &lt;li&gt;NerConverter&lt;/li&gt;
-  &lt;li&gt;Finisher&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>John Snow Labs</name></author><category term="danish" /><category term="norwegian" /><category term="swedish" /><category term="icelandic" /><category term="faroese" /><category term="bert" /><category term="xx" /><category term="open_source" /><summary type="html">Description This pretrained pipeline is built on bert_token_classifier_scandi_ner model which is imported from HuggingFace. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU scandiner_pipeline = PretrainedPipeline(&quot;bert_token_classifier_scandi_ner_pipeline&quot;, lang = &quot;xx&quot;) scandiner_pipeline.annotate(&quot;Hans er professor ved Statens Universitet, som ligger i København, og han er en rigtig københavner.&quot;) val scandiner_pipeline = new PretrainedPipeline(&quot;bert_token_classifier_scandi_ner_pipeline&quot;, lang = &quot;xx&quot;) val scandiner_pipeline.annotate(&quot;Hans er professor ved Statens Universitet, som ligger i København, og han er en rigtig københavner.&quot;) PythonScalaNLU scandiner_pipeline = PretrainedPipeline(&quot;bert_token_classifier_scandi_ner_pipeline&quot;, lang = &quot;xx&quot;) scandiner_pipeline.annotate(&quot;Hans er professor ved Statens Universitet, som ligger i København, og han er en rigtig københavner.&quot;) val scandiner_pipeline = new PretrainedPipeline(&quot;bert_token_classifier_scandi_ner_pipeline&quot;, lang = &quot;xx&quot;) val scandiner_pipeline.annotate(&quot;Hans er professor ved Statens Universitet, som ligger i København, og han er en rigtig københavner.&quot;) Results Results +-------------------+---------+ |chunk |ner_label| +-------------------+---------+ |Hans |PER | |Statens Universitet|ORG | |København |LOC | |københavner |MISC | +-------------------+---------+ {:.model-param} Model Information Model Name: bert_token_classifier_scandi_ner_pipeline Type: pipeline Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: xx Size: 666.9 MB Included Models DocumentAssembler SentenceDetector TokenizerModel BertForTokenClassification NerConverter Finisher</summary></entry></feed>
+- DocumentAssembler
+- SentenceDetector
+- TokenizerModel
+- BertForTokenClassification
+- NerConverter
+- Finisher</content><author><name>John Snow Labs</name></author><category term="danish" /><category term="norwegian" /><category term="swedish" /><category term="icelandic" /><category term="faroese" /><category term="bert" /><category term="xx" /><category term="open_source" /><summary type="html">Description This pretrained pipeline is built on bert_token_classifier_scandi_ner model which is imported from HuggingFace. Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU scandiner_pipeline = PretrainedPipeline(&quot;bert_token_classifier_scandi_ner_pipeline&quot;, lang = &quot;xx&quot;) scandiner_pipeline.annotate(&quot;Hans er professor ved Statens Universitet, som ligger i København, og han er en rigtig københavner.&quot;) val scandiner_pipeline = new PretrainedPipeline(&quot;bert_token_classifier_scandi_ner_pipeline&quot;, lang = &quot;xx&quot;) val scandiner_pipeline.annotate(&quot;Hans er professor ved Statens Universitet, som ligger i København, og han er en rigtig københavner.&quot;) PythonScalaNLU scandiner_pipeline = PretrainedPipeline(&quot;bert_token_classifier_scandi_ner_pipeline&quot;, lang = &quot;xx&quot;) scandiner_pipeline.annotate(&quot;Hans er professor ved Statens Universitet, som ligger i København, og han er en rigtig københavner.&quot;) val scandiner_pipeline = new PretrainedPipeline(&quot;bert_token_classifier_scandi_ner_pipeline&quot;, lang = &quot;xx&quot;) val scandiner_pipeline.annotate(&quot;Hans er professor ved Statens Universitet, som ligger i København, og han er en rigtig københavner.&quot;) Results Results +-------------------+---------+ |chunk |ner_label| +-------------------+---------+ |Hans |PER | |Statens Universitet|ORG | |København |LOC | |københavner |MISC | +-------------------+---------+ {:.model-param} Model Information Model Name: bert_token_classifier_scandi_ner_pipeline Type: pipeline Compatibility: Spark NLP 4.4.2+ License: Open Source Edition: Official Language: xx Size: 666.9 MB Included Models DocumentAssembler SentenceDetector TokenizerModel BertForTokenClassification NerConverter Finisher</summary></entry></feed>
