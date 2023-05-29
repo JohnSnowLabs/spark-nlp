@@ -40,8 +40,8 @@ Pretrained RobertaForSequenceClassification model, adapted from Hugging Face and
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler() \
-    .setInputCols(["text"]) \
-    .setOutputCols("document")
+    .setInputCol("text") \
+    .setOutputCol("document")
 
 tokenizer = Tokenizer() \
     .setInputCols("document") \
@@ -50,7 +50,7 @@ tokenizer = Tokenizer() \
 roberta_classifier = RoBertaForSequenceClassification.pretrained("roberta_classifier_autotrain_neurips_chanllenge_1287149282","en") \
     .setInputCols(["document", "token"]) \
     .setOutputCol("class")
-    
+
 pipeline = Pipeline(stages=[documentAssembler, tokenizer, roberta_classifier])
 
 data = spark.createDataFrame([["I love you!"], ["I feel lucky to be here."]]).toDF("text")
@@ -58,18 +58,18 @@ data = spark.createDataFrame([["I love you!"], ["I feel lucky to be here."]]).to
 result = pipeline.fit(data).transform(data)
 ```
 ```scala
-val documentAssembler = new DocumentAssembler() 
+val documentAssembler = new DocumentAssembler()
     .setInputCols("text")
     .setOutputCols("document")
-      
+
 val tokenizer = new Tokenizer()
     .setInputCols("document")
     .setOutputCol("token")
- 
-val roberta_classifier = RoBertaForSequenceClassification.pretrained("roberta_classifier_autotrain_neurips_chanllenge_1287149282","en") 
+
+val roberta_classifier = RoBertaForSequenceClassification.pretrained("roberta_classifier_autotrain_neurips_chanllenge_1287149282","en")
     .setInputCols(Array("document", "token"))
     .setOutputCol("class")
-   
+
 val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, roberta_classifier))
 
 val data = Seq("I love you!").toDS.toDF("text")

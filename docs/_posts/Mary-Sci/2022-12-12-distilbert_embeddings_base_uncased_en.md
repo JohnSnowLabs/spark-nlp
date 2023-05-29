@@ -34,8 +34,8 @@ Pretrained DistilBertForMaskedLM model, adapted from Hugging Face and curated to
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler() \
-    .setInputCols(["text"]) \
-    .setOutputCols("document")
+    .setInputCol("text") \
+    .setOutputCol("document")
 
 tokenizer = Tokenizer() \
     .setInputCols("document") \
@@ -45,7 +45,7 @@ distilbert_loaded = DistilBertEmbeddings.pretrained("distilbert_embeddings_base_
     .setInputCols(["document", "token"]) \
     .setOutputCol("embeddings") \
     .setCaseSensitive(False)
-    
+
 pipeline = Pipeline(stages=[documentAssembler, tokenizer, distilbert_loaded])
 
 data = spark.createDataFrame([["I love Spark NLP"]]).toDF("text")
@@ -53,19 +53,19 @@ data = spark.createDataFrame([["I love Spark NLP"]]).toDF("text")
 result = pipeline.fit(data).transform(data)
 ```
 ```scala
-val documentAssembler = new DocumentAssembler() 
-    .setInputCols(Array("text")) 
-    .setOutputCols(Array("document"))
-      
+val documentAssembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
+
 val tokenizer = new Tokenizer()
     .setInputCols("document")
     .setOutputCol("token")
- 
-val distilbert_loaded = DistilBertEmbeddings.pretrained("distilbert_embeddings_base_uncased","en") 
+
+val distilbert_loaded = DistilBertEmbeddings.pretrained("distilbert_embeddings_base_uncased","en")
     .setInputCols(Array("document", "token"))
     .setOutputCol("embeddings")
-    .setCaseSensitive(false)    
-   
+    .setCaseSensitive(false)
+
 val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, distilbert_loaded))
 
 val data = Seq("I love Spark NLP").toDS.toDF("text")
