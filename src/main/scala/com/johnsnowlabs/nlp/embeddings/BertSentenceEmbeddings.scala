@@ -155,7 +155,8 @@ class BertSentenceEmbeddings(override val uid: String)
     with HasEmbeddingsProperties
     with HasStorageRef
     with HasCaseSensitiveProperties
-    with HasEngine {
+    with HasEngine
+    with HasProtectedParams {
 
   def this() = this(Identifiable.randomUID("BERT_SENTENCE_EMBEDDINGS"))
 
@@ -163,7 +164,7 @@ class BertSentenceEmbeddings(override val uid: String)
     *
     * @group param
     */
-  val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary")
+  val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary").setProtected()
 
   /** ConfigProto from tensorflow, serialized into byte array. Get with
     * config_proto.SerializeToString()
@@ -190,15 +191,14 @@ class BertSentenceEmbeddings(override val uid: String)
     parent = this,
     name = "isLong",
     "Use Long type instead of Int type for inputs buffer - Some Bert models require Long instead of Int.")
+    .setProtected()
 
   /** set isLong
     *
     * @group setParam
     */
   def setIsLong(value: Boolean): this.type = {
-    if (get(isLong).isEmpty)
-      set(this.isLong, value)
-    this
+    set(this.isLong, value)
   }
 
   /** get isLong
@@ -223,10 +223,7 @@ class BertSentenceEmbeddings(override val uid: String)
     * @group setParam
     */
   override def setDimension(value: Int): this.type = {
-    if (get(dimension).isEmpty)
-      set(this.dimension, value)
-    this
-
+    set(this.dimension, value)
   }
 
   /** Whether to lowercase tokens or not
@@ -234,9 +231,7 @@ class BertSentenceEmbeddings(override val uid: String)
     * @group setParam
     */
   override def setCaseSensitive(value: Boolean): this.type = {
-    if (get(caseSensitive).isEmpty)
-      set(this.caseSensitive, value)
-    this
+    set(this.caseSensitive, value)
   }
 
   /** Vocabulary used to encode the words to ids with WordPieceEncoder
@@ -262,9 +257,7 @@ class BertSentenceEmbeddings(override val uid: String)
       value <= 512,
       "BERT models do not support sequences longer than 512 because of trainable positional embeddings")
 
-    if (get(maxSentenceLength).isEmpty)
-      set(maxSentenceLength, value)
-    this
+    set(maxSentenceLength, value)
   }
 
   /** ConfigProto from tensorflow, serialized into byte array. Get with
@@ -291,12 +284,12 @@ class BertSentenceEmbeddings(override val uid: String)
     *
     * @group param
     */
-  val signatures = new MapFeature[String, String](model = this, name = "signatures")
+  val signatures =
+    new MapFeature[String, String](model = this, name = "signatures").setProtected()
 
   /** @group setParam */
   def setSignatures(value: Map[String, String]): this.type = {
-    if (get(signatures).isEmpty)
-      set(signatures, value)
+    set(signatures, value)
     this
   }
 

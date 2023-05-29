@@ -16,29 +16,32 @@ import pytest
 
 from sparknlp.annotator import *
 from sparknlp.base import *
+from test.annotator.common.has_max_sentence_length_test import HasMaxSentenceLengthTests
 from test.util import SparkContextForTest
 
 
 @pytest.mark.slow
-class BertForZeroShotClassificationTestSpec(unittest.TestCase):
+class BertForZeroShotClassificationTestSpec(unittest.TestCase, HasMaxSentenceLengthTests):
     def setUp(self):
         self.spark = SparkContextForTest.spark
         self.text = "I have a problem with my iphone that needs to be resolved asap!!"
         self.inputDataset = self.spark.createDataFrame([[self.text]]) \
             .toDF("text")
 
-    def runTest(self):
+        self.tested_annotator = BertForZeroShotClassification \
+            .pretrained("bert_base_cased_zero_shot_classifier_xnli") \
+            .setInputCols(["document", "token"]) \
+            .setOutputCol("class") \
+            .setCandidateLabels(["urgent", "mobile", "travel", "movie", "music", "sport", "weather", "technology"])
+
+    def test_run(self):
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
 
         tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
 
-        zero_shot_classifier = BertForZeroShotClassification \
-            .pretrained() \
-            .setInputCols(["document", "token"]) \
-            .setOutputCol("class") \
-            .setCandidateLabels(["urgent", "mobile", "travel", "movie", "music", "sport", "weather", "technology"])
+        zero_shot_classifier = self.tested_annotator
 
         pipeline = Pipeline(stages=[
             document_assembler,

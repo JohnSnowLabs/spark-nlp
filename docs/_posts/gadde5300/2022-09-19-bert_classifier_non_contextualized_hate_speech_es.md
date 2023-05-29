@@ -74,6 +74,14 @@ val data = Seq("Amo Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("es.classify.hate_non_contextualized.bert.by_finiteautomata").predict("""Amo Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

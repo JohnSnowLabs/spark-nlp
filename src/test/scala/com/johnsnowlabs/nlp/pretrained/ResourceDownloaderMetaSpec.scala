@@ -17,6 +17,7 @@
 package com.johnsnowlabs.nlp.pretrained
 
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.util.TestUtils.captureOutput
 import com.johnsnowlabs.util.Version
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.BeforeAndAfter
@@ -40,14 +41,6 @@ class ResourceDownloaderMetaSpec extends AnyFlatSpec with BeforeAndAfter {
     ResourceDownloader.privateDownloader = realPrivateDownloader
     ResourceDownloader.publicDownloader = realPublicDownloader
     ResourceDownloader.communityDownloader = realCommunityDownloader
-  }
-
-  def captureOutput(thunk: => Unit): String = {
-    val stream = new java.io.ByteArrayOutputStream()
-    Console.withOut(stream) {
-      thunk
-    }
-    stream.toString
   }
 
   def extractTableContent(string: String): Array[String] = {
@@ -189,6 +182,16 @@ class ResourceDownloaderMetaSpec extends AnyFlatSpec with BeforeAndAfter {
     ResourceDownloader.communityDownloader = realCommunityDownloader
     ResourceDownloader.downloadModelDirectly(
       "public/models/bert_base_cased_es_3.2.2_3.0_1630999631885.zip")
+  }
+
+  it should "download a model and keep it as zip" taggedAs SlowTest in {
+    ResourceDownloader.privateDownloader = realPrivateDownloader
+    ResourceDownloader.publicDownloader = realPublicDownloader
+    ResourceDownloader.communityDownloader = realCommunityDownloader
+    ResourceDownloader.downloadModelDirectly(
+      "s3://auxdata.johnsnowlabs.com/public/models/albert_base_sequence_classifier_ag_news_en_3.4.0_3.0_1639648298937.zip",
+      folder = "public/models",
+      unzip = false)
   }
 
   it should "be able to list from online metadata" in {

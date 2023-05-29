@@ -17,11 +17,12 @@ from sparknlp.common import *
 
 
 class BertSentenceEmbeddings(AnnotatorModel,
-                             HasEmbeddingsProperties,
-                             HasCaseSensitiveProperties,
-                             HasStorageRef,
-                             HasBatchedAnnotate,
-                             HasEngine):
+                                  HasEmbeddingsProperties,
+                                  HasCaseSensitiveProperties,
+                                  HasStorageRef,
+                                  HasBatchedAnnotate,
+                                  HasEngine,
+                                  HasMaxSentenceLengthLimit):
     """Sentence-level embeddings using BERT. BERT (Bidirectional Encoder
     Representations from Transformers) provides dense vector representations for
     natural language by using a deep, pre-trained neural network with the
@@ -133,11 +134,6 @@ class BertSentenceEmbeddings(AnnotatorModel,
 
     outputAnnotatorType = AnnotatorType.SENTENCE_EMBEDDINGS
 
-    maxSentenceLength = Param(Params._dummy(),
-                              "maxSentenceLength",
-                              "Max sentence length to process",
-                              typeConverter=TypeConverters.toInt)
-
     isLong = Param(Params._dummy(),
                    "isLong",
                    "Use Long type instead of Int type for inputs buffer - Some Bert models require Long instead of Int.",
@@ -157,16 +153,6 @@ class BertSentenceEmbeddings(AnnotatorModel,
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
-
-    def setMaxSentenceLength(self, value):
-        """Sets max sentence length to process.
-
-        Parameters
-        ----------
-        value : int
-            Max sentence length to process
-        """
-        return self._set(maxSentenceLength=value)
 
     def setIsLong(self, value):
         """Sets whether to use Long type instead of Int type for inputs buffer.

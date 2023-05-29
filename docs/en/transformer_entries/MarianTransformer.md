@@ -13,6 +13,10 @@ development. MarianTransformer uses the models trained by MarianNMT.
 It is currently the engine behind the Microsoft Translator Neural Machine Translation services and being deployed by
 many companies, organizations and research projects.
 
+Note that this model only supports inputs up to 512 tokens. If you are working with longer 
+inputs, consider splitting them first. For example, you can use the SentenceDetectorDL annotator to
+split longer texts into sentences.
+
 Pretrained models can be loaded with `pretrained` of the companion object:
 ```
 val marian = MarianTransformer.pretrained()

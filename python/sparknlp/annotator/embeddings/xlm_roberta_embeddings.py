@@ -21,7 +21,8 @@ class XlmRoBertaEmbeddings(AnnotatorModel,
                            HasCaseSensitiveProperties,
                            HasStorageRef,
                            HasBatchedAnnotate,
-                           HasEngine):
+                           HasEngine,
+                           HasMaxSentenceLengthLimit):
     """The XLM-RoBERTa model was proposed in `Unsupervised Cross-lingual
     Representation Learning at Scale` by Alexis Conneau, Kartikay Khandelwal,
     Naman Goyal, Vishrav Chaudhary, Guillaume Wenzek, Francisco Guzman, Edouard
@@ -151,11 +152,6 @@ class XlmRoBertaEmbeddings(AnnotatorModel,
 
     outputAnnotatorType = AnnotatorType.WORD_EMBEDDINGS
 
-    maxSentenceLength = Param(Params._dummy(),
-                              "maxSentenceLength",
-                              "Max sentence length to process",
-                              typeConverter=TypeConverters.toInt)
-
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
@@ -170,16 +166,6 @@ class XlmRoBertaEmbeddings(AnnotatorModel,
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
-
-    def setMaxSentenceLength(self, value):
-        """Sets max sentence length to process.
-
-        Parameters
-        ----------
-        value : int
-            Max sentence length to process
-        """
-        return self._set(maxSentenceLength=value)
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.XlmRoBertaEmbeddings", java_model=None):

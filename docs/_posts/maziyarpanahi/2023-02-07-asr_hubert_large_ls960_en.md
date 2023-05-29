@@ -73,6 +73,14 @@ val pipelineModel = pipeline.fit(audioDf)
 
 val pipelineDF = pipelineModel.transform(audioDf)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.speech2text.hubert").predict("""audio_content|||"audio_assembler|||"asr_hubert_large_ls960|||"en|||"audio_assembler|||"text""")
+```
+
 </div>
 
 {:.model-param}

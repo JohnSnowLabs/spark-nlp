@@ -43,4 +43,13 @@ private[johnsnowlabs] object TestUtils {
       }
     }
   }
+
+  def captureOutput(thunk: => Unit): String = {
+    val stream = new java.io.ByteArrayOutputStream()
+    Console.withOut(stream) {
+      thunk
+    }
+    stream.toString
+  }
+
 }

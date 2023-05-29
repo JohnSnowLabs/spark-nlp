@@ -242,21 +242,19 @@ class AlbertEmbeddings(override val uid: String)
 
   /** @group setParam */
   override def setDimension(value: Int): this.type = {
-    if (get(dimension).isEmpty)
-      set(this.dimension, value)
-    this
+    set(this.dimension, value)
   }
 
   /** It contains TF model signatures for the laded saved model
     *
     * @group param
     */
-  val signatures = new MapFeature[String, String](model = this, name = "signatures")
+  val signatures =
+    new MapFeature[String, String](model = this, name = "signatures").setProtected()
 
   /** @group setParam */
   def setSignatures(value: Map[String, String]): this.type = {
-    if (get(signatures).isEmpty)
-      set(signatures, value)
+    set(signatures, value)
     this
   }
 

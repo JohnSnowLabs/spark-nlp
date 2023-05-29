@@ -35,6 +35,8 @@ trait SparkSessionTest extends BeforeAndAfterAll { this: Suite =>
   val emptyDataSet: Dataset[_] = PipelineModels.dummyDataset
   val pipeline = new Pipeline()
 
+  println(s"Spark version: ${spark.version}")
+
   override def beforeAll(): Unit = {
     super.beforeAll()
 

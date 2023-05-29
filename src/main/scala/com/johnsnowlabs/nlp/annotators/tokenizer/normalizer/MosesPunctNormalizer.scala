@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.tokenizer.normalizer
 
-import org.apache.commons.lang.StringUtils
+import org.apache.commons.lang3.StringUtils
 
 import scala.util.matching.Regex
 

@@ -75,6 +75,14 @@ val data = Seq("PUT YOUR STRING HERE").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.roberta.realsumm_by_systems_fold4.large.by_shiyue").predict("""PUT YOUR STRING HERE""")
+```
+
 </div>
 
 {:.model-param}

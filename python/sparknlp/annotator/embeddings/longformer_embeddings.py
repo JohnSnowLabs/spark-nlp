@@ -21,7 +21,8 @@ class LongformerEmbeddings(AnnotatorModel,
                            HasCaseSensitiveProperties,
                            HasStorageRef,
                            HasBatchedAnnotate,
-                           HasEngine):
+                           HasEngine,
+                           HasLongMaxSentenceLengthLimit):
     """Longformer is a transformer model for long documents. The Longformer
     model was presented in `Longformer: The Long-Document Transformer` by Iz
     Beltagy, Matthew E. Peters, Arman Cohan. longformer-base-4096 is a BERT-like
@@ -139,11 +140,6 @@ class LongformerEmbeddings(AnnotatorModel,
 
     outputAnnotatorType = AnnotatorType.WORD_EMBEDDINGS
 
-    maxSentenceLength = Param(Params._dummy(),
-                              "maxSentenceLength",
-                              "Max sentence length to process",
-                              typeConverter=TypeConverters.toInt)
-
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
@@ -158,16 +154,6 @@ class LongformerEmbeddings(AnnotatorModel,
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
-
-    def setMaxSentenceLength(self, value):
-        """Sets max sentence length to process, by default 1024.
-
-        Parameters
-        ----------
-        value : int
-            Max sentence length to process
-        """
-        return self._set(maxSentenceLength=value)
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.LongformerEmbeddings", java_model=None):

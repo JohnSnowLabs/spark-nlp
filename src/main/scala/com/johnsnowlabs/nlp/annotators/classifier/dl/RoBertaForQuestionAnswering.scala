@@ -148,7 +148,7 @@ class RoBertaForQuestionAnswering(override val uid: String)
     *
     * @group param
     */
-  val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary")
+  val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary").setProtected()
 
   /** @group setParam */
   def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
@@ -157,7 +157,7 @@ class RoBertaForQuestionAnswering(override val uid: String)
     *
     * @group param
     */
-  val merges: MapFeature[(String, String), Int] = new MapFeature(this, "merges")
+  val merges: MapFeature[(String, String), Int] = new MapFeature(this, "merges").setProtected()
 
   /** @group setParam */
   def setMerges(value: Map[(String, String), Int]): this.type = set(merges, value)
@@ -203,12 +203,12 @@ class RoBertaForQuestionAnswering(override val uid: String)
     *
     * @group param
     */
-  val signatures = new MapFeature[String, String](model = this, name = "signatures")
+  val signatures =
+    new MapFeature[String, String](model = this, name = "signatures").setProtected()
 
   /** @group setParam */
   def setSignatures(value: Map[String, String]): this.type = {
-    if (get(signatures).isEmpty)
-      set(signatures, value)
+    set(signatures, value)
     this
   }
 

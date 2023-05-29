@@ -51,7 +51,7 @@ Question_Answering = CamemBertForQuestionAnswering("camembert_base_qa_fquad","fr
      .setInputCols(["document_question", "document_context"])\
      .setOutputCol("answer")\
      .setCaseSensitive(True)
-    
+
 pipeline = Pipeline(stages=[Document_Assembler, Question_Answering])
 
 data = spark.createDataFrame([["Où est-ce que je vis?","Mon nom est Wolfgang et je vis à Berlin."]]).toDF("question", "context")
@@ -67,13 +67,21 @@ val Question_Answering = CamemBertForQuestionAnswering("camembert_base_qa_fquad"
      .setInputCols(Array("document_question", "document_context"))
      .setOutputCol("answer")
      .setCaseSensitive(True)
-    
+
 val pipeline = new Pipeline().setStages(Array(Document_Assembler, Question_Answering))
 
 val data = Seq("Où est-ce que je vis?","Mon nom est Wolfgang et je vis à Berlin.").toDS.toDF("question", "context")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("fr.answer_question.camembert.fquad").predict("""Où est-ce que je vis?|||"Mon nom est Wolfgang et je vis à Berlin.""")
+```
+
 </div>
 
 {:.model-param}

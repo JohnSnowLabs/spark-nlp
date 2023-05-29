@@ -190,15 +190,14 @@ class UniversalSentenceEncoder(override val uid: String)
     "loadSP",
     "Whether to load SentencePiece ops file which is required only by multi-lingual models. " +
       "This is not changeable after it's set with a pretrained model nor it is compatible with Windows.")
+    .setProtected()
 
   /** Whether to load SentencePiece ops file which is required only by multi-lingual models.
     *
     * @group setParam
     */
   def setLoadSP(value: Boolean): this.type = {
-    if (get(loadSP).isEmpty)
-      set(this.loadSP, value)
-    this
+    set(this.loadSP, value)
   }
 
   /** Whether to load SentencePiece ops file which is required only by multi-lingual models.

@@ -195,7 +195,7 @@ class ViTForImageClassification(override val uid: String)
     *
     * @group param
     */
-  val labels: MapFeature[String, BigInt] = new MapFeature(this, "labels")
+  val labels: MapFeature[String, BigInt] = new MapFeature(this, "labels").setProtected()
 
   /** @group setParam */
   def setLabels(value: Map[String, BigInt]): this.type = set(labels, value)
@@ -209,12 +209,12 @@ class ViTForImageClassification(override val uid: String)
     *
     * @group param
     */
-  val signatures = new MapFeature[String, String](model = this, name = "signatures")
+  val signatures =
+    new MapFeature[String, String](model = this, name = "signatures").setProtected()
 
   /** @group setParam */
   def setSignatures(value: Map[String, String]): this.type = {
-    if (get(signatures).isEmpty)
-      set(signatures, value)
+    set(signatures, value)
     this
   }
 

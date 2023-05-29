@@ -72,6 +72,14 @@ val data = Seq("I love Spark NLP").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed.scibert.covid_scibert.").predict("""I love Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

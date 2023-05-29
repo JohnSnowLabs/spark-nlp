@@ -185,7 +185,7 @@ class RoBertaSentenceEmbeddings(override val uid: String)
     *
     * @group param
     */
-  val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary")
+  val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary").setProtected()
 
   /** @group setParam */
   def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
@@ -194,7 +194,7 @@ class RoBertaSentenceEmbeddings(override val uid: String)
     *
     * @group param
     */
-  val merges: MapFeature[(String, String), Int] = new MapFeature(this, "merges")
+  val merges: MapFeature[(String, String), Int] = new MapFeature(this, "merges").setProtected()
 
   /** @group setParam */
   def setMerges(value: Map[(String, String), Int]): this.type = set(merges, value)
@@ -240,12 +240,12 @@ class RoBertaSentenceEmbeddings(override val uid: String)
     *
     * @group param
     */
-  val signatures = new MapFeature[String, String](model = this, name = "signatures")
+  val signatures =
+    new MapFeature[String, String](model = this, name = "signatures").setProtected()
 
   /** @group setParam */
   def setSignatures(value: Map[String, String]): this.type = {
-    if (get(signatures).isEmpty)
-      set(signatures, value)
+    set(signatures, value)
     this
   }
 
@@ -282,9 +282,7 @@ class RoBertaSentenceEmbeddings(override val uid: String)
     * @group setParam
     */
   override def setDimension(value: Int): this.type = {
-    if (get(dimension).isEmpty)
-      set(this.dimension, value)
-    this
+    set(this.dimension, value)
   }
 
   /** Whether to lowercase tokens or not
@@ -292,9 +290,7 @@ class RoBertaSentenceEmbeddings(override val uid: String)
     * @group setParam
     */
   override def setCaseSensitive(value: Boolean): this.type = {
-    if (get(caseSensitive).isEmpty)
-      set(this.caseSensitive, value)
-    this
+    set(this.caseSensitive, value)
   }
 
   setDefault(dimension -> 768, batchSize -> 8, maxSentenceLength -> 128, caseSensitive -> true)

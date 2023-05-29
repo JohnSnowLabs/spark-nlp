@@ -40,7 +40,7 @@ Pretrained CamembertForTokenClassification model, adapted from Hugging Face and 
 documentAssembler = DocumentAssembler() \
         .setInputCol("text") \
         .setOutputCol("document")
-        
+
 sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")\
 .setInputCols(["document"])\
 .setOutputCol("sentence")
@@ -60,20 +60,20 @@ data = spark.createDataFrame([["Ma armastan sädet nlp"]]).toDF("text")
 result = pipeline.fit(data).transform(data)
 ```
 ```scala
-val documentAssembler = new DocumentAssembler() 
-          .setInputCol("text") 
+val documentAssembler = new DocumentAssembler()
+          .setInputCol("text")
           .setOutputCol("document")
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
        .setInputCols(Array("document"))
        .setOutputCol("sentence")
 
-val tokenizer = new Tokenizer() 
+val tokenizer = new Tokenizer()
     .setInputCols(Array("sentence"))
     .setOutputCol("token")
 
-val sequenceClassifier_loaded = CamemBertForTokenClassification.pretrained("camembert_classifier_est_roberta_hist_ner","et") 
-    .setInputCols(Array("sentence", "token")) 
+val sequenceClassifier_loaded = CamemBertForTokenClassification.pretrained("camembert_classifier_est_roberta_hist_ner","et")
+    .setInputCols(Array("sentence", "token"))
     .setOutputCol("ner")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler,sentenceDetector,tokenizer,sequenceClassifier_loaded))
@@ -82,6 +82,14 @@ val data = Seq("Ma armastan sädet nlp").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("et.ner.camembert").predict("""Ma armastan sädet nlp""")
+```
+
 </div>
 
 {:.model-param}

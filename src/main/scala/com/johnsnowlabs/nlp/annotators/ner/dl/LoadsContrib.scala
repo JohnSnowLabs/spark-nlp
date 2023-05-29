@@ -17,7 +17,6 @@
 package com.johnsnowlabs.nlp.annotators.ner.dl
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import org.apache.commons.lang.SystemUtils
 import org.apache.spark.SparkFiles
 import org.apache.spark.sql.SparkSession
 import org.tensorflow.TensorFlow
@@ -38,14 +37,7 @@ object LoadsContrib {
    * In TensorFlow 1.15.0 we don't need to load any .so files
    * We reserve this feature for the future releases
    *  */
-  lazy val contribPaths: Option[(String, String)] =
-    if (SystemUtils.IS_OS_MAC || SystemUtils.IS_OS_MAC_OSX) {
-      None
-    } else if (SystemUtils.IS_OS_WINDOWS) {
-      None
-    } else {
-      None
-    }
+  lazy val contribPaths: Option[(String, String)] = None
 
   private def getFileName(path: String) = {
     "sparknlp_contrib" + new File(path).getName.take(5)

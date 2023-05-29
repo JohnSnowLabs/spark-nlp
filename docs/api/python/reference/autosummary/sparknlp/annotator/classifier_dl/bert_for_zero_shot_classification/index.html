@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.annotator.classifier_dl.bert_for_zero_shot_classification &#8212; Spark NLP 4.4.1 documentation</title>
+    <title>sparknlp.annotator.classifier_dl.bert_for_zero_shot_classification &#8212; Spark NLP 4.4.3 documentation</title>
   
   
   
@@ -312,6 +312,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../longformer_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.longformer_for_sequence_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../longformer_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.longformer_for_token_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../multi_classifier_dl/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.multi_classifier_dl</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../roberta_bert_for_zero_shot_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../roberta_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.roberta_for_sequence_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../roberta_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.roberta_for_token_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../sentiment_dl/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.sentiment_dl</span></code></a></li>
@@ -502,6 +503,8 @@ document.write(`
 inference) tasks. Equivalent of <cite>BertForSequenceClassification</cite> models, but these models don’t require a hardcoded
 number of potential classes, they can be chosen at runtime. It usually means it’s slower but it is much more
 flexible.</p>
+<p>Note that the model will loop through all provided labels. So the more labels you have, the
+longer this process will take.</p>
 <p>Any combination of sequences and labels can be passed and each combination will be posed as a premise/hypothesis
 pair and passed to the pretrained model.</p>
 <p>Pretrained models can be loaded with <a class="reference internal" href="#sparknlp.annotator.classifier_dl.bert_for_zero_shot_classification.BertForZeroShotClassification.pretrained" title="sparknlp.annotator.classifier_dl.bert_for_zero_shot_classification.BertForZeroShotClassification.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
@@ -571,7 +574,7 @@ default False</p>
 <span class="gp">... </span>    <span class="n">tokenizer</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">sequenceClassifier</span>
 <span class="gp">... </span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;I loved this movie when I was a child.&quot;</span><span class="p">,</span> <span class="s2">&quot;It was pretty boring.&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;I loved this movie when I was a child.&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;It was pretty boring.&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;label.result&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="go">+------+</span>
@@ -596,20 +599,6 @@ default False</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>b</strong><span class="classifier">List[int]</span></dt><dd><p>ConfigProto from tensorflow, serialized into byte array</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.annotator.classifier_dl.bert_for_zero_shot_classification.BertForZeroShotClassification.setMaxSentenceLength">
-<span class="sig-name descname"><span class="pre">setMaxSentenceLength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/classifier_dl/bert_for_zero_shot_classification.html#BertForZeroShotClassification.setMaxSentenceLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.classifier_dl.bert_for_zero_shot_classification.BertForZeroShotClassification.setMaxSentenceLength" title="Permalink to this definition">#</a></dt>
-<dd><p>Sets max sentence length to process, by default 128.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Max sentence length to process</p>
 </dd>
 </dl>
 </dd>
@@ -663,11 +652,11 @@ The current SparkSession</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the pretrained model, by default
-“bert_base_cased_zero_shot_classifier_xnli”
-lang : str, optional
-Language of the pretrained model, by default “en”
-remote_loc : str, optional
-Optional remote address of the resource, by default None. Will use
+“bert_base_cased_zero_shot_classifier_xnli”</p>
+</dd>
+<dt><strong>lang</strong><span class="classifier">str, optional</span></dt><dd><p>Language of the pretrained model, by default “en”</p>
+</dd>
+<dt><strong>remote_loc</strong><span class="classifier">str, optional</span></dt><dd><p>Optional remote address of the resource, by default None. Will use
 Spark NLPs repositories otherwise.</p>
 </dd>
 </dl>
@@ -721,7 +710,6 @@ Spark NLPs repositories otherwise.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.classifier_dl.bert_for_zero_shot_classification.BertForZeroShotClassification"><code class="docutils literal notranslate"><span class="pre">BertForZeroShotClassification</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.classifier_dl.bert_for_zero_shot_classification.BertForZeroShotClassification.getClasses"><code class="docutils literal notranslate"><span class="pre">BertForZeroShotClassification.getClasses()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.classifier_dl.bert_for_zero_shot_classification.BertForZeroShotClassification.setConfigProtoBytes"><code class="docutils literal notranslate"><span class="pre">BertForZeroShotClassification.setConfigProtoBytes()</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.classifier_dl.bert_for_zero_shot_classification.BertForZeroShotClassification.setMaxSentenceLength"><code class="docutils literal notranslate"><span class="pre">BertForZeroShotClassification.setMaxSentenceLength()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.classifier_dl.bert_for_zero_shot_classification.BertForZeroShotClassification.setCoalesceSentences"><code class="docutils literal notranslate"><span class="pre">BertForZeroShotClassification.setCoalesceSentences()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.classifier_dl.bert_for_zero_shot_classification.BertForZeroShotClassification.loadSavedModel"><code class="docutils literal notranslate"><span class="pre">BertForZeroShotClassification.loadSavedModel()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.classifier_dl.bert_for_zero_shot_classification.BertForZeroShotClassification.pretrained"><code class="docutils literal notranslate"><span class="pre">BertForZeroShotClassification.pretrained()</span></code></a></li>

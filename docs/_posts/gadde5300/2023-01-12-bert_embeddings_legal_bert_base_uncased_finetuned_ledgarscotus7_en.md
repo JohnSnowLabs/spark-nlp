@@ -52,6 +52,14 @@ data = spark.createDataFrame([["I love Spark NLP"]]).toDF("text")
 result = pipeline.fit(data).transform(data)
 ```
 
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed.bert.uncased_base_finetuned_legal.by_hatemestinbejaia").predict("""I love Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

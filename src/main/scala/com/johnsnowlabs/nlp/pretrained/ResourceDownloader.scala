@@ -84,7 +84,7 @@ trait ResourceDownloader {
 
   def downloadMetadataIfNeed(folder: String): List[ResourceMetadata]
 
-  def downloadAndUnzipFile(s3FilePath: String): Option[String]
+  def downloadAndUnzipFile(s3FilePath: String, unzip: Boolean = true): Option[String]
 
   val fileSystem: FileSystem = ResourceDownloader.fileSystem
 
@@ -125,6 +125,14 @@ object ResourceDownloader {
     new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, "public")
   var communityDownloader: ResourceDownloader =
     new S3ResourceDownloader(s3BucketCommunity, s3Path, cacheFolder, "community")
+
+  def getResourceDownloader(folder: String): ResourceDownloader = {
+    folder match {
+      case this.publicLoc => publicDownloader
+      case loc if loc.startsWith("@") => communityDownloader
+      case _ => privateDownloader
+    }
+  }
 
   /** Reset the cache and recreate ResourceDownloader S3 credentials */
   def resetResourceDownloader(): Unit = {
@@ -412,11 +420,7 @@ object ResourceDownloader {
   }
 
   private def getResourceMetadata(location: String): List[ResourceMetadata] = {
-    location match {
-      case this.publicLoc => publicDownloader.downloadMetadataIfNeed(location)
-      case loc if loc.startsWith("@") => communityDownloader.downloadMetadataIfNeed(location)
-      case _ => privateDownloader.downloadMetadataIfNeed(location)
-    }
+    getResourceDownloader(location).downloadMetadataIfNeed(location)
   }
 
   def showAvailableAnnotators(folder: String = publicLoc): Unit = {
@@ -450,20 +454,10 @@ object ResourceDownloader {
     */
   def downloadResource(request: ResourceRequest): String = {
     val future = Future {
-      if (request.folder.equals(publicLoc)) {
-        publicDownloader.download(request)
-      } else if (request.folder.startsWith("@")) {
-        val actualLoc = request.folder.replace("@", "")
-        val updatedRequest = ResourceRequest(
-          request.name,
-          request.language,
-          folder = actualLoc,
-          request.libVersion,
-          request.sparkVersion)
-        communityDownloader.download(updatedRequest)
-      } else {
-        privateDownloader.download(request)
-      }
+      val updatedRequest: ResourceRequest = if (request.folder.startsWith("@")) {
+        request.copy(folder = request.folder.replace("@", ""))
+      } else request
+      getResourceDownloader(request.folder).download(updatedRequest)
     }
 
     var downloadFinished = false
@@ -497,22 +491,19 @@ object ResourceDownloader {
     path.get
   }
 
-  /** Downloads a resource from the default S3 bucket in the cache pretrained folder.
+  /** Downloads a model from the default S3 bucket to the cache pretrained folder.
     * @param model
-    *   the name of the key in the S3 bucket
+    *   the name of the key in the S3 bucket or s3 URI
     * @param folder
-    *   the language of the model
-    * @return
-    *   the path to the downloaded file
+    *   the folder of the model
+    * @param unzip
+    *   used to unzip the model, by default true
     */
-  def downloadModelDirectly(model: String, folder: String = publicLoc): Unit = {
-    if (folder.equals(publicLoc)) {
-      publicDownloader.downloadAndUnzipFile(model)
-    } else if (folder.startsWith("@")) {
-      communityDownloader.downloadAndUnzipFile(model)
-    } else {
-      privateDownloader.downloadAndUnzipFile(model)
-    }
+  def downloadModelDirectly(
+      model: String,
+      folder: String = publicLoc,
+      unzip: Boolean = true): Unit = {
+    getResourceDownloader(folder).downloadAndUnzipFile(model, unzip)
   }
 
   def downloadModel[TModel <: PipelineStage](
@@ -569,17 +560,14 @@ object ResourceDownloader {
   }
 
   def getDownloadSize(resourceRequest: ResourceRequest): String = {
-    var size: Option[Long] = None
-    val folder = resourceRequest.folder
-    if (folder.equals(publicLoc)) {
-      size = publicDownloader.getDownloadSize(resourceRequest)
-    } else if (folder.startsWith("@")) {
-      val actualLoc = folder.replace("@", "")
-      size = communityDownloader.getDownloadSize(
-        ResourceRequest(resourceRequest.name, resourceRequest.language, actualLoc))
-    } else {
-      size = privateDownloader.getDownloadSize(resourceRequest)
-    }
+
+    val updatedResourceRequest: ResourceRequest = if (resourceRequest.folder.startsWith("@")) {
+      resourceRequest.copy(folder = resourceRequest.folder.replace("@", ""))
+    } else resourceRequest
+
+    val size = getResourceDownloader(resourceRequest.folder)
+      .getDownloadSize(updatedResourceRequest)
+
     size match {
       case Some(downloadBytes) => FileHelper.getHumanReadableFileSize(downloadBytes)
       case None => "-1"
@@ -728,7 +716,8 @@ object PythonResourceDownloader {
     "ZeroShotNerModel" -> ZeroShotNerModel,
     "BartTransformer" -> BartTransformer,
     "BertForZeroShotClassification" -> BertForZeroShotClassification,
-    "DistilBertForZeroShotClassification" -> DistilBertForZeroShotClassification)
+    "DistilBertForZeroShotClassification" -> DistilBertForZeroShotClassification,
+    "RoBertaForZeroShotClassification" -> RoBertaForZeroShotClassification)
 
   // List pairs of types such as the one with key type can load a pretrained model from the value type
   val typeMapper: Map[String, String] = Map("ZeroShotNerModel" -> "RoBertaForQuestionAnswering")
@@ -771,9 +760,12 @@ object PythonResourceDownloader {
     ResourceDownloader.clearCache(name, Option(language), correctedFolder)
   }
 
-  def downloadModelDirectly(model: String, remoteLoc: String = null): Unit = {
+  def downloadModelDirectly(
+      model: String,
+      remoteLoc: String = null,
+      unzip: Boolean = true): Unit = {
     val correctedFolder = Option(remoteLoc).getOrElse(ResourceDownloader.publicLoc)
-    ResourceDownloader.downloadModelDirectly(model, correctedFolder)
+    ResourceDownloader.downloadModelDirectly(model, correctedFolder, unzip)
   }
 
   def showUnCategorizedResources(): String = {

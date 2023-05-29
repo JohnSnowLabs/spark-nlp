@@ -89,6 +89,14 @@ val example = Seq.empty["I love you very much!"].toDS.toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.bert.hate.").predict("""I love you very much!""")
+```
+
 </div>
 
 ## Results

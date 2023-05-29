@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.annotator.embeddings.xlnet_embeddings &#8212; Spark NLP 4.4.1 documentation</title>
+    <title>sparknlp.annotator.embeddings.xlnet_embeddings &#8212; Spark NLP 4.4.3 documentation</title>
   
   
   
@@ -312,6 +312,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/longformer_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.longformer_for_sequence_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/longformer_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.longformer_for_token_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/multi_classifier_dl/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.multi_classifier_dl</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/roberta_bert_for_zero_shot_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/roberta_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.roberta_for_sequence_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/roberta_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.roberta_for_token_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/sentiment_dl/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.sentiment_dl</span></code></a></li>
@@ -631,20 +632,6 @@ language inference, sentiment analysis, and document ranking.</em></p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.annotator.embeddings.xlnet_embeddings.XlnetEmbeddings.setMaxSentenceLength">
-<span class="sig-name descname"><span class="pre">setMaxSentenceLength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/embeddings/xlnet_embeddings.html#XlnetEmbeddings.setMaxSentenceLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.xlnet_embeddings.XlnetEmbeddings.setMaxSentenceLength" title="Permalink to this definition">#</a></dt>
-<dd><p>Sets max sentence length to process.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Max sentence length to process</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.xlnet_embeddings.XlnetEmbeddings.loadSavedModel">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">loadSavedModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark_session</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/embeddings/xlnet_embeddings.html#XlnetEmbeddings.loadSavedModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.xlnet_embeddings.XlnetEmbeddings.loadSavedModel" title="Permalink to this definition">#</a></dt>
 <dd><p>Loads a locally saved model.</p>
@@ -730,7 +717,6 @@ Spark NLPs repositories otherwise.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.embeddings.xlnet_embeddings.XlnetEmbeddings"><code class="docutils literal notranslate"><span class="pre">XlnetEmbeddings</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.embeddings.xlnet_embeddings.XlnetEmbeddings.setConfigProtoBytes"><code class="docutils literal notranslate"><span class="pre">XlnetEmbeddings.setConfigProtoBytes()</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.embeddings.xlnet_embeddings.XlnetEmbeddings.setMaxSentenceLength"><code class="docutils literal notranslate"><span class="pre">XlnetEmbeddings.setMaxSentenceLength()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.embeddings.xlnet_embeddings.XlnetEmbeddings.loadSavedModel"><code class="docutils literal notranslate"><span class="pre">XlnetEmbeddings.loadSavedModel()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.embeddings.xlnet_embeddings.XlnetEmbeddings.pretrained"><code class="docutils literal notranslate"><span class="pre">XlnetEmbeddings.pretrained()</span></code></a></li>
 </ul>

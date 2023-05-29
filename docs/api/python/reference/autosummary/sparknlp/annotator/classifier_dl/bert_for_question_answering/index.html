@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.annotator.classifier_dl.bert_for_question_answering &#8212; Spark NLP 4.4.1 documentation</title>
+    <title>sparknlp.annotator.classifier_dl.bert_for_question_answering &#8212; Spark NLP 4.4.3 documentation</title>
   
   
   
@@ -405,14 +405,14 @@ False</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">MultiDocumentAssembler</span><span class="p">()</span> \
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;question&quot;</span><span class="p">,</span> <span class="s2">&quot;context&quot;</span><span class="p">])</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">([</span><span class="s2">&quot;document_question&quot;</span><span class="p">,</span> <span class="s2">&quot;document_context&quot;</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">spanClassifier</span> <span class="o">=</span> <span class="n">BertForQuestionAnswering</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCols</span><span class="p">([</span><span class="s2">&quot;document_question&quot;</span><span class="p">,</span> <span class="s2">&quot;document_context&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">questionAnswering</span> <span class="o">=</span> <span class="n">BertForQuestionAnswering</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document_question&quot;</span><span class="p">,</span> <span class="s2">&quot;document_context&quot;</span><span class="p">])</span> \
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;answer&quot;</span><span class="p">)</span> \
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
 <span class="gp">... </span>    <span class="n">documentAssembler</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">spanClassifier</span>
+<span class="gp">... </span>    <span class="n">questionAnswering</span>
 <span class="gp">... </span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s2">&quot;What&#39;s my name?&quot;</span><span class="p">,</span> <span class="s2">&quot;My name is Clara and I live in Berkeley.&quot;</span><span class="p">]])</span><span class="o">.</span><span class="n">toDF</span><span class="p">(</span><span class="s2">&quot;question&quot;</span><span class="p">,</span> <span class="s2">&quot;context&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -432,20 +432,6 @@ False</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>b</strong><span class="classifier">List[int]</span></dt><dd><p>ConfigProto from tensorflow, serialized into byte array</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.annotator.classifier_dl.bert_for_question_answering.BertForQuestionAnswering.setMaxSentenceLength">
-<span class="sig-name descname"><span class="pre">setMaxSentenceLength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/classifier_dl/bert_for_question_answering.html#BertForQuestionAnswering.setMaxSentenceLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.classifier_dl.bert_for_question_answering.BertForQuestionAnswering.setMaxSentenceLength" title="Permalink to this definition">#</a></dt>
-<dd><p>Sets max sentence length to process, by default 128.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Max sentence length to process</p>
 </dd>
 </dl>
 </dd>
@@ -539,7 +525,6 @@ Spark NLPs repositories otherwise.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.classifier_dl.bert_for_question_answering.BertForQuestionAnswering"><code class="docutils literal notranslate"><span class="pre">BertForQuestionAnswering</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.classifier_dl.bert_for_question_answering.BertForQuestionAnswering.setConfigProtoBytes"><code class="docutils literal notranslate"><span class="pre">BertForQuestionAnswering.setConfigProtoBytes()</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.classifier_dl.bert_for_question_answering.BertForQuestionAnswering.setMaxSentenceLength"><code class="docutils literal notranslate"><span class="pre">BertForQuestionAnswering.setMaxSentenceLength()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.classifier_dl.bert_for_question_answering.BertForQuestionAnswering.loadSavedModel"><code class="docutils literal notranslate"><span class="pre">BertForQuestionAnswering.loadSavedModel()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.classifier_dl.bert_for_question_answering.BertForQuestionAnswering.pretrained"><code class="docutils literal notranslate"><span class="pre">BertForQuestionAnswering.pretrained()</span></code></a></li>
 </ul>

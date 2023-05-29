@@ -10,7 +10,7 @@ language: ca
 edition: Spark NLP 3.4.4
 spark_version: 3.0
 supported: false
-recommended: true
+recommended: false
 annotator: LemmatizerModel
 article_header:
   type: cover
