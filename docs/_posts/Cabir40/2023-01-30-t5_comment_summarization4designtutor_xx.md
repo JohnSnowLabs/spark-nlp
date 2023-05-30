@@ -34,13 +34,13 @@ Pretrained T5ForConditionalGeneration model, adapted from Hugging Face and curat
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler() \
-    .setInputCols(["text"]) \
-    .setOutputCols("document")
+    .setInputCol("text") \
+    .setOutputCol("document")
 
 t5 = T5Transformer.pretrained("t5_comment_summarization4designtutor","xx") \
     .setInputCols(["document"]) \
     .setOutputCol("answers")
-    
+
 pipeline = Pipeline(stages=[documentAssembler, t5])
 
 data = spark.createDataFrame([["PUT YOUR STRING HERE"]]).toDF("text")
@@ -48,14 +48,14 @@ data = spark.createDataFrame([["PUT YOUR STRING HERE"]]).toDF("text")
 result = pipeline.fit(data).transform(data)
 ```
 ```scala
-val documentAssembler = new DocumentAssembler() 
+val documentAssembler = new DocumentAssembler()
       .setInputCols("text")
       .setOutputCols("document")
-       
-val t5 = T5Transformer.pretrained("t5_comment_summarization4designtutor","xx") 
+
+val t5 = T5Transformer.pretrained("t5_comment_summarization4designtutor","xx")
     .setInputCols("document")
     .setOutputCol("answers")
-   
+
 val pipeline = new Pipeline().setStages(Array(documentAssembler, t5))
 
 val data = Seq("PUT YOUR STRING HERE").toDS.toDF("text")

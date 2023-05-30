@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.annotator.classifier_dl.bert_for_zero_shot_classification &#8212; Spark NLP 4.4.2 documentation</title>
+    <title>sparknlp.annotator.classifier_dl.bert_for_zero_shot_classification &#8212; Spark NLP 4.4.3 documentation</title>
   
   
   
@@ -503,6 +503,8 @@ document.write(`
 inference) tasks. Equivalent of <cite>BertForSequenceClassification</cite> models, but these models don’t require a hardcoded
 number of potential classes, they can be chosen at runtime. It usually means it’s slower but it is much more
 flexible.</p>
+<p>Note that the model will loop through all provided labels. So the more labels you have, the
+longer this process will take.</p>
 <p>Any combination of sequences and labels can be passed and each combination will be posed as a premise/hypothesis
 pair and passed to the pretrained model.</p>
 <p>Pretrained models can be loaded with <a class="reference internal" href="#sparknlp.annotator.classifier_dl.bert_for_zero_shot_classification.BertForZeroShotClassification.pretrained" title="sparknlp.annotator.classifier_dl.bert_for_zero_shot_classification.BertForZeroShotClassification.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion

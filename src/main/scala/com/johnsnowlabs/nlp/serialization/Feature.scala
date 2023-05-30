@@ -118,14 +118,20 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](
   }
 
   final def setValue(value: Option[Any]): HasFeatures = {
-    //    TODO: make sure we log if there is any protected param is being set
-    //     if (isProtected && isSet)
-    if (useBroadcast) {
-      if (isSet) broadcastValue.get.destroy()
-      broadcastValue =
-        value.map(v => spark.sparkContext.broadcast[TComplete](v.asInstanceOf[TComplete]))
+    if (isProtected && isSet) {
+      val warnString =
+        s"Warning: The parameter ${this.name} is protected and can only be set once." +
+          " For a pretrained model, this was done during the initialization process." +
+          " If you are trying to train your own model, please check the documentation."
+      println(warnString)
     } else {
-      rawValue = value.map(_.asInstanceOf[TComplete])
+      if (useBroadcast) {
+        if (isSet) broadcastValue.get.destroy()
+        broadcastValue =
+          value.map(v => spark.sparkContext.broadcast[TComplete](v.asInstanceOf[TComplete]))
+      } else {
+        rawValue = value.map(_.asInstanceOf[TComplete])
+      }
     }
     model
   }

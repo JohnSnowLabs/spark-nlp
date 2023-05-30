@@ -2,6 +2,7 @@ package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.util.TestUtils.captureOutput
 import org.scalatest.flatspec.AnyFlatSpec
 
 class HasFeaturesTestSpec extends AnyFlatSpec {
@@ -15,19 +16,19 @@ class HasFeaturesTestSpec extends AnyFlatSpec {
 
   val model = new MockModel
 
-  behavior of "HasFeaturesModels"
+  behavior of "HasFeatures"
 
-  it should "set protected params only once" taggedAs FastTest in {
+  it should "set protected features only once" taggedAs FastTest in {
     model.setProtectedMockFeature("first")
     assert(model.getProtectedMockFeature == "first")
 
-//    assertThrows[IllegalArgumentException] {
-//      model.setProtectedMockFeature("second")
-//    }
-    model.setProtectedMockFeature("second")
+    val output = captureOutput {
+      model.setProtectedMockFeature("second")
+    }
+    assert(output.contains("is protected and can only be set once"))
+
     // should stay the same as the first value
-    //    TODO: this should be first
-//    assert(model.getProtectedMockFeature == "first")
+    assert(model.getProtectedMockFeature == "first")
   }
 
 }

@@ -17,5 +17,5 @@
 package com.johnsnowlabs.util
 
 object Build {
-  val version: String = "4.4.2"
+  val version: String = "4.4.3"
 }

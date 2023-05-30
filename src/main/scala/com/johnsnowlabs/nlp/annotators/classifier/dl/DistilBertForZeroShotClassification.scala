@@ -37,6 +37,9 @@ import org.apache.spark.sql.SparkSession
   * models, but these models don't require a hardcoded number of potential classes, they can be
   * chosen at runtime. It usually means it's slower but it is much more flexible.
   *
+  * Note that the model will loop through all provided labels. So the more labels you have, the
+  * longer this process will take.
+  *
   * Any combination of sequences and labels can be passed and each combination will be posed as a
   * premise/hypothesis pair and passed to the pretrained model.
   *
@@ -53,9 +56,7 @@ import org.apache.spark.sql.SparkSession
   * [[https://sparknlp.org/models?task=Text+Classification Models Hub]].
   *
   * To see which models are compatible and how to import them see
-  * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]] and to see more extended
-  * examples, see
-  * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/classifier/dl/DistilBertForZeroShotClassification .scala DistilBertForZeroShotClassification]].
+  * [[https://github.com/JohnSnowLabs/spark-nlp/discussions/5669]].
   *
   * ==Example==
   * {{{
@@ -164,8 +165,7 @@ class DistilBertForZeroShotClassification(override val uid: String)
 
   /** @group setParam */
   def setVocabulary(value: Map[String, Int]): this.type = {
-    if (get(vocabulary).isEmpty)
-      set(vocabulary, value)
+    set(vocabulary, value)
     this
   }
 
@@ -253,8 +253,7 @@ class DistilBertForZeroShotClassification(override val uid: String)
 
   /** @group setParam */
   def setSignatures(value: Map[String, String]): this.type = {
-    if (get(signatures).isEmpty)
-      set(signatures, value)
+    set(signatures, value)
     this
   }
 
@@ -291,9 +290,7 @@ class DistilBertForZeroShotClassification(override val uid: String)
     * @group setParam
     */
   override def setCaseSensitive(value: Boolean): this.type = {
-    if (get(caseSensitive).isEmpty)
-      set(this.caseSensitive, value)
-    this
+    set(this.caseSensitive, value)
   }
 
   setDefault(

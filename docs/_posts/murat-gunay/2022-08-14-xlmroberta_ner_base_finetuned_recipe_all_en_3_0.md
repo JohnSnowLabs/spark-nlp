@@ -39,8 +39,8 @@ Pretrained XLMRobertaForTokenClassification model, adapted from Hugging Face and
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler() \
-    .setInputCols(["text"]) \
-    .setOutputCols("document")
+    .setInputCol("text") \
+    .setOutputCol("document")
 
 tokenizer = Tokenizer() \
     .setInputCols("document") \
@@ -49,11 +49,11 @@ tokenizer = Tokenizer() \
 token_classifier = XlmRoBertaForTokenClassification.pretrained("xlmroberta_ner_base_finetuned_recipe_all","en") \
     .setInputCols(["document", "token"]) \
     .setOutputCol("ner")
-    
+
 ner_converter = NerConverter()\
     .setInputCols(["document", "token", "ner"])\
-    .setOutputCol("ner_chunk") 
-    
+    .setOutputCol("ner_chunk")
+
 pipeline = Pipeline(stages=[documentAssembler, tokenizer, token_classifier, ner_converter])
 
 data = spark.createDataFrame([["PUT YOUR STRING HERE"]]).toDF("text")
@@ -61,22 +61,22 @@ data = spark.createDataFrame([["PUT YOUR STRING HERE"]]).toDF("text")
 result = pipeline.fit(data).transform(data)
 ```
 ```scala
-val documentAssembler = new DocumentAssembler() 
-      .setInputCols(Array("text")) 
+val documentAssembler = new DocumentAssembler()
+      .setInputCols(Array("text"))
       .setOutputCols(Array("document"))
-      
+
 val tokenizer = new Tokenizer()
     .setInputCols("document")
     .setOutputCol("token")
- 
-val token_classifier = XlmRoBertaForTokenClassification.pretrained("xlmroberta_ner_base_finetuned_recipe_all","en") 
-    .setInputCols(Array("document", "token")) 
+
+val token_classifier = XlmRoBertaForTokenClassification.pretrained("xlmroberta_ner_base_finetuned_recipe_all","en")
+    .setInputCols(Array("document", "token"))
     .setOutputCol("ner")
 
 val ner_converter = new NerConverter()
     .setInputCols(Array("document", "token', "ner"))
     .setOutputCol("ner_chunk")
-    
+
 val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, token_classifier, ner_converter))
 
 val data = Seq("PUT YOUR STRING HERE").toDS.toDF("text")

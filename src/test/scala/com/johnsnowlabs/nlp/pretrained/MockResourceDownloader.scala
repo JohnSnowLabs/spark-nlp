@@ -34,6 +34,6 @@ class MockResourceDownloader(resourcePath: String) extends ResourceDownloader {
   val resources: List[ResourceMetadata] = ResourceMetadata.readResources(resourcePath)
 
   def downloadMetadataIfNeed(folder: String): List[ResourceMetadata] = resources
-
-  override def downloadAndUnzipFile(s3FilePath: String): Option[String] = Some("model")
+  override def downloadAndUnzipFile(s3FilePath: String, unzip: Boolean = true): Option[String] =
+    Some("model")
 }
