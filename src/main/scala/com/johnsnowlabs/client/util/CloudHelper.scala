@@ -15,6 +15,9 @@
  */
 package com.johnsnowlabs.client.util
 
+import com.johnsnowlabs.nlp.util.io.CloudStorageType
+import com.johnsnowlabs.nlp.util.io.CloudStorageType.CloudStorageType
+
 object CloudHelper {
 
   def parseS3URI(s3URI: String, includePrefixInKey: Boolean = false): (String, String) = {
@@ -36,8 +39,23 @@ object CloudHelper {
     (bucketName, storagePath)
   }
 
-  def isCloudPath(path: String): Boolean = {
-    path.startsWith("s3") || path.startsWith("gs")
+  def isCloudPath(uri: String): Boolean = {
+    uri.startsWith("s3://") || uri.startsWith("s3a://") || uri.startsWith("gs://")
+  }
+
+  def isS3Path(uri: String): Boolean = {
+    uri.startsWith("s3://") || uri.startsWith("s3a://")
+  }
+
+  private def isGCPStoragePath(uri: String): Boolean = uri.startsWith("gs://")
+
+  def cloudType(uri: String): CloudStorageType = {
+    if (isS3Path(uri)) {
+      CloudStorageType.S3
+    } else if (isGCPStoragePath(uri)) {
+      CloudStorageType.GCP
+    } else
+      throw new UnsupportedOperationException(s"Unsupported URI scheme: $uri")
   }
 
 }

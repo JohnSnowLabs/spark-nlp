@@ -17,14 +17,53 @@ package com.johnsnowlabs.client
 
 import com.johnsnowlabs.client.aws.AWSClient
 import com.johnsnowlabs.client.gcp.GCPClient
+import com.johnsnowlabs.client.util.CloudHelper
+import com.johnsnowlabs.nlp.util.io.CloudStorageType
+import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader}
+import org.slf4j.{Logger, LoggerFactory}
 
 class CloudManager(parameters: Map[String, String] = Map.empty) {
 
+  private val logger: Logger = LoggerFactory.getLogger(this.getClass.toString)
+
   def getClientInstance(uri: String): CloudClient = {
-    uri match {
-      case s3Uri if s3Uri.startsWith("s3://") || s3Uri.startsWith("s3a://") =>
+    CloudHelper.cloudType(uri) match {
+      case CloudStorageType.S3 =>
         new AWSClient(parameters)
-      case gcpUri if gcpUri.startsWith("gs://") => {
+      case CloudStorageType.GCP => {
+        new GCPClient(parameters)
+      }
+      //      case azureUri
+      //          if azureUri.startsWith("https://") && azureUri.contains(".blob.core.windows.net/") => "Azure"
+      case _ =>
+        throw new IllegalArgumentException(s"Unsupported URI scheme: $uri")
+    }
+  }
+
+  def getClientInstanceFromConfigurationParams(uri: String): CloudClient = {
+    CloudHelper.cloudType(uri) match {
+      case CloudStorageType.S3 =>
+        val (accessKey, secretKey, sessionToken) = ConfigHelper.getHadoopS3Config
+        val region = ConfigLoader.getConfigStringValue(ConfigHelper.awsExternalRegion)
+        val isS3Defined =
+          accessKey != null && secretKey != null && sessionToken != null && region.nonEmpty
+
+        if (isS3Defined) {
+          Map(
+            "accessKeyId" -> accessKey,
+            "secretAccessKey" -> secretKey,
+            "sessionToken" -> sessionToken,
+            "region" -> region)
+        } else {
+          if (accessKey != null || secretKey != null || sessionToken != null)
+            logger.info(
+              "Not all configs set for private S3 access. Defaulting to public downloader.")
+          Map("credentialsType" -> "public")
+        }
+        new AWSClient(parameters)
+      case CloudStorageType.GCP => {
+        val projectId = ConfigLoader.getConfigStringValue(ConfigHelper.gcpProjectId)
+        Map("projectId" -> projectId)
         new GCPClient(parameters)
       }
       //      case azureUri
