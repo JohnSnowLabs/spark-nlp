@@ -21,14 +21,16 @@ import com.johnsnowlabs.client.gcp.GCPClient
 import com.johnsnowlabs.client.util.CloudHelper
 import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader}
 import org.apache.commons.io.IOUtils
+import org.apache.spark.SparkFiles
 
 import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
+import java.net.URI
 import java.nio.file.Paths
 import java.util.zip.ZipInputStream
 
 object CloudResources {
 
-  def downloadFromCloud(
+  def downloadModelFromCloud(
       awsGateway: AWSGateway,
       cachePath: String,
       modelName: String,
@@ -200,6 +202,42 @@ object CloudResources {
     val fileName = Paths.get(targetPath).getFileName.toString
     val destinationPath = s"$storagePath/$fileName"
     gcpClient.copyInputStreamToBucket(gcpBucket, destinationPath, targetPath)
+  }
+
+  /** Downloads the provided bucket path to a local temporary directory and returns the location
+    * of the folder.
+    *
+    * @param bucketURI
+    *   Bucket URI to the resource
+    * @param tempLocalPath
+    *   The tmp local directory
+    * @param isIndex
+    *   Whether the file is used in RocksDB storage
+    * @return
+    *   URI of the local path to the temporary folder of the resource
+    */
+  def downloadBucketToLocalTmp(
+      bucketURI: String,
+      tempLocalPath: String = "",
+      isIndex: Boolean = false): URI = {
+    // This method used to be known as ResourceDownloader.downloadS3Directory
+    val cloudManager = new CloudManager()
+    val clientInstance = cloudManager.getClientInstanceFromConfigurationParams(bucketURI)
+
+    clientInstance match {
+      case awsClient: AWSClient => {
+        val (bucketName, keyPrefix) = CloudHelper.parseS3URI(bucketURI)
+        val directory =
+          if (tempLocalPath.isEmpty) SparkFiles.getRootDirectory() else tempLocalPath
+        awsClient.downloadFilesFromBucketToDirectory(bucketName, keyPrefix, directory, isIndex)
+        Paths.get(directory, keyPrefix).toUri
+      }
+      case gcpClient: GCPClient => {
+        // TODO: Implement me
+        Paths.get("", "").toUri
+      }
+    }
+
   }
 
 }

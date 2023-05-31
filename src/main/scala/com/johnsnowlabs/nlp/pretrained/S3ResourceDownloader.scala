@@ -19,7 +19,6 @@ package com.johnsnowlabs.nlp.pretrained
 import com.johnsnowlabs.client.CloudResources
 import com.johnsnowlabs.client.aws.AWSGateway
 import com.johnsnowlabs.client.util.CloudHelper
-import com.johnsnowlabs.nlp.util.io.OutputHelper
 import com.johnsnowlabs.util.FileHelper
 import org.apache.hadoop.fs.Path
 
@@ -92,7 +91,7 @@ class S3ResourceDownloader(
 
         cachePath.toString match {
           case path if CloudHelper.isCloudPath(path) => {
-            CloudResources.downloadFromCloud(
+            CloudResources.downloadModelFromCloud(
               awsGateway,
               cachePath.toString,
               modelName,
@@ -171,8 +170,8 @@ class S3ResourceDownloader(
     // 1--> s3://auxdata.johnsnowlabs.com/public/models/albert_base_sequence_classifier_ag_news_en_3.4.0_3.0_1639648298937.zip
     // 2--> public/models/albert_base_sequence_classifier_ag_news_en_3.4.0_3.0_1639648298937.zip
 
-    val newS3FilePath = if (s3FilePath.startsWith("s3")) {
-      ResourceHelper.parseS3URI(s3FilePath)._2
+    val newS3FilePath = if (CloudHelper.isS3Path(s3FilePath)) {
+      CloudHelper.parseS3URI(s3FilePath)._2
     } else s3FilePath
 
     val s3File = newS3FilePath.split("/").last
