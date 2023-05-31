@@ -17,15 +17,15 @@
 package com.johnsnowlabs.nlp.util.io
 
 import com.amazonaws.AmazonServiceException
+import com.johnsnowlabs.client.CloudResources
 import com.johnsnowlabs.client.aws.AWSGateway
 import com.johnsnowlabs.client.util.CloudHelper
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.common.{TaggedSentence, TaggedWord}
-import com.johnsnowlabs.nlp.pretrained.ResourceDownloader
 import com.johnsnowlabs.nlp.util.io.ReadAs._
 import com.johnsnowlabs.nlp.{DocumentAssembler, Finisher}
 import com.johnsnowlabs.util.ConfigHelper
-import org.apache.commons.io.{FileUtils, IOUtils}
+import org.apache.commons.io.FileUtils
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
@@ -203,8 +203,8 @@ object ResourceHelper {
     */
   def copyToLocal(path: String): String = try {
     val localUri =
-      if (path.startsWith("s3:/") || path.startsWith("s3a:/")) { // Download directly from S3
-        ResourceDownloader.downloadS3Directory(path)
+      if (CloudHelper.isCloudPath(path)) { // Download directly from Cloud Buckets
+        CloudResources.downloadBucketToLocalTmp(path)
       } else { // Use Source Stream
         val pathWithProtocol: String =
           if (URI.create(path).getScheme == null) new File(path).toURI.toURL.toString else path
