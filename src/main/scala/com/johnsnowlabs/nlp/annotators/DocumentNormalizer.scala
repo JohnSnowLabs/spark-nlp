@@ -126,7 +126,7 @@ class DocumentNormalizer(override val uid: String)
   def this() = this(Identifiable.randomUID("DOCUMENT_NORMALIZER"))
 
   /** Action to perform applying regex patterns on text
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group param
     */
   val action: Param[String] =
@@ -134,7 +134,7 @@ class DocumentNormalizer(override val uid: String)
 
   /** Normalization regex patterns which match will be removed from document (Default:
     * `Array("<[^>]*>")`)
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group param
     */
   val patterns: StringArrayParam = new StringArrayParam(
@@ -143,14 +143,14 @@ class DocumentNormalizer(override val uid: String)
     "Normalization regex patterns which match will be removed from document. Defaults is \"<[^>]*>\"")
 
   /** Replacement string to apply when regexes match (Default: `" "`)
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group param
     */
   val replacement: Param[String] =
     new Param(this, "replacement", "Replacement string to apply when regexes match")
 
   /** Whether to convert strings to lowercase (Default: `false`)
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group param
     */
   val lowercase = new BooleanParam(
@@ -160,13 +160,14 @@ class DocumentNormalizer(override val uid: String)
 
   /** RemovalPolicy to remove patterns from text with a given policy (Default: `"pretty_all"`).
     * Possible values are `"all", "pretty_all", "first", "pretty_first"`
+    * WARNING: this is for internal use and not intended for users
     * @group param
     */
   val policy: Param[String] =
     new Param(this, "policy", "RemovalPolicy to remove pattern from text")
 
   /** File encoding to apply on normalized documents (Default: `"disable"`)
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group param
     */
   val encoding: Param[String] = new Param(
@@ -185,37 +186,37 @@ class DocumentNormalizer(override val uid: String)
     encoding -> "disable")
 
   /** Action to perform on text. (Default `"clean"`).
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group getParam
     */
   def getAction: String = $(action)
 
   /** Regular expressions list for normalization.
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group getParam
     */
   def getPatterns: Array[String] = $(patterns)
 
   /** Replacement string to apply when regexes match (Default: `" "`)
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group getParam
     */
   def getReplacement: String = $(replacement)
 
   /** Lowercase tokens (Default: `false`)
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group getParam
     */
   def getLowercase: Boolean = $(lowercase)
 
   /** Policy to remove patterns from text (Default: `"pretty_all"`)
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group getParam
     */
   def getPolicy: String = $(policy)
 
   /** Encoding to apply to normalized documents (Default: `"disable"`)
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group getParam
     */
   def getEncoding: String = $(encoding)

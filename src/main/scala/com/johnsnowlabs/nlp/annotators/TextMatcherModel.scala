@@ -95,7 +95,7 @@ class TextMatcherModel(override val uid: String)
     "Whether the TextMatcher should take the CHUNK from TOKEN or not")
 
   /** SearchTrie of Tokens
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group setParam
     */
   def setSearchTrie(value: SearchTrie): this.type = set(searchTrie, value)

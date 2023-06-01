@@ -210,7 +210,7 @@ class TextMatcher(override val uid: String)
   def setTokenizer(tokenizer: TokenizerModel): this.type = set(this.tokenizer, tokenizer)
 
   /** The [[Tokenizer]] to perform tokenization with
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group getParam
     */
   def getTokenizer: TokenizerModel = $$(tokenizer)
@@ -222,7 +222,7 @@ class TextMatcher(override val uid: String)
   def setCaseSensitive(v: Boolean): this.type = set(caseSensitive, v)
 
   /** Whether to match regardless of case (Default: `true`)
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group getParam
     */
   def getCaseSensitive: Boolean = $(caseSensitive)
@@ -234,7 +234,7 @@ class TextMatcher(override val uid: String)
   def setMergeOverlapping(v: Boolean): this.type = set(mergeOverlapping, v)
 
   /** Whether to merge overlapping matched chunks (Default: `false`)
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group getParam
     */
   def getMergeOverlapping: Boolean = $(mergeOverlapping)
@@ -246,7 +246,7 @@ class TextMatcher(override val uid: String)
   def setEntityValue(v: String): this.type = set(entityValue, v)
 
   /** Getter for Value for the entity metadata field
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group getParam
     */
   def getEntityValue: String = $(entityValue)
@@ -258,7 +258,7 @@ class TextMatcher(override val uid: String)
   def setBuildFromTokens(v: Boolean): this.type = set(buildFromTokens, v)
 
   /** Getter for buildFromTokens param
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group getParam
     */
   def getBuildFromTokens: Boolean = $(buildFromTokens)

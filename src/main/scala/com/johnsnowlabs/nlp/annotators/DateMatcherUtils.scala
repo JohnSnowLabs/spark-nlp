@@ -113,26 +113,28 @@ trait DateMatcherUtils extends Params {
   protected val defaultYearWhenMissing: Int = Calendar.getInstance.get(Calendar.YEAR)
 
   /** Date Matcher regex patterns.
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group param
     */
   val inputFormats: StringArrayParam =
     new StringArrayParam(this, "inputFormats", "Date Matcher inputFormats.")
 
-  /** @group getParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group getParam */
   def getInputFormats: Array[String] = $(inputFormats)
 
   /** @group setParam */
   def setInputFormats(value: Array[String]): this.type = set(inputFormats, value)
 
   /** Output format of parsed date (Default: `"yyyy/MM/dd"`)
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group param
     */
   val outputFormat: Param[String] =
     new Param(this, "outputFormat", "Output format of parsed date")
 
-  /** @group getParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group getParam */
   def getOutputFormat: String = $(outputFormat)
 
   /** @group setParam */
@@ -140,7 +142,6 @@ trait DateMatcherUtils extends Params {
 
   /** Add an anchor year for the relative dates such as a day after tomorrow (Default: `-1`). If
     * it is not set, the by default it will use the current year. Example: 2021
-    *
     * @group param
     */
   val anchorDateYear: Param[Int] = new IntParam(
@@ -154,13 +155,13 @@ trait DateMatcherUtils extends Params {
     set(anchorDateYear, value)
   }
 
-  /** @group getParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group getParam */
   def getAnchorDateYear: Int = $(anchorDateYear)
 
   /** Add an anchor month for the relative dates such as a day after tomorrow (Default: `-1`). By
     * default it will use the current month. Month values start from `1`, so `1` stands for
     * January.
-    *
     * @group param
     */
   val anchorDateMonth: Param[Int] = new IntParam(
@@ -177,12 +178,12 @@ trait DateMatcherUtils extends Params {
     set(anchorDateMonth, normalizedMonth)
   }
 
-  /** @group getParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group getParam */
   def getAnchorDateMonth: Int = $(anchorDateMonth) + 1
 
   /** Add an anchor day for the relative dates such as a day after tomorrow (Default: `-1`). By
     * default it will use the current day. The first day of the month has value 1.
-    *
     * @group param
     */
   val anchorDateDay: Param[Int] = new IntParam(
@@ -198,11 +199,11 @@ trait DateMatcherUtils extends Params {
     set(anchorDateDay, value)
   }
 
-  /** @group getParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group getParam */
   def getAnchorDateDay: Int = $(anchorDateDay)
 
   /** Whether to interpret dates as MM/DD/YYYY instead of DD/MM/YYYY (Default: `true`)
-    *
     * @group param
     */
   val readMonthFirst: BooleanParam = new BooleanParam(
@@ -213,11 +214,12 @@ trait DateMatcherUtils extends Params {
   /** @group setParam */
   def setReadMonthFirst(value: Boolean): this.type = set(readMonthFirst, value)
 
-  /** @group getParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group getParam */
   def getReadMonthFirst: Boolean = $(readMonthFirst)
 
   /** Which day to set when it is missing from parsed input (Default: `1`)
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group param
     */
   val defaultDayWhenMissing: IntParam = new IntParam(
@@ -228,18 +230,19 @@ trait DateMatcherUtils extends Params {
   /** @group setParam */
   def setDefaultDayWhenMissing(value: Int): this.type = set(defaultDayWhenMissing, value)
 
-  /** @group getParam */
+  /**  WARNING: this is for internal use and not intended for users
+   * @group getParam */
   def getDefaultDayWhenMissing: Int = $(defaultDayWhenMissing)
 
   /** Source language for explicit translation
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group param
     */
   val sourceLanguage: Param[String] =
     new Param(this, "sourceLanguage", "source language for explicit translation")
 
   /** To get to use or not the multi-language translation.
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group getParam
     */
   def getSourceLanguage: String = $(sourceLanguage)
@@ -252,7 +255,7 @@ trait DateMatcherUtils extends Params {
 
   /** Matched strategy to search relaxed dates by ordered rules by more exhaustive to less
     * Strategy
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group param
     */
   val relaxedFactoryStrategy: Param[String] =
@@ -270,7 +273,7 @@ trait DateMatcherUtils extends Params {
 
   /** To get matched strategy to search relaxed dates by ordered rules by more exhaustive to less
     * Strategy
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group param
     */
   def getRelaxedFactoryStrategy: String = $(relaxedFactoryStrategy)

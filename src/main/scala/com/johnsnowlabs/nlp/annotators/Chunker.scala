@@ -160,18 +160,16 @@ class Chunker(override val uid: String)
   }
 
   /** A list of regex patterns to match chunks, for example: Array(“‹DT›?‹JJ›*‹NN›”)
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group getParam
     */
   def getRegexParsers: Array[String] = $(regexParsers)
 
   def this() = this(Identifiable.randomUID("CHUNKER"))
 
-  /** @group param */
   private lazy val replacements = Map("<" -> "(?:<", ">" -> ">)", "|" -> ">|<")
   private lazy val emptyString = ""
 
-  /** @group param */
   private lazy val POSTagPatterns: Array[Regex] = {
     getRegexParsers.map(regexParser => replaceRegexParser(regexParser))
   }

@@ -145,7 +145,7 @@ class StopWordsCleaner(override val uid: String)
   def setStopWords(value: Array[String]): this.type = set(stopWords, value)
 
   /** The words to be filtered out
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group getParam
     */
   def getStopWords: Array[String] = $(stopWords)
@@ -166,7 +166,7 @@ class StopWordsCleaner(override val uid: String)
   def setCaseSensitive(value: Boolean): this.type = set(caseSensitive, value)
 
   /** Whether to do a case-sensitive comparison over the stop words (Default: `false`)
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group getParam
     */
   def getCaseSensitive: Boolean = $(caseSensitive)
@@ -192,13 +192,14 @@ class StopWordsCleaner(override val uid: String)
   /** Locale of the input for case insensitive matching (Default: system default locale, or
     * `Locale.US` if the default locale is not in available locales). Ignored when caseSensitive
     * is true
+    * WARNING: this is for internal use and not intended for users
     * @group getParam
     */
   def getLocale: String = $(locale)
 
   /** Returns system default locale, or `Locale.US` if the default locale is not in available
     * locales in JVM.
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group param
     */
   private val getDefaultOrUS: Locale = {

@@ -110,7 +110,8 @@ class RegexTokenizer(override val uid: String)
   /** @group setParam */
   def setPattern(value: String): this.type = set(pattern, value)
 
-  /** @group getParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group getParam */
   def getPattern: String = $(pattern)
 
   /** Indicates whether to convert all characters to lowercase before tokenizing (Default:
@@ -126,7 +127,8 @@ class RegexTokenizer(override val uid: String)
   /** @group setParam */
   def setToLowercase(value: Boolean): this.type = set(toLowercase, value)
 
-  /** @group getParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group getParam */
   def getToLowercase: Boolean = $(toLowercase)
 
   /** Minimum token length, greater than or equal to 0 (Default: `1`). Default is 1, to avoid
@@ -140,7 +142,8 @@ class RegexTokenizer(override val uid: String)
   /** @group setParam */
   def setMinLength(value: Int): this.type = set(minLength, value)
 
-  /** @group getParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group getParam */
   def getMinLength: Int = $(minLength)
 
   /** Maximum token length, greater than or equal to 1.
@@ -153,7 +156,8 @@ class RegexTokenizer(override val uid: String)
   /** @group setParam */
   def setMaxLength(value: Int): this.type = set(maxLength, value)
 
-  /** @group getParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group getParam */
   def getMaxLength: Int = $(maxLength)
 
   /** Indicates whether to apply the regex tokenization using a positional mask to guarantee the
@@ -170,7 +174,8 @@ class RegexTokenizer(override val uid: String)
   /** @group setParam */
   def setPositionalMask(value: Boolean): this.type = set(positionalMask, value)
 
-  /** @group getParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group getParam */
   def getPositionalMask: Boolean = $(positionalMask)
 
   /** Indicates whether to use a trimWhitespace flag to remove whitespaces from identified tokens.
@@ -187,7 +192,8 @@ class RegexTokenizer(override val uid: String)
   /** @group setParam */
   def setTrimWhitespace(value: Boolean): this.type = set(trimWhitespace, value)
 
-  /** @group getParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group getParam */
   def getTrimWhitespace: Boolean = $(trimWhitespace)
 
   /** Indicates whether to use a preserve initial indexes before eventual whitespaces removal in
@@ -204,7 +210,8 @@ class RegexTokenizer(override val uid: String)
   /** @group setParam */
   def setPreservePosition(value: Boolean): this.type = set(preservePosition, value)
 
-  /** @group getParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group getParam */
   def getPreservePosition: Boolean = $(preservePosition)
 
   setDefault(

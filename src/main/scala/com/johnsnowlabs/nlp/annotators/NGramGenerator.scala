@@ -167,20 +167,20 @@ class NGramGenerator(override val uid: String)
   }
 
   /** Number elements per n-gram (>=1) (Default: `2`)
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group getParam
     */
   def getN: Int = $(n)
 
   /** Whether to calculate just the actual n-grams or all n-grams from 1 through n (Default:
     * `false`)
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group getParam
     */
   def getEnableCumulative: Boolean = $(enableCumulative)
 
   /** Glue character used to join the tokens (Default: `" "`)
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group getParam
     */
   def getDelimiter: String = $(delimiter)

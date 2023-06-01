@@ -84,10 +84,12 @@ class NormalizerModel(override val uid: String)
     "cleanupPatterns",
     "normalization regex patterns which match will be removed from token")
 
-  /** @group setParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group setParam */
   def setCleanupPatterns(value: Array[String]): this.type = set(cleanupPatterns, value)
 
-  /** @group setParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group setParam */
   def getCleanupPatterns: Array[String] = $(cleanupPatterns)
 
   /** whether to convert strings to lowercase
@@ -96,14 +98,16 @@ class NormalizerModel(override val uid: String)
     */
   val lowercase = new BooleanParam(this, "lowercase", "whether to convert strings to lowercase")
 
-  /** @group setParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group setParam */
   def setLowercase(value: Boolean): this.type = set(lowercase, value)
 
-  /** @group setParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group setParam */
   def getLowercase: Boolean = $(lowercase)
 
   /** slangDict
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group param
     */
   protected val slangDict: MapFeature[String, String] = new MapFeature(this, "slangDict")
@@ -117,40 +121,46 @@ class NormalizerModel(override val uid: String)
     "slangMatchCase",
     "whether or not to be case sensitive to match slangs. Defaults to false.")
 
-  /** @group setParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group setParam */
   def setSlangMatchCase(value: Boolean): this.type = set(slangMatchCase, value)
 
-  /** @group getParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group getParam */
   def getSlangMatchCase: Boolean = $(slangMatchCase)
 
   def this() = this(Identifiable.randomUID("NORMALIZER"))
 
-  /** @group setParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group setParam */
   def setSlangDict(value: Map[String, String]): this.type = set(slangDict, value)
 
   /** Set the minimum allowed length for each token
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group param
     */
   val minLength = new IntParam(this, "minLength", "Set the minimum allowed length for each token")
 
-  /** @group setParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group setParam */
   def setMinLength(value: Int): this.type = {
     require(value >= 0, "minLength must be greater equal than 0")
     require(value.isValidInt, "minLength must be Int")
     set(minLength, value)
   }
 
-  /** @group getParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group getParam */
   def getMinLength: Int = $(minLength)
 
   /** Set the maximum allowed length for each token
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group param
     */
   val maxLength = new IntParam(this, "maxLength", "Set the maximum allowed length for each token")
 
-  /** @group setParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group setParam */
   def setMaxLength(value: Int): this.type = {
     require(
       value >= $ {
@@ -161,7 +171,8 @@ class NormalizerModel(override val uid: String)
     set(maxLength, value)
   }
 
-  /** @group getParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group getParam */
   def getMaxLength: Int = $(maxLength)
 
   def applyRegexPatterns(word: String): String = {
@@ -177,7 +188,7 @@ class NormalizerModel(override val uid: String)
   }
 
   /** Txt file with delimited words to be transformed into something else
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group getParam
     */
   protected def getSlangDict: Map[String, String] = $$(slangDict)

@@ -117,6 +117,7 @@ class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerM
 
   /** Normalization regex patterns which match will be removed from token (Default:
     * `Array("[^\\pL+]")`)
+    * WARNING: this is for internal use and not intended for users
     * @group getParam
     */
   def getCleanupPatterns: Array[String] = $(cleanupPatterns)
@@ -137,7 +138,8 @@ class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerM
     "Whether to convert strings to lowercase (Default: `false`)")
 
   /** Whether to convert strings to lowercase (Default: `false`)
-    * @group getParam
+    * WARNING: this is for internal use and not intended for users
+   * @group getParam
     */
   def getLowercase: Boolean = $(lowercase)
 
@@ -156,6 +158,7 @@ class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerM
     "Delimited file with list of custom words to be manually corrected")
 
   /** Delimited file with list of custom words to be manually corrected
+    * WARNING: this is for internal use and not intended for users
     * @group setParam
     */
   def setSlangDictionary(value: ExternalResource): this.type = {
@@ -210,6 +213,7 @@ class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerM
   }
 
   /** Set the minimum allowed length for each token (Default: `0`)
+    * WARNING: this is for internal use and not intended for users
     * @group getParam
     */
   def getMinLength: Int = $(minLength)
@@ -234,6 +238,7 @@ class Normalizer(override val uid: String) extends AnnotatorApproach[NormalizerM
   }
 
   /** Set the maximum allowed length for each token
+    * WARNING: this is for internal use and not intended for users
     * @group getParam
     */
   def getMaxLength: Int = $(maxLength)

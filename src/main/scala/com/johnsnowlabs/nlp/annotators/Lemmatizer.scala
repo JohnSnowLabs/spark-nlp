@@ -168,7 +168,8 @@ class Lemmatizer(override val uid: String) extends AnnotatorApproach[LemmatizerM
   /** @group setParam */
   def setFormCol(value: String): this.type = set(formCol, value)
 
-  /** @group getParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group getParam */
   def getFormCol: String = $(formCol)
 
   /** Column that correspends to CoNLLU(lemmaCol=) output
@@ -181,10 +182,12 @@ class Lemmatizer(override val uid: String) extends AnnotatorApproach[LemmatizerM
   /** @group setParam */
   def setLemmaCol(value: String): this.type = set(lemmaCol, value)
 
-  /** @group getParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group getParam */
   def getLemmaCol: String = $(lemmaCol)
 
   /** External dictionary to be used by the lemmatizer
+    * WARNING: this is for internal use and not intended for users
     * @group getParam
     */
   def getDictionary: ExternalResource = $(dictionary)

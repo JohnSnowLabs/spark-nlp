@@ -108,13 +108,13 @@ class Stemmer(override val uid: String)
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(TOKEN)
 
   /** Language of the text (Default: `"english"`)
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group setParam
     */
   def setLanguage(value: String): Stemmer = set(language, value)
 
   /** Language of the text (Default: `"english"`)
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group getParam
     */
   def getLanguage: String = $(language)

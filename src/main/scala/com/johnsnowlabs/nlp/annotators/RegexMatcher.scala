@@ -223,7 +223,7 @@ class RegexMatcher(override val uid: String) extends AnnotatorApproach[RegexMatc
   }
 
   /** Strategy for which to match the expressions (Default: `"MATCH_ALL"`)
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group getParam
     */
   def getStrategy: String = $(strategy)

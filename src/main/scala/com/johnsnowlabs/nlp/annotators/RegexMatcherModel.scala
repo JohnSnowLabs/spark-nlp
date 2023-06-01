@@ -63,14 +63,14 @@ class RegexMatcherModel(override val uid: String)
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(DOCUMENT)
 
   /** rules
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group param
     */
   val externalRules: ArrayFeature[(String, String)] =
     new ArrayFeature[(String, String)](this, "rules")
 
   /** MATCH_ALL|MATCH_FIRST|MATCH_COMPLETE
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group param
     */
   val strategy: Param[String] =
@@ -79,26 +79,26 @@ class RegexMatcherModel(override val uid: String)
   def this() = this(Identifiable.randomUID("REGEX_MATCHER"))
 
   /** Can be any of MATCH_FIRST|MATCH_ALL|MATCH_COMPLETE
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group setParam
     */
   def setStrategy(value: String): this.type = set(strategy, value)
 
   /** Can be any of MATCH_FIRST|MATCH_ALL|MATCH_COMPLETE
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group getParams
     */
   def getStrategy: String = $(strategy).toString
 
   /** Path to file containing a set of regex,key pair. readAs can be LINE_BY_LINE or
     * SPARK_DATASET. options contain option passed to spark reader if readAs is SPARK_DATASET.
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group setParam
     */
   def setExternalRules(value: Array[(String, String)]): this.type = set(externalRules, value)
 
   /** Rules represented as Array of Tuples
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group getParams
     */
   def getExternalRules: Array[(String, String)] = $$(externalRules)
