@@ -264,7 +264,7 @@ class ElmoEmbeddings(override val uid: String)
   }
 
   /** Function used to set the embedding output layer of the ELMO model
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group getParam
     */
   def getPoolingLayer: String = $(poolingLayer)

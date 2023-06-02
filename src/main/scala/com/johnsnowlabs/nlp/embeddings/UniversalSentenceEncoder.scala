@@ -201,7 +201,7 @@ class UniversalSentenceEncoder(override val uid: String)
   }
 
   /** Whether to load SentencePiece ops file which is required only by multi-lingual models.
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group getParam
     */
   def getLoadSP: Boolean = $(loadSP)
@@ -216,7 +216,7 @@ class UniversalSentenceEncoder(override val uid: String)
 
   /** ConfigProto from tensorflow, serialized into byte array. Get with
     * config_proto.SerializeToString()
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group getParam
     */
   def getConfigProtoBytes: Option[Array[Byte]] =
@@ -224,10 +224,12 @@ class UniversalSentenceEncoder(override val uid: String)
 
   private var _model: Option[Broadcast[USE]] = None
 
-  /** @group getParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group getParam */
   def getModelIfNotSet: USE = _model.get.value
 
-  /** @group setParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group setParam */
   def setModelIfNotSet(spark: SparkSession, tensorflow: TensorflowWrapper): this.type = {
     if (_model.isEmpty) {
 

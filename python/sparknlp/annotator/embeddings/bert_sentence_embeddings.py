@@ -17,12 +17,12 @@ from sparknlp.common import *
 
 
 class BertSentenceEmbeddings(AnnotatorModel,
-                                  HasEmbeddingsProperties,
-                                  HasCaseSensitiveProperties,
-                                  HasStorageRef,
-                                  HasBatchedAnnotate,
-                                  HasEngine,
-                                  HasMaxSentenceLengthLimit):
+                             HasEmbeddingsProperties,
+                             HasCaseSensitiveProperties,
+                             HasStorageRef,
+                             HasBatchedAnnotate,
+                             HasEngine,
+                             HasMaxSentenceLengthLimit):
     """Sentence-level embeddings using BERT. BERT (Bidirectional Encoder
     Representations from Transformers) provides dense vector representations for
     natural language by using a deep, pre-trained neural network with the

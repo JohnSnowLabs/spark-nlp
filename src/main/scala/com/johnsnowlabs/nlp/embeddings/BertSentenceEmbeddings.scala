@@ -207,12 +207,14 @@ class BertSentenceEmbeddings(override val uid: String)
     */
   def getIsLong: Boolean = $(isLong)
 
-  /** @group setParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group setParam */
   def sentenceStartTokenId: Int = {
     $$(vocabulary)("[CLS]")
   }
 
-  /** @group setParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group setParam */
   def sentenceEndTokenId: Int = {
     $$(vocabulary)("[SEP]")
   }
@@ -235,7 +237,7 @@ class BertSentenceEmbeddings(override val uid: String)
   }
 
   /** Vocabulary used to encode the words to ids with WordPieceEncoder
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group setParam
     */
   def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
@@ -262,7 +264,7 @@ class BertSentenceEmbeddings(override val uid: String)
 
   /** ConfigProto from tensorflow, serialized into byte array. Get with
     * config_proto.SerializeToString()
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group getParam
     */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))

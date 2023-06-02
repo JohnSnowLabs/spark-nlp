@@ -159,12 +159,13 @@ class Word2VecModel(override val uid: String)
   }
 
   /** Dictionary of words with their vectors
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group param
     */
   val wordVectors: MapFeature[String, Array[Float]] = new MapFeature(this, "wordVectors")
 
-  /** @group setParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group setParam */
   def setWordVectors(value: Map[String, Array[Float]]): this.type = set(wordVectors, value)
 
   setDefault(inputCols -> Array(TOKEN), outputCol -> "word2vec", vectorSize -> 100)

@@ -182,7 +182,7 @@ class ChunkEmbeddings(override val uid: String)
   def setSkipOOV(value: Boolean): this.type = set(skipOOV, value)
 
   /** Choose how you would like to aggregate Word Embeddings to Chunk Embeddings: AVERAGE or SUM
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group getParam
     */
   def getPoolingStrategy: String = $(poolingStrategy)

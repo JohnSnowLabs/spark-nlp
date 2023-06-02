@@ -133,7 +133,8 @@ class Word2VecApproach(override val uid: String)
     this
   }
 
-  /** @group getParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group getParam */
   def getVectorSize: Int = $(vectorSize)
 
   /** The window size (context words from [-window, window]) (Default: `5`)
@@ -152,7 +153,8 @@ class Word2VecApproach(override val uid: String)
     this
   }
 
-  /** @group getParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group getParam */
   def getWindowSize: Int = $(windowSize)
 
   /** Number of partitions for sentences of words (Default: `1`).
@@ -169,7 +171,8 @@ class Word2VecApproach(override val uid: String)
     this
   }
 
-  /** @group getParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group getParam */
   def getNumPartitions: Int = $(numPartitions)
 
   /** The minimum number of times a token must appear to be included in the word2vec model's
@@ -190,7 +193,8 @@ class Word2VecApproach(override val uid: String)
     this
   }
 
-  /** @group getParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group getParam */
   def getMinCount: Int = $(minCount)
 
   /** Sets the maximum length (in words) of each sentence in the input data (Default: `1000`). Any
@@ -213,7 +217,8 @@ class Word2VecApproach(override val uid: String)
     this
   }
 
-  /** @group getParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group getParam */
   def getMaxSentenceLength: Int = $(maxSentenceLength)
 
   /** Param for Step size to be used for each iteration of optimization (&gt; 0) (Default:
@@ -233,7 +238,8 @@ class Word2VecApproach(override val uid: String)
     this
   }
 
-  /** @group getParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group getParam */
   def getStepSize: Double = $(stepSize)
 
   /** Param for maximum number of iterations (&gt;= 0) (Default: `1`)
@@ -249,7 +255,8 @@ class Word2VecApproach(override val uid: String)
     this
   }
 
-  /** @group getParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group getParam */
   def getMaxIter: Int = $(maxIter)
 
   /** Random seed for shuffling the dataset (Default: `44`)
@@ -265,7 +272,8 @@ class Word2VecApproach(override val uid: String)
     this
   }
 
-  /** @group getParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group getParam */
   def getSeed: Int = $(seed)
 
   setDefault(

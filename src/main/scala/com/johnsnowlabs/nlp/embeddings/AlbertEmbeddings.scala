@@ -217,7 +217,8 @@ class AlbertEmbeddings(override val uid: String)
   def setConfigProtoBytes(bytes: Array[Int]): AlbertEmbeddings.this.type =
     set(this.configProtoBytes, bytes)
 
-  /** @group getParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group getParam */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
   /** Max sentence length to process (Default: `128`)
@@ -246,24 +247,27 @@ class AlbertEmbeddings(override val uid: String)
   }
 
   /** It contains TF model signatures for the laded saved model
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group param
     */
   val signatures =
     new MapFeature[String, String](model = this, name = "signatures").setProtected()
 
-  /** @group setParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group setParam */
   def setSignatures(value: Map[String, String]): this.type = {
     set(signatures, value)
     this
   }
 
-  /** @group getParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
   private var _model: Option[Broadcast[Albert]] = None
 
-  /** @group setParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group setParam */
   def setModelIfNotSet(
       spark: SparkSession,
       tensorflowWrapper: TensorflowWrapper,

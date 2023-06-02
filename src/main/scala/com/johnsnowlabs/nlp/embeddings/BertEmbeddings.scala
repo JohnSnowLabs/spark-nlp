@@ -164,28 +164,31 @@ class BertEmbeddings(override val uid: String)
 
   def this() = this(Identifiable.randomUID("BERT_EMBEDDINGS"))
 
-  /** @group setParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group setParam */
   def sentenceStartTokenId: Int = {
     $$(vocabulary)("[CLS]")
   }
 
-  /** @group setParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group setParam */
   def sentenceEndTokenId: Int = {
     $$(vocabulary)("[SEP]")
   }
 
   /** Vocabulary used to encode the words to ids with WordPieceEncoder
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group param
     */
   val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary").setProtected()
 
-  /** @group setParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group setParam */
   def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
 
   /** ConfigProto from tensorflow, serialized into byte array. Get with
     * `config_proto.SerializeToString()`
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group param
     */
   val configProtoBytes = new IntArrayParam(
@@ -193,11 +196,13 @@ class BertEmbeddings(override val uid: String)
     "configProtoBytes",
     "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()")
 
-  /** @group setParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group setParam */
   def setConfigProtoBytes(bytes: Array[Int]): BertEmbeddings.this.type =
     set(this.configProtoBytes, bytes)
 
-  /** @group getParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group getParam */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
   /** Max sentence length to process (Default: `128`)
@@ -221,24 +226,27 @@ class BertEmbeddings(override val uid: String)
   def getMaxSentenceLength: Int = $(maxSentenceLength)
 
   /** It contains TF model signatures for the laded saved model
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group param
     */
   val signatures =
     new MapFeature[String, String](model = this, name = "signatures").setProtected()
 
-  /** @group setParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group setParam */
   def setSignatures(value: Map[String, String]): this.type = {
     set(signatures, value)
     this
   }
 
-  /** @group getParam */
+  /** WARNING: this is for internal use and not intended for users
+   *  @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
   private var _model: Option[Broadcast[Bert]] = None
 
-  /** @group setParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group setParam */
   def setModelIfNotSet(
       spark: SparkSession,
       tensorflowWrapper: TensorflowWrapper): BertEmbeddings = {
@@ -256,7 +264,8 @@ class BertEmbeddings(override val uid: String)
     this
   }
 
-  /** @group getParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group getParam */
   def getModelIfNotSet: Bert = _model.get.value
 
   /** Set Embeddings dimensions for the BERT model Only possible to set this when the first time

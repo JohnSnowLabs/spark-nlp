@@ -185,21 +185,23 @@ class RoBertaEmbeddings(override val uid: String)
   }
 
   /** Vocabulary used to encode the words to ids with bpeTokenizer.encode
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group param
     */
   val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary").setProtected()
 
-  /** @group setParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group setParam */
   def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
 
   /** Holding merges.txt coming from RoBERTa model
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group param
     */
   val merges: MapFeature[(String, String), Int] = new MapFeature(this, "merges").setProtected()
 
-  /** @group setParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group setParam */
   def setMerges(value: Map[(String, String), Int]): this.type = set(merges, value)
 
   /** ConfigProto from tensorflow, serialized into byte array. Get with
@@ -216,7 +218,8 @@ class RoBertaEmbeddings(override val uid: String)
   def setConfigProtoBytes(bytes: Array[Int]): RoBertaEmbeddings.this.type =
     set(this.configProtoBytes, bytes)
 
-  /** @group getParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group getParam */
   def getConfigProtoBytes: Option[Array[Byte]] = get(this.configProtoBytes).map(_.map(_.toByte))
 
   /** Max sentence length to process (Default: `128`)
@@ -240,19 +243,21 @@ class RoBertaEmbeddings(override val uid: String)
   def getMaxSentenceLength: Int = $(maxSentenceLength)
 
   /** It contains TF model signatures for the laded saved model
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group param
     */
   val signatures =
     new MapFeature[String, String](model = this, name = "signatures").setProtected()
 
-  /** @group setParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group setParam */
   def setSignatures(value: Map[String, String]): this.type = {
     set(signatures, value)
     this
   }
 
-  /** @group getParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group getParam */
   def getSignatures: Option[Map[String, String]] = get(this.signatures)
 
   private var _model: Option[Broadcast[RoBerta]] = None

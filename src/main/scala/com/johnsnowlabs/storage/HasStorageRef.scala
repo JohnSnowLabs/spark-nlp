@@ -23,7 +23,7 @@ import org.apache.spark.sql.Dataset
 trait HasStorageRef extends ParamsAndFeaturesWritable {
 
   /** Unique identifier for storage (Default: `this.uid`)
-    *
+    * WARNING: this is for internal use and not intended for users
     * @group param
     */
   val storageRef = new Param[String](this, "storageRef", "storage unique identifier")

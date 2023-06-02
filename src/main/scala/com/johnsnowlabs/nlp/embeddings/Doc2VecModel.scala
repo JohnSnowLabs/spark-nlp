@@ -163,7 +163,8 @@ class Doc2VecModel(override val uid: String)
     */
   val wordVectors: MapFeature[String, Array[Float]] = new MapFeature(this, "wordVectors")
 
-  /** @group setParam */
+  /** WARNING: this is for internal use and not intended for users
+   * @group setParam */
   def setWordVectors(value: Map[String, Array[Float]]): this.type = set(wordVectors, value)
 
   setDefault(inputCols -> Array(TOKEN), outputCol -> "doc2vec", vectorSize -> 100)
