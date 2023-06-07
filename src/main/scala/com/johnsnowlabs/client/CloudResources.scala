@@ -223,18 +223,19 @@ object CloudResources {
     // This method used to be known as ResourceDownloader.downloadS3Directory
     val cloudManager = new CloudManager()
     val clientInstance = cloudManager.getClientInstanceFromConfigurationParams(bucketURI)
+    val directory =
+      if (tempLocalPath.isEmpty) SparkFiles.getRootDirectory() else tempLocalPath
 
     clientInstance match {
       case awsClient: AWSClient => {
         val (bucketName, keyPrefix) = CloudHelper.parseS3URI(bucketURI)
-        val directory =
-          if (tempLocalPath.isEmpty) SparkFiles.getRootDirectory() else tempLocalPath
         awsClient.downloadFilesFromBucketToDirectory(bucketName, keyPrefix, directory, isIndex)
         Paths.get(directory, keyPrefix).toUri
       }
       case gcpClient: GCPClient => {
-        // TODO: Implement me
-        Paths.get("", "").toUri
+        val (bucketName, keyPrefix) = CloudHelper.parseGCPStorageURI(bucketURI)
+        gcpClient.downloadFilesFromBucketToDirectory(bucketName, keyPrefix, directory, isIndex)
+        Paths.get(directory, keyPrefix).toUri
       }
     }
 
