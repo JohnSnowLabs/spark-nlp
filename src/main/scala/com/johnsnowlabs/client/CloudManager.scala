@@ -33,8 +33,6 @@ class CloudManager(parameters: Map[String, String] = Map.empty) {
       case CloudStorageType.GCP => {
         new GCPClient(parameters)
       }
-      //      case azureUri
-      //          if azureUri.startsWith("https://") && azureUri.contains(".blob.core.windows.net/") => "Azure"
       case _ =>
         throw new IllegalArgumentException(s"Unsupported URI scheme: $uri")
     }

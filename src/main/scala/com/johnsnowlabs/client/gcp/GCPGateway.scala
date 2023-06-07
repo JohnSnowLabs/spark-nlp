@@ -78,10 +78,17 @@ class GCPGateway(projectId: String = ConfigLoader.getConfigStringValue(ConfigHel
         .getValues
         .asScala
         .toArray
+
       blobs.foreach { blob =>
-        val fileName = blob.getName
-        val file = new File(s"$directoryPath/$fileName")
-        blob.downloadTo(file.toPath)
+        val blobName = blob.getName
+        val file = new File(s"$directoryPath/$blobName")
+
+        if (blobName.endsWith("/")) {
+          file.mkdirs()
+        } else {
+          file.getParentFile.mkdirs()
+          blob.downloadTo(file.toPath)
+        }
       }
     } catch {
       case e: Exception =>
