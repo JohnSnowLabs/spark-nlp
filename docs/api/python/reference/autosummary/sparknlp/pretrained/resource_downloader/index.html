@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.pretrained.resource_downloader &#8212; Spark NLP 4.4.3 documentation</title>
+    <title>sparknlp.pretrained.resource_downloader &#8212; Spark NLP 4.4.4 documentation</title>
   
   
   
@@ -428,16 +428,20 @@ method of the annotator.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.pretrained.resource_downloader.ResourceDownloader.downloadModelDirectly">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">downloadModelDirectly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'public/models'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/pretrained/resource_downloader.html#ResourceDownloader.downloadModelDirectly"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.downloadModelDirectly" title="Permalink to this definition">#</a></dt>
-<dd><p>Downloads a model directly to the cache folder.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>Name of the model</p>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">downloadModelDirectly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'public/models'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unzip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/pretrained/resource_downloader.html#ResourceDownloader.downloadModelDirectly"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.pretrained.resource_downloader.ResourceDownloader.downloadModelDirectly" title="Permalink to this definition">#</a></dt>
+<dd><p>Downloads a model directly to the cache folder.
+You can use to copy-paste the s3 URI from the model hub  and download the model.
+For available s3 URI and models, please see the <a class="reference external" href="https://sparknlp.org/models">Models Hub</a>.
+Parameters
+———-
+name : str</p>
+<blockquote>
+<div><p>Name of the model or s3 URI</p>
+</div></blockquote>
+<dl class="simple">
+<dt>remote_loc<span class="classifier">str, optional</span></dt><dd><p>Directory of the remote Spark NLP Folder, by default “public/models”</p>
 </dd>
-<dt><strong>remote_loc</strong><span class="classifier">str, optional</span></dt><dd><p>Directory of the remote Spark NLP Folder, by default “public/models”</p>
-</dd>
-</dl>
+<dt>unzip<span class="classifier">Bool, optional</span></dt><dd><p>Used to unzip model, by default ‘True’</p>
 </dd>
 </dl>
 </dd></dl>

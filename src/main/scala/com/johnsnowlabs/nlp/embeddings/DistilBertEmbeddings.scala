@@ -23,7 +23,7 @@ import com.johnsnowlabs.ml.util.LoadExternalModel.{
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.ModelEngine
+import com.johnsnowlabs.ml.util.{ModelEngine, ModelArch}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
@@ -255,7 +255,8 @@ class DistilBertEmbeddings(override val uid: String)
             sentenceStartTokenId,
             sentenceEndTokenId,
             configProtoBytes = getConfigProtoBytes,
-            signatures = getSignatures)))
+            signatures = getSignatures,
+            modelArch = ModelArch.wordEmbeddings)))
     }
 
     this

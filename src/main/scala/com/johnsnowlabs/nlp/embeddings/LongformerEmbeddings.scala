@@ -23,7 +23,7 @@ import com.johnsnowlabs.ml.util.LoadExternalModel.{
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.ModelEngine
+import com.johnsnowlabs.ml.util.{ModelEngine, ModelArch}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.BpeTokenizer
@@ -257,7 +257,8 @@ class LongformerEmbeddings(override val uid: String)
             sentenceEndTokenId,
             padTokenId,
             configProtoBytes = getConfigProtoBytes,
-            signatures = getSignatures)))
+            signatures = getSignatures,
+            modelArch = ModelArch.wordEmbeddings)))
     }
 
     this
