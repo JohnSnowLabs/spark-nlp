@@ -18,13 +18,13 @@ package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
 class InstructorEmbeddingsTestSpec extends AnyFlatSpec {
 
-  "Instructor Embeddings" should "correctly embed multiple sentences" taggedAs FastTest in {
+  "Instructor Embeddings" should "correctly embed multiple sentences" taggedAs SlowTest in {
 
     import ResourceHelper.spark.implicits._
 
