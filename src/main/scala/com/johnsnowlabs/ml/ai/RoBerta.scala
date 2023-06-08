@@ -49,6 +49,14 @@ private[johnsnowlabs] class RoBerta(
   val _tfRoBertaSignatures: Map[String, String] =
     signatures.getOrElse(ModelSignatureManager.apply())
 
+  private def sessionWarmup(): Unit = {
+    val dummyInput =
+      Array(0, 7939, 18, 3279, 658, 5, 19374, 13, 5, 78, 42752, 4, 2)
+    tag(Seq(dummyInput))
+  }
+
+  sessionWarmup()
+
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
 
     val maxSentenceLength = batch.map(pieceIds => pieceIds.length).max

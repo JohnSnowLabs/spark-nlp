@@ -85,6 +85,14 @@ private[johnsnowlabs] class XlmRoberta(
   private val SentencePadTokenId = 1
   private val SentencePieceDelimiterId = spp.getSppModel.pieceToId("▁")
 
+  private def sessionWarmup(): Unit = {
+    val dummyInput =
+      Array(0, 10842, 25, 7, 24814, 2037, 70, 148735, 100, 70, 5117, 53498, 6620, 5, 2)
+    tag(Seq(dummyInput))
+  }
+
+  sessionWarmup()
+
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
 
     val maxSentenceLength = batch.map(pieceIds => pieceIds.length).max

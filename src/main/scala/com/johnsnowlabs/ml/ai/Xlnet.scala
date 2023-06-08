@@ -90,6 +90,14 @@ private[johnsnowlabs] class Xlnet(
   private val SentencePadTokenId = spp.getSppModel.pieceToId("<pad>")
   private val SentencePieceDelimiterId = spp.getSppModel.pieceToId("▁")
 
+  private def sessionWarmup(): Unit = {
+    val dummyInput =
+      Array(2834, 26, 23, 2458, 499, 18, 14976, 28, 18, 89, 25, 11574, 9, 4, 3)
+    tag(Seq(dummyInput))
+  }
+
+  sessionWarmup()
+
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
 
     val maxSentenceLength = batch.map(pieceIds => pieceIds.length).max
