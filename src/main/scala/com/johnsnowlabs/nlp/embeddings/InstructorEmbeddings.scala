@@ -17,7 +17,7 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.ml.ai.Instructor
-import com.johnsnowlabs.ml.tensorflow.*
+import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
   ReadSentencePieceModel,
   SentencePieceWrapper,
@@ -29,25 +29,33 @@ import com.johnsnowlabs.ml.util.LoadExternalModel.{
   notSupportedEngineError
 }
 import com.johnsnowlabs.ml.util.ModelEngine
-import com.johnsnowlabs.nlp.*
+import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.*
+import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
+import org.apache.spark.storage.StorageLevel
 import org.slf4j.{Logger, LoggerFactory}
 
-/** Pretrained models can be loaded with `pretrained` of the companion object:
+/** Sentence embeddings using INSTRUCTOR.
+  *
+  * Instructor👨‍🏫, an instruction-finetuned text embedding model that can generate text
+  * embeddings tailored to any task (e.g., classification, retrieval, clustering, text evaluation,
+  * etc.) and domains (e.g., science, finance, etc.) by simply providing the task instruction,
+  * without any finetuning. Instructor👨‍ achieves sota on 70 diverse embedding tasks!
+  *
+  * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{
   * val embeddings = InstructorEmbeddings.pretrained()
   *   .setInputCols("document")
   *   .setOutputCol("instructor_embeddings")
   * }}}
-  * The default model is `"instructor_xl"`, if no name is provided.
+  * The default model is `"instructor_base"`, if no name is provided.
   *
   * For available pretrained models please see the
-  * [[https://sparknlp.org/models?task=Instructor Models Hub]].
+  * [[https://sparknlp.org/models?q=Instructor Models Hub]].
   *
   * For extended examples of usage, see
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/InstructorEmbeddingsTestSpec.scala InstructorEmbeddingsTestSpec]].
@@ -88,9 +96,9 @@ import org.slf4j.{Logger, LoggerFactory}
   *   .setInputCol("text")
   *   .setOutputCol("document")
   *
-  * val embeddings = InstructorEmbeddings.pretrained("instructor_xl", "en")
+  * val embeddings = InstructorEmbeddings.pretrained("instructor_base", "en")
   *   .setInputCols("document")
- *    .setInstruction("Represent the Medicine sentence for clustering: ")
+  *   .setInstruction("Represent the Medicine sentence for clustering: ")
   *   .setOutputCol("instructor_embeddings")
   *
   * val embeddingsFinisher = new EmbeddingsFinisher()
@@ -229,14 +237,15 @@ class InstructorEmbeddings(override val uid: String)
             tensorflowWrapper,
             spp = spp,
             configProtoBytes = getConfigProtoBytes,
-            signatures = getSignatures)))
+            signatures = getSignatures),
+          StorageLevel.MEMORY_AND_DISK))
     }
 
     this
   }
 
-  /** Set Embeddings dimensions for the INSTRUCTOR model Only possible to set this when the first time
-    * is saved dimension is not changeable, it comes from INSTRUCTOR config file
+  /** Set Embeddings dimensions for the BERT model Only possible to set this when the first time
+    * is saved dimension is not changeable, it comes from BERT config file
     *
     * @group setParam
     */
@@ -350,7 +359,7 @@ class InstructorEmbeddings(override val uid: String)
 trait ReadablePretrainedInstructorModel
     extends ParamsAndFeaturesReadable[InstructorEmbeddings]
     with HasPretrained[InstructorEmbeddings] {
-  override val defaultModelName: Some[String] = Some("instructor_xl")
+  override val defaultModelName: Some[String] = Some("instructor_base")
 
   /** Java compliant-overrides */
   override def pretrained(): InstructorEmbeddings = super.pretrained()

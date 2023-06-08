@@ -47,12 +47,14 @@ private[johnsnowlabs] class Instructor(
   private val paddingTokenId = 0
   private val eosTokenId = 1
 
-  /**
-   * Get sentence embeddings for a batch of sentences
-   * @param batch batch of sentences
-   * @param contextLengths context lengths
-   * @return sentence embeddings
-   */
+  /** Get sentence embeddings for a batch of sentences
+    * @param batch
+    *   batch of sentences
+    * @param contextLengths
+    *   context lengths
+    * @return
+    *   sentence embeddings
+    */
   private def getSentenceEmbedding(
       batch: Seq[Array[Int]],
       contextLengths: Seq[Int]): Array[Array[Float]] = {
@@ -144,13 +146,15 @@ private[johnsnowlabs] class Instructor(
     sentenceEmbeddingsFloatsArray
   }
 
-  /**
-   * Tokenize sentences
-   * @param sentences sentences
-   * @param task task
-   * @param maxSentenceLength max sentence length
-   * @return
-   */
+  /** Tokenize sentences
+    * @param sentences
+    *   sentences
+    * @param task
+    *   task
+    * @param maxSentenceLength
+    *   max sentence length
+    * @return
+    */
   def tokenize(
       sentences: Seq[Annotation],
       task: String,
@@ -162,15 +166,17 @@ private[johnsnowlabs] class Instructor(
     })
   }
 
-
-  /**
-   * Predict sentence embeddings
-   * @param sentences sentences
-   * @param batchSize batch size
-   * @param maxSentenceLength max sentence length
-   * @param instruction instruction
-   * @return
-   */
+  /** Predict sentence embeddings
+    * @param sentences
+    *   sentences
+    * @param batchSize
+    *   batch size
+    * @param maxSentenceLength
+    *   max sentence length
+    * @param instruction
+    *   instruction
+    * @return
+    */
   def predict(
       sentences: Seq[Annotation],
       batchSize: Int,
