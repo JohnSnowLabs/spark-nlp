@@ -80,7 +80,8 @@ private[johnsnowlabs] class DistilBert(
     tag(Seq(dummyInput))
   }
 
-  sessionWarmup()
+  //  FIXME: This is causing a crash, must know which annotator is calling this
+  //  sessionWarmup()
 
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
 
