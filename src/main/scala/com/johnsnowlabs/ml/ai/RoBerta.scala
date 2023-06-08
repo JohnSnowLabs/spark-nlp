@@ -19,6 +19,7 @@ package com.johnsnowlabs.ml.ai
 import com.johnsnowlabs.ml.ai.util.PrepareEmbeddings
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
+import com.johnsnowlabs.ml.util.ModelArch
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 
@@ -43,7 +44,8 @@ private[johnsnowlabs] class RoBerta(
     sentenceEndTokenId: Int,
     padTokenId: Int,
     configProtoBytes: Option[Array[Byte]] = None,
-    signatures: Option[Map[String, String]] = None)
+    signatures: Option[Map[String, String]] = None,
+    modelArch: String = ModelArch.wordEmbeddings)
     extends Serializable {
 
   val _tfRoBertaSignatures: Map[String, String] =
@@ -52,11 +54,14 @@ private[johnsnowlabs] class RoBerta(
   private def sessionWarmup(): Unit = {
     val dummyInput =
       Array(0, 7939, 18, 3279, 658, 5, 19374, 13, 5, 78, 42752, 4, 2)
-    tag(Seq(dummyInput))
+    if (modelArch == ModelArch.wordEmbeddings) {
+      tag(Seq(dummyInput))
+    } else if (modelArch == ModelArch.sentenceEmbeddings) {
+      tagSequence(Seq(dummyInput))
+    }
   }
 
-  //  FIXME: This is causing a crash, must know which annotator is calling this
-  //  sessionWarmup()
+  sessionWarmup()
 
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
 

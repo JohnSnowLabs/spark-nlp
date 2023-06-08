@@ -20,6 +20,7 @@ import com.johnsnowlabs.ml.ai.util.PrepareEmbeddings
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{SentencePieceWrapper, SentencepieceEncoder}
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
+import com.johnsnowlabs.ml.util.ModelArch
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 
@@ -74,7 +75,8 @@ private[johnsnowlabs] class XlmRoberta(
     val spp: SentencePieceWrapper,
     caseSensitive: Boolean = true,
     configProtoBytes: Option[Array[Byte]] = None,
-    signatures: Option[Map[String, String]] = None)
+    signatures: Option[Map[String, String]] = None,
+    modelArch: String = ModelArch.wordEmbeddings)
     extends Serializable {
 
   val _tfRoBertaSignatures: Map[String, String] =
@@ -88,11 +90,14 @@ private[johnsnowlabs] class XlmRoberta(
   private def sessionWarmup(): Unit = {
     val dummyInput =
       Array(0, 10842, 25, 7, 24814, 2037, 70, 148735, 100, 70, 5117, 53498, 6620, 5, 2)
-    tag(Seq(dummyInput))
+    if (modelArch == ModelArch.wordEmbeddings) {
+      tag(Seq(dummyInput))
+    } else if (modelArch == ModelArch.sentenceEmbeddings) {
+      tagSequence(Seq(dummyInput))
+    }
   }
 
-  //  FIXME: This is causing a crash, must know which annotator is calling this
-  //  sessionWarmup()
+  sessionWarmup()
 
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
 
