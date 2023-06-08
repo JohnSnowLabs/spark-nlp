@@ -17,7 +17,7 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.ml.ai.Instructor
-import com.johnsnowlabs.ml.tensorflow.*
+import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
   ReadSentencePieceModel,
   SentencePieceWrapper,
@@ -29,11 +29,11 @@ import com.johnsnowlabs.ml.util.LoadExternalModel.{
   notSupportedEngineError
 }
 import com.johnsnowlabs.ml.util.ModelEngine
-import com.johnsnowlabs.nlp.*
+import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.storage.HasStorageRef
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.*
+import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.slf4j.{Logger, LoggerFactory}
