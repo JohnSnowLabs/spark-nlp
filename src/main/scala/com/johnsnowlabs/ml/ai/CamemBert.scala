@@ -56,6 +56,14 @@ private[johnsnowlabs] class CamemBert(
   private val SentencePadTokenId = spp.getSppModel.pieceToId("<pad>") + PieceIdOffset
   private val SentencePieceDelimiterId = spp.getSppModel.pieceToId("▁") + PieceIdOffset
 
+  private def sessionWarmup(): Unit = {
+    val dummyInput =
+      Array(5, 54, 110, 11, 10, 15540, 215, 1280, 808, 25352, 1782, 808, 24696, 378, 17409, 9, 6)
+    tag(Seq(dummyInput))
+  }
+
+  sessionWarmup()
+
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
 
     val maxSentenceLength = batch.map(pieceIds => pieceIds.length).max
