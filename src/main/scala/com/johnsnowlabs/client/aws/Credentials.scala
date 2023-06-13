@@ -17,7 +17,6 @@
 package com.johnsnowlabs.client.aws
 
 import com.amazonaws.auth.AWSCredentials
-import com.johnsnowlabs.client.CredentialParams
 import org.slf4j.{Logger, LoggerFactory}
 
 trait Credentials {
