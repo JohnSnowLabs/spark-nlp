@@ -164,7 +164,8 @@ class BertForZeroShotClassification(AnnotatorModel,
             maxSentenceLength=128,
             caseSensitive=True,
             coalesceSentences=False,
-            activation="softmax"
+            activation="softmax",
+            multilabel=False
         )
 
     @staticmethod
