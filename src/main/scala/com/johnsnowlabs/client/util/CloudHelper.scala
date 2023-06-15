@@ -18,6 +18,8 @@ package com.johnsnowlabs.client.util
 import com.johnsnowlabs.nlp.util.io.CloudStorageType
 import com.johnsnowlabs.nlp.util.io.CloudStorageType.CloudStorageType
 
+import java.net.URI
+
 object CloudHelper {
 
   def parseS3URI(s3URI: String, includePrefixInKey: Boolean = false): (String, String) = {
@@ -39,8 +41,26 @@ object CloudHelper {
     (bucketName, storagePath)
   }
 
+  def parseAzureBlobURI(azureBlobURI: String) : (String, String) = {
+    val uri = new URI(azureBlobURI)
+    val parts = uri.getPath.stripPrefix("/").split("/", 2)
+    val containerName = parts(0)
+    require(containerName.nonEmpty, "Azure container name is empty!")
+    val blobPath = if (parts.length > 1) parts(1) else ""
+
+    (containerName, blobPath)
+  }
+
+  def getAccountNameFromAzureBlobURI(azureBlobURI: String): String = {
+    val uri = new URI(azureBlobURI)
+    val host = uri.getHost
+    val accountName = host.stripSuffix(".blob.core.windows.net")
+    require(accountName.nonEmpty, "Azure storage account name is empty!")
+    accountName
+  }
+
   def isCloudPath(uri: String): Boolean = {
-    uri.startsWith("s3://") || uri.startsWith("s3a://") || uri.startsWith("gs://")
+    isS3Path(uri) || isGCPStoragePath(uri) || isAzureBlobPath(uri)
   }
 
   def isS3Path(uri: String): Boolean = {
@@ -49,13 +69,18 @@ object CloudHelper {
 
   private def isGCPStoragePath(uri: String): Boolean = uri.startsWith("gs://")
 
+  private def isAzureBlobPath(uri: String): Boolean = {
+    uri.startsWith("https://") && uri.contains(".blob.core.windows.net/")
+  }
+
   def cloudType(uri: String): CloudStorageType = {
     if (isS3Path(uri)) {
       CloudStorageType.S3
     } else if (isGCPStoragePath(uri)) {
       CloudStorageType.GCP
-    } else
-      throw new UnsupportedOperationException(s"Unsupported URI scheme: $uri")
+    } else if (isAzureBlobPath(uri)) {
+      CloudStorageType.Azure
+    } else throw new UnsupportedOperationException(s"Unsupported URI scheme: $uri")
   }
 
 }

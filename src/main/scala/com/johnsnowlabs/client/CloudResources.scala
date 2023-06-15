@@ -17,6 +17,7 @@ package com.johnsnowlabs.client
 
 import com.amazonaws.services.s3.model.S3Object
 import com.johnsnowlabs.client.aws.{AWSClient, AWSGateway}
+import com.johnsnowlabs.client.azure.AzureClient
 import com.johnsnowlabs.client.gcp.GCPClient
 import com.johnsnowlabs.client.util.CloudHelper
 import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader}
@@ -69,6 +70,18 @@ object CloudResources {
           Option(cachePath + "/" + modelName)
         }
       }
+      case azureClient: AzureClient => {
+        val modelExists =
+          doesModelExistInExternalCloudStorage(modelName, cachePath, azureClient)
+
+        if (!modelExists) {
+          val destination = unzipInExternalCloudStorage(sourceS3URI, cachePath, azureClient, zippedModel)
+          Option(destination)
+        } else {
+          Option(cachePath + "/" + modelName)
+        }
+
+      }
     }
 
   }
@@ -92,6 +105,12 @@ object CloudResources {
         val modelPath = destinationStoragePath + "/" + modelName
 
         gcpClient.doesBucketPathExist(destinationBucketName, modelPath)
+      }
+      case azureClient: AzureClient => {
+        val (destinationBucketName, destinationStoragePath) = CloudHelper.parseAzureBlobURI(destinationURI)
+        val modelPath = destinationStoragePath + "/" + modelName
+
+        azureClient.doesBucketPathExist(destinationBucketName, modelPath)
       }
     }
 
@@ -140,6 +159,19 @@ object CloudResources {
               destinationGCPStoragePath,
               inputStream)
           }
+          case azureClient: AzureClient => {
+            val (destinationBucketName, destinationStoragePath) =
+              CloudHelper.parseAzureBlobURI(destinationStorageURI)
+
+            val destinationAzureStoragePath =
+              s"$destinationStoragePath/$modelName/${zipEntry.getName}".stripPrefix("/")
+
+            azureClient.copyFileToBucket(
+              destinationBucketName,
+              destinationAzureStoragePath,
+              inputStream
+            )
+          }
         }
 
       }
@@ -165,6 +197,7 @@ object CloudResources {
     clientInstance match {
       case awsClient: AWSClient => storeLogFileInS3(outputLogsPath, targetPath, awsClient)
       case gcpClient: GCPClient => storeLogFileInGCPStorage(outputLogsPath, targetPath, gcpClient)
+      case azureClient: AzureClient => storeLogFileInAzureStorage(outputLogsPath, targetPath, azureClient)
     }
   }
 
@@ -204,6 +237,16 @@ object CloudResources {
     gcpClient.copyInputStreamToBucket(gcpBucket, destinationPath, targetPath)
   }
 
+  private def storeLogFileInAzureStorage(
+      outputLogsPath: String,
+      targetPath: String,
+      azureClient: AzureClient): Unit = {
+    val (azureBucket, storagePath) = CloudHelper.parseAzureBlobURI(outputLogsPath)
+    val fileName = Paths.get(targetPath).getFileName.toString
+    val destinationPath = s"$storagePath/$fileName"
+    azureClient.copyInputStreamToBucket(azureBucket, destinationPath, targetPath)
+  }
+
   /** Downloads the provided bucket path to a local temporary directory and returns the location
     * of the folder.
     *
@@ -235,6 +278,11 @@ object CloudResources {
       case gcpClient: GCPClient => {
         val (bucketName, keyPrefix) = CloudHelper.parseGCPStorageURI(bucketURI)
         gcpClient.downloadFilesFromBucketToDirectory(bucketName, keyPrefix, directory, isIndex)
+        Paths.get(directory, keyPrefix).toUri
+      }
+      case azureClient: AzureClient => {
+        val (bucketName, keyPrefix) = CloudHelper.parseAzureBlobURI(bucketURI)
+        azureClient.downloadFilesFromBucketToDirectory(bucketName, keyPrefix, directory, isIndex)
         Paths.get(directory, keyPrefix).toUri
       }
     }

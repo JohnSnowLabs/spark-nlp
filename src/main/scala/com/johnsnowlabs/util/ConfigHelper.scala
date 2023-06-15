@@ -67,6 +67,8 @@ object ConfigHelper {
   // Stores info for integration with GCP
   val gcpProjectId = "spark.jsl.settings.gcp.project_id"
 
+  // Stores info for integration with Azure
+  val azureStorageAccountName = "spark.jsl.settings.azure.storage.account"
   def getConfigValueOrElse(property: String, defaultValue: String): String = {
     sparkSession.conf.get(property, defaultValue)
   }

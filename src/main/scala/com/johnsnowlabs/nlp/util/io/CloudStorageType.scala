@@ -18,6 +18,6 @@ package com.johnsnowlabs.nlp.util.io
 object CloudStorageType extends Enumeration {
 
   type CloudStorageType = Value
-  val S3, GCP = Value
+  val S3, GCP, Azure = Value
 
 }

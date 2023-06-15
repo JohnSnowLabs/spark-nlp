@@ -41,15 +41,11 @@ class S3ResourceDownloader(
     mutable.Map[String, RepositoryMetadata]()
   val cachePath = new Path(cacheFolder)
 
-  if (!doesCacheFolderInCloud && !fileSystem.exists(cachePath)) {
+  if (!CloudHelper.isCloudPath(cacheFolder) && !fileSystem.exists(cachePath)) {
     fileSystem.mkdirs(cachePath)
   }
 
   lazy val awsGateway = new AWSGateway(region = region, credentialsType = credentialsType)
-
-  private def doesCacheFolderInCloud(): Boolean = {
-    cacheFolder.startsWith("s3") || cacheFolder.startsWith("gs")
-  }
 
   def downloadMetadataIfNeed(folder: String): List[ResourceMetadata] = {
     val lastState = repoFolder2Metadata.get(folder)
