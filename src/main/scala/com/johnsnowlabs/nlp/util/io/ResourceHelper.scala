@@ -54,7 +54,14 @@ object ResourceHelper {
         .config("spark.driver.maxResultSize", "0")
         .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
         .config("spark.kryoserializer.buffer.max", "1000m")
-        .getOrCreate())
+        .config("spark.hadoop.fs.azure", "org.apache.hadoop.fs.azure.NativeAzureFileSystem")
+        .config("spark.jars.packages", "org.apache.hadoop:hadoop-azure:3.3.5,com.azure:azure-storage-blob:12.22.2")
+        .config("spark.hadoop.fs.azure.account.key.sparknlp2641242170.blob.core.windows.net", "flyMCQH505WnL/rTpw8blQuxBwQNEa1/d8Erettf6sHxwkAHvvJaJr2bE5J8SB7nTWeLbt4sFYNR2LiGo20sIg==")
+//        .config("spark.jsl.settings.azure.storage.account", "sparknlp2641242170")
+        .config("spark.jsl.settings.pretrained.cache_folder", "https://sparknlp2641242170.blob.core.windows.net//test")
+      .getOrCreate())
+
+  //flyMCQH505WnL/rTpw8blQuxBwQNEa1/d8Erettf6sHxwkAHvvJaJr2bE5J8SB7nTWeLbt4sFYNR2LiGo20sIg==
 
   def getSparkSessionWithS3(
       awsAccessKeyId: String,

@@ -16,6 +16,7 @@
 package com.johnsnowlabs.client
 
 import com.johnsnowlabs.client.aws.AWSClient
+import com.johnsnowlabs.client.azure.AzureClient
 import com.johnsnowlabs.client.gcp.GCPClient
 import com.johnsnowlabs.client.util.CloudHelper
 import com.johnsnowlabs.nlp.util.io.CloudStorageType
@@ -32,6 +33,10 @@ class CloudManager(parameters: Map[String, String] = Map.empty) {
         new AWSClient(parameters)
       case CloudStorageType.GCP => {
         new GCPClient(parameters)
+      }
+      case CloudStorageType.Azure => {
+        val storageAccountName = CloudHelper.getAccountNameFromAzureBlobURI(uri)
+        new AzureClient(Map("storageAccountName" -> storageAccountName))
       }
       case _ =>
         throw new IllegalArgumentException(s"Unsupported URI scheme: $uri")
@@ -62,7 +67,14 @@ class CloudManager(parameters: Map[String, String] = Map.empty) {
       case CloudStorageType.GCP => {
         val projectId = ConfigLoader.getConfigStringValue(ConfigHelper.gcpProjectId)
         val configParameters = Map("projectId" -> projectId)
+
         new GCPClient(configParameters)
+      }
+      case CloudStorageType.Azure => {
+        val storageAccountName = ConfigLoader.getConfigStringValue(ConfigHelper.azureStorageAccountName)
+        val configParameters = Map("storageAccountName" -> storageAccountName)
+
+        new AzureClient(configParameters)
       }
       case _ =>
         throw new IllegalArgumentException(s"Unsupported URI scheme: $uri")
