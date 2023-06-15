@@ -38,8 +38,8 @@ Pretrained ElectraForSequenceClassification model, adapted from Hugging Face and
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler() \
-    .setInputCols(["text"]) \
-    .setOutputCols("document")
+    .setInputCol("text") \
+    .setOutputCol("document")
 
 tokenizer = Tokenizer() \
     .setInputCols("document") \
@@ -48,7 +48,7 @@ tokenizer = Tokenizer() \
 seq_classifier = BertForSequenceClassification.pretrained("electra_classifier_mrm8488_electricidad_small_finetuned_amazon_review_classification","es") \
     .setInputCols(["document", "token"]) \
     .setOutputCol("class")
-    
+
 pipeline = Pipeline(stages=[documentAssembler, tokenizer, seq_classifier])
 
 data = spark.createDataFrame([["PUT YOUR STRING HERE"]]).toDF("text")
@@ -56,18 +56,18 @@ data = spark.createDataFrame([["PUT YOUR STRING HERE"]]).toDF("text")
 result = pipeline.fit(data).transform(data)
 ```
 ```scala
-val documentAssembler = new DocumentAssembler() 
-      .setInputCols(Array("text")) 
+val documentAssembler = new DocumentAssembler()
+      .setInputCols(Array("text"))
       .setOutputCols(Array("document"))
-      
+
 val tokenizer = new Tokenizer()
     .setInputCols("document")
     .setOutputCol("token")
- 
-val seq_classifier = BertForSequenceClassification.pretrained("electra_classifier_mrm8488_electricidad_small_finetuned_amazon_review_classification","es") 
+
+val seq_classifier = BertForSequenceClassification.pretrained("electra_classifier_mrm8488_electricidad_small_finetuned_amazon_review_classification","es")
     .setInputCols(Array("document", "token"))
     .setOutputCol("class")
-   
+
 val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, seq_classifier))
 
 val data = Seq("PUT YOUR STRING HERE").toDS.toDF("text")

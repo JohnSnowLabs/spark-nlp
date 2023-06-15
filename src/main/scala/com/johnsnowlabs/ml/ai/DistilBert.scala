@@ -19,6 +19,7 @@ package com.johnsnowlabs.ml.ai
 import com.johnsnowlabs.ml.ai.util.PrepareEmbeddings
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
+import com.johnsnowlabs.ml.util.ModelArch
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 
@@ -69,10 +70,23 @@ private[johnsnowlabs] class DistilBert(
     sentenceStartTokenId: Int,
     sentenceEndTokenId: Int,
     configProtoBytes: Option[Array[Byte]] = None,
-    signatures: Option[Map[String, String]] = None)
+    signatures: Option[Map[String, String]] = None,
+    modelArch: String = ModelArch.wordEmbeddings)
     extends Serializable {
 
   val _tfBertSignatures: Map[String, String] = signatures.getOrElse(ModelSignatureManager.apply())
+
+  private def sessionWarmup(): Unit = {
+    val dummyInput =
+      Array(101, 2292, 1005, 1055, 4010, 6279, 1996, 5219, 2005, 1996, 2034, 28937, 1012, 102)
+    if (modelArch == ModelArch.wordEmbeddings) {
+      tag(Seq(dummyInput))
+    } else if (modelArch == ModelArch.sentenceEmbeddings) {
+      tagSequence(Seq(dummyInput))
+    }
+  }
+
+  sessionWarmup()
 
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
 

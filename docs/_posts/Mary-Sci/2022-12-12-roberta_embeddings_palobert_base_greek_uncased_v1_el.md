@@ -33,8 +33,8 @@ Pretrained RobertaForMaskedLM model, adapted from Hugging Face and curated to pr
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler() \
-    .setInputCols(["text"]) \
-    .setOutputCols("document")
+    .setInputCol("text") \
+    .setOutputCol("document")
 
 tokenizer = Tokenizer() \
     .setInputCols("document") \
@@ -44,7 +44,7 @@ roberta_loaded = RoBertaEmbeddings.pretrained("roberta_embeddings_palobert_base_
     .setInputCols(["document", "token"]) \
     .setOutputCol("embeddings") \
     .setCaseSensitive(True)
-    
+
 pipeline = Pipeline(stages=[documentAssembler, tokenizer, roberta_loaded])
 
 data = spark.createDataFrame([["I love Spark NLP"]]).toDF("text")
@@ -52,19 +52,19 @@ data = spark.createDataFrame([["I love Spark NLP"]]).toDF("text")
 result = pipeline.fit(data).transform(data)
 ```
 ```scala
-val documentAssembler = new DocumentAssembler() 
-    .setInputCols(Array("text")) 
-    .setOutputCols(Array("document"))
-      
+val documentAssembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
+
 val tokenizer = new Tokenizer()
     .setInputCols("document")
     .setOutputCol("token")
- 
-val roberta_loaded = RoBertaEmbeddings.pretrained("roberta_embeddings_palobert_base_greek_uncased_v1","el") 
+
+val roberta_loaded = RoBertaEmbeddings.pretrained("roberta_embeddings_palobert_base_greek_uncased_v1","el")
     .setInputCols(Array("document", "token"))
     .setOutputCol("embeddings")
-    .setCaseSensitive(true)    
-   
+    .setCaseSensitive(true)
+
 val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, roberta_loaded))
 
 val data = Seq("I love Spark NLP").toDS.toDF("text")

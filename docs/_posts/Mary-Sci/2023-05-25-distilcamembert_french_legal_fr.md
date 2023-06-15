@@ -1,6 +1,6 @@
 ---
 layout: model
-title: French Legal DistilCamemBert Embeddings Model 
+title: French Legal DistilCamemBert Embeddings Model
 author: John Snow Labs
 name: distilcamembert_french_legal
 date: 2023-05-25
@@ -36,8 +36,8 @@ Pretrained CamemBertEmbeddings model, adapted from Hugging Face and curated to p
 
 ```python
 documentAssembler = DocumentAssembler() \
-    .setInputCols(["text"]) \
-    .setOutputCols("document")
+    .setInputCol("text") \
+    .setOutputCol("document")
 
 tokenizer = Tokenizer() \
     .setInputCols("document") \
@@ -47,7 +47,7 @@ embeddings = CamemBertEmbeddings.pretrained("distilcamembert_french_legal","fr")
     .setInputCols(["document", "token"]) \
     .setOutputCol("embeddings") \
     .setCaseSensitive(True)
-    
+
 pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings])
 
 data = spark.createDataFrame([["J'adore Spark NLP"]]).toDF("text")
@@ -55,19 +55,19 @@ data = spark.createDataFrame([["J'adore Spark NLP"]]).toDF("text")
 result = pipeline.fit(data).transform(data)
 ```
 ```scala
-val documentAssembler = new DocumentAssembler() 
-    .setInputCols(Array("text")) 
-    .setOutputCols(Array("document"))
-      
+val documentAssembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
+
 val tokenizer = new Tokenizer()
     .setInputCols("document")
     .setOutputCol("token")
- 
-val embeddings = CamemBertEmbeddings.pretrained("distilcamembert_french_legal","fr") 
+
+val embeddings = CamemBertEmbeddings.pretrained("distilcamembert_french_legal","fr")
     .setInputCols(Array("document", "token"))
     .setOutputCol("embeddings")
-    .setCaseSensitive(True)    
-   
+    .setCaseSensitive(True)
+
 val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, embeddings))
 
 val data = Seq("J'adore Spark NLP").toDS.toDF("text")
