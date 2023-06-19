@@ -648,23 +648,28 @@ object ResourceHelper {
   }
 
   def listLocalFiles(path: String): List[File] = {
-
-    val fileSystem = OutputHelper.getFileSystem
+    val fileSystem = OutputHelper.getFileSystem(path)
 
     val filesPath = fileSystem.getScheme match {
       case "hdfs" =>
         if (path.startsWith("file:")) {
           Option(new File(path.replace("file:", "")).listFiles())
         } else {
-          val filesIterator = fileSystem.listFiles(new Path(path), false)
-          val files: ArrayBuffer[File] = ArrayBuffer()
+          try {
+            val filesIterator = fileSystem.listFiles(new Path(path), false)
+            val files: ArrayBuffer[File] = ArrayBuffer()
 
-          while (filesIterator.hasNext) {
-            val file = new File(filesIterator.next().getPath.toString)
-            files.append(file)
+            while (filesIterator.hasNext) {
+              val file = new File(filesIterator.next().getPath.toString)
+              files.append(file)
+            }
+
+            Option(files.toArray)
+          } catch {
+            case _: FileNotFoundException =>
+              Option(new File(path).listFiles())
           }
 
-          Option(files.toArray)
         }
       case "dbfs" if path.startsWith("dbfs:") =>
         Option(new File(path.replace("dbfs:", "/dbfs/")).listFiles())
