@@ -14,20 +14,18 @@
 import unittest
 
 import pytest
-from pyspark.sql import SparkSession
+
 from sparknlp.annotator import *
 from sparknlp.annotator.similarity.document_similarity_ranker import *
 from sparknlp.base import *
-
 from test.util import SparkSessionForTest
 
 
 @pytest.mark.slow
 class DocumentSimilarityRankerTestSpec(unittest.TestCase):
     def setUp(self):
-        self.spark = SparkContextForTest.spark
+        self.spark = SparkSessionForTest.spark
 
-        # FIXME rollback the setting up from utility class for test
         self.data = SparkSessionForTest.spark.createDataFrame([
             ["First document, this is my first sentence. This is my second sentence."],
             ["Second document, this is my second sentence. This is my second sentence."],
@@ -54,7 +52,6 @@ class DocumentSimilarityRankerTestSpec(unittest.TestCase):
             .setInputCols(["document"]) \
             .setOutputCol("sentence_embeddings")
 
-        # TODO add document_similarity_ranker with input col embeddings too
         document_similarity_ranker = DocumentSimilarityRankerApproach() \
             .setInputCols("sentence_embeddings") \
             .setOutputCol("doc_similarity_rankings") \
@@ -63,45 +60,7 @@ class DocumentSimilarityRankerTestSpec(unittest.TestCase):
             .setBucketLength(2.0) \
             .setNumHashTables(3) \
             .setVisibleDistances(True) \
-            .setIdentityRanking(False)
-
-        pipeline = Pipeline(stages=[
-            document_assembler,
-            sentence_detector,
-            tokenizer,
-            sentence_embeddings,
-            document_similarity_ranker
-            # TODO add document_similarity_ranker_finisher
-        ])
-
-        model = pipeline.fit(self.data)
-        # TODO add write/read pipeline
-        model.transform(self.data).show()
-
-    def runTest(self):
-        document_assembler = DocumentAssembler() \
-            .setInputCol("text") \
-            .setOutputCol("document")
-        sentence_detector = SentenceDetector() \
-            .setInputCols(["document"]) \
-            .setOutputCol("sentence")
-        tokenizer = Tokenizer() \
-            .setInputCols(["sentence"]) \
-            .setOutputCol("token")
-
-        sentence_embeddings = RoBertaSentenceEmbeddings.pretrained() \
-            .setInputCols(["document"]) \
-            .setOutputCol("sentence_embeddings")
-
-        document_similarity_ranker = DocumentSimilarityRankerApproach() \
-            .setInputCols("sentence_embeddings") \
-            .setOutputCol("doc_similarity_rankings") \
-            .setSimilarityMethod("brp") \
-            .setNumberOfNeighbours(10) \
-            .setBucketLength(2.0) \
-            .setNumHashTables(3) \
-            .setVisibleDistances(True) \
-            .setIdentityRanking(False)
+            .setIdentityRanking(True)
 
         document_similarity_ranker_finisher = DocumentSimilarityRankerFinisher() \
             .setInputCols("doc_similarity_rankings") \
@@ -120,62 +79,12 @@ class DocumentSimilarityRankerTestSpec(unittest.TestCase):
         ])
 
         model = pipeline.fit(self.data)
-        transformed = model.transform(self.data)
-        transformed.show()
 
-    # FIXME encoding on GloVe generates different embeddings length
-    # def runTest(self):
-    #     document_assembler = DocumentAssembler() \
-    #         .setInputCol("text") \
-    #         .setOutputCol("document")
-    #     sentence_detector = SentenceDetector() \
-    #         .setInputCols(["document"]) \
-    #         .setOutputCol("sentence")
-    #     tokenizer = Tokenizer() \
-    #         .setInputCols(["sentence"]) \
-    #         .setOutputCol("token")
-    #
-    #     glove = WordEmbeddingsModel.pretrained() \
-    #         .setInputCols(["sentence", "token"]) \
-    #         .setOutputCol("embeddings")
-    #
-    #     sentence_embeddings = SentenceEmbeddings() \
-    #         .setInputCols(["sentence", "embeddings"]) \
-    #         .setOutputCol("sentence_embeddings") \
-    #         .setPoolingStrategy("AVERAGE")
-    #
-    #     document_similarity_ranker = DocumentSimilarityRankerApproach() \
-    #         .setInputCols("sentence_embeddings") \
-    #         .setOutputCol("doc_similarity_rankings") \
-    #         .setSimilarityMethod("brp") \
-    #         .setNumberOfNeighbours(10) \
-    #         .setBucketLength(2.0) \
-    #         .setNumHashTables(3) \
-    #         .setVisibleDistances(True) \
-    #         .setIdentityRanking(True)
-    #
-    #     print(document_similarity_ranker.__dict__)
-    #
-    #     # documentSimilarityFinisher = (
-    #     #     DocumentSimilarityRankerFinisher()
-    #     #         .setInputCols("doc_similarity_rankings")
-    #     #         .setOutputCols(
-    #     #             "finished_doc_similarity_rankings_id",
-    #     #             "finished_doc_similarity_rankings_neighbors")
-    #     #         .setExtractNearestNeighbor(True)
-    #     # )
-    #
-    #     pipeline = Pipeline(stages=[
-    #         document_assembler,
-    #         sentence_detector,
-    #         tokenizer,
-    #         glove,
-    #         sentence_embeddings,
-    #         document_similarity_ranker
-    #     ])
-    #
-    #     model = pipeline.fit(self.data)
-    #     # model.write().overwrite().save("./tmp_model")
-    #     # loaded_model = model.load("./tmp_model")
-    #     # loaded_model.transform(self.data).show()
-    #     model.transform(self.data).show()
+        (
+            model
+            .transform(self.data)
+            .select("text",
+                    "finished_doc_similarity_rankings_id",
+                    "finished_doc_similarity_rankings_neighbors")
+            .show(10, False)
+        )
