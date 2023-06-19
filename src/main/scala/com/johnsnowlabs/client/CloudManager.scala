@@ -46,7 +46,7 @@ class CloudManager(parameters: Map[String, String] = Map.empty) {
         val isS3Defined =
           accessKey != null && secretKey != null && sessionToken != null && region.nonEmpty
 
-        if (isS3Defined) {
+        val configParameters = if (isS3Defined) {
           Map(
             "accessKeyId" -> accessKey,
             "secretAccessKey" -> secretKey,
@@ -58,14 +58,12 @@ class CloudManager(parameters: Map[String, String] = Map.empty) {
               "Not all configs set for private S3 access. Defaulting to public downloader.")
           Map("credentialsType" -> "public")
         }
-        new AWSClient(parameters)
+        new AWSClient(configParameters)
       case CloudStorageType.GCP => {
         val projectId = ConfigLoader.getConfigStringValue(ConfigHelper.gcpProjectId)
-        Map("projectId" -> projectId)
-        new GCPClient(parameters)
+        val configParameters = Map("projectId" -> projectId)
+        new GCPClient(configParameters)
       }
-      //      case azureUri
-      //          if azureUri.startsWith("https://") && azureUri.contains(".blob.core.windows.net/") => "Azure"
       case _ =>
         throw new IllegalArgumentException(s"Unsupported URI scheme: $uri")
     }

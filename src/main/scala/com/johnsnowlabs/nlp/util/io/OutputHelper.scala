@@ -120,7 +120,8 @@ object OutputHelper {
   private def getLogsFolder: String =
     ConfigLoader.getConfigStringValue(ConfigHelper.annotatorLogFolder)
 
-  private lazy val isDBFS = fileSystem.getScheme.equals("dbfs")
+  private lazy val isDBFS =
+    fileSystem.getScheme.equals("dbfs")
 
   private var targetPath: Path = _
 
@@ -129,23 +130,34 @@ object OutputHelper {
   def writeAppend(uuid: String, content: String, outputLogsPath: String): Unit = {
     val targetFolder = getTargetFolder(outputLogsPath)
     targetPath = new Path(targetFolder, uuid + ".log")
-    if (isDBFS) {
-      historyLog = historyLog ++ Array(content)
-    } else {
-      if (CloudHelper.isCloudPath(targetFolder)) {
-        fileSystem.createNewFile(targetPath)
-        val fo = fileSystem.append(targetPath)
-        val writer = new PrintWriter(fo, true)
+
+    fileSystem.getScheme match {
+      case "dbfs" =>
+        historyLog = historyLog ++ Array(content)
+      case "hdfs" =>
+        if (!fileSystem.exists(targetPath)) {
+          fileSystem.createNewFile(targetPath)
+        }
+        val outputStream = fileSystem.append(targetPath)
+        val writer = new PrintWriter(outputStream)
         writer.append(content + System.lineSeparator())
         writer.close()
-        fo.close()
-      } else {
-        if (!fileSystem.exists(new Path(targetFolder))) fileSystem.mkdirs(new Path(targetFolder))
-        val fo = new File(targetPath.toUri.getRawPath)
-        val writer = new FileWriter(fo, true)
-        writer.append(content + System.lineSeparator())
-        writer.close()
-      }
+      case _ =>
+        if (CloudHelper.isCloudPath(targetFolder)) {
+          fileSystem.createNewFile(targetPath)
+          val fo = fileSystem.append(targetPath)
+          val writer = new PrintWriter(fo, true)
+          writer.append(content + System.lineSeparator())
+          writer.close()
+          fo.close()
+        } else {
+          if (!fileSystem.exists(new Path(targetFolder)))
+            fileSystem.mkdirs(new Path(targetFolder))
+          val fo = new File(targetPath.toUri.getRawPath)
+          val writer = new FileWriter(fo, true)
+          writer.append(content + System.lineSeparator())
+          writer.close()
+        }
     }
   }
 
@@ -166,7 +178,9 @@ object OutputHelper {
         historyLog = Array()
       }
 
-      CloudResources.storeLogFileInCloudStorage(outputLogsPath, targetPath.toString)
+      if (CloudHelper.isCloudPath(outputLogsPath)) {
+        CloudResources.storeLogFileInCloudStorage(outputLogsPath, targetPath.toString)
+      }
     } catch {
       case e: Exception =>
         println(
