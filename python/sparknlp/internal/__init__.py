@@ -143,6 +143,11 @@ class _ElmoLoader(ExtendedJavaWrapper):
         super(_ElmoLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.ElmoEmbeddings.loadSavedModel", path, jspark)
 
 
+class _E5Loader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_E5Loader, self).__init__("com.johnsnowlabs.nlp.embeddings.E5Embeddings.loadSavedModel", path, jspark)
+
+
 class _GPT2Loader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_GPT2Loader, self).__init__(
