@@ -24,7 +24,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class E5EmbeddingsTestSpec extends AnyFlatSpec {
 
-  "E5 Embeddings" should "correctly embed multiple sentences" taggedAs FastTest in {
+  "E5 Embeddings" should "correctly embed multiple sentences" taggedAs SlowTest in {
 
     import ResourceHelper.spark.implicits._
 
