@@ -8,7 +8,7 @@ tags: [bert, embeddings, de, open_source, financial, onnx]
 task: Embeddings
 language: de
 edition: Spark NLP 5.0.0
-spark_version: 3.4
+spark_version: 3.0
 supported: true
 engine: onnx
 annotator: BertEmbeddings
@@ -30,8 +30,8 @@ Financial Pretrained BERT Embeddings model, uploaded to Hugging Face, adapted an
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_sentence_embeddings_financial_de_5.0.0_3.4_1687338810949.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bert_sentence_embeddings_financial_de_5.0.0_3.4_1687338810949.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_sentence_embeddings_financial_de_5.0.0_3.0_1687338810949.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bert_sentence_embeddings_financial_de_5.0.0_3.0_1687338810949.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

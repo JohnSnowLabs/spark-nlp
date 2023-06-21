@@ -4,11 +4,11 @@ title: English Bert Embeddings Cased model (from Shafin)
 author: John Snow Labs
 name: bert_embeddings_chemical_uncased_finetuned_cust_c1_cust
 date: 2023-06-21
-tags: [open_source, bert, bert_embeddings, bertformaskedlm, en, tensorflow, onnx]
+tags: [open_source, bert, bert_embeddings, bertformaskedlm, en, onnx]
 task: Embeddings
 language: en
 edition: Spark NLP 5.0.0
-spark_version: 3.4
+spark_version: 3.0
 supported: true
 engine: onnx
 annotator: BertEmbeddings
@@ -28,8 +28,8 @@ Pretrained BertEmbeddings model, adapted from Hugging Face and curated to provid
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_embeddings_chemical_uncased_finetuned_cust_c1_cust_en_5.0.0_3.4_1687335830911.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bert_embeddings_chemical_uncased_finetuned_cust_c1_cust_en_5.0.0_3.4_1687335830911.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_embeddings_chemical_uncased_finetuned_cust_c1_cust_en_5.0.0_3.0_1687335830911.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bert_embeddings_chemical_uncased_finetuned_cust_c1_cust_en_5.0.0_3.0_1687335830911.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

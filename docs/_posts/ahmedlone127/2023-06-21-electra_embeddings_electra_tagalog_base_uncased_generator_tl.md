@@ -8,7 +8,7 @@ tags: [tl, open_source, electra, embeddings, onnx]
 task: Embeddings
 language: tl
 edition: Spark NLP 5.0.0
-spark_version: 3.4
+spark_version: 3.0
 supported: true
 engine: onnx
 annotator: BertEmbeddings
@@ -28,8 +28,8 @@ Pretrained Electra Embeddings model, adapted from Hugging Face and curated to pr
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/electra_embeddings_electra_tagalog_base_uncased_generator_tl_5.0.0_3.4_1687338703736.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/electra_embeddings_electra_tagalog_base_uncased_generator_tl_5.0.0_3.4_1687338703736.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/electra_embeddings_electra_tagalog_base_uncased_generator_tl_5.0.0_3.0_1687338703736.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/electra_embeddings_electra_tagalog_base_uncased_generator_tl_5.0.0_3.0_1687338703736.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 

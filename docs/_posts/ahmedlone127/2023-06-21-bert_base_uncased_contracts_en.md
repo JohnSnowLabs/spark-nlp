@@ -8,7 +8,7 @@ tags: [open_source, bert, embeddings, finance, contracts, en, onnx]
 task: Embeddings
 language: en
 edition: Spark NLP 5.0.0
-spark_version: 3.4
+spark_version: 3.0
 supported: true
 engine: onnx
 annotator: BertEmbeddings
@@ -28,8 +28,8 @@ Pretrained Word Embeddings model, trained on legal contracts, adapted from Huggi
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_base_uncased_contracts_en_5.0.0_3.4_1687337099443.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bert_base_uncased_contracts_en_5.0.0_3.4_1687337099443.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_base_uncased_contracts_en_5.0.0_3.0_1687337099443.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bert_base_uncased_contracts_en_5.0.0_3.0_1687337099443.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
