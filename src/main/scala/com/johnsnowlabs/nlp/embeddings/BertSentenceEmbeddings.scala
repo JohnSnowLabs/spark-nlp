@@ -24,7 +24,7 @@ import com.johnsnowlabs.ml.util.LoadExternalModel.{
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.{ModelEngine, ModelArch}
+import com.johnsnowlabs.ml.util.{ModelArch, ONNX, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
@@ -399,7 +399,7 @@ class BertSentenceEmbeddings(override val uid: String)
     super.onWrite(path, spark)
 
     getEngine match {
-      case ModelEngine.tensorflow =>
+      case TensorFlow.name =>
         writeTensorflowModelV2(
           path,
           spark,
@@ -407,7 +407,7 @@ class BertSentenceEmbeddings(override val uid: String)
           "_bert_sentence",
           BertEmbeddings.tfFile,
           configProtoBytes = getConfigProtoBytes)
-      case ModelEngine.onnx =>
+      case ONNX.name =>
         writeOnnxModel(
           path,
           spark,
@@ -449,12 +449,12 @@ trait ReadBertSentenceDLModel extends ReadTensorflowModel with ReadOnnxModel {
   def readModel(instance: BertSentenceEmbeddings, path: String, spark: SparkSession): Unit = {
 
     instance.getEngine match {
-      case ModelEngine.tensorflow =>
+      case TensorFlow.name =>
         val tfWrapper =
           readTensorflowModel(path, spark, "_bert_sentence_tf", initAllTables = false)
         instance.setModelIfNotSet(spark, Some(tfWrapper), None)
 
-      case ModelEngine.onnx => {
+      case ONNX.name => {
         val onnxWrapper =
           readOnnxModel(
             path,
@@ -485,7 +485,7 @@ trait ReadBertSentenceDLModel extends ReadTensorflowModel with ReadOnnxModel {
     annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
-      case ModelEngine.tensorflow =>
+      case TensorFlow.name =>
         val (tfWrapper, signatures) =
           TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 
@@ -501,7 +501,7 @@ trait ReadBertSentenceDLModel extends ReadTensorflowModel with ReadOnnxModel {
           .setSignatures(_signatures)
           .setModelIfNotSet(spark, Some(tfWrapper), None)
 
-      case ModelEngine.onnx =>
+      case ONNX.name =>
         val onnxWrapper = OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper))

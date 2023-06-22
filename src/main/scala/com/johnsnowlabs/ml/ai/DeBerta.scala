@@ -22,7 +22,7 @@ import com.johnsnowlabs.ml.onnx.OnnxWrapper
 import com.johnsnowlabs.ml.tensorflow.sentencepiece._
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
-import com.johnsnowlabs.ml.util.ModelEngine
+import com.johnsnowlabs.ml.util.{ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 
 import scala.collection.JavaConverters._
@@ -49,9 +49,9 @@ class DeBerta(
     signatures.getOrElse(ModelSignatureManager.apply())
 
   val detectedEngine: String =
-    if (tensorflowWrapper.isDefined) ModelEngine.tensorflow
-    else if (onnxWrapper.isDefined) ModelEngine.onnx
-    else ModelEngine.tensorflow
+    if (tensorflowWrapper.isDefined) TensorFlow.name
+    else if (onnxWrapper.isDefined) ONNX.name
+    else TensorFlow.name
 
   // keys representing the input and output tensors of the DeBERTa model
   private val SentenceStartTokenId = spp.getSppModel.pieceToId("[CLS]")
@@ -66,7 +66,7 @@ class DeBerta(
 
     val embeddings = detectedEngine match {
 
-      case ModelEngine.onnx =>
+      case ONNX.name =>
         // [nb of encoded sentences , maxSentenceLength]
         val (runner, env) = onnxWrapper.get.getSession()
 

@@ -23,7 +23,7 @@ import com.johnsnowlabs.ml.tensorflow.{
   WriteTensorflowModel
 }
 import com.johnsnowlabs.ml.util.LoadExternalModel.{modelSanityCheck, notSupportedEngineError}
-import com.johnsnowlabs.ml.util.ModelEngine
+import com.johnsnowlabs.ml.util.TensorFlow
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, SENTENCE_EMBEDDINGS}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common.SentenceSplit
@@ -349,7 +349,7 @@ trait ReadUSEDLModel extends ReadTensorflowModel {
     annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
-      case ModelEngine.tensorflow =>
+      case TensorFlow.name =>
         val wrapper =
           TensorflowWrapper.readWithSP(
             localModelPath,
