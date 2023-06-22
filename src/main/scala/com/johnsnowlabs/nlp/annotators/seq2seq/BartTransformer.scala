@@ -199,6 +199,18 @@ class BartTransformer(override val uid: String)
     this
   }
 
+  /** max length of the input sequence (Default: `0`)
+    *
+    * @group param
+    */
+  val maxInputLength =
+    new IntParam(this, "maxInputLength", "Maximum length of the input sequence")
+
+  def setMaxInputLength(value: Int): BartTransformer.this.type = {
+    set(maxInputLength, value)
+    this
+  }
+
   /** @group getParam */
   def getMinOutputLength: Int = $(this.minOutputLength)
 
@@ -477,6 +489,7 @@ class BartTransformer(override val uid: String)
     ignoreTokenIds -> Array(),
     batchSize -> 1,
     beamSize -> 4,
+    maxInputLength -> 512,
     useCache -> true)
 
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
@@ -503,7 +516,8 @@ class BartTransformer(override val uid: String)
         task = $(task),
         randomSeed = this.randomSeed,
         ignoreTokenIds = $(ignoreTokenIds),
-        beamSize = $(beamSize))
+        beamSize = $(beamSize),
+        maxInputLength = $(maxInputLength))
     } else {
       Seq()
     }
