@@ -46,7 +46,7 @@ class BartTransformerQATestSpec(unittest.TestCase):
 
         results.select("documents.result", "answers.result").show(truncate=False)
 
-@pytest.mark.fast
+@pytest.mark.slow
 class BartTransformerMaxLengthTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark

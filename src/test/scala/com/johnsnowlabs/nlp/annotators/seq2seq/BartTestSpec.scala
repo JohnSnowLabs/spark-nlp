@@ -56,7 +56,7 @@ class BartTestSpec extends AnyFlatSpec {
       .show(truncate = false)
 
   }
-  "distilbart_xsum_12_6" should "handle text inputs longer than 512 and not crash" taggedAs FastTest in {
+  "distilbart_xsum_12_6" should "handle text inputs longer than 512 and not crash" taggedAs SlowTest in {
     // text longer than 512
     val testData = ResourceHelper.spark
       .createDataFrame(
