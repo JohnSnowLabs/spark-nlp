@@ -56,7 +56,7 @@ object LoadExternalModel {
   }
 
   def isTensorFlowModel(modelPath: String): Boolean = {
-    val tfSavedModel = new File(modelPath, ModelEngine.tensorflowModelName)
+    val tfSavedModel = new File(modelPath, TensorFlow.modelName)
     tfSavedModel.exists()
 
   }
@@ -64,11 +64,11 @@ object LoadExternalModel {
   def isOnnxModel(modelPath: String, isEncoderDecoder: Boolean = false): Boolean = {
 
     if (isEncoderDecoder) {
-      val onnxEncoderModel = new File(modelPath, ModelEngine.onnxEncoderModel)
-      val onnxDecoderModel = new File(modelPath, ModelEngine.onnxDecoderModel)
+      val onnxEncoderModel = new File(modelPath, ONNX.encoderModel)
+      val onnxDecoderModel = new File(modelPath, ONNX.decoderModel)
       onnxEncoderModel.exists() && onnxDecoderModel.exists()
     } else {
-      val onnxModel = new File(modelPath, ModelEngine.onnxModelName)
+      val onnxModel = new File(modelPath, ONNX.modelName)
       onnxModel.exists()
     }
 
@@ -94,12 +94,12 @@ object LoadExternalModel {
     val onnxModelExist = isOnnxModel(modelPath, isEncoderDecoder)
 
     if (tfSavedModelExist) {
-      ModelEngine.tensorflow
+      TensorFlow.name
     } else if (onnxModelExist) {
-      ModelEngine.onnx
+      ONNX.name
     } else {
       require(tfSavedModelExist || onnxModelExist, notSupportedEngineError)
-      ModelEngine.unk
+      Unknown.name
     }
 
   }

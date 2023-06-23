@@ -29,7 +29,7 @@ import com.johnsnowlabs.ml.util.LoadExternalModel.{
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.ModelEngine
+import com.johnsnowlabs.ml.util.{ModelEngine, ONNX, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -323,7 +323,7 @@ class DeBertaEmbeddings(override val uid: String)
     val suffix = "_deberta"
 
     getEngine match {
-      case ModelEngine.tensorflow =>
+      case TensorFlow.name =>
         writeTensorflowModelV2(
           path,
           spark,
@@ -331,7 +331,7 @@ class DeBertaEmbeddings(override val uid: String)
           suffix,
           DeBertaEmbeddings.tfFile,
           configProtoBytes = getConfigProtoBytes)
-      case ModelEngine.onnx =>
+      case ONNX.name =>
         writeOnnxModel(
           path,
           spark,
@@ -381,12 +381,12 @@ trait ReadDeBertaDLModel
     val spp = readSentencePieceModel(path, spark, "_deberta_spp", sppFile)
 
     instance.getEngine match {
-      case ModelEngine.tensorflow =>
+      case TensorFlow.name =>
         val tfWrapper = readTensorflowModel(path, spark, "_deberta_tf", initAllTables = false)
 
         instance.setModelIfNotSet(spark, Some(tfWrapper), None, spp)
 
-      case ModelEngine.onnx => {
+      case ONNX.name => {
         val onnxWrapper =
           readOnnxModel(path, spark, "_deberta_onnx", zipped = true, useBundle = false, None)
         instance.setModelIfNotSet(spark, None, Some(onnxWrapper), spp)
@@ -410,7 +410,7 @@ trait ReadDeBertaDLModel
     annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
-      case ModelEngine.tensorflow =>
+      case TensorFlow.name =>
         val (tfWrapper, signatures) =
           TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 
@@ -426,7 +426,7 @@ trait ReadDeBertaDLModel
           .setSignatures(_signatures)
           .setModelIfNotSet(spark, Some(tfWrapper), None, spModel)
 
-      case ModelEngine.onnx =>
+      case ONNX.name =>
         val onnxWrapper = OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
         annotatorModel
           .setModelIfNotSet(spark, None, Some(onnxWrapper), spModel)

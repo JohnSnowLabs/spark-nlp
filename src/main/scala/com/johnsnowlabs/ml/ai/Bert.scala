@@ -21,7 +21,7 @@ import com.johnsnowlabs.ml.ai.util.PrepareEmbeddings
 import com.johnsnowlabs.ml.onnx.OnnxWrapper
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
-import com.johnsnowlabs.ml.util.{ModelEngine, ModelArch}
+import com.johnsnowlabs.ml.util.{ModelArch, ModelEngine, ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 
@@ -63,9 +63,9 @@ private[johnsnowlabs] class Bert(
 
   val _tfBertSignatures: Map[String, String] = signatures.getOrElse(ModelSignatureManager.apply())
   val detectedEngine: String =
-    if (tensorflowWrapper.isDefined) ModelEngine.tensorflow
-    else if (onnxWrapper.isDefined) ModelEngine.onnx
-    else ModelEngine.tensorflow
+    if (tensorflowWrapper.isDefined) TensorFlow.name
+    else if (onnxWrapper.isDefined) ONNX.name
+    else TensorFlow.name
 
   private def sessionWarmup(): Unit = {
     val dummyInput =
@@ -88,7 +88,7 @@ private[johnsnowlabs] class Bert(
 
     val embeddings = detectedEngine match {
 
-      case ModelEngine.onnx =>
+      case ONNX.name =>
         // [nb of encoded sentences , maxSentenceLength]
         val (runner, env) = onnxWrapper.get.getSession()
 
@@ -191,7 +191,7 @@ private[johnsnowlabs] class Bert(
     val batchLength = batch.length
 
     val embeddings = detectedEngine match {
-      case ModelEngine.onnx =>
+      case ONNX.name =>
         // [nb of encoded sentences , maxSentenceLength]
         val (runner, env) = onnxWrapper.get.getSession()
 
