@@ -337,7 +337,7 @@ class DeBertaEmbeddings(override val uid: String)
           spark,
           getModelIfNotSet.onnxWrapper.get,
           suffix,
-          BertEmbeddings.onnxFile)
+          DeBertaEmbeddings.onnxFile)
 
       case _ =>
         throw new Exception(notSupportedEngineError)
@@ -377,13 +377,11 @@ trait ReadDeBertaDLModel
   override val sppFile: String = "deberta_spp"
 
   def readModel(instance: DeBertaEmbeddings, path: String, spark: SparkSession): Unit = {
-    val tf = readTensorflowModel(path, spark, "_deberta_tf", initAllTables = false)
     val spp = readSentencePieceModel(path, spark, "_deberta_spp", sppFile)
 
     instance.getEngine match {
       case TensorFlow.name =>
         val tfWrapper = readTensorflowModel(path, spark, "_deberta_tf", initAllTables = false)
-
         instance.setModelIfNotSet(spark, Some(tfWrapper), None, spp)
 
       case ONNX.name => {
