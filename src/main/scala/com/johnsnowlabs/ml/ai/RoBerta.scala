@@ -16,10 +16,12 @@
 
 package com.johnsnowlabs.ml.ai
 
+import ai.onnxruntime.OnnxTensor
 import com.johnsnowlabs.ml.ai.util.PrepareEmbeddings
+import com.johnsnowlabs.ml.onnx.OnnxWrapper
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
-import com.johnsnowlabs.ml.util.ModelArch
+import com.johnsnowlabs.ml.util.{ModelArch, ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 
@@ -39,7 +41,8 @@ import scala.collection.JavaConverters._
   *   Model's inputs and output(s) signatures
   */
 private[johnsnowlabs] class RoBerta(
-    val tensorflowWrapper: TensorflowWrapper,
+    val tensorflowWrapper: Option[TensorflowWrapper],
+    val onnxWrapper: Option[OnnxWrapper],
     sentenceStartTokenId: Int,
     sentenceEndTokenId: Int,
     padTokenId: Int,
@@ -50,6 +53,10 @@ private[johnsnowlabs] class RoBerta(
 
   val _tfRoBertaSignatures: Map[String, String] =
     signatures.getOrElse(ModelSignatureManager.apply())
+  val detectedEngine: String =
+    if (tensorflowWrapper.isDefined) TensorFlow.name
+    else if (onnxWrapper.isDefined) ONNX.name
+    else TensorFlow.name
 
   private def sessionWarmup(): Unit = {
     val dummyInput =
@@ -68,42 +75,81 @@ private[johnsnowlabs] class RoBerta(
     val maxSentenceLength = batch.map(pieceIds => pieceIds.length).max
     val batchLength = batch.length
 
-    val tensors = new TensorResources()
+    val embeddings = detectedEngine match {
 
-    val (tokenTensors, maskTensors) =
-      PrepareEmbeddings.prepareBatchTensors(
-        tensors = tensors,
-        batch = batch,
-        maxSentenceLength = maxSentenceLength,
-        batchLength = batchLength,
-        sentencePadTokenId = padTokenId)
+      case ONNX.name =>
+        // [nb of encoded sentences , maxSentenceLength]
+        val (runner, env) = onnxWrapper.get.getSession()
 
-    val runner = tensorflowWrapper
-      .getTFSessionWithSignature(
-        configProtoBytes = configProtoBytes,
-        savedSignatures = signatures,
-        initAllTables = false)
-      .runner
+        val tokenTensors =
+          OnnxTensor.createTensor(env, batch.map(x => x.map(x => x.toLong)).toArray)
+        val maskTensors =
+          OnnxTensor.createTensor(
+            env,
+            batch.map(sentence => sentence.map(x => if (x == 0L) 0L else 1L)).toArray)
 
-    runner
-      .feed(
-        _tfRoBertaSignatures
-          .getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"),
-        tokenTensors)
-      .feed(
-        _tfRoBertaSignatures
-          .getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"),
-        maskTensors)
-      .fetch(_tfRoBertaSignatures
-        .getOrElse(ModelSignatureConstants.LastHiddenState.key, "missing_sequence_output_key"))
+        val inputs =
+          Map("input_ids" -> tokenTensors, "attention_mask" -> maskTensors).asJava
 
-    val outs = runner.run().asScala
-    val embeddings = TensorResources.extractFloats(outs.head)
+        // TODO:  A try without a catch or finally is equivalent to putting its body in a block; no exceptions are handled.
+        try {
+          val results = runner.run(inputs)
+          try {
+            val embeddings = results
+              .get("last_hidden_state")
+              .get()
+              .asInstanceOf[OnnxTensor]
+              .getFloatBuffer
+              .array()
+            tokenTensors.close()
+            maskTensors.close()
+            embeddings
 
-    tokenTensors.close()
-    maskTensors.close()
-    tensors.clearSession(outs)
-    tensors.clearTensors()
+          } finally if (results != null) results.close()
+        }
+      case _ =>
+        val tensors = new TensorResources()
+
+        val (tokenTensors, maskTensors) =
+          PrepareEmbeddings.prepareBatchTensors(
+            tensors = tensors,
+            batch = batch,
+            maxSentenceLength = maxSentenceLength,
+            batchLength = batchLength,
+            sentencePadTokenId = padTokenId)
+
+        val runner = tensorflowWrapper.get
+          .getTFSessionWithSignature(
+            configProtoBytes = configProtoBytes,
+            savedSignatures = signatures,
+            initAllTables = false)
+          .runner
+
+        runner
+          .feed(
+            _tfRoBertaSignatures
+              .getOrElse(ModelSignatureConstants.InputIds.key, "missing_input_id_key"),
+            tokenTensors)
+          .feed(
+            _tfRoBertaSignatures
+              .getOrElse(ModelSignatureConstants.AttentionMask.key, "missing_input_mask_key"),
+            maskTensors)
+          .fetch(
+            _tfRoBertaSignatures
+              .getOrElse(
+                ModelSignatureConstants.LastHiddenState.key,
+                "missing_sequence_output_key"))
+
+        val outs = runner.run().asScala
+        val embeddings = TensorResources.extractFloats(outs.head)
+
+        tokenTensors.close()
+        maskTensors.close()
+        tensors.clearSession(outs)
+        tensors.clearTensors()
+
+        embeddings
+    }
 
     PrepareEmbeddings.prepareBatchWordEmbeddings(
       batch,
@@ -133,7 +179,7 @@ private[johnsnowlabs] class RoBerta(
         batchLength = batchLength,
         sentencePadTokenId = padTokenId)
 
-    val runner = tensorflowWrapper
+    val runner = tensorflowWrapper.get
       .getTFSessionWithSignature(
         configProtoBytes = configProtoBytes,
         savedSignatures = signatures,
