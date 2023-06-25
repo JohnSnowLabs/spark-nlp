@@ -17,6 +17,7 @@
 package com.johnsnowlabs.ml.onnx
 
 import ai.onnxruntime.OrtSession.SessionOptions
+import ai.onnxruntime.OrtSession.SessionOptions.{ExecutionMode, OptLevel}
 import ai.onnxruntime.providers.OrtCUDAProviderOptions
 import ai.onnxruntime.{OrtEnvironment, OrtSession}
 import com.johnsnowlabs.util.{FileHelper, ZipArchiveUtil}
@@ -80,7 +81,7 @@ object OnnxWrapper {
     this.synchronized {
       val env = OrtEnvironment.getEnvironment()
 
-      val sessOptions =
+      val opts =
         if (sessionOptions.isDefined) sessionOptions.get else new OrtSession.SessionOptions()
 
       val providers = OrtEnvironment.getAvailableProviders
@@ -89,17 +90,27 @@ object OnnxWrapper {
         logger.info("using CUDA")
         // it seems there is no easy way to use multiple GPUs
         // at least not without using multiple threads
+        // TODO: add support for multiple GPUs
+        // TODO: allow user to specify which GPU to use
         val gpuDeviceId = 0 // The GPU device ID to execute on
         val cudaOpts = new OrtCUDAProviderOptions(gpuDeviceId)
         // TODO: incorporate other cuda-related configs
-        //        cudaOpts.add("gpu_mem_limit", "" + (512 * 1024 * 1024))
-        //        sessOptions.addCUDA(gpuDeviceId)
-        sessOptions.addCUDA(cudaOpts)
+        // cudaOpts.add("gpu_mem_limit", "" + (512 * 1024 * 1024))
+        // sessOptions.addCUDA(gpuDeviceId)
+        opts.addCUDA(cudaOpts)
       } else {
-        logger.info("using CPU")
+        logger.info("using CPUs")
+        // TODO: the following configs can be tested for performance
+        // However, so far, they seem to be slower than the ones used
+        // opts.setIntraOpNumThreads(Runtime.getRuntime.availableProcessors())
+        // opts.setMemoryPatternOptimization(true)
+        // opts.setCPUArenaAllocator(false)
+        opts.setIntraOpNumThreads(6)
+        opts.setOptimizationLevel(OptLevel.ALL_OPT)
+        opts.setExecutionMode(ExecutionMode.SEQUENTIAL)
       }
-      val session = env.createSession(onnxModel, sessOptions)
 
+      val session = env.createSession(onnxModel, opts)
       (session, env)
     }
 
@@ -128,16 +139,13 @@ object OnnxWrapper {
       if (useBundle) {
         val onnxFile = Paths.get(modelPath, s"$modelName.onnx").toString
         val modelFile = new File(onnxFile)
-//        val fullPath = Paths.get(folder, modelFile).toFile
         val modelBytes = FileUtils.readFileToByteArray(modelFile)
-
         val (session, env) = withSafeOnnxModelLoader(modelBytes, sessionOptions)
         (session, env, modelBytes)
       } else {
         val modelFile = new File(folder).list().head
         val fullPath = Paths.get(folder, modelFile).toFile
         val modelBytes = FileUtils.readFileToByteArray(fullPath)
-
         val (session, env) = withSafeOnnxModelLoader(modelBytes, sessionOptions)
         (session, env, modelBytes)
       }
