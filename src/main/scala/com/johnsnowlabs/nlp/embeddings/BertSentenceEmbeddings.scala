@@ -123,7 +123,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   * }}}
   *
   * @see
-  *   [[BertEmbeddings]] for token-level embeddings
+  *   [[BertSentenceEmbeddings]] for sentence-level embeddings
   * @see
   *   [[com.johnsnowlabs.nlp.annotators.classifier.dl.BertForSequenceClassification BertForSequenceClassification]]
   *   for embeddings with a sequence classification layer on top
@@ -405,7 +405,7 @@ class BertSentenceEmbeddings(override val uid: String)
           spark,
           getModelIfNotSet.tensorflowWrapper.get,
           "_bert_sentence",
-          BertEmbeddings.tfFile,
+          BertSentenceEmbeddings.tfFile,
           configProtoBytes = getConfigProtoBytes)
       case ONNX.name =>
         writeOnnxModel(
@@ -413,7 +413,7 @@ class BertSentenceEmbeddings(override val uid: String)
           spark,
           getModelIfNotSet.onnxWrapper.get,
           "_bert_sentence",
-          BertEmbeddings.onnxFile)
+          BertSentenceEmbeddings.onnxFile)
 
       case _ =>
         throw new Exception(notSupportedEngineError)
