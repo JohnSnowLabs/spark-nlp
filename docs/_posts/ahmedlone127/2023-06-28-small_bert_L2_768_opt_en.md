@@ -1,0 +1,136 @@
+---
+layout: model
+title: Smaller BERT Embeddings (L-2_H-768_A-12)
+author: John Snow Labs
+name: small_bert_L2_768_opt
+date: 2023-06-28
+tags: [open_source, embeddings, en, onnx]
+task: Embeddings
+language: en
+edition: Spark NLP 5.0.0
+spark_version: 3.0
+supported: true
+engine: onnx
+annotator: BertEmbeddings
+article_header:
+  type: cover
+use_language_switcher: "Python-Scala-Java"
+---
+
+## Description
+
+This is one of the smaller BERT models referenced in [Well-Read Students Learn Better: On the Importance of Pre-training Compact Models](https://arxiv.org/abs/1908.08962).  The smaller BERT models are intended for environments with restricted computational resources. They can be fine-tuned in the same manner as the original BERT models. However, they are most effective in the context of knowledge distillation, where the fine-tuning labels are produced by a larger and more accurate teacher.
+
+## Predicted Entities
+
+
+
+{:.btn-box}
+<button class="button button-orange" disabled>Live Demo</button>
+<button class="button button-orange" disabled>Open in Colab</button>
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/small_bert_L2_768_opt_en_5.0.0_3.0_1687953671808.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/small_bert_L2_768_opt_en_5.0.0_3.0_1687953671808.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+
+## How to use
+
+<div class="tabs-box" markdown="1">
+
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+
+```python
+...
+embeddings = BertEmbeddings.pretrained("small_bert_L2_768", "en") \
+.setInputCols("sentence", "token") \
+.setOutputCol("embeddings")
+nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
+pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
+result = pipeline_model.transform(spark.createDataFrame([['I love NLP']], ["text"]))
+```
+
+```scala
+...
+val embeddings = BertEmbeddings.pretrained("small_bert_L2_768", "en")
+.setInputCols("sentence", "token")
+.setOutputCol("embeddings")
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
+val data = Seq("I love NLP").toDF("text")
+val result = pipeline.fit(data).transform(data)
+```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["I love NLP"]
+embeddings_df = nlu.load('en.embed.bert.small_L2_768').predict(text, output_level='token')
+embeddings_df
+```
+
+</div>
+
+{:.h2_title}
+
+<div class="tabs-box" markdown="1">
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+...
+embeddings = BertEmbeddings.pretrained("small_bert_L2_768", "en") \
+.setInputCols("sentence", "token") \
+.setOutputCol("embeddings")
+nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
+pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
+result = pipeline_model.transform(spark.createDataFrame([['I love NLP']], ["text"]))
+```
+```scala
+...
+val embeddings = BertEmbeddings.pretrained("small_bert_L2_768", "en")
+.setInputCols("sentence", "token")
+.setOutputCol("embeddings")
+val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
+val data = Seq("I love NLP").toDF("text")
+val result = pipeline.fit(data).transform(data)
+```
+
+{:.nlu-block}
+```python
+import nlu
+
+text = ["I love NLP"]
+embeddings_df = nlu.load('en.embed.bert.small_L2_768').predict(text, output_level='token')
+embeddings_df
+```
+</div>
+
+## Results
+
+```bash
+Results
+
+	token	en_embed_bert_small_L2_768_embeddings
+		
+	I 	[-0.2451338768005371, 0.40763044357299805, -0....
+love 	[-0.23793038725852966, -0.07403656840324402, -...
+NLP 	[-0.864113450050354, -0.2902209758758545, 0.54...
+
+
+{:.model-param}
+```
+
+{:.model-param}
+## Model Information
+
+{:.table-model}
+|---|---|
+|Model Name:|small_bert_L2_768_opt|
+|Compatibility:|Spark NLP 5.0.0+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[sentence, token]|
+|Output Labels:|[bert]|
+|Language:|en|
+|Size:|141.9 MB|
+|Case sensitive:|false|
+
+## References
+
+The model is imported from https://tfhub.dev/tensorflow/small_bert/bert_en_uncased_L-2_H-768_A-12/1
