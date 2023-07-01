@@ -16,10 +16,12 @@
 
 package com.johnsnowlabs.ml.ai
 
+import ai.onnxruntime.OnnxTensor
 import com.johnsnowlabs.ml.ai.util.PrepareEmbeddings
+import com.johnsnowlabs.ml.onnx.OnnxWrapper
 import com.johnsnowlabs.ml.tensorflow.sign.{ModelSignatureConstants, ModelSignatureManager}
 import com.johnsnowlabs.ml.tensorflow.{TensorResources, TensorflowWrapper}
-import com.johnsnowlabs.ml.util.ModelArch
+import com.johnsnowlabs.ml.util.{ModelArch, ONNX, TensorFlow}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 
@@ -35,6 +37,8 @@ import scala.collection.JavaConverters._
   *
   * @param tensorflowWrapper
   *   Bert Model wrapper with TensorFlow Wrapper
+  * @param onnxWrapper
+  *   Bert Model wrapper with ONNX Wrapper
   * @param sentenceStartTokenId
   *   Id of sentence start Token
   * @param sentenceEndTokenId
@@ -47,7 +51,8 @@ import scala.collection.JavaConverters._
   * Source: [[https://github.com/google-research/bert]]
   */
 private[johnsnowlabs] class Bert(
-    val tensorflowWrapper: TensorflowWrapper,
+    val tensorflowWrapper: Option[TensorflowWrapper],
+    val onnxWrapper: Option[OnnxWrapper],
     sentenceStartTokenId: Int,
     sentenceEndTokenId: Int,
     configProtoBytes: Option[Array[Byte]] = None,
@@ -57,6 +62,10 @@ private[johnsnowlabs] class Bert(
     extends Serializable {
 
   val _tfBertSignatures: Map[String, String] = signatures.getOrElse(ModelSignatureManager.apply())
+  val detectedEngine: String =
+    if (tensorflowWrapper.isDefined) TensorFlow.name
+    else if (onnxWrapper.isDefined) ONNX.name
+    else TensorFlow.name
 
   private def sessionWarmup(): Unit = {
     val dummyInput =
@@ -74,51 +83,99 @@ private[johnsnowlabs] class Bert(
   sessionWarmup()
 
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
-
     val maxSentenceLength = batch.map(pieceIds => pieceIds.length).max
     val batchLength = batch.length
 
-    val tensors = new TensorResources()
+    val embeddings = detectedEngine match {
 
-    val (tokenTensors, maskTensors, segmentTensors) =
-      PrepareEmbeddings.prepareBatchTensorsWithSegment(
-        tensors = tensors,
-        batch = batch,
-        maxSentenceLength = maxSentenceLength,
-        batchLength = batchLength)
+      case ONNX.name =>
+        // [nb of encoded sentences , maxSentenceLength]
+        val (runner, env) = onnxWrapper.get.getSession()
 
-    val runner = tensorflowWrapper
-      .getTFSessionWithSignature(
-        configProtoBytes = configProtoBytes,
-        savedSignatures = signatures,
-        initAllTables = false)
-      .runner
+        val tokenTensors =
+          OnnxTensor.createTensor(env, batch.map(x => x.map(x => x.toLong)).toArray)
+        val maskTensors =
+          OnnxTensor.createTensor(
+            env,
+            batch.map(sentence => sentence.map(x => if (x == 0L) 0L else 1L)).toArray)
 
-    runner
-      .feed(
-        _tfBertSignatures.getOrElse(
-          ModelSignatureConstants.InputIdsV1.key,
-          "missing_input_id_key"),
-        tokenTensors)
-      .feed(
-        _tfBertSignatures
-          .getOrElse(ModelSignatureConstants.AttentionMaskV1.key, "missing_input_mask_key"),
-        maskTensors)
-      .feed(
-        _tfBertSignatures
-          .getOrElse(ModelSignatureConstants.TokenTypeIdsV1.key, "missing_segment_ids_key"),
-        segmentTensors)
-      .fetch(_tfBertSignatures
-        .getOrElse(ModelSignatureConstants.LastHiddenStateV1.key, "missing_sequence_output_key"))
+        val segmentTensors =
+          OnnxTensor.createTensor(env, batch.map(x => Array.fill(maxSentenceLength)(0L)).toArray)
 
-    val outs = runner.run().asScala
-    val embeddings = TensorResources.extractFloats(outs.head)
+        val inputs =
+          Map(
+            "input_ids" -> tokenTensors,
+            "attention_mask" -> maskTensors,
+            "token_type_ids" -> segmentTensors).asJava
 
-    tokenTensors.close()
-    maskTensors.close()
-    segmentTensors.close()
-    tensors.clearSession(outs)
-    tensors.clearTensors()
+        // TODO:  A try without a catch or finally is equivalent to putting its body in a block; no exceptions are handled.
+        try {
+          val results = runner.run(inputs)
+          try {
+            val embeddings = results
+              .get("last_hidden_state")
+              .get()
+              .asInstanceOf[OnnxTensor]
+              .getFloatBuffer
+              .array()
+            tokenTensors.close()
+            maskTensors.close()
+            segmentTensors.close()
+            //    runner.close()
+            //    env.close()
+            //
+            embeddings
+          } finally if (results != null) results.close()
+        }
+      case _ =>
+        val tensors = new TensorResources()
+
+        val (tokenTensors, maskTensors, segmentTensors) =
+          PrepareEmbeddings.prepareBatchTensorsWithSegment(
+            tensors,
+            batch,
+            maxSentenceLength,
+            batchLength)
+
+        val runner = tensorflowWrapper.get
+          .getTFSessionWithSignature(
+            configProtoBytes = configProtoBytes,
+            savedSignatures = signatures,
+            initAllTables = false)
+          .runner
+
+        runner
+          .feed(
+            _tfBertSignatures.getOrElse(
+              ModelSignatureConstants.InputIdsV1.key,
+              "missing_input_id_key"),
+            tokenTensors)
+          .feed(
+            _tfBertSignatures
+              .getOrElse(ModelSignatureConstants.AttentionMaskV1.key, "missing_input_mask_key"),
+            maskTensors)
+          .feed(
+            _tfBertSignatures
+              .getOrElse(ModelSignatureConstants.TokenTypeIdsV1.key, "missing_segment_ids_key"),
+            segmentTensors)
+          .fetch(
+            _tfBertSignatures
+              .getOrElse(
+                ModelSignatureConstants.LastHiddenStateV1.key,
+                "missing_sequence_output_key"))
+
+        val outs = runner.run().asScala
+        val embeddings = TensorResources.extractFloats(outs.head)
+
+        tokenTensors.close()
+        maskTensors.close()
+        segmentTensors.close()
+        tensors.clearSession(outs)
+        tensors.clearTensors()
+
+        embeddings
+
+    }
 
     PrepareEmbeddings.prepareBatchWordEmbeddings(
       batch,
@@ -133,48 +190,91 @@ private[johnsnowlabs] class Bert(
     val maxSentenceLength = batch.map(pieceIds => pieceIds.length).max
     val batchLength = batch.length
 
-    val tensors = new TensorResources()
+    val embeddings = detectedEngine match {
+      case ONNX.name =>
+        // [nb of encoded sentences , maxSentenceLength]
+        val (runner, env) = onnxWrapper.get.getSession()
 
-    val (tokenTensors, maskTensors, segmentTensors) =
-      PrepareEmbeddings.prepareBatchTensorsWithSegment(
-        tensors = tensors,
-        batch = batch,
-        maxSentenceLength = maxSentenceLength,
-        batchLength = batchLength)
+        val tokenTensors =
+          OnnxTensor.createTensor(env, batch.map(x => x.map(x => x.toLong)).toArray)
+        val maskTensors =
+          OnnxTensor.createTensor(
+            env,
+            batch.map(sentence => sentence.map(x => if (x == 0L) 0L else 1L)).toArray)
 
-    val runner = tensorflowWrapper
-      .getTFSessionWithSignature(
-        configProtoBytes = configProtoBytes,
-        savedSignatures = signatures,
-        initAllTables = false)
-      .runner
+        val segmentTensors =
+          OnnxTensor.createTensor(env, batch.map(x => Array.fill(maxSentenceLength)(0L)).toArray)
 
-    runner
-      .feed(
-        _tfBertSignatures.getOrElse(
-          ModelSignatureConstants.InputIdsV1.key,
-          "missing_input_id_key"),
-        tokenTensors)
-      .feed(
-        _tfBertSignatures
-          .getOrElse(ModelSignatureConstants.AttentionMaskV1.key, "missing_input_mask_key"),
-        maskTensors)
-      .feed(
-        _tfBertSignatures
-          .getOrElse(ModelSignatureConstants.TokenTypeIdsV1.key, "missing_segment_ids_key"),
-        segmentTensors)
-      .fetch(_tfBertSignatures
-        .getOrElse(ModelSignatureConstants.PoolerOutput.key, "missing_pooled_output_key"))
+        val inputs =
+          Map(
+            "input_ids" -> tokenTensors,
+            "attention_mask" -> maskTensors,
+            "token_type_ids" -> segmentTensors).asJava
 
-    val outs = runner.run().asScala
-    val embeddings = TensorResources.extractFloats(outs.head)
+        try {
+          val results = runner.run(inputs)
+          try {
+            val embeddings = results
+              .get("pooler_output")
+              .get()
+              .asInstanceOf[OnnxTensor]
+              .getFloatBuffer
+              .array()
+            tokenTensors.close()
+            maskTensors.close()
+            segmentTensors.close()
+            //    runner.close()
+            //    env.close()
+            //
+            embeddings
+          } finally if (results != null) results.close()
+        }
+      case _ =>
+        val tensors = new TensorResources()
 
-    tokenTensors.close()
-    maskTensors.close()
-    segmentTensors.close()
-    tensors.clearSession(outs)
-    tensors.clearTensors()
+        val (tokenTensors, maskTensors, segmentTensors) =
+          PrepareEmbeddings.prepareBatchTensorsWithSegment(
+            tensors,
+            batch,
+            maxSentenceLength,
+            batchLength)
 
+        val runner = tensorflowWrapper.get
+          .getTFSessionWithSignature(
+            configProtoBytes = configProtoBytes,
+            savedSignatures = signatures,
+            initAllTables = false)
+          .runner
+
+        runner
+          .feed(
+            _tfBertSignatures.getOrElse(
+              ModelSignatureConstants.InputIdsV1.key,
+              "missing_input_id_key"),
+            tokenTensors)
+          .feed(
+            _tfBertSignatures
+              .getOrElse(ModelSignatureConstants.AttentionMaskV1.key, "missing_input_mask_key"),
+            maskTensors)
+          .feed(
+            _tfBertSignatures
+              .getOrElse(ModelSignatureConstants.TokenTypeIdsV1.key, "missing_segment_ids_key"),
+            segmentTensors)
+          .fetch(_tfBertSignatures
+            .getOrElse(ModelSignatureConstants.PoolerOutput.key, "missing_pooled_output_key"))
+
+        val outs = runner.run().asScala
+        val embeddings = TensorResources.extractFloats(outs.head)
+
+        tokenTensors.close()
+        maskTensors.close()
+        segmentTensors.close()
+        tensors.clearSession(outs)
+        tensors.clearTensors()
+
+        embeddings
+
+    }
     val dim = embeddings.length / batchLength
     embeddings.grouped(dim).toArray
 
@@ -200,16 +300,16 @@ private[johnsnowlabs] class Bert(
       segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0L))
     }
 
-    val runner = tensorflowWrapper
+    val tokenTensors = tensors.createLongBufferTensor(shape, tokenBuffers)
+    val maskTensors = tensors.createLongBufferTensor(shape, maskBuffers)
+    val segmentTensors = tensors.createLongBufferTensor(shape, segmentBuffers)
+
+    val runner = tensorflowWrapper.get
       .getTFSessionWithSignature(
         configProtoBytes = configProtoBytes,
         savedSignatures = signatures,
         initAllTables = false)
       .runner
-
-    val tokenTensors = tensors.createLongBufferTensor(shape, tokenBuffers)
-    val maskTensors = tensors.createLongBufferTensor(shape, maskBuffers)
-    val segmentTensors = tensors.createLongBufferTensor(shape, segmentBuffers)
 
     runner
       .feed(
@@ -257,7 +357,6 @@ private[johnsnowlabs] class Bert(
           maxSentenceLength,
           sentenceStartTokenId,
           sentenceEndTokenId)
-
         val vectors = tag(encoded)
 
         /*Combine tokens and calculated embeddings*/
@@ -324,7 +423,6 @@ private[johnsnowlabs] class Bert(
           maxSentenceLength,
           sentenceStartTokenId,
           sentenceEndTokenId)
-
         val embeddings = if (isLong) {
           tagSequenceSBert(encoded)
         } else {

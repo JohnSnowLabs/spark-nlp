@@ -28,7 +28,7 @@ import com.johnsnowlabs.ml.util.LoadExternalModel.{
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.{ModelEngine, ModelArch}
+import com.johnsnowlabs.ml.util.{ModelArch, ModelEngine, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -383,7 +383,7 @@ trait ReadXlmRobertaSentenceDLModel extends ReadTensorflowModel with ReadSentenc
     annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
-      case ModelEngine.tensorflow =>
+      case TensorFlow.name =>
         val (wrapper, signatures) =
           TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 

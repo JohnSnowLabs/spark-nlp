@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2022 John Snow Labs
+ * Copyright 2017-2023 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +16,24 @@
 
 package com.johnsnowlabs.ml.util
 
-object ModelEngine {
-  val tensorflow = "tensorflow"
-  val tensorflowModelName = "saved_model.pb"
-  val onnx = "onnx"
-  val onnxModelName = "model.onnx"
-  val onnxEncoderModel = "encoder_model.onnx"
-  val onnxDecoderModel = "decoder_model.onnx"
-  val onnxDecoderWithPastModel = "decoder_with_past_model.onnx"
-  val unk = "unk"
+sealed trait ModelEngine
+
+final case object TensorFlow extends ModelEngine {
+  val name = "tensorflow"
+  val modelName = "saved_model.pb"
+}
+final case object PyTorch extends ModelEngine {
+  val name = "pytorch"
+}
+
+final case object ONNX extends ModelEngine {
+  val name = "onnx"
+  val modelName = "model.onnx"
+  val encoderModel = "encoder_model.onnx"
+  val decoderModel = "decoder_model.onnx"
+  val decoderWithPastModel = "decoder_with_past_model.onnx"
+}
+
+final case object Unknown extends ModelEngine {
+  val name = "unk"
 }

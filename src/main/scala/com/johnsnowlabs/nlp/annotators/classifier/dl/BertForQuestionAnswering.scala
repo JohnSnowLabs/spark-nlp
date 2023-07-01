@@ -23,7 +23,7 @@ import com.johnsnowlabs.ml.util.LoadExternalModel.{
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.ModelEngine
+import com.johnsnowlabs.ml.util.{ModelEngine, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import org.apache.spark.broadcast.Broadcast
@@ -325,7 +325,7 @@ trait ReadBertForQuestionAnsweringDLModel extends ReadTensorflowModel {
     annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
-      case ModelEngine.tensorflow =>
+      case TensorFlow.name =>
         val (wrapper, signatures) =
           TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 

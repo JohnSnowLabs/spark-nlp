@@ -37,12 +37,26 @@ object LoadExternalModel {
        |    ├── variables.data-00000-of-00001
        |    └── variables.index
        |
+       |A typical imported ONNX model has the following structure:
+       |
+       |├── assets/
+       |    ├── your-assets-are-here (vocab, sp model, labels, etc.)
+       |├── model.onnx
+       |
+       |A typical imported ONNX model for Seq2Seq has the following structure:
+       |
+       |├── assets/
+       |    ├── your-assets-are-here (vocab, sp model, labels, etc.)
+       |├── encoder_model.onnx
+       |├── decoder_model.onnx
+       |├── decoder_with_past_model.onnx (not used in this release)
+       |
        |Please make sure you follow provided notebooks to import external models into Spark NLP:
        |https://github.com/JohnSnowLabs/spark-nlp/discussions/5669""".stripMargin
   }
 
   def isTensorFlowModel(modelPath: String): Boolean = {
-    val tfSavedModel = new File(modelPath, ModelEngine.tensorflowModelName)
+    val tfSavedModel = new File(modelPath, TensorFlow.modelName)
     tfSavedModel.exists()
 
   }
@@ -50,11 +64,11 @@ object LoadExternalModel {
   def isOnnxModel(modelPath: String, isEncoderDecoder: Boolean = false): Boolean = {
 
     if (isEncoderDecoder) {
-      val onnxEncoderModel = new File(modelPath, ModelEngine.onnxEncoderModel)
-      val onnxDecoderModel = new File(modelPath, ModelEngine.onnxDecoderModel)
+      val onnxEncoderModel = new File(modelPath, ONNX.encoderModel)
+      val onnxDecoderModel = new File(modelPath, ONNX.decoderModel)
       onnxEncoderModel.exists() && onnxDecoderModel.exists()
     } else {
-      val onnxModel = new File(modelPath, ModelEngine.onnxModelName)
+      val onnxModel = new File(modelPath, ONNX.modelName)
       onnxModel.exists()
     }
 
@@ -80,12 +94,12 @@ object LoadExternalModel {
     val onnxModelExist = isOnnxModel(modelPath, isEncoderDecoder)
 
     if (tfSavedModelExist) {
-      ModelEngine.tensorflow
+      TensorFlow.name
     } else if (onnxModelExist) {
-      ModelEngine.onnx
+      ONNX.name
     } else {
       require(tfSavedModelExist || onnxModelExist, notSupportedEngineError)
-      ModelEngine.unk
+      Unknown.name
     }
 
   }

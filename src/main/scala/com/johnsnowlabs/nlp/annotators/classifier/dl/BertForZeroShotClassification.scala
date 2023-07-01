@@ -19,22 +19,18 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 import com.johnsnowlabs.ml.ai.BertClassification
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
-  loadSentencePieceAsset,
   loadTextAsset,
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.ModelEngine
+import com.johnsnowlabs.ml.util.TensorFlow
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
-import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{BooleanParam, IntArrayParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
-
-import java.io.File
 
 /** BertForZeroShotClassification using a `ModelForSequenceClassification` trained on NLI (natural
   * language inference) tasks. Equivalent of `BertForSequenceClassification` models, but these
@@ -421,7 +417,7 @@ trait ReadBertForZeroShotDLModel extends ReadTensorflowModel {
     annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
-      case ModelEngine.tensorflow =>
+      case TensorFlow.name =>
         val (wrapper, signatures) =
           TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 
