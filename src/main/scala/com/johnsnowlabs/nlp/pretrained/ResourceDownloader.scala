@@ -717,7 +717,9 @@ object PythonResourceDownloader {
     "BartTransformer" -> BartTransformer,
     "BertForZeroShotClassification" -> BertForZeroShotClassification,
     "DistilBertForZeroShotClassification" -> DistilBertForZeroShotClassification,
-    "RoBertaForZeroShotClassification" -> RoBertaForZeroShotClassification)
+    "RoBertaForZeroShotClassification" -> RoBertaForZeroShotClassification,
+    "InstructorEmbeddings" -> InstructorEmbeddings,
+    "E5Embeddings" -> E5Embeddings)
 
   // List pairs of types such as the one with key type can load a pretrained model from the value type
   val typeMapper: Map[String, String] = Map("ZeroShotNerModel" -> "RoBertaForQuestionAnswering")
