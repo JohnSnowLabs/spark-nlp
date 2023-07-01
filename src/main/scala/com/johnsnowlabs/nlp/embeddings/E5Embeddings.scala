@@ -18,17 +18,12 @@ package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.ml.ai.E5
 import com.johnsnowlabs.ml.tensorflow._
-import com.johnsnowlabs.ml.tensorflow.sentencepiece.{
-  ReadSentencePieceModel,
-  WriteSentencePieceModel
-}
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
-  loadSentencePieceAsset,
   loadTextAsset,
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.ModelEngine
+import com.johnsnowlabs.ml.util.TensorFlow
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
@@ -410,7 +405,7 @@ trait ReadE5DLModel extends ReadTensorflowModel {
 
     annotatorModel.set(annotatorModel.engine, detectedEngine)
     detectedEngine match {
-      case ModelEngine.tensorflow =>
+      case TensorFlow.name =>
         val (wrapper, signatures) = TensorflowWrapper.read(
           localModelPath,
           zipped = false,
