@@ -534,3 +534,8 @@ class _RoBertaForZeroShotClassification(ExtendedJavaWrapper):
         super(_RoBertaForZeroShotClassification, self).__init__(
             "com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForZeroShotClassification.loadSavedModel", path,
             jspark)
+
+
+class _InstructorLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_InstructorLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.InstructorEmbeddings.loadSavedModel", path, jspark)

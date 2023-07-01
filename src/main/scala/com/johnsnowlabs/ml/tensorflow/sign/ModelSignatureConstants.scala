@@ -273,6 +273,11 @@ object ModelSignatureConstants {
     override val value: String = "StatefulPartitionedCall_1:2"
   }
 
+  case object EncoderContextMask extends TFInfoNameMapper {
+    override val key: String = "encoder_context_mask"
+    override val value: String = "encoder_encoder_context_mask:0"
+  }
+
   /** Retrieve signature patterns for a given provider
     *
     * @param modelProvider
