@@ -263,7 +263,6 @@ class RoBertaSentenceEmbeddings(override val uid: String)
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
-
           new RoBerta(
             tensorflowWrapper,
             onnxWrapper,
