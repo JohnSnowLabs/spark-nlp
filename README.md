@@ -22,7 +22,7 @@ environment.
 Spark NLP comes with **17000+** pretrained **pipelines** and **models** in more than **200+** languages.
 It also offers tasks such as **Tokenization**, **Word Segmentation**, **Part-of-Speech Tagging**, Word and Sentence **Embeddings**, **Named Entity Recognition**, **Dependency Parsing**, **Spell Checking**, **Text Classification**, **Sentiment Analysis**, **Token Classification**, **Machine Translation** (+180 languages), **Summarization**, **Question Answering**, **Table Question Answering**, **Text Generation**, **Image Classification**, **Automatic Speech Recognition**, **Zero-Shot Learning**, and many more [NLP tasks](#features).
 
-**Spark NLP** is the only open-source NLP library in **production** that offers state-of-the-art transformers such as **BERT**, **CamemBERT**, **ALBERT**, **ELECTRA**, **XLNet**, **DistilBERT**, **RoBERTa**, **DeBERTa**, **XLM-RoBERTa**, **Longformer**, **ELMO**, **Universal Sentence Encoder**, **Facebook BART**, **Google T5**, **MarianMT**, **OpenAI GPT2**, and **Vision Transformers (ViT)** not only to **Python** and **R**, but also to **JVM** ecosystem (**Java**, **Scala**, and **Kotlin**) at **scale** by extending **Apache Spark** natively.
+**Spark NLP** is the only open-source NLP library in **production** that offers state-of-the-art transformers such as **BERT**, **CamemBERT**, **ALBERT**, **ELECTRA**, **XLNet**, **DistilBERT**, **RoBERTa**, **DeBERTa**, **XLM-RoBERTa**, **Longformer**, **ELMO**, **Universal Sentence Encoder**, **Facebook BART**, **Instructor**, **E5**, **Google T5**, **MarianMT**, **OpenAI GPT2**, and **Vision Transformers (ViT)** not only to **Python** and **R**, but also to **JVM** ecosystem (**Java**, **Scala**, and **Kotlin**) at **scale** by extending **Apache Spark** natively.
 
 ## Project's website
 
@@ -48,25 +48,25 @@ documentation and examples
 - [Databricks Support](#databricks-support)
 - [EMR Support](#emr-support)
 - [Using Spark NLP](#usage)
-    - [Packages Cheatsheet](#packages-cheatsheet)
-    - [Spark Packages](#spark-packages)
-    - [Scala](#scala)
-        - [Maven](#maven)
-        - [SBT](#sbt)
-    - [Python](#python)
-        - [Pip/Conda](#pipconda)
-    - [Compiled JARs](#compiled-jars)
-    - [Apache Zeppelin](#apache-zeppelin)
-    - [Jupyter Notebook](#jupyter-notebook-python)
-    - [Google Colab Notebook](#google-colab-notebook)
-    - [Kaggle Kernel](#kaggle-kernel)
-    - [Databricks Cluster](#databricks-cluster)
-    - [EMR Cluster](#emr-cluster)
-    - [GCP Dataproc](#gcp-dataproc)
-    - [Spark NLP Configuration](#spark-nlp-configuration)
+  - [Packages Cheatsheet](#packages-cheatsheet)
+  - [Spark Packages](#spark-packages)
+  - [Scala](#scala)
+    - [Maven](#maven)
+    - [SBT](#sbt)
+  - [Python](#python)
+    - [Pip/Conda](#pipconda)
+  - [Compiled JARs](#compiled-jars)
+  - [Apache Zeppelin](#apache-zeppelin)
+  - [Jupyter Notebook](#jupyter-notebook-python)
+  - [Google Colab Notebook](#google-colab-notebook)
+  - [Kaggle Kernel](#kaggle-kernel)
+  - [Databricks Cluster](#databricks-cluster)
+  - [EMR Cluster](#emr-cluster)
+  - [GCP Dataproc](#gcp-dataproc)
+  - [Spark NLP Configuration](#spark-nlp-configuration)
 - [Pipelines & Models](#pipelines-and-models)
-    - [Pipelines](#pipelines)
-    - [Models](#models)
+  - [Pipelines](#pipelines)
+  - [Models](#models)
 - [Offline](#offline)
 - [Examples](#examples)
 - [FAQ](#faq)
@@ -110,6 +110,8 @@ documentation and examples
 - BERT Sentence Embeddings (TF Hub & HuggingFace models)
 - RoBerta Sentence Embeddings (HuggingFace models)
 - XLM-RoBerta Sentence Embeddings (HuggingFace models)
+- Instructor Embeddings (HuggingFace models)
+- E5 Embeddings (HuggingFace models)
 - Sentence Embeddings
 - Chunk Embeddings
 - Unsupervised keywords extraction
@@ -226,24 +228,23 @@ For more examples, you can visit our dedicated [examples](https://github.com/Joh
 
 ## Apache Spark Support
 
-Spark NLP *5.0.0* has been built on top of Apache Spark 3.2 while fully supports Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, and 3.4.x
+Spark NLP *5.0.0* has been built on top of Apache Spark 3.4 while fully supports Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, and 3.4.x
 
 | Spark NLP | Apache Spark 2.3.x | Apache Spark 2.4.x | Apache Spark 3.0.x | Apache Spark 3.1.x | Apache Spark 3.2.x | Apache Spark 3.3.x | Apache Spark 3.4.x |
 |-----------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|
+| 5.0.x     | NO                 | NO                 | YES                | YES                | YES                | YES                | YES                |
 | 4.4.x     | NO                 | NO                 | YES                | YES                | YES                | YES                | YES                |
-| 4.3.x     | NO                 | NO                 | YES                | YES                | YES                | YES                | NO                |
-| 4.2.x     | NO                 | NO                 | YES                | YES                | YES                | YES                | NO                |
-| 4.1.x     | NO                 | NO                 | YES                | YES                | YES                | YES                | NO                |
-| 4.0.x     | NO                 | NO                 | YES                | YES                | YES                | YES                | NO                |
-| 3.4.x     | YES                | YES                | YES                | YES                | Partially          | N/A                | NO
+| 4.3.x     | NO                 | NO                 | YES                | YES                | YES                | YES                | NO                 |
+| 4.2.x     | NO                 | NO                 | YES                | YES                | YES                | YES                | NO                 |
+| 4.1.x     | NO                 | NO                 | YES                | YES                | YES                | YES                | NO                 |
+| 4.0.x     | NO                 | NO                 | YES                | YES                | YES                | YES                | NO                 |
+| 3.4.x     | YES                | YES                | YES                | YES                | Partially          | N/A                | NO                 |
 | 3.3.x     | YES                | YES                | YES                | YES                | NO                 | NO                 | NO                 |
 | 3.2.x     | YES                | YES                | YES                | YES                | NO                 | NO                 | NO                 |
 | 3.1.x     | YES                | YES                | YES                | YES                | NO                 | NO                 | NO                 |
 | 3.0.x     | YES                | YES                | YES                | YES                | NO                 | NO                 | NO                 |
 | 2.7.x     | YES                | YES                | NO                 | NO                 | NO                 | NO                 | NO                 |
 
-NOTE: Starting 4.0.0 release, the default `spark-nlp` and `spark-nlp-gpu` packages are based on Scala 2.12.15 and Apache
-Spark 3.2 by default.
 
 Find out more about `Spark NLP` versions from our [release notes](https://github.com/JohnSnowLabs/spark-nlp/releases).
 
@@ -251,6 +252,7 @@ Find out more about `Spark NLP` versions from our [release notes](https://github
 
 | Spark NLP | Python 3.6 | Python 3.7 | Python 3.8 | Python 3.9 | Python 3.10| Scala 2.11 | Scala 2.12 |
 |-----------|------------|------------|------------|------------|------------|------------|------------|
+| 5.0.x     | NO         | YES        | YES        | YES        | YES        | NO         | YES        |
 | 4.4.x     | NO         | YES        | YES        | YES        | YES        | NO         | YES        |
 | 4.3.x     | YES        | YES        | YES        | YES        | YES        | NO         | YES        |
 | 4.2.x     | YES        | YES        | YES        | YES        | YES        | NO         | YES        |
@@ -269,8 +271,6 @@ Spark NLP 5.0.0 has been tested and is compatible with the following runtimes:
 
 **CPU:**
 
-- 7.3
-- 7.3 ML
 - 9.1
 - 9.1 ML
 - 10.1
@@ -299,6 +299,10 @@ Spark NLP 5.0.0 has been tested and is compatible with the following runtimes:
 - 12.2 ML
 - 13.0
 - 13.0 ML
+- 13.1
+- 13.1 ML
+- 13.2
+- 13.2 ML
 
 **GPU:**
 
@@ -316,9 +320,8 @@ Spark NLP 5.0.0 has been tested and is compatible with the following runtimes:
 - 12.1 ML & GPU
 - 12.2 ML & GPU
 - 13.0 ML & GPU
-
-NOTE: Spark NLP 4.x is based on TensorFlow 2.7.x which is compatible with CUDA11 and cuDNN 8.0.2. The only Databricks
-runtimes supporting CUDA 11 are 9.x and above as listed under GPU.
+- 13.1 ML & GPU
+- 13.2 ML & GPU
 
 ## EMR Support
 
@@ -334,6 +337,7 @@ Spark NLP 5.0.0 has been tested and is compatible with the following EMR release
 - emr-6.8.0
 - emr-6.9.0
 - emr-6.10.0
+- emr-6.11.0
 
 Full list of [Amazon EMR 6.x releases](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-6x.html)
 
@@ -690,7 +694,7 @@ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:5.0.0
 Alternatively, you can mix in using `--jars` option for pyspark + `pip install spark-nlp`
 
 If not using pyspark at all, you'll have to run the instructions
-pointed [here](#python-without-explicit-Pyspark-installation)
+pointed [here](#python-without-explicit-pyspark-installation)
 
 ## Google Colab Notebook
 
