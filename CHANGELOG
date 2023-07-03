@@ -1,4 +1,19 @@
 ========
+4.4.4
+========
+----------------
+New Features & Enhancements
+----------------
+* Add `Warmup` stage to loading all Transformers for word embeddings: ALBERT, BERT, CamemBERT, DistilBERT, RoBERTa, XLM-RoBERTa, and XLNet. This helps reducing the first inference time and also validate importing external models from HuggingFace https://github.com/JohnSnowLabs/spark-nlp/pull/13851
+* Add new notebooks to import ZeroShot Classifiers for Bert, DistilBERT, and RoBERTa fine-tuned based on NLI datasets https://github.com/JohnSnowLabs/spark-nlp/pull/13845
+
+----------------
+Bug Fixes
+----------------
+* Fix not being able to save models from XXXForSequenceClassitication and XXXForZeroShotClassification annotoators https://github.com/JohnSnowLabs/spark-nlp/pull/13842
+
+
+========
 4.4.3
 ========
 ----------------

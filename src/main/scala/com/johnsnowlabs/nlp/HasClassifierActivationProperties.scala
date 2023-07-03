@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.nlp
 
-import org.apache.spark.ml.param.{FloatParam, Param}
+import org.apache.spark.ml.param.{BooleanParam, FloatParam, Param}
 
 trait HasClassifierActivationProperties extends ParamsAndFeaturesWritable {
 
@@ -47,7 +47,7 @@ trait HasClassifierActivationProperties extends ParamsAndFeaturesWritable {
     *
     * @group param
     */
-  val multilabel: Param[Boolean] = new Param(
+  val multilabel: BooleanParam = new BooleanParam(
     this,
     "multilabel",
     "Whether or not the result should be multi-class (the sum of all probabilities is 1.0) or multi-label (each label has a probability between 0.0 to 1.0). Default is False i.e. multi-class")

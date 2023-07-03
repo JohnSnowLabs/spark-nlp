@@ -21,7 +21,7 @@
 Spark NLP Documentation
 #######################
 
-`Main Page <https://sparknlp.org/>`_ | `GitHub <https://github.com/JohnSnowLabs/spark-nlp>`_ | `Issues <https://github.com/JohnSnowLabs/spark-nlp/issues>`_ | `Workshop <https://github.com/JohnSnowLabs/spark-nlp-workshop>`_ | `Models Hub <https://sparknlp.org/models>`_
+`Main Page <https://sparknlp.org/>`_ | `GitHub <https://github.com/JohnSnowLabs/spark-nlp>`_ | `Issues <https://github.com/JohnSnowLabs/spark-nlp/issues>`_ | `Examples <https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples>`_ | `Models Hub <https://sparknlp.org/models>`_
 
 Welcome to Spark NLP's Python documentation! This page contains information how
 to use the library with examples.

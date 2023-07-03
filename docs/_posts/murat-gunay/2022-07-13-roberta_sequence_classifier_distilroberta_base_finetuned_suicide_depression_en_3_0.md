@@ -35,8 +35,8 @@ Pretrained RobertaForSequenceClassification model, adapted from Hugging Face and
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler() \
-    .setInputCols(["text"]) \
-    .setOutputCols("document")
+    .setInputCol("text") \
+    .setOutputCol("document")
 
 tokenizer = Tokenizer() \
     .setInputCols("document") \
@@ -45,7 +45,7 @@ tokenizer = Tokenizer() \
 classifier = RoBertaForSequenceClassification.pretrained("roberta_sequence_classifier_distilroberta_base_finetuned_suicide_depression","en") \
     .setInputCols(["document", "token"]) \
     .setOutputCol("class")
-    
+
 pipeline = Pipeline(stages=[documentAssembler, tokenizer, classifier])
 
 data = spark.createDataFrame([["PUT YOUR STRING HERE"]]).toDF("text")
@@ -53,16 +53,16 @@ data = spark.createDataFrame([["PUT YOUR STRING HERE"]]).toDF("text")
 result = pipeline.fit(data).transform(data)
 ```
 ```scala
-val documentAssembler = new DocumentAssembler() 
-      .setInputCols(Array("text")) 
+val documentAssembler = new DocumentAssembler()
+      .setInputCols(Array("text"))
       .setOutputCols(Array("document"))
-      
+
 val tokenizer = new Tokenizer()
     .setInputCols("document")
     .setOutputCol("token")
- 
-val classifer = RoBertaForSequenceClassification.pretrained("roberta_sequence_classifier_distilroberta_base_finetuned_suicide_depression","en") 
-    .setInputCols(Array("document", "token")) 
+
+val classifer = RoBertaForSequenceClassification.pretrained("roberta_sequence_classifier_distilroberta_base_finetuned_suicide_depression","en")
+    .setInputCols(Array("document", "token"))
     .setOutputCol("class")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, classifier))
