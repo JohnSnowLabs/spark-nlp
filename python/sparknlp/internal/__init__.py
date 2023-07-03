@@ -143,6 +143,11 @@ class _ElmoLoader(ExtendedJavaWrapper):
         super(_ElmoLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.ElmoEmbeddings.loadSavedModel", path, jspark)
 
 
+class _E5Loader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_E5Loader, self).__init__("com.johnsnowlabs.nlp.embeddings.E5Embeddings.loadSavedModel", path, jspark)
+
+
 class _GPT2Loader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_GPT2Loader, self).__init__(
@@ -529,3 +534,8 @@ class _RoBertaForZeroShotClassification(ExtendedJavaWrapper):
         super(_RoBertaForZeroShotClassification, self).__init__(
             "com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForZeroShotClassification.loadSavedModel", path,
             jspark)
+
+
+class _InstructorLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_InstructorLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.InstructorEmbeddings.loadSavedModel", path, jspark)

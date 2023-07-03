@@ -73,7 +73,7 @@ docker run -it --name sparknlp-container \
     --conf "spark.serializer"="org.apache.spark.serializer.KryoSerializer" \
     --conf "spark.kryoserializer.buffer.max"="2000M" \
     --conf "spark.driver.maxResultSize"="0" \
-    --packages "com.johnsnowlabs.nlp:spark-nlp_2.12:4.4.4"
+    --packages "com.johnsnowlabs.nlp:spark-nlp_2.12:5.0.0"
 ```
 
 To run the shell with GPU support, we use the image from [Jupyter Notebook with GPU
@@ -91,5 +91,5 @@ docker run -it --name sparknlp-container \
     --conf "spark.serializer"="org.apache.spark.serializer.KryoSerializer" \
     --conf "spark.kryoserializer.buffer.max"="2000M" \
     --conf "spark.driver.maxResultSize"="0" \
-    --packages "com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:4.4.4"
+    --packages "com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:5.0.0"
 ```

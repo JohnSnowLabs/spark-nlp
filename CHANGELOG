@@ -1,4 +1,22 @@
 ========
+5.0.0
+========
+----------------
+New Features & Enhancements
+----------------
+* **NEW:** Introducing support for ONNX Runtime in Spark NLP. ONNX Runtime is a high-performance inference engine for machine learning models in the ONNX format. ONNX Runtime has proved to considerably increase the performance of inference for many models.
+* **NEW:** Introducing **InstructorEmbeddings** annotator in Spark NLP 🚀. `InstructorEmbeddings` can load new state-of-the-art INSTRUCTOR Models inherited from T5 for Text Embeddings.
+* **NEW:** Introducing **E5Embeddings** annotator in Spark NLP 🚀. `E5Embeddings` can load new state-of-the-art E5 Models inherited from BERT for Text Embeddings.
+* **NEW:** Introducing **DocumentSimilarityRanker** annotator in Spark NLP 🚀. `DocumentSimilarityRanker` is a new annotator that uses LSH techniques present in Spark ML lib to execute approximate nearest neighbours search on top of sentence embeddings, It aims to capture the semantic meaning of a document in a dense, continuous vector space and return it to the ranker search.
+
+----------------
+Bug Fixes
+----------------
+* Fix BART issue with maxInputLength
+
+
+
+========
 4.4.4
 ========
 ----------------

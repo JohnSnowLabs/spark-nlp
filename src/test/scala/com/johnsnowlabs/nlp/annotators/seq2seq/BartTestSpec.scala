@@ -18,7 +18,7 @@ package com.johnsnowlabs.nlp.annotators.seq2seq
 
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.{SlowTest, FastTest}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
@@ -56,6 +56,77 @@ class BartTestSpec extends AnyFlatSpec {
       .show(truncate = false)
 
   }
+  "distilbart_xsum_12_6" should "handle text inputs longer than 512 and not crash" taggedAs SlowTest in {
+    // text longer than 512
+    val testData = ResourceHelper.spark
+      .createDataFrame(
+        Seq(
+          (
+            1,
+            "PG&E stated it scheduled the blackouts in response to forecasts for high winds " +
+              "amid dry conditions. The aim is to reduce the risk of wildfires. Nearly 800 thousand customers were " +
+              "scheduled to be affected by the shutoffs which were expected to last through at least midday tomorrow." +
+              "PG&E stated it scheduled the blackouts in response to forecasts for high winds " +
+              "amid dry conditions. The aim is to reduce the risk of wildfires. Nearly 800 thousand customers were " +
+              "scheduled to be affected by the shutoffs which were expected to last through at least midday tomorrow." +
+              "PG&E stated it scheduled the blackouts in response to forecasts for high winds " +
+              "amid dry conditions. The aim is to reduce the risk of wildfires. Nearly 800 thousand customers were " +
+              "scheduled to be affected by the shutoffs which were expected to last through at least midday tomorrow." +
+              "PG&E stated it scheduled the blackouts in response to forecasts for high winds " +
+              "amid dry conditions. The aim is to reduce the risk of wildfires. Nearly 800 thousand customers were " +
+              "scheduled to be affected by the shutoffs which were expected to last through at least midday tomorrow." +
+              "PG&E stated it scheduled the blackouts in response to forecasts for high winds " +
+              "amid dry conditions. The aim is to reduce the risk of wildfires. Nearly 800 thousand customers were " +
+              "scheduled to be affected by the shutoffs which were expected to last through at least midday tomorrow." +
+              "PG&E stated it scheduled the blackouts in response to forecasts for high winds " +
+              "amid dry conditions. The aim is to reduce the risk of wildfires. Nearly 800 thousand customers were " +
+              "scheduled to be affected by the shutoffs which were expected to last through at least midday tomorrow." +
+              "PG&E stated it scheduled the blackouts in response to forecasts for high winds " +
+              "amid dry conditions. The aim is to reduce the risk of wildfires. Nearly 800 thousand customers were " +
+              "scheduled to be affected by the shutoffs which were expected to last through at least midday tomorrow." +
+              "PG&E stated it scheduled the blackouts in response to forecasts for high winds " +
+              "amid dry conditions. The aim is to reduce the risk of wildfires. Nearly 800 thousand customers were " +
+              "scheduled to be affected by the shutoffs which were expected to last through at least midday tomorrow." +
+              "PG&E stated it scheduled the blackouts in response to forecasts for high winds " +
+              "amid dry conditions. The aim is to reduce the risk of wildfires. Nearly 800 thousand customers were " +
+              "scheduled to be affected by the shutoffs which were expected to last through at least midday tomorrow." +
+              "PG&E stated it scheduled the blackouts in response to forecasts for high winds " +
+              "amid dry conditions. The aim is to reduce the risk of wildfires. Nearly 800 thousand customers were " +
+              "scheduled to be affected by the shutoffs which were expected to last through at least midday tomorrow." +
+              "PG&E stated it scheduled the blackouts in response to forecasts for high winds " +
+              "amid dry conditions. The aim is to reduce the risk of wildfires. Nearly 800 thousand customers were " +
+              "scheduled to be affected by the shutoffs which were expected to last through at least midday tomorrow." +
+              "PG&E stated it scheduled the blackouts in response to forecasts for high winds " +
+              "amid dry conditions. The aim is to reduce the risk of wildfires. Nearly 800 thousand customers were " +
+              "scheduled to be affected by the shutoffs which were expected to last through at least midday tomorrow." +
+              "PG&E stated it scheduled the blackouts in response to forecasts for high winds " +
+              "amid dry conditions. The aim is to reduce the risk of wildfires. Nearly 800 thousand customers were " +
+              "scheduled to be affected by the shutoffs which were expected to last through at least midday tomorrow." +
+              "PG&E stated it scheduled the blackouts in response to forecasts for high winds " +
+              "amid dry conditions. The aim is to reduce the risk of wildfires. Nearly 800 thousand customers were " +
+              "scheduled to be affected by the shutoffs which were expected to last through at least midday tomorrow.")))
+      .toDF("id", "text")
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("documents")
+
+    val bart = BartTransformer
+      .pretrained("distilbart_xsum_12_6")
+      .setTask("summarize:")
+      .setInputCols(Array("documents"))
+      .setDoSample(true)
+      .setMaxOutputLength(30)
+      .setOutputCol("generation")
+
+    new Pipeline()
+      .setStages(Array(documentAssembler, bart))
+      .fit(testData)
+      .transform(testData)
+      .select("generation.result")
+      .show(truncate = false)
+  }
+
   "bart-large-cnn" should "run SparkNLP pipeline with maxLength=130 and doSample=true" taggedAs SlowTest in {
     val testData = ResourceHelper.spark
       .createDataFrame(

@@ -338,3 +338,4 @@ python/docs/reference/_autosummary/**
 
 # MS Visio Code
 **/.vscode/
+.metals/

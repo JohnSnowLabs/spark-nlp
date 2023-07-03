@@ -101,7 +101,8 @@ private[johnsnowlabs] class Bart(
       task: String,
       randomSeed: Option[Long] = None,
       ignoreTokenIds: Array[Int] = Array(),
-      beamSize: Int): Seq[Annotation] = {
+      beamSize: Int,
+      maxInputLength: Int): Seq[Annotation] = {
 
     val batchDecoder = sentences.grouped(batchSize).toArray.flatMap { batch =>
       val batchSP = encode(batch, task)
@@ -117,7 +118,8 @@ private[johnsnowlabs] class Bart(
         noRepeatNgramSize,
         randomSeed,
         ignoreTokenIds,
-        beamSize)
+        beamSize,
+        maxInputLength)
 
       decode(spIds)
 
@@ -176,10 +178,12 @@ private[johnsnowlabs] class Bart(
       noRepeatNgramSize: Int,
       randomSeed: Option[Long],
       ignoreTokenIds: Array[Int] = Array(),
-      beamSize: Int): Array[Array[Int]] = {
+      beamSize: Int,
+      maxInputLength: Int): Array[Array[Int]] = {
 
     val ignoreTokenIdsInt = ignoreTokenIds
-    val expandedEncoderInputIdsVals = batch.flatMap(x => List.fill(beamSize)(x))
+    val expandedEncoderInputIdsVals =
+      batch.flatMap(x => List.fill(beamSize)(x.take(maxInputLength)))
     val sequencesLength = expandedEncoderInputIdsVals.map(x => x.length).toArray
     val maxSentenceLength = sequencesLength.max // - curLen
 
@@ -492,6 +496,7 @@ private[johnsnowlabs] class Bart(
       noRepeatNgramSize = 0,
       randomSeed = Option(0),
       ignoreTokenIds = Array(0),
-      beamSize = 1)
+      beamSize = 1,
+      maxInputLength = 512)
   }
 }

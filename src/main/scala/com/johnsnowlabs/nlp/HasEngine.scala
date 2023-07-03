@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.nlp
 
-import com.johnsnowlabs.ml.util.ModelEngine
+import com.johnsnowlabs.ml.util.TensorFlow
 import org.apache.spark.ml.param.Param
 
 trait HasEngine extends ParamsAndFeaturesWritable {
@@ -27,7 +27,7 @@ trait HasEngine extends ParamsAndFeaturesWritable {
     */
   val engine = new Param[String](this, "engine", "Deep Learning engine used for this model")
 
-  setDefault(engine, ModelEngine.tensorflow)
+  setDefault(engine, TensorFlow.name)
 
   /** @group getParam */
   def getEngine: String = $(engine)

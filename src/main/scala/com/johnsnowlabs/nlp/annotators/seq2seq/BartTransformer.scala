@@ -27,7 +27,7 @@ import com.johnsnowlabs.ml.util.LoadExternalModel.{
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.ModelEngine
+import com.johnsnowlabs.ml.util.TensorFlow
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -196,6 +196,18 @@ class BartTransformer(override val uid: String)
   /** @group setParam */
   def setMinOutputLength(value: Int): BartTransformer.this.type = {
     set(minOutputLength, value)
+    this
+  }
+
+  /** max length of the input sequence (Default: `0`)
+    *
+    * @group param
+    */
+  val maxInputLength =
+    new IntParam(this, "maxInputLength", "Maximum length of the input sequence")
+
+  def setMaxInputLength(value: Int): BartTransformer.this.type = {
+    set(maxInputLength, value)
     this
   }
 
@@ -477,6 +489,7 @@ class BartTransformer(override val uid: String)
     ignoreTokenIds -> Array(),
     batchSize -> 1,
     beamSize -> 4,
+    maxInputLength -> 512,
     useCache -> true)
 
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
@@ -503,7 +516,8 @@ class BartTransformer(override val uid: String)
         task = $(task),
         randomSeed = this.randomSeed,
         ignoreTokenIds = $(ignoreTokenIds),
-        beamSize = $(beamSize))
+        beamSize = $(beamSize),
+        maxInputLength = $(maxInputLength))
     } else {
       Seq()
     }
@@ -596,7 +610,7 @@ trait ReadBartTransformerDLModel extends ReadTensorflowModel {
     annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
-      case ModelEngine.tensorflow =>
+      case TensorFlow.name =>
         val (wrapper, signatures) =
           TensorflowWrapper.read(
             localModelPath,
