@@ -23,7 +23,7 @@ import com.johnsnowlabs.ml.util.LoadExternalModel.{
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.ModelEngine
+import com.johnsnowlabs.ml.util.TensorFlow
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -156,7 +156,7 @@ class RoBertaForSequenceClassification(override val uid: String)
     *
     * @group param
     */
-  val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary")
+  val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary").setProtected()
 
   /** @group setParam */
   def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
@@ -165,7 +165,7 @@ class RoBertaForSequenceClassification(override val uid: String)
     *
     * @group param
     */
-  val labels: MapFeature[String, Int] = new MapFeature(this, "labels")
+  val labels: MapFeature[String, Int] = new MapFeature(this, "labels").setProtected()
 
   /** @group setParam */
   def setLabels(value: Map[String, Int]): this.type = set(labels, value)
@@ -179,7 +179,7 @@ class RoBertaForSequenceClassification(override val uid: String)
     *
     * @group param
     */
-  val merges: MapFeature[(String, String), Int] = new MapFeature(this, "merges")
+  val merges: MapFeature[(String, String), Int] = new MapFeature(this, "merges").setProtected()
 
   /** @group setParam */
   def setMerges(value: Map[(String, String), Int]): this.type = set(merges, value)
@@ -245,12 +245,12 @@ class RoBertaForSequenceClassification(override val uid: String)
     *
     * @group param
     */
-  val signatures = new MapFeature[String, String](model = this, name = "signatures")
+  val signatures =
+    new MapFeature[String, String](model = this, name = "signatures").setProtected()
 
   /** @group setParam */
   def setSignatures(value: Map[String, String]): this.type = {
-    if (get(signatures).isEmpty)
-      set(signatures, value)
+    set(signatures, value)
     this
   }
 
@@ -275,7 +275,8 @@ class RoBertaForSequenceClassification(override val uid: String)
             tags = $$(labels),
             signatures = getSignatures,
             $$(merges),
-            $$(vocabulary))))
+            $$(vocabulary),
+            threshold = $(threshold))))
     }
 
     this
@@ -289,9 +290,7 @@ class RoBertaForSequenceClassification(override val uid: String)
     * @group setParam
     */
   override def setCaseSensitive(value: Boolean): this.type = {
-    if (get(caseSensitive).isEmpty)
-      set(this.caseSensitive, value)
-    this
+    set(this.caseSensitive, value)
   }
 
   setDefault(
@@ -399,7 +398,7 @@ trait ReadRoBertaForSequenceDLModel extends ReadTensorflowModel {
     annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
-      case ModelEngine.tensorflow =>
+      case TensorFlow.name =>
         val (wrapper, signatures) =
           TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 

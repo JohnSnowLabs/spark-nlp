@@ -18,7 +18,8 @@ from sparknlp.common import *
 class DeBertaForQuestionAnswering(AnnotatorModel,
                                   HasCaseSensitiveProperties,
                                   HasBatchedAnnotate,
-                                  HasEngine):
+                                  HasEngine,
+                                  HasMaxSentenceLengthLimit):
     """DeBertaForQuestionAnswering can load DeBERTa Models with a span classification head on top for extractive
     question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start
     logits and span end logits).
@@ -91,11 +92,6 @@ class DeBertaForQuestionAnswering(AnnotatorModel,
 
     outputAnnotatorType = AnnotatorType.CHUNK
 
-    maxSentenceLength = Param(Params._dummy(),
-                              "maxSentenceLength",
-                              "Max sentence length to process",
-                              typeConverter=TypeConverters.toInt)
-
     configProtoBytes = Param(Params._dummy(),
                              "configProtoBytes",
                              "ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()",
@@ -114,16 +110,6 @@ class DeBertaForQuestionAnswering(AnnotatorModel,
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
-
-    def setMaxSentenceLength(self, value):
-        """Sets max sentence length to process, by default 128.
-
-        Parameters
-        ----------
-        value : int
-            Max sentence length to process
-        """
-        return self._set(maxSentenceLength=value)
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.classifier.dl.DeBertaForQuestionAnswering",

@@ -307,9 +307,17 @@ class S3ResourceDownloader(
     }
   }
 
-  def downloadAndUnzipFile(s3FilePath: String): Option[String] = {
+  def downloadAndUnzipFile(s3FilePath: String, unzip: Boolean): Option[String] = {
+    // handle s3FilePath options:
+    // 1--> s3://auxdata.johnsnowlabs.com/public/models/albert_base_sequence_classifier_ag_news_en_3.4.0_3.0_1639648298937.zip
+    // 2--> public/models/albert_base_sequence_classifier_ag_news_en_3.4.0_3.0_1639648298937.zip
 
-    val s3File = s3FilePath.split("/").last
+    val newS3FilePath = if (s3FilePath.startsWith("s3")) {
+      ResourceHelper.parseS3URI(s3FilePath)._2
+    } else s3FilePath
+
+    val s3File = newS3FilePath.split("/").last
+
     val destinationFile = new Path(cachePath.toString + "/" + s3File)
     val splitPath = destinationFile.toString.substring(0, destinationFile.toString.length - 4)
 
@@ -318,7 +326,7 @@ class S3ResourceDownloader(
       val tmpFileName = Files.createTempFile(s3File, "").toString
       val tmpFile = new File(tmpFileName)
 
-      val newStrfilePath: String = s3FilePath
+      val newStrfilePath: String = newS3FilePath
       val mybucket: String = bucket
       // 2. Download content to tmp file
       awsGateway.getS3Object(mybucket, newStrfilePath, tmpFile)
@@ -326,32 +334,33 @@ class S3ResourceDownloader(
       // 4. Move tmp file to destination
       fileSystem.moveFromLocalFile(new Path(tmpFile.toString), destinationFile)
     }
+    if (unzip) {
+      if (!fileSystem.exists(new Path(splitPath))) {
+        val zis = new ZipInputStream(fileSystem.open(destinationFile))
+        val buf = Array.ofDim[Byte](1024)
+        var entry = zis.getNextEntry
+        require(
+          destinationFile.toString.substring(destinationFile.toString.length - 4) == ".zip",
+          "Not a zip file.")
 
-    if (!fileSystem.exists(new Path(splitPath))) {
-      val zis = new ZipInputStream(fileSystem.open(destinationFile))
-      val buf = Array.ofDim[Byte](1024)
-      var entry = zis.getNextEntry
-      require(
-        destinationFile.toString.substring(destinationFile.toString.length - 4) == ".zip",
-        "Not a zip file.")
-
-      while (entry != null) {
-        if (!entry.isDirectory) {
-          val entryName = new Path(splitPath, entry.getName)
-          val outputStream = fileSystem.create(entryName)
-          var bytesRead = zis.read(buf, 0, 1024)
-          while (bytesRead > -1) {
-            outputStream.write(buf, 0, bytesRead)
-            bytesRead = zis.read(buf, 0, 1024)
+        while (entry != null) {
+          if (!entry.isDirectory) {
+            val entryName = new Path(splitPath, entry.getName)
+            val outputStream = fileSystem.create(entryName)
+            var bytesRead = zis.read(buf, 0, 1024)
+            while (bytesRead > -1) {
+              outputStream.write(buf, 0, bytesRead)
+              bytesRead = zis.read(buf, 0, 1024)
+            }
+            outputStream.close()
           }
-          outputStream.close()
+          zis.closeEntry()
+          entry = zis.getNextEntry
         }
-        zis.closeEntry()
-        entry = zis.getNextEntry
+        zis.close()
+        // delete the zip file
+        fileSystem.delete(destinationFile, true)
       }
-      zis.close()
-      // delete the zip file
-      fileSystem.delete(destinationFile, true)
     }
     Some(splitPath)
 

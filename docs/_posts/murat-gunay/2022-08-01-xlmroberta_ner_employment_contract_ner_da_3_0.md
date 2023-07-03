@@ -38,8 +38,8 @@ Pretrained XLMRobertaForTokenClassification model, adapted from Hugging Face and
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler() \
-    .setInputCols(["text"]) \
-    .setOutputCols("document")
+    .setInputCol("text") \
+    .setOutputCol("document")
 
 tokenizer = Tokenizer() \
     .setInputCols("document") \
@@ -48,11 +48,11 @@ tokenizer = Tokenizer() \
 token_classifier = XlmRoBertaForTokenClassification.pretrained("xlmroberta_ner_employment_contract_ner","da") \
     .setInputCols(["document", "token"]) \
     .setOutputCol("ner")
-    
+
 ner_converter = NerConverter()\
     .setInputCols(["document", "token", "ner"])\
-    .setOutputCol("ner_chunk") 
-    
+    .setOutputCol("ner_chunk")
+
 pipeline = Pipeline(stages=[documentAssembler, tokenizer, token_classifier, ner_converter])
 
 data = spark.createDataFrame([["PUT YOUR STRING HERE"]]).toDF("text")
@@ -60,28 +60,36 @@ data = spark.createDataFrame([["PUT YOUR STRING HERE"]]).toDF("text")
 result = pipeline.fit(data).transform(data)
 ```
 ```scala
-val documentAssembler = new DocumentAssembler() 
-      .setInputCols(Array("text")) 
+val documentAssembler = new DocumentAssembler()
+      .setInputCols(Array("text"))
       .setOutputCols(Array("document"))
-      
+
 val tokenizer = new Tokenizer()
     .setInputCols("document")
     .setOutputCol("token")
- 
-val token_classifier = XlmRoBertaForTokenClassification.pretrained("xlmroberta_ner_employment_contract_ner","da") 
-    .setInputCols(Array("document", "token")) 
+
+val token_classifier = XlmRoBertaForTokenClassification.pretrained("xlmroberta_ner_employment_contract_ner","da")
+    .setInputCols(Array("document", "token"))
     .setOutputCol("ner")
 
 val ner_converter = new NerConverter()
     .setInputCols(Array("document", "token', "ner"))
     .setOutputCol("ner_chunk")
-    
+
 val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, token_classifier, ner_converter))
 
 val data = Seq("PUT YOUR STRING HERE").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("da.ner.xlmr_roberta").predict("""PUT YOUR STRING HERE""")
+```
+
 </div>
 
 {:.model-param}

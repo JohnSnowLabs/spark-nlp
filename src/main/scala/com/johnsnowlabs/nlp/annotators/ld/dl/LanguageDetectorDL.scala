@@ -22,7 +22,7 @@ import com.johnsnowlabs.ml.util.LoadExternalModel.{
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.ModelEngine
+import com.johnsnowlabs.ml.util.TensorFlow
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -123,13 +123,13 @@ class LanguageDetectorDL(override val uid: String)
     *
     * @group param
     */
-  val alphabet: MapFeature[String, Int] = new MapFeature(this, "alphabet")
+  val alphabet: MapFeature[String, Int] = new MapFeature(this, "alphabet").setProtected()
 
   /** Language used to map prediction to ISO 639-1 language codes
     *
     * @group param
     */
-  val language: MapFeature[String, Int] = new MapFeature(this, "language")
+  val language: MapFeature[String, Int] = new MapFeature(this, "language").setProtected()
 
   /** The minimum threshold for the final result, otherwise it will be either `"unk"` or the value
     * set in `thresholdLabel` (Default: `0.1f`). Value is between 0.0 to 1.0. Try to set this
@@ -179,15 +179,13 @@ class LanguageDetectorDL(override val uid: String)
 
   /** @group setParam */
   def setLanguage(value: Map[String, Int]): this.type = {
-    if (get(language).isEmpty)
-      set(this.language, value)
+    set(this.language, value)
     this
   }
 
   /** @group setParam */
   def setAlphabet(value: Map[String, Int]): this.type = {
-    if (get(language).isEmpty)
-      set(alphabet, value)
+    set(alphabet, value)
     this
   }
 
@@ -343,7 +341,7 @@ trait ReadLanguageDetectorDLTensorflowModel extends ReadTensorflowModel {
     annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
-      case ModelEngine.tensorflow =>
+      case TensorFlow.name =>
         val (wrapper, _) =
           TensorflowWrapper.read(
             localModelPath,

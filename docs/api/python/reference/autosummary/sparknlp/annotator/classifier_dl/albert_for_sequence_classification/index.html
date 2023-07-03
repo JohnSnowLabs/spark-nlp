@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.annotator.classifier_dl.albert_for_sequence_classification &#8212; Spark NLP 4.4.0 documentation</title>
+    <title>sparknlp.annotator.classifier_dl.albert_for_sequence_classification &#8212; Spark NLP 4.4.4 documentation</title>
   
   
   
@@ -308,9 +308,11 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../deberta_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.deberta_for_token_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../distil_bert_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../distil_bert_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.distil_bert_for_token_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../distil_bert_for_zero_shot_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.distil_bert_for_zero_shot_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../longformer_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.longformer_for_sequence_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../longformer_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.longformer_for_token_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../multi_classifier_dl/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.multi_classifier_dl</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../roberta_bert_for_zero_shot_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../roberta_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.roberta_for_sequence_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../roberta_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.roberta_for_token_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../sentiment_dl/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.sentiment_dl</span></code></a></li>
@@ -598,20 +600,6 @@ default False.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.annotator.classifier_dl.albert_for_sequence_classification.AlbertForSequenceClassification.setMaxSentenceLength">
-<span class="sig-name descname"><span class="pre">setMaxSentenceLength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/classifier_dl/albert_for_sequence_classification.html#AlbertForSequenceClassification.setMaxSentenceLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.classifier_dl.albert_for_sequence_classification.AlbertForSequenceClassification.setMaxSentenceLength" title="Permalink to this definition">#</a></dt>
-<dd><p>Sets max sentence length to process, by default 128.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Max sentence length to process</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.classifier_dl.albert_for_sequence_classification.AlbertForSequenceClassification.setCoalesceSentences">
 <span class="sig-name descname"><span class="pre">setCoalesceSentences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/classifier_dl/albert_for_sequence_classification.html#AlbertForSequenceClassification.setCoalesceSentences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.classifier_dl.albert_for_sequence_classification.AlbertForSequenceClassification.setCoalesceSentences" title="Permalink to this definition">#</a></dt>
 <dd><p>Instead of 1 class per sentence (if inputCols is ‘’’sentence’’’) output 1 class per document by averaging probabilities in all sentences.
@@ -715,7 +703,6 @@ Spark NLPs repositories otherwise.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.classifier_dl.albert_for_sequence_classification.AlbertForSequenceClassification"><code class="docutils literal notranslate"><span class="pre">AlbertForSequenceClassification</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.classifier_dl.albert_for_sequence_classification.AlbertForSequenceClassification.getClasses"><code class="docutils literal notranslate"><span class="pre">AlbertForSequenceClassification.getClasses()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.classifier_dl.albert_for_sequence_classification.AlbertForSequenceClassification.setConfigProtoBytes"><code class="docutils literal notranslate"><span class="pre">AlbertForSequenceClassification.setConfigProtoBytes()</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.classifier_dl.albert_for_sequence_classification.AlbertForSequenceClassification.setMaxSentenceLength"><code class="docutils literal notranslate"><span class="pre">AlbertForSequenceClassification.setMaxSentenceLength()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.classifier_dl.albert_for_sequence_classification.AlbertForSequenceClassification.setCoalesceSentences"><code class="docutils literal notranslate"><span class="pre">AlbertForSequenceClassification.setCoalesceSentences()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.classifier_dl.albert_for_sequence_classification.AlbertForSequenceClassification.loadSavedModel"><code class="docutils literal notranslate"><span class="pre">AlbertForSequenceClassification.loadSavedModel()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.classifier_dl.albert_for_sequence_classification.AlbertForSequenceClassification.pretrained"><code class="docutils literal notranslate"><span class="pre">AlbertForSequenceClassification.pretrained()</span></code></a></li>

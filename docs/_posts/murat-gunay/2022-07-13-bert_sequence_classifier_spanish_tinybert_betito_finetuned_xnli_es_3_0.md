@@ -34,8 +34,8 @@ Pretrained BertForSequenceClassification model, adapted from Hugging Face and cu
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler() \
-    .setInputCols(["text"]) \
-    .setOutputCols("document")
+    .setInputCol("text") \
+    .setOutputCol("document")
 
 tokenizer = Tokenizer() \
     .setInputCols("document") \
@@ -44,7 +44,7 @@ tokenizer = Tokenizer() \
 classifier = BertForSequenceClassification.pretrained("bert_sequence_classifier_spanish_tinybert_betito_finetuned_xnli","es") \
     .setInputCols(["document", "token"]) \
     .setOutputCol("class")
-    
+
 pipeline = Pipeline(stages=[documentAssembler, tokenizer, classifier])
 
 data = spark.createDataFrame([["PUT YOUR STRING HERE"]]).toDF("text")
@@ -52,16 +52,16 @@ data = spark.createDataFrame([["PUT YOUR STRING HERE"]]).toDF("text")
 result = pipeline.fit(data).transform(data)
 ```
 ```scala
-val documentAssembler = new DocumentAssembler() 
-      .setInputCols(Array("text")) 
+val documentAssembler = new DocumentAssembler()
+      .setInputCols(Array("text"))
       .setOutputCols(Array("document"))
-      
+
 val tokenizer = new Tokenizer()
     .setInputCols("document")
     .setOutputCol("token")
- 
-val classifer = BertForSequenceClassification.pretrained("bert_sequence_classifier_spanish_tinybert_betito_finetuned_xnli","es") 
-    .setInputCols(Array("document", "token")) 
+
+val classifer = BertForSequenceClassification.pretrained("bert_sequence_classifier_spanish_tinybert_betito_finetuned_xnli","es")
+    .setInputCols(Array("document", "token"))
     .setOutputCol("class")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, classifier))
@@ -70,6 +70,14 @@ val data = Seq("PUT YOUR STRING HERE").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("es.classify.bert.xnli.tiny_finetuned").predict("""PUT YOUR STRING HERE""")
+```
+
 </div>
 
 {:.model-param}

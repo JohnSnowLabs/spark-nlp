@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.annotator.matcher.date_matcher &#8212; Spark NLP 4.4.0 documentation</title>
+    <title>sparknlp.annotator.matcher.date_matcher &#8212; Spark NLP 4.4.4 documentation</title>
   
   
   
@@ -308,9 +308,11 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/deberta_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.deberta_for_token_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/distil_bert_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/distil_bert_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.distil_bert_for_token_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/distil_bert_for_zero_shot_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.distil_bert_for_zero_shot_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/longformer_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.longformer_for_sequence_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/longformer_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.longformer_for_token_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/multi_classifier_dl/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.multi_classifier_dl</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/roberta_bert_for_zero_shot_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/roberta_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.roberta_for_sequence_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/roberta_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.roberta_for_token_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/sentiment_dl/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.sentiment_dl</span></code></a></li>
@@ -612,6 +614,22 @@ after tomorrow. If not set it will use the current day.</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.setRelaxedFactoryStrategy">
+<span class="sig-name descname"><span class="pre">setRelaxedFactoryStrategy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matchStrategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">MatchStrategy.MATCH_FIRST</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/matcher/date_matcher.html#DateMatcherUtils.setRelaxedFactoryStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.setRelaxedFactoryStrategy" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets matched strategy to search relaxed dates by ordered rules by more exhaustive to less Strategy.</p>
+<p>Not all of the date information needs to be included. For example
+<code class="docutils literal notranslate"><span class="pre">&quot;YYYY&quot;</span></code> is also a valid input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>matchStrategy</strong><span class="classifier">MatchStrategy</span></dt><dd><p>Matched strategy to search relaxed dates by ordered rules by more exhaustive to less Strategy</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -757,6 +775,7 @@ tomorrow. If not set it will use the current day. Example: 11</p>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.setAnchorDateYear"><code class="docutils literal notranslate"><span class="pre">DateMatcherUtils.setAnchorDateYear()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.setAnchorDateMonth"><code class="docutils literal notranslate"><span class="pre">DateMatcherUtils.setAnchorDateMonth()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.setAnchorDateDay"><code class="docutils literal notranslate"><span class="pre">DateMatcherUtils.setAnchorDateDay()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.setRelaxedFactoryStrategy"><code class="docutils literal notranslate"><span class="pre">DateMatcherUtils.setRelaxedFactoryStrategy()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.matcher.date_matcher.DateMatcher"><code class="docutils literal notranslate"><span class="pre">DateMatcher</span></code></a></li>

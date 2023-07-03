@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 4.4.0 ScalaDoc  - com.johnsnowlabs.ml.ai.util.Generation.Generate</title>
-          <meta name="description" content="Spark NLP 4.4.0 ScalaDoc - com.johnsnowlabs.ml.ai.util.Generation.Generate" />
-          <meta name="keywords" content="Spark NLP 4.4.0 ScalaDoc com.johnsnowlabs.ml.ai.util.Generation.Generate" />
+          <title>Spark NLP 4.4.4 ScalaDoc  - com.johnsnowlabs.ml.ai.util.Generation.Generate</title>
+          <meta name="description" content="Spark NLP 4.4.4 ScalaDoc - com.johnsnowlabs.ml.ai.util.Generation.Generate" />
+          <meta name="keywords" content="Spark NLP 4.4.4 ScalaDoc com.johnsnowlabs.ml.ai.util.Generation.Generate" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 4.4.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 4.4.4 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -369,7 +369,7 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="com.johnsnowlabs.ml.ai.util.Generation.Generate#beamSearch" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.ml.ai.util.Generation.Generate#beamSearch" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="beamSearch(encoderInputIdsVals:Seq[Array[Int]],inputIdsVal:Seq[Array[Int]],decoderEncoderStateTensors:org.tensorflow.Tensor,encoderAttentionMaskTensors:org.tensorflow.Tensor,beamScorer:com.johnsnowlabs.ml.ai.util.Generation.Search.BeamScorer,logitProcessor:com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitProcessorList,maxLength:Int,padTokenId:Int,eosTokenId:Int,doSample:Boolean,randomSeed:Option[Long],session:org.tensorflow.Session):Array[Array[Int]]"></a><a id="beamSearch(Seq[Array[Int]],Seq[Array[Int]],Tensor,Tensor,BeamScorer,LogitProcessorList,Int,Int,Int,Boolean,Option[Long],Session):Array[Array[Int]]"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/ml/ai/util/Generation/Generate.html#beamSearch(encoderInputIdsVals:Seq[Array[Int]],inputIdsVal:Seq[Array[Int]],decoderEncoderStateTensors:org.tensorflow.Tensor,encoderAttentionMaskTensors:org.tensorflow.Tensor,beamScorer:com.johnsnowlabs.ml.ai.util.Generation.Search.BeamScorer,logitProcessor:com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitProcessorList,maxLength:Int,padTokenId:Int,eosTokenId:Int,doSample:Boolean,randomSeed:Option[Long],session:org.tensorflow.Session):Array[Array[Int]]" title="Permalink">
@@ -384,7 +384,19 @@
         <span class="name">beamSearch</span><span class="params">(<span name="encoderInputIdsVals">encoderInputIdsVals: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>, <span name="inputIdsVal">inputIdsVal: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>, <span name="decoderEncoderStateTensors">decoderEncoderStateTensors: <span class="extype" name="org.tensorflow.Tensor">Tensor</span></span>, <span name="encoderAttentionMaskTensors">encoderAttentionMaskTensors: <span class="extype" name="org.tensorflow.Tensor">Tensor</span></span>, <span name="beamScorer">beamScorer: <a href="Search/BeamScorer.html" class="extype" name="com.johnsnowlabs.ml.ai.util.Generation.Search.BeamScorer">BeamScorer</a></span>, <span name="logitProcessor">logitProcessor: <a href="Logit/LogitProcessorList.html" class="extype" name="com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitProcessorList">LogitProcessorList</a></span>, <span name="maxLength">maxLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="padTokenId">padTokenId: <span class="extype" name="scala.Int">Int</span></span>, <span name="eosTokenId">eosTokenId: <span class="extype" name="scala.Int">Int</span></span>, <span name="doSample">doSample: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="randomSeed">randomSeed: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Long">Long</span>]</span>, <span name="session">session: <span class="extype" name="org.tensorflow.Session">Session</span></span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Beam Search for text generation</p><div class="fullcomment"><div class="comment cmt"><p>Beam Search for text generation</p></div><dl class="paramcmts block"><dt class="param">encoderInputIdsVals</dt><dd class="cmt"><p>
+  encoder input ids vals</p></dd><dt class="param">inputIdsVal</dt><dd class="cmt"><p>
+  input ids val</p></dd><dt class="param">decoderEncoderStateTensors</dt><dd class="cmt"><p>
+  decoder encoder state tensors</p></dd><dt class="param">encoderAttentionMaskTensors</dt><dd class="cmt"><p>
+  encoder attention mask tensors</p></dd><dt class="param">beamScorer</dt><dd class="cmt"><p>
+  beam scorer</p></dd><dt class="param">logitProcessor</dt><dd class="cmt"><p>
+  logit processor</p></dd><dt class="param">maxLength</dt><dd class="cmt"><p>
+  max length</p></dd><dt class="param">padTokenId</dt><dd class="cmt"><p>
+  pad token id</p></dd><dt class="param">eosTokenId</dt><dd class="cmt"><p>
+  eos token id</p></dd><dt class="param">doSample</dt><dd class="cmt"><p>
+  do sample</p></dd><dt class="param">randomSeed</dt><dd class="cmt"><p>
+  random seed</p></dd><dt class="param">session</dt><dd class="cmt"><p>
+  session</p></dd></dl></div>
     </li><li name="scala.AnyRef#clone" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a><a id="clone():AnyRef"></a>
       <span class="permalink">
@@ -463,6 +475,43 @@
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.ml.ai.util.Generation.Generate#generate" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="generate(inputIds:Seq[Array[Int]],decoderEncoderStateTensors:org.tensorflow.Tensor,encoderAttentionMaskTensors:org.tensorflow.Tensor,decoderInputs:Array[Array[Int]],maxOutputLength:Int,minOutputLength:Int,doSample:Boolean,beamSize:Int,numReturnSequences:Int,temperature:Double,topK:Int,topP:Double,repetitionPenalty:Double,noRepeatNgramSize:Int,vocabSize:Int,eosTokenId:Int,paddingTokenId:Int,randomSeed:Option[Long],ignoreTokenIds:Array[Int],session:org.tensorflow.Session):Array[Array[Int]]"></a><a id="generate(Seq[Array[Int]],Tensor,Tensor,Array[Array[Int]],Int,Int,Boolean,Int,Int,Double,Int,Double,Double,Int,Int,Int,Int,Option[Long],Array[Int],Session):Array[Array[Int]]"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/ml/ai/util/Generation/Generate.html#generate(inputIds:Seq[Array[Int]],decoderEncoderStateTensors:org.tensorflow.Tensor,encoderAttentionMaskTensors:org.tensorflow.Tensor,decoderInputs:Array[Array[Int]],maxOutputLength:Int,minOutputLength:Int,doSample:Boolean,beamSize:Int,numReturnSequences:Int,temperature:Double,topK:Int,topP:Double,repetitionPenalty:Double,noRepeatNgramSize:Int,vocabSize:Int,eosTokenId:Int,paddingTokenId:Int,randomSeed:Option[Long],ignoreTokenIds:Array[Int],session:org.tensorflow.Session):Array[Array[Int]]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">generate</span><span class="params">(<span name="inputIds">inputIds: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>, <span name="decoderEncoderStateTensors">decoderEncoderStateTensors: <span class="extype" name="org.tensorflow.Tensor">Tensor</span></span>, <span name="encoderAttentionMaskTensors">encoderAttentionMaskTensors: <span class="extype" name="org.tensorflow.Tensor">Tensor</span></span>, <span name="decoderInputs">decoderInputs: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>, <span name="maxOutputLength">maxOutputLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="minOutputLength">minOutputLength: <span class="extype" name="scala.Int">Int</span></span>, <span name="doSample">doSample: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="beamSize">beamSize: <span class="extype" name="scala.Int">Int</span></span>, <span name="numReturnSequences">numReturnSequences: <span class="extype" name="scala.Int">Int</span></span>, <span name="temperature">temperature: <span class="extype" name="scala.Double">Double</span></span>, <span name="topK">topK: <span class="extype" name="scala.Int">Int</span></span>, <span name="topP">topP: <span class="extype" name="scala.Double">Double</span></span>, <span name="repetitionPenalty">repetitionPenalty: <span class="extype" name="scala.Double">Double</span></span>, <span name="noRepeatNgramSize">noRepeatNgramSize: <span class="extype" name="scala.Int">Int</span></span>, <span name="vocabSize">vocabSize: <span class="extype" name="scala.Int">Int</span></span>, <span name="eosTokenId">eosTokenId: <span class="extype" name="scala.Int">Int</span></span>, <span name="paddingTokenId">paddingTokenId: <span class="extype" name="scala.Int">Int</span></span>, <span name="randomSeed">randomSeed: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Long">Long</span>]</span>, <span name="ignoreTokenIds">ignoreTokenIds: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>] = <span class="symbol">Array()</span></span>, <span name="session">session: <span class="extype" name="org.tensorflow.Session">Session</span></span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Text Generation using Beam Search</p><div class="fullcomment"><div class="comment cmt"><p>Text Generation using Beam Search</p></div><dl class="paramcmts block"><dt class="param">inputIds</dt><dd class="cmt"><p>
+  input ids</p></dd><dt class="param">decoderEncoderStateTensors</dt><dd class="cmt"><p>
+  decoder encoder state tensors</p></dd><dt class="param">encoderAttentionMaskTensors</dt><dd class="cmt"><p>
+  encoder attention mask tensors</p></dd><dt class="param">decoderInputs</dt><dd class="cmt"><p>
+  decoder inputs</p></dd><dt class="param">maxOutputLength</dt><dd class="cmt"><p>
+  max output length</p></dd><dt class="param">minOutputLength</dt><dd class="cmt"><p>
+  min output length</p></dd><dt class="param">doSample</dt><dd class="cmt"><p>
+  do sample</p></dd><dt class="param">beamSize</dt><dd class="cmt"><p>
+  beam size</p></dd><dt class="param">numReturnSequences</dt><dd class="cmt"><p>
+  num return sequences</p></dd><dt class="param">temperature</dt><dd class="cmt"><p>
+  temperature</p></dd><dt class="param">topK</dt><dd class="cmt"><p>
+  top K</p></dd><dt class="param">topP</dt><dd class="cmt"><p>
+  top P</p></dd><dt class="param">repetitionPenalty</dt><dd class="cmt"><p>
+  repetition penalty</p></dd><dt class="param">noRepeatNgramSize</dt><dd class="cmt"><p>
+  no repeat ngram size</p></dd><dt class="param">vocabSize</dt><dd class="cmt"><p>
+  vocab size</p></dd><dt class="param">eosTokenId</dt><dd class="cmt"><p>
+  eos token id</p></dd><dt class="param">paddingTokenId</dt><dd class="cmt"><p>
+  padding token id</p></dd><dt class="param">randomSeed</dt><dd class="cmt"><p>
+  random seed</p></dd><dt class="param">ignoreTokenIds</dt><dd class="cmt"><p>
+  ignore token ids</p></dd><dt class="param">session</dt><dd class="cmt"><p>
+  session</p></dd><dt>returns</dt><dd class="cmt"><p>
+  Array of generated sequences</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.ai.util.Generation.Generate#getCDF" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="getCDF(probs:Array[Float]):Array[Float]"></a><a id="getCDF(Array[Float]):Array[Float]"></a>
       <span class="permalink">
@@ -549,7 +598,7 @@
       </span>
       
       
-    </li><li name="com.johnsnowlabs.ml.ai.util.Generation.Generate#multinomialSampling" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.ml.ai.util.Generation.Generate#multinomialSampling" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="multinomialSampling(logitValues:Array[Float],k:Int,seed:Option[Long]):Array[Int]"></a><a id="multinomialSampling(Array[Float],Int,Option[Long]):Array[Int]"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/ml/ai/util/Generation/Generate.html#multinomialSampling(logitValues:Array[Float],k:Int,seed:Option[Long]):Array[Int]" title="Permalink">
@@ -564,7 +613,12 @@
         <span class="name">multinomialSampling</span><span class="params">(<span name="logitValues">logitValues: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]</span>, <span name="k">k: <span class="extype" name="scala.Int">Int</span></span>, <span name="seed">seed: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Long">Long</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Samples from a multinomial distribution using the provided logits.</p><div class="fullcomment"><div class="comment cmt"><p>Samples from a multinomial distribution using the provided logits.
+</p></div><dl class="paramcmts block"><dt class="param">logitValues</dt><dd class="cmt"><p>
+  The logits to sample from</p></dd><dt class="param">k</dt><dd class="cmt"><p>
+  The number of samples to draw</p></dd><dt class="param">seed</dt><dd class="cmt"><p>
+  The random seed to use</p></dd><dt>returns</dt><dd class="cmt"><p>
+  The sampled indices</p></dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
       <span class="permalink">
@@ -619,7 +673,7 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="com.johnsnowlabs.ml.ai.util.Generation.Generate#reshapeArray" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.ml.ai.util.Generation.Generate#reshapeArray" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="reshapeArray(inputArray:Array[Array[Float]],numRows:Int,numCols:Int):Array[Array[Float]]"></a><a id="reshapeArray(Array[Array[Float]],Int,Int):Array[Array[Float]]"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/ml/ai/util/Generation/Generate.html#reshapeArray(inputArray:Array[Array[Float]],numRows:Int,numCols:Int):Array[Array[Float]]" title="Permalink">
@@ -634,8 +688,13 @@
         <span class="name">reshapeArray</span><span class="params">(<span name="inputArray">inputArray: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]</span>, <span name="numRows">numRows: <span class="extype" name="scala.Int">Int</span></span>, <span name="numCols">numCols: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Float">Float</span>]]</span>
       </span>
       
-      
-    </li><li name="com.johnsnowlabs.ml.ai.util.Generation.Generate#sample" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Reshapes a 1D array into a 2D array with the specified number of rows and columns.</p><div class="fullcomment"><div class="comment cmt"><p>Reshapes a 1D array into a 2D array with the specified number of rows and columns.
+</p></div><dl class="paramcmts block"><dt class="param">inputArray</dt><dd class="cmt"><p>
+  The input array to reshape</p></dd><dt class="param">numRows</dt><dd class="cmt"><p>
+  The number of rows in the output array</p></dd><dt class="param">numCols</dt><dd class="cmt"><p>
+  The number of columns in the output array</p></dd><dt>returns</dt><dd class="cmt"><p>
+  The reshaped array</p></dd></dl></div>
+    </li><li name="com.johnsnowlabs.ml.ai.util.Generation.Generate#sample" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="sample(logits:Seq[Float],k:Int,seed:Long):Array[Int]"></a><a id="sample(Seq[Float],Int,Long):Array[Int]"></a>
       <span class="permalink">
       <a href="../../../../../../com/johnsnowlabs/ml/ai/util/Generation/Generate.html#sample(logits:Seq[Float],k:Int,seed:Long):Array[Int]" title="Permalink">
@@ -650,7 +709,12 @@
         <span class="name">sample</span><span class="params">(<span name="logits">logits: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Float">Float</span>]</span>, <span name="k">k: <span class="extype" name="scala.Int">Int</span></span>, <span name="seed">seed: <span class="extype" name="scala.Long">Long</span> = <span class="symbol">42</span></span>)</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Int">Int</span>]</span>
       </span>
       
-      
+      <p class="shortcomment cmt">Samples from a multinomial distribution using the provided logits.</p><div class="fullcomment"><div class="comment cmt"><p>Samples from a multinomial distribution using the provided logits.
+</p></div><dl class="paramcmts block"><dt class="param">logits</dt><dd class="cmt"><p>
+  The logits to sample from</p></dd><dt class="param">k</dt><dd class="cmt"><p>
+  The number of samples to draw</p></dd><dt class="param">seed</dt><dd class="cmt"><p>
+  The random seed to use</p></dd><dt>returns</dt><dd class="cmt"><p>
+  The sampled indices</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.ai.util.Generation.Generate#softmax" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="softmax(logitValues:Array[Float]):Array[Float]"></a><a id="softmax(Array[Float]):Array[Float]"></a>
       <span class="permalink">

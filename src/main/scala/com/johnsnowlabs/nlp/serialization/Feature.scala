@@ -33,7 +33,7 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](
     extends Serializable {
   model.features.append(this)
 
-  private val spark = ResourceHelper.spark
+  private val spark: SparkSession = ResourceHelper.spark
 
   val serializationMode: String =
     ConfigLoader.getConfigStringValue(ConfigHelper.serializationMode)
@@ -44,6 +44,7 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](
   final protected var fallbackRawValue: Option[TComplete] = None
 
   final protected var fallbackLazyValue: Option[() => TComplete] = None
+  final protected var isProtected: Boolean = false
 
   final def serialize(
       spark: SparkSession,
@@ -117,12 +118,20 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](
   }
 
   final def setValue(value: Option[Any]): HasFeatures = {
-    if (useBroadcast) {
-      if (isSet) broadcastValue.get.destroy()
-      broadcastValue =
-        value.map(v => spark.sparkContext.broadcast[TComplete](v.asInstanceOf[TComplete]))
+    if (isProtected && isSet) {
+      val warnString =
+        s"Warning: The parameter ${this.name} is protected and can only be set once." +
+          " For a pretrained model, this was done during the initialization process." +
+          " If you are trying to train your own model, please check the documentation."
+      println(warnString)
     } else {
-      rawValue = value.map(_.asInstanceOf[TComplete])
+      if (useBroadcast) {
+        if (isSet) broadcastValue.get.destroy()
+        broadcastValue =
+          value.map(v => spark.sparkContext.broadcast[TComplete](v.asInstanceOf[TComplete]))
+      } else {
+        rawValue = value.map(_.asInstanceOf[TComplete])
+      }
     }
     model
   }
@@ -134,6 +143,16 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](
 
   final def isSet: Boolean = {
     broadcastValue.isDefined || rawValue.isDefined
+  }
+
+  /** Sets this feature to be protected and only settable once.
+    *
+    * @return
+    *   This Feature
+    */
+  final def setProtected(): this.type = {
+    isProtected = true
+    this
   }
 
 }

@@ -6,7 +6,7 @@ name := getPackageName(is_silicon, is_gpu, is_aarch64)
 
 organization := "com.johnsnowlabs.nlp"
 
-version := "4.4.0"
+version := "5.0.0"
 
 (ThisBuild / scalaVersion) := scalaVer
 
@@ -165,6 +165,16 @@ val tensorflowDependencies: Seq[sbt.ModuleID] =
   else
     Seq(tensorflowCPU)
 
+val onnxDependencies: Seq[sbt.ModuleID] =
+  if (is_gpu.equals("true"))
+    Seq(onnxGPU)
+  else if (is_silicon.equals("true"))
+    Seq(onnxCPU)
+  else if (is_aarch64.equals("true"))
+    Seq(onnxCPU)
+  else
+    Seq(onnxCPU)
+
 lazy val mavenProps = settingKey[Unit]("workaround for Maven properties")
 
 lazy val root = (project in file("."))
@@ -175,6 +185,7 @@ lazy val root = (project in file("."))
         testDependencies ++
         utilDependencies ++
         tensorflowDependencies ++
+        onnxDependencies ++
         typedDependencyParserDependencies,
     // TODO potentially improve this?
     mavenProps := {

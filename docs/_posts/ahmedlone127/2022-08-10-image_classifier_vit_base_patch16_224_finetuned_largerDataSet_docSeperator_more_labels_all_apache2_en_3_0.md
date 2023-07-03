@@ -78,7 +78,18 @@ val pipelineModel = pipeline.fit(imageDF)
 val pipelineDF = pipelineModel.transform(imageDF)
 
 ```
-</div>
+
+
+{:.nlu-block}
+```python
+import nlu
+import requests
+response = requests.get('https://raw.githubusercontent.com/JohnSnowLabs/spark-nlp/master/docs/assets/images/hen.JPEG')
+with open('hen.JPEG', 'wb') as f:
+    f.write(response.content)
+nlu.load("en.classify_image.base_patch16_224_finetuned_largerDataSet_docSeperator_more_labels_all_apache2").predict("hen.JPEG")
+```
+
 
 {:.model-param}
 ## Model Information

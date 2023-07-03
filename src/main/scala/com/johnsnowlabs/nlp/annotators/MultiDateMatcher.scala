@@ -18,7 +18,7 @@ package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.util.regex.RuleFactory
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
-import org.apache.commons.lang.time.DateUtils
+import org.apache.commons.lang3.time.DateUtils
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 
 import java.text.SimpleDateFormat
@@ -248,6 +248,14 @@ class MultiDateMatcher(override val uid: String)
 
   private def extractRelaxedDate(text: String): Seq[MatchedDateTime] = {
     val possibleDates = relaxedFactory.findMatch(text)
+    val possibleDatesByIndexMatch = possibleDates.groupBy(_.indexMatch)
+    possibleDatesByIndexMatch.flatMap { case (_, possibleDates) =>
+      computePossibleDates(possibleDates)
+    }.toSeq
+  }
+
+  private def computePossibleDates(
+      possibleDates: Seq[RuleFactory.RuleMatch]): Seq[MatchedDateTime] = {
     var dayMatch = $(defaultDayWhenMissing)
     var monthMatch = defaultMonthWhenMissing
     var yearMatch = defaultYearWhenMissing

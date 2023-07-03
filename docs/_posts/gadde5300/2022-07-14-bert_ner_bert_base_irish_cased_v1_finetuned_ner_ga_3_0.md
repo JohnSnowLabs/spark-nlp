@@ -60,20 +60,20 @@ data = spark.createDataFrame([["Is breá liom Spark NLP"]]).toDF("text")
 result = pipeline.fit(data).transform(data)
 ```
 ```scala
-val documentAssembler = new DocumentAssembler() 
-          .setInputCol("text") 
+val documentAssembler = new DocumentAssembler()
+          .setInputCol("text")
           .setOutputCol("document")
 
 val sentenceDetector = SentenceDetectorDLModel.pretrained("sentence_detector_dl", "xx")
        .setInputCols(Array("document"))
        .setOutputCol("sentence")
 
-val tokenizer = new Tokenizer() 
+val tokenizer = new Tokenizer()
     .setInputCols(Array("sentence"))
     .setOutputCol("token")
 
-val tokenClassifier = BertForTokenClassification.pretrained("bert_ner_bert_base_irish_cased_v1_finetuned_ner","ga") 
-    .setInputCols(Array("sentence", "token")) 
+val tokenClassifier = BertForTokenClassification.pretrained("bert_ner_bert_base_irish_cased_v1_finetuned_ner","ga")
+    .setInputCols(Array("sentence", "token"))
     .setOutputCol("ner")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler,sentenceDetector, tokenizer, tokenClassifier))
@@ -82,6 +82,14 @@ val data = Seq("Is breá liom Spark NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ga.ner.bert.wikiann.cased_base_finetuned").predict("""Is breá liom Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

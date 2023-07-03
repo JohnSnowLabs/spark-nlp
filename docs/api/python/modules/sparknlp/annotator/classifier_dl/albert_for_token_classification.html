@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.classifier_dl.albert_for_token_classification &#8212; Spark NLP 4.4.0 documentation</title>
+    <title>sparknlp.annotator.classifier_dl.albert_for_token_classification &#8212; Spark NLP 4.4.4 documentation</title>
   
   
   
@@ -362,7 +362,8 @@ document.write(`
 <div class="viewcode-block" id="AlbertForTokenClassification"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/albert_for_token_classification/index.html#sparknlp.annotator.classifier_dl.albert_for_token_classification.AlbertForTokenClassification">[docs]</a><span class="k">class</span> <span class="nc">AlbertForTokenClassification</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
                                    <span class="n">HasCaseSensitiveProperties</span><span class="p">,</span>
                                    <span class="n">HasBatchedAnnotate</span><span class="p">,</span>
-                                   <span class="n">HasEngine</span><span class="p">):</span>
+                                   <span class="n">HasEngine</span><span class="p">,</span>
+                                   <span class="n">HasMaxSentenceLengthLimit</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;AlbertForTokenClassification can load ALBERT Models with a token</span>
 <span class="sd">    classification head on top (a linear layer on top of the hidden-states</span>
 <span class="sd">    output) e.g. for Named-Entity-Recognition (NER) tasks.</span>
@@ -443,11 +444,6 @@ document.write(`
 
     <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">NAMED_ENTITY</span>
 
-    <span class="n">maxSentenceLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
-                              <span class="s2">&quot;maxSentenceLength&quot;</span><span class="p">,</span>
-                              <span class="s2">&quot;Max sentence length to process&quot;</span><span class="p">,</span>
-                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
-
     <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                              <span class="s2">&quot;configProtoBytes&quot;</span><span class="p">,</span>
                              <span class="s2">&quot;ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()&quot;</span><span class="p">,</span>
@@ -468,16 +464,6 @@ document.write(`
 <span class="sd">            ConfigProto from tensorflow, serialized into byte array</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">configProtoBytes</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="AlbertForTokenClassification.setMaxSentenceLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/albert_for_token_classification/index.html#sparknlp.annotator.classifier_dl.albert_for_token_classification.AlbertForTokenClassification.setMaxSentenceLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets max sentence length to process, by default 128.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        value : int</span>
-<span class="sd">            Max sentence length to process</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSentenceLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.classifier.dl.AlbertForTokenClassification&quot;</span><span class="p">,</span>

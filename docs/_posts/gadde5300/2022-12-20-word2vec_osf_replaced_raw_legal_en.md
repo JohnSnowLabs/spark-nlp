@@ -46,6 +46,14 @@ val model = WordEmbeddingsModel.pretrained("word2vec_osf_replaced_raw_legal","en
 	                .setOutputCol("word_embeddings")
 
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed.legal.osf_replaced_raw_legal").predict("""Put your text here.""")
+```
+
 </div>
 
 {:.model-param}

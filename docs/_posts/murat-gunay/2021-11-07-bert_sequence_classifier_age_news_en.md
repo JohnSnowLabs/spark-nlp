@@ -79,6 +79,14 @@ val example = Seq.empty["Microsoft has taken its first step into the metaverse."
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.classify.bert.news.").predict("""Microsoft has taken its first step into the metaverse.""")
+```
+
 </div>
 
 ## Results

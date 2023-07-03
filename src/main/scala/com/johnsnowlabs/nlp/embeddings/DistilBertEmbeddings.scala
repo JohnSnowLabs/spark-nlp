@@ -17,13 +17,14 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.ml.ai.DistilBert
+import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadTextAsset,
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.ModelEngine
+import com.johnsnowlabs.ml.util.{ModelArch, ONNX, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
@@ -161,6 +162,7 @@ class DistilBertEmbeddings(override val uid: String)
     extends AnnotatorModel[DistilBertEmbeddings]
     with HasBatchedAnnotate[DistilBertEmbeddings]
     with WriteTensorflowModel
+    with WriteOnnxModel
     with HasEmbeddingsProperties
     with HasStorageRef
     with HasCaseSensitiveProperties
@@ -170,6 +172,19 @@ class DistilBertEmbeddings(override val uid: String)
     * type
     */
   def this() = this(Identifiable.randomUID("DISTILBERT_EMBEDDINGS"))
+
+  /** Input Annotator Types: DOCUMENT. TOKEN
+    *
+    * @group param
+    */
+  override val inputAnnotatorTypes: Array[String] =
+    Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
+
+  /** Output Annotator Types: WORD_EMBEDDINGS
+    *
+    * @group param
+    */
+  override val outputAnnotatorType: AnnotatorType = AnnotatorType.WORD_EMBEDDINGS
 
   def sentenceStartTokenId: Int = {
     $$(vocabulary)("[CLS]")
@@ -183,7 +198,7 @@ class DistilBertEmbeddings(override val uid: String)
     *
     * @group param
     */
-  val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary")
+  val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary").setProtected()
 
   /** @group setParam */
   def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
@@ -229,12 +244,12 @@ class DistilBertEmbeddings(override val uid: String)
     *
     * @group param
     */
-  val signatures = new MapFeature[String, String](model = this, name = "signatures")
+  val signatures =
+    new MapFeature[String, String](model = this, name = "signatures").setProtected()
 
   /** @group setParam */
   def setSignatures(value: Map[String, String]): this.type = {
-    if (get(signatures).isEmpty)
-      set(signatures, value)
+    set(signatures, value)
     this
   }
 
@@ -246,16 +261,19 @@ class DistilBertEmbeddings(override val uid: String)
   /** @group setParam */
   def setModelIfNotSet(
       spark: SparkSession,
-      tensorflowWrapper: TensorflowWrapper): DistilBertEmbeddings = {
+      tensorflowWrapper: Option[TensorflowWrapper],
+      onnxWrapper: Option[OnnxWrapper]): DistilBertEmbeddings = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
           new DistilBert(
             tensorflowWrapper,
+            onnxWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
             configProtoBytes = getConfigProtoBytes,
-            signatures = getSignatures)))
+            signatures = getSignatures,
+            modelArch = ModelArch.wordEmbeddings)))
     }
 
     this
@@ -270,9 +288,7 @@ class DistilBertEmbeddings(override val uid: String)
     * @group setParam
     */
   override def setDimension(value: Int): this.type = {
-    if (get(dimension).isEmpty)
-      set(this.dimension, value)
-    this
+    set(this.dimension, value)
   }
 
   /** Whether to lowercase tokens or not
@@ -280,9 +296,7 @@ class DistilBertEmbeddings(override val uid: String)
     * @group setParam
     */
   override def setCaseSensitive(value: Boolean): this.type = {
-    if (get(caseSensitive).isEmpty)
-      set(this.caseSensitive, value)
-    this
+    set(this.caseSensitive, value)
   }
 
   setDefault(dimension -> 768, batchSize -> 8, maxSentenceLength -> 128, caseSensitive -> false)
@@ -360,28 +374,31 @@ class DistilBertEmbeddings(override val uid: String)
       wrapEmbeddingsMetadata(dataset.col(getOutputCol), $(dimension), Some($(storageRef))))
   }
 
-  /** Input Annotator Types: DOCUMENT. TOKEN
-    *
-    * @group param
-    */
-  override val inputAnnotatorTypes: Array[String] =
-    Array(AnnotatorType.DOCUMENT, AnnotatorType.TOKEN)
-
-  /** Output Annotator Types: WORD_EMBEDDINGS
-    *
-    * @group param
-    */
-  override val outputAnnotatorType: AnnotatorType = AnnotatorType.WORD_EMBEDDINGS
-
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(
-      path,
-      spark,
-      getModelIfNotSet.tensorflowWrapper,
-      "_distilbert",
-      DistilBertEmbeddings.tfFile,
-      configProtoBytes = getConfigProtoBytes)
+    val suffix = "_distilbert"
+
+    getEngine match {
+      case TensorFlow.name =>
+        writeTensorflowModelV2(
+          path,
+          spark,
+          getModelIfNotSet.tensorflowWrapper.get,
+          suffix,
+          DistilBertEmbeddings.tfFile,
+          configProtoBytes = getConfigProtoBytes)
+      case ONNX.name =>
+        writeOnnxModel(
+          path,
+          spark,
+          getModelIfNotSet.onnxWrapper.get,
+          suffix,
+          DistilBertEmbeddings.onnxFile)
+
+      case _ =>
+        throw new Exception(notSupportedEngineError)
+    }
+
   }
 
 }
@@ -403,15 +420,27 @@ trait ReadablePretrainedDistilBertModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadDistilBertDLModel extends ReadTensorflowModel {
+trait ReadDistilBertDLModel extends ReadTensorflowModel with ReadOnnxModel {
   this: ParamsAndFeaturesReadable[DistilBertEmbeddings] =>
 
   override val tfFile: String = "distilbert_tensorflow"
+  override val onnxFile: String = "bert_onnx"
 
   def readModel(instance: DistilBertEmbeddings, path: String, spark: SparkSession): Unit = {
 
-    val tf = readTensorflowModel(path, spark, "_distilbert_tf", initAllTables = false)
-    instance.setModelIfNotSet(spark, tf)
+    instance.getEngine match {
+      case TensorFlow.name =>
+        val tfWrapper = readTensorflowModel(path, spark, "_distilbert_tf", initAllTables = false)
+        instance.setModelIfNotSet(spark, Some(tfWrapper), None)
+
+      case ONNX.name => {
+        val onnxWrapper =
+          readOnnxModel(path, spark, "_distilbert_onnx", zipped = true, useBundle = false, None)
+        instance.setModelIfNotSet(spark, None, Some(onnxWrapper))
+      }
+      case _ =>
+        throw new Exception(notSupportedEngineError)
+    }
   }
 
   addReader(readModel)
@@ -429,8 +458,8 @@ trait ReadDistilBertDLModel extends ReadTensorflowModel {
     annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
-      case ModelEngine.tensorflow =>
-        val (wrapper, signatures) =
+      case TensorFlow.name =>
+        val (tfWrapper, signatures) =
           TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 
         val _signatures = signatures match {
@@ -443,7 +472,12 @@ trait ReadDistilBertDLModel extends ReadTensorflowModel {
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, wrapper)
+          .setModelIfNotSet(spark, Some(tfWrapper), None)
+
+      case ONNX.name =>
+        val onnxWrapper = OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
+        annotatorModel
+          .setModelIfNotSet(spark, None, Some(onnxWrapper))
 
       case _ =>
         throw new Exception(notSupportedEngineError)

@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.embeddings.roberta_sentence_embeddings &#8212; Spark NLP 4.4.0 documentation</title>
+    <title>sparknlp.annotator.embeddings.roberta_sentence_embeddings &#8212; Spark NLP 4.4.4 documentation</title>
   
   
   
@@ -360,11 +360,12 @@ document.write(`
 
 
 <div class="viewcode-block" id="RoBertaSentenceEmbeddings"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/roberta_sentence_embeddings/index.html#sparknlp.annotator.embeddings.roberta_sentence_embeddings.RoBertaSentenceEmbeddings">[docs]</a><span class="k">class</span> <span class="nc">RoBertaSentenceEmbeddings</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
-                                <span class="n">HasEmbeddingsProperties</span><span class="p">,</span>
-                                <span class="n">HasCaseSensitiveProperties</span><span class="p">,</span>
-                                <span class="n">HasStorageRef</span><span class="p">,</span>
-                                <span class="n">HasBatchedAnnotate</span><span class="p">,</span>
-                                <span class="n">HasEngine</span><span class="p">):</span>
+                                     <span class="n">HasEmbeddingsProperties</span><span class="p">,</span>
+                                     <span class="n">HasCaseSensitiveProperties</span><span class="p">,</span>
+                                     <span class="n">HasStorageRef</span><span class="p">,</span>
+                                     <span class="n">HasBatchedAnnotate</span><span class="p">,</span>
+                                     <span class="n">HasEngine</span><span class="p">,</span>
+                                     <span class="n">HasMaxSentenceLengthLimit</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Sentence-level embeddings using RoBERTa. The RoBERTa model was proposed in RoBERTa: A Robustly Optimized BERT</span>
 <span class="sd">    Pretraining Approach  by Yinhan Liu, Myle Ott, Naman Goyal, Jingfei Du, Mandar Joshi, Danqi Chen, Omer Levy,</span>
 <span class="sd">    Mike Lewis, Luke Zettlemoyer, Veselin Stoyanov. It is based on Google&#39;s BERT model released in 2018. It builds on</span>
@@ -462,11 +463,6 @@ document.write(`
 
     <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">SENTENCE_EMBEDDINGS</span>
 
-    <span class="n">maxSentenceLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
-                              <span class="s2">&quot;maxSentenceLength&quot;</span><span class="p">,</span>
-                              <span class="s2">&quot;Max sentence length to process&quot;</span><span class="p">,</span>
-                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
-
     <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                              <span class="s2">&quot;configProtoBytes&quot;</span><span class="p">,</span>
                              <span class="s2">&quot;ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()&quot;</span><span class="p">,</span>
@@ -481,16 +477,6 @@ document.write(`
 <span class="sd">            ConfigProto from tensorflow, serialized into byte array</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">configProtoBytes</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="RoBertaSentenceEmbeddings.setMaxSentenceLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/embeddings/roberta_sentence_embeddings/index.html#sparknlp.annotator.embeddings.roberta_sentence_embeddings.RoBertaSentenceEmbeddings.setMaxSentenceLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets max sentence length to process.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        value : int</span>
-<span class="sd">            Max sentence length to process</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSentenceLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.embeddings.RoBertaSentenceEmbeddings&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>

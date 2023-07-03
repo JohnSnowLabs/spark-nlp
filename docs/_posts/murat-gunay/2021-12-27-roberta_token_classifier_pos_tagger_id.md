@@ -92,6 +92,14 @@ val example = Seq.empty["Budi sedang pergi ke pasar."].toDS.toDF("text")
 
 val result = pipeline.fit(example).transform(example)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("id.ner.pos").predict("""Budi sedang pergi ke pasar.""")
+```
+
 </div>
 
 ## Results

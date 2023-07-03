@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.seq2seq.bart_transformer &#8212; Spark NLP 4.4.0 documentation</title>
+    <title>sparknlp.annotator.seq2seq.bart_transformer &#8212; Spark NLP 4.4.4 documentation</title>
   
   
   
@@ -387,7 +387,7 @@ document.write(`
 <span class="sd">    Pretrained models can be loaded with :meth:`.pretrained` of the companion</span>
 <span class="sd">    object:</span>
 
-<span class="sd">    &gt;&gt;&gt; t5 = BartTransformer.pretrained() \\</span>
+<span class="sd">    &gt;&gt;&gt; bart = BartTransformer.pretrained() \\</span>
 <span class="sd">    ...     .setTask(&quot;summarize:&quot;) \\</span>
 <span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
 <span class="sd">    ...     .setOutputCol(&quot;summaries&quot;)</span>
@@ -438,7 +438,8 @@ document.write(`
 <span class="sd">        If set to int &gt; 0, all ngrams of that size can only occur once, by default `0`.</span>
 <span class="sd">    ignoreTokenIds</span>
 <span class="sd">       A list of token ids which are ignored in the decoder&#39;s output, by default `[]`.</span>
-
+<span class="sd">    useCache</span>
+<span class="sd">        Whether or not to use cache, by default `False`.</span>
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
 <span class="sd">    This is a very computationally expensive module especially on larger</span>
@@ -551,6 +552,8 @@ document.write(`
     <span class="n">beamSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;beamSize&quot;</span><span class="p">,</span>
                      <span class="s2">&quot;The Number of beams for beam search.&quot;</span><span class="p">,</span>
                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="n">useCache</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;useCache&quot;</span><span class="p">,</span> <span class="s2">&quot;Use caching to enhance performance&quot;</span><span class="p">,</span> <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
 
 <div class="viewcode-block" id="BartTransformer.setIgnoreTokenIds"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/bart_transformer/index.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.setIgnoreTokenIds">[docs]</a>    <span class="k">def</span> <span class="nf">setIgnoreTokenIds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;A list of token ids which are ignored in the decoder&#39;s output, by default `[]`.</span>
@@ -683,6 +686,16 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">beamSize</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="BartTransformer.setCache"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/bart_transformer/index.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.setCache">[docs]</a>    <span class="k">def</span> <span class="nf">setCache</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether or not to use caching to enhance performance, by default `False`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            Whether or not to use caching to enhance performance</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">useCache</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
     <span class="nd">@keyword_only</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.seq2seq.BartTransformer&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">BartTransformer</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
@@ -701,11 +714,12 @@ document.write(`
             <span class="n">noRepeatNgramSize</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
             <span class="n">ignoreTokenIds</span><span class="o">=</span><span class="p">[],</span>
             <span class="n">batchSize</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-            <span class="n">beamSize</span><span class="o">=</span><span class="mi">4</span>
+            <span class="n">beamSize</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+            <span class="n">useCache</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="BartTransformer.loadSavedModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/bart_transformer/index.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.loadSavedModel">[docs]</a>    <span class="k">def</span> <span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
+<div class="viewcode-block" id="BartTransformer.loadSavedModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/bart_transformer/index.html#sparknlp.annotator.seq2seq.bart_transformer.BartTransformer.loadSavedModel">[docs]</a>    <span class="k">def</span> <span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">,</span> <span class="n">use_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
 
 <span class="sd">        Parameters</span>
@@ -714,6 +728,8 @@ document.write(`
 <span class="sd">            Folder of the saved model</span>
 <span class="sd">        spark_session : pyspark.sql.SparkSession</span>
 <span class="sd">            The current SparkSession</span>
+<span class="sd">        use_cache: bool</span>
+<span class="sd">            The model uses caching to facilitate performance</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -721,7 +737,7 @@ document.write(`
 <span class="sd">            The restored model</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">sparknlp.internal</span> <span class="kn">import</span> <span class="n">_BartLoader</span>
-        <span class="n">jModel</span> <span class="o">=</span> <span class="n">_BartLoader</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">_jsparkSession</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
+        <span class="n">jModel</span> <span class="o">=</span> <span class="n">_BartLoader</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">_jsparkSession</span><span class="p">,</span> <span class="n">use_cache</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
         <span class="k">return</span> <span class="n">BartTransformer</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
 
     <span class="nd">@staticmethod</span>

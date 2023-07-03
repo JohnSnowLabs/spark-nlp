@@ -25,9 +25,9 @@ import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 
 /** Prepares data into a format that is processable by Spark NLP. This is the entry point for
-  * every Spark NLP pipeline. The `DocumentAssembler` can read either a `String` column or an
-  * `Array[String]`. Additionally, [[setCleanupMode]] can be used to pre-process the text
-  * (Default: `disabled`). For possible options please refer the parameters section.
+  * every Spark NLP pipeline. The `DocumentAssembler` reads `String` columns. Additionally,
+  * [[setCleanupMode]] can be used to pre-process the text (Default: `disabled`). For possible
+  * options please refer to the parameters section.
   *
   * For more extended examples on document pre-processing see the
   * [[https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/document-assembler/Loading_Documents_With_DocumentAssembler.ipynb Examples]].

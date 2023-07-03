@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.embeddings
 import com.johnsnowlabs.ml.ai.Elmo
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.util.LoadExternalModel.{modelSanityCheck, notSupportedEngineError}
-import com.johnsnowlabs.ml.util.ModelEngine
+import com.johnsnowlabs.ml.util.TensorFlow
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.storage.HasStorageRef
@@ -223,9 +223,7 @@ class ElmoEmbeddings(override val uid: String)
     * @group setParam
     */
   def setBatchSize(size: Int): this.type = {
-    if (get(batchSize).isEmpty)
-      set(batchSize, size)
-    this
+    set(batchSize, size)
   }
 
   /** Set Dimension of pooling layer. This is meta for the annotation and will not affect the
@@ -234,9 +232,7 @@ class ElmoEmbeddings(override val uid: String)
     * @group setParam
     */
   override def setDimension(value: Int): this.type = {
-    if (get(dimension).isEmpty)
-      set(this.dimension, value)
-    this
+    set(this.dimension, value)
 
   }
 
@@ -367,7 +363,7 @@ trait ReadElmoDLModel extends ReadTensorflowModel {
     annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
-      case ModelEngine.tensorflow =>
+      case TensorFlow.name =>
         val (wrapper, _) = TensorflowWrapper.read(
           localModelPath,
           zipped = false,

@@ -78,6 +78,14 @@ val data = Seq("Milujem iskru NLP").toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("sk.ner.pos.universal_dependencies.").predict("""Milujem iskru NLP""")
+```
+
 </div>
 
 {:.model-param}

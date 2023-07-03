@@ -1,4 +1,70 @@
 ========
+4.4.4
+========
+----------------
+New Features & Enhancements
+----------------
+* Add `Warmup` stage to loading all Transformers for word embeddings: ALBERT, BERT, CamemBERT, DistilBERT, RoBERTa, XLM-RoBERTa, and XLNet. This helps reducing the first inference time and also validate importing external models from HuggingFace https://github.com/JohnSnowLabs/spark-nlp/pull/13851
+* Add new notebooks to import ZeroShot Classifiers for Bert, DistilBERT, and RoBERTa fine-tuned based on NLI datasets https://github.com/JohnSnowLabs/spark-nlp/pull/13845
+
+----------------
+Bug Fixes
+----------------
+* Fix not being able to save models from XXXForSequenceClassitication and XXXForZeroShotClassification annotoators https://github.com/JohnSnowLabs/spark-nlp/pull/13842
+
+
+========
+4.4.3
+========
+----------------
+New Features & Enhancements
+----------------
+* New `multilabel` parameter to swtich from multi-class to multi-label on all Classifiers in Spark NLP: AlbertForSequenceClassification, BertForSequenceClassification, DeBertaForSequenceClassification, DistilBertForSequenceClassification, LongformerForSequenceClassification, RoBertaForSequenceClassification, XlmRoBertaForSequenceClassification, XlnetForSequenceClassification, BertForZeroShotClassification, DistilBertForZeroShotClassification, and RobertaForZeroShotClassification
+* Refactor protected Params and Features to avoid unwanted exceptions during runtime https://github.com/JohnSnowLabs/spark-nlp/pull/13797
+* Add proper documentation and instructions for ZeroShot classifiers: BertForZeroShotClassification, DistilBertForZeroShotClassification, and RobertaForZeroShotClassification https://github.com/JohnSnowLabs/spark-nlp/pull/13798
+* Extend support for downloading models/pipelines directly by given name or S3 path in ResourceDownloader https://github.com/JohnSnowLabs/spark-nlp/pull/13796
+
+----------------
+Bug Fixes
+----------------
+* Fix pretrained pipelines that stopped working since 4.4.2 release on PySpark 3.0 and 3.1 versions (adding 123 new pipelines were added) https://github.com/JohnSnowLabs/spark-nlp/pull/13805
+* Fix pretrained pipelines that stopped working since 4.4.2 release on PySpark 3.2 and 3.3 versions (adding 120 new pipelines) https://github.com/JohnSnowLabs/spark-nlp/pull/13811
+* Fix Java compatibility issue caused by SystemUtils dependecy https://github.com/JohnSnowLabs/spark-nlp/pull/13806
+
+
+========
+4.4.2
+========
+----------------
+New Features & Enhancements
+----------------
+* Implement a new Zero-Shot Text Classification for RoBERTa annotator called `RobertaForZeroShotClassification`
+* Support Apache Spark 3.4
+* Omptize BART models for memory efficiency
+* Introducing `cache` feature in BartTransformer
+* Improve error handling for max sequence length for transformers in Python
+* Improve `MultiDateMatcher` annotator to return multiple dates
+
+----------------
+Bug Fixes
+----------------
+* Fix a bug in Tapas due to exceeding the maximum rank value
+* Fix loading Transformer models via loadSavedModel() method from DBFS on Databricks
+
+
+========
+4.4.1
+========
+----------------
+New Features & Enhancements
+----------------
+
+* Implement a new Zero-Shot Text Classification for DistilBERT annotator called `DistilBertForZeroShotClassification`
+* Adding `threshold` param to `AlbertForSequenceClassification`, `BertForSequenceClassification`, `BertForZeroShotClassification`, `DistilBertForSequenceClassification`, `CamemBertForSequenceClassification`, `DeBertaForSequenceClassification`, LongformerForSequenceClassification`, RoBertaForQuestionAnswering`, `XlmRoBertaForSequenceClassification`, and `XlnetForSequenceClassification` annotators
+* Add new notebooks to import models for `SwinForImageClassification` and `ConvNextForImageClassification` annotators for Image Classification
+
+
+========
 4.4.0
 ========
 ----------------

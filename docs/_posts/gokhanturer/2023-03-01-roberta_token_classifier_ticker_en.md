@@ -39,8 +39,8 @@ Pretrained RobertaForTokenClassification model, adapted from Hugging Face and cu
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler() \
-    .setInputCols(["text"]) \
-    .setOutputCols("document")
+    .setInputCol("text") \
+    .setOutputCol("document")
 
 tokenizer = Tokenizer() \
     .setInputCols("document") \
@@ -57,24 +57,32 @@ data = spark.createDataFrame([["PUT YOUR STRING HERE"]]).toDF("text")
 result = pipeline.fit(data).transform(data)
 ```
 ```scala
-val documentAssembler = new DocumentAssembler() 
-    .setInputCols(Array("text")) 
-    .setOutputCols(Array("document"))
-      
+val documentAssembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
+
 val tokenizer = new Tokenizer()
     .setInputCols("document")
     .setOutputCol("token")
- 
-val tokenClassifier = RobertaForTokenClassification.pretrained("roberta_token_classifier_ticker","en") 
+
+val tokenClassifier = RobertaForTokenClassification.pretrained("roberta_token_classifier_ticker","en")
     .setInputCols(Array("document", "token"))
     .setOutputCol("ner")
-   
+
 val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier))
 
 val data = Seq("PUT YOUR STRING HERE").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.ner.stocks_ticker").predict("""text|||"document|||"document|||"token|||"roberta_token_classifier_ticker|||"en|||"document|||"token|||"ner|||"PUT YOUR STRING HERE|||"text""")
+```
+
 </div>
 
 {:.model-param}

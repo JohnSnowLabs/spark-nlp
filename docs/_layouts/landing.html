@@ -200,23 +200,11 @@ article_header:
                 <div class="cell cell--12 cell--lg-7 cell--md-7 cell--sm-12">
                   <div class="highlight-box">
     {% highlight bash %}
-    # Install Spark NLP from PyPI
-    $ pip install spark-nlp==4.4.0 pyspark==3.3.0
+    # Using PyPI
+    $ pip install spark-nlp==4.4.2
 
-    # Install Spark NLP from Anaconda/Conda
+    # Using Anaconda/Conda
     $ conda install -c johnsnowlabs spark-nlp
-
-    # Load Spark NLP with Spark Shell
-    $ spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.12:4.4.0
-
-    # Load Spark NLP with PySpark
-    $ pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:4.4.0
-
-    # Load Spark NLP with Spark Submit
-    $ spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.12:4.4.0
-
-    # Load Spark NLP as an external Fat JAR
-    $ spark-shell --jars spark-nlp-assembly-4.4.0.jar
     {% endhighlight %}
                     </div>
                 </div>
@@ -234,7 +222,7 @@ article_header:
                 <div class="transformer-top">
                   <h2 class="h2_title grey">Transformers at Scale</h2>
                   <div class="transformer-descr">
-                    <b>Spark NLP</b> is the only open-source NLP library in <b>production</b> that offers state-of-the-art transformers such as
+                    Unlock the power of <b>Large Language Models</b> with <b>Spark NLP 🚀</b>, the only open-source library that delivers cutting-edge transformers for <b>production</b> such as
                     <b>BERT</b>, <b>CamemBERT</b>, <b>ALBERT</b>, <b>ELECTRA</b>, <b>XLNet</b>, <b>DistilBERT</b>, <b>RoBERTa</b>, <b>DeBERTa</b>,
                     <b>XLM-RoBERTa</b>, <b>Longformer</b>, <b>ELMO</b>, <b>Universal Sentence Encoder</b>, <b>Facebook BART</b>, <b>Google T5</b>, <b>MarianMT</b>, <b>OpenAI GPT2</b>,
                     <b>Google ViT</b>, <b>ASR Wav2Vec2</b> and many more not only to <b>Python</b>, and <b>R</b> but also to <b>JVM</b> ecosystem (<b>Java</b>, <b>Scala</b>, and <b>Kotlin</b>) at <b>scale</b> by extending <b>Apache Spark</b> natively
@@ -344,7 +332,7 @@ article_header:
                     <li>Microsoft Swin Transformer <strong>Image Classification</strong></li>
                     <li>Facebook ConvNext <strong>Image Classification</strong></li>
                     <li>Automatic Speech Recognition <strong>(Wav2Vec2 & HuBERT)</strong></li>
-                    <li>Easy <strong>TensorFlow</strong> integration</li>
+                    <li>Easy <strong>ONNX</strong> and <strong>TensorFlow</strong> integrations</li>
                     <li><strong>GPU</strong> Support</li>
                     <li>Full integration with <strong>Spark ML</strong> functions</li>
                     <li><strong>12000+</strong> pre-trained <strong>models </strong> in <strong>200+ languages! </strong>
@@ -355,7 +343,7 @@ article_header:
     from sparknlp.pretrained import PretrainedPipeline
     import sparknlp
 
-    # Start Spark Session with Spark NLP
+    # Start Spark Session with Spark NLP 🚀
     spark = sparknlp.start()
 
     # Download a pre-trained pipeline
@@ -366,12 +354,12 @@ article_header:
     result = pipeline.annotate(text)
 
     # What's in the pipeline
-    list(result.keys())
-    Output: ['entities', 'stem', 'checked', 'lemma', 'document', 'pos', 'token', 'ner', 'embeddings', 'sentence']
+    print(list(result.keys()))
+    # Output: ['entities', 'stem', 'checked', 'lemma', 'document', 'pos', 'token', 'ner', 'embeddings', 'sentence']
 
     # Check the results
-    result['entities']
-    Output: ['Mona Lisa', 'Leonardo', 'Louvre', 'Paris']
+    print(result['entities'])
+    # Output: ['Mona Lisa', 'Leonardo', 'Louvre', 'Paris']
 {% endhighlight %}
                 </div>
               </div>
@@ -387,7 +375,7 @@ article_header:
               <div class="cell cell--12 cell--lg-5">
                 <div class="benchmark-top">
                   <h2 class="h2_title grey">Benchmark</h2>
-                  <div class="benchmark-descr">Spark NLP 4.x obtained the best performing academic peer-reviewed results</div>
+                  <div class="benchmark-descr">Spark NLP 🚀 4.x obtained the best performing academic peer-reviewed results</div>
                 </div>
                 <div class="benchmark-inner">
                   <h4 class="h4_title blue">Training NER</h4>
@@ -418,13 +406,13 @@ article_header:
                         </thead>
                         <tbody>
                           <tr>
-                            <td><strong>Spark NLP v4</strong></td>
+                            <td><strong>Spark NLP v4 🚀</strong></td>
                             <td>2022</td>
                             <td>Python/Scala/Java/R</td>
                             <td><strong>93 (test F1) <br> 96 (dev F1)</strong></td>
                           </tr>
                           <tr>
-                            <td><strong>Spark NLP v3</strong></td>
+                            <td><strong>Spark NLP v3 🚀</strong></td>
                             <td>2021</td>
                             <td>Python/Scala/Java/R</td>
                             <td><strong>93 (test F1) <br> 95 (dev F1)</strong></td>
@@ -469,7 +457,7 @@ article_header:
                       </thead>
                       <tbody>
                         <tr>
-                          <td><strong>Spark NLP v3</strong></td>
+                          <td><strong>Spark NLP v3 🚀</strong></td>
                           <td>2021</td>
                           <td>Python/Scala/Java/R</td>
                           <td><strong>90.0 (test F1) <br> 92.5 (dev F1)</strong></td>

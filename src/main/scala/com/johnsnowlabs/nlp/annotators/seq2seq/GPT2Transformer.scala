@@ -27,7 +27,7 @@ import com.johnsnowlabs.ml.util.LoadExternalModel.{
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.ModelEngine
+import com.johnsnowlabs.ml.util.TensorFlow
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.{BpeTokenizer, Gpt2Tokenizer}
@@ -380,7 +380,7 @@ class GPT2Transformer(override val uid: String)
     *
     * @group param
     */
-  val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary")
+  val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary").setProtected()
 
   /** @group setParam */
   def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
@@ -389,7 +389,7 @@ class GPT2Transformer(override val uid: String)
     *
     * @group param
     */
-  val merges: MapFeature[(String, String), Int] = new MapFeature(this, "merges")
+  val merges: MapFeature[(String, String), Int] = new MapFeature(this, "merges").setProtected()
 
   /** @group setParam */
   def setMerges(value: Map[(String, String), Int]): this.type = set(merges, value)
@@ -544,7 +544,7 @@ trait ReadGPT2TransformerDLModel extends ReadTensorflowModel {
     annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
-      case ModelEngine.tensorflow =>
+      case TensorFlow.name =>
         val (wrapper, _) =
           TensorflowWrapper.read(
             localModelPath,

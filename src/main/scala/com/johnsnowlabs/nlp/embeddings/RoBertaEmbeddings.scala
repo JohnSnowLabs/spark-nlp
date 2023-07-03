@@ -17,13 +17,14 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.ml.ai.RoBerta
+import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadTextAsset,
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.ModelEngine
+import com.johnsnowlabs.ml.util.{ModelArch, ONNX, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.BpeTokenizer
@@ -162,6 +163,7 @@ class RoBertaEmbeddings(override val uid: String)
     extends AnnotatorModel[RoBertaEmbeddings]
     with HasBatchedAnnotate[RoBertaEmbeddings]
     with WriteTensorflowModel
+    with WriteOnnxModel
     with HasEmbeddingsProperties
     with HasStorageRef
     with HasCaseSensitiveProperties
@@ -188,7 +190,7 @@ class RoBertaEmbeddings(override val uid: String)
     *
     * @group param
     */
-  val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary")
+  val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary").setProtected()
 
   /** @group setParam */
   def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
@@ -197,7 +199,7 @@ class RoBertaEmbeddings(override val uid: String)
     *
     * @group param
     */
-  val merges: MapFeature[(String, String), Int] = new MapFeature(this, "merges")
+  val merges: MapFeature[(String, String), Int] = new MapFeature(this, "merges").setProtected()
 
   /** @group setParam */
   def setMerges(value: Map[(String, String), Int]): this.type = set(merges, value)
@@ -243,12 +245,12 @@ class RoBertaEmbeddings(override val uid: String)
     *
     * @group param
     */
-  val signatures = new MapFeature[String, String](model = this, name = "signatures")
+  val signatures =
+    new MapFeature[String, String](model = this, name = "signatures").setProtected()
 
   /** @group setParam */
   def setSignatures(value: Map[String, String]): this.type = {
-    if (get(signatures).isEmpty)
-      set(signatures, value)
+    set(signatures, value)
     this
   }
 
@@ -260,17 +262,20 @@ class RoBertaEmbeddings(override val uid: String)
   /** @group setParam */
   def setModelIfNotSet(
       spark: SparkSession,
-      tensorflowWrapper: TensorflowWrapper): RoBertaEmbeddings = {
+      tensorflowWrapper: Option[TensorflowWrapper],
+      onnxWrapper: Option[OnnxWrapper]): RoBertaEmbeddings = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
           new RoBerta(
             tensorflowWrapper,
+            onnxWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
             padTokenId,
             configProtoBytes = getConfigProtoBytes,
-            signatures = getSignatures)))
+            signatures = getSignatures,
+            modelArch = ModelArch.wordEmbeddings)))
     }
 
     this
@@ -285,9 +290,7 @@ class RoBertaEmbeddings(override val uid: String)
     * @group setParam
     */
   override def setDimension(value: Int): this.type = {
-    if (get(dimension).isEmpty)
-      set(this.dimension, value)
-    this
+    set(this.dimension, value)
   }
 
   /** Whether to lowercase tokens or not
@@ -295,9 +298,7 @@ class RoBertaEmbeddings(override val uid: String)
     * @group setParam
     */
   override def setCaseSensitive(value: Boolean): this.type = {
-    if (get(caseSensitive).isEmpty)
-      set(this.caseSensitive, value)
-    this
+    set(this.caseSensitive, value)
   }
 
   setDefault(dimension -> 768, batchSize -> 8, maxSentenceLength -> 128, caseSensitive -> true)
@@ -394,15 +395,29 @@ class RoBertaEmbeddings(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(
-      path,
-      spark,
-      getModelIfNotSet.tensorflowWrapper,
-      "_roberta",
-      RoBertaEmbeddings.tfFile,
-      configProtoBytes = getConfigProtoBytes)
-  }
+    val suffix = "_roberta"
 
+    getEngine match {
+      case TensorFlow.name =>
+        writeTensorflowModelV2(
+          path,
+          spark,
+          getModelIfNotSet.tensorflowWrapper.get,
+          suffix,
+          RoBertaEmbeddings.tfFile,
+          configProtoBytes = getConfigProtoBytes)
+      case ONNX.name =>
+        writeOnnxModel(
+          path,
+          spark,
+          getModelIfNotSet.onnxWrapper.get,
+          suffix,
+          RoBertaEmbeddings.onnxFile)
+
+      case _ =>
+        throw new Exception(notSupportedEngineError)
+    }
+  }
 }
 
 trait ReadablePretrainedRobertaModel
@@ -422,15 +437,27 @@ trait ReadablePretrainedRobertaModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadRobertaDLModel extends ReadTensorflowModel {
+trait ReadRobertaDLModel extends ReadTensorflowModel with ReadOnnxModel {
   this: ParamsAndFeaturesReadable[RoBertaEmbeddings] =>
 
   override val tfFile: String = "roberta_tensorflow"
+  override val onnxFile: String = "roberta_onnx"
 
   def readModel(instance: RoBertaEmbeddings, path: String, spark: SparkSession): Unit = {
 
-    val tf = readTensorflowModel(path, spark, "_roberta_tf", initAllTables = false)
-    instance.setModelIfNotSet(spark, tf)
+    instance.getEngine match {
+      case TensorFlow.name =>
+        val tfWrapper = readTensorflowModel(path, spark, "_roberta_tf", initAllTables = false)
+        instance.setModelIfNotSet(spark, Some(tfWrapper), None)
+
+      case ONNX.name => {
+        val onnxWrapper =
+          readOnnxModel(path, spark, "_roberta_onnx", zipped = true, useBundle = false, None)
+        instance.setModelIfNotSet(spark, None, Some(onnxWrapper))
+      }
+      case _ =>
+        throw new Exception(notSupportedEngineError)
+    }
   }
 
   addReader(readModel)
@@ -456,7 +483,7 @@ trait ReadRobertaDLModel extends ReadTensorflowModel {
     annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
-      case ModelEngine.tensorflow =>
+      case TensorFlow.name =>
         val (wrapper, signatures) =
           TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 
@@ -470,7 +497,12 @@ trait ReadRobertaDLModel extends ReadTensorflowModel {
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, wrapper)
+          .setModelIfNotSet(spark, Some(wrapper), None)
+
+      case ONNX.name =>
+        val onnxWrapper = OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
+        annotatorModel
+          .setModelIfNotSet(spark, None, Some(onnxWrapper))
 
       case _ =>
         throw new Exception(notSupportedEngineError)

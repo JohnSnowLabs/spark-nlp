@@ -198,6 +198,86 @@ object ModelSignatureConstants {
     override val value: String = "input_values:0"
   }
 
+  case object CachedEncoderOutput extends TFInfoNameMapper {
+    override val key: String = "last_hidden_state"
+    override val value: String = "StatefulPartitionedCall_2:0"
+  }
+
+  case object CachedDecoderInputIds extends TFInfoNameMapper {
+    override val key: String = "decoder_input_ids"
+    override val value: String = "decoder_cached_decoder_input_ids:0"
+  }
+
+  case object CachedDecoderEncoderInputIds extends TFInfoNameMapper {
+    override val key: String = "encoder_state"
+    override val value: String = "decoder_cached_encoder_state:0"
+  }
+
+  case object CachedDecoderEncoderAttentionMask extends TFInfoNameMapper {
+    override val key: String = "decoder_encoder_attention_mask"
+    override val value: String = "decoder_cached_decoder_encoder_attention_mask:0"
+  }
+
+  case object CachedDecoderInputCache1 extends TFInfoNameMapper {
+    override val key: String = "cache1"
+    override val value: String = "decoder_cached_cache1:0"
+  }
+
+  case object CachedDecoderInputCache2 extends TFInfoNameMapper {
+    override val key: String = "cache2"
+    override val value: String = "decoder_cached_cache2:0"
+  }
+
+  case object CachedOutput1 extends TFInfoNameMapper {
+    override val key: String = "cache1_out"
+    override val value: String = "StatefulPartitionedCall:0"
+  }
+
+  case object CachedOutPut2 extends TFInfoNameMapper {
+    override val key: String = "cache2_out"
+    override val value: String = "StatefulPartitionedCall:1"
+  }
+
+  case object CachedLogitsOutput extends TFInfoNameMapper {
+    override val key: String = "logits"
+    override val value: String = "StatefulPartitionedCall:2"
+  }
+
+  case object InitDecoderInputIds extends TFInfoNameMapper {
+    override val key: String = "decoder_input_ids_init"
+    override val value: String = "decoder_init_decoder_input_ids_init:0"
+  }
+
+  case object InitDecoderEncoderInputIds extends TFInfoNameMapper {
+    override val key: String = "encoder_state_init"
+    override val value: String = "decoder_init_encoder_state_init:0"
+  }
+
+  case object InitDecoderEncoderAttentionMask extends TFInfoNameMapper {
+    override val key: String = "decoder_encoder_attention_mask_init"
+    override val value: String = "decoder_init_decoder_encoder_attention_mask_init:0"
+  }
+
+  case object InitCachedOutput1 extends TFInfoNameMapper {
+    override val key: String = "cache1_out_init"
+    override val value: String = "StatefulPartitionedCall_1:0"
+  }
+
+  case object InitCachedOutPut2 extends TFInfoNameMapper {
+    override val key: String = "cache2_out_init"
+    override val value: String = "StatefulPartitionedCall_1:1"
+  }
+
+  case object InitLogitsOutput extends TFInfoNameMapper {
+    override val key: String = "logits_init"
+    override val value: String = "StatefulPartitionedCall_1:2"
+  }
+
+  case object EncoderContextMask extends TFInfoNameMapper {
+    override val key: String = "encoder_context_mask"
+    override val value: String = "encoder_encoder_context_mask:0"
+  }
+
   /** Retrieve signature patterns for a given provider
     *
     * @param modelProvider

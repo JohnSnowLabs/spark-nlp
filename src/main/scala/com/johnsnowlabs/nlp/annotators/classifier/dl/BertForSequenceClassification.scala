@@ -24,7 +24,7 @@ import com.johnsnowlabs.ml.util.LoadExternalModel.{
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.ModelEngine
+import com.johnsnowlabs.ml.util.{ModelEngine, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -158,7 +158,7 @@ class BertForSequenceClassification(override val uid: String)
     *
     * @group param
     */
-  val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary")
+  val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary").setProtected()
 
   /** @group setParam */
   def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
@@ -167,7 +167,7 @@ class BertForSequenceClassification(override val uid: String)
     *
     * @group param
     */
-  val labels: MapFeature[String, Int] = new MapFeature(this, "labels")
+  val labels: MapFeature[String, Int] = new MapFeature(this, "labels").setProtected()
 
   /** @group setParam */
   def setLabels(value: Map[String, Int]): this.type = set(labels, value)
@@ -238,12 +238,12 @@ class BertForSequenceClassification(override val uid: String)
     *
     * @group param
     */
-  val signatures = new MapFeature[String, String](model = this, name = "signatures")
+  val signatures =
+    new MapFeature[String, String](model = this, name = "signatures").setProtected()
 
   /** @group setParam */
   def setSignatures(value: Map[String, String]): this.type = {
-    if (get(signatures).isEmpty)
-      set(signatures, value)
+    set(signatures, value)
     this
   }
 
@@ -266,7 +266,8 @@ class BertForSequenceClassification(override val uid: String)
             configProtoBytes = getConfigProtoBytes,
             tags = $$(labels),
             signatures = getSignatures,
-            $$(vocabulary))))
+            $$(vocabulary),
+            threshold = $(threshold))))
     }
 
     this
@@ -280,9 +281,7 @@ class BertForSequenceClassification(override val uid: String)
     * @group setParam
     */
   override def setCaseSensitive(value: Boolean): this.type = {
-    if (get(caseSensitive).isEmpty)
-      set(this.caseSensitive, value)
-    this
+    set(this.caseSensitive, value)
   }
 
   setDefault(
@@ -384,7 +383,7 @@ trait ReadBertForSequenceDLModel extends ReadTensorflowModel {
     annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
-      case ModelEngine.tensorflow =>
+      case TensorFlow.name =>
         val (wrapper, signatures) =
           TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 

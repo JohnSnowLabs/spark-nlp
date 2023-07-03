@@ -29,7 +29,7 @@ import com.johnsnowlabs.ml.util.LoadExternalModel.{
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.ModelEngine
+import com.johnsnowlabs.ml.util.TensorFlow
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.MapFeature
@@ -151,7 +151,7 @@ class XlmRoBertaForSequenceClassification(override val uid: String)
     *
     * @group param
     */
-  val labels: MapFeature[String, Int] = new MapFeature(this, "labels")
+  val labels: MapFeature[String, Int] = new MapFeature(this, "labels").setProtected()
 
   /** @group setParam */
   def setLabels(value: Map[String, Int]): this.type = set(labels, value)
@@ -221,12 +221,12 @@ class XlmRoBertaForSequenceClassification(override val uid: String)
     *
     * @group param
     */
-  val signatures = new MapFeature[String, String](model = this, name = "signatures")
+  val signatures =
+    new MapFeature[String, String](model = this, name = "signatures").setProtected()
 
   /** @group setParam */
   def setSignatures(value: Map[String, String]): this.type = {
-    if (get(signatures).isEmpty)
-      set(signatures, value)
+    set(signatures, value)
     this
   }
 
@@ -248,7 +248,8 @@ class XlmRoBertaForSequenceClassification(override val uid: String)
             spp,
             configProtoBytes = getConfigProtoBytes,
             tags = $$(labels),
-            signatures = getSignatures)))
+            signatures = getSignatures,
+            threshold = $(threshold))))
     }
 
     this
@@ -262,9 +263,7 @@ class XlmRoBertaForSequenceClassification(override val uid: String)
     * @group setParam
     */
   override def setCaseSensitive(value: Boolean): this.type = {
-    if (get(caseSensitive).isEmpty)
-      set(this.caseSensitive, value)
-    this
+    set(this.caseSensitive, value)
   }
 
   setDefault(
@@ -376,7 +375,7 @@ trait ReadXlmRoBertaForSequenceDLModel extends ReadTensorflowModel with ReadSent
     annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
-      case ModelEngine.tensorflow =>
+      case TensorFlow.name =>
         val (wrapper, signatures) =
           TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 

@@ -34,8 +34,8 @@ Pretrained BertForMaskedLM model, adapted from Hugging Face and curated to provi
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler() \
-    .setInputCols(["text"]) \
-    .setOutputCols("document")
+    .setInputCol("text") \
+    .setOutputCol("document")
 
 tokenizer = Tokenizer() \
     .setInputCols("document") \
@@ -45,7 +45,7 @@ bert_loaded = BertEmbeddings.pretrained("bert_embeddings_large_cased","en") \
     .setInputCols(["document", "token"]) \
     .setOutputCol("embeddings") \
     .setCaseSensitive(True)
-    
+
 pipeline = Pipeline(stages=[documentAssembler, tokenizer, bert_loaded])
 
 data = spark.createDataFrame([["I love Spark NLP"]]).toDF("text")
@@ -53,25 +53,33 @@ data = spark.createDataFrame([["I love Spark NLP"]]).toDF("text")
 result = pipeline.fit(data).transform(data)
 ```
 ```scala
-val documentAssembler = new DocumentAssembler() 
-    .setInputCols(Array("text")) 
-    .setOutputCols(Array("document"))
-      
+val documentAssembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
+
 val tokenizer = new Tokenizer()
     .setInputCols("document")
     .setOutputCol("token")
- 
-val bert_loaded = BertEmbeddings.pretrained("bert_embeddings_large_cased","en") 
+
+val bert_loaded = BertEmbeddings.pretrained("bert_embeddings_large_cased","en")
     .setInputCols(Array("document", "token"))
     .setOutputCol("embeddings")
-    .setCaseSensitive(True)    
-   
+    .setCaseSensitive(True)
+
 val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, bert_loaded))
 
 val data = Seq("I love Spark NLP").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed.bert.cased_large").predict("""I love Spark NLP""")
+```
+
 </div>
 
 {:.model-param}

@@ -21,7 +21,8 @@ class CamemBertEmbeddings(AnnotatorModel,
                           HasCaseSensitiveProperties,
                           HasStorageRef,
                           HasBatchedAnnotate,
-                          HasEngine):
+                          HasEngine,
+                          HasMaxSentenceLengthLimit):
     """The CamemBERT model was proposed in CamemBERT: a Tasty French Language Model by
         Louis Martin, Benjamin Muller, Pedro Javier Ortiz Suárez, Yoann Dupont, Laurent
         Romary, Éric Villemonte de la Clergerie, Djamé Seddah, and Benoît Sagot.
@@ -143,13 +144,6 @@ class CamemBertEmbeddings(AnnotatorModel,
         TypeConverters.toListInt,
     )
 
-    maxSentenceLength = Param(
-        Params._dummy(),
-        "maxSentenceLength",
-        "Max sentence length to process",
-        typeConverter=TypeConverters.toInt,
-    )
-
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
 
@@ -159,16 +153,6 @@ class CamemBertEmbeddings(AnnotatorModel,
             ConfigProto from tensorflow, serialized into byte array
         """
         return self._set(configProtoBytes=b)
-
-    def setMaxSentenceLength(self, value):
-        """Sets max sentence length to process.
-
-        Parameters
-        ----------
-        value : int
-            Max sentence length to process
-        """
-        return self._set(maxSentenceLength=value)
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.embeddings.CamemBertEmbeddings", java_model=None):

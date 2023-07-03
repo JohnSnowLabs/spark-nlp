@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.annotator.seq2seq.marian_transformer &#8212; Spark NLP 4.4.0 documentation</title>
+    <title>sparknlp.annotator.seq2seq.marian_transformer &#8212; Spark NLP 4.4.4 documentation</title>
   
   
   
@@ -308,9 +308,11 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/deberta_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.deberta_for_token_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/distil_bert_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.distil_bert_for_sequence_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/distil_bert_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.distil_bert_for_token_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/distil_bert_for_zero_shot_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.distil_bert_for_zero_shot_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/longformer_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.longformer_for_sequence_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/longformer_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.longformer_for_token_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/multi_classifier_dl/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.multi_classifier_dl</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/roberta_bert_for_zero_shot_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.roberta_bert_for_zero_shot_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/roberta_for_sequence_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.roberta_for_sequence_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/roberta_for_token_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.roberta_for_token_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../classifier_dl/sentiment_dl/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.classifier_dl.sentiment_dl</span></code></a></li>
@@ -507,6 +509,10 @@ the models trained by MarianNMT.</p>
 <p>It is currently the engine behind the Microsoft Translator Neural Machine
 Translation services and being deployed by many companies, organizations and
 research projects.</p>
+<p>Note that this model only supports inputs up to 512 tokens. If you are
+working with longer inputs, consider splitting them first. For example, you
+can use the SentenceDetectorDL annotator to split longer texts into
+sentences.</p>
 <p>Pretrained models can be loaded with <a class="reference internal" href="#sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer.pretrained" title="sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
 object:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">marian</span> <span class="o">=</span> <span class="n">MarianTransformer</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
@@ -639,7 +645,8 @@ and translation speed.</em></p>
 <dt class="sig sig-object py" id="sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer.setMaxInputLength">
 <span class="sig-name descname"><span class="pre">setMaxInputLength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/seq2seq/marian_transformer.html#MarianTransformer.setMaxInputLength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.seq2seq.marian_transformer.MarianTransformer.setMaxInputLength" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets the maximum length for encoder inputs (source language texts),
-by default 40.</p>
+by default 40. The value should be less than 512, as the Marian Transformer does not
+support inputs longer than 512 tokens.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">

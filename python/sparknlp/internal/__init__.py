@@ -143,6 +143,11 @@ class _ElmoLoader(ExtendedJavaWrapper):
         super(_ElmoLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.ElmoEmbeddings.loadSavedModel", path, jspark)
 
 
+class _E5Loader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_E5Loader, self).__init__("com.johnsnowlabs.nlp.embeddings.E5Embeddings.loadSavedModel", path, jspark)
+
+
 class _GPT2Loader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_GPT2Loader, self).__init__(
@@ -221,9 +226,9 @@ class _T5Loader(ExtendedJavaWrapper):
 
 
 class _BartLoader(ExtendedJavaWrapper):
-    def __init__(self, path, jspark):
+    def __init__(self, path, jspark, useCache):
         super(_BartLoader, self).__init__(
-            "com.johnsnowlabs.nlp.annotators.seq2seq.BartTransformer.loadSavedModel", path, jspark)
+            "com.johnsnowlabs.nlp.annotators.seq2seq.BartTransformer.loadSavedModel", path, jspark, useCache)
 
 
 class _USELoader(ExtendedJavaWrapper):
@@ -328,9 +333,9 @@ class _CoverageResult(ExtendedJavaWrapper):
 
 
 class _DownloadModelDirectly(ExtendedJavaWrapper):
-    def __init__(self, name, remote_loc="public/models"):
+    def __init__(self, name, remote_loc="public/models", unzip=True):
         super(_DownloadModelDirectly, self).__init__(
-            "com.johnsnowlabs.nlp.pretrained.PythonResourceDownloader.downloadModelDirectly", name, remote_loc)
+            "com.johnsnowlabs.nlp.pretrained.PythonResourceDownloader.downloadModelDirectly", name, remote_loc, unzip)
 
 
 class _DownloadModel(ExtendedJavaWrapper):
@@ -515,3 +520,22 @@ class _BertZeroShotClassifierLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_BertZeroShotClassifierLoader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.classifier.dl.BertForZeroShotClassification.loadSavedModel", path, jspark)
+
+
+class _DistilBertForZeroShotClassification(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_DistilBertForZeroShotClassification, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.DistilBertForZeroShotClassification.loadSavedModel", path,
+            jspark)
+
+
+class _RoBertaForZeroShotClassification(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_RoBertaForZeroShotClassification, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForZeroShotClassification.loadSavedModel", path,
+            jspark)
+
+
+class _InstructorLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_InstructorLoader, self).__init__("com.johnsnowlabs.nlp.embeddings.InstructorEmbeddings.loadSavedModel", path, jspark)

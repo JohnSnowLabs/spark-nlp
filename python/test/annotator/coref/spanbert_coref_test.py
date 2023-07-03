@@ -11,18 +11,18 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
-import os
 import unittest
 
 import pytest
 
 from sparknlp.annotator import *
 from sparknlp.base import *
+from test.annotator.common.has_max_sentence_length_test import HasMaxSentenceLengthTests
 from test.util import SparkSessionForTest
 
 
 @pytest.mark.slow
-class SpanBertCorefTestSpec(unittest.TestCase):
+class SpanBertCorefTestSpec(unittest.TestCase, HasMaxSentenceLengthTests):
 
     def setUp(self):
         self.data = SparkSessionForTest.spark.createDataFrame([
@@ -35,7 +35,12 @@ class SpanBertCorefTestSpec(unittest.TestCase):
             [" "]
         ]).toDF("text")
 
-    def runTest(self):
+        self.tested_annotator = SpanBertCorefModel() \
+            .pretrained() \
+            .setInputCols(["sentences", "tokens"]) \
+            .setOutputCol("corefs")
+
+    def test_run(self):
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
@@ -48,10 +53,7 @@ class SpanBertCorefTestSpec(unittest.TestCase):
             .setInputCols(["sentences"]) \
             .setOutputCol("tokens")
 
-        coref = SpanBertCorefModel() \
-            .pretrained() \
-            .setInputCols(["sentences", "tokens"]) \
-            .setOutputCol("corefs")
+        coref = self.tested_annotator
 
         pipeline = Pipeline(stages=[
             document_assembler,

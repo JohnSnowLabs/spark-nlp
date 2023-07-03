@@ -81,6 +81,14 @@ private[johnsnowlabs] class Albert(
   private val SentencePadTokenId = spp.getSppModel.pieceToId("[pad]")
   private val SentencePieceDelimiterId = spp.getSppModel.pieceToId("▁")
 
+  private def sessionWarmup(): Unit = {
+    val dummyInput =
+      Array(101, 2292, 1005, 1055, 4010, 6279, 1996, 5219, 2005, 1996, 2034, 28937, 1012, 102)
+    tag(Seq(dummyInput))
+  }
+
+  sessionWarmup()
+
   def tag(batch: Seq[Array[Int]]): Seq[Array[Array[Float]]] = {
 
     val maxSentenceLength = batch.map(pieceIds => pieceIds.length).max

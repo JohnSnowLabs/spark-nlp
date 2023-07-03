@@ -39,15 +39,15 @@ Pretrained BertForSequenceClassification model, adapted from Hugging Face and cu
 
 ```python
 documentAssembler = DocumentAssembler() \
-    .setInputCols(["text"]) \
-    .setOutputCols("document")
+    .setInputCol("text") \
+    .setOutputCol("document")
 
 tokenizer = Tokenizer() \
     .setInputCols("document") \
     .setOutputCol("token")
 
 tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_swedish_ner","sv") \
-    .setInputCols(["document", "token"]) \  
+    .setInputCols(["document", "token"]) \
     .setOutputCol("ner")
 
 pipeline = Pipeline(stages=[documentAssembler, tokenizer, tokenClassifier])
@@ -57,24 +57,32 @@ data = spark.createDataFrame([["PUT YOUR STRING HERE"]]).toDF("text")
 result = pipeline.fit(data).transform(data)
 ```
 ```scala
-val documentAssembler = new DocumentAssembler() 
-    .setInputCols(Array("text")) 
-    .setOutputCols(Array("document"))
-      
+val documentAssembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
+
 val tokenizer = new Tokenizer()
     .setInputCols("document")
     .setOutputCol("token")
- 
-val tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_swedish_ner","sv") 
+
+val tokenClassifier = BertForTokenClassification.pretrained("bert_token_classifier_swedish_ner","sv")
     .setInputCols(Array("document", "token"))
     .setOutputCol("ner")
-   
+
 val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, tokenClassifier))
 
 val data = Seq("PUT YOUR STRING HERE").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("sv.classify.token_bert.swedish_ner").predict("""PUT YOUR STRING HERE""")
+```
+
 </div>
 
 {:.model-param}

@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.matcher.date_matcher &#8212; Spark NLP 4.4.0 documentation</title>
+    <title>sparknlp.annotator.matcher.date_matcher &#8212; Spark NLP 4.4.4 documentation</title>
   
   
   
@@ -410,6 +410,11 @@ document.write(`
                            <span class="s2">&quot;source language for explicit translation&quot;</span><span class="p">,</span>
                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
 
+    <span class="n">relaxedFactoryStrategy</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                                   <span class="s2">&quot;relaxedFactoryStrategy&quot;</span><span class="p">,</span>
+                                   <span class="s2">&quot;Matched Strategy to searches relaxed dates&quot;</span><span class="p">,</span>
+                                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
+
 <div class="viewcode-block" id="DateMatcherUtils.setInputFormats"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/date_matcher/index.html#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.setInputFormats">[docs]</a>    <span class="k">def</span> <span class="nf">setInputFormats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets input formats patterns to match in the documents.</span>
 
@@ -500,7 +505,20 @@ document.write(`
 <span class="sd">        value : int</span>
 <span class="sd">            The anchor day for relative dates</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">anchorDateDay</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">anchorDateDay</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DateMatcherUtils.setRelaxedFactoryStrategy"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/date_matcher/index.html#sparknlp.annotator.matcher.date_matcher.DateMatcherUtils.setRelaxedFactoryStrategy">[docs]</a>    <span class="k">def</span> <span class="nf">setRelaxedFactoryStrategy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">matchStrategy</span><span class="o">=</span><span class="n">MatchStrategy</span><span class="o">.</span><span class="n">MATCH_FIRST</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Sets matched strategy to search relaxed dates by ordered rules by more exhaustive to less Strategy.</span>
+
+<span class="sd">        Not all of the date information needs to be included. For example</span>
+<span class="sd">        ``&quot;YYYY&quot;`` is also a valid input.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        matchStrategy : MatchStrategy</span>
+<span class="sd">            Matched strategy to search relaxed dates by ordered rules by more exhaustive to less Strategy</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">relaxedFactoryStrategy</span><span class="o">=</span><span class="n">matchStrategy</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="DateMatcher"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/matcher/date_matcher/index.html#sparknlp.annotator.matcher.date_matcher.DateMatcher">[docs]</a><span class="k">class</span> <span class="nc">DateMatcher</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">DateMatcherUtils</span><span class="p">):</span>

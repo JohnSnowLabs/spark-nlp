@@ -9,7 +9,7 @@ task: Embeddings
 language: en
 nav_key: models
 edition: Spark NLP 4.2.1
-spark_version: [3.2, 3.0]
+spark_version: 3.0
 supported: true
 annotator: LongformerEmbeddings
 article_header:
@@ -45,8 +45,8 @@ AI2 is a non-profit institute with the mission to contribute to humanity through
 {:.btn-box}
 <button class="button button-orange" disabled>Live Demo</button>
 <button class="button button-orange" disabled>Open in Colab</button>
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/legal_longformer_base_en_4.2.1_3.2_1666282710556.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/legal_longformer_base_en_4.2.1_3.2_1666282710556.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/legal_longformer_base_en_4.2.1_3.0_1666282710556.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/legal_longformer_base_en_4.2.1_3.0_1666282710556.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
 ## How to use
 
@@ -69,6 +69,14 @@ val embeddings = LongformerEmbeddings.pretrained("legal_longformer_base", "en")
   .setCaseSensitive(true)
   .setMaxSentenceLength(4096)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed.longformer.base_legal").predict("""Put your text here.""")
+```
+
 </div>
 
 {:.model-param}

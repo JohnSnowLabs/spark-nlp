@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.common.properties &#8212; Spark NLP 4.4.0 documentation</title>
+    <title>sparknlp.common.properties &#8212; Spark NLP 4.4.4 documentation</title>
   
   
   
@@ -416,6 +416,11 @@ document.write(`
                        <span class="s2">&quot;Whether to calculate logits via Softmax or Sigmoid. Default is Softmax&quot;</span><span class="p">,</span>
                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span>
 
+    <span class="n">multilabel</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                       <span class="s2">&quot;multilabel&quot;</span><span class="p">,</span>
+                       <span class="s2">&quot;Whether to calculate logits via Multiclass(softmax) or Multilabel(sigmoid). Default is False i.e. Multiclass&quot;</span><span class="p">,</span>
+                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">setActivation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to calculate logits via Softmax or Sigmoid. Default is Softmax</span>
 
@@ -435,6 +440,34 @@ document.write(`
 <span class="sd">            Whether to calculate logits via Softmax or Sigmoid. Default is Softmax</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">activation</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">setMultilabel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set whether or not the result should be multi-class (the sum of all probabilities is 1.0) or</span>
+<span class="sd">         multi-label (each label has a probability between 0.0 to 1.0).</span>
+<span class="sd">         Default is False i.e. multi-class</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            Whether or not the result should be multi-class (the sum of all probabilities is 1.0) or</span>
+<span class="sd">            multi-label (each label has a probability between 0.0 to 1.0).</span>
+<span class="sd">            Default is False i.e. multi-class</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">multilabel</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">getMultilabel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets whether or not the result should be multi-class (the sum of all probabilities is 1.0) or</span>
+<span class="sd">         multi-label (each label has a probability between 0.0 to 1.0).</span>
+<span class="sd">         Default is False i.e. multi-class</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            Whether or not the result should be multi-class (the sum of all probabilities is 1.0) or</span>
+<span class="sd">            multi-label (each label has a probability between 0.0 to 1.0).</span>
+<span class="sd">            Default is False i.e. multi-class</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">multilabel</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="HasEmbeddingsProperties"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasEmbeddingsProperties">[docs]</a><span class="k">class</span> <span class="nc">HasEmbeddingsProperties</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
@@ -776,6 +809,47 @@ document.write(`
 <span class="sd">            entailmentIdParam</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">entailmentIdParam</span><span class="o">=</span><span class="n">v</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">HasMaxSentenceLengthLimit</span><span class="p">:</span>
+    <span class="c1"># Default Value, can be overridden</span>
+    <span class="n">max_length_limit</span> <span class="o">=</span> <span class="mi">512</span>
+
+    <span class="n">maxSentenceLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                              <span class="s2">&quot;maxSentenceLength&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;Max sentence length to process&quot;</span><span class="p">,</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">setMaxSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets max sentence length to process.</span>
+
+<span class="sd">        Note that a maximum limit exists depending on the model. If you are working with long single</span>
+<span class="sd">        sequences, consider splitting up the input first with another annotator e.g. SentenceDetector.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Max sentence length to process</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_length_limit</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> models do not support token sequences longer than </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">max_length_limit</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Consider splitting up the input first with another annotator e.g. SentenceDetector.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSentenceLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">getMaxSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets max sentence of the model.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int</span>
+<span class="sd">            Max sentence length to process</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="s2">&quot;maxSentenceLength&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">HasLongMaxSentenceLengthLimit</span><span class="p">(</span><span class="n">HasMaxSentenceLengthLimit</span><span class="p">):</span>
+    <span class="n">max_length_limit</span> <span class="o">=</span> <span class="mi">4096</span>
 </pre></div>
 
                 </article>

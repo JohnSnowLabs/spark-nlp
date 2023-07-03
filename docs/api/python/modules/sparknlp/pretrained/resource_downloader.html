@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.pretrained.resource_downloader &#8212; Spark NLP 4.4.0 documentation</title>
+    <title>sparknlp.pretrained.resource_downloader &#8212; Spark NLP 4.4.4 documentation</title>
   
   
   
@@ -447,17 +447,21 @@ document.write(`
             <span class="k">return</span> <span class="n">reader</span><span class="p">(</span><span class="n">classname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="n">j_obj</span><span class="p">)</span></div>
 
     <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="ResourceDownloader.downloadModelDirectly"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/resource_downloader/index.html#sparknlp.pretrained.resource_downloader.ResourceDownloader.downloadModelDirectly">[docs]</a>    <span class="k">def</span> <span class="nf">downloadModelDirectly</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="s2">&quot;public/models&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="ResourceDownloader.downloadModelDirectly"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/resource_downloader/index.html#sparknlp.pretrained.resource_downloader.ResourceDownloader.downloadModelDirectly">[docs]</a>    <span class="k">def</span> <span class="nf">downloadModelDirectly</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="s2">&quot;public/models&quot;</span><span class="p">,</span> <span class="n">unzip</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads a model directly to the cache folder.</span>
-
+<span class="sd">        You can use to copy-paste the s3 URI from the model hub  and download the model.</span>
+<span class="sd">        For available s3 URI and models, please see the `Models Hub &lt;https://sparknlp.org/models&gt;`__.</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        name : str</span>
-<span class="sd">            Name of the model</span>
+<span class="sd">            Name of the model or s3 URI</span>
 <span class="sd">        remote_loc : str, optional</span>
 <span class="sd">            Directory of the remote Spark NLP Folder, by default &quot;public/models&quot;</span>
+<span class="sd">        unzip : Bool, optional</span>
+<span class="sd">            Used to unzip model, by default &#39;True&#39;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">_internal</span><span class="o">.</span><span class="n">_DownloadModelDirectly</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span></div>
+        <span class="n">_internal</span><span class="o">.</span><span class="n">_DownloadModelDirectly</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span> <span class="n">unzip</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span></div>
+
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="ResourceDownloader.downloadPipeline"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/resource_downloader/index.html#sparknlp.pretrained.resource_downloader.ResourceDownloader.downloadPipeline">[docs]</a>    <span class="k">def</span> <span class="nf">downloadPipeline</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">language</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>

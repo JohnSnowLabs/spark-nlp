@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.nlp
 
-import org.apache.spark.ml.param.Param
+import org.apache.spark.ml.param.{BooleanParam, FloatParam, Param}
 
 trait HasClassifierActivationProperties extends ParamsAndFeaturesWritable {
 
@@ -29,7 +29,30 @@ trait HasClassifierActivationProperties extends ParamsAndFeaturesWritable {
     "activation",
     "Whether to calculate logits via Softmax or Sigmoid. Default is Softmax")
 
-  setDefault(activation, ActivationFunction.softmax)
+  /** Choose the threshold to determine which logits are considered to be positive or negative.
+    * (Default: `0.5f`). The value should be between 0.0 and 1.0. Changing the threshold value
+    * will affect the resulting labels and can be used to adjust the balance between precision and
+    * recall in the classification process.
+    *
+    * @group param
+    */
+  val threshold = new FloatParam(
+    this,
+    "threshold",
+    "Choose the threshold to determine which logits are considered to be positive or negative")
+
+  /** Whether or not the result should be multi-class (the sum of all probabilities is 1.0) or
+    * multi-label (each label has a probability between 0.0 to 1.0). Default is False i.e.
+    * multi-class
+    *
+    * @group param
+    */
+  val multilabel: BooleanParam = new BooleanParam(
+    this,
+    "multilabel",
+    "Whether or not the result should be multi-class (the sum of all probabilities is 1.0) or multi-label (each label has a probability between 0.0 to 1.0). Default is False i.e. multi-class")
+
+  setDefault(activation -> ActivationFunction.softmax, threshold -> 0.5f, multilabel -> false)
 
   /** @group getParam */
   def getActivation: String = $(activation)
@@ -47,6 +70,30 @@ trait HasClassifierActivationProperties extends ParamsAndFeaturesWritable {
     }
 
   }
+
+  /** Choose the threshold to determine which logits are considered to be positive or negative.
+    * (Default: `0.5f`). The value should be between 0.0 and 1.0. Changing the threshold value
+    * will affect the resulting labels and can be used to adjust the balance between precision and
+    * recall in the classification process.
+    *
+    * @group param
+    */
+  def setThreshold(threshold: Float): this.type =
+    set(this.threshold, threshold)
+
+  /** Set whether or not the result should be multi-class (the sum of all probabilities is 1.0) or
+    * multi-label (each label has a probability between 0.0 to 1.0). Default is False i.e.
+    * multi-class
+    *
+    * @group param
+    */
+  def setMultilabel(value: Boolean): this.type = {
+    if (value) {
+      setActivation(ActivationFunction.sigmoid)
+    } else setActivation(ActivationFunction.softmax)
+    set(this.multilabel, value)
+  }
+
 }
 
 object ActivationFunction {

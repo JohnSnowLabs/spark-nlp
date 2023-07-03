@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>sparknlp.annotator.classifier_dl.tapas_for_question_answering &#8212; Spark NLP 4.4.0 documentation</title>
+    <title>sparknlp.annotator.classifier_dl.tapas_for_question_answering &#8212; Spark NLP 4.4.4 documentation</title>
   
   
   
@@ -402,30 +402,30 @@ False</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">MultiDocumentAssembler</span><span class="p">()</span>\
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s2">&quot;table_json&quot;</span><span class="p">,</span> <span class="s2">&quot;questions&quot;</span><span class="p">)</span>\
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCols</span><span class="p">(</span><span class="s2">&quot;document_table&quot;</span><span class="p">,</span> <span class="s2">&quot;document_questions&quot;</span><span class="p">)</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sentence_detector</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span>\
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document_questions&quot;</span><span class="p">])</span>\
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;questions&quot;</span><span class="p">)</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">table_assembler</span> <span class="o">=</span> <span class="n">TableAssembler</span><span class="p">()</span>\
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document_table&quot;</span><span class="p">])</span>\
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;table&quot;</span><span class="p">)</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tapas</span> <span class="o">=</span> <span class="n">TapasForQuestionAnswering</span>\
 <span class="gp">... </span>    <span class="o">.</span><span class="n">pretrained</span><span class="p">()</span>\
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;questions&quot;</span><span class="p">,</span> <span class="s2">&quot;table&quot;</span><span class="p">])</span>\
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;answers&quot;</span><span class="p">)</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
 <span class="gp">... </span>    <span class="n">document_assembler</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">sentence_detector</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">table_assembler</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">tapas</span><span class="p">])</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">json_data</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="gp">... </span><span class="s2">{</span>
 <span class="gp">... </span><span class="s2">    &quot;header&quot;: [&quot;name&quot;, &quot;money&quot;, &quot;age&quot;],</span>

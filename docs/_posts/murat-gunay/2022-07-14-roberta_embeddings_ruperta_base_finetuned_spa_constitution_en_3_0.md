@@ -35,8 +35,8 @@ Pretrained RoBERTa Embeddings model, adapted from Hugging Face and curated to pr
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler() \
-    .setInputCols(["text"]) \
-    .setOutputCols("document")
+    .setInputCol("text") \
+    .setOutputCol("document")
 
 tokenizer = Tokenizer() \
     .setInputCols("document") \
@@ -45,7 +45,7 @@ tokenizer = Tokenizer() \
 embeddings = RoBertaEmbeddings.pretrained("roberta_embeddings_ruperta_base_finetuned_spa_constitution","en") \
     .setInputCols(["document", "token"]) \
     .setOutputCol("embeddings")
-    
+
 pipeline = Pipeline(stages=[documentAssembler, tokenizer, embeddings])
 
 data = spark.createDataFrame([["PUT YOUR STRING HERE"]]).toDF("text")
@@ -53,16 +53,16 @@ data = spark.createDataFrame([["PUT YOUR STRING HERE"]]).toDF("text")
 result = pipeline.fit(data).transform(data)
 ```
 ```scala
-val documentAssembler = new DocumentAssembler() 
-      .setInputCols(Array("text")) 
+val documentAssembler = new DocumentAssembler()
+      .setInputCols(Array("text"))
       .setOutputCols(Array("document"))
-      
+
 val tokenizer = new Tokenizer()
     .setInputCols("document")
     .setOutputCol("token")
- 
-val embeddings = RoBertaEmbeddings.pretrained("roberta_embeddings_ruperta_base_finetuned_spa_constitution","en") 
-    .setInputCols(Array("document", "token")) 
+
+val embeddings = RoBertaEmbeddings.pretrained("roberta_embeddings_ruperta_base_finetuned_spa_constitution","en")
+    .setInputCols(Array("document", "token"))
     .setOutputCol("embeddings")
 
 val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, embeddings))
@@ -71,6 +71,14 @@ val data = Seq("PUT YOUR STRING HERE").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("en.embed.roberta.base_finetuned").predict("""PUT YOUR STRING HERE""")
+```
+
 </div>
 
 {:.model-param}

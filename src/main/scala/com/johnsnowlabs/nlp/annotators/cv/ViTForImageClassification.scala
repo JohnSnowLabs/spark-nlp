@@ -27,7 +27,7 @@ import com.johnsnowlabs.ml.util.LoadExternalModel.{
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.ModelEngine
+import com.johnsnowlabs.ml.util.TensorFlow
 import com.johnsnowlabs.nlp.AnnotatorType.{CATEGORY, IMAGE}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.cv.feature_extractor.Preprocessor
@@ -38,8 +38,6 @@ import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
-
-import java.io.File
 
 /** Vision Transformer (ViT) for image classification.
   *
@@ -195,7 +193,7 @@ class ViTForImageClassification(override val uid: String)
     *
     * @group param
     */
-  val labels: MapFeature[String, BigInt] = new MapFeature(this, "labels")
+  val labels: MapFeature[String, BigInt] = new MapFeature(this, "labels").setProtected()
 
   /** @group setParam */
   def setLabels(value: Map[String, BigInt]): this.type = set(labels, value)
@@ -209,12 +207,12 @@ class ViTForImageClassification(override val uid: String)
     *
     * @group param
     */
-  val signatures = new MapFeature[String, String](model = this, name = "signatures")
+  val signatures =
+    new MapFeature[String, String](model = this, name = "signatures").setProtected()
 
   /** @group setParam */
   def setSignatures(value: Map[String, String]): this.type = {
-    if (get(signatures).isEmpty)
-      set(signatures, value)
+    set(signatures, value)
     this
   }
 
@@ -384,7 +382,7 @@ trait ReadViTForImageDLModel extends ReadTensorflowModel {
     annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
-      case ModelEngine.tensorflow =>
+      case TensorFlow.name =>
         val (wrapper, signatures) =
           TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 

@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.classifier_dl.camembert_for_sequence_classification &#8212; Spark NLP 4.4.0 documentation</title>
+    <title>sparknlp.annotator.classifier_dl.camembert_for_sequence_classification &#8212; Spark NLP 4.4.4 documentation</title>
   
   
   
@@ -363,7 +363,8 @@ document.write(`
                                          <span class="n">HasCaseSensitiveProperties</span><span class="p">,</span>
                                          <span class="n">HasBatchedAnnotate</span><span class="p">,</span>
                                          <span class="n">HasClassifierActivationProperties</span><span class="p">,</span>
-                                         <span class="n">HasEngine</span><span class="p">):</span>
+                                         <span class="n">HasEngine</span><span class="p">,</span>
+                                         <span class="n">HasMaxSentenceLengthLimit</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;CamemBertForSequenceClassification can load CamemBERT Models with a sequence</span>
 <span class="sd">    classification/regression head on top (a linear layer on top of the pooled output)</span>
 <span class="sd">    e.g. for multi-class document classification tasks.</span>
@@ -447,11 +448,6 @@ document.write(`
 
     <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">CATEGORY</span>
 
-    <span class="n">maxSentenceLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
-                              <span class="s2">&quot;maxSentenceLength&quot;</span><span class="p">,</span>
-                              <span class="s2">&quot;Max sentence length to process&quot;</span><span class="p">,</span>
-                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span>
-
     <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
                              <span class="s2">&quot;configProtoBytes&quot;</span><span class="p">,</span>
                              <span class="s2">&quot;ConfigProto from tensorflow, serialized into byte array. Get with config_proto.SerializeToString()&quot;</span><span class="p">,</span>
@@ -476,16 +472,6 @@ document.write(`
 <span class="sd">            ConfigProto from tensorflow, serialized into byte array</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">configProtoBytes</span><span class="o">=</span><span class="n">b</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="CamemBertForSequenceClassification.setMaxSentenceLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/camembert_for_sequence_classification/index.html#sparknlp.annotator.classifier_dl.camembert_for_sequence_classification.CamemBertForSequenceClassification.setMaxSentenceLength">[docs]</a>    <span class="k">def</span> <span class="nf">setMaxSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets max sentence length to process, by default 128.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        value : int</span>
-<span class="sd">            Max sentence length to process</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSentenceLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="CamemBertForSequenceClassification.setCoalesceSentences"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/classifier_dl/camembert_for_sequence_classification/index.html#sparknlp.annotator.classifier_dl.camembert_for_sequence_classification.CamemBertForSequenceClassification.setCoalesceSentences">[docs]</a>    <span class="k">def</span> <span class="nf">setCoalesceSentences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Instead of 1 class per sentence (if inputCols is &#39;&#39;&#39;sentence&#39;&#39;&#39;) output 1</span>

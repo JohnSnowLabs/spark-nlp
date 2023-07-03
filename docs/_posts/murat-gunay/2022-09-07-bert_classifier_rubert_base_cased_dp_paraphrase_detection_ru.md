@@ -38,8 +38,8 @@ Pretrained BertForSequenceClassification model, adapted from Hugging Face and cu
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
 documentAssembler = DocumentAssembler() \
-    .setInputCols(["text"]) \
-    .setOutputCols("document")
+    .setInputCol("text") \
+    .setOutputCol("document")
 
 tokenizer = Tokenizer() \
     .setInputCols("document") \
@@ -48,7 +48,7 @@ tokenizer = Tokenizer() \
 seq_classifier = BertForSequenceClassification.pretrained("bert_classifier_rubert_base_cased_dp_paraphrase_detection","ru") \
     .setInputCols(["document", "token"]) \
     .setOutputCol("class")
-    
+
 pipeline = Pipeline(stages=[documentAssembler, tokenizer, seq_classifier])
 
 data = spark.createDataFrame([["PUT YOUR STRING HERE"]]).toDF("text")
@@ -56,24 +56,32 @@ data = spark.createDataFrame([["PUT YOUR STRING HERE"]]).toDF("text")
 result = pipeline.fit(data).transform(data)
 ```
 ```scala
-val documentAssembler = new DocumentAssembler() 
-      .setInputCols(Array("text")) 
+val documentAssembler = new DocumentAssembler()
+      .setInputCols(Array("text"))
       .setOutputCols(Array("document"))
-      
+
 val tokenizer = new Tokenizer()
     .setInputCols("document")
     .setOutputCol("token")
- 
-val seq_classifier = BertForSequenceClassification.pretrained("bert_classifier_rubert_base_cased_dp_paraphrase_detection","ru") 
-    .setInputCols(Array("document", "token")) 
+
+val seq_classifier = BertForSequenceClassification.pretrained("bert_classifier_rubert_base_cased_dp_paraphrase_detection","ru")
+    .setInputCols(Array("document", "token"))
     .setOutputCol("class")
-   
+
 val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, seq_classifier))
 
 val data = Seq("PUT YOUR STRING HERE").toDS.toDF("text")
 
 val result = pipeline.fit(data).transform(data)
 ```
+
+
+{:.nlu-block}
+```python
+import nlu
+nlu.load("ru.classify.bert.cased_base").predict("""PUT YOUR STRING HERE""")
+```
+
 </div>
 
 {:.model-param}

@@ -17,13 +17,14 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.ml.ai.Bert
+import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadTextAsset,
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.ModelEngine
+import com.johnsnowlabs.ml.util.{ModelArch, ONNX, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
@@ -122,7 +123,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   * }}}
   *
   * @see
-  *   [[BertEmbeddings]] for token-level embeddings
+  *   [[BertSentenceEmbeddings]] for sentence-level embeddings
   * @see
   *   [[com.johnsnowlabs.nlp.annotators.classifier.dl.BertForSequenceClassification BertForSequenceClassification]]
   *   for embeddings with a sequence classification layer on top
@@ -152,10 +153,12 @@ class BertSentenceEmbeddings(override val uid: String)
     extends AnnotatorModel[BertSentenceEmbeddings]
     with HasBatchedAnnotate[BertSentenceEmbeddings]
     with WriteTensorflowModel
+    with WriteOnnxModel
     with HasEmbeddingsProperties
     with HasStorageRef
     with HasCaseSensitiveProperties
-    with HasEngine {
+    with HasEngine
+    with HasProtectedParams {
 
   def this() = this(Identifiable.randomUID("BERT_SENTENCE_EMBEDDINGS"))
 
@@ -163,7 +166,7 @@ class BertSentenceEmbeddings(override val uid: String)
     *
     * @group param
     */
-  val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary")
+  val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary").setProtected()
 
   /** ConfigProto from tensorflow, serialized into byte array. Get with
     * config_proto.SerializeToString()
@@ -190,15 +193,14 @@ class BertSentenceEmbeddings(override val uid: String)
     parent = this,
     name = "isLong",
     "Use Long type instead of Int type for inputs buffer - Some Bert models require Long instead of Int.")
+    .setProtected()
 
   /** set isLong
     *
     * @group setParam
     */
   def setIsLong(value: Boolean): this.type = {
-    if (get(isLong).isEmpty)
-      set(this.isLong, value)
-    this
+    set(this.isLong, value)
   }
 
   /** get isLong
@@ -223,10 +225,7 @@ class BertSentenceEmbeddings(override val uid: String)
     * @group setParam
     */
   override def setDimension(value: Int): this.type = {
-    if (get(dimension).isEmpty)
-      set(this.dimension, value)
-    this
-
+    set(this.dimension, value)
   }
 
   /** Whether to lowercase tokens or not
@@ -234,9 +233,7 @@ class BertSentenceEmbeddings(override val uid: String)
     * @group setParam
     */
   override def setCaseSensitive(value: Boolean): this.type = {
-    if (get(caseSensitive).isEmpty)
-      set(this.caseSensitive, value)
-    this
+    set(this.caseSensitive, value)
   }
 
   /** Vocabulary used to encode the words to ids with WordPieceEncoder
@@ -262,9 +259,7 @@ class BertSentenceEmbeddings(override val uid: String)
       value <= 512,
       "BERT models do not support sequences longer than 512 because of trainable positional embeddings")
 
-    if (get(maxSentenceLength).isEmpty)
-      set(maxSentenceLength, value)
-    this
+    set(maxSentenceLength, value)
   }
 
   /** ConfigProto from tensorflow, serialized into byte array. Get with
@@ -291,12 +286,12 @@ class BertSentenceEmbeddings(override val uid: String)
     *
     * @group param
     */
-  val signatures = new MapFeature[String, String](model = this, name = "signatures")
+  val signatures =
+    new MapFeature[String, String](model = this, name = "signatures").setProtected()
 
   /** @group setParam */
   def setSignatures(value: Map[String, String]): this.type = {
-    if (get(signatures).isEmpty)
-      set(signatures, value)
+    set(signatures, value)
     this
   }
 
@@ -309,17 +304,23 @@ class BertSentenceEmbeddings(override val uid: String)
   def getModelIfNotSet: Bert = _model.get.value
 
   /** @group setParam */
-  def setModelIfNotSet(spark: SparkSession, tensorflow: TensorflowWrapper): this.type = {
+  def setModelIfNotSet(
+      spark: SparkSession,
+      tensorflowWrapper: Option[TensorflowWrapper],
+      onnxWrapper: Option[OnnxWrapper]): this.type = {
     if (_model.isEmpty) {
 
       _model = Some(
         spark.sparkContext.broadcast(
           new Bert(
-            tensorflow,
+            tensorflowWrapper,
+            onnxWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
             configProtoBytes = getConfigProtoBytes,
-            signatures = getSignatures)))
+            signatures = getSignatures,
+            modelArch = ModelArch.sentenceEmbeddings,
+            isSBert = getIsLong)))
     }
 
     this
@@ -396,13 +397,28 @@ class BertSentenceEmbeddings(override val uid: String)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
-    writeTensorflowModelV2(
-      path,
-      spark,
-      getModelIfNotSet.tensorflowWrapper,
-      "_bert_sentence",
-      BertSentenceEmbeddings.tfFile,
-      configProtoBytes = getConfigProtoBytes)
+
+    getEngine match {
+      case TensorFlow.name =>
+        writeTensorflowModelV2(
+          path,
+          spark,
+          getModelIfNotSet.tensorflowWrapper.get,
+          "_bert_sentence",
+          BertSentenceEmbeddings.tfFile,
+          configProtoBytes = getConfigProtoBytes)
+      case ONNX.name =>
+        writeOnnxModel(
+          path,
+          spark,
+          getModelIfNotSet.onnxWrapper.get,
+          "_bert_sentence",
+          BertSentenceEmbeddings.onnxFile)
+
+      case _ =>
+        throw new Exception(notSupportedEngineError)
+    }
+
   }
 
 }
@@ -424,15 +440,34 @@ trait ReadablePretrainedBertSentenceModel
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadBertSentenceDLModel extends ReadTensorflowModel {
+trait ReadBertSentenceDLModel extends ReadTensorflowModel with ReadOnnxModel {
   this: ParamsAndFeaturesReadable[BertSentenceEmbeddings] =>
 
   override val tfFile: String = "bert_sentence_tensorflow"
+  override val onnxFile: String = "bert_sentence_onnx"
 
   def readModel(instance: BertSentenceEmbeddings, path: String, spark: SparkSession): Unit = {
 
-    val tf = readTensorflowModel(path, spark, "_bert_sentence_tf", initAllTables = false)
-    instance.setModelIfNotSet(spark, tf)
+    instance.getEngine match {
+      case TensorFlow.name =>
+        val tfWrapper =
+          readTensorflowModel(path, spark, "_bert_sentence_tf", initAllTables = false)
+        instance.setModelIfNotSet(spark, Some(tfWrapper), None)
+
+      case ONNX.name => {
+        val onnxWrapper =
+          readOnnxModel(
+            path,
+            spark,
+            "_bert_sentence_onnx",
+            zipped = true,
+            useBundle = false,
+            None)
+        instance.setModelIfNotSet(spark, None, Some(onnxWrapper))
+      }
+      case _ =>
+        throw new Exception(notSupportedEngineError)
+    }
   }
 
   addReader(readModel)
@@ -450,8 +485,8 @@ trait ReadBertSentenceDLModel extends ReadTensorflowModel {
     annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
-      case ModelEngine.tensorflow =>
-        val (wrapper, signatures) =
+      case TensorFlow.name =>
+        val (tfWrapper, signatures) =
           TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 
         val _signatures = signatures match {
@@ -464,7 +499,12 @@ trait ReadBertSentenceDLModel extends ReadTensorflowModel {
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, wrapper)
+          .setModelIfNotSet(spark, Some(tfWrapper), None)
+
+      case ONNX.name =>
+        val onnxWrapper = OnnxWrapper.read(localModelPath, zipped = false, useBundle = true)
+        annotatorModel
+          .setModelIfNotSet(spark, None, Some(onnxWrapper))
 
       case _ =>
         throw new Exception(notSupportedEngineError)
