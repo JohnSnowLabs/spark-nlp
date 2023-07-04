@@ -11,7 +11,7 @@
   gtag('js', new Date());
 
   gtag('config', 'G-NMNWXW7PZM');
-</script><title>Smaller BERT Embeddings (L-2_H-768_A-12)</title><meta property="og:title" content=""/>
+</script><title>Smaller BERT Embeddings (L-2_H-768_A-12) Optimized</title><meta property="og:title" content=""/>
 
 <meta name="description" content="DescriptionThis is one of the smaller BERT models referenced in Well-Read Students Learn Better: On the Importance of Pre-training Compact Models.  The smaller BERT models are intended for environments with restricted computational resources. They can be fine-tuned in the same manner as the original BERT models. How...">
 <link rel="canonical" href="/2023/06/28/small_bert_L2_768_opt_en.html"><link rel="alternate" type="application/rss+xml" title="Spark NLP" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
@@ -414,7 +414,7 @@
             </a>
         </div><ul class="right-col menu"><li><i class="far fa-user"></i> <span>John Snow Labs</span></li><li><i class="far fa-calendar-alt"></i> <span>Jun 28, 2023</span>
             </li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-06-28T00:00:00+00:00"></div><header class="main-docs have_subtitle">
-          <h1>Smaller BERT Embeddings (L-2_H-768_A-12)</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Smaller BERT Embeddings (L-2_H-768_A-12)"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>open_source</li><li>embeddings</li><li>en</li><li>onnx</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-06-28T00:00:00+00:00">
+          <h1>Smaller BERT Embeddings (L-2_H-768_A-12) Optimized</h1><div class="top-subtitle mont"></div></header></div><meta itemprop="headline" content="Smaller BERT Embeddings (L-2_H-768_A-12) Optimized"><div class="article__info tags_box clearfix"><ul class="left-col menu"><li>open_source</li><li>embeddings</li><li>en</li><li>onnx</li></ul></div><meta itemprop="author" content=""/><meta itemprop="datePublished" content="2023-06-28T00:00:00+00:00">
     <meta itemprop="keywords" content="open_source,embeddings,en,onnx"><div class="js-article-content"><div class="model-wrap"><div class="layout--article"><!-- start custom article top snippet -->
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h2 id="description">Description</h2>
@@ -435,7 +435,7 @@
   <div class="tabs-model-aproach-head"><button class="tab-li-model-aproach tabheader_active">Python</button><button class="tab-li-model-aproach">Scala</button><button class="tab-li-model-aproach">NLU</button></div>
 
   <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"small_bert_L2_768"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"small_bert_L2_768_opt"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
 <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">)</span> \
 <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
 <span class="n">nlp_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">sentence_detector</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">])</span>
@@ -444,7 +444,7 @@
 </code></pre></div>  </div>
 
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
-<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">BertEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"small_bert_L2_768"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">BertEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"small_bert_L2_768_opt"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
 <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
 <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">sentence_detector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">embeddings</span><span class="o">))</span>
@@ -461,39 +461,12 @@
 
 </div>
 
-<div class="tabs-box h2_title">
-  <div class="tabs-model-aproach-head"><button class="tab-li-model-aproach tabheader_active">Python</button><button class="tab-li-model-aproach">Scala</button><button class="tab-li-model-aproach">NLU</button></div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
-<span class="n">embeddings</span> <span class="o">=</span> <span class="n">BertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"small_bert_L2_768"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
-<span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">)</span> \
-<span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
-<span class="n">nlp_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">sentence_detector</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">])</span>
-<span class="n">pipeline_model</span> <span class="o">=</span> <span class="n">nlp_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">""</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">))</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline_model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">'I love NLP'</span><span class="p">]],</span> <span class="p">[</span><span class="s">"text"</span><span class="p">]))</span>
-</code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
-<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">BertEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"small_bert_L2_768"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
-<span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
-<span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document_assembler</span><span class="o">,</span> <span class="n">sentence_detector</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">embeddings</span><span class="o">))</span>
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"I love NLP"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
-</code></pre></div>  </div>
-
-  <div class="language-python nlu-block highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">nlu</span>
-
-<span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s">"I love NLP"</span><span class="p">]</span>
-<span class="n">embeddings_df</span> <span class="o">=</span> <span class="n">nlu</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">'en.embed.bert.small_L2_768'</span><span class="p">).</span><span class="n">predict</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">output_level</span><span class="o">=</span><span class="s">'token'</span><span class="p">)</span>
-<span class="n">embeddings_df</span>
-</code></pre></div>  </div>
-</div>
-
-<h2 id="results">Results</h2>
+<h2 class="h2_title" id="results">Results</h2>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Results
 
 	token	en_embed_bert_small_L2_768_embeddings
-		
+
 	I 	<span class="o">[</span><span class="nt">-0</span>.2451338768005371, 0.40763044357299805, <span class="nt">-0</span>....
 love 	<span class="o">[</span><span class="nt">-0</span>.23793038725852966, <span class="nt">-0</span>.07403656840324402, -...
 NLP 	<span class="o">[</span><span class="nt">-0</span>.864113450050354, <span class="nt">-0</span>.2902209758758545, 0.54...
@@ -706,7 +679,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2023/06/28/small_bert_L2_768_en.html">Smaller BERT Embeddings (L-2_H-768_A-12)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2023/06/28/small_bert_L2_768_quantized_en.html">Smaller BERT Embeddings (L-2_H-768_A-12)</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/2023/06/28/small_bert_L2_768_en.html">Smaller BERT Embeddings (L-2_H-768_A-12)</a></div><div class="next nav_link"><span>NEXT</span><a href="/2023/06/28/small_bert_L2_768_quantized_en.html">Smaller BERT Embeddings (L-2_H-768_A-12) Quantized</a></div></div></div>
 
 </div>
 </div>
