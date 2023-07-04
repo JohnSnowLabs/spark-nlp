@@ -17,13 +17,14 @@
 package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.ml.ai.RoBerta
+import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
 import com.johnsnowlabs.ml.tensorflow._
 import com.johnsnowlabs.ml.util.LoadExternalModel.{
   loadTextAsset,
   modelSanityCheck,
   notSupportedEngineError
 }
-import com.johnsnowlabs.ml.util.{ModelEngine, ModelArch}
+import com.johnsnowlabs.ml.util.{ModelArch, ONNX, TensorFlow}
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.BpeTokenizer
@@ -257,12 +258,14 @@ class RoBertaSentenceEmbeddings(override val uid: String)
   /** @group setParam */
   def setModelIfNotSet(
       spark: SparkSession,
-      tensorflowWrapper: TensorflowWrapper): RoBertaSentenceEmbeddings = {
+      tensorflowWrapper: Option[TensorflowWrapper],
+      onnxWrapper: Option[OnnxWrapper]): RoBertaSentenceEmbeddings = {
     if (_model.isEmpty) {
       _model = Some(
         spark.sparkContext.broadcast(
           new RoBerta(
             tensorflowWrapper,
+            onnxWrapper,
             sentenceStartTokenId,
             sentenceEndTokenId,
             padTokenId,
@@ -368,7 +371,7 @@ class RoBertaSentenceEmbeddings(override val uid: String)
     writeTensorflowModelV2(
       path,
       spark,
-      getModelIfNotSet.tensorflowWrapper,
+      getModelIfNotSet.tensorflowWrapper.get,
       "_roberta",
       RoBertaSentenceEmbeddings.tfFile,
       configProtoBytes = getConfigProtoBytes)
@@ -403,7 +406,7 @@ trait ReadRobertaSentenceDLModel extends ReadTensorflowModel {
   def readModel(instance: RoBertaSentenceEmbeddings, path: String, spark: SparkSession): Unit = {
 
     val tf = readTensorflowModel(path, spark, "_roberta_tf", initAllTables = false)
-    instance.setModelIfNotSet(spark, tf)
+    instance.setModelIfNotSet(spark, Some(tf), None)
   }
 
   addReader(readModel)
@@ -429,7 +432,7 @@ trait ReadRobertaSentenceDLModel extends ReadTensorflowModel {
     annotatorModel.set(annotatorModel.engine, detectedEngine)
 
     detectedEngine match {
-      case ModelEngine.tensorflow =>
+      case TensorFlow.name =>
         val (wrapper, signatures) =
           TensorflowWrapper.read(localModelPath, zipped = false, useBundle = true)
 
@@ -443,7 +446,7 @@ trait ReadRobertaSentenceDLModel extends ReadTensorflowModel {
           */
         annotatorModel
           .setSignatures(_signatures)
-          .setModelIfNotSet(spark, wrapper)
+          .setModelIfNotSet(spark, Some(wrapper), None)
 
       case _ =>
         throw new Exception(notSupportedEngineError)

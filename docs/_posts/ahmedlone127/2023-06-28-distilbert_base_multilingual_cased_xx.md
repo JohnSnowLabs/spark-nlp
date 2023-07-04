@@ -60,30 +60,6 @@ nlu.load("xx.embed.distilbert").predict("""Put your text here.""")
 </div>
 
 {:.model-param}
-
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-embeddings = DistilBertEmbeddings.pretrained("distilbert_base_multilingual_cased", "xx") \
-.setInputCols("sentence", "token") \
-.setOutputCol("embeddings")
-nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
-```
-```scala
-val embeddings = DistilBertEmbeddings.pretrained("distilbert_base_multilingual_cased", "xx")
-.setInputCols("sentence", "token")
-.setOutputCol("embeddings")
-val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
-```
-
-{:.nlu-block}
-```python
-import nlu
-nlu.load("xx.embed.distilbert").predict("""Put your text here.""")
-```
-</div>
-
-{:.model-param}
 ## Model Information
 
 {:.table-model}

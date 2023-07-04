@@ -55,27 +55,6 @@ nlu.load("en.embed.deberta_v3_base").predict("""Put your text here.""")
 
 </div>
 
-{:.model-param}
-
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-embeddings = DeBertaEmbeddings.pretrained("deberta_v3_base", "en") \
-.setInputCols("sentence", "token") \
-.setOutputCol("embeddings")
-```
-```scala
-val embeddings = DeBertaEmbeddings.pretrained("deberta_v3_base", "en")
-.setInputCols("sentence", "token")
-.setOutputCol("embeddings")
-```
-
-{:.nlu-block}
-```python
-import nlu
-nlu.load("en.embed.deberta_v3_base").predict("""Put your text here.""")
-```
-</div>
 
 {:.model-param}
 ## Model Information

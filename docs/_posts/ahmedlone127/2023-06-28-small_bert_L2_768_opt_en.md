@@ -1,6 +1,6 @@
 ---
 layout: model
-title: Smaller BERT Embeddings (L-2_H-768_A-12)
+title: Smaller BERT Embeddings (L-2_H-768_A-12) Optimized
 author: John Snow Labs
 name: small_bert_L2_768_opt
 date: 2023-06-28
@@ -39,7 +39,7 @@ This is one of the smaller BERT models referenced in [Well-Read Students Learn B
 
 ```python
 ...
-embeddings = BertEmbeddings.pretrained("small_bert_L2_768", "en") \
+embeddings = BertEmbeddings.pretrained("small_bert_L2_768_opt", "en") \
 .setInputCols("sentence", "token") \
 .setOutputCol("embeddings")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
@@ -49,7 +49,7 @@ result = pipeline_model.transform(spark.createDataFrame([['I love NLP']], ["text
 
 ```scala
 ...
-val embeddings = BertEmbeddings.pretrained("small_bert_L2_768", "en")
+val embeddings = BertEmbeddings.pretrained("small_bert_L2_768_opt", "en")
 .setInputCols("sentence", "token")
 .setOutputCol("embeddings")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
@@ -70,44 +70,13 @@ embeddings_df
 
 {:.h2_title}
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-...
-embeddings = BertEmbeddings.pretrained("small_bert_L2_768", "en") \
-.setInputCols("sentence", "token") \
-.setOutputCol("embeddings")
-nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
-pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-result = pipeline_model.transform(spark.createDataFrame([['I love NLP']], ["text"]))
-```
-```scala
-...
-val embeddings = BertEmbeddings.pretrained("small_bert_L2_768", "en")
-.setInputCols("sentence", "token")
-.setOutputCol("embeddings")
-val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
-val data = Seq("I love NLP").toDF("text")
-val result = pipeline.fit(data).transform(data)
-```
-
-{:.nlu-block}
-```python
-import nlu
-
-text = ["I love NLP"]
-embeddings_df = nlu.load('en.embed.bert.small_L2_768').predict(text, output_level='token')
-embeddings_df
-```
-</div>
-
 ## Results
 
 ```bash
 Results
 
 	token	en_embed_bert_small_L2_768_embeddings
-		
+
 	I 	[-0.2451338768005371, 0.40763044357299805, -0....
 love 	[-0.23793038725852966, -0.07403656840324402, -...
 NLP 	[-0.864113450050354, -0.2902209758758545, 0.54...

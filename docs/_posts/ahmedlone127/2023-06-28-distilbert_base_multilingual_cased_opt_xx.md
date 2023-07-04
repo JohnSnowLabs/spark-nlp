@@ -1,6 +1,6 @@
 ---
 layout: model
-title: DistilBERT base multilingual model (cased)
+title: DistilBERT base multilingual model (cased) optimized for inference
 author: John Snow Labs
 name: distilbert_base_multilingual_cased_opt
 date: 2023-06-28
@@ -38,13 +38,13 @@ The model has 6 layers, 768 dimension,s and 12 heads, totalizing 134M parameters
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-embeddings = DistilBertEmbeddings.pretrained("distilbert_base_multilingual_cased", "xx") \
+embeddings = DistilBertEmbeddings.pretrained("distilbert_base_multilingual_cased_opt", "xx") \
 .setInputCols("sentence", "token") \
 .setOutputCol("embeddings")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
 ```
 ```scala
-val embeddings = DistilBertEmbeddings.pretrained("distilbert_base_multilingual_cased", "xx")
+val embeddings = DistilBertEmbeddings.pretrained("distilbert_base_multilingual_cased_opt", "xx")
 .setInputCols("sentence", "token")
 .setOutputCol("embeddings")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
@@ -57,30 +57,6 @@ import nlu
 nlu.load("xx.embed.distilbert").predict("""Put your text here.""")
 ```
 
-</div>
-
-{:.model-param}
-
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-embeddings = DistilBertEmbeddings.pretrained("distilbert_base_multilingual_cased", "xx") \
-.setInputCols("sentence", "token") \
-.setOutputCol("embeddings")
-nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
-```
-```scala
-val embeddings = DistilBertEmbeddings.pretrained("distilbert_base_multilingual_cased", "xx")
-.setInputCols("sentence", "token")
-.setOutputCol("embeddings")
-val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
-```
-
-{:.nlu-block}
-```python
-import nlu
-nlu.load("xx.embed.distilbert").predict("""Put your text here.""")
-```
 </div>
 
 {:.model-param}

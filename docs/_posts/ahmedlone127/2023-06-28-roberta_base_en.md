@@ -21,7 +21,7 @@ use_language_switcher: "Python-Scala-Java"
 
 Pretrained model on English language using a masked language modeling (MLM) objective. It was introduced in [this paper](https://arxiv.org/abs/1907.11692) and first released in [this repository](https://github.com/pytorch/fairseq/tree/master/examples/roberta). This model is case-sensitive: it makes a difference between english and English.
 
-RoBERTa is a transformers model pretrained on a large corpus of English data in a self-supervised fashion. This means it was pretrained on the raw texts only, with no humans labeling them in any way (which is why it can use lots of publicly available data) with an automatic process to generate inputs and labels from those texts. 
+RoBERTa is a transformers model pretrained on a large corpus of English data in a self-supervised fashion. This means it was pretrained on the raw texts only, with no humans labeling them in any way (which is why it can use lots of publicly available data) with an automatic process to generate inputs and labels from those texts.
 
 More precisely, it was pretrained with the Masked language modeling (MLM) objective. Taking a sentence, the model randomly masks 15% of the words in the input then runs the entire masked sentence through the model and has to predict the masked words. This is different from traditional recurrent neural networks (RNNs) that usually see the words one after the other, or from autoregressive models like GPT which internally mask the future tokens. It allows the model to learn a bidirectional representation of the sentence.
 
@@ -60,29 +60,6 @@ import nlu
 nlu.load("en.embed.roberta").predict("""Put your text here.""")
 ```
 
-</div>
-
-{:.model-param}
-
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-embeddings = RoBertaEmbeddings.pretrained("roberta_base", "en") \
-.setInputCols("sentence", "token") \
-.setOutputCol("embeddings")
-```
-```scala
-val embeddings = RoBertaEmbeddings.pretrained("roberta_base", "en")
-.setInputCols("sentence", "token")
-.setOutputCol("embeddings")
-val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
-```
-
-{:.nlu-block}
-```python
-import nlu
-nlu.load("en.embed.roberta").predict("""Put your text here.""")
-```
 </div>
 
 {:.model-param}
