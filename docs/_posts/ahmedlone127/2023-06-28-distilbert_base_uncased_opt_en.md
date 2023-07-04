@@ -1,6 +1,6 @@
 ---
 layout: model
-title: DistilBERT base model (uncased)
+title: DistilBERT base model (uncased) optimized
 author: John Snow Labs
 name: distilbert_base_uncased_opt
 date: 2023-06-28
@@ -36,13 +36,13 @@ This model is a distilled version of the [BERT base model](https://huggingface.c
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-embeddings = DistilBertEmbeddings.pretrained("distilbert_base_uncased", "en") \
+embeddings = DistilBertEmbeddings.pretrained("distilbert_base_uncased_opt", "en") \
 .setInputCols("sentence", "token") \
 .setOutputCol("embeddings")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
 ```
 ```scala
-val embeddings = DistilBertEmbeddings.pretrained("distilbert_base_uncased", "en")
+val embeddings = DistilBertEmbeddings.pretrained("distilbert_base_uncased_opt", "en")
 .setInputCols("sentence", "token")
 .setOutputCol("embeddings")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
@@ -57,29 +57,6 @@ nlu.load("en.embed.distilbert.base.uncased").predict("""Put your text here.""")
 
 </div>
 
-{:.model-param}
-
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-embeddings = DistilBertEmbeddings.pretrained("distilbert_base_uncased", "en") \
-.setInputCols("sentence", "token") \
-.setOutputCol("embeddings")
-nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
-```
-```scala
-val embeddings = DistilBertEmbeddings.pretrained("distilbert_base_uncased", "en")
-.setInputCols("sentence", "token")
-.setOutputCol("embeddings")
-val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
-```
-
-{:.nlu-block}
-```python
-import nlu
-nlu.load("en.embed.distilbert.base.uncased").predict("""Put your text here.""")
-```
-</div>
 
 {:.model-param}
 ## Model Information

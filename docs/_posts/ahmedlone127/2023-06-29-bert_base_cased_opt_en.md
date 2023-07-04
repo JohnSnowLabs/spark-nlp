@@ -1,6 +1,6 @@
 ---
 layout: model
-title: BERT Embeddings (Base Cased)
+title: BERT Embeddings (Base Cased) Optimized
 author: John Snow Labs
 name: bert_base_cased_opt
 date: 2023-06-29
@@ -39,7 +39,7 @@ This model contains a deep bidirectional transformer trained on Wikipedia and th
 
 ```python
 ...
-embeddings = BertEmbeddings.pretrained("bert_base_cased", "en") \
+embeddings = BertEmbeddings.pretrained("bert_base_cased_opt", "en") \
 .setInputCols("sentence", "token") \
 .setOutputCol("embeddings")
 nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
@@ -49,7 +49,7 @@ result = pipeline_model.transform(spark.createDataFrame([['I love NLP']], ["text
 
 ```scala
 ...
-val embeddings = BertEmbeddings.pretrained("bert_base_cased", "en")
+val embeddings = BertEmbeddings.pretrained("bert_base_cased_opt", "en")
 .setInputCols("sentence", "token")
 .setOutputCol("embeddings")
 val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
@@ -70,44 +70,13 @@ embeddings_df
 
 {:.h2_title}
 
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-...
-embeddings = BertEmbeddings.pretrained("bert_base_cased", "en") \
-.setInputCols("sentence", "token") \
-.setOutputCol("embeddings")
-nlp_pipeline = Pipeline(stages=[document_assembler, sentence_detector, tokenizer, embeddings])
-pipeline_model = nlp_pipeline.fit(spark.createDataFrame([[""]]).toDF("text"))
-result = pipeline_model.transform(spark.createDataFrame([['I love NLP']], ["text"]))
-```
-```scala
-...
-val embeddings = BertEmbeddings.pretrained("bert_base_cased", "en")
-.setInputCols("sentence", "token")
-.setOutputCol("embeddings")
-val pipeline = new Pipeline().setStages(Array(document_assembler, sentence_detector, tokenizer, embeddings))
-val data = Seq("I love NLP").toDF("text")
-val result = pipeline.fit(data).transform(data)
-```
-
-{:.nlu-block}
-```python
-import nlu
-
-text = ["I love NLP"]
-embeddings_df = nlu.load('en.embed.bert.base_cased').predict(text, output_level='token')
-embeddings_df
-```
-</div>
-
 ## Results
 
 ```bash
 Results
 
 	token	en_embed_bert_base_cased_embeddings
-		
+
 	I	[0.43879568576812744, -0.40160006284713745, 0....
 	love	[0.21737590432167053, -0.3865768313407898, -0....
 	NLP	[-0.16226479411125183, -0.053727392107248306, ...

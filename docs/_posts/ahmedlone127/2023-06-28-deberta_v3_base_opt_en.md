@@ -1,6 +1,6 @@
 ---
 layout: model
-title: DeBERTa base model
+title: DeBERTa base model optimized for inference
 author: John Snow Labs
 name: deberta_v3_base_opt
 date: 2023-06-28
@@ -36,12 +36,12 @@ The DeBERTa model was proposed in [[https://arxiv.org/abs/2006.03654 DeBERTa: De
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPythonNLU.html %}
 ```python
-embeddings = DeBertaEmbeddings.pretrained("deberta_v3_base", "en") \
+embeddings = DeBertaEmbeddings.pretrained("deberta_v3_base_opt", "en") \
 .setInputCols("sentence", "token") \
 .setOutputCol("embeddings")
 ```
 ```scala
-val embeddings = DeBertaEmbeddings.pretrained("deberta_v3_base", "en")
+val embeddings = DeBertaEmbeddings.pretrained("deberta_v3_base_opt", "en")
 .setInputCols("sentence", "token")
 .setOutputCol("embeddings")
 ```
@@ -53,28 +53,6 @@ import nlu
 nlu.load("en.embed.deberta_v3_base").predict("""Put your text here.""")
 ```
 
-</div>
-
-{:.model-param}
-
-<div class="tabs-box" markdown="1">
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-embeddings = DeBertaEmbeddings.pretrained("deberta_v3_base", "en") \
-.setInputCols("sentence", "token") \
-.setOutputCol("embeddings")
-```
-```scala
-val embeddings = DeBertaEmbeddings.pretrained("deberta_v3_base", "en")
-.setInputCols("sentence", "token")
-.setOutputCol("embeddings")
-```
-
-{:.nlu-block}
-```python
-import nlu
-nlu.load("en.embed.deberta_v3_base").predict("""Put your text here.""")
-```
 </div>
 
 {:.model-param}
