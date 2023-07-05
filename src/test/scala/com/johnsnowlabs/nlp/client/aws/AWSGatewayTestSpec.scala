@@ -17,8 +17,7 @@
 package com.johnsnowlabs.nlp.client.aws
 
 import com.amazonaws.auth.{AnonymousAWSCredentials, BasicSessionCredentials}
-import com.johnsnowlabs.client.CredentialParams
-import com.johnsnowlabs.client.aws.AWSTokenCredentials
+import com.johnsnowlabs.client.aws.{AWSTokenCredentials, CredentialParams}
 import com.johnsnowlabs.tags.SlowTest
 import org.scalatest.flatspec.AnyFlatSpec
 

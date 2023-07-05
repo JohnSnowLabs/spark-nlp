@@ -17,7 +17,6 @@
 package com.johnsnowlabs.client.aws
 
 import com.amazonaws.auth.{AWSCredentials, BasicSessionCredentials}
-import com.johnsnowlabs.client.CredentialParams
 
 class AWSTokenCredentials extends Credentials {
 
