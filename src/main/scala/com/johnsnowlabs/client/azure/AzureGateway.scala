@@ -1,40 +1,50 @@
 package com.johnsnowlabs.client.azure
 
-import com.azure.identity.DefaultAzureCredentialBuilder
 import com.azure.storage.blob.models.ListBlobsOptions
 import com.azure.storage.blob.{BlobServiceClient, BlobServiceClientBuilder}
 import com.johnsnowlabs.client.CloudStorage
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.hadoop.fs.{FileSystem, Path}
+import org.apache.hadoop.io.IOUtils
 
-import java.io.{File, FileOutputStream, InputStream}
+import java.io.{ByteArrayInputStream, ByteArrayOutputStream, File, FileOutputStream, InputStream}
 import scala.jdk.CollectionConverters.asScalaIteratorConverter
 
-class AzureGateway(storageAccountName: String) extends CloudStorage {
+class AzureGateway(storageAccountName: String, accountKey: String) extends CloudStorage {
 
-  private lazy val azureClient: BlobServiceClient = {
-    // The default credential first checks environment variables for configuration
-    // If environment configuration is incomplete, it will try managed identity
-    val defaultCredential = new DefaultAzureCredentialBuilder().build()
+  private lazy val blobServiceClient: BlobServiceClient = {
+    val connectionString =
+      s"DefaultEndpointsProtocol=https;AccountName=$storageAccountName;AccountKey=$accountKey;EndpointSuffix=core.windows.net"
+
     val blobServiceClient = new BlobServiceClientBuilder()
-      .endpoint(s"https://$storageAccountName.blob.core.windows.net/")
-      .credential(defaultCredential)
+      .connectionString(connectionString)
       .buildClient()
 
     blobServiceClient
   }
 
   override def doesBucketPathExist(bucketName: String, filePath: String): Boolean = {
-    val blobClient = azureClient
+    val blobContainerClient = blobServiceClient
       .getBlobContainerClient(bucketName)
-      .getBlobClient(filePath)
 
-    blobClient.exists()
+    val prefix = if (filePath.endsWith("/")) filePath else filePath + "/"
+
+    val blobs = blobContainerClient
+      .listBlobs()
+      .iterator()
+      .asScala
+      .filter(_.getName.startsWith(prefix))
+
+    blobs.nonEmpty
   }
 
-  override def copyFileToBucket(bucketName: String, destinationPath: String, inputStream: InputStream): Unit = {
-    //bucketName="test", destinationPath="sentence_detector_dl_en_2.7.0_2.4_1609611052663/metadata/_SUCCESS"
-    val blockBlobClient = azureClient.getBlobContainerClient(bucketName)
+  override def copyFileToBucket(
+      bucketName: String,
+      destinationPath: String,
+      inputStream: InputStream): Unit = {
+
+    val blockBlobClient = blobServiceClient
+      .getBlobContainerClient(bucketName)
       .getBlobClient(destinationPath)
       .getBlockBlobClient
 
@@ -42,34 +52,51 @@ class AzureGateway(storageAccountName: String) extends CloudStorage {
     blockBlobClient.upload(inputStream, streamSize)
   }
 
-  override def copyInputStreamToBucket(bucketName: String, filePath: String, sourceFilePath: String): Unit = {
+  override def copyInputStreamToBucket(
+      bucketName: String,
+      filePath: String,
+      sourceFilePath: String): Unit = {
     val fileSystem = FileSystem.get(ResourceHelper.spark.sparkContext.hadoopConfiguration)
     val inputStream = fileSystem.open(new Path(sourceFilePath))
 
-    val blockBlobClient = azureClient.getBlobContainerClient(bucketName)
+    val byteArrayOutputStream = new ByteArrayOutputStream()
+    IOUtils.copyBytes(inputStream, byteArrayOutputStream, 4096, true)
+
+    val byteArrayInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray)
+
+    val blockBlobClient = blobServiceClient
+      .getBlobContainerClient(bucketName)
       .getBlobClient(filePath)
       .getBlockBlobClient
 
-    val streamSize = inputStream.available()
-    blockBlobClient.upload(inputStream, streamSize)
+    val streamSize = byteArrayInputStream.available()
+    blockBlobClient.upload(byteArrayInputStream, streamSize)
   }
 
-  override def downloadFilesFromBucketToDirectory(bucketName: String, filePath: String, directoryPath: String, isIndex: Boolean): Unit = {
+  override def downloadFilesFromBucketToDirectory(
+      bucketName: String,
+      filePath: String,
+      directoryPath: String,
+      isIndex: Boolean): Unit = {
     try {
-
-      val blobContainerClient = azureClient.getBlobContainerClient(bucketName)
-
-      val blobs = blobContainerClient.listBlobs(new ListBlobsOptions().setPrefix(filePath), null)
+      val blobContainerClient = blobServiceClient.getBlobContainerClient(bucketName)
+      val blobOptions = new ListBlobsOptions().setPrefix(filePath)
+      val blobs = blobContainerClient
+        .listBlobs(blobOptions, null)
         .iterator()
         .asScala
         .toSeq
+
+      if (blobs.isEmpty) {
+        throw new Exception(
+          s"Not found blob path $filePath in container $bucketName when downloading files from Azure Blob Storage")
+      }
 
       blobs.foreach { blobItem =>
         val blobName = blobItem.getName
         val blobClient = blobContainerClient.getBlobClient(blobName)
 
         val file = new File(s"$directoryPath/$blobName")
-
         if (blobName.endsWith("/")) {
           file.mkdirs()
         } else {
@@ -81,7 +108,8 @@ class AzureGateway(storageAccountName: String) extends CloudStorage {
       }
     } catch {
       case e: Exception =>
-        throw new Exception("Error when downloading files from Azure Blob Storage: " + e.getMessage)
+        throw new Exception(
+          "Error when downloading files from Azure Blob Storage: " + e.getMessage)
     }
   }
 }
